@@ -57,11 +57,11 @@ public class CameraController : MonoBehaviour
         Camera cam = Camera.main;
         float height = 2f * cam.orthographicSize;
         float width = height * cam.aspect;
-        _xMin = minTile.x + width / 2;
-        _xMax = maxTile.x - width * 0.275f;
+        _xMin = minTile.x + width * 0.4f;
+        _xMax = maxTile.x - width * 0.4f;
 
-        _yMin = minTile.y + height / 2;
-        _yMax = maxTile.y - height / 2;
+        _yMin = minTile.y + height * 0.4f;
+        _yMax = maxTile.y - height * 0.4f;
 
         //_maxCam = Mathf.Min((maxTile.y - minTile.y) / 2f, (maxTile.x - minTile.x) / (cam.aspect * 2f));
     }
