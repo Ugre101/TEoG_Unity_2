@@ -5,15 +5,23 @@ public class GameUI : MonoBehaviour
 {
     public static bool GameIsPaused = false;
 
-    // Main panels
-    public GameObject gameui, battle, menus;
-
-    // Battle panels
-    public GameObject combat, sex, lose;
+    [Header("Main panels")]
+    public GameObject gameui;
+    public GameObject battle;
+    public GameObject menus;
+    [Header("Battle panels")]
+    public GameObject combat;
+    public GameObject sex;
+    public GameObject lose;
+    [Header("Options, Save ,etc")]
+    public GameObject pausemenu;
+    public GameObject savemenu;
+    public GameObject options;
+    public GameObject bigeventlog;
+    [Space]
     public CombatEnemies CombatEnemies;
     private List<GameObject> _battleList = new List<GameObject>();
     // Menu panels
-    public GameObject pausemenu, savemenu, options, bigeventlog;
     private List<GameObject> _menuList = new List<GameObject>();
     private void Start()
     {

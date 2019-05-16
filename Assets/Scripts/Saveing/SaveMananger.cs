@@ -1,22 +1,23 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
-using System;
 
 public class SaveMananger : MonoBehaviour
 {
-    public static SaveMananger instance;
     public playerMain player;
+    public Transform playerSprite;
 
     private string _mainPath;
 
     private void Start()
     {
-       _mainPath = Application.persistentDataPath + "/Game_Save/"; 
-       if (!Directory.Exists(_mainPath))
+        _mainPath = Application.persistentDataPath + "/Game_Save/";
+        if (!Directory.Exists(_mainPath))
         {
             Directory.CreateDirectory(_mainPath);
         }
     }
+
     public void NewSaveGame()
     {
         DateTime now = DateTime.Now;
@@ -35,8 +36,7 @@ public class SaveMananger : MonoBehaviour
         }
         cleanPath = cleanPath.Replace(" ", string.Empty);
         string path = _mainPath + cleanPath + ".json";
-        Debug.Log(path);
-        string json = JsonUtility.ToJson(player);
-        File.WriteAllText(path, json);
+        Save save = new Save(player, playerSprite);
+        File.WriteAllText(path, save.SaveData());
     }
 }

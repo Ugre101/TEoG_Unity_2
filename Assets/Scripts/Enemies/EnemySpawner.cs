@@ -4,7 +4,11 @@ using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject _startEnemy;
+    [Header("Start area")]
+    public List<GameObject> _startEnemies;
+    [Header("Road to village")]
+    public List<GameObject> _roadTovillage;
+    [Space]
     public Tilemap _trees;
     public DoorEvents _doorEvent;
 
@@ -12,13 +16,16 @@ public class EnemySpawner : MonoBehaviour
     private List<Vector3> _empty = new List<Vector3>();
 
     private List<GameObject> _enemies = new List<GameObject>();
+    private List<GameObject> _CurrEnemies = new List<GameObject>();
     private Tilemap _currMap;
-    private Transform[] _spawnPoints;
+    private int _enemyToAdd;
 
     private void Start()
     {
+        _enemyToAdd = 6;
         _currMap = _doorEvent._currentMap;
         DoorEvents.changeMap += DoorChanged;
+        _CurrEnemies.AddRange(_startEnemies);
     }
 
     // Update is called once per frame
@@ -28,10 +35,11 @@ public class EnemySpawner : MonoBehaviour
         {
             AvailblePos();
         }
-        else if (_enemies.Count < 6)
+        else if (_enemies.Count < _enemyToAdd && _CurrEnemies.Count > 0)
         {
             int index = Random.Range(0, _empty.Count);
-            GameObject enemu = Instantiate(_startEnemy, _empty[index], Quaternion.identity);
+            int enemyIndex = Random.Range(0, _CurrEnemies.Count - 1);
+            GameObject enemu = Instantiate(_CurrEnemies[enemyIndex], _empty[index], Quaternion.identity);
             enemu.transform.parent = gameObject.transform;
             _enemies.Add(enemu);
             _empty.RemoveAt(index);
@@ -64,11 +72,28 @@ public class EnemySpawner : MonoBehaviour
     private void DoorChanged()
     {
         _currMap = _doorEvent._currentMap;
+        CurrentEnemies();
         foreach (GameObject e in _enemies)
         {
             Destroy(e);
         }
         _empty.Clear();
         _enemies.Clear();
+    }
+
+    private void CurrentEnemies()
+    {
+        _CurrEnemies.Clear();
+        switch (_doorEvent._currentMap.name)
+        {
+            case "Ground-Room-Start":
+                _CurrEnemies.AddRange(_startEnemies);
+                break;
+            case "Ground-Room-ToVillage":
+                _CurrEnemies.AddRange(_roadTovillage);
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class LoadButton : MonoBehaviour
 {
     private playerMain player;
+    private Transform pos;
     private GameUI gameUI;
     private TextMeshProUGUI[] _textList;
     private TextMeshProUGUI _text;
@@ -18,6 +19,7 @@ public class LoadButton : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
+        pos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
         _mainPath = Application.persistentDataPath + "/Game_Save/";
         if (!Directory.Exists(_mainPath))
@@ -36,12 +38,12 @@ public class LoadButton : MonoBehaviour
     }
     public void LoadGame()
     {
+        Save save = new Save(player, pos);
         string path = CurrentPath();
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            JsonUtility.FromJsonOverwrite(json, player);
-            Debug.Log(json);
+            save.LoadData(json);
         }
         gameUI.Resume();
     }

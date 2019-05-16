@@ -7,29 +7,23 @@ public abstract class BasicChar : MonoBehaviour
 
     public float Hp
     {
-        get { return healthPoints; }
+        get { return Mathf.Round(healthPoints); }
         set
         {
             float change = Mathf.Clamp(value, -healthPoints, MaxHP - healthPoints);
             healthPoints += change;
-            if (updateSlider != null)
-            {
-                updateSlider();
-            }
+            updateSlider();
         }
     }
 
     public float Wp
     {
-        get { return willHealthPoints; }
+        get { return Mathf.Round(willHealthPoints); }
         set
         {
             float change = Mathf.Clamp(value, -willHealthPoints, MaxWP - willHealthPoints);
             willHealthPoints += change;
-            if (updateSlider != null)
-            {
-                updateSlider();
-            }
+            updateSlider();
         }
     }
 
@@ -65,6 +59,7 @@ public abstract class BasicChar : MonoBehaviour
                 perkPoints++;
                 // Eventlog level up;
             }
+            expChange();
         }
     }
 
@@ -134,10 +129,12 @@ public abstract class BasicChar : MonoBehaviour
     {
         return $"{Hp}/{MaxHP}";
     }
+
     public float wpSlider()
     {
         return Wp / MaxWP;
     }
+
     public string wpStatus()
     {
         return $"{Wp}/{MaxWP}";
@@ -147,14 +144,17 @@ public abstract class BasicChar : MonoBehaviour
     {
         return (float)Exp / (float)maxEXP();
     }
+
     public string expStatus()
     {
         return $"{Exp}/{maxEXP()}";
     }
+
     private int maxEXP()
     {
         return (int)Mathf.Round(30f * Mathf.Pow(1.05f, level - 1f));
     }
+
     public string levelStatus()
     {
         return $"Level: {level}";
@@ -172,6 +172,7 @@ public abstract class BasicChar : MonoBehaviour
     public delegate void UpdateSlider();
 
     public static event UpdateSlider updateSlider;
+
     public void manualSliderUpdate()
     {
         updateSlider();

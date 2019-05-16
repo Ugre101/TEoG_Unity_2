@@ -13,6 +13,6 @@ public class playerMain : BasicChar
     // Update is called once per frame
     void Update()
     {
-        
+    
     }
 }
