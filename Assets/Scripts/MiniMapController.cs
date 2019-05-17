@@ -4,6 +4,7 @@ public class MiniMapController : MonoBehaviour
 {
     // Public
     public Transform _player;
+    public KeyBindings keys;
 
     public GameObject miniMap, bigMap;
 
@@ -29,7 +30,7 @@ public class MiniMapController : MonoBehaviour
     {
         Vector3 _target = _player.transform.position + _offset;
         transform.position = Vector3.Lerp(transform.position, _target, _smoothing);
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(keys.mapKey))
         {
             UpdateMaps();
         }

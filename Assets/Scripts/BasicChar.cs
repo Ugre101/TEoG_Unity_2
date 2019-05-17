@@ -12,7 +12,7 @@ public abstract class BasicChar : MonoBehaviour
         {
             float change = Mathf.Clamp(value, -healthPoints, MaxHP - healthPoints);
             healthPoints += change;
-            updateSlider();
+            updateSlider?.Invoke();
         }
     }
 
@@ -23,7 +23,7 @@ public abstract class BasicChar : MonoBehaviour
         {
             float change = Mathf.Clamp(value, -willHealthPoints, MaxWP - willHealthPoints);
             willHealthPoints += change;
-            updateSlider();
+            updateSlider?.Invoke();
         }
     }
 

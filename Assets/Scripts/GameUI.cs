@@ -5,60 +5,101 @@ public class GameUI : MonoBehaviour
 {
     public static bool GameIsPaused = false;
 
+    public KeyBindings keys;
+
     [Header("Main panels")]
     public GameObject gameui;
+
     public GameObject battle;
     public GameObject menus;
+
     [Header("Battle panels")]
     public GameObject combat;
+
     public GameObject sex;
     public GameObject lose;
+
     [Header("Options, Save ,etc")]
     public GameObject pausemenu;
+
     public GameObject savemenu;
     public GameObject options;
     public GameObject bigeventlog;
+    public GameObject questMenu;
+    public GameObject inventory;
+    public GameObject vore;
+    public GameObject essence;
+    public GameObject levelUp;
+
     [Space]
     public CombatEnemies CombatEnemies;
+
     private List<GameObject> _battleList = new List<GameObject>();
+
     // Menu panels
     private List<GameObject> _menuList = new List<GameObject>();
+
     private void Start()
     {
         _battleList.Add(combat);
         _battleList.Add(sex);
         _battleList.Add(lose);
-
-        _menuList.Add(pausemenu);
-        _menuList.Add(savemenu);
-        _menuList.Add(options);
-        _menuList.Add(bigeventlog);
+        existAdd(pausemenu);
+        existAdd(savemenu);
+        existAdd(options);
+        existAdd(bigeventlog);
+        existAdd(questMenu);
+        existAdd(inventory);
+        existAdd(vore);
+        existAdd(essence);
+        existAdd(levelUp);
     }
+
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) &&
-               (gameui.activeSelf || menus.activeSelf))
+        // if in menus or main game(not combat)
+        if (gameui.activeSelf || menus.activeSelf)
         {
-            GameIsPaused = GameIsPaused ? false : true;
-            if (GameIsPaused)
+            if (Input.GetKeyDown(keys.escKey))
             {
-                ToggleBigPanel(menus);
-                pausemenu.SetActive(true);
-                Pause();
+                ResumePause(pausemenu);
             }
-            else
+            else if (Input.GetKeyDown(keys.saveKey))
             {
-                Resume();
+                ResumePause(savemenu);
+            }
+            else if (Input.GetKeyDown(keys.optionsKey))
+            {
+                ResumePause(options);
+            }
+            else if (Input.GetKeyDown(keys.questKey))
+            {
+                ResumePause(questMenu);
+            }
+            else if (Input.GetKeyDown(keys.inventoryKey))
+            {
+                ResumePause(inventory);
+            }
+            else if (Input.GetKeyDown(keys.voreKey))
+            {
+                ResumePause(vore);
+            }
+            else if (Input.GetKeyDown(keys.essenceKey))
+            {
+                ResumePause(essence);
+            } else if (Input.GetKeyDown(keys.lvlKey))
+            {
+                ResumePause(levelUp);
             }
         }
     }
 
     public void Resume()
     {
-        if (whoActive() != null)
+        foreach (GameObject p in _menuList)
         {
-            whoActive().SetActive(false);
+            p.SetActive(false);
         }
         ToggleBigPanel(gameui);
         GameIsPaused = false;
@@ -75,34 +116,6 @@ public class GameUI : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
-    }
-
-    private GameObject whoActive()
-    {
-        if (gameui != null ? gameui.activeSelf : false)
-        {
-            return gameui;
-        }
-        else if (pausemenu != null ? pausemenu.activeSelf : false)
-        {
-            return pausemenu;
-        }
-        else if (savemenu != null ? savemenu.activeSelf : false)
-        {
-            return savemenu;
-        }
-        else if (options != null ? options.activeSelf : false)
-        {
-            return options;
-        }
-        else if (bigeventlog != null ? bigeventlog.activeSelf : false)
-        {
-            return bigeventlog;
-        }
-        else
-        {
-            return null;
-        }
     }
 
     public bool bigEventLog()
@@ -123,7 +136,7 @@ public class GameUI : MonoBehaviour
     public void StartCombat(BasicChar enemy)
     {
         Pause();
-        foreach(GameObject p in _battleList)
+        foreach (GameObject p in _battleList)
         {
             p.SetActive(false);
         }
@@ -149,9 +162,32 @@ public class GameUI : MonoBehaviour
         else if (panel == menus)
         {
             menus.SetActive(true);
-        } else if (panel == battle)
+        }
+        else if (panel == battle)
         {
             battle.SetActive(true);
+        }
+    }
+
+    private void ResumePause(GameObject toBeActivated)
+    {
+        if (!GameIsPaused)
+        {
+            Pause();
+            toBeActivated.SetActive(true);
+        }
+        else
+        {
+            Resume();
+        }
+    }
+
+
+    private void existAdd(GameObject menu)
+    {
+        if (menu != null)
+        {
+            _menuList.Add(menu);
         }
     }
 }
