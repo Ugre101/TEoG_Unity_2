@@ -2,15 +2,20 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class EventLogHandler : MonoBehaviour, IPointerClickHandler
 {
     // Public
     public GameUI gameui;
+
+    public KeyBindings keys;
     // Private
     private TextMeshProUGUI _eventLog;
+
     private bool _oneClick = false;
     private float _time;
+    private float _down, _up;
     private static List<string> _loggedText = new List<string>();
 
     // Remember that this script handles both small eventlog and big.
@@ -31,7 +36,7 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
         PrintEventlog();
     }
 
-    public void OnPointerClick(PointerEventData pointerEventData)
+    public void OnPointerClick(PointerEventData data)
     {
         if (_oneClick)
         {

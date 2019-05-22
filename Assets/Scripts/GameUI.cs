@@ -31,6 +31,11 @@ public class GameUI : MonoBehaviour
     public GameObject essence;
     public GameObject levelUp;
 
+    [Header("Eventlog stuff")]
+    public GameObject openEventlog;
+
+    public GameObject closedEventlog;
+
     [Space]
     public CombatEnemies CombatEnemies;
 
@@ -38,6 +43,8 @@ public class GameUI : MonoBehaviour
 
     // Menu panels
     private List<GameObject> _menuList = new List<GameObject>();
+
+    private float _eventTime;
 
     private void Start()
     {
@@ -88,9 +95,23 @@ public class GameUI : MonoBehaviour
             else if (Input.GetKeyDown(keys.essenceKey))
             {
                 ResumePause(essence);
-            } else if (Input.GetKeyDown(keys.lvlKey))
+            }
+            else if (Input.GetKeyDown(keys.lvlKey))
             {
                 ResumePause(levelUp);
+            }
+            else if (Input.GetKeyDown(keys.eventKey))
+            {
+                _eventTime = Time.time;
+            }
+            if (Input.GetKeyUp(keys.eventKey))
+            {
+                if (Time.time - _eventTime > 0.8f)
+                {
+                    openEventlog.SetActive(openEventlog.activeSelf ? false : true);
+                    closedEventlog.SetActive(closedEventlog.activeSelf ? false : true);
+                }
+                else if (bigEventLog()) { }
             }
         }
     }
@@ -181,7 +202,6 @@ public class GameUI : MonoBehaviour
             Resume();
         }
     }
-
 
     private void existAdd(GameObject menu)
     {

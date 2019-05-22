@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 public class MiniMapController : MonoBehaviour
 {
     // Public
@@ -14,7 +13,7 @@ public class MiniMapController : MonoBehaviour
     private Vector3 _offset = new Vector3(1f, 0, -10);
     private Camera cam;
     private float _smoothing = 1f;
-
+    private float _down;
     // Start is called before the first frame update
     private void Start()
     {
@@ -32,7 +31,26 @@ public class MiniMapController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, _target, _smoothing);
         if (Input.GetKeyDown(keys.mapKey))
         {
-            UpdateMaps();
+            _down = Time.time;
+        }
+        if (Input.GetKeyUp(keys.mapKey))
+        {
+            if (Time.time - _down > 0.8f)
+            {
+                if (miniMap.activeSelf || bigMap.activeSelf)
+                {
+                    miniMap.SetActive(false);
+                    bigMap.SetActive(false);
+                }else
+                {
+                    miniMap.SetActive(true);
+                    bigMap.SetActive(false);
+                }
+            }
+            else
+            {
+                UpdateMaps();
+            }
         }
     }
 

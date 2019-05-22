@@ -1,21 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Tilemaps;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.Tilemaps;
 
 public class Movement : MonoBehaviour
 {
-
     // Public
     public float _speed = 7.0f;
+
     public GameObject _pointer;
     public GameUI canvas;
     public EnemySpawner _spawner;
     public DoorEvents _doorEvent;
+
     // Private
     private Tilemap _map;
+
     private BoxCollider2D _coll;
     private Rigidbody2D _rb2d;
     private Vector2 _target;
@@ -23,24 +22,23 @@ public class Movement : MonoBehaviour
     private bool _move = false;
     private BasicChar _colEnemy;
 
-
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _map = _doorEvent._currentMap;
         DoorEvents.changeMap += DoorChanged;
         _map = _doorEvent._currentMap;
         _rb2d = GetComponent<Rigidbody2D>();
         _coll = GetComponent<BoxCollider2D>();
-    } 
+    }
 
     // Update is called once per frame
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (_move == false)
         {
             _target = _rb2d.position;
-        } 
+        }
         if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             // Mouse hold
@@ -74,12 +72,11 @@ public class Movement : MonoBehaviour
         _target.x = Mathf.Clamp(_target.x, _xMin, _xMax);
         _target.y = Mathf.Clamp(_target.y, _yMin, _yMax);
         // Handle all player movement in one place to ease clamping
-        if (_rb2d.position != _target) 
+        if (_rb2d.position != _target)
         {
             _rb2d.position = Vector2.MoveTowards(_rb2d.position, _target, _speed * Time.deltaTime);
         }
         // Reset _target if player stops holding mouse 0
-
     }
 
     private void tilemapLimits(Vector3 minTile, Vector3 maxTile)
@@ -103,9 +100,9 @@ public class Movement : MonoBehaviour
             }
         }
     }
+
     private void DoorChanged()
     {
         _map = _doorEvent._currentMap;
     }
 }
-    
