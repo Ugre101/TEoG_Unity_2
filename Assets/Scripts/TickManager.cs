@@ -16,5 +16,14 @@ public class TickManager : MonoBehaviour
     {
         player.Hp = 1f;
         player.Wp = 1f;
+        if (player.Balls.Count > 0)
+        {
+            foreach(SexualOrgan ball in player.Balls)
+            {
+                ball.Refill();
+                Debug.Log(ball.Fluid);
+            }
+        }
+        // if lacating or late pregnant
     }
 }

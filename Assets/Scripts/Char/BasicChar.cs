@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class BasicChar : MonoBehaviour
 {
@@ -62,6 +63,7 @@ public abstract class BasicChar : MonoBehaviour
             expChange?.Invoke();
         }
     }
+
     public int Level { get { return level; } }
 
     public int StatPoints { get { return statPoints; } }
@@ -194,6 +196,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public float Masc { get { return masc; } }
     public float Femi { get { return femi; } }
+
     public void GainMasc(float mascToGain)
     {
         masc += Mathf.Max(0, mascToGain);
@@ -203,7 +206,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public float LoseMasc(float mascToLose)
     {
-        float have = Mathf.Clamp(masc,0,mascToLose);
+        float have = Mathf.Clamp(masc, 0, mascToLose);
         if (have < mascToLose)
         {
             // Try to shrink organs add to have
@@ -228,7 +231,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public float LoseFemi(float femiToLose)
     {
-        float have = Mathf.Clamp(femi,0,femiToLose);
+        float have = Mathf.Clamp(femi, 0, femiToLose);
         if (have < femiToLose)
         {
             while (have < femiToLose && false)
@@ -245,16 +248,136 @@ public abstract class BasicChar : MonoBehaviour
     }
 
     public delegate void EssenceSlider();
+
     public static event EssenceSlider essenceSlider;
 
     [SerializeField]
     private float gold = 0;
+
     public float Gold
     {
         get { return Mathf.Floor(gold); }
         set
         {
             gold += Mathf.Clamp(value, -gold, Mathf.Infinity);
+        }
+    }
+
+    [SerializeField]
+    private List<SexualOrgan> dicks = new List<SexualOrgan>();
+
+    public List<SexualOrgan> Dicks { get { return dicks; } }
+
+    public void AddDick()
+    {
+        SexualOrgan dick = new SexualOrgan(OrganType.Dick);
+        dicks.Add(dick);
+    }
+
+    public void GrowDick(int index)
+    {
+        int i = Mathf.Clamp(index, 0, dicks.Count - 1);
+        dicks[i]._baseSize++;
+    }
+    public bool ShrinkDick(int index)
+    {
+        int i = Mathf.Clamp(index, 0, dicks.Count - 1);
+        dicks[i]._baseSize--;
+        if (dicks[i]._baseSize <= 0)
+        {
+            dicks.RemoveAt(i);
+            return true;
+        }else
+        {
+            return false;
+        }
+    }
+
+    [SerializeField]
+    private List<SexualOrgan> balls = new List<SexualOrgan>();
+
+    public List<SexualOrgan> Balls { get { return balls; } }
+
+    public void AddBalls()
+    {
+        SexualOrgan ball = new SexualOrgan(OrganType.Balls);
+        balls.Add(ball);
+    }
+    public void GrowBalls(int index)
+    {
+        int i = Mathf.Clamp(index, 0, balls.Count - 1);
+        balls[i]._baseSize++;
+    }
+
+    public bool ShrinkBalls(int index)
+    {
+        int i = Mathf.Clamp(index, 0, balls.Count - 1);
+        balls[i]._baseSize--;
+        if (balls[i]._baseSize <= 0)
+        {
+            balls.RemoveAt(i);
+            return true;
+        }else
+        {
+            return false;
+        }
+    }
+
+    [SerializeField]
+    private List<SexualOrgan> boobs = new List<SexualOrgan>();
+
+    public List<SexualOrgan> Boobs { get { return boobs; } }
+
+    public void AddBoobs()
+    {
+        SexualOrgan boob = new SexualOrgan(OrganType.Boobs);
+        boobs.Add(boob);
+    }
+    public void GrowBoobs(int index)
+    {
+        int i = Mathf.Clamp(index, 0, boobs.Count - 1);
+        boobs[i]._baseSize++;
+    }
+    public bool ShrinkBoobs(int index)
+    {
+        int i = Mathf.Clamp(index, 0, boobs.Count - 1);
+        boobs[i]._baseSize--;
+        if (boobs[i]._baseSize <= 0)
+        {
+            boobs.RemoveAt(i);
+            return true;
+        }else
+        {
+            return false;
+        }
+    }
+
+    [SerializeField]
+    private List<SexualOrgan> vaginas = new List<SexualOrgan>();
+
+    public List<SexualOrgan> Vaginas { get { return vaginas; } }
+
+    public void AddVagina()
+    {
+        SexualOrgan vagina = new SexualOrgan(OrganType.Vagina);
+        vaginas.Add(vagina);
+    }
+    public void GrowVagina(int index)
+    {
+        int i = Mathf.Clamp(index, 0, vaginas.Count - 1);
+        vaginas[i]._baseSize++;
+    }
+    public bool ShrinkVagina(int index)
+    {
+        int i = Mathf.Clamp(index, 0, vaginas.Count - 1);
+        vaginas[i]._baseSize--;
+        if (vaginas[i]._baseSize <= 0)
+        {
+            vaginas.RemoveAt(i);
+            return true;
+        }else
+        {
+            return false;
         }
     }
 }
