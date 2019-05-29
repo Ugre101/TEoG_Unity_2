@@ -154,7 +154,7 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    public void StartCombat(BasicChar enemy)
+    public void StartCombat(EnemyPrefab enemy)
     {
         Pause();
         foreach (GameObject p in _battleList)

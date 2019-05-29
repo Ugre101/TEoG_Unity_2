@@ -25,25 +25,26 @@ public class enemyStatusBars : MonoBehaviour
         switch (SliderType)
         {
             case sliderType.hp:
-                BasicChar.updateSlider += changeHealth;
+                Health.updateSlider += changeHealth;
+                _char.HP.manualSliderUpdate();
                 break;
 
             case sliderType.wp:
-                BasicChar.updateSlider += changeWill;
+                Health.updateSlider += changeWill;
+                _char.WP.manualSliderUpdate();
                 break;
         }
-        _char.manualSliderUpdate();
     }
     private void OnDisable()
     {
         switch (SliderType)
         {
             case sliderType.hp:
-                BasicChar.updateSlider -= changeHealth;
+                Health.updateSlider -= changeHealth;
                 break;
 
             case sliderType.wp:
-                BasicChar.updateSlider -= changeWill;
+                Health.updateSlider -= changeWill;
                 break;
         }
     }
@@ -52,19 +53,19 @@ public class enemyStatusBars : MonoBehaviour
 
     private void changeHealth()
     {
-        slider.value = _char.hpSlider();
+        slider.value = _char.HP.Slider();
         if (_statusText != null)
         {
-            _statusText.text = _char.hpStatus();
+            _statusText.text = _char.HP.Status();
         }
     }
 
     private void changeWill()
     {
-        slider.value = _char.wpSlider();
+        slider.value = _char.WP.Slider();
         if (_statusText != null)
         {
-            _statusText.text = _char.wpStatus();
+            _statusText.text = _char.WP.Status();
         }
     }
 }

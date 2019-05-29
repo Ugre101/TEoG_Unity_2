@@ -20,7 +20,7 @@ public class Movement : MonoBehaviour
     private Vector2 _target;
     private float _xMax, _xMin, _yMin, _yMax;
     private bool _move = false;
-    private BasicChar _colEnemy;
+    private EnemyPrefab _colEnemy;
 
     // Start is called before the first frame update
     private void Start()
@@ -92,7 +92,7 @@ public class Movement : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
-            _colEnemy = collision.gameObject.GetComponent<BasicChar>();
+            _colEnemy = collision.gameObject.GetComponent<EnemyPrefab>();
             canvas.StartCombat(_colEnemy);
             if (_spawner != null)
             {

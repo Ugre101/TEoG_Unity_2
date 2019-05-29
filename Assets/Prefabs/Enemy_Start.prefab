@@ -138,15 +138,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8534239450746442155}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b4728da1f9c3d84a87fc3c7fafee65a, type: 3}
+  m_Script: {fileID: 11500000, guid: d524558d4031c9f4ab3a25d8d3a9559c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoints: 0
-  willHealthPoints: 0
-  maxHealthPoints:
-    _baseValue: 0
-  maxWillHealthPoints:
-    _baseValue: 0
+  hp:
+    _current: 0
+    _max: 0
+  wp:
+    _current: 0
+    _max: 0
   experience: 0
   level: 0
   statPoints: 0
@@ -155,3 +155,24 @@ MonoBehaviour:
     _baseValue: 0
   charm:
     _baseValue: 0
+  endurance:
+    _baseValue: 0
+  dexterity:
+    _baseValue: 0
+  autoEss: 1
+  masc:
+    _amount: 0
+  femi:
+    _amount: 0
+  gold: 0
+  dicks: []
+  balls: []
+  boobs: []
+  vaginas: []
+  reward:
+    _expReward: 0
+    _goldReward: 0
+  assingStr: 8
+  assingCharm: 2
+  assingEnd: 6
+  assingDex: 5

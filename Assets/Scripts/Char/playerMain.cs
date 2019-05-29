@@ -1,23 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class playerMain : BasicChar
 {
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        init(1, 100f, 100f);
+        Str = 10;
+        Charm = 10;
+        Dex = 10;
+        End = 10;
+        Str++;
         AddDick();
         AddBalls();
         AddBoobs();
         AddVagina();
-        GrowDick(0);
-        ShrinkBalls(0);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        Dicks[0].Grow();
+        Vaginas[0].Grow();
+        Femi.Gain(100f);
+        Masc.Gain(100f);
+        Dicks[0].Shrink(3);
     }
 }

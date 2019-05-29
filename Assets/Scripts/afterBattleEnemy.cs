@@ -26,7 +26,7 @@ public class afterBattleEnemy : MonoBehaviour
         {
             have += _enemies[i].LoseMasc(toDrain);
         }
-        _player.GainMasc(have);
+        _player.Masc.Gain(have);
         return "drain masc";
     }
     public string GiveMasc()
@@ -34,9 +34,9 @@ public class afterBattleEnemy : MonoBehaviour
         float toGive = 3f;
         for (int i = 0; i< _enemies.Count; i++)
         {
-            if (_player.Masc > toGive)
+            if (_player.Masc.Amount > toGive)
             {
-                _enemies[i].GainMasc(_player.LoseMasc(toGive));
+                _enemies[i].Masc.Gain(_player.LoseMasc(toGive));
             }
         }
         return "give masc";
@@ -50,7 +50,7 @@ public class afterBattleEnemy : MonoBehaviour
         {
             have += _enemies[i].LoseFemi(toDrain);
         }
-        _player.GainFemi(have);
+        _player.Femi.Gain(have);
         return "Drainfemi";
     }
     public string GiveFemi()
@@ -58,7 +58,7 @@ public class afterBattleEnemy : MonoBehaviour
         float toGive = 3f;
         for (int i = 0; i < _enemies.Count; i++)
         {
-            _enemies[i].GainFemi(_player.LoseFemi(toGive));
+            _enemies[i].Femi.Gain(_player.LoseFemi(toGive));
         }
         return "give femi";
     }

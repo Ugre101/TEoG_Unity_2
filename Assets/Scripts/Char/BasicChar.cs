@@ -4,70 +4,25 @@ using UnityEngine;
 public abstract class BasicChar : MonoBehaviour
 {
     [SerializeField]
-    private float healthPoints, willHealthPoints;
+    private string firstName, lastName;
 
-    public float Hp
-    {
-        get { return Mathf.Round(healthPoints); }
-        set
-        {
-            float change = Mathf.Clamp(value, -healthPoints, MaxHP - healthPoints);
-            healthPoints += change;
-            updateSlider?.Invoke();
-        }
-    }
-
-    public float Wp
-    {
-        get { return Mathf.Round(willHealthPoints); }
-        set
-        {
-            float change = Mathf.Clamp(value, -willHealthPoints, MaxWP - willHealthPoints);
-            willHealthPoints += change;
-            updateSlider?.Invoke();
-        }
-    }
+    public string FirstName { get { return firstName; } set { firstName = value; } }
+    public string LastName { get { return lastName; } set { lastName = value; } }
+    public string FullName { get { return $"{firstName} {lastName}"; } }
 
     [SerializeField]
-    private CharStats maxHealthPoints, maxWillHealthPoints;
+    private Health hp, wp;
 
-    public float MaxHP
-    {
-        get { return maxHealthPoints._value; }
-        set { maxHealthPoints._baseValue = value; }
-    }
-
-    public float MaxWP
-    {
-        get { return maxWillHealthPoints._value; }
-        set { maxWillHealthPoints._baseValue = value; }
-    }
+    public Health HP { get { return hp; } }
+    public Health WP { get { return wp; } }
 
     [SerializeField]
-    private int experience = 0, level = 0, statPoints = 0, perkPoints = 0;
+    public ExpSystem expSystem = new ExpSystem();
 
-    public int Exp
-    {
-        get { return experience; }
-        set
-        {
-            experience += value;
-            if (experience >= maxEXP())
-            {
-                experience -= maxEXP();
-                level++;
-                statPoints += 3;
-                perkPoints++;
-                // Eventlog level up;
-            }
-            expChange?.Invoke();
-        }
-    }
-
-    public int Level { get { return level; } }
-
-    public int StatPoints { get { return statPoints; } }
-    public int PerkPoints { get { return perkPoints; } }
+    public int Level { get { return expSystem.Level; } }
+    public int Exp { get { return expSystem.Exp; } set { expSystem.Exp += value; } }
+    public int StatsPoints { get { return expSystem.StatPoints; } }
+    public int PerkPoints { get { return expSystem.PerkPoints; } }
 
     // Public
     [SerializeField]
@@ -88,168 +43,89 @@ public abstract class BasicChar : MonoBehaviour
         set { charm._baseValue = value; }
     }
 
-    public void init(int lvl, float maxhp, float maxwp, float str, float charm, float gold)
+    [SerializeField]
+    private CharStats endurance;
+
+    public float End
     {
-        MaxHP = maxhp;
-        Hp = MaxHP;
-        MaxWP = maxwp;
-        Wp = MaxWP;
-        Str = str;
-        Charm = charm;
-        level = lvl;
-        Gold = gold;
-    }
-
-    public bool TakeHealthDamage(float damageDealt)
-    {
-        float dmg = damageDealt;
-        Hp = Mathf.Min(0, -dmg);
-        if (Hp <= 0)
-        {
-            return true;
-            // Defeat player wins toggle afterbattle/sex
-        }
-        return false;
-    }
-
-    public bool TakeWillDamage(float damageDealt)
-    {
-        float dmg = damageDealt;
-        Wp = Mathf.Min(0, -dmg);
-        if (Wp <= 0)
-        {
-            return true;
-            // Defeat
-        }
-        return false;
-    }
-
-    public float hpSlider()
-    {
-        return Hp / MaxHP;
-    }
-
-    public string hpStatus()
-    {
-        return $"{Hp}/{MaxHP}";
-    }
-
-    public float wpSlider()
-    {
-        return Wp / MaxWP;
-    }
-
-    public string wpStatus()
-    {
-        return $"{Wp}/{MaxWP}";
-    }
-
-    public float expSlider()
-    {
-        return (float)Exp / (float)maxEXP();
-    }
-
-    public string expStatus()
-    {
-        return $"{Exp}/{maxEXP()}";
-    }
-
-    private int maxEXP()
-    {
-        return (int)Mathf.Round(30f * Mathf.Pow(1.05f, level - 1f));
-    }
-
-    public string levelStatus()
-    {
-        return $"Level: {level}";
-    }
-
-    public delegate void ExpChange();
-
-    public static event ExpChange expChange;
-
-    public void manualExpUpdate()
-    {
-        expChange();
-    }
-
-    public delegate void UpdateSlider();
-
-    public static event UpdateSlider updateSlider;
-
-    public void manualSliderUpdate()
-    {
-        updateSlider();
+        get { return endurance._value; }
+        set { endurance._baseValue = value; }
     }
 
     [SerializeField]
-    private bool AutoEssence = true;
+    private CharStats dexterity;
+
+    public float Dex
+    {
+        get { return dexterity._value; }
+        set { dexterity._baseValue = value; }
+    }
+
+    public void init(int lvl, float maxhp, float maxwp)
+    {
+        hp = new Health(maxhp);
+        wp = new Health(maxwp);
+        expSystem.Level = lvl;
+    }
+
+    [SerializeField]
+    private bool autoEss = true;
+
+    public bool AutoEss { get { return autoEss; } }
 
     public void ToggleAutoEssence()
     {
-        AutoEssence = AutoEssence ? false : true;
+        autoEss = autoEss ? false : true;
         // if autoessence check if need to grow stuff
     }
 
     [SerializeField]
-    private float masc, femi;
+    private Essence masc, femi;
 
-    public float Masc { get { return masc; } }
-    public float Femi { get { return femi; } }
-
-    public void GainMasc(float mascToGain)
-    {
-        masc += Mathf.Max(0, mascToGain);
-        essenceSlider?.Invoke();
-        // if auto grow organs
-    }
+    public Essence Masc { get { return masc; } }
+    public Essence Femi { get { return femi; } }
 
     public float LoseMasc(float mascToLose)
     {
-        float have = Mathf.Clamp(masc, 0, mascToLose);
-        if (have < mascToLose)
+        float have = Masc.Lose(mascToLose);
+        float missing = mascToLose - have;
+        if (missing > 0)
         {
-            // Try to shrink organs add to have
-            while (have < mascToLose && false)//and have relevant organs
+            float fromOrgans = 0f;
+            while (missing > fromOrgans && false)// have needed organs
             {
-                have += 1;
+                fromOrgans += 1f;
+            }
+            have += Mathf.Min(fromOrgans, missing);
+            float left = fromOrgans - missing;
+            if (left > 0)
+            {
+                Masc.Gain(left);
             }
         }
-        else
-        {
-            masc -= mascToLose;
-        }
-        essenceSlider?.Invoke();
         return have;
-    }
-
-    public void GainFemi(float femiToGain)
-    {
-        femi += Mathf.Max(0, femiToGain);
-        essenceSlider?.Invoke();
     }
 
     public float LoseFemi(float femiToLose)
     {
-        float have = Mathf.Clamp(femi, 0, femiToLose);
-        if (have < femiToLose)
+        float have = Femi.Lose(femiToLose);
+        float missing = femiToLose - have;
+        if (missing > 0)
         {
-            while (have < femiToLose && false)
+            float fromOrgans = 0f;
+            while (missing > fromOrgans && false)// have needed organs
             {
-                have += 1;
+                fromOrgans += 1f;
+            }
+            have += Mathf.Min(fromOrgans, missing);
+            float left = fromOrgans - missing;
+            if (left > 0)
+            {
+                Femi.Gain(left);
             }
         }
-        else
-        {
-            femi -= femiToLose;
-        }
-        essenceSlider?.Invoke();
         return have;
     }
-
-    public delegate void EssenceSlider();
-
-    public static event EssenceSlider essenceSlider;
 
     [SerializeField]
     private float gold = 0;
@@ -264,120 +140,139 @@ public abstract class BasicChar : MonoBehaviour
     }
 
     [SerializeField]
-    private List<SexualOrgan> dicks = new List<SexualOrgan>();
+    private List<Dick> dicks = new List<Dick>();
 
-    public List<SexualOrgan> Dicks { get { return dicks; } }
+    public List<Dick> Dicks { get { return dicks; } }
+
+    public float DickTotal()
+    {
+        float tot = 0f;
+        foreach (Dick dick in dicks)
+        {
+            tot += dick.Size;
+        }
+        return tot;
+    }
 
     public void AddDick()
     {
-        SexualOrgan dick = new SexualOrgan(OrganType.Dick);
+        Dick dick = new Dick();
         dicks.Add(dick);
     }
 
-    public void GrowDick(int index)
+    public float DickCost()
     {
-        int i = Mathf.Clamp(index, 0, dicks.Count - 1);
-        dicks[i]._baseSize++;
-    }
-    public bool ShrinkDick(int index)
-    {
-        int i = Mathf.Clamp(index, 0, dicks.Count - 1);
-        dicks[i]._baseSize--;
-        if (dicks[i]._baseSize <= 0)
-        {
-            dicks.RemoveAt(i);
-            return true;
-        }else
-        {
-            return false;
-        }
+        float cost = Mathf.Round(30 * Mathf.Pow(3, Dicks.Count));
+        return cost;
     }
 
     [SerializeField]
-    private List<SexualOrgan> balls = new List<SexualOrgan>();
+    private List<Balls> balls = new List<Balls>();
 
-    public List<SexualOrgan> Balls { get { return balls; } }
+    public List<Balls> Balls { get { return balls; } }
+
+    public float BallTotal()
+    {
+        float tot = 0f;
+        foreach (Balls ball in balls)
+        {
+            tot += ball.Size;
+        }
+        return tot;
+    }
 
     public void AddBalls()
     {
-        SexualOrgan ball = new SexualOrgan(OrganType.Balls);
+        Balls ball = new Balls();
         balls.Add(ball);
     }
-    public void GrowBalls(int index)
-    {
-        int i = Mathf.Clamp(index, 0, balls.Count - 1);
-        balls[i]._baseSize++;
-    }
 
-    public bool ShrinkBalls(int index)
+    public float BallCost()
     {
-        int i = Mathf.Clamp(index, 0, balls.Count - 1);
-        balls[i]._baseSize--;
-        if (balls[i]._baseSize <= 0)
-        {
-            balls.RemoveAt(i);
-            return true;
-        }else
-        {
-            return false;
-        }
+        float cost = Mathf.Round(30 * Mathf.Pow(3, Balls.Count));
+        return cost;
     }
 
     [SerializeField]
-    private List<SexualOrgan> boobs = new List<SexualOrgan>();
+    private List<Boobs> boobs = new List<Boobs>();
 
-    public List<SexualOrgan> Boobs { get { return boobs; } }
+    public List<Boobs> Boobs { get { return boobs; } }
+
+    public float BoobTotal()
+    {
+        float tot = 0f;
+        foreach (Boobs boob in boobs)
+        {
+            tot += boob.Size;
+        }
+        return tot;
+    }
 
     public void AddBoobs()
     {
-        SexualOrgan boob = new SexualOrgan(OrganType.Boobs);
+        Boobs boob = new Boobs();
         boobs.Add(boob);
     }
-    public void GrowBoobs(int index)
+
+    public float BoobCost()
     {
-        int i = Mathf.Clamp(index, 0, boobs.Count - 1);
-        boobs[i]._baseSize++;
-    }
-    public bool ShrinkBoobs(int index)
-    {
-        int i = Mathf.Clamp(index, 0, boobs.Count - 1);
-        boobs[i]._baseSize--;
-        if (boobs[i]._baseSize <= 0)
-        {
-            boobs.RemoveAt(i);
-            return true;
-        }else
-        {
-            return false;
-        }
+        float cost = Mathf.Round(30 * Mathf.Pow(3, Boobs.Count));
+        return cost;
     }
 
     [SerializeField]
-    private List<SexualOrgan> vaginas = new List<SexualOrgan>();
+    private List<Vagina> vaginas = new List<Vagina>();
 
-    public List<SexualOrgan> Vaginas { get { return vaginas; } }
+    public List<Vagina> Vaginas { get { return vaginas; } }
+
+    public float VagTotal()
+    {
+        float tot = 0f;
+        foreach (Vagina vag in vaginas)
+        {
+            tot += vag.Size;
+        }
+        return tot;
+    }
 
     public void AddVagina()
     {
-        SexualOrgan vagina = new SexualOrgan(OrganType.Vagina);
+        Vagina vagina = new Vagina();
         vaginas.Add(vagina);
     }
-    public void GrowVagina(int index)
+
+    public float VagCost()
     {
-        int i = Mathf.Clamp(index, 0, vaginas.Count - 1);
-        vaginas[i]._baseSize++;
+        float cost = Mathf.Round(30 * Mathf.Pow(3, Vaginas.Count));
+        return cost;
     }
-    public bool ShrinkVagina(int index)
+
+    public SexStats sexStats = new SexStats();
+
+    private void Update()
     {
-        int i = Mathf.Clamp(index, 0, vaginas.Count - 1);
-        vaginas[i]._baseSize--;
-        if (vaginas[i]._baseSize <= 0)
+        if (autoEss)
         {
-            vaginas.RemoveAt(i);
-            return true;
-        }else
-        {
-            return false;
+            foreach (Dick d in Dicks.FindAll(x => x.Size <= 0))
+            {
+                Dicks.Remove(d);
+            }
+            foreach (Balls b in balls.FindAll(x => x.Size <= 0))
+            {
+                balls.Remove(b);
+            }
+            foreach (Vagina v in vaginas.FindAll(x => x.Size <= 0))
+            {
+                vaginas.Remove(v);
+            }
+            foreach (Boobs b in boobs.FindAll(x => x.Size <= 0))
+            {
+                boobs.Remove(b);
+            }
+            if (Masc.Amount > 100)
+            {
+            }
         }
     }
+    
 }

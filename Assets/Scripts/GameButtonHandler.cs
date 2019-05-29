@@ -21,7 +21,7 @@ public class GameButtonHandler : MonoBehaviour
     {
         if (LevelUp != null)
         {
-            if (player.StatPoints > 0 || player.PerkPoints > 0)
+            if (player.StatsPoints > 0 || player.PerkPoints > 0)
             {
                 LevelUp.SetActive(true);
             }

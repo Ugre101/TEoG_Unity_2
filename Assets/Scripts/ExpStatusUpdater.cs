@@ -14,12 +14,12 @@ public class ExpStatusUpdater : MonoBehaviour
     private void OnEnable()
     {
         slider = GetComponent<Slider>();
-        BasicChar.expChange += expSsagdsaa;
-        player.manualExpUpdate();
+        ExpSystem.expChange += expSsagdsaa;
+        player.expSystem.manualExpUpdate();
     }
     private void OnDisable()
     {
-        BasicChar.expChange -= expSsagdsaa;
+        ExpSystem.expChange -= expSsagdsaa;
     }
 
 
@@ -29,15 +29,15 @@ public class ExpStatusUpdater : MonoBehaviour
     {
         if (slider != null)
         {
-            slider.value = player.expSlider();
+            slider.value = player.expSystem.ExpSlider();
         }
         if (_statusExp != null)
         {
-            _statusExp.text = player.expStatus();
+            _statusExp.text = player.expSystem.ExpStatus();
         }
         if (_statusLevel != null)
         {
-            _statusLevel.text = player.levelStatus();
+            _statusLevel.text = player.expSystem.LevelStatus();
         }
     }
 }

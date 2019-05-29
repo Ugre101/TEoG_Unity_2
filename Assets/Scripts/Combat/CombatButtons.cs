@@ -9,10 +9,11 @@ public class CombatButtons : MonoBehaviour
 
     public playerMain player;
     public GameObject combatPanel, sexPanel, losePanel;
-    public List<BasicChar> _enemies = new List<BasicChar>();
+    public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
 
     [Header("Win")]
     public afterBattleEnemy afterBattle;
+
     [Header("Lose")]
     public loseBattleEnemy loseBattle;
 
@@ -55,7 +56,7 @@ public class CombatButtons : MonoBehaviour
         string text = $"You dealth {dmg}dmg to her/him";
         _EnemyTeamAttacks += text + "\n";
         TurnManager();
-        if (_enemies[0].TakeHealthDamage(dmg))
+        if (_enemies[0].HP.TakeDmg(dmg))
         {
             //  WIN in future have to array and send beaten enmies to other array
             WinBattle();
@@ -75,11 +76,17 @@ public class CombatButtons : MonoBehaviour
         // Simple after player actions
         if (charm < str)
         {
-            player.TakeHealthDamage(dmg);
+            if (player.HP.TakeDmg(dmg))
+            {
+                // lose battle
+            }
         }
         else
         {
-            player.TakeWillDamage(dmg);
+            if (player.WP.TakeDmg(dmg))
+            {
+                // lose battle
+            }
         }
         _EnemyTeamAttacks += text + "\n";
     }
@@ -123,15 +130,18 @@ public class CombatButtons : MonoBehaviour
         for (int i = 0; i < _enemies.Count; i++)
         {
             afterBattle.AddEnemy(_enemies[i]);
-            player.Exp = (int)Mathf.Round((float)_enemies[i].Level * Random.Range(1f,3f));
-            player.Gold = _enemies[i].Gold;
+            player.Exp += _enemies[i].reward.ExpReward;
+            player.Gold += _enemies[i].reward.GoldReward;
         }
         combatPanel.SetActive(false);
         sexPanel.SetActive(true);
         // init enemy(s) in afterbattle
     }
+
     private void LoseBattle()
     {
+        combatPanel.SetActive(false);
+        losePanel.SetActive(true);
         // init enemy(s) in lose
     }
 }

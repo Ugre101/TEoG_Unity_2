@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class CombatEnemies : MonoBehaviour
 {
-    public List<BasicChar> _enemies = new List<BasicChar>();
+    public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
     public enemyStatusBars hpSlider, wpSlider;
     public CombatButtons combatButtons;
 
-    public void AddEnemy(BasicChar enemy)
+    public void AddEnemy(EnemyPrefab enemy)
     {
         combatButtons._enemies.Add(enemy);
         _enemies.Add(enemy);
