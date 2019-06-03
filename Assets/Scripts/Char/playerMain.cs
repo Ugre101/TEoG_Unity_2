@@ -2,6 +2,7 @@
 
 public class playerMain : BasicChar
 {
+    public Settings sett;
     // Start is called before the first frame update
     private void Start()
     {
@@ -11,14 +12,9 @@ public class playerMain : BasicChar
         Dex = 10;
         End = 10;
         Str++;
+        Femi.Gain(200f);
+        Masc.Gain(2000f);
         AddDick();
-        AddBalls();
-        AddBoobs();
-        AddVagina();
-        Dicks[0].Grow();
-        Vaginas[0].Grow();
-        Femi.Gain(100f);
-        Masc.Gain(100f);
-        Dicks[0].Shrink(3);
+        Debug.Log(sett.DickLook(Dicks[0]));
     }
 }

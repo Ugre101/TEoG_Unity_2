@@ -162,7 +162,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public float DickCost()
     {
-        float cost = Mathf.Round(30 * Mathf.Pow(3, Dicks.Count));
+        float cost = Mathf.Round(30 * Mathf.Pow(4, Dicks.Count));
         return cost;
     }
 
@@ -189,14 +189,49 @@ public abstract class BasicChar : MonoBehaviour
 
     public float BallCost()
     {
-        float cost = Mathf.Round(30 * Mathf.Pow(3, Balls.Count));
+        float cost = Mathf.Round(30 * Mathf.Pow(4, Balls.Count));
         return cost;
+    }
+
+    public float CumTotal()
+    {
+        float tot = 0f;
+        foreach (Balls b in balls)
+        {
+            tot += b.Fluid.Current;
+        }
+        return tot;
+    }
+
+    public float CumMax()
+    {
+        float max = 0f;
+        foreach (Balls b in balls)
+        {
+            max += b.Fluid.Max;
+        }
+        return max;
+    }
+
+    public float CumSlider()
+    {
+        return CumTotal() / CumMax();
+    }
+
+    public string CumStatus()
+    {
+        return $"{Mathf.Round(CumTotal())}";
     }
 
     [SerializeField]
     private List<Boobs> boobs = new List<Boobs>();
 
     public List<Boobs> Boobs { get { return boobs; } }
+
+    [SerializeField]
+    private bool lactating = false;
+
+    public bool Lactating { get { return lactating; } }
 
     public float BoobTotal()
     {
@@ -216,8 +251,36 @@ public abstract class BasicChar : MonoBehaviour
 
     public float BoobCost()
     {
-        float cost = Mathf.Round(30 * Mathf.Pow(3, Boobs.Count));
+        float cost = Mathf.Round(30 * Mathf.Pow(4, Boobs.Count));
         return cost;
+    }
+
+    public float MilkTotal()
+    {
+        float tot = 0f;
+        foreach (Boobs b in boobs)
+        {
+            tot += b.Fluid.Current;
+        }
+        return tot;
+    }
+
+    public float MilkMax()
+    {
+        float max = 0f;
+        foreach (Boobs b in boobs)
+        {
+            max += b.Fluid.Max;
+        }
+        return max;
+    }
+    public float MilkSlider()
+    {
+        return MilkTotal() / MilkMax();
+    }
+    public string MilkStatus()
+    {
+        return $"{Mathf.Round(MilkTotal()/1000)}";
     }
 
     [SerializeField]
@@ -243,7 +306,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public float VagCost()
     {
-        float cost = Mathf.Round(30 * Mathf.Pow(3, Vaginas.Count));
+        float cost = Mathf.Round(30 * Mathf.Pow(4, Vaginas.Count));
         return cost;
     }
 
@@ -251,28 +314,96 @@ public abstract class BasicChar : MonoBehaviour
 
     private void Update()
     {
+        foreach (Dick d in Dicks.FindAll(x => x.Size <= 0))
+        {
+            Dicks.Remove(d);
+        }
+        foreach (Balls b in balls.FindAll(x => x.Size <= 0))
+        {
+            balls.Remove(b);
+        }
+        foreach (Vagina v in vaginas.FindAll(x => x.Size <= 0))
+        {
+            vaginas.Remove(v);
+        }
+        foreach (Boobs b in boobs.FindAll(x => x.Size <= 0))
+        {
+            boobs.Remove(b);
+        }
         if (autoEss)
         {
-            foreach (Dick d in Dicks.FindAll(x => x.Size <= 0))
+            if (Masc.Amount > 0)
             {
-                Dicks.Remove(d);
+                if (BallTotal() * 2 > DickTotal())
+                {
+                    if (dicks.Exists(d => Masc.Amount >= d.Cost))
+                    {
+                        foreach (Dick d in dicks)
+                        {
+                            if (Masc.Amount >= d.Cost)
+                            {
+                                Masc.Lose(d.Grow());
+                            }
+                        }
+                    }
+                    else if (Masc.Amount >= DickCost())
+                    {
+                        Masc.Lose(DickCost());
+                        AddDick();
+                    }
+                }
+                else
+                {
+                    if (balls.Exists(b => Masc.Amount >= b.Cost))
+                    {
+                        foreach (Balls b in balls)
+                        {
+                            if (Masc.Amount >= b.Cost)
+                            {
+                                Masc.Lose(b.Grow());
+                            }
+                        }
+                    }
+                    else if (Masc.Amount >= BallCost())
+                    {
+                        masc.Lose(BallCost());
+                        AddBalls();
+                    }
+                }
             }
-            foreach (Balls b in balls.FindAll(x => x.Size <= 0))
+            if (Femi.Amount > 0)
             {
-                balls.Remove(b);
-            }
-            foreach (Vagina v in vaginas.FindAll(x => x.Size <= 0))
-            {
-                vaginas.Remove(v);
-            }
-            foreach (Boobs b in boobs.FindAll(x => x.Size <= 0))
-            {
-                boobs.Remove(b);
-            }
-            if (Masc.Amount > 100)
-            {
+                if (VagTotal() * 2 > BoobTotal())
+                {
+                    foreach (Boobs b in boobs)
+                    {
+                        if (Femi.Amount >= b.Cost)
+                        {
+                            Femi.Lose(b.Grow());
+                        }
+                    }
+                    if (Femi.Amount >= BoobCost())
+                    {
+                        Femi.Lose(BoobCost());
+                        AddBoobs();
+                    }
+                }
+                else
+                {
+                    foreach (Vagina v in vaginas)
+                    {
+                        if (Femi.Amount >= v.Cost)
+                        {
+                            Femi.Lose(v.Grow());
+                        }
+                    }
+                    if (Femi.Amount >= VagCost())
+                    {
+                        Femi.Lose(VagCost());
+                        AddVagina();
+                    }
+                }
             }
         }
     }
-    
 }

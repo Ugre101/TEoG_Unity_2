@@ -6,7 +6,7 @@ public class TickManager : MonoBehaviour
     private float _reGainRate;
     private void OnEnable()
     {
-        InvokeRepeating("ReGain", 0f, 5f);
+        InvokeRepeating("ReGain", 0f, 1f);
     }
     private void OnDisable()
     {
@@ -23,6 +23,12 @@ public class TickManager : MonoBehaviour
                 ball.Fluid.ReFill();
             }
         }
-        // if lacating or late pregnant
+        if (player.Lactating)
+        {
+            foreach (Boobs boob in player.Boobs)
+            {
+                boob.Fluid.ReFill();
+            }
+        }
     }
 }

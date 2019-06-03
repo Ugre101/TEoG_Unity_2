@@ -7,7 +7,7 @@ public class Essence
 {
     [SerializeField]
     protected float _amount;
-    public virtual float Amount { get { return Mathf.Floor(_amount); } }
+    public virtual float Amount { get { return Mathf.Floor(_amount); }}
     public void Gain(float toGain)
     {
         _amount += Mathf.Max(0,toGain);

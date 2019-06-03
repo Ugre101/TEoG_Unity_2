@@ -17,12 +17,24 @@ public enum FluidType
 [System.Serializable]
 public class SexualFluid
 {
-    public float _current;
+    [SerializeField]
+    protected float _current;
     protected float _max;
     protected FluidType _type;
     public virtual float Current { get { return _current; } }
     public virtual float Max { get { return _max; } }
 
+    protected float _baseRate;
+    protected float _cumRateFlat = 0;
+    protected float _cumRatePer = 1f;
+    // protected bool _dirtyRate = true;
+    private float CumRate
+    {
+        get
+        {
+            return _cumRateFlat * _cumRatePer;
+        }
+    }
     public SexualFluid(FluidType type)
     {
         _current = 0;
@@ -37,15 +49,23 @@ public class SexualFluid
         float secondStep = Mathf.Pow(size, 3);
         float finalStep = firstStep * secondStep;
         _max = finalStep;
+        _baseRate = _max / 500;
     }
 
     public void ReFill()
     {
         if (Current < Max)
         {
-            _current++;
+            _current += _baseRate + CumRate;
+            fluidSlider();
         }
     }
+    public void ManualSlider()
+    {
+        fluidSlider();
+    }
+    public delegate void FluidSlider();
+    public static event FluidSlider fluidSlider;
 }
 
 [System.Serializable]
@@ -57,6 +77,10 @@ public abstract class SexualOrgan
     protected int _lastBase;
     protected float _currSize;
     protected bool _isDirty = true;
+    protected bool _fluidDirty = true;
+
+    protected float _cost;
+    protected float _lastCost;
 
     public virtual float Size
     {
@@ -67,30 +91,36 @@ public abstract class SexualOrgan
                 // Calc
                 _lastBase = _baseSize;
                 _isDirty = false;
-                _currSize = CalcSize();
+                _fluidDirty = true;
+                _currSize = _baseSize;
+                _cost = Mathf.Min(2000, 30 * Mathf.Pow(1.05f, _baseSize));
             }
             return _currSize;
         }
     }
 
-    public float CalcSize()
+    public virtual float Cost
     {
-        float FinalValue = _baseSize;
-        return FinalValue;
+        get
+        {
+            if (_baseSize != _lastBase)
+            {
+                _cost = Mathf.Min(2000, 30 * Mathf.Pow(1.05f, _baseSize));
+            }
+            return _cost;
+        }
     }
 
     public SexualOrgan()
     {
         _baseSize = 1;
     }
-    public float Cost()
+
+    public float Grow(int toGrow = 1)
     {
-        float cost = Mathf.Min(2000, 30 * Mathf.Pow(1.05f, _baseSize));
-        return cost;
-    }
-    public void Grow(int toGrow = 1)
-    {
+        float growCost = Cost;
         _baseSize += toGrow;
+        return growCost;
     }
 
     public bool Shrink(int toShrink = 1)
@@ -99,22 +129,29 @@ public abstract class SexualOrgan
         return _baseSize <= 0 ? true : false;
     }
 }
+
 [System.Serializable]
 public class Dick : SexualOrgan
 {
-    public string Looks()
-    {
-        string dick = $"a {Size}cm long dick";
-        return dick;
-    }
+
 }
+
 [System.Serializable]
 public class Balls : SexualOrgan
 {
     [SerializeField]
     protected SexualFluid _fluid = new SexualFluid(FluidType.Cum);
-
-    public virtual SexualFluid Fluid { get { return _fluid; } }
+    public virtual SexualFluid Fluid
+    {
+        get
+        {
+            if (_fluidDirty || _baseSize != _lastBase)
+            {
+                _fluid.FluidCalc(Size);
+            }
+            return _fluid;
+        }
+    }
 
     public string Looks()
     {
@@ -122,23 +159,8 @@ public class Balls : SexualOrgan
         balls += $", with {Fluid.Current}l";
         return balls;
     }
-
-    public override float Size
-    {
-        get
-        {
-            if (_isDirty || _baseSize != _lastBase)
-            {
-                // Calc
-                _lastBase = _baseSize;
-                _isDirty = false;
-                _currSize = CalcSize();
-                _fluid.FluidCalc(_currSize);
-            }
-            return _currSize;
-        }
-    }
 }
+
 [System.Serializable]
 public class Vagina : SexualOrgan
 {
@@ -148,32 +170,26 @@ public class Vagina : SexualOrgan
         return vagina;
     }
 }
+
 [System.Serializable]
 public class Boobs : SexualOrgan
 {
     [SerializeField]
     protected SexualFluid _fluid = new SexualFluid(FluidType.Milk);
 
-    public virtual SexualFluid Fluid { get { return _fluid; } }
+    public virtual SexualFluid Fluid {
+        get
+        {
+            if (_fluidDirty || _baseSize != _lastCost)
+            {
+                _fluid.FluidCalc(Size);
+            }
+            return _fluid; } }
+
     public string Looks()
     {
         string boobs = "";
         boobs += $" {Fluid.Current}";
         return boobs;
-    }
-    public override float Size
-    {
-        get
-        {
-            if (_isDirty || _baseSize != _lastBase)
-            {
-                // Calc
-                _lastBase = _baseSize;
-                _isDirty = false;
-                _currSize = CalcSize();
-                _fluid.FluidCalc(_currSize);
-            }
-            return _currSize;
-        }
     }
 }
