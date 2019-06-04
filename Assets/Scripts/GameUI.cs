@@ -30,7 +30,7 @@ public class GameUI : MonoBehaviour
     public GameObject vore;
     public GameObject essence;
     public GameObject levelUp;
-
+    public GameObject looks;
     [Header("Eventlog stuff")]
     public GameObject openEventlog;
 
@@ -60,6 +60,7 @@ public class GameUI : MonoBehaviour
         existAdd(vore);
         existAdd(essence);
         existAdd(levelUp);
+        existAdd(looks);
     }
 
     // Update is called once per frame
@@ -103,6 +104,9 @@ public class GameUI : MonoBehaviour
             else if (Input.GetKeyDown(keys.eventKey))
             {
                 _eventTime = Time.time;
+            }else if (Input.GetKeyDown(keys.lookKey))
+            {
+                ResumePause(looks);
             }
             if (Input.GetKeyUp(keys.eventKey))
             {

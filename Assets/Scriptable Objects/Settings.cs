@@ -1,15 +1,21 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "Settings", menuName = "Tools")]
-public class Settings : ScriptableObject
+public class Settings : ScriptableObject//Bad name
 {
     [SerializeField]
     private bool Imperial = false;
 
-    public void ToogleImp()
+    public bool ToogleImp()
     {
-        Imperial = Imperial ? false : true;
+        return Imperial = Imperial ? false : true;
+    }
+
+    private void OnEnable()
+    {
+        Imperial = PlayerPrefs.HasKey("Imperial") ? PlayerPrefs.GetInt("Imperial") == 1 ? true : false : false;
     }
 
     public string LorGal(float L)
@@ -44,5 +50,35 @@ public class Settings : ScriptableObject
     public string DickLook(Dick d)
     {
         return $"a {MorInch(d.Size)} long dick";
+    }
+
+    public string DicksLook(List<Dick> dicks)
+    {
+        string dLooks = "";
+        for (int i = 0; i < dicks.Count; i++)
+        {
+            Dick d = dicks[i];
+            if (i == 0)
+            {
+                dLooks += $"A {MorInch(d.Size)} long dick";
+            }
+            else
+            {
+                dLooks += $"a {MorInch(d.Size)} long dick";
+            }
+            if (i == dicks.Count - 1)
+            {
+                dLooks += ".";
+            }
+            else if (i == dicks.Count - 2)
+            {
+                dLooks += " and ";
+            }
+            else
+            {
+                dLooks += ", ";
+            }
+        }
+        return dLooks;
     }
 }

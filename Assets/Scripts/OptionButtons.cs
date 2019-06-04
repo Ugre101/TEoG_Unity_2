@@ -5,18 +5,25 @@ using UnityEngine.UI;
 
 public class OptionButtons : MonoBehaviour
 {
-    // PixelCamera
+    [Header("Pixel perfect")]
     public PixelPerfectCamera pixelPerfectCamera;
 
     public Button pixelCameraButton;
     private bool pixelToggle = false;
     private TextMeshProUGUI pixelText;
 
-    // Something else
+    [Header("Vore")]
     public Button voreButton;
 
     private bool voreToggle;
     private TextMeshProUGUI voreText;
+
+    [Header("Imperial")]
+    public Button impButton;
+
+    public Settings settings;
+    private TextMeshProUGUI impText;
+    private bool impToggle;
 
     // Start is called before the first frame update
     private void Start()
@@ -49,6 +56,20 @@ public class OptionButtons : MonoBehaviour
                 voreText.text = $"Vore: {voreToggle}";
             }
         }
+        // Imperial units
+        if (PlayerPrefs.HasKey("Imperial"))
+        {
+            impToggle = PlayerPrefs.GetInt("Imperial") == 1 ? true : false;
+        }
+        if (impButton != null)
+        {
+            impButton.onClick.AddListener(ToggleImp);
+            impText = impButton.GetComponentInChildren<TextMeshProUGUI>();
+            if (impText != null)
+            {
+                impText.text = $"Imperial: {impToggle}";
+            }
+        }
     }
 
     private void TogglePixelCamera()
@@ -69,6 +90,16 @@ public class OptionButtons : MonoBehaviour
         if (voreText != null)
         {
             voreText.text = $"Vore: {voreToggle}";
+        }
+    }
+
+    private void ToggleImp()
+    {
+        impToggle = settings.ToogleImp();
+        PlayerPrefs.SetInt("Imperial", impToggle ? 1 : 0);
+        if (impText != null)
+        {
+            impText.text = $"Imperial: {impToggle}";
         }
     }
 }

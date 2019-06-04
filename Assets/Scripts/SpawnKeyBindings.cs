@@ -10,10 +10,10 @@ public class SpawnKeyBindings : MonoBehaviour
     private KeyCode newKey;
     private bool waitingForKey;
 
-    private enum Keys { save, options, vore, lvl, essence, inventory, esc, quest };
+    private enum Keys { save, options, vore, lvl, essence, inventory, esc, quest, looks };
 
     private Keys keys;
-    private GameObject save, opt, vore, lvl, ess, inv, esc, quest;
+    private GameObject save, opt, vore, lvl, ess, inv, esc, quest, looks;
 
     // Start is called before the first frame update
     private void Start()
@@ -34,6 +34,8 @@ public class SpawnKeyBindings : MonoBehaviour
         Button escbtn = CreateButtonPart(esc, Keys.esc);
         quest = Instantiate(CreateBindButton("Quest", keyBindings.questKey), this.transform);
         Button questbtn = CreateButtonPart(quest, Keys.quest);
+        looks = Instantiate(CreateBindButton("Looks", keyBindings.lookKey), this.transform);
+        Button looksbtn = CreateButtonPart(looks, Keys.looks);
     }
 
     private void OnEnable()
@@ -127,7 +129,10 @@ public class SpawnKeyBindings : MonoBehaviour
                 keyBindings.voreKey = newKey;
                 ChangeKeyText(vore, newKey);
                 break;
-
+            case Keys.looks:
+                keyBindings.lookKey = newKey;
+                ChangeKeyText(looks, newKey);
+                break;
             default:
                 break;
         }

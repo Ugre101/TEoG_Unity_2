@@ -16,6 +16,7 @@ public class KeyBindings : ScriptableObject
     public KeyCode questKey;
     public KeyCode mapKey;
     public KeyCode eventKey;
+    public KeyCode lookKey;
     private void OnEnable()
     {
         // if key saved in playerprefs use that else use default.
@@ -26,9 +27,10 @@ public class KeyBindings : ScriptableObject
         essenceKey = PlayerPrefs.HasKey("essenceKey") ? (KeyCode)PlayerPrefs.GetInt("essenceKey") : KeyCode.T;
         inventoryKey = PlayerPrefs.HasKey("inventoryKey") ? (KeyCode)PlayerPrefs.GetInt("inventoryKey") : KeyCode.Tab;
         escKey = PlayerPrefs.HasKey("escKey") ? (KeyCode)PlayerPrefs.GetInt("escKey") : KeyCode.Escape;
-        questKey = PlayerPrefs.HasKey("questKey") ? (KeyCode)PlayerPrefs.GetInt("questKey") : KeyCode.L;
+        questKey = PlayerPrefs.HasKey("questKey") ? (KeyCode)PlayerPrefs.GetInt("questKey") : KeyCode.Q;
         mapKey = PlayerPrefs.HasKey("mapKey") ? (KeyCode)PlayerPrefs.GetInt("mapKey") : KeyCode.M;
         eventKey = PlayerPrefs.HasKey("eventKey") ? (KeyCode)PlayerPrefs.GetInt("eventKey") : KeyCode.E;
+        lookKey = PlayerPrefs.HasKey("lookKey") ? (KeyCode)PlayerPrefs.GetInt("lookKey") : KeyCode.L;
     }
 
     private void OnDestroy()
@@ -44,5 +46,6 @@ public class KeyBindings : ScriptableObject
         PlayerPrefs.SetInt("questKey", (int)questKey);
         PlayerPrefs.SetInt("mapKey", (int)mapKey);
         PlayerPrefs.SetInt("eventKey", (int)eventKey);
+        PlayerPrefs.SetInt("lookKey", (int)lookKey);
     }
 }

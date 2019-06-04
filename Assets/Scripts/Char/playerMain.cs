@@ -15,6 +15,6 @@ public class playerMain : BasicChar
         Femi.Gain(200f);
         Masc.Gain(2000f);
         AddDick();
-        Debug.Log(sett.DickLook(Dicks[0]));
+        Debug.Log(sett.DicksLook(Dicks));
     }
 }

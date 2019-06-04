@@ -57,12 +57,12 @@ public class SexualFluid
         if (Current < Max)
         {
             _current += _baseRate + CumRate;
-            fluidSlider();
+            fluidSlider?.Invoke();
         }
     }
     public void ManualSlider()
     {
-        fluidSlider();
+        fluidSlider?.Invoke();
     }
     public delegate void FluidSlider();
     public static event FluidSlider fluidSlider;
