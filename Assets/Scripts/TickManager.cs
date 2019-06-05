@@ -14,8 +14,8 @@ public class TickManager : MonoBehaviour
     }
     private void ReGain()
     {
-        player.HP.Gain(1f);
-        player.WP.Gain(1f);
+        player.HP.Gain(player.RestRate);
+        player.WP.Gain(player.RestRate);
         if (player.Balls.Count > 0)
         {
             foreach(Balls ball in player.Balls)

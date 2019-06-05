@@ -5,7 +5,9 @@ public class ExpSystem
 {
     [SerializeField]
     private int level = 0;
+
     public int Level { get { return level; } set { level = value; } }
+
     [SerializeField]
     private int exp = 0;
 
@@ -25,12 +27,42 @@ public class ExpSystem
             expChange?.Invoke();
         }
     }
+
     [SerializeField]
     private int perkPoints = 0;
+
     public int PerkPoints { get { return perkPoints; } set { perkPoints += value; } }
+
+    public bool PerkBool()
+    {
+        if (perkPoints > 0)
+        {
+            perkPoints--;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     [SerializeField]
     private int statPoints = 0;
+
     public int StatPoints { get { return statPoints; } set { statPoints += value; } }
+
+    public bool StatBool()
+    {
+        if (statPoints > 0)
+        {
+            statPoints--;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     public float ExpSlider()
     {

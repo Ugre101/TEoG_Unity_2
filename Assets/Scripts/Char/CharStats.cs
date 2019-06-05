@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+public enum StatType
+{
+    Str,
+    Charm,
+    End,
+    Dex
+}
 
 [Serializable]
 public class CharStats
@@ -32,11 +39,12 @@ public class CharStats
 
     public CharStats()
     {
+        _baseValue = 0;
         _statMods = new List<StatMods>();
         _StatMods = _statMods.AsReadOnly();
     }
 
-    public CharStats(float baseValue) : this()
+    public CharStats(float baseValue = 0) : this()
     {
         _baseValue = baseValue;
     }

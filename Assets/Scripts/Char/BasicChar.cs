@@ -22,11 +22,14 @@ public abstract class BasicChar : MonoBehaviour
     public int Level { get { return expSystem.Level; } }
     public int Exp { get { return expSystem.Exp; } set { expSystem.Exp += value; } }
     public int StatsPoints { get { return expSystem.StatPoints; } }
+    public bool StatBool { get { return expSystem.StatBool(); } }
     public int PerkPoints { get { return expSystem.PerkPoints; } }
+    public bool PerkBool { get { return expSystem.PerkBool(); } }
 
-    // Public
     [SerializeField]
-    private CharStats strength;
+    public Perks Perk = new Perks();
+
+    public CharStats strength;
 
     public float Str
     {
@@ -34,8 +37,7 @@ public abstract class BasicChar : MonoBehaviour
         set { strength._baseValue = value; }
     }
 
-    [SerializeField]
-    private CharStats charm;
+    public CharStats charm;
 
     public float Charm
     {
@@ -43,8 +45,7 @@ public abstract class BasicChar : MonoBehaviour
         set { charm._baseValue = value; }
     }
 
-    [SerializeField]
-    private CharStats endurance;
+    public CharStats endurance;
 
     public float End
     {
@@ -52,8 +53,7 @@ public abstract class BasicChar : MonoBehaviour
         set { endurance._baseValue = value; }
     }
 
-    [SerializeField]
-    private CharStats dexterity;
+    public CharStats dexterity;
 
     public float Dex
     {
@@ -84,6 +84,9 @@ public abstract class BasicChar : MonoBehaviour
 
     public Essence Masc { get { return masc; } }
     public Essence Femi { get { return femi; } }
+    public float EssDrain { get { return 3 + Perk.PerkBonus(PerksTypes.GainEss); } }
+    public float EssGive { get { return 3 + Perk.PerkBonus(PerksTypes.GiveEss); } }
+    public float RestRate { get { return 1f + Perk.PerkBonus(PerksTypes.FasterRest); } }
 
     public float LoseMasc(float mascToLose)
     {
@@ -274,13 +277,15 @@ public abstract class BasicChar : MonoBehaviour
         }
         return max;
     }
+
     public float MilkSlider()
     {
         return MilkTotal() / MilkMax();
     }
+
     public string MilkStatus()
     {
-        return $"{Mathf.Round(MilkTotal()/1000)}";
+        return $"{Mathf.Round(MilkTotal() / 1000)}";
     }
 
     [SerializeField]
