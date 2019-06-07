@@ -1,13 +1,20 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public enum Genders
+{
+    Male,
+    Female,
+    Herm
+}
+
 [System.Serializable]
 [CreateAssetMenu(fileName = "Settings", menuName = "Tools")]
 public class Settings : ScriptableObject//Bad name
 {
     [SerializeField]
     private bool Imperial = false;
-
+    private string Male = "male";
     public bool ToogleImp()
     {
         return Imperial = Imperial ? false : true;
@@ -80,5 +87,37 @@ public class Settings : ScriptableObject//Bad name
             }
         }
         return dLooks;
+    }
+
+    public Genders CheckGender(BasicChar who)
+    {
+        if (who.Dicks.Count > 0 && who.Vaginas.Count > 0)
+        {
+            return Genders.Herm;
+        }
+        else if (who.Dicks.Count > 0)
+        {
+            return Genders.Male;
+        }
+        else
+        {
+            return Genders.Female;
+        }
+    }
+
+    public string GetGender(BasicChar who, bool capital = false)
+    {
+        if (who.Dicks.Count > 0 && who.Vaginas.Count > 0)
+        {
+            return capital ? "Herm" : "herm";
+        }
+        else if (who.Dicks.Count > 0)
+        {
+            return capital ? char.ToUpper(Male[0]) + Male.Substring(1) : Male.ToLower();
+        }
+        else
+        {
+            return "female";
+        }
     }
 }

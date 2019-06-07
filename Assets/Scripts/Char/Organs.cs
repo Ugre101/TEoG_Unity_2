@@ -93,7 +93,7 @@ public abstract class SexualOrgan
                 _isDirty = false;
                 _fluidDirty = true;
                 _currSize = _baseSize;
-                _cost = Mathf.Min(2000, 30 * Mathf.Pow(1.05f, _baseSize));
+                _cost = Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, _baseSize)));
             }
             return _currSize;
         }
@@ -105,7 +105,7 @@ public abstract class SexualOrgan
         {
             if (_baseSize != _lastBase)
             {
-                _cost = Mathf.Min(2000, 30 * Mathf.Pow(1.05f, _baseSize));
+                _cost = Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, _baseSize)));
             }
             return _cost;
         }
@@ -113,7 +113,7 @@ public abstract class SexualOrgan
 
     public SexualOrgan()
     {
-        _baseSize = 1;
+        _baseSize = 2;
     }
 
     public float Grow(int toGrow = 1)
