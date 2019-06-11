@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 [System.Serializable]
 public class EnemyPrefab : BasicChar
 {
@@ -19,10 +18,10 @@ public class EnemyPrefab : BasicChar
     private int assingDex;
     private void Start()
     {
-        Str = (int)Mathf.Floor((float)assingStr * Random.Range(0.5f, 1.5f));
-        Charm = (int)Mathf.Floor((float)assingCharm * Random.Range(0.5f, 1.5f));
-        End = (int)Mathf.Floor((float)assingEnd * Random.Range(0.5f, 1.5f));
-        Dex = (int)Mathf.Floor((float)assingDex * Random.Range(0.5f, 1.5f));
+        strength._baseValue = (int)Mathf.Floor((float)assingStr * Random.Range(0.5f, 1.5f));
+        charm._baseValue = (int)Mathf.Floor((float)assingCharm * Random.Range(0.5f, 1.5f));
+        endurance._baseValue = (int)Mathf.Floor((float)assingEnd * Random.Range(0.5f, 1.5f));
+        dexterity._baseValue = (int)Mathf.Floor((float)assingDex * Random.Range(0.5f, 1.5f));
         init(1, 100f, 100f);
         Femi.Gain(200f);
         Masc.Gain(300f);

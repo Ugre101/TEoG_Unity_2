@@ -3,11 +3,10 @@ using UnityEngine;
 
 public abstract class BasicChar : MonoBehaviour
 {
-    [SerializeField]
-    private string firstName, lastName;
+    public RaceSystem raceSystem = new RaceSystem();
 
-    public string FirstName { get { return firstName; } set { firstName = value; } }
-    public string LastName { get { return lastName; } set { lastName = value; } }
+    public float weight;
+    public string firstName, lastName;
     public string FullName { get { return $"{firstName} {lastName}"; } }
 
     [SerializeField]
@@ -34,7 +33,6 @@ public abstract class BasicChar : MonoBehaviour
     public float Str
     {
         get { return strength._value; }
-        set { strength._baseValue = value; }
     }
 
     public CharStats charm;
@@ -42,7 +40,6 @@ public abstract class BasicChar : MonoBehaviour
     public float Charm
     {
         get { return charm._value; }
-        set { charm._baseValue = value; }
     }
 
     public CharStats endurance;
@@ -50,7 +47,6 @@ public abstract class BasicChar : MonoBehaviour
     public float End
     {
         get { return endurance._value; }
-        set { endurance._baseValue = value; }
     }
 
     public CharStats dexterity;
@@ -58,7 +54,6 @@ public abstract class BasicChar : MonoBehaviour
     public float Dex
     {
         get { return dexterity._value; }
-        set { dexterity._baseValue = value; }
     }
 
     public void init(int lvl, float maxhp, float maxwp)
@@ -95,8 +90,56 @@ public abstract class BasicChar : MonoBehaviour
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            while (missing > fromOrgans && false)// have needed organs
+            while (missing > fromOrgans && (dicks.Count > 0||balls.Count > 0))// have needed organs
             {
+                if (balls.Count > 0 || dicks.Count > 0)
+                {
+                    if (BallTotal() <= DickTotal()/2)
+                    {
+                        Dick toShrink =  dicks[dicks.Count - 1];
+                        if (toShrink.Shrink())
+                        {
+                            fromOrgans += 30f;
+                        }else
+                        {
+                            fromOrgans += toShrink.Cost;
+                        }
+                    }else
+                    {
+                        Balls toShrink = balls[balls.Count - 1];
+                        if (toShrink.Shrink())
+                        {
+                            fromOrgans += 30f;
+                        }
+                        else
+                        {
+                            fromOrgans += toShrink.Cost;
+                        }
+                    }
+                }else if (balls.Count > 0)
+                {
+                    Balls toShrink = balls[balls.Count - 1];
+                    if (toShrink.Shrink())
+                    {
+                        fromOrgans += 30f;
+                    }
+                    else
+                    {
+                        fromOrgans += toShrink.Cost;
+                    }
+                }
+                else
+                {
+                    Dick toShrink = dicks[dicks.Count - 1];
+                    if (toShrink.Shrink())
+                    {
+                        fromOrgans += 30f;
+                    }
+                    else
+                    {
+                        fromOrgans += toShrink.Cost;
+                    }
+                }
                 fromOrgans += 1f;
             }
             have += Mathf.Min(fromOrgans, missing);
@@ -192,7 +235,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public float BallCost()
     {
-        float cost = Mathf.Round(30 * Mathf.Pow(4, Balls.Count));
+        float cost = Mathf.Round(30 * Mathf.Pow(4, balls.Count));
         return cost;
     }
 
@@ -339,7 +382,7 @@ public abstract class BasicChar : MonoBehaviour
         {
             if (Masc.Amount > 0)
             {
-                if (BallTotal() * 2 > DickTotal())
+                if (BallTotal() <= DickTotal() / 2)
                 {
                     if (dicks.Exists(d => Masc.Amount >= d.Cost))
                     {

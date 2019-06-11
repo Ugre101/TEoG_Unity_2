@@ -8,15 +8,14 @@ public class playerMain : BasicChar
     private void Start()
     {
         init(1, 100f, 100f);
-        Str = 10;
-        Charm = 10;
-        Dex = 10;
-        End = 10;
-        Str++;
-        Femi.Gain(200f);
-        Masc.Gain(2000f);
-        AddDick();
-        Debug.Log(sett.DicksLook(Dicks));
+        strength._baseValue = 10;
+        charm._baseValue = 10;
+        dexterity._baseValue = 10;
+        endurance._baseValue = 10;
         Quest.AddQuest(Quests.Bandit);
+        Quest.AddQuest(Quests.Bandit);
+        Quest.AddQuest(Quests.Elfs);
+        raceSystem.AddRace(Races.Human, 100);
+
     }
 }
