@@ -4,6 +4,7 @@ public class playerMain : BasicChar
 {
     public Settings sett;
     public QuestsSystem Quest= new QuestsSystem();
+    public VoreEngine Vore;
     // Start is called before the first frame update
     private void Start()
     {
@@ -16,6 +17,6 @@ public class playerMain : BasicChar
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Elfs);
         raceSystem.AddRace(Races.Human, 100);
-
+        Vore = new VoreEngine(this);
     }
 }

@@ -61,6 +61,7 @@ public class GameUI : MonoBehaviour
         existAdd(essence);
         existAdd(levelUp);
         existAdd(looks);
+        Resume();
     }
 
     // Update is called once per frame
