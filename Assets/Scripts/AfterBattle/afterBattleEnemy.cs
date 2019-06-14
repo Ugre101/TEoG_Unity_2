@@ -6,12 +6,15 @@ public class afterBattleEnemy : MonoBehaviour
 {
     public List<BasicChar> _enemies = new List<BasicChar>();
     public playerMain _player;
-    public Slider _mascSlider, _femiSlider;
+    public EnemyMascSlider _mascSlider;
+    public EnemyFemiSlider _femiSlider;
     // essence gameobject
 
     public void AddEnemy(BasicChar enemy)
     {
         _enemies.Add(enemy);
+        _mascSlider.Init(enemy);
+        _femiSlider.Init(enemy);
     }
     private void OnDisable()
     {

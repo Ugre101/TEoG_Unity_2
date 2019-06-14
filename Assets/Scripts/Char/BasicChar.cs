@@ -140,7 +140,6 @@ public abstract class BasicChar : MonoBehaviour
                         fromOrgans += toShrink.Cost;
                     }
                 }
-                fromOrgans += 1f;
             }
             have += Mathf.Min(fromOrgans, missing);
             float left = fromOrgans - missing;

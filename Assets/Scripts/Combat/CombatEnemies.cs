@@ -4,7 +4,8 @@ using UnityEngine;
 public class CombatEnemies : MonoBehaviour
 {
     public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
-    public enemyStatusBars hpSlider, wpSlider;
+    public EnemyHealthSlider hpSlider;
+    public EnemyWillSlider  wpSlider;
     public CombatButtons combatButtons;
 
     public void AddEnemy(EnemyPrefab enemy)

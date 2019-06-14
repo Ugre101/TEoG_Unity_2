@@ -18,5 +18,6 @@ public class playerMain : BasicChar
         Quest.AddQuest(Quests.Elfs);
         raceSystem.AddRace(Races.Human, 100);
         Vore = new VoreEngine(this);
+        firstName = "adofa";
     }
 }
