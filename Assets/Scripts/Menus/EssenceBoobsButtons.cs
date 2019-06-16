@@ -35,7 +35,7 @@ public class EssenceBoobsButtons : MonoBehaviour
         Button AddBtn = AddBoobs.GetComponent<Button>();
         AddBtn.onClick.AddListener(AddFunc);
         AddText = AddBoobs.GetComponentInChildren<TextMeshProUGUI>();
-        AddText.text = $"Add boobs: {player.BoobCost()}Femi";
+        AddText.text = $"Add boobs: {player.Boobs.Cost()}Femi";
         foreach (Boobs b in player.Boobs)
         {
             GameObject pre = Instantiate(prefab, this.transform);
@@ -58,11 +58,11 @@ public class EssenceBoobsButtons : MonoBehaviour
 
     private void AddFunc()
     {
-        if (player.Femi.Amount > player.BoobCost())
+        if (player.Femi.Amount > player.Boobs.Cost())
         {
-            player.Femi.Lose(player.BoobCost());
-            player.AddBoobs();
-            AddText.text = $"Add boobs: {player.BoobCost()}Femi";
+            player.Femi.Lose(player.Boobs.Cost());
+            player.Boobs.AddBoobs();
+            AddText.text = $"Add boobs: {player.Boobs.Cost()}Femi";
         }
     }
 }

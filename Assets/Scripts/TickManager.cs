@@ -3,6 +3,7 @@
 public class TickManager : MonoBehaviour
 {
     public playerMain player;
+    public EventLog eventlog;
     private float _reGainRate;
     private void OnEnable()
     {
@@ -30,5 +31,6 @@ public class TickManager : MonoBehaviour
                 boob.Fluid.ReFill();
             }
         }
+        eventlog.AddTo("tick");
     }
 }

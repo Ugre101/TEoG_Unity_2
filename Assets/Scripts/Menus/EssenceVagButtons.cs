@@ -35,7 +35,7 @@ public class EssenceVagButtons : MonoBehaviour
         Button AddBtn = AddVag.GetComponent<Button>();
         AddBtn.onClick.AddListener(AddFunc);
         AddText = AddVag.GetComponentInChildren<TextMeshProUGUI>();
-        AddText.text = $"Add vagina: {player.VagCost()}Femi";
+        AddText.text = $"Add vagina: {player.Vaginas.Cost()}Femi";
         foreach (Vagina b in player.Vaginas)
         {
             GameObject pre = Instantiate(prefab, this.transform);
@@ -58,11 +58,11 @@ public class EssenceVagButtons : MonoBehaviour
 
     private void AddFunc()
     {
-        if (player.Femi.Amount > player.VagCost())
+        if (player.Femi.Amount > player.Vaginas.Cost())
         {
-            player.Femi.Lose(player.VagCost());
-            player.AddVagina();
-            AddText.text = $"Add vagina: {player.VagCost()}Femi";
+            player.Femi.Lose(player.Vaginas.Cost());
+            player.Vaginas.AddVag();
+            AddText.text = $"Add vagina: {player.Vaginas.Cost()}Femi";
         }
     }
 }

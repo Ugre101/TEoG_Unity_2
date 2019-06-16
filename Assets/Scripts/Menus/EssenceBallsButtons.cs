@@ -35,7 +35,7 @@ public class EssenceBallsButtons : MonoBehaviour
         Button AddBtn = AddBalls.GetComponent<Button>();
         AddBtn.onClick.AddListener(AddFunc);
         AddText = AddBalls.GetComponentInChildren<TextMeshProUGUI>();
-        AddText.text = $"Add balls: {player.BallCost()}";
+        AddText.text = $"Add balls: {player.Balls.Cost()}";
         foreach (Balls b in player.Balls)
         {
             GameObject pre = Instantiate(prefab, this.transform);
@@ -58,11 +58,11 @@ public class EssenceBallsButtons : MonoBehaviour
 
     private void AddFunc()
     {
-        if (player.Masc.Amount > player.BallCost())
+        if (player.Masc.Amount > player.Balls.Cost())
         {
-            player.Masc.Lose(player.BallCost());
-            player.AddBalls();
-            AddText.text = $"Add balls: {player.BallCost()}Masc";
+            player.Masc.Lose(player.Balls.Cost());
+            player.Balls.AddBalls();
+            AddText.text = $"Add balls: {player.Balls.Cost()}Masc";
         }
     }
 }

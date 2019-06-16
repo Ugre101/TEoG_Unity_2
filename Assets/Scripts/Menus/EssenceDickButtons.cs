@@ -35,7 +35,7 @@ public class EssenceDickButtons : MonoBehaviour
         Button AddBtn = AddDick.GetComponent<Button>();
         AddBtn.onClick.AddListener(AddFunc);
         AddText = AddDick.GetComponentInChildren<TextMeshProUGUI>();
-        AddText.text = $"Add dick: {player.DickCost()}";
+        AddText.text = $"Add dick: {player.Dicks.Cost()}";
         foreach (Dick d in player.Dicks)
         {
             GameObject pre = Instantiate(prefab, this.transform);
@@ -58,11 +58,11 @@ public class EssenceDickButtons : MonoBehaviour
 
     private void AddFunc()
     {
-        if (player.Masc.Amount > player.DickCost())
+        if (player.Masc.Amount > player.Dicks.Cost())
         {
-            player.Masc.Lose(player.DickCost());
-            player.AddDick();
-            AddText.text = $"Add dick: {player.DickCost()}";
+            player.Masc.Lose(player.Dicks.Cost());
+            player.Dicks.AddDick();
+            AddText.text = $"Add dick: {player.Dicks.Cost()}";
         }
     }
 }

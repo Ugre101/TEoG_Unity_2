@@ -8,7 +8,7 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
 {
     // Public
     public GameUI gameui;
-
+    public EventLog eventlog;
     public KeyBindings keys;
     // Private
     private TextMeshProUGUI _eventLog;
@@ -20,7 +20,7 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
 
     // Remember that this script handles both small eventlog and big.
     // Start is called before the first frame update.
-    private void Start()
+    private void Awake()
     {
         _eventLog = GetComponentInChildren<TextMeshProUGUI>();
         if (_eventLog != null)
@@ -33,6 +33,11 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
             this.enabled = false;
         }
         _time = Time.time;
+        EventLog.eventText += PrintEventlog;
+    }
+
+    private void OnEnable()
+    {
         PrintEventlog();
     }
 
@@ -62,17 +67,8 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    public void AddToEventLog(string text)
-    {
-        _loggedText.Insert(0, text);
-        PrintEventlog();
-    }
     private void PrintEventlog()
     {
-        _eventLog.text = null;
-        foreach (string t in _loggedText)
-        {
-            _eventLog.text += $"{t}\n";
-        }
+        _eventLog.text = eventlog.Print();
     }
 }

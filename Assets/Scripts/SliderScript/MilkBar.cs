@@ -4,23 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class MilkBar : MonoBehaviour
+public class MilkBar : FluidSliders
 {
-    public playerMain _player;
-    public TextMeshProUGUI _text;
-    public Settings _convert;
-    private Slider _slider;
+
     private void OnEnable()
     {
-        _slider = GetComponent<Slider>();
-        if (_slider == null)
-        {
-            GetComponent<MilkBar>().enabled = false;
-        }
         SexualFluid.fluidSlider += MilkChange;
-        if (_player.Lactating && _player.Boobs.Count > 0)
+        if (player.Lactating && player.Boobs.Count > 0)
         {
-            _player.Boobs[0].Fluid.ManualSlider();
+            player.Boobs[0].Fluid.ManualSlider();
         }
     }
     private void OnDisable()
@@ -29,10 +21,10 @@ public class MilkBar : MonoBehaviour
     }
     private void MilkChange()
     {
-        _slider.value = _player.MilkSlider();
-        if (_text != null)
+        slider.value = player.MilkSlider();
+        if (statusText != null)
         {
-            _text.text = _convert.LorGal(_player.MilkTotal()/1000);
+            statusText.text = convert.LorGal(player.Boobs.MilkTotal()/1000);
         }
     }
 }

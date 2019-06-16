@@ -5,6 +5,7 @@ public class playerMain : BasicChar
     public Settings sett;
     public QuestsSystem Quest= new QuestsSystem();
     public VoreEngine Vore;
+    public EventLog eventlog;
     // Start is called before the first frame update
     private void Start()
     {
@@ -19,5 +20,7 @@ public class playerMain : BasicChar
         raceSystem.AddRace(Races.Human, 100);
         Vore = new VoreEngine(this);
         firstName = "adofa";
+        eventlog.AddTo("hello");
+        eventlog.AddTo("world");
     }
 }

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic;
 public enum OrganType
 {
     Dick,
@@ -32,7 +32,7 @@ public class SexualFluid
     {
         get
         {
-            return _cumRateFlat * _cumRatePer;
+            return _baseRate + (_cumRateFlat * _cumRatePer);
         }
     }
     public SexualFluid(FluidType type)
@@ -56,7 +56,7 @@ public class SexualFluid
     {
         if (Current < Max)
         {
-            _current += _baseRate + CumRate;
+            _current += Mathf.Min(CumRate,Max - Current);
             fluidSlider?.Invoke();
         }
     }
@@ -135,6 +135,39 @@ public class Dick : SexualOrgan
 {
 
 }
+public static class DickExtensions
+{
+    public static float Total(this List<Dick> dicks)
+    {
+        float tot = 0;
+        foreach (Dick d in dicks)
+        {
+            tot += d.Size;
+        }
+        return tot;
+    }
+    public static void AddDick(this List<Dick> dicks)
+    {
+        dicks.Add(new Dick());
+    }
+    public static float Cost(this List<Dick> dicks)
+    {
+        return Mathf.Round(30 * Mathf.Pow(4, dicks.Count));
+    }
+    public static float ReCycle(this List<Dick> dicks)
+    {
+        Dick toShrink = dicks[dicks.Count - 1];
+        toShrink.Shrink();
+        if (toShrink.Size <= 1)
+        {
+            dicks.Remove(toShrink);
+            return 30f;
+        }else
+        {
+            return toShrink.Cost;
+        }
+    }
+}
 
 [System.Serializable]
 public class Balls : SexualOrgan
@@ -160,7 +193,57 @@ public class Balls : SexualOrgan
         return balls;
     }
 }
-
+public static class BallsExtensions
+{
+    public static float Total(this List<Balls> balls)
+    {
+        float tot = 0;
+        foreach (Balls b in balls)
+        {
+            tot += b.Size;
+        }
+        return tot;
+    }
+    public static void AddBalls(this List<Balls> balls)
+    {
+        balls.Add(new Balls());
+    }
+    public static float Cost(this List<Balls> balls)
+    {
+        return Mathf.Round(30 * Mathf.Pow(4, balls.Count));
+    }
+    public static float ReCycle(this List<Balls> balls)
+    {
+        Balls toShrink = balls[balls.Count - 1];
+        toShrink.Shrink();
+        if (toShrink.Size <= 1)
+        {
+            balls.Remove(toShrink);
+            return 30f;
+        }else
+        {
+            return toShrink.Cost;
+        }
+    }
+    public static float CumTotal(this List<Balls> balls)
+    {
+        float tot = 0f;
+        foreach (Balls b in balls)
+        {
+            tot += b.Fluid.Current;
+        }
+        return tot;
+    }
+    public static float CumMax(this List<Balls> balls)
+    {
+        float max = 0f;
+        foreach (Balls b in balls)
+        {
+            max += b.Fluid.Max;
+        }
+        return max;
+    }
+}
 [System.Serializable]
 public class Vagina : SexualOrgan
 {
@@ -170,6 +253,40 @@ public class Vagina : SexualOrgan
         return vagina;
     }
 }
+public static class VaginaExtensions
+{
+    public static float Total(this List<Vagina> vaginas)
+    {
+        float tot = 0;
+        foreach (Vagina v in vaginas)
+        {
+            tot += v.Size;
+        }
+        return tot;
+    }
+    public static void AddVag(this List<Vagina> vaginas)
+    {
+        vaginas.Add(new Vagina());
+    }
+    public static float Cost(this List<Vagina> vaginas)
+    {
+        return Mathf.Round(30 * Mathf.Pow(4, vaginas.Count));
+    }
+    public static float ReCycle(this List<Vagina> vaginas)
+    {
+        Vagina toShrink = vaginas[vaginas.Count - 1];
+        toShrink.Shrink();
+        if (toShrink.Size <= 1)
+        {
+            vaginas.Remove(toShrink);
+            return 30f;
+        }else
+        {
+            return toShrink.Cost;
+        }
+    }
+}
+
 
 [System.Serializable]
 public class Boobs : SexualOrgan
@@ -191,5 +308,56 @@ public class Boobs : SexualOrgan
         string boobs = "";
         boobs += $" {Fluid.Current}";
         return boobs;
+    }
+}
+public static class BoobExtensions
+{
+    public static float Total(this List<Boobs> boobs)
+    {
+        float tot = 0;
+        foreach (Boobs b in boobs)
+        {
+            tot += b.Size;
+        }
+        return tot;
+    }
+    public static void AddBoobs(this List<Boobs> boobs)
+    {
+        boobs.Add(new Boobs());
+    }
+    public static float Cost(this List<Boobs> boobs)
+    {
+        return Mathf.Round(30 * Mathf.Pow(4, boobs.Count));
+    }
+    public static float ReCycle(this List<Boobs> boobs)
+    {
+        Boobs toShrink = boobs[boobs.Count - 1];
+        toShrink.Shrink();
+        if (toShrink.Size <= 1)
+        {
+            boobs.Remove(toShrink);
+            return 30f;
+        }else
+        {
+            return toShrink.Cost;
+        }
+    }
+    public static float MilkTotal(this List<Boobs> boobs)
+    {
+        float tot = 0f;
+        foreach (Boobs b in boobs)
+        {
+            tot += b.Fluid.Current;
+        }
+        return tot;
+    }
+    public static float MilkMax(this List<Boobs> boobs)
+    {
+        float max = 0f;
+        foreach (Boobs b in boobs)
+        {
+            max += b.Fluid.Max;
+        }
+        return max;
     }
 }

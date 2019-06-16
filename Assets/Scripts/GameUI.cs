@@ -38,30 +38,15 @@ public class GameUI : MonoBehaviour
 
     [Space]
     public CombatEnemies CombatEnemies;
-
-    private List<GameObject> _battleList = new List<GameObject>();
-
-    // Menu panels
-    private List<GameObject> _menuList = new List<GameObject>();
-
     private float _eventTime;
-
+    
     private void Start()
     {
-        _battleList.Add(combat);
-        _battleList.Add(sex);
-        _battleList.Add(lose);
-        existAdd(pausemenu);
-        existAdd(savemenu);
-        existAdd(options);
-        existAdd(bigeventlog);
-        existAdd(questMenu);
-        existAdd(inventory);
-        existAdd(vore);
-        existAdd(essence);
-        existAdd(levelUp);
-        existAdd(looks);
         Resume();
+        foreach (Transform child in gameui.transform)
+        {
+            Debug.Log(child.name);
+        }
     }
 
     // Update is called once per frame
@@ -123,18 +108,19 @@ public class GameUI : MonoBehaviour
 
     public void Resume()
     {
-        foreach (GameObject p in _menuList)
+        foreach (Transform child in menus.transform)
         {
-            p.SetActive(false);
+            child.gameObject.SetActive(false);
         }
-        ToggleBigPanel(gameui);
+        //foreach (Transform child in)
+        ToggleBigPanel(BigPanels.GameUI);
         GameIsPaused = false;
         Time.timeScale = 1f;
     }
 
     public void Pause()
     {
-        ToggleBigPanel(menus);
+        ToggleBigPanel(BigPanels.Menus);
         GameIsPaused = true;
         Time.timeScale = 0f;
     }
@@ -162,12 +148,12 @@ public class GameUI : MonoBehaviour
     public void StartCombat(EnemyPrefab enemy)
     {
         Pause();
-        foreach (GameObject p in _battleList)
+        foreach (Transform p in battle.transform)
         {
-            p.SetActive(false);
+            p.gameObject.SetActive(false);
         }
         combat.SetActive(true);
-        ToggleBigPanel(battle);
+        ToggleBigPanel(BigPanels.Battle);
         CombatEnemies.AddEnemy(enemy);
     }
 
@@ -175,24 +161,34 @@ public class GameUI : MonoBehaviour
     {
         Resume();
     }
-
-    private void ToggleBigPanel(GameObject panel)
+    public enum BigPanels
     {
-        gameui.SetActive(false);
-        menus.SetActive(false);
-        battle.SetActive(false);
-        if (panel == gameui)
+        GameUI,
+        Menus,
+        Battle,
+        Buildings
+    }
+    private void ToggleBigPanel(BigPanels panel)
+    {
+        foreach ( Transform bigPanel in this.transform)
         {
-            gameui.SetActive(true);
+            bigPanel.gameObject.SetActive(false);
         }
-        else if (panel == menus)
+        switch (panel)
         {
-            menus.SetActive(true);
+            case BigPanels.Battle:
+                battle.SetActive(true);
+                break;
+            case BigPanels.Buildings:
+                break;
+            case BigPanels.GameUI:
+                gameui.SetActive(true);
+                break;
+            case BigPanels.Menus:
+                menus.SetActive(true);
+                break;
         }
-        else if (panel == battle)
-        {
-            battle.SetActive(true);
-        }
+
     }
 
     private void ResumePause(GameObject toBeActivated)
@@ -208,11 +204,4 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    private void existAdd(GameObject menu)
-    {
-        if (menu != null)
-        {
-            _menuList.Add(menu);
-        }
-    }
 }

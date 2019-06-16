@@ -1,26 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
-public class Fluidsliders : MonoBehaviour
+
+public class FluidSliders : MonoBehaviour
 {
-    public playerMain _player;
-    public GameObject cBar, mBar;
-    private void OnEnable()
+    public playerMain player;
+    public TextMeshProUGUI statusText;
+    public Settings convert;
+    protected Slider slider;
+    
+    private void Awake()
     {
-        if (_player.BallTotal() <= 0)
+        slider = GetComponent<Slider>();
+        if (slider == null)
         {
-            cBar.SetActive(false);
-        }else
-        {
-            cBar.SetActive(true);
-        }
-        if (_player.Lactating)
-        {
-            mBar.SetActive(true);
-        }else
-        {
-            mBar.SetActive(false);
+            GetComponent<FluidSliders>().enabled = false;
         }
     }
 }
