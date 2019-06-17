@@ -5,7 +5,8 @@ public abstract class BasicChar : MonoBehaviour
 {
     public RaceSystem raceSystem = new RaceSystem();
 
-    public float weight;
+    public float weight = 60f;
+    public float height = 160f;
     public string firstName, lastName;
     public string FullName { get { return $"{firstName} {lastName}"; } }
 
@@ -75,7 +76,7 @@ public abstract class BasicChar : MonoBehaviour
     }
 
     [SerializeField]
-    private Essence masc, femi;
+    private Essence masc = new Essence(), femi = new Essence();
 
     public Essence Masc { get { return masc; } }
     public Essence Femi { get { return femi; } }

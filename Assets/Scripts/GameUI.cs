@@ -39,17 +39,7 @@ public class GameUI : MonoBehaviour
     [Space]
     public CombatEnemies CombatEnemies;
     private float _eventTime;
-    
-    private void Start()
-    {
-        Resume();
-        foreach (Transform child in gameui.transform)
-        {
-            Debug.Log(child.name);
-        }
-    }
-
-    // Update is called once per frame
+ 
     private void Update()
     {
         // if in menus or main game(not combat)

@@ -6,16 +6,16 @@ public class EnemyPrefab : BasicChar
     public Reward reward;
     [SerializeField]
     [Range(0, 100)]
-    private int assingStr;
+    private int assingStr = 0;
     [SerializeField]
     [Range(0, 100)]
-    private int assingCharm;
+    private int assingCharm = 0;
     [SerializeField]
     [Range(0, 100)]
-    private int assingEnd;
+    private int assingEnd = 0;
     [SerializeField]
     [Range(0, 100)]
-    private int assingDex;
+    private int assingDex = 0;
     private void Start()
     {
         strength._baseValue = (int)Mathf.Floor((float)assingStr * Random.Range(0.5f, 1.5f));

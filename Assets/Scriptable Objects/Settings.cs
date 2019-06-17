@@ -10,7 +10,7 @@ public enum Genders
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "Settings", menuName = "Tools")]
-public class Settings : ScriptableObject//Bad name
+public class Settings : ScriptableObject//Bad name?
 {
     [SerializeField]
     private bool Imperial = false;

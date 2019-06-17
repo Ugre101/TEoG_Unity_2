@@ -12,12 +12,6 @@ public class OptionButtons : MonoBehaviour
     private bool pixelToggle = false;
     private TextMeshProUGUI pixelText;
 
-    [Header("Vore")]
-    public Button voreButton;
-
-    private bool voreToggle;
-    private TextMeshProUGUI voreText;
-
     [Header("Imperial")]
     public Button impButton;
 
@@ -40,20 +34,6 @@ public class OptionButtons : MonoBehaviour
             if (pixelText != null)
             {
                 pixelText.text = $"Pixelperfect: {pixelToggle}";
-            }
-        }
-        // VoreButton
-        if (PlayerPrefs.HasKey("voreToggle"))
-        {
-            voreToggle = PlayerPrefs.GetInt("voreToggle") == 1 ? true : false;
-        }
-        if (voreButton != null)
-        {
-            voreButton.onClick.AddListener(ToggleVore);
-            voreText = voreButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (voreText != null)
-            {
-                voreText.text = $"Vore: {voreToggle}";
             }
         }
         // Imperial units
@@ -82,17 +62,6 @@ public class OptionButtons : MonoBehaviour
             pixelText.text = $"Pixelperfect: {pixelToggle}";
         }
     }
-
-    private void ToggleVore()
-    {
-        voreToggle = voreToggle ? false : true;
-        PlayerPrefs.SetInt("voreToggle", voreToggle ? 1 : 0);
-        if (voreText != null)
-        {
-            voreText.text = $"Vore: {voreToggle}";
-        }
-    }
-
     private void ToggleImp()
     {
         impToggle = settings.ToogleImp();

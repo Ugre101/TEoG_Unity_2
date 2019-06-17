@@ -21,7 +21,6 @@ public class LoadButtonStart : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
         _mainPath = Application.persistentDataPath + "/Game_Save/";
         if (!Directory.Exists(_mainPath))
         {
@@ -36,6 +35,14 @@ public class LoadButtonStart : MonoBehaviour
         _text = _textList[0];
         _load.onClick.AddListener(LoadGame);
         _del.onClick.AddListener(DeleteSave);
+    }
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     public void LoadGame()
     {
