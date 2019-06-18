@@ -4,11 +4,19 @@ using UnityEngine;
 public abstract class BasicChar : MonoBehaviour
 {
     public RaceSystem raceSystem = new RaceSystem();
-
+    public Looks Looks;
+    public VoreEngine Vore;
     public float weight = 60f;
     public float height = 160f;
     public string firstName, lastName;
     public string FullName { get { return $"{firstName} {lastName}"; } }
+
+    public virtual void Awake()
+    {
+        Looks = new Looks(this);
+        Vore = new VoreEngine(this);
+
+    }
 
     [SerializeField]
     private Health hp, wp;
@@ -28,34 +36,10 @@ public abstract class BasicChar : MonoBehaviour
 
     [SerializeField]
     public Perks Perk = new Perks();
-
     public CharStats strength;
-
-    public float Str
-    {
-        get { return strength._value; }
-    }
-
     public CharStats charm;
-
-    public float Charm
-    {
-        get { return charm._value; }
-    }
-
     public CharStats endurance;
-
-    public float End
-    {
-        get { return endurance._value; }
-    }
-
     public CharStats dexterity;
-
-    public float Dex
-    {
-        get { return dexterity._value; }
-    }
 
     public void init(int lvl, float maxhp, float maxwp)
     {

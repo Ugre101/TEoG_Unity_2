@@ -4,10 +4,9 @@ public class playerMain : BasicChar
 {
     public Settings sett;
     public QuestsSystem Quest= new QuestsSystem();
-    public VoreEngine Vore;
     public EventLog eventlog;
     // Start is called before the first frame update
-    private void Start()
+    public void Start()
     {
         init(1, 100f, 100f);
         strength._baseValue = 10;
@@ -18,7 +17,6 @@ public class playerMain : BasicChar
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Elfs);
         raceSystem.AddRace(Races.Human, 100);
-        Vore = new VoreEngine(this);
         firstName = "adofa";
         eventlog.AddTo("hello");
         eventlog.AddTo("world");

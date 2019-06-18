@@ -1,4 +1,4 @@
-﻿using TMPro;
+﻿ using TMPro;
 using UnityEngine;
 using System;
 
@@ -17,8 +17,8 @@ public class LooksMenu : MonoBehaviour
             GetComponent<LooksMenu>().enabled = false;
         }
         _intro = $"{_player.FullName}";
-        _organs = $"{_sett.DicksLook(_player.Dicks)}";
-        _stats = $"{_player.Str}";
+        _organs = _player.Looks.Organs;
+        _stats = $"{_player.strength.Value}";
         if (_looksIntro != null)
         {
             _looksIntro.text =  string.Format ("{1}{0}{2}{0}{3}",Environment.NewLine + Environment.NewLine, _intro,_organs,_stats);

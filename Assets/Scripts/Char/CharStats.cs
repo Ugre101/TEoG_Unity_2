@@ -13,14 +13,14 @@ public enum StatType
 [Serializable]
 public class CharStats
 {
-    public float _baseValue;
+    public int _baseValue;
 
     protected float _lastBaseValue;
     protected float _currValue;
 
     protected bool _isDirty = true;
 
-    public virtual float _value
+    public virtual float Value
     {
         get
         {
@@ -44,7 +44,7 @@ public class CharStats
         _StatMods = _statMods.AsReadOnly();
     }
 
-    public CharStats(float baseValue = 0) : this()
+    public CharStats(int baseValue) : this()
     {
         _baseValue = baseValue;
     }

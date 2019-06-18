@@ -54,40 +54,39 @@ public class Settings : ScriptableObject//Bad name?
         }
     }
 
-    public string DickLook(Dick d)
+    public string KgorP(float kg)
     {
-        return $"a {MorInch(d.Size)} long dick";
-    }
-
-    public string DicksLook(List<Dick> dicks)
-    {
-        string dLooks = "";
-        for (int i = 0; i < dicks.Count; i++)
+        string toReturn = "";
+        if (Imperial)
         {
-            Dick d = dicks[i];
-            if (i == 0)
+            // int stone = Mathf.FloorToInt(kg * 0.15747304441777f); // when to use stone?
+            float pound = kg * 2.20462262f;
+            float ounce = kg * 35.27396194958f;
+            toReturn += pound < 1 ? $"{ounce}ounce" : $"{pound}pound";
+        }
+        else
+        {
+            if (kg > 1000)
             {
-                dLooks += $"A {MorInch(d.Size)} long dick";
+                int tonne = Mathf.FloorToInt(kg / 1000);
+                toReturn += tonne + "tonne";
+                int left = Mathf.FloorToInt(kg - tonne * 1000);
+                if (left > 99)
+                {
+                    toReturn += $" and {left}kg";
+                }
             }
-            else
+            else if (kg > 1)
             {
-                dLooks += $"a {MorInch(d.Size)} long dick";
-            }
-            if (i == dicks.Count - 1)
+                toReturn += Mathf.FloorToInt(kg) + "kg";
+            }else
             {
-                dLooks += ".";
-            }
-            else if (i == dicks.Count - 2)
-            {
-                dLooks += " and ";
-            }
-            else
-            {
-                dLooks += ", ";
+                toReturn += Mathf.Ceil(kg * 1000) + "g";
             }
         }
-        return dLooks;
+        return toReturn;
     }
+ 
 
     public Genders CheckGender(BasicChar who)
     {

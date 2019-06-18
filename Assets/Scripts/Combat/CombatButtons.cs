@@ -52,7 +52,7 @@ public class CombatButtons : MonoBehaviour
 
     public void BasicAttack()
     {
-        float dmg = attackMulti(player.Str);
+        float dmg = attackMulti(player.strength.Value);
         string text = $"You dealth {dmg}dmg to her/him";
         _EnemyTeamAttacks += text + "\n";
         TurnManager();
@@ -65,7 +65,7 @@ public class CombatButtons : MonoBehaviour
 
     public void EnemyAI(BasicChar Enemy)
     {
-        float str = Enemy.Str, charm = Enemy.Charm;
+        float str = Enemy.strength.Value, charm = Enemy.charm.Value;
         float dmg = attackMulti(charm < str ? str : charm);
         var strAttack = new List<string> { "Hits you", "Kicks you",
         "Grapples you down to the ground"};
