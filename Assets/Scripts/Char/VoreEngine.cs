@@ -4,16 +4,17 @@ using UnityEngine;
 [System.Serializable]
 public class VoreEngine
 {
-    public EventLog eventLog;
+    private EventLog eventLog;
+    private BasicChar Pred;
     public bool Active = false;
-    public BasicChar Pred;
     public VoreBalls Balls;
     public VoreBoobs Boobs;
     public VoreStomach Stomach;
     public VoreAnal Anal;
 
-    public VoreEngine(BasicChar pred)
+    public VoreEngine(EventLog log, BasicChar pred)
     {
+        eventLog = log;
         Pred = pred;
         Balls = new VoreBalls(pred);
         Boobs = new VoreBoobs(pred);
@@ -83,13 +84,13 @@ public class ThePrey
     public ThePrey(BasicChar whom)
     {
         prey = whom;
-        startWeight = whom.weight;
+        startWeight = whom.Weight;
     }
 
     public float Digest(float toDigest)
     {
-        float fatGain = Mathf.Min(toDigest, prey.weight);
-        prey.weight -= toDigest;
+        float fatGain = Mathf.Min(toDigest, prey.Weight);
+        prey.Weight -= toDigest;
         return fatGain;
     }
 }
@@ -112,14 +113,14 @@ public class VoreBasic
         float cur = 0;
         foreach (ThePrey p in preys)
         {
-            cur += p.Prey.weight;
+            cur += p.Prey.Weight;
         }
         return cur;
     }
 
     public virtual bool Vore(BasicChar p)
     {
-        if (Current() + p.weight <= Cap())
+        if (Current() + p.Weight <= Cap())
         {
             preys.Add(new ThePrey(p));
             return true;
@@ -135,8 +136,8 @@ public class VoreBasic
         List<ThePrey> Digested = new List<ThePrey>();
         foreach (ThePrey prey in Preys)
         {
-            Pred.weight += prey.Digest(1f);
-            if (prey.Prey.weight <= 0)
+            Pred.Weight += prey.Digest(1f);
+            if (prey.Prey.Weight <= 0)
             {
                 Digested.Add(prey);
             }

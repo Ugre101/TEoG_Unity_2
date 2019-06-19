@@ -3,27 +3,42 @@ using UnityEngine;
 
 public abstract class BasicChar : MonoBehaviour
 {
+    [Header("Scriptable objects")]
+    public Settings settings;
+
+    public EventLog eventLog;
+
+    [Space]
+    public string firstName, lastName;
+
+    public string FullName { get { return $"{firstName} {lastName}"; } }
     public RaceSystem raceSystem = new RaceSystem();
+    public string Race { get { return raceSystem.CurrentRace().ToString(); } }
+
     public Looks Looks;
     public VoreEngine Vore;
-    public float weight = 60f;
-    public float height = 160f;
-    public string firstName, lastName;
-    public string FullName { get { return $"{firstName} {lastName}"; } }
+    public Age Age;
+    public Body Body;
+    public float Weight { get { return Body.weight.Value; } set { Body.weight.Value = value; } }
 
     public virtual void Awake()
     {
-        Looks = new Looks(this);
-        Vore = new VoreEngine(this);
-
+        Looks = new Looks(settings, this);
+        Vore = new VoreEngine(eventLog, this);
+        Age = new Age();
     }
 
+    [Header("Health stats")]
     [SerializeField]
-    private Health hp, wp;
+    private Health hp;
+
+    [SerializeField]
+    private Health wp;
 
     public Health HP { get { return hp; } }
     public Health WP { get { return wp; } }
 
+    [Header("Level,exp, stats & perks")]
     [SerializeField]
     public ExpSystem expSystem = new ExpSystem();
 
@@ -36,6 +51,8 @@ public abstract class BasicChar : MonoBehaviour
 
     [SerializeField]
     public Perks Perk = new Perks();
+
+    [Header("Stats")]
     public CharStats strength;
     public CharStats charm;
     public CharStats endurance;
@@ -47,7 +64,7 @@ public abstract class BasicChar : MonoBehaviour
         wp = new Health(maxwp);
         expSystem.Level = lvl;
     }
-
+    [Header("Essence")]
     [SerializeField]
     private bool autoEss = true;
 
@@ -60,7 +77,9 @@ public abstract class BasicChar : MonoBehaviour
     }
 
     [SerializeField]
-    private Essence masc = new Essence(), femi = new Essence();
+    private Essence masc = new Essence();
+    [SerializeField]
+    private Essence femi = new Essence();
 
     public Essence Masc { get { return masc; } }
     public Essence Femi { get { return femi; } }
@@ -75,18 +94,20 @@ public abstract class BasicChar : MonoBehaviour
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            while (missing > fromOrgans && (dicks.Count > 0||balls.Count > 0))// have needed organs
+            while (missing > fromOrgans && (dicks.Count > 0 || balls.Count > 0))// have needed organs
             {
                 if (balls.Count > 0 && dicks.Count > 0)
                 {
-                    if (Dicks.Total() >= Balls.Total() * 2f +1f)
+                    if (Dicks.Total() >= Balls.Total() * 2f + 1f)
                     {
                         fromOrgans += Dicks.ReCycle();
-                    }else
+                    }
+                    else
                     {
                         fromOrgans += Balls.ReCycle();
                     }
-                }else if (balls.Count > 0)
+                }
+                else if (balls.Count > 0)
                 {
                     fromOrgans += Balls.ReCycle();
                 }
@@ -118,7 +139,7 @@ public abstract class BasicChar : MonoBehaviour
                 {
                     if (Boobs.Total() >= Vaginas.Total() * 2f + 1f)
                     {
-                       fromOrgans += Boobs.ReCycle();
+                        fromOrgans += Boobs.ReCycle();
                     }
                     else
                     {
@@ -143,7 +164,7 @@ public abstract class BasicChar : MonoBehaviour
         }
         return have;
     }
-
+    [Space]
     [SerializeField]
     private float gold = 0;
 
@@ -155,18 +176,20 @@ public abstract class BasicChar : MonoBehaviour
             gold += Mathf.Clamp(value, -gold, Mathf.Infinity);
         }
     }
+
     public bool CanAfford(int cost)
     {
         if (cost <= Gold)
         {
             Gold -= cost;
             return true;
-        }else
+        }
+        else
         {
             return false;
         }
     }
-
+    [Header("Organs")]
     [SerializeField]
     private List<Dick> dicks = new List<Dick>();
 
@@ -308,7 +331,7 @@ public abstract class BasicChar : MonoBehaviour
                     else if (Femi.Amount >= Vaginas.Cost())
                     {
                         Femi.Lose(Vaginas.Cost());
-                       Vaginas.AddVag();
+                        Vaginas.AddVag();
                     }
                 }
             }

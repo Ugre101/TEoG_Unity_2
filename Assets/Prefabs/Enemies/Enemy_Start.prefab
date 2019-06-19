@@ -143,10 +143,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   raceSystem:
     raceList: []
-  Looks:
-    settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
-  weight: 0
-  height: 160
+  settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
+  Vore:
+    eventLog: {fileID: 0}
+    Active: 0
+    Pred: {fileID: 0}
+  Body:
+    height:
+      Value: 0
+    weight:
+      Value: 0
+    fat:
+      Value: 0
+    muscle:
+      Value: 0
   firstName: 
   lastName: 
   hp:
@@ -184,7 +194,11 @@ MonoBehaviour:
   reward:
     _expReward: 0
     _goldReward: 0
-  assingStr: 10
+  assingStr: 11
   assingCharm: 2
   assingEnd: 6
   assingDex: 5
+  assingHeight: 160
+  assingWeight: 60
+  assingFat: 10
+  assingMuscle: 20

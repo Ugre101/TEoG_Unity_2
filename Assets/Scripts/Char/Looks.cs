@@ -1,26 +1,36 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
+
 [System.Serializable]
-public class Looks 
+public class Looks
 {
-    public Looks(BasicChar whom) { who = whom; }
-    public Settings settings;
-    private BasicChar who;
+    public Looks(Settings set, BasicChar whom)
+    {
+        settings = set;
+        who = whom;
+    }
+    protected Settings settings;
+    protected BasicChar who;
     private string newLine = Environment.NewLine;
+    private string Height { get { return settings.MorInch(who.Weight); } }
+    private string Weight { get { return settings.KgorP(who.Weight); } }
+    private string Name { get { return who.FullName; } }
+    private string Race { get { return who.raceSystem.CurrentRace(); } }
+    private string Gender { get { return settings.GetGender(who); } }
+    private string Age { get { return $"{who.Age.AgeYears}years old"; } }
 
     public string Summary
     {
         get
         {
-            string name = $"{who.FullName}";
-            string weight = $"{settings.KgorP(who.weight)}";
-            string height = $"{settings.MorInch(who.height)}";
-            string look = $"{who.FullName}"; 
-            return look;
+            string title = Name;
+            string desc = $"A {Height} tall {Race} {Gender}";
+            string stats = Age + newLine + $"Weight: {Weight}" + newLine + $"Height: {Height}";
+            return title + newLine + newLine + desc + newLine + stats;
         }
     }
+
     public string Organs
     {
         get
@@ -30,6 +40,7 @@ public class Looks
             return dicks;
         }
     }
+
     public string DickLook(Dick d)
     {
         return $"a {settings.MorInch(d.Size)} long dick";
@@ -65,72 +76,94 @@ public class Looks
         }
         return dLooks;
     }
+
     public string BallLook(Balls b)
     {
         return $"a pair of {settings.MorInch(b.Size)} wide balls";
     }
+
     public string BallsLook()
     {
         List<Balls> balls = who.Balls;
         string bLooks = "";
-        for ( int i = 0; i < balls.Count; i++)
+        for (int i = 0; i < balls.Count; i++)
         {
             if (i == 0)
             {
-
-            }else
+                bLooks += $"";
+            }
+            else
             {
-
+                bLooks += $"";
             }
             if (i == balls.Count - 1)
             {
-
-            }else if (i == balls.Count - 2)
-            {
-
-            }else
-            {
-
+                bLooks += $"";
             }
-        } 
+            else if (i == balls.Count - 2)
+            {
+                bLooks += $"";
+            }
+            else
+            {
+                bLooks += $"";
+            }
+        }
         return bLooks;
     }
+
     public string BoobLook(Boobs b)
     {
-        return $"";
+        return $"An {BoobSizeConvertor(b.Size)} chest.";
     }
+
     public string BoobsLook(List<Boobs> boobs)
     {
         string bLooks = "";
         for (int i = 0; i < boobs.Count; i++)
         {
+            Boobs b = boobs[i];
             if (i == 0)
             {
-
+                bLooks += $"An {BoobSizeConvertor(b.Size)} chest";
             }
             else
             {
-
+                bLooks += $"{BoobSizeConvertor(b.Size)} chest";
             }
             if (i == boobs.Count - 1)
             {
-
+                bLooks += $".";
             }
             else if (i == boobs.Count - 2)
             {
-
+                bLooks += $" and ";
             }
             else
             {
-
+                bLooks += $",";
             }
         }
         return bLooks;
     }
+
+    public string BoobSizeConvertor(float size)
+    {
+        List<string> Bra = new List<string>
+        {
+            "flat","AA","A","B","C","D","DD", "Large F", "G", "Large G","H", "Large H","I", "Large I","J","Large J",
+            "K","Large K","L","Large L","M","Large M","N","Large N","O","Large O","scale-breaking"
+        };
+        int i = Mathf.Clamp(Mathf.FloorToInt(size / 2), 0, Bra.Count - 1);
+        string prefix = i > 0 ? i == Bra.Count -1 ? "" : "" : "";
+        return Bra[i] + prefix;
+    }
+
     public string VagLook(Vagina vag)
     {
         return $"";
     }
+
     public string VagsLook(List<Vagina> vaginas)
     {
         string vLooks = "";
@@ -138,20 +171,23 @@ public class Looks
         {
             if (i == 0)
             {
-
-            }else
-            {
-
+                vLooks += $"";
             }
-            if (i == vaginas.Count -1)
+            else
             {
-
-            }else if (i == vaginas.Count - 2)
+                vLooks += $"";
+            }
+            if (i == vaginas.Count - 1)
             {
-
-            }else
+                vLooks += $"";
+            }
+            else if (i == vaginas.Count - 2)
             {
-
+                vLooks += $"";
+            }
+            else
+            {
+                vLooks += $"";
             }
         }
         return vLooks;

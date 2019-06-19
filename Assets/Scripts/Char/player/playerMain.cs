@@ -2,9 +2,9 @@
 
 public class playerMain : BasicChar
 {
-    public Settings sett;
+   // public Settings sett;
+   [Space]
     public QuestsSystem Quest= new QuestsSystem();
-    public EventLog eventlog;
     // Start is called before the first frame update
     public void Start()
     {
@@ -18,7 +18,6 @@ public class playerMain : BasicChar
         Quest.AddQuest(Quests.Elfs);
         raceSystem.AddRace(Races.Human, 100);
         firstName = "adofa";
-        eventlog.AddTo("hello");
-        eventlog.AddTo("world");
+        Body = new Body(160, 60, 10, 20);
     }
 }

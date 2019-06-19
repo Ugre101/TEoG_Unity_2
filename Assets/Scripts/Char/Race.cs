@@ -26,12 +26,18 @@ public class RaceSystem
             raceList.Add(new Race(race, amount));
         }
     }
-    public Races CurrentRace()
+    public string CurrentRace()
+    {
+        string race = FirstRace().ToString();
+        // import & improve old race system from javascript version
+        return race;
+    }
+    public Races FirstRace()
     {
         CleanRaces();
         return raceList[0].Amount >= 100 ? raceList[0].Name : Races.Humanoid;
     }
-    public Races CurrentSecondRace()
+    public Races SecondRace()
     {
         CleanRaces();
         return raceList[1].Amount >= 50 ? raceList[1].Name : raceList[0].Amount >= 50 ? raceList[0].Name : Races.Humanoid ;

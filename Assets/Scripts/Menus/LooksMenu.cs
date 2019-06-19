@@ -7,7 +7,6 @@ public class LooksMenu : MonoBehaviour
     public TextMeshProUGUI _looksIntro;
     public playerMain _player;
     public Settings _sett;
-    private string _intro, _organs, _stats;
 
     private void OnEnable()
     {
@@ -16,12 +15,9 @@ public class LooksMenu : MonoBehaviour
         {
             GetComponent<LooksMenu>().enabled = false;
         }
-        _intro = $"{_player.FullName}";
-        _organs = _player.Looks.Organs;
-        _stats = $"{_player.strength.Value}";
         if (_looksIntro != null)
         {
-            _looksIntro.text =  string.Format ("{1}{0}{2}{0}{3}",Environment.NewLine + Environment.NewLine, _intro,_organs,_stats);
+            _looksIntro.text = _player.Looks.Summary;
         }
     }
 }
