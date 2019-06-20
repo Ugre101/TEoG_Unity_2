@@ -61,11 +61,7 @@ public class Looks
             {
                 dLooks += $"a {size} long dick";
             }
-            if (i == dicks.Count - 1)
-            {
-                dLooks += ".";
-            }
-            else if (i == dicks.Count - 2)
+             if (i == dicks.Count - 2)
             {
                 dLooks += " and ";
             }
@@ -74,7 +70,7 @@ public class Looks
                 dLooks += ", ";
             }
         }
-        return dLooks;
+        return dLooks + ".";
     }
 
     public string BallLook(Balls b)
@@ -96,25 +92,21 @@ public class Looks
             {
                 bLooks += $"";
             }
-            if (i == balls.Count - 1)
+             if (i == balls.Count - 2)
             {
-                bLooks += $"";
-            }
-            else if (i == balls.Count - 2)
-            {
-                bLooks += $"";
+                bLooks += $" and ";
             }
             else
             {
-                bLooks += $"";
+                bLooks += $", ";
             }
         }
-        return bLooks;
+        return bLooks + ".";
     }
 
     public string BoobLook(Boobs b)
     {
-        return $"An {BoobSizeConvertor(b.Size)} chest.";
+        return $"an {BoobSizeConvertor(b.Size)} chest";
     }
 
     public string BoobsLook(List<Boobs> boobs)
@@ -131,20 +123,16 @@ public class Looks
             {
                 bLooks += $"{BoobSizeConvertor(b.Size)} chest";
             }
-            if (i == boobs.Count - 1)
-            {
-                bLooks += $".";
-            }
-            else if (i == boobs.Count - 2)
+            if (i == boobs.Count - 2)
             {
                 bLooks += $" and ";
             }
             else
             {
-                bLooks += $",";
+                bLooks += $", ";
             }
         }
-        return bLooks;
+        return bLooks + ".";
     }
 
     public string BoobSizeConvertor(float size)
@@ -155,13 +143,23 @@ public class Looks
             "K","Large K","L","Large L","M","Large M","N","Large N","O","Large O","scale-breaking"
         };
         int i = Mathf.Clamp(Mathf.FloorToInt(size / 2), 0, Bra.Count - 1);
-        string prefix = i > 0 ? i == Bra.Count -1 ? "" : "" : "";
-        return Bra[i] + prefix;
+      
+        string prefix()
+        {
+            if (i == Bra.Count -1 ||  i < 2)
+            {
+                return "";
+            }else
+            {
+                return "-cup";
+            }
+        };
+        return Bra[i] + prefix();
     }
 
     public string VagLook(Vagina vag)
     {
-        return $"";
+        return $"a {vag.Size} deep vagina";
     }
 
     public string VagsLook(List<Vagina> vaginas)
@@ -169,27 +167,24 @@ public class Looks
         string vLooks = "";
         for (int i = 0; i < vaginas.Count; i++)
         {
+            Vagina v = vaginas[i];
             if (i == 0)
             {
-                vLooks += $"";
+                vLooks += $"A {v.Size} deep vagina";
             }
             else
             {
-                vLooks += $"";
+                vLooks += $"{v.Size} deep vagina";
             }
-            if (i == vaginas.Count - 1)
+            if (i == vaginas.Count - 2)
             {
-                vLooks += $"";
-            }
-            else if (i == vaginas.Count - 2)
-            {
-                vLooks += $"";
+                vLooks += $" and ";
             }
             else
             {
-                vLooks += $"";
+                vLooks += $", ";
             }
         }
-        return vLooks;
+        return vLooks + ".";
     }
 }
