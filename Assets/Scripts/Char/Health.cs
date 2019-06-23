@@ -26,6 +26,10 @@ public class Health
         _current += Mathf.Clamp(gain, 0, _max - _current);
         updateSlider?.Invoke();
     }
+    public void FullGain()
+    {
+        _current = _max;
+    }
     public float Slider()
     {
         return _current / _max;
