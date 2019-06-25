@@ -77,7 +77,7 @@ public class BanditQuest : Quest
     {
         title = "Bandit lord";
         goalCount = 1;
-        desc = "Beat banditlord";
+        desc = new QuestDesc(Quests.Bandit).Desc;
         type = Quests.Bandit;
     }
 }
@@ -88,9 +88,27 @@ public class ElfQuest : Quest
     {
         title = "Elf hunt";
         goalCount = 3;
-        desc = "Beat elfs";
+        desc = new QuestDesc(Quests.Elfs).Desc;
         hasTiers = true;
         tierStep = 3;
         type = Quests.Elfs;
+    }
+}
+
+public class QuestDesc
+{
+    private string desc;
+    public string Desc { get { return desc; } }
+    public QuestDesc(Quests which)
+    {
+        switch (which)
+        {
+            case Quests.Bandit:
+                desc = "Bandit";
+                break;
+            case Quests.Elfs:
+                desc = "Elf hunt";
+                break;
+        }
     }
 }
