@@ -192,6 +192,9 @@ public abstract class BasicChar : MonoBehaviour
             return false;
         }
     }
+
+    public Flags Flags;
+
     [Header("Organs")]
     [SerializeField]
     private List<Dick> dicks = new List<Dick>();

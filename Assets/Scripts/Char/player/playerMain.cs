@@ -5,6 +5,7 @@ public class playerMain : BasicChar
    // public Settings sett;
    [Space]
     public QuestsSystem Quest= new QuestsSystem();
+    public PlayerFlags PlayerFlags = new PlayerFlags();
     // Start is called before the first frame update
     public void Start()
     {
