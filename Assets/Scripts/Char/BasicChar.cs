@@ -12,6 +12,8 @@ public abstract class BasicChar : MonoBehaviour
     public string firstName, lastName;
 
     public string FullName { get { return $"{firstName} {lastName}"; } }
+
+    public Inventory Inventory;
     public RaceSystem raceSystem = new RaceSystem();
     public string Race { get { return raceSystem.CurrentRace().ToString(); } }
 
@@ -26,6 +28,7 @@ public abstract class BasicChar : MonoBehaviour
         Looks = new Looks(settings, this);
         Vore = new VoreEngine(eventLog, this);
         Age = new Age();
+        Inventory = new Inventory(this);
     }
 
     [Header("Health stats")]
