@@ -18,7 +18,6 @@ public class Inventory
     }
     public void AddItem(Item toAdd)
     {
-        toAdd.User = Owner;
         if (Items.Exists(i => i.Name == toAdd.Name))
         {
             Items.Find(i => i.Name == toAdd.Name).Amount++;
@@ -27,8 +26,5 @@ public class Inventory
             Items.Add(toAdd);
         }
     }
-    public void AddConsumable(Consumables which)
-    {
 
-    }
 }

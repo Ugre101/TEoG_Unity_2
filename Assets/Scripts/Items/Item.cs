@@ -2,25 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Consumables
+public enum ItemTypes
 {
-    Testpotion,
-    Ale,
-    Cum,
-    Milk,
+    Consumables,
+    Misc
 }
 [System.Serializable]
 public class Item
 {
-    public BasicChar User;
     public int Amount = 1;
+    [SerializeField]
+    protected ItemTypes type;
+    public ItemTypes Type { get { return type; } }
     [SerializeField]
     protected string name = string.Empty;
     public string Name { get { return name; } }
-
-    public virtual bool Use(int toUse = 1)
+    protected string useName = "Use";
+    public string UseName { get { return useName; } }
+    public virtual bool Use(BasicChar user)
     {
-        Amount -= toUse;
+        Amount--;
         return Amount > 0;
     }
 
@@ -29,23 +30,50 @@ public class Item
         Amount -= toRemove;
         return Amount > 0;
     }
-
-
 }
-public class TestPotion : Item
-{ 
-    public TestPotion() { name = "Test potion"; }
-    public override bool Use(int toUse = 1)
+public class Drinks : Item
+{
+    public Drinks()
     {
-        Debug.Log("test potion");
-        return base.Use(toUse);
+        useName = "Drink";
+        type = ItemTypes.Consumables;
+    }
+}
+public class Edibles : Item
+{
+    public Edibles()
+    {
+        useName = "Eat";
+        type = ItemTypes.Consumables;
+    }
+}
+public class Misc : Item
+{
+    public Misc()
+    {
+        useName = "Use";
+        type = ItemTypes.Misc;
+    }
+}
+
+// In game items
+public class TestPotion : Drinks
+{ 
+    public TestPotion()
+    {
+        name = "Test potion";
+    }
+    public override bool Use(BasicChar user)
+    {
+        Debug.Log("Test potion");
+        return base.Use(user);
     }
 }
 public class Ale : Item
 {
-    public override bool Use(int toUse = 1)
+    public override bool Use(BasicChar user)
     {
         Debug.Log("hehe you feel good");
-        return base.Use(toUse);
+        return base.Use(user);
     }
 }
