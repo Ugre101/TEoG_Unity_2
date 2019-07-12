@@ -9,7 +9,7 @@ public class InventoryHandler : MonoBehaviour
 {
     public GameObject ItemPrefab;
     public playerMain player;
-
+    public GameObject ItemContainer;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,6 +22,17 @@ public class InventoryHandler : MonoBehaviour
         
     }
 
+    private void OnEnable()
+    {
+        foreach(Transform child in ItemContainer.transform)
+        {
+            Destroy(child.transform.gameObject);
+        }
+        foreach(Item item in player.Inventory.Items)
+        {
+            Instantiate(TheItem(item), ItemContainer.transform);
+        }
+    }
     private GameObject TheItem(Item item)
     {
         GameObject ItemObject = ItemPrefab;
