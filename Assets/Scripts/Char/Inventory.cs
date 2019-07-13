@@ -18,9 +18,9 @@ public class Inventory
     }
     public void AddItem(Item toAdd)
     {
-        if (Items.Exists(i => i.Name == toAdd.Name))
+        if (Items.Exists(i => i.Title == toAdd.Title))
         {
-            Items.Find(i => i.Name == toAdd.Name).Amount++;
+            Items.Find(i => i.Title == toAdd.Title).Amount++;
         }else
         {
             Items.Add(toAdd);

@@ -21,7 +21,7 @@ public class playerMain : BasicChar
         firstName = "adofa";
         Body = new Body(160, 60, 10, 20);
         Inventory.AddItem(new Item());
-        Inventory.AddItem(new TestPotion());
-        Inventory.AddItem(new TestPotion());
+       // Inventory.AddItem(new TestPotion());
+       // Inventory.AddItem(new TestPotion());
     }
 }

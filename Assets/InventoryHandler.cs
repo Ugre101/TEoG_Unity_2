@@ -10,6 +10,7 @@ public class InventoryHandler : MonoBehaviour
     public GameObject ItemPrefab;
     public playerMain player;
     public GameObject ItemContainer;
+    public List<GameObject> Items;
     // Start is called before the first frame update
     void Start()
     {
@@ -37,6 +38,13 @@ public class InventoryHandler : MonoBehaviour
     {
         GameObject ItemObject = ItemPrefab;
         TextMeshProUGUI[] texts = ItemObject.GetComponentsInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI title = texts[0];
+        title.text = item.Title;
+        TextMeshProUGUI useText = texts[1];
+        useText.text = item.UseName;
+        Button[] buttons = ItemObject.GetComponentsInChildren<Button>();
+        Debug.Log(buttons.Length);
+        Button Use = buttons[0];
         return ItemObject;
     }
 }
