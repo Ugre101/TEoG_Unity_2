@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+[CreateAssetMenu(fileName = "Test potion", menuName = "Test potion")]
 public class TestPotion : Drinks
 {
-    // Start is called before the first frame update
-
-    private void UseFunc()
-    {
-        Debug.Log("Works");
-    }
     public override bool Use(BasicChar user)
     {
+        Debug.Log("Works");
         return base.Use(user);
     }
 }

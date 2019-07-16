@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class Inventory 
 {
-    public Inventory(BasicChar owner) { Owner = owner; }
-    protected BasicChar Owner;
+    public Items itemRefs;
+    public BasicChar Owner;
     public List<Item> Items = new List<Item>();
     public void Show()
     {
@@ -16,8 +16,14 @@ public class Inventory
 
         }
     }
-    public void AddItem(Item toAdd)
+    public void AddItem(ItemRefs theitem)
     {
+        Debug.Log(itemRefs.items[1].name);
+        Item toAdd = itemRefs.items.Find(i => i.name == theitem.ToString());
+        if (toAdd == null)
+        {
+            return;
+        }
         if (Items.Exists(i => i.Title == toAdd.Title))
         {
             Items.Find(i => i.Title == toAdd.Title).Amount++;

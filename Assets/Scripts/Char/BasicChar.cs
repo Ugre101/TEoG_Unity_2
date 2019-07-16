@@ -28,7 +28,7 @@ public abstract class BasicChar : MonoBehaviour
         Looks = new Looks(settings, this);
         Vore = new VoreEngine(eventLog, this);
         Age = new Age();
-        Inventory = new Inventory(this);
+        Inventory.Owner = this;
     }
 
     [Header("Health stats")]

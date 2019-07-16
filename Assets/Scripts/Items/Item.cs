@@ -7,7 +7,18 @@ public enum ItemTypes
     Consumables,
     Misc
 }
-[CreateAssetMenu(fileName = "Item", menuName = "Items")]
+[CreateAssetMenu(fileName = "Items", menuName = "Items")]
+[System.Serializable]
+public class Items : ScriptableObject
+{
+    public List<Item> items;
+}
+public enum ItemRefs
+{
+    Item,
+    TestPotion
+}
+[CreateAssetMenu(fileName = "Item", menuName = "Item")]
 [System.Serializable]
 public class Item : ScriptableObject
 {
@@ -17,8 +28,8 @@ public class Item : ScriptableObject
     protected ItemTypes type;
     public ItemTypes Type { get { return type; } }
     [SerializeField]
-    protected string title = string.Empty;
-    public string Title { get { return name; } }
+    private string title = "Item";
+    public string Title { get { return title; } }
     protected string useName = "Use";
     public string UseName { get { return useName; } }
     public virtual bool Use(BasicChar user)
