@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20f78f57f254fd4fbf4e5452825532c, type: 3}
   m_Name: Item
   m_EditorClassIdentifier: 
-  Amount: 1
+  Amount: 0
   sprite: {fileID: 0}
   type: 0
   title: test

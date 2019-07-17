@@ -7,17 +7,6 @@ public enum ItemTypes
     Consumables,
     Misc
 }
-[CreateAssetMenu(fileName = "Items", menuName = "Items")]
-[System.Serializable]
-public class Items : ScriptableObject
-{
-    public List<Item> items;
-}
-public enum ItemRefs
-{
-    Item,
-    TestPotion
-}
 [CreateAssetMenu(fileName = "Item", menuName = "Item")]
 [System.Serializable]
 public class Item : ScriptableObject
@@ -32,10 +21,9 @@ public class Item : ScriptableObject
     public string Title { get { return title; } }
     protected string useName = "Use";
     public string UseName { get { return useName; } }
-    public virtual bool Use(BasicChar user)
+    public virtual void Use()
     {
         Amount--;
-        return Amount < 1;
     }
 
     public bool Remove(int toRemove =1)

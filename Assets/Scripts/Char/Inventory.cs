@@ -29,8 +29,8 @@ public class Inventory
             Items.Find(i => i.Title == toAdd.Title).Amount++;
         }else
         {
+            toAdd.Amount = 1;
             Items.Add(toAdd);
         }
     }
-
 }

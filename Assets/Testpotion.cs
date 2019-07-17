@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-[CreateAssetMenu(fileName = "Test potion", menuName = "Test potion")]
+[CreateAssetMenu(fileName = "TestPotion", menuName = "TestPotion")]
 public class TestPotion : Drinks
 {
-    public override bool Use(BasicChar user)
+    public override void Use()
     {
         Debug.Log("Works");
-        return base.Use(user);
+        base.Use();
     }
 }
