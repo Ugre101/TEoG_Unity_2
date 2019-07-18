@@ -7,8 +7,15 @@ public class InventoryHoverText : MonoBehaviour, IPointerEnterHandler, IPointerE
 {
     public GameObject hoverblock;
     public TextMeshProUGUI hovertext;
+    private InventorySlot[] slots;
+    private Item item;
+    public void OnEnable()
+    {
+        slots = this.gameObject.GetComponentsInChildren<InventorySlot>();
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        
         if (eventData.pointerEnter.transform.parent == this.transform)
         {
             hoverblock.SetActive(true);
