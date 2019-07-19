@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4491125091721086971}
   - component: {fileID: 4491125091721086970}
   - component: {fileID: 5783542313622283072}
-  - component: {fileID: 318201857755896666}
   - component: {fileID: 1173547231553329175}
   m_Layer: 5
   m_Name: ItemV2
@@ -30,13 +29,13 @@ RectTransform:
   m_GameObject: {fileID: 4491125091721086968}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -122,22 +121,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &318201857755896666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4491125091721086968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71ca3f5260e51914a92bd5617bf7cdcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Item: {fileID: 0}
-  Use: {fileID: 0}
-  title: {fileID: 0}
-  amount: {fileID: 0}
 --- !u!114 &1173547231553329175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,4 +133,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a1f5246c5d07249ae64ee17a8f848e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  item: {fileID: 11400000, guid: a9108222aa5e7f54dab7b20e185c512c, type: 2}
+  SlotId: 0
+  StartPos: {x: 0, y: 0}

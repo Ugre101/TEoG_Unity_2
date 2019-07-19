@@ -4,10 +4,19 @@ using UnityEngine;
 
 public class InventorySlot : MonoBehaviour
 {
+   // public InventoryItem item;
     public bool Empty = true;
     public int Id;
     public void AddTo(GameObject item)
     {
+        DragInventory drag = item.GetComponent<DragInventory>();
+        drag.SlotId = Id;
         Instantiate(item, this.transform);
+        Empty = false;
+    }
+    public void Clean()
+    {
+        Empty = true;
+        Destroy(this.transform.GetChild(0).gameObject);
     }
 }

@@ -13,17 +13,17 @@ public class inventoryItem : MonoBehaviour
     {
         Debug.Log("Using item" + Item.name);
         Item.Use();
-        amount.text = Item.Amount.ToString();
-        if (Item.Amount < 1)
-        {
-            used?.Invoke();
-        }
+     //   amount.text = Item.Amount.ToString();
+       // if (Item.Amount < 1)
+       // {
+        //    used?.Invoke();
+       // }
     }
     public void NewItem(Item item)
     {
         Item = item;
         title.text = item.Title;
-        amount.text = item.Amount.ToString();
+      //amount.text = item.Amount.ToString();
     }
     public delegate void Used();
     public static event Used used;

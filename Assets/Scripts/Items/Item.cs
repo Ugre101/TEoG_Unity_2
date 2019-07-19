@@ -11,7 +11,6 @@ public enum ItemTypes
 [System.Serializable]
 public class Item : ScriptableObject
 {
-    public int Amount = 1;
     public Sprite sprite;
     [SerializeField]
     protected ItemTypes type;
@@ -23,13 +22,7 @@ public class Item : ScriptableObject
     public string UseName { get { return useName; } }
     public virtual void Use()
     {
-        Amount--;
-    }
 
-    public bool Remove(int toRemove =1)
-    {
-        Amount -= toRemove;
-        return Amount > 0;
     }
 }
 public class Drinks : Item

@@ -3,22 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragInventory : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHandler, IPointerClickHandler
+public class DragInventory : MonoBehaviour, IDragHandler,IEndDragHandler, IPointerClickHandler
 {
+    [SerializeField]
+    public InventoryItem invItem;
     public Item item;
     public int SlotId;
-    public Vector2 StartPos;
-    public void OnBeginDrag(PointerEventData pointerEvent)
+
+    private InventoryHandler inventory;
+    private void OnEnable()
     {
-        StartPos = pointerEvent.position;
+        inventory = GetComponentInParent<InventoryHandler>();
+        this.transform.position = this.transform.parent.position;
     }
+
     public void OnDrag(PointerEventData pointerEvent)
     {
         this.transform.position = pointerEvent.position;
     }
     public void OnEndDrag(PointerEventData pointerEvent)
     {
-        this.transform.position = StartPos;
+        InventorySlot slot = pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>();
+        if (slot != null)
+        {
+            inventory.Move(this.gameObject, SlotId, slot.Id);
+        }
+        else
+        {
+            this.transform.position = this.transform.parent.position;
+        }
     }
     public void OnPointerClick(PointerEventData pointerEvent)
     {
@@ -28,16 +41,15 @@ public class DragInventory : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndD
         Debug.Log("Using item" + item.name);
         item.Use();
         //amount.text = Item.Amount.ToString();
-        if (item.Amount < 1)
+        if (invItem.amount < 1)
         {
             used?.Invoke();
         }
     }
-    public void NewItem(Item theitem)
+    public void NewItem(InventoryItem Invitem, int slot)
     {
-        item = theitem;
-       // title.text = item.Title;
-        //amount.text = item.Amount.ToString();
+        invItem = Invitem;
+        item = Invitem.item;
     }
     public delegate void Used();
     public static event Used used;
