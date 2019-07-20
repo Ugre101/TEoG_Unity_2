@@ -22,11 +22,11 @@ public class InventoryHoverText : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             hoverblock.SetActive(true);
             RectTransform rt = (RectTransform)eventData.pointerEnter.transform;
-            Vector3 vector3 = eventData.pointerEnter.transform.localPosition;
-            vector3.x += rt.rect.width;
+            Vector3 vector3 = eventData.pointerCurrentRaycast.gameObject.transform.localPosition;
+            Debug.Log(rt.anchorMax);
           //  Debug.Log(vector3);
           
-            hoverblock.transform.localPosition = vector3;
+            hoverblock.transform.position = vector3;
             Item item = eventData.pointerEnter.transform.gameObject.GetComponentInChildren<DragInventory>().item;
             hovertext.text = item.Title;
         }else

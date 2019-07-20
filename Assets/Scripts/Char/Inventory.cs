@@ -30,13 +30,10 @@ public class Inventory
 
     private int FirstEmpty()
     {
-        int First = -1;
-        for (int i = 0; i < SlotsAmount; i++)
+        int First = 0;
+        while(Items.Exists(inv => inv.invPos == First))
         {
-            if (!Items.Exists(inv => inv.invPos == i))
-            {
-                First = i;
-            }
+            First++;
         }
         return First;
     }

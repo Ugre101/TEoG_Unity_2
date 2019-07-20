@@ -32,6 +32,13 @@ public class InventoryHandler : MonoBehaviour
     }
     public void UpdateInventory()
     {
+        foreach(InventorySlot slot in Slots)
+        {
+            if (!slot.Empty)
+            {
+                slot.Clean();
+            }
+        }
         if (player.Inventory.Items.Exists(i => i.amount < 1))
         {
             foreach (InventoryItem item in player.Inventory.Items.FindAll(i => i.amount < 1))
@@ -39,33 +46,17 @@ public class InventoryHandler : MonoBehaviour
                 player.Inventory.Items.Remove(item);
             }
         }
-        if (player.Inventory.Items.Exists(i => i.invPos == -1))
+        foreach(InventoryItem item in player.Inventory.Items)
         {
-            foreach (InventoryItem invItem in player.Inventory.Items.FindAll(i => i.invPos == -1))
+            GameObject toAdd = ItemPrefab;
+            DragInventory inventorySlot = toAdd.GetComponent<DragInventory>();
+            inventorySlot.NewItem(item,item.invPos);
+            void OutOf()
             {
-                int i = 0;
-                while (!Slots[i].Empty)
-                {
-                    i++;
-                    if (i > AmountOfSlots)
-                    {
-                        Debug.Log("inv error");
-                        return;
-                    }
-                }
-                invItem.invPos = i;
-                InventoryItem item = player.Inventory.Items[i];
-                GameObject toAdd = ItemPrefab;
-                DragInventory inventorySlot = toAdd.GetComponent<DragInventory>();
-                inventorySlot.NewItem(item, i);
-                void OutOf()
-                {
-                    UpdateInventory();
-                }
-                DragInventory.used += OutOf;
-                Slots[i].Id = i;
-                Slots[i].AddTo(toAdd);
+                UpdateInventory();
             }
+            DragInventory.used += OutOf;
+            Slots[item.invPos].AddTo(toAdd);
         }
     }
     public void Move(GameObject item,int startSlot, int EndSlot)
@@ -73,9 +64,9 @@ public class InventoryHandler : MonoBehaviour
         if (Slots[EndSlot].Empty)
         {
             player.Inventory.Items.Find(i => i.invPos == startSlot).invPos = EndSlot;
-            UpdateInventory();
-          //  Slots[EndSlot].AddTo(item);
-          //  Slots[startSlot].Clean();
+            //UpdateInventory();
+            Slots[EndSlot].AddTo(item);
+            Slots[startSlot].Clean();
         }
     }
 }
