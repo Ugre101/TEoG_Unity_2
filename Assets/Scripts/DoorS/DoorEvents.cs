@@ -4,6 +4,7 @@ using UnityEngine.Tilemaps;
 public class DoorEvents : MonoBehaviour
 {
     public Tilemap _currentMap;
+    public MapEvents mapEvents;
 
     public delegate void ChangeMap();
 
