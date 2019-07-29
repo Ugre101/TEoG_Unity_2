@@ -5,7 +5,8 @@ public class CameraController : MonoBehaviour
 {
     // Public
     public Transform _player;
-    public DoorEvents _doorEvent;
+    public MapEvents mapEvents;
+    public KeyBindings keyBindings;
 
     // Private
     private Vector3 _offset = new Vector3(1f, 0, -10);
@@ -19,8 +20,8 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        _map = _doorEvent._currentMap;
-        DoorEvents.changeMap += DoorChanged;
+        _map = mapEvents.CurrentMap;
+        MapEvents.worldMapChange += DoorChanged;
         cam = GetComponent<Camera>();
     }
 
@@ -35,11 +36,11 @@ public class CameraController : MonoBehaviour
         _target.x = Mathf.Clamp(_target.x, _xMin, _xMax);
         _target.y = Mathf.Clamp(_target.y, _yMin, _yMax);
         // if Camera controll and check if bigger than tilemap
-        if (Input.GetKey(KeyCode.Period))
+        if (Input.GetKey(keyBindings.zoomInKey))
         {
             _orthSize -= 0.1f;
         }
-        else if (Input.GetKey(KeyCode.Comma))
+        else if (Input.GetKey(keyBindings.zoomOutKey))
         {
             _orthSize += 0.1f;
         }
@@ -67,7 +68,7 @@ public class CameraController : MonoBehaviour
     }
     private void DoorChanged()
     {
-        _map = _doorEvent._currentMap;
+        _map = mapEvents.CurrentMap;
         Debug.Log(_map);
     }
 }

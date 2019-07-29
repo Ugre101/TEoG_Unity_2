@@ -2,12 +2,14 @@
 using UnityEngine.Tilemaps;
 public class TelePort : MonoBehaviour
 {
-    public GameObject fromWorld, toWorld;
-    public Tilemap toMap;
     public MapEvents mapEvents;
+    public GameObject toWorld;
+    public Tilemap toMap;
+    [Header("Optional landing platform")]
+    public Tilemap toPlatform;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        mapEvents.Teleport(fromWorld, toWorld, toMap);
+        mapEvents.Teleport(toWorld, toMap,toPlatform == null ? null : toPlatform);
     }
 }

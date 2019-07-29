@@ -10,10 +10,10 @@ public class SpawnKeyBindings : MonoBehaviour
     private KeyCode newKey;
     private bool waitingForKey;
 
-    private enum Keys { save, options, vore, lvl, essence, inventory, esc, quest, looks };
+    private enum Keys { save, options, vore, lvl, essence, inventory, esc, quest, looks ,zoomIn,zoomOut};
 
     private Keys keys;
-    private GameObject save, opt, vore, lvl, ess, inv, esc, quest, looks;
+    private GameObject save, opt, vore, lvl, ess, inv, esc, quest, looks,zoomIn,zoomOut;
 
     // Start is called before the first frame update
     private void Start()
@@ -36,6 +36,10 @@ public class SpawnKeyBindings : MonoBehaviour
         Button questbtn = CreateButtonPart(quest, Keys.quest);
         looks = Instantiate(CreateBindButton("Looks", keyBindings.lookKey), this.transform);
         Button looksbtn = CreateButtonPart(looks, Keys.looks);
+        zoomIn = Instantiate(CreateBindButton("Zoom in", keyBindings.zoomInKey), this.transform);
+        Button zoomInbtn = CreateButtonPart(zoomIn, Keys.zoomIn);
+        zoomOut = Instantiate(CreateBindButton("Zoom out", keyBindings.zoomOutKey), this.transform);
+        Button zoomOutbtn = CreateButtonPart(zoomOut, Keys.zoomOut);
     }
 
     private void OnEnable()
@@ -132,6 +136,14 @@ public class SpawnKeyBindings : MonoBehaviour
             case Keys.looks:
                 keyBindings.lookKey = newKey;
                 ChangeKeyText(looks, newKey);
+                break;
+            case Keys.zoomIn:
+                keyBindings.zoomInKey = newKey;
+                ChangeKeyText(zoomIn, newKey);
+                break;
+            case Keys.zoomOut:
+                keyBindings.zoomOutKey = newKey;
+                ChangeKeyText(zoomOut, newKey);
                 break;
             default:
                 break;

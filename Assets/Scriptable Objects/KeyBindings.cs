@@ -17,6 +17,8 @@ public class KeyBindings : ScriptableObject
     public KeyCode mapKey;
     public KeyCode eventKey;
     public KeyCode lookKey;
+    public KeyCode zoomInKey;
+    public KeyCode zoomOutKey;
     private void OnEnable()
     {
         // if key saved in playerprefs use that else use default.
@@ -31,6 +33,8 @@ public class KeyBindings : ScriptableObject
         mapKey = PlayerPrefs.HasKey("mapKey") ? (KeyCode)PlayerPrefs.GetInt("mapKey") : KeyCode.M;
         eventKey = PlayerPrefs.HasKey("eventKey") ? (KeyCode)PlayerPrefs.GetInt("eventKey") : KeyCode.E;
         lookKey = PlayerPrefs.HasKey("lookKey") ? (KeyCode)PlayerPrefs.GetInt("lookKey") : KeyCode.L;
+        zoomInKey = PlayerPrefs.HasKey("zoomInKey") ? (KeyCode)PlayerPrefs.GetInt("zoomInKey") : KeyCode.Comma;
+        zoomOutKey = PlayerPrefs.HasKey("zoomOutKey") ? (KeyCode)PlayerPrefs.GetInt("zoomOutKey") : KeyCode.Period;
     }
 
     private void OnDestroy()

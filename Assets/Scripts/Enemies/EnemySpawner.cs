@@ -10,7 +10,7 @@ public class EnemySpawner : MonoBehaviour
     public List<GameObject> _roadTovillage;
     [Space]
     public Tilemap _trees;
-    public DoorEvents _doorEvent;
+    public MapEvents mapEvents;
 
     // Private
     private List<Vector3> _empty = new List<Vector3>();
@@ -23,8 +23,8 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         _enemyToAdd = 6;
-        _currMap = _doorEvent._currentMap;
-        DoorEvents.changeMap += DoorChanged;
+        _currMap = mapEvents.CurrentMap;
+        MapEvents.worldMapChange += DoorChanged;
         _CurrEnemies.AddRange(_startEnemies);
     }
 
@@ -71,7 +71,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void DoorChanged()
     {
-        _currMap = _doorEvent._currentMap;
+        _currMap = mapEvents.CurrentMap;
         CurrentEnemies();
         foreach (GameObject e in _enemies)
         {
@@ -84,7 +84,7 @@ public class EnemySpawner : MonoBehaviour
     private void CurrentEnemies()
     {
         _CurrEnemies.Clear();
-        switch (_doorEvent._currentMap.name)
+        switch (mapEvents.CurrentMap.name)
         {
             case "Ground-Room-Start":
                 _CurrEnemies.AddRange(_startEnemies);

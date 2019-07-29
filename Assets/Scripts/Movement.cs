@@ -10,7 +10,6 @@ public class Movement : MonoBehaviour
     public GameObject _pointer;
     public GameUI canvas;
     public EnemySpawner _spawner;
-    public DoorEvents _doorEvent;
     public MapEvents mapEvents;
     // Private
     private Tilemap _map;
@@ -25,9 +24,8 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        _map = _doorEvent._currentMap;
-        DoorEvents.changeMap += DoorChanged;
-        _map = _doorEvent._currentMap;
+        _map = mapEvents.CurrentMap;
+        MapEvents.worldMapChange += DoorChanged;
         _rb2d = GetComponent<Rigidbody2D>();
         _coll = GetComponent<BoxCollider2D>();
     }
@@ -103,6 +101,6 @@ public class Movement : MonoBehaviour
 
     private void DoorChanged()
     {
-        _map = _doorEvent._currentMap;
+        _map = mapEvents.CurrentMap;
     }
 }
