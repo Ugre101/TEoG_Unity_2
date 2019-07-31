@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragInventory : MonoBehaviour, IDragHandler,IEndDragHandler, IPointerClickHandler
+public class DragInventory : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     public InventoryItem invItem;
@@ -11,30 +11,51 @@ public class DragInventory : MonoBehaviour, IDragHandler,IEndDragHandler, IPoint
     public int SlotId;
 
     private InventoryHandler inventory;
+    private InventoryHoverText hoverText;
+    private Transform Parent;
+    private void Awake()
+    {
+        hoverText = this.GetComponentInParent<InventoryHoverText>();
+        inventory = GetComponentInParent<InventoryHandler>();
+    }
     private void OnEnable()
     {
-        inventory = GetComponentInParent<InventoryHandler>();
-        this.transform.position = this.transform.parent.position;
+        Parent = transform.parent;
+        transform.position = transform.parent.position;
     }
-
-    public void OnDrag(PointerEventData pointerEvent)
+    public void OnBeginDrag(PointerEventData pointerEvent)
     {
-        this.transform.position = pointerEvent.position;
+        hoverText.StopHovering();
+        this.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        this.transform.SetParent(Parent.parent);
     }
+    public void OnDrag(PointerEventData pointerEvent) => this.transform.position = pointerEvent.position;
     public void OnEndDrag(PointerEventData pointerEvent)
     {
-        InventorySlot slot = pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>();
-        if (slot != null)
+        this.transform.SetParent(Parent);
+        this.transform.position = Parent.position;
+        if (pointerEvent.pointerCurrentRaycast.isValid)
         {
-            inventory.Move(this.gameObject, SlotId, slot.Id);
+            InventorySlot slot = pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>();
+            if (slot != null ? slot.Empty : false)
+            {
+                inventory.Move(this.gameObject, SlotId, slot.Id);
+                transform.SetParent(pointerEvent.pointerCurrentRaycast.gameObject.transform);
+                transform.position = transform.parent.position;
+                SlotId = slot.Id;
+                Parent = transform.parent;
+            }
         }
-        else
-        {
-            this.transform.position = this.transform.parent.position;
-        }
+        this.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
-    public void OnPointerClick(PointerEventData pointerEvent)
+    public void OnPointerClick(PointerEventData pointerEvent) => hoverText.Hovering(this.gameObject);
+    public void OnPointerEnter(PointerEventData eventData)
     {
+        hoverText.Hovering(this.gameObject);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        hoverText.StopHovering();
     }
     public void UseItem()
     {

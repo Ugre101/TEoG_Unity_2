@@ -17,6 +17,9 @@ public class InventorySlot : MonoBehaviour
     public void Clean()
     {
         Empty = true;
-        Destroy(this.transform.GetChild(0).gameObject);
+        if (this.transform.childCount > 0)
+        {
+            Destroy(this.transform.GetChild(0).gameObject);
+        }
     }
 }

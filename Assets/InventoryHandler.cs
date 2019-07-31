@@ -65,8 +65,8 @@ public class InventoryHandler : MonoBehaviour
         {
             player.Inventory.Items.Find(i => i.invPos == startSlot).invPos = EndSlot;
             //UpdateInventory();
-            Slots[EndSlot].AddTo(item);
-            Slots[startSlot].Clean();
+            Slots[EndSlot].Empty = false;
+            Slots[startSlot].Empty = true;
         }
     }
 }
