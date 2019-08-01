@@ -62,6 +62,17 @@ public class CombatButtons : MonoBehaviour
             WinBattle();
         }
     }
+    public void BasicTease()
+    {
+        float lust = attackMulti(player.charm.Value);
+        string text = $"You teased {lust}";
+        _EnemyTeamAttacks += text + "\n";
+        TurnManager();
+        if (_enemies[0].WP.TakeDmg(lust))
+        {
+            WinBattle();
+        }
+    }
 
     public void EnemyAI(BasicChar Enemy)
     {
