@@ -18,6 +18,7 @@ public class GameUI : MonoBehaviour
 
     public GameObject sex;
     public GameObject lose;
+    public GameObject home;
 
     [Header("Options, Save ,etc")]
     public GameObject pausemenu;
@@ -156,7 +157,8 @@ public class GameUI : MonoBehaviour
         GameUI,
         Menus,
         Battle,
-        Buildings
+        Buildings,
+        Home
     }
     private void ToggleBigPanel(BigPanels panel)
     {
@@ -177,8 +179,10 @@ public class GameUI : MonoBehaviour
             case BigPanels.Menus:
                 menus.SetActive(true);
                 break;
+            case BigPanels.Home:
+                home.SetActive(true);
+                break;
         }
-
     }
 
     private void ResumePause(GameObject toBeActivated)
@@ -193,5 +197,17 @@ public class GameUI : MonoBehaviour
             Resume();
         }
     }
-
+    public void EnterHome()
+    {
+        ToggleBigPanel(BigPanels.Home);
+        foreach (Transform child in home.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+        home.transform.GetChild(0).gameObject.SetActive(true);
+    }
+    public void LeaveHome()
+    {
+        Resume();
+    }
 }

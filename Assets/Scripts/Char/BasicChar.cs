@@ -1,6 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+public enum Genders
+{
+    Male,
+    Female,
+    Herm,
+    Dickgirl,
+    Cuntboy,
+    Doll
+}
 public abstract class BasicChar : MonoBehaviour
 {
     [Header("Scriptable objects")]
@@ -16,7 +24,35 @@ public abstract class BasicChar : MonoBehaviour
     public Inventory Inventory;
     public RaceSystem raceSystem = new RaceSystem();
     public string Race { get { return raceSystem.CurrentRace().ToString(); } }
-
+    public Genders Gender
+    {
+        get
+        {
+            if (Dicks.Count > 0 && Vaginas.Count > 0)
+            {
+                return Genders.Herm;
+            }else if (Dicks.Count > 0 && Boobs.Total() > 2)
+            {
+                return Genders.Dickgirl;
+            }
+            else if (Dicks.Count > 0)
+            {
+                return Genders.Male;
+            }
+            else if (Vaginas.Count > 0 && Boobs.Total() > 2)
+            {
+                return Genders.Female;
+            }
+            else if (Vaginas.Count > 0)
+            {
+                return Genders.Cuntboy;
+            }
+            else
+            {
+                return Genders.Doll;
+            }
+        }
+    }
     public Looks Looks;
     public VoreEngine Vore;
     public Age Age;

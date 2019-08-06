@@ -13,3 +13,9 @@ MonoBehaviour:
   m_Name: Settings
   m_EditorClassIdentifier: 
   Imperial: 0
+  Male: male
+  Female: female
+  Herm: herm
+  Cuntboy: cuntboy
+  Dickgirl: dickgirl
+  Doll: ssdoll

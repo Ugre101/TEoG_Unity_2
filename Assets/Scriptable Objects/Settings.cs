@@ -1,20 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum Genders
-{
-    Male,
-    Female,
-    Herm
-}
-
 [System.Serializable]
 [CreateAssetMenu(fileName = "Settings", menuName = "Tools")]
 public class Settings : ScriptableObject//Bad name?
 {
     [SerializeField]
     private bool Imperial = false;
-    private string Male = "male";
+
     public bool ToogleImp()
     {
         return Imperial = Imperial ? false : true;
@@ -86,37 +79,31 @@ public class Settings : ScriptableObject//Bad name?
         }
         return toReturn;
     }
- 
-
-    public Genders CheckGender(BasicChar who)
-    {
-        if (who.Dicks.Count > 0 && who.Vaginas.Count > 0)
-        {
-            return Genders.Herm;
-        }
-        else if (who.Dicks.Count > 0)
-        {
-            return Genders.Male;
-        }
-        else
-        {
-            return Genders.Female;
-        }
-    }
-
+    [SerializeField]
+    [Header("Pronuns")]
+    public string Male = "male";
+    public string Female = "female";
+    public string Herm = "herm";
+    public string Cuntboy = "cuntboy";
+    public string Dickgirl = "dickgirl";
+    public string Doll = "doll";
     public string GetGender(BasicChar who, bool capital = false)
     {
-        if (who.Dicks.Count > 0 && who.Vaginas.Count > 0)
+        switch (who.Gender)
         {
-            return capital ? "Herm" : "herm";
-        }
-        else if (who.Dicks.Count > 0)
-        {
-            return capital ? char.ToUpper(Male[0]) + Male.Substring(1) : Male.ToLower();
-        }
-        else
-        {
-            return "female";
+            case Genders.Herm:
+                return capital ? char.ToUpper(Herm[0]) + Herm.Substring(1) : Herm.ToLower();
+            case Genders.Male:
+                return capital ? char.ToUpper(Male[0]) + Male.Substring(1) : Male.ToLower();
+            case Genders.Female:
+                return capital ? char.ToUpper(Female[0]) + Female.Substring(1) : Female.ToLower();
+            case Genders.Dickgirl:
+                return capital ? char.ToUpper(Dickgirl[0]) + Dickgirl.Substring(1) : Dickgirl.ToLower();
+            case Genders.Cuntboy:
+                return capital ? char.ToUpper(Cuntboy[0]) + Cuntboy.Substring(1) : Cuntboy.ToLower();
+            case Genders.Doll:
+            default:
+                return capital ? char.ToUpper(Doll[0]) + Doll.Substring(1) : Doll.ToLower();
         }
     }
 }
