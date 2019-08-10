@@ -7,7 +7,8 @@ public class Essence
 {
     [SerializeField]
     protected float _amount;
-    public virtual float Amount { get { return Mathf.Floor(_amount); }}
+    public float Amount { get { return Mathf.Floor(_amount); }}
+    public string StringAmount { get { return _amount > 999 ? Mathf.Round(_amount / 1000) + "k" : _amount.ToString(); } }
     public Essence()
     {
         _amount = 0;

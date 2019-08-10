@@ -18,6 +18,6 @@ public class MascSlider : EssenceSlider
         Color temp = _image.color;
         temp.a = 0.5f;
         _image.color = temp;
-        essValue.text = basicChar.Masc.Amount.ToString();
+        essValue.text = basicChar.Masc.StringAmount;
     }
 }

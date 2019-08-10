@@ -40,7 +40,11 @@ public class GameUI : MonoBehaviour
     [Space]
     public CombatEnemies CombatEnemies;
     private float _eventTime;
- 
+
+    private void Start()
+    {
+        Resume();
+    }
     private void Update()
     {
         // if in menus or main game(not combat)

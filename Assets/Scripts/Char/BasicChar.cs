@@ -276,7 +276,7 @@ public abstract class BasicChar : MonoBehaviour
     private List<Vagina> vaginas = new List<Vagina>();
 
     public List<Vagina> Vaginas { get { return vaginas; } }
-
+    [SerializeField]
     public SexStats sexStats = new SexStats();
 
     private void Update()

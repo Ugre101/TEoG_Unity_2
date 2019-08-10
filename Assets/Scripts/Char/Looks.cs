@@ -35,19 +35,21 @@ public class Looks
     {
         get
         {
-            string dicks = DicksLook(who.Dicks);
+            string dicks = DicksLook();
             // and the rest
             return dicks;
         }
     }
 
-    public string DickLook(Dick d)
+    public string DickLook(int i)
     {
-        return $"a {settings.MorInch(d.Size)} long dick";
+        Dick d = who.Dicks[Mathf.Clamp(i, 0, who.Dicks.Count - 1)];
+        return who.Dicks.Count > 0 ? $"a {settings.MorInch(d.Size)} long dick" : "";
     }
 
-    public string DicksLook(List<Dick> dicks)
+    public string DicksLook()
     {
+        List<Dick> dicks = who.Dicks;
         string dLooks = "";
         for (int i = 0; i < dicks.Count; i++)
         {
@@ -73,8 +75,9 @@ public class Looks
         return dLooks + ".";
     }
 
-    public string BallLook(Balls b)
+    public string BallLook(int i)
     {
+        Balls b = who.Balls[Mathf.Clamp(i, 0, who.Balls.Count - 1)];
         return $"a pair of {settings.MorInch(b.Size)} wide balls";
     }
 

@@ -16,12 +16,12 @@
             orgasms++;
             sessionOrgasm++;
             arousal -= maxArousal;
-            arousalChange();
+            arousalChange?.Invoke();
             return true;
         }
         else
         {
-            arousalChange();
+            arousalChange?.Invoke();
             return false;
         }
     }
@@ -49,6 +49,6 @@
 
     public void ManualArousalUpdate()
     {
-        arousalChange();
+        arousalChange?.Invoke();
     }
 }

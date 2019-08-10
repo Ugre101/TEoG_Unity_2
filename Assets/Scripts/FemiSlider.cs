@@ -15,6 +15,6 @@ public class FemiSlider : EssenceSlider
 
     private void changeFemi()
     {
-        essValue.text = basicChar.Femi.Amount.ToString();
+        essValue.text = basicChar.Femi.StringAmount;
     }
 }
