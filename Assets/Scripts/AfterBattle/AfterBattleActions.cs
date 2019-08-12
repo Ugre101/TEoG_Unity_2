@@ -32,7 +32,10 @@ public class AfterBattleActions : MonoBehaviour
             this.enabled = false;
         }
         _textBox.text = null;
-        RefreshScenes();
+        if (_enemy._enemies.Count > 0)
+        {
+            RefreshScenes();
+        }
     }
     public void DrainMasc()
     {

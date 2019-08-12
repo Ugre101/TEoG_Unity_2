@@ -14,7 +14,7 @@ public class SexChar : MonoBehaviour
     [Header("Sliders")]
     public Slider ArousalSlider;
     public TextMeshProUGUI OrgasmCounter;
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         SexStats.arousalChange += Arousal;
         Organs();
