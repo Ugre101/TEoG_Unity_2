@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "DoggyStyle", menuName = ("Sex/DoggyStyle"))]
+[CreateAssetMenu(fileName = "Doggystyle", menuName = ("Sex/Dick/Doggystyle"))]
 public class DoggyStyle : SexScenes
 {
     public override string Text(BasicChar player, BasicChar other)
