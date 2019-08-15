@@ -83,14 +83,15 @@ public class SexScenes : ScriptableObject
         }
         return true;
     }
-    public virtual string Text(BasicChar player, BasicChar other)
-    {
-        string text = $"{player.FullName} friks {other.FullName}";
-        return text;
-    }
-    public virtual void DoScene(playerMain player, BasicChar other)
+    public virtual string StartScene(playerMain player, BasicChar other)
     {
         ArousalGain(player, other);
+        return $"";
+    }
+    public virtual string ContinueScene(playerMain player, BasicChar other)
+    {
+        ArousalGain(player, other);
+        return $"";
     }
     public virtual void ArousalGain(playerMain player, BasicChar other)
     {

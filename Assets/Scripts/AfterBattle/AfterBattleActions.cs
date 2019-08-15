@@ -25,6 +25,8 @@ public class AfterBattleActions : MonoBehaviour
     public List<SexScenes> mouthScenes;
     public List<SexScenes> vaginaScenes;
     public List<SexScenes> analScenes;
+    [Header("Other")]
+    public SexScenes LastScene;
     private void OnEnable()
     {
         if (_textBox == null)
@@ -36,6 +38,7 @@ public class AfterBattleActions : MonoBehaviour
         {
             RefreshScenes();
         }
+        LastScene = null;
     }
     public void DrainMasc()
     {

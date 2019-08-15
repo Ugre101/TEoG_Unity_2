@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "OralVore", menuName = ("Sex/OralVore"))]
+[CreateAssetMenu(fileName = "OralVore", menuName = ("Sex/Vore/OralVore"))]
 public class OralVore : VoreScene
 {
-    public override string Text(BasicChar player, BasicChar other)
-    {
-        string text = $"OralVore";
-        return text;
-    }
+
 }

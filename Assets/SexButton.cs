@@ -23,7 +23,7 @@ public class SexButton : MonoBehaviour
     }
     private void Func()
     {
-        scene.DoScene(player, other);
-        afterbattle.AddToTextBox(scene.Text(player,other));
+        afterbattle.AddToTextBox(afterbattle.LastScene == scene ? scene.ContinueScene(player,other) : scene.StartScene(player,other));
+        afterbattle.LastScene = scene;
     }
 }
