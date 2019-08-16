@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6277392186230951295}
   - component: {fileID: 6277392186230951294}
   - component: {fileID: 6277392186230951293}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Doors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -375,6 +375,7 @@ TilemapCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0.00001
 --- !u!114 &6277392186230951293
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,6 +388,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90746bb987144144284ad27c93c2d7d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _doorEvent: {fileID: 0}
   _fronTilemap: {fileID: 0}
   _toTilemap: {fileID: 0}
