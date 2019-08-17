@@ -113,3 +113,8 @@ public class VoreScene : SexScenes
         return base.CanDo(player, Other);
     }
 }
+
+public class MonoScene : MonoBehaviour
+{
+
+}

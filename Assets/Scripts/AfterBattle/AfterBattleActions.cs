@@ -18,13 +18,15 @@ public class AfterBattleActions : MonoBehaviour
     public GameObject AssActions;
     public GameObject HandActions;
     public GameObject MouthActions;
-    public GameObject Misc;
-    [Header("Scenes")]
+    public GameObject MiscActions;
+    [Header("ScriptableObject Scenes")]
     public List<SexScenes> dickScenes;
     public List<SexScenes> boobScenes;
     public List<SexScenes> mouthScenes;
     public List<SexScenes> vaginaScenes;
     public List<SexScenes> analScenes;
+    [Header("MonoBehevior Scenes")]
+    public List<SexScenes> miscScenes;
     [Header("Other")]
     public SexScenes LastScene;
     private void OnEnable()
@@ -56,6 +58,10 @@ public class AfterBattleActions : MonoBehaviour
     {
         SceneChecker(DickActions.transform, dickScenes);
         SceneChecker(MouthActions.transform, mouthScenes);
+        SceneChecker(MiscActions.transform, miscScenes);
+        SceneChecker(BoobsActions.transform, boobScenes);
+        SceneChecker(VaginaActions.transform, vaginaScenes);
+        SceneChecker(AssActions.transform, analScenes);
     }
     private void SceneChecker(Transform container, List<SexScenes> scenes)
     {

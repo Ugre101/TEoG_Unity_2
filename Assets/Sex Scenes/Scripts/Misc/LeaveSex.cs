@@ -1,19 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class LeaveSex : SexScenes
+using UnityEngine.UI;
+public class LeaveSex : MonoScene
 {
-    public GameUI gameUI;
-
-    public override bool CanDo(BasicChar player, BasicChar Other)
+    private GameUI gameUI;
+    private Button btn;
+    public void Start()
     {
-        // might add some cases where you can't leave right away in future;
-        return true;
+        gameUI = GetComponentInParent<GameUI>();
+        btn = GetComponent<Button>();
+        btn.onClick.AddListener(Leave);
     }
-    public override string StartScene(playerMain player, BasicChar other)
+    public void Leave()
     {
         gameUI.Resume();
-        return base.StartScene(player, other);
     }
+
 }

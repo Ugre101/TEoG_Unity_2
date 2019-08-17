@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GiveFemi : MonoBehaviour
+public class GiveFemi : SexScenes
 {
-    // Start is called before the first frame update
-    void Start()
+    public override string StartScene(playerMain player, BasicChar other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        float toGive = player.EssGive;
+        player.LoseFemi(toGive);
+        other.Femi.Gain(toGive);
+        return "Give femi";
     }
 }

@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DrainFemi : MonoBehaviour
+public class DrainFemi : SexScenes
 {
-    // Start is called before the first frame update
-    void Start()
+    public override string StartScene(playerMain player, BasicChar other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        float toDrain = player.EssDrain;
+        float have = 0f;
+        other.LoseFemi(toDrain);
+        player.Femi.Gain(have);
+        return "Drain femi";
     }
 }

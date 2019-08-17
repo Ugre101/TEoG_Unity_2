@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a049a1df0a20e8448c13426d2c747c1, type: 3}
   m_Name: Cock vore
   m_EditorClassIdentifier: 
-  PlayerDick: 0
-  PlayerBalls: 0
+  PlayerDick: 1
+  PlayerBalls: 1
   PlayerBoobs: 0
   PlayerVagina: 0
   Dick: 0

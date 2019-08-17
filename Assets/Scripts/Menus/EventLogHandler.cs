@@ -45,7 +45,7 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
     {
         if (_oneClick)
         {
-            if (Time.time - _time > 0.8f)
+            if (Time.time - _time > 0.7f)
             {
                 // if time since last click more than 1f just reset time
                 _time = Time.time;
