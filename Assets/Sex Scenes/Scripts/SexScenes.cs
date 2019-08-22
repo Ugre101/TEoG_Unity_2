@@ -116,5 +116,12 @@ public class VoreScene : SexScenes
 
 public class MonoScene : MonoBehaviour
 {
+    public virtual bool CanDo(playerMain player, BasicChar other)
+    {
+        return true;
+    }
+    public virtual void DoScene(playerMain player,BasicChar other)
+    {
 
+    }
 }

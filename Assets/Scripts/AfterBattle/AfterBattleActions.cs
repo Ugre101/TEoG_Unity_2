@@ -8,9 +8,10 @@ using TMPro;
 public class AfterBattleActions : MonoBehaviour
 {
     public playerMain _player;
-    public afterBattleEnemy _enemy;
+    public List<BasicChar> enemies = new List<BasicChar>(); 
     public TextMeshProUGUI _textBox;
     public GameObject ButtonPrefab;
+    public GameObject ButtonPrefabMono;
     [Header("Buttons containers")]
     public GameObject DickActions;
     public GameObject BoobsActions;
@@ -25,10 +26,15 @@ public class AfterBattleActions : MonoBehaviour
     public List<SexScenes> mouthScenes;
     public List<SexScenes> vaginaScenes;
     public List<SexScenes> analScenes;
-    [Header("MonoBehevior Scenes")]
-    public List<SexScenes> miscScenes;
     [Header("Other")]
     public SexScenes LastScene;
+    public GameObject Leave;
+    public GameObject TakeHome;
+    public Dorm dorm;
+    private void Awake()
+    {
+
+    }
     private void OnEnable()
     {
         if (_textBox == null)
@@ -36,32 +42,28 @@ public class AfterBattleActions : MonoBehaviour
             this.enabled = false;
         }
         _textBox.text = null;
-        if (_enemy._enemies.Count > 0)
+        if (enemies.Count > 0)
         {
             RefreshScenes();
         }
         LastScene = null;
     }
-    public void DrainMasc()
+    private void OnDisable()
     {
-        string drainText = "";
-        drainText += _enemy.DrainMasc();
-        _textBox.text = drainText;
-    }
-    public void DrainFemi()
-    {
-        string drainText = "";
-        drainText += _enemy.DrainFemi();
-        _textBox.text = drainText;
+        enemies.Clear();
     }
     private void RefreshScenes()
     {
         SceneChecker(DickActions.transform, dickScenes);
         SceneChecker(MouthActions.transform, mouthScenes);
-        SceneChecker(MiscActions.transform, miscScenes);
         SceneChecker(BoobsActions.transform, boobScenes);
         SceneChecker(VaginaActions.transform, vaginaScenes);
         SceneChecker(AssActions.transform, analScenes);
+        if (true)
+        {
+            Leave.SetActive(true);
+        }
+        TakeHome.SetActive(dorm.CanTake(enemies[0]));
     }
     private void SceneChecker(Transform container, List<SexScenes> scenes)
     {
@@ -71,7 +73,7 @@ public class AfterBattleActions : MonoBehaviour
         }
         foreach (SexScenes scene in scenes)
         {
-            if (scene.CanDo(_player, _enemy._enemies[0]))
+            if (scene.CanDo(_player, enemies[0]))
             {
                 GameObject button = ButtonPrefab;
                 TextMeshProUGUI title = button.GetComponentInChildren<TextMeshProUGUI>();

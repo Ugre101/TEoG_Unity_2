@@ -1,30 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class TakeHome : MonoScene
+using UnityEngine.UI;
+public class TakeHome : MonoBehaviour
 {
-    public Home home;
-    public GameUI gameUI;
+    public Dorm dorm;
+    private GameUI gameUI;
+    private AfterBattleActions afterBattle;
 
     public void Start()
     {
         gameUI = GetComponentInParent<GameUI>();
+        afterBattle = GetComponentInParent<AfterBattleActions>();
     }
-    public bool CanDo(BasicChar player, BasicChar Other)
+    public void DoScene()
     {
-        if (home.Dorm.HasSpace && Other.sexStats.Orgasms > 5)
-        {
-            return true;
-        }else 
-        {
-            return false;
-        }
-    }
-    public void Take(playerMain player, BasicChar other)
-    {
-        home.Dorm.AddTo(other);
+        dorm.AddTo(afterBattle.enemies[0].transform.gameObject);
+        Destroy(afterBattle.enemies[0].transform.gameObject);
         gameUI.Resume();
         // Needs testing
-        Destroy(other.transform.gameObject);
     }
 }

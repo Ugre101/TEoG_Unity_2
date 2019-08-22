@@ -12,7 +12,7 @@ public class CombatButtons : MonoBehaviour
     public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
 
     [Header("Win")]
-    public afterBattleEnemy afterBattle;
+    public AfterBattleActions afterBattle;
 
     [Header("Lose")]
     public loseBattleEnemy loseBattle;
@@ -140,7 +140,7 @@ public class CombatButtons : MonoBehaviour
     {
         for (int i = 0; i < _enemies.Count; i++)
         {
-            afterBattle.AddEnemy(_enemies[i]);
+            afterBattle.enemies.Add(_enemies[i]);
             player.Exp += _enemies[i].reward.ExpReward;
             player.Gold += _enemies[i].reward.GoldReward;
         }

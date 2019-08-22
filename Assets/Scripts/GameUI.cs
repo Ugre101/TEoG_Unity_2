@@ -39,6 +39,7 @@ public class GameUI : MonoBehaviour
 
     [Space]
     public CombatEnemies CombatEnemies;
+    public AfterBattleActions afterBattleActions;
     private float _eventTime;
 
     private void Start()

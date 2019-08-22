@@ -281,6 +281,10 @@ public abstract class BasicChar : MonoBehaviour
 
     private void Update()
     {
+        RefreshOrgans();
+    }
+    public void RefreshOrgans()
+    {
         foreach (Dick d in Dicks.FindAll(x => x.Size <= 0))
         {
             Dicks.Remove(d);
