@@ -36,10 +36,28 @@ public class Dorm : MonoBehaviour
     {
         return HasSpace && wannaTake.sexStats.SessionOrgasm >= 0;
     }
-    public List<BasicChar> Servants;
+    private BasicChar[] arrayServants;
+    private bool ServantsDirty = true;
+    [SerializeField]
+    private List<BasicChar> lastServants;
+    public List <BasicChar>Servants
+    {
+        get
+        {
+            if (ServantsDirty)
+            {
+                arrayServants = GetComponentsInChildren<BasicChar>();
+                lastServants = new List<BasicChar>(arrayServants);
+                ServantsDirty = false;
+            }
+            return lastServants;
+        }
+    }
     public void AddTo(GameObject toAdd)
     {
-        Instantiate(toAdd, this.transform);
+        GameObject inDorm = Instantiate(toAdd, this.transform);
+        ServantsDirty = true;
+        Debug.Log(Servants[0].name);
     }
 }
 
