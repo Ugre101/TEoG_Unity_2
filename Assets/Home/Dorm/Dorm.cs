@@ -55,9 +55,9 @@ public class Dorm : MonoBehaviour
     }
     public void AddTo(GameObject toAdd)
     {
-        GameObject inDorm = Instantiate(toAdd, this.transform);
+        GameObject sercv = Instantiate(toAdd, this.transform);
+        sercv.name = toAdd.name;
         ServantsDirty = true;
-        Debug.Log(Servants[0].name);
     }
 }
 

@@ -8,9 +8,6 @@ using UnityEngine.SceneManagement;
 
 public class LoadButtonStart : MonoBehaviour
 {
-    private playerMain player;
-    private Transform pos;
-    private GameUI gameUI;
     private TextMeshProUGUI[] _textList;
     private TextMeshProUGUI _text;
     private Button[] _buttons;
@@ -61,12 +58,17 @@ public class LoadButtonStart : MonoBehaviour
         string currPath = _text.text;
         return _mainPath + currPath + ".json";
     }
+    private playerMain player;
+    private Transform pos;
+    private Dorm dorm;
+    private GameUI gameUI;
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
         pos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
-        Save save = new Save(player, pos);
+        dorm = GameObject.Find("Dorm-servants").GetComponent<Dorm>();
+        Save save = new Save(player, pos, dorm);
         string path = CurrentPath();
         if (File.Exists(path))
         {

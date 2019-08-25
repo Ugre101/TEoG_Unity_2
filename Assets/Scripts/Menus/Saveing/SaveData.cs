@@ -8,13 +8,17 @@ public class Save
 {
     private playerMain Player;
     private Transform Pos;
+    private Dorm dorm;
     private string playerFlag = "Player";
     private string posFlag = "Pos";
     private string json;
-    public Save (playerMain player, Transform pos)
+    private string dormNames;
+    private string dormChars;
+    public Save (playerMain player, Transform pos, Dorm theDorm)
     {
         Player = player;
         Pos = pos.transform;
+        dorm = theDorm;
     }
     public string SaveData()
     {
@@ -22,7 +26,19 @@ public class Save
         json += JsonUtility.ToJson(Player);
         json += "Pos";
         json += JsonUtility.ToJson(Pos.position);
+        HandeDorm();
         return json;
+    }
+    private void HandeDorm()
+    {
+        foreach(Transform child in dorm.transform)
+        {
+            dormNames += child.name;
+        }
+        foreach(BasicChar servant in dorm.Servants)
+        {
+            Debug.Log(JsonUtility.ToJson(servant));
+        }
     }
     public void LoadData(string json)
     {
@@ -33,5 +49,6 @@ public class Save
         Vector3 pspspsp = JsonUtility.FromJson<Vector3>(posPary);
         Pos.position = pspspsp;
         JsonUtility.FromJsonOverwrite(playerPart, Player);
+       
     }
 }
