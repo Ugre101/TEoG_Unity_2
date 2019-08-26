@@ -2,8 +2,9 @@
 
 public class FemiSlider : EssenceSlider
 {
-    private void OnEnable()
+    public override void Init(BasicChar who)
     {
+        base.Init(who);
         Essence.essenceSlider += changeFemi;
         basicChar.Femi.ManualUpdate();
     }

@@ -23,7 +23,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public Inventory Inventory;
     public RaceSystem raceSystem = new RaceSystem();
-    public string Race { get { return raceSystem.CurrentRace().ToString(); } }
+    public string Race { get { return raceSystem.CurrentRace(); } }
     public Genders Gender
     {
         get

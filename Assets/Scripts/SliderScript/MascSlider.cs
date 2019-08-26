@@ -2,12 +2,9 @@
 
 public class MascSlider : EssenceSlider
 {
-    private void OnEnable()
+    public override void Init(BasicChar who)
     {
-        if (_image == null || basicChar == null || essValue == null)
-        {
-            this.enabled = false;
-        }
+        base.Init(who);
         Essence.essenceSlider += changeMasc;
         basicChar.Masc.ManualUpdate();
     }

@@ -5,8 +5,10 @@ using UnityEngine.UI;
 
 public class LoadButton : MonoBehaviour
 {
+    private SaveMananger saveMananger;
     private playerMain player;
     private Transform pos;
+    private Dorm dorm;
     private GameUI gameUI;
     private TextMeshProUGUI[] _textList;
     private TextMeshProUGUI _text;
@@ -18,9 +20,11 @@ public class LoadButton : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
-        pos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
+        saveMananger = GetComponentInParent<SaveMananger>();
+        player = saveMananger.player;
+        pos = saveMananger.playerSprite;
+        gameUI = saveMananger.gameUI;
+        dorm = saveMananger.dorm;
         _mainPath = Application.persistentDataPath + "/Game_Save/";
         if (!Directory.Exists(_mainPath))
         {
@@ -38,7 +42,7 @@ public class LoadButton : MonoBehaviour
     }
     public void LoadGame()
     {
-        Save save = new Save(player, pos);
+        Save save = new Save(player, pos, dorm);
         string path = CurrentPath();
         if (File.Exists(path))
         {

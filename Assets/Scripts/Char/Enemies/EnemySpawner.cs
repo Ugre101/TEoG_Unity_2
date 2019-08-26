@@ -39,8 +39,8 @@ public class EnemySpawner : MonoBehaviour
         {
             int index = Random.Range(0, _empty.Count);
             int enemyIndex = Random.Range(0, _CurrEnemies.Count - 1);
-            GameObject enemu = Instantiate(_CurrEnemies[enemyIndex], _empty[index], Quaternion.identity);
-            enemu.transform.parent = gameObject.transform;
+            GameObject enemu = Instantiate(_CurrEnemies[enemyIndex], _empty[index], Quaternion.identity, this.transform);
+            enemu.name = _CurrEnemies[enemyIndex].name;
             _enemies.Add(enemu);
             _empty.RemoveAt(index);
         }

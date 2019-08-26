@@ -28,6 +28,10 @@ public class RaceSystem
     }
     public string CurrentRace()
     {
+        if (raceList.Count < 1)
+        {
+            return Races.Humanoid.ToString();
+        }
         string race = FirstRace().ToString();
         // import & improve old race system from javascript version
         return race;
