@@ -59,6 +59,18 @@ public class Dorm : MonoBehaviour
         sercv.name = toAdd.name;
         ServantsDirty = true;
     }
+    public List<GameObject> servantPrefabs;
+    public void Load(DormSave toLoad)
+    {
+       if (servantPrefabs.Exists(n => n.name == toLoad.name))
+        {
+            GameObject loaded = Instantiate(servantPrefabs.Find(n => n.name == toLoad.name), this.transform);
+            loaded.name = toLoad.name;
+            BasicChar loadedChar = loaded.GetComponent<BasicChar>();
+            JsonUtility.FromJsonOverwrite(toLoad.who, loadedChar);
+            ServantsDirty = true;
+        }
+    }
 }
 
 
