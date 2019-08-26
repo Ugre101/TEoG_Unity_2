@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4956ee7d7637eaf428f1267142d128b9, type: 3}
   m_Name: Ride cowgirl
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
   PlayerDick: 0
   PlayerBalls: 0
   PlayerBoobs: 0
