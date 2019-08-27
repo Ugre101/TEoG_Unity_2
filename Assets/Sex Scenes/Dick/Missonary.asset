@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07cc24d402d0f35479324638019145de, type: 3}
   m_Name: Missonary
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
   PlayerDick: 1
   PlayerBalls: 0
   PlayerBoobs: 0
@@ -20,3 +21,8 @@ MonoBehaviour:
   Balls: 0
   Boobs: 0
   Vagina: 1
+  CasterGain: 0
+  ReciverGain: 0
+  EnduranceMultiplier: 1
+  CharmMultiplier: 1
+  StrengthMultiplier: 1

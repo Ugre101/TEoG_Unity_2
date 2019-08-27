@@ -73,6 +73,8 @@ public abstract class SexualOrgan
 {
     [SerializeField]
     protected int _baseSize;
+    protected Races race = Races.Humanoid;
+    public Races Race { get { return race; } }
 
     protected int _lastBase;
     protected float _currSize;
@@ -127,6 +129,10 @@ public abstract class SexualOrgan
     {
         _baseSize -= toShrink;
         return _baseSize <= 0 ? true : false;
+    }
+    public void ChangeRace(Races changeTo)
+    {
+        race = changeTo;
     }
 }
 

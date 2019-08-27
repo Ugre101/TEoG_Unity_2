@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df2b35036a77894bba45882a9aff0eb, type: 3}
   m_Name: Get cunnilingus
   m_EditorClassIdentifier: 
+  settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
   PlayerDick: 0
   PlayerBalls: 0
   PlayerBoobs: 0

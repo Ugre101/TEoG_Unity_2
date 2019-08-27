@@ -6,6 +6,7 @@ using TMPro;
 [CreateAssetMenu(fileName = "Sex scene", menuName = ("Sex/Test"))]
 public class SexScenes : ScriptableObject
 {
+    public Settings settings;
     [Header("Player needs")]
     public bool PlayerDick;
     public bool PlayerBalls;
@@ -99,6 +100,14 @@ public class SexScenes : ScriptableObject
         float OtherGain = 0;
         player.sexStats.GainArousal(PlayerGain);
         other.sexStats.GainArousal(OtherGain);
+    }
+    public string CmOrInch(float size)
+    {
+        return settings != null ? settings.MorInch(size) : size + "cm";
+    }
+    public string BiggestDick(BasicChar whom)
+    {
+        return CmOrInch(whom.Dicks.Max(d => d.Size));
     }
 }
 
