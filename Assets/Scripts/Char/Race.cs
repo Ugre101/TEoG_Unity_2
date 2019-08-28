@@ -26,13 +26,13 @@ public class RaceSystem
             raceList.Add(new Race(race, amount));
         }
     }
-    public string CurrentRace()
+    public Races CurrentRace()
     {
         if (raceList.Count < 1)
         {
-            return Races.Humanoid.ToString();
+            return Races.Humanoid;
         }
-        string race = FirstRace().ToString();
+        Races race = FirstRace();
         // import & improve old race system from javascript version
         return race;
     }

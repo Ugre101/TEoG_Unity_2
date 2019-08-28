@@ -11,6 +11,8 @@ public enum Genders
 }
 public abstract class BasicChar : MonoBehaviour
 {
+    public CharSprites sprites;
+    public SpriteRenderer spriteRenderer;
     [Header("Scriptable objects")]
     public Settings settings;
 
@@ -23,7 +25,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public Inventory Inventory;
     public RaceSystem raceSystem = new RaceSystem();
-    public string Race { get { return raceSystem.CurrentRace(); } }
+    public string Race { get { return raceSystem.CurrentRace().ToString(); } }
     public Genders Gender
     {
         get
@@ -96,7 +98,7 @@ public abstract class BasicChar : MonoBehaviour
     public CharStats charm;
     public CharStats endurance;
     public CharStats dexterity;
-
+    public CharStats intelligence;
     public void init(int lvl, float maxhp, float maxwp)
     {
         hp = new Health(maxhp);
@@ -279,9 +281,14 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField]
     public SexStats sexStats = new SexStats();
 
+    private void Start()
+    {
+        spriteRenderer.sprite = sprites.GetSprite(this);
+    }
     private void Update()
     {
         RefreshOrgans();
+        spriteRenderer.sprite = sprites.GetSprite(this);
     }
     public void RefreshOrgans()
     {

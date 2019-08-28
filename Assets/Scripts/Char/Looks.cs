@@ -16,7 +16,7 @@ public class Looks
     private string Height { get { return settings.MorInch(who.Weight); } }
     private string Weight { get { return settings.KgorP(who.Weight); } }
     private string Name { get { return who.FullName; } }
-    private string Race { get { return who.raceSystem.CurrentRace(); } }
+    private string Race { get { return who.Race; } }
     private string Gender { get { return settings.GetGender(who); } }
     private string Age { get { return $"{who.Age.AgeYears}years old"; } }
 
