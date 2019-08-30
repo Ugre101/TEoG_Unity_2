@@ -9,6 +9,11 @@ public enum Genders
     Cuntboy,
     Doll
 }
+public enum GenderType
+{
+    Feminine,
+    Masculine
+}
 public abstract class BasicChar : MonoBehaviour
 {
     public CharSprites sprites;
@@ -55,6 +60,24 @@ public abstract class BasicChar : MonoBehaviour
             }
         }
     }
+    public GenderType GenderType
+    {
+        get
+        {
+            switch (Gender)
+            {
+                case Genders.Cuntboy:
+                case Genders.Doll:
+                case Genders.Male:
+                    return GenderType.Masculine;
+                case Genders.Dickgirl:
+                case Genders.Female:
+                case Genders.Herm:
+                default:
+                    return GenderType.Feminine;
+            }
+        }
+    }
     public Looks Looks;
     public VoreEngine Vore;
     public Age Age;
@@ -69,15 +92,8 @@ public abstract class BasicChar : MonoBehaviour
         Inventory.Owner = this;
     }
 
-    [Header("Health stats")]
-    [SerializeField]
-    private Health hp;
-
-    [SerializeField]
-    private Health wp;
-
-    public Health HP { get { return hp; } }
-    public Health WP { get { return wp; } }
+    public Health HP;
+    public Health WP;
 
     [Header("Level,exp, stats & perks")]
     [SerializeField]
@@ -101,8 +117,8 @@ public abstract class BasicChar : MonoBehaviour
     public CharStats intelligence;
     public void init(int lvl, float maxhp, float maxwp)
     {
-        hp = new Health(maxhp);
-        wp = new Health(maxwp);
+        HP = new Health(maxhp);
+        WP = new Health(maxwp);
         expSystem.Level = lvl;
     }
     [Header("Essence")]

@@ -126,12 +126,27 @@ PrefabInstance:
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: assingRace.Options.Array.data[1].Weight
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: assingRace.Options.Array.data[2].Weight
-      value: 8
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[0].Race
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[1].Race
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[2].Race
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ff97384ec7103546830b3b3d7bc14bb, type: 3}

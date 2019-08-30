@@ -1,12 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Char sprites", menuName = "Char sprites")]
+[CreateAssetMenu(fileName = "Char sprites", menuName = "Char/Char sprites")]
 public class CharSprites : ScriptableObject
 {
     [Header("Human")]
     public Sprite humanMaleScout;
+
     public Sprite humanMaleWarrior;
     public Sprite humanMaleWorker;
     public Sprite humanMaleBarbarian;
@@ -15,30 +15,40 @@ public class CharSprites : ScriptableObject
     public Sprite humanFemaleWarrior;
     public Sprite humanFemaleThug;
     public Sprite humanFemaleMage;
+
     [Header("Orc")]
     public Sprite orcMaleWarrior;
+
     public Sprite orcMaleShaman;
+
     [Header("Elf")]
     public Sprite elfMale;
+
     public Sprite elfFemale;
+
     [Header("Dwarf")]
     public Sprite dwarfMale;
+
     public Sprite dwarfFemale;
     public Sprite dwarfFemaleHealer;
+
     [Header("Drow")]
     public Sprite drowMale;
+
     public Sprite drowFemale;
+
     public void OnEnable()
     {
         // Nice this works meaning I can use this to know what sprite to save!
         Debug.Log(humanMaleWarrior.name);
     }
+
     public Sprite GetSprite(BasicChar who)
     {
         switch (who.raceSystem.CurrentRace())
         {
             case Races.Dwarf:
-                if (GetGenderType(who) == GenderType.Feminine)
+                if (who.GenderType == GenderType.Feminine)
                 {
                     if (who.strength.Value > who.intelligence.Value)
                     {
@@ -48,23 +58,26 @@ public class CharSprites : ScriptableObject
                     {
                         return dwarfFemaleHealer;
                     }
-                }else
+                }
+                else
                 {
                     return dwarfMale;
                 }
             case Races.Elf:
-                if (GetGenderType(who) == GenderType.Feminine)
+                if (who.GenderType == GenderType.Feminine)
                 {
                     return elfFemale;
-                }else
+                }
+                else
                 {
                     return elfMale;
                 }
             case Races.Human:
-                if (GetGenderType(who) == GenderType.Feminine)
+                if (who.GenderType == GenderType.Feminine)
                 {
                     return humanFemaleWarrior;
-                }else
+                }
+                else
                 {
                     return humanMaleScout;
                 }
@@ -72,7 +85,8 @@ public class CharSprites : ScriptableObject
                 if (who.strength.Value > who.intelligence.Value)
                 {
                     return orcMaleWarrior;
-                }else
+                }
+                else
                 {
                     return orcMaleShaman;
                 }
@@ -80,24 +94,33 @@ public class CharSprites : ScriptableObject
                 return humanMaleScout;
         }
     }
-    enum GenderType
+
+    private List<CharSprite> charSprites;
+
+    private void BestMatch(BasicChar who)
     {
-        Feminine,
-        Masculine
-    }
-    private GenderType GetGenderType(BasicChar who)
-    {
-        switch (who.Gender)
+        if (charSprites.Exists(c => c.race.ToString() == who.Race))
         {
-            case Genders.Cuntboy:
-            case Genders.Doll:
-            case Genders.Male:
-                return GenderType.Masculine;
-            case Genders.Dickgirl:
-            case Genders.Female:
-            case Genders.Herm:
-            default:
-                return GenderType.Feminine;
+            if (charSprites.Exists(c => c.gender == who.Gender))
+            {
+                // if class exist chose class
+            }else
+            {
+               
+                // default for race
+            }
+        }
+        else
+        {
+            // Default
         }
     }
+}
+
+public class CharSprite
+{
+    public Genders gender;
+    public Races race;
+    public Sprite sprite;
+    public ClassTypes classType;
 }

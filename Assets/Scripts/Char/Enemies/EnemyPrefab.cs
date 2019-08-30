@@ -2,7 +2,10 @@
 [System.Serializable]
 public class EnemyPrefab : BasicChar
 {
-    public AssingRace assingRace = new AssingRace();
+    public bool NeedFirstName = true;
+    public bool NeedLastName = true;
+    public RandomName randomName;
+    public AssingRace assingRace;
     [Tooltip("Chosen values get mulitled by random range 0.5f to 1.5f")]
     public Reward reward;
     [Tooltip("Multiplied by 0.8f to 1.2f")]
@@ -45,5 +48,19 @@ public class EnemyPrefab : BasicChar
         Body = new Body(Mathf.FloorToInt(assingHeight * Random.Range(0.9f,1.1f)), Mathf.FloorToInt(assingWeight * Random.Range(0.9f,1.1f)), 
             Mathf.FloorToInt(assingFat * Random.Range(0.9f,1.1f)), Mathf.FloorToInt(assingMuscle * Random.Range(0.9f,1.1f)));
         raceSystem.AddRace(assingRace.GetRace(),100);
+        if (NeedFirstName)
+        {
+           if (GenderType == GenderType.Masculine)
+            {
+                firstName = randomName.MaleName;
+            }else
+            {
+                firstName = randomName.FemaleName;
+            }
+        }
+        if (NeedLastName)
+        {
+            lastName = randomName.LastName;
+        }
     }
 }
