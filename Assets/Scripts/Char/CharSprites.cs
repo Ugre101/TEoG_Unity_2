@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Char sprites", menuName = "Char/Char sprites")]
+[CreateAssetMenu(fileName = "Char sprites", menuName = "Char/CharSprites/Holder")]
 public class CharSprites : ScriptableObject
 {
     [Header("Human")]
@@ -45,82 +45,88 @@ public class CharSprites : ScriptableObject
 
     public Sprite GetSprite(BasicChar who)
     {
-        switch (who.raceSystem.CurrentRace())
-        {
-            case Races.Dwarf:
-                if (who.GenderType == GenderType.Feminine)
-                {
-                    if (who.strength.Value > who.intelligence.Value)
-                    {
-                        return dwarfFemale;
-                    }
-                    else
-                    {
-                        return dwarfFemaleHealer;
-                    }
-                }
-                else
-                {
-                    return dwarfMale;
-                }
-            case Races.Elf:
-                if (who.GenderType == GenderType.Feminine)
-                {
-                    return elfFemale;
-                }
-                else
-                {
-                    return elfMale;
-                }
-            case Races.Human:
-                if (who.GenderType == GenderType.Feminine)
-                {
-                    return humanFemaleWarrior;
-                }
-                else
-                {
-                    return humanMaleScout;
-                }
-            case Races.Orc:
-                if (who.strength.Value > who.intelligence.Value)
-                {
-                    return orcMaleWarrior;
-                }
-                else
-                {
-                    return orcMaleShaman;
-                }
-            default:
-                return humanMaleScout;
-        }
+        return BestMatch(who).sprite;
+        #region old code
+        /* switch (who.raceSystem.CurrentRace())
+         {
+             case Races.Dwarf:
+                 if (who.GenderType == GenderType.Feminine)
+                 {
+                     if (who.strength.Value > who.intelligence.Value)
+                     {
+                         return dwarfFemale;
+                     }
+                     else
+                     {
+                         return dwarfFemaleHealer;
+                     }
+                 }
+                 else
+                 {
+                     return dwarfMale;
+                 }
+             case Races.Elf:
+                 if (who.GenderType == GenderType.Feminine)
+                 {
+                     return elfFemale;
+                 }
+                 else
+                 {
+                     return elfMale;
+                 }
+             case Races.Human:
+                 if (who.GenderType == GenderType.Feminine)
+                 {
+                     return humanFemaleWarrior;
+                 }
+                 else
+                 {
+                     return humanMaleScout;
+                 }
+             case Races.Orc:
+                 if (who.strength.Value > who.intelligence.Value)
+                 {
+                     return orcMaleWarrior;
+                 }
+                 else
+                 {
+                     return orcMaleShaman;
+                 }
+             default:
+                 return humanMaleScout;
+         } */
+        #endregion
     }
 
-    private List<CharSprite> charSprites;
+    public CharSprite defaultSprite;
+    public List<CharSprite> charSprites;
 
-    private void BestMatch(BasicChar who)
+    private CharSprite BestMatch(BasicChar who)
     {
+        Debug.Log(who.Race);
         if (charSprites.Exists(c => c.race.ToString() == who.Race))
         {
             if (charSprites.Exists(c => c.gender == who.Gender))
             {
                 // if class exist chose class
-            }else
+                if (false)
+                {
+
+                }else
+                {
+                    return charSprites.Find(c => c.gender == who.Gender);
+                }
+            }
+            else
             {
-               
-                // default for race
+                // first hit
+                return charSprites.Find(c => c.race.ToString() == who.Race);
             }
         }
         else
         {
             // Default
+            return defaultSprite;
         }
     }
-}
-
-public class CharSprite
-{
-    public Genders gender;
-    public Races race;
-    public Sprite sprite;
-    public ClassTypes classType;
 }

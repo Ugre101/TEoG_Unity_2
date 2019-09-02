@@ -36,7 +36,7 @@ public class EnemyPrefab : BasicChar
     [SerializeField]
     [Range(0, 100)]
     private int assingMuscle;
-    private void Start()
+    public override void Start()
     {
         strength._baseValue = Mathf.FloorToInt(assingStr * Random.Range(0.8f, 1.2f));
         charm._baseValue = Mathf.FloorToInt(assingCharm * Random.Range(0.8f, 1.2f));
@@ -62,5 +62,6 @@ public class EnemyPrefab : BasicChar
         {
             lastName = randomName.LastName;
         }
+        base.Start();
     }
 }

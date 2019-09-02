@@ -103,6 +103,9 @@ MonoBehaviour:
   boobs: []
   lactating: 0
   vaginas: []
+  NeedFirstName: 1
+  NeedLastName: 1
+  randomName: {fileID: 11400000, guid: 0f369db329ad0a5408daee8e97de42fb, type: 2}
   assingRace:
     Options:
     - Race: 1

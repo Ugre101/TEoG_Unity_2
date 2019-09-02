@@ -17,7 +17,7 @@ public enum GenderType
 public abstract class BasicChar : MonoBehaviour
 {
     public CharSprites sprites;
-    public SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
     [Header("Scriptable objects")]
     public Settings settings;
 
@@ -90,6 +90,7 @@ public abstract class BasicChar : MonoBehaviour
         Vore = new VoreEngine(eventLog, this);
         Age = new Age();
         Inventory.Owner = this;
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public Health HP;
@@ -297,14 +298,14 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField]
     public SexStats sexStats = new SexStats();
 
-    private void Start()
+    public virtual void Start()
     {
         spriteRenderer.sprite = sprites.GetSprite(this);
     }
     private void Update()
     {
         RefreshOrgans();
-        spriteRenderer.sprite = sprites.GetSprite(this);
+    
     }
     public void RefreshOrgans()
     {

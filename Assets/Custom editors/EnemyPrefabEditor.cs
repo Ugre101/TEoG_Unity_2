@@ -99,8 +99,6 @@ public class EnemyPrefabEditor : Editor
                     myTarget.eventLog = (EventLog)EditorGUILayout.ObjectField(myTarget.eventLog, typeof(EventLog), true);
                 GUILayout.EndHorizontal();
             GUILayout.EndVertical();
-        GUILayout.Label("Sprite renderer");
-        myTarget.spriteRenderer = (SpriteRenderer)EditorGUILayout.ObjectField(myTarget.spriteRenderer, typeof(SpriteRenderer), true);
         GUILayout.Label("Standard editor and end of custom editor", EditorStyles.boldLabel);
         GUILayout.Space(20);
         base.OnInspectorGUI();
