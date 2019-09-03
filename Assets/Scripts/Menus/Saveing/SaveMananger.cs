@@ -8,6 +8,7 @@ public class SaveMananger : MonoBehaviour
     public Transform playerSprite;
     public Dorm dorm;
     public GameUI gameUI;
+    public MapEvents mapEvents;
     private string _mainPath;
 
     private void Start()
@@ -37,7 +38,7 @@ public class SaveMananger : MonoBehaviour
         }
         cleanPath = cleanPath.Replace(" ", string.Empty);
         string path = _mainPath + cleanPath + ".json";
-        Save save = new Save(player, playerSprite, dorm);
+        Save save = new Save(player, playerSprite, dorm, mapEvents);
         File.WriteAllText(path, save.SaveData());
     }
 }

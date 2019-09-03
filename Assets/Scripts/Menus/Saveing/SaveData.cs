@@ -10,35 +10,40 @@ public class Save
     private playerMain Player;
     private Transform Pos;
     private Dorm dorm;
+    private MapEvents mapEvents;
     private string playerFlag = "PlayerPart";
     private string posFlag = "PosPart";
     private string json;
     private string dormNames;
     private string dormChars;
     private PlayerSave save;
-    public Save (playerMain player, Transform pos, Dorm theDorm)
+    public Save (playerMain player, Transform pos, Dorm theDorm, MapEvents map)
     {
         Player = player;
         Pos = pos.transform;
         dorm = theDorm;
+        mapEvents = map;
     }
     public string SaveData()
     {
-        save = new PlayerSave(Pos.position, Player);
+        save = new PlayerSave(Player);
         List<DormSave> temp = new List<DormSave>();
         foreach(Transform child in dorm.transform)
         {
             DormSave tempDorm = new DormSave(child.name, child.GetComponent<BasicChar>());
             temp.Add(tempDorm);
         }
-        FullSave fullSave = new FullSave(save, temp);
+        PosSave pos = new PosSave(Pos.position,mapEvents.ActiveMap,mapEvents.CurrentMap.transform.name);
+        FullSave fullSave = new FullSave(save,pos,temp);
         Debug.Log(JsonUtility.ToJson(fullSave));
+        
         return JsonUtility.ToJson(fullSave);
     }
     public void LoadData(string json)
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
-        Pos.position = fullSave.playerPart.pos;
+        mapEvents.Load(fullSave.posPart);
+       // Pos.position = fullSave.posPart.pos;
         JsonUtility.FromJsonOverwrite(fullSave.playerPart.who, Player);
         foreach(Transform child in dorm.transform)
         {
@@ -54,23 +59,37 @@ public class Save
 public class FullSave
 {
     public PlayerSave playerPart;
+    public PosSave posPart;
     public List <DormSave> dormPart;
-    public FullSave(PlayerSave player,List <DormSave> dorm)
+    public FullSave(PlayerSave player,PosSave pos,List <DormSave> dorm)
     {
         playerPart = player;
+        posPart = pos;
         dormPart = dorm;
     }
 }
 [Serializable]
 public class PlayerSave
 {
-    public Vector3 pos;
+    //public Vector3 pos;
     public string who;
-    public PlayerSave(Vector3 Pos, BasicChar whom)
+    public PlayerSave(BasicChar whom)
     {
-        pos = Pos;
         who = JsonUtility.ToJson(whom);
     } 
+}
+[Serializable]
+public class PosSave
+{
+    public Vector3 pos;
+    public WorldMaps world;
+    public string map;
+    public PosSave(Vector3 vec3,WorldMaps currWorld,string currMap)
+    {
+        pos = vec3;
+        world = currWorld;
+        map = currMap;
+    }
 }
 
 [Serializable]

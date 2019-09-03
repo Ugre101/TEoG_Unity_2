@@ -103,7 +103,6 @@ public class CharSprites : ScriptableObject
 
     private CharSprite BestMatch(BasicChar who)
     {
-        Debug.Log(who.Race);
         if (charSprites.Exists(c => c.race.ToString() == who.Race))
         {
             if (charSprites.Exists(c => c.gender == who.Gender))

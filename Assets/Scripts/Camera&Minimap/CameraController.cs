@@ -69,6 +69,5 @@ public class CameraController : MonoBehaviour
     private void DoorChanged()
     {
         _map = mapEvents.CurrentMap;
-        Debug.Log(_map);
     }
 }

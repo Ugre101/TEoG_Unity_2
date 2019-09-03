@@ -62,13 +62,17 @@ public class LoadButtonStart : MonoBehaviour
     private Transform pos;
     private Dorm dorm;
     private GameUI gameUI;
+    private MapEvents mapEvents;
+    private SaveMananger saveMananger;
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
-        pos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
-        dorm = GameObject.Find("Dorm-servants").GetComponent<Dorm>();
-        Save save = new Save(player, pos, dorm);
+        saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
+        player = saveMananger.player; //GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
+        pos = saveMananger.playerSprite; //GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        gameUI = saveMananger.gameUI; //GameObject.Find("Canvas").GetComponent<GameUI>();
+        dorm = saveMananger.dorm; //GameObject.Find("Dorm-servants").GetComponent<Dorm>();
+        mapEvents = saveMananger.mapEvents;
+        Save save = new Save(player, pos, dorm,mapEvents);
         string path = CurrentPath();
         if (File.Exists(path))
         {

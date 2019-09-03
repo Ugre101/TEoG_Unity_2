@@ -10,6 +10,7 @@ public class LoadButton : MonoBehaviour
     private Transform pos;
     private Dorm dorm;
     private GameUI gameUI;
+    private MapEvents mapEvents;
     private TextMeshProUGUI[] _textList;
     private TextMeshProUGUI _text;
     private Button[] _buttons;
@@ -25,6 +26,7 @@ public class LoadButton : MonoBehaviour
         pos = saveMananger.playerSprite;
         gameUI = saveMananger.gameUI;
         dorm = saveMananger.dorm;
+        mapEvents = saveMananger.mapEvents;
         _mainPath = Application.persistentDataPath + "/Game_Save/";
         if (!Directory.Exists(_mainPath))
         {
@@ -42,7 +44,7 @@ public class LoadButton : MonoBehaviour
     }
     public void LoadGame()
     {
-        Save save = new Save(player, pos, dorm);
+        Save save = new Save(player, pos, dorm,mapEvents);
         string path = CurrentPath();
         if (File.Exists(path))
         {
