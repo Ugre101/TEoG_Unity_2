@@ -1,13 +1,17 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class Inventory 
 {
-    private int SlotsAmount = 40;
+    // Base amount
+    private readonly int baseAmount = 40;
+    // Maybe add bonus to inventory size?
+    public int SlotsAmount { get { return baseAmount; } }
     public Items itemRefs;
-    public BasicChar Owner;
+    //public BasicChar Owner;
     public List<InventoryItem> Items = new List<InventoryItem>();
     public bool AddItem(ItemRefs theitem)
     {
@@ -21,8 +25,10 @@ public class Inventory
             Items.Find(i => i.item.Title == toAdd.Title).amount++;
         }else
         {
-            InventoryItem newItem = new InventoryItem(toAdd);
-            newItem.invPos = FirstEmpty();
+            InventoryItem newItem = new InventoryItem(toAdd)
+            {
+                invPos = FirstEmpty()
+            };
             Items.Add(newItem);
         }
         return true;

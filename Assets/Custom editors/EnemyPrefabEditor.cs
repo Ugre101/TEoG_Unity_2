@@ -84,7 +84,7 @@ public class EnemyPrefabEditor : Editor
             GUILayout.EndVertical();
         }
 
-        EditorGUILayout.LabelField("Sciptable Objects",EditorStyles.boldLabel);
+       /* EditorGUILayout.LabelField("Sciptable Objects",EditorStyles.boldLabel);
             GUILayout.BeginVertical("Box");
                 GUILayout.BeginHorizontal();
                     GUILayout.Label("Sprites");
@@ -98,7 +98,7 @@ public class EnemyPrefabEditor : Editor
                     GUILayout.Label("EventLog");
                     myTarget.eventLog = (EventLog)EditorGUILayout.ObjectField(myTarget.eventLog, typeof(EventLog), true);
                 GUILayout.EndHorizontal();
-            GUILayout.EndVertical();
+           GUILayout.EndVertical(); */
         GUILayout.Label("Standard editor and end of custom editor", EditorStyles.boldLabel);
         GUILayout.Space(20);
         base.OnInspectorGUI();

@@ -23,7 +23,7 @@ public class SaveMananger : MonoBehaviour
     public void NewSaveGame()
     {
         DateTime now = DateTime.Now;
-        string cleanPath = "playerName" + now;
+        string cleanPath = player.FullName + now;
         char[] illegal = Path.GetInvalidFileNameChars();
         // if file contain illegal chars replave them
         if (illegal.Length > 0 && cleanPath.IndexOfAny(illegal) != -1) 

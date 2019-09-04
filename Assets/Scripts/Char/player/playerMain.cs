@@ -7,9 +7,10 @@ public class playerMain : BasicChar
     public QuestsSystem Quest= new QuestsSystem();
     public PlayerFlags PlayerFlags = new PlayerFlags();
     // Start is called before the first frame update
-    public void Start()
+    public override void Start()
     {
-        init(1, 100f, 100f);
+        base.Start();
+        Init(1, 100f, 100f);
         strength._baseValue = 10;
         charm._baseValue = 10;
         dexterity._baseValue = 10;

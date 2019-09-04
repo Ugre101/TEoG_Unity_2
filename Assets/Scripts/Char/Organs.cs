@@ -57,15 +57,15 @@ public class SexualFluid
         if (Current < Max)
         {
             _current += Mathf.Min(CumRate,Max - Current);
-            fluidSlider?.Invoke();
+            FluidSlider?.Invoke();
         }
     }
     public void ManualSlider()
     {
-        fluidSlider?.Invoke();
+        FluidSlider?.Invoke();
     }
-    public delegate void FluidSlider();
-    public static event FluidSlider fluidSlider;
+    public delegate void fluidSlider();
+    public static event fluidSlider FluidSlider;
 }
 
 [System.Serializable]
@@ -141,6 +141,7 @@ public class Dick : SexualOrgan
 {
 
 }
+
 public static class DickExtensions
 {
     public static float Total(this List<Dick> dicks)
@@ -173,6 +174,7 @@ public static class DickExtensions
             return toShrink.Cost;
         }
     }
+
 }
 
 [System.Serializable]

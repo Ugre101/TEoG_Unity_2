@@ -7,7 +7,7 @@ public class CumBar : FluidSliders
 {
     private void OnEnable()
     {
-        SexualFluid.fluidSlider += CumChange;
+        SexualFluid.FluidSlider += CumChange;
         if (player.Balls.Count > 0)
         {
            player.Balls[0].Fluid.ManualSlider();
@@ -16,7 +16,7 @@ public class CumBar : FluidSliders
    
     private void OnDisable()
     {
-        SexualFluid.fluidSlider -= CumChange;
+        SexualFluid.FluidSlider -= CumChange;
     }
 
     private void CumChange()

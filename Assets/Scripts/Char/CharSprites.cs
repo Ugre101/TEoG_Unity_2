@@ -4,43 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Char sprites", menuName = "Char/CharSprites/Holder")]
 public class CharSprites : ScriptableObject
 {
-    [Header("Human")]
-    public Sprite humanMaleScout;
-
-    public Sprite humanMaleWarrior;
-    public Sprite humanMaleWorker;
-    public Sprite humanMaleBarbarian;
-    public Sprite humanMaleThug;
-    public Sprite humanMaleMage;
-    public Sprite humanFemaleWarrior;
-    public Sprite humanFemaleThug;
-    public Sprite humanFemaleMage;
-
-    [Header("Orc")]
-    public Sprite orcMaleWarrior;
-
-    public Sprite orcMaleShaman;
-
-    [Header("Elf")]
-    public Sprite elfMale;
-
-    public Sprite elfFemale;
-
-    [Header("Dwarf")]
-    public Sprite dwarfMale;
-
-    public Sprite dwarfFemale;
-    public Sprite dwarfFemaleHealer;
-
-    [Header("Drow")]
-    public Sprite drowMale;
-
-    public Sprite drowFemale;
-
     public void OnEnable()
     {
-        // Nice this works meaning I can use this to know what sprite to save!
-        Debug.Log(humanMaleWarrior.name);
+
     }
 
     public Sprite GetSprite(BasicChar who)

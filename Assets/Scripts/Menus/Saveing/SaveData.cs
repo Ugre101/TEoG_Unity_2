@@ -7,15 +7,10 @@ using UnityEngine;
 [Serializable]
 public class Save 
 {
-    private playerMain Player;
-    private Transform Pos;
-    private Dorm dorm;
-    private MapEvents mapEvents;
-    private string playerFlag = "PlayerPart";
-    private string posFlag = "PosPart";
-    private string json;
-    private string dormNames;
-    private string dormChars;
+    private readonly playerMain Player;
+    private readonly Transform Pos;
+    private readonly Dorm dorm;
+    private readonly MapEvents mapEvents;
     private PlayerSave save;
     public Save (playerMain player, Transform pos, Dorm theDorm, MapEvents map)
     {

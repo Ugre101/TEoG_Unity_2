@@ -9,7 +9,7 @@ public class MilkBar : FluidSliders
 
     private void OnEnable()
     {
-        SexualFluid.fluidSlider += MilkChange;
+        SexualFluid.FluidSlider += MilkChange;
         if (player.Lactating && player.Boobs.Count > 0)
         {
             player.Boobs[0].Fluid.ManualSlider();
@@ -17,7 +17,7 @@ public class MilkBar : FluidSliders
     }
     private void OnDisable()
     {
-        SexualFluid.fluidSlider -= MilkChange;
+        SexualFluid.FluidSlider -= MilkChange;
     }
     private void MilkChange()
     {

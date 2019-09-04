@@ -16,6 +16,7 @@ public class Flags
     public FlagInt Pregnant;
     public FlagInt ImPregnated;
 }
+[System.Serializable]
 public class PlayerFlags 
 {
     public bool BeatenBanditLord = false;

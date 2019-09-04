@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         _map = mapEvents.CurrentMap;
-        MapEvents.worldMapChange += DoorChanged;
+        MapEvents.WorldMapChange += DoorChanged;
         cam = GetComponent<Camera>();
     }
 

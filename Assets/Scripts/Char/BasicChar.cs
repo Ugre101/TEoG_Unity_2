@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+
 public enum Genders
 {
     Male,
@@ -9,19 +10,16 @@ public enum Genders
     Cuntboy,
     Doll
 }
+
 public enum GenderType
 {
     Feminine,
     Masculine
 }
+
 public abstract class BasicChar : MonoBehaviour
 {
-    public CharSprites sprites;
-    private SpriteRenderer spriteRenderer;
-    [Header("Scriptable objects")]
-    public Settings settings;
-
-    public EventLog eventLog;
+    protected BasicCharGame basicCharGame;
 
     [Space]
     public string firstName, lastName;
@@ -31,6 +29,7 @@ public abstract class BasicChar : MonoBehaviour
     public Inventory Inventory;
     public RaceSystem raceSystem = new RaceSystem();
     public string Race { get { return raceSystem.CurrentRace().ToString(); } }
+
     public Genders Gender
     {
         get
@@ -38,7 +37,8 @@ public abstract class BasicChar : MonoBehaviour
             if (Dicks.Count > 0 && Vaginas.Count > 0)
             {
                 return Genders.Herm;
-            }else if (Dicks.Count > 0 && Boobs.Total() > 2)
+            }
+            else if (Dicks.Count > 0 && Boobs.Total() > 2)
             {
                 return Genders.Dickgirl;
             }
@@ -60,6 +60,7 @@ public abstract class BasicChar : MonoBehaviour
             }
         }
     }
+
     public GenderType GenderType
     {
         get
@@ -70,6 +71,7 @@ public abstract class BasicChar : MonoBehaviour
                 case Genders.Doll:
                 case Genders.Male:
                     return GenderType.Masculine;
+
                 case Genders.Dickgirl:
                 case Genders.Female:
                 case Genders.Herm:
@@ -78,6 +80,7 @@ public abstract class BasicChar : MonoBehaviour
             }
         }
     }
+
     public Looks Looks;
     public VoreEngine Vore;
     public Age Age;
@@ -86,11 +89,6 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void Awake()
     {
-        Looks = new Looks(settings, this);
-        Vore = new VoreEngine(eventLog, this);
-        Age = new Age();
-        Inventory.Owner = this;
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public Health HP;
@@ -112,16 +110,23 @@ public abstract class BasicChar : MonoBehaviour
 
     [Header("Stats")]
     public CharStats strength;
+    public float Str { get { return strength.Value; } }
     public CharStats charm;
+    public float Charm { get { return charm.Value; } }
     public CharStats endurance;
+    public float End { get { return endurance.Value; } }
     public CharStats dexterity;
+    public float Dex { get { return dexterity.Value; } }
     public CharStats intelligence;
-    public void init(int lvl, float maxhp, float maxwp)
+    public float Int { get { return intelligence.Value; } }
+    
+    public void Init(int lvl, float maxhp, float maxwp)
     {
         HP = new Health(maxhp);
         WP = new Health(maxwp);
         expSystem.Level = lvl;
     }
+
     [Header("Essence")]
     [SerializeField]
     private bool autoEss = true;
@@ -136,10 +141,10 @@ public abstract class BasicChar : MonoBehaviour
 
     [SerializeField]
     private Essence masc = new Essence();
+    public Essence Masc { get { return masc; } }
+
     [SerializeField]
     private Essence femi = new Essence();
-
-    public Essence Masc { get { return masc; } }
     public Essence Femi { get { return femi; } }
     public float EssDrain { get { return 3 + Perk.PerkBonus(PerksTypes.GainEss); } }
     public float EssGive { get { return 3 + Perk.PerkBonus(PerksTypes.GiveEss); } }
@@ -152,9 +157,9 @@ public abstract class BasicChar : MonoBehaviour
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            while (missing > fromOrgans && (dicks.Count > 0 || balls.Count > 0))// have needed organs
+            while (missing > fromOrgans && (Dicks.Count > 0 || Balls.Count > 0))// have needed organs
             {
-                if (balls.Count > 0 && dicks.Count > 0)
+                if (Balls.Count > 0 && Dicks.Count > 0)
                 {
                     if (Dicks.Total() >= Balls.Total() * 2f + 1f)
                     {
@@ -165,7 +170,7 @@ public abstract class BasicChar : MonoBehaviour
                         fromOrgans += Balls.ReCycle();
                     }
                 }
-                else if (balls.Count > 0)
+                else if (Balls.Count > 0)
                 {
                     fromOrgans += Balls.ReCycle();
                 }
@@ -222,6 +227,7 @@ public abstract class BasicChar : MonoBehaviour
         }
         return have;
     }
+
     [Space]
     [SerializeField]
     private float gold = 0;
@@ -295,45 +301,37 @@ public abstract class BasicChar : MonoBehaviour
     private List<Vagina> vaginas = new List<Vagina>();
 
     public List<Vagina> Vaginas { get { return vaginas; } }
-    [SerializeField]
     public SexStats sexStats = new SexStats();
 
     public virtual void Start()
     {
-        spriteRenderer.sprite = sprites.GetSprite(this);
+        basicCharGame = GetComponent<BasicCharGame>();
+        Looks = new Looks(basicCharGame.settings, this);
+        Vore = new VoreEngine(basicCharGame.eventLog, this);
+        Age = new Age();
+        //Inventory.Owner = this;
     }
+
     private void Update()
     {
         RefreshOrgans();
-    
     }
+
     public void RefreshOrgans()
     {
-        foreach (Dick d in Dicks.FindAll(x => x.Size <= 0))
-        {
-            Dicks.Remove(d);
-        }
-        foreach (Balls b in balls.FindAll(x => x.Size <= 0))
-        {
-            balls.Remove(b);
-        }
-        foreach (Vagina v in vaginas.FindAll(x => x.Size <= 0))
-        {
-            vaginas.Remove(v);
-        }
-        foreach (Boobs b in boobs.FindAll(x => x.Size <= 0))
-        {
-            boobs.Remove(b);
-        }
+        Dicks.RemoveAll(d => d.Size <= 0);
+        Balls.RemoveAll(b => b.Size <= 0);
+        Vaginas.RemoveAll(v => v.Size <= 0);
+        Boobs.RemoveAll(b => b.Size <= 0);
         if (autoEss)
         {
             if (Masc.Amount > 0)
             {
                 if (Dicks.Total() <= Balls.Total() * 2f + 1f)
                 {
-                    if (dicks.Exists(d => Masc.Amount >= d.Cost))
+                    if (Dicks.Exists(d => Masc.Amount >= d.Cost))
                     {
-                        foreach (Dick d in dicks)
+                        foreach (Dick d in Dicks)
                         {
                             if (Masc.Amount >= d.Cost)
                             {
@@ -349,9 +347,9 @@ public abstract class BasicChar : MonoBehaviour
                 }
                 else
                 {
-                    if (balls.Exists(b => Masc.Amount >= b.Cost))
+                    if (Balls.Exists(b => Masc.Amount >= b.Cost))
                     {
-                        foreach (Balls b in balls)
+                        foreach (Balls b in Balls)
                         {
                             if (Masc.Amount >= b.Cost)
                             {
@@ -372,7 +370,7 @@ public abstract class BasicChar : MonoBehaviour
                 {
                     if (Boobs.Exists(b => Femi.Amount >= b.Cost))
                     {
-                        foreach (Boobs b in boobs)
+                        foreach (Boobs b in Boobs)
                         {
                             if (Femi.Amount >= b.Cost)
                             {
@@ -390,7 +388,7 @@ public abstract class BasicChar : MonoBehaviour
                 {
                     if (Vaginas.Exists(v => Femi.Amount >= v.Cost))
                     {
-                        foreach (Vagina v in vaginas)
+                        foreach (Vagina v in Vaginas)
                         {
                             if (Femi.Amount >= v.Cost)
                             {

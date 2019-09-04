@@ -18,7 +18,6 @@ public class ShowDorm : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        Debug.Log(dorm.Servants.Count);
         foreach(BasicChar Serv in dorm.Servants)
         {
             GameObject test = Instantiate(ServantListPrefab, container.transform);
