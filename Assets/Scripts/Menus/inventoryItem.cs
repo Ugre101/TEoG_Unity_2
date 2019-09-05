@@ -14,10 +14,6 @@ public class inventoryItem : MonoBehaviour
         Debug.Log("Using item" + Item.name);
         Item.Use();
      //   amount.text = Item.Amount.ToString();
-       // if (Item.Amount < 1)
-       // {
-        //    used?.Invoke();
-       // }
     }
     public void NewItem(Item item)
     {

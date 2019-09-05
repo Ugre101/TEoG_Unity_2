@@ -125,12 +125,27 @@ PrefabInstance:
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: assingRace.Options.Array.data[1].Race
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: assingRace.Options.Array.data[1].Weight
-      value: 7
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[2].Weight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[2].Race
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[3].Weight
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
