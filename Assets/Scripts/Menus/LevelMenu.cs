@@ -8,8 +8,10 @@ public class LevelMenu : MonoBehaviour
     public GameObject _str;
 
     public GameObject _charm, _end, _int, _will, _dex;
+
     [Header("Perk buttons")]
     public GameObject _fasterRest;
+
     public GameObject _moreEss, _giveEss;
 
     [Header("Player")]
@@ -105,6 +107,7 @@ public class LevelMenu : MonoBehaviour
             _dexText.text = $"Dexterity: {_player.dexterity._baseValue}";
         }
     }
+
     // Perks
     private void FasterRest()
     {
@@ -114,6 +117,7 @@ public class LevelMenu : MonoBehaviour
             _fasterText.text = _player.Perk.DisplayPerk(PerksTypes.FasterRest);
         }
     }
+
     private void GiveEss()
     {
         if (_player.PerkBool)
@@ -122,6 +126,7 @@ public class LevelMenu : MonoBehaviour
             _giveText.text = _player.Perk.DisplayPerk(PerksTypes.GiveEss);
         }
     }
+
     private void GainEss()
     {
         if (_player.PerkBool)

@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 // Scriptable object to hold all keybindings
-[CreateAssetMenu(fileName ="Key bindings", menuName = "Key bindings")]
+[CreateAssetMenu(fileName = "Key bindings", menuName = "Key bindings")]
 public class KeyBindings : ScriptableObject
 {
     public KeyCode saveKey;
@@ -19,6 +17,7 @@ public class KeyBindings : ScriptableObject
     public KeyCode lookKey;
     public KeyCode zoomInKey;
     public KeyCode zoomOutKey;
+
     private void OnEnable()
     {
         // if key saved in playerprefs use that else use default.

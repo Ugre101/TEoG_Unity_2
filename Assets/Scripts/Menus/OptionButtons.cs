@@ -62,6 +62,7 @@ public class OptionButtons : MonoBehaviour
             pixelText.text = $"Pixelperfect: {pixelToggle}";
         }
     }
+
     private void ToggleImp()
     {
         impToggle = settings.ToogleImp();

@@ -62,6 +62,7 @@ public class CombatButtons : MonoBehaviour
             WinBattle();
         }
     }
+
     public void BasicTease()
     {
         float lust = attackMulti(player.charm.Value);

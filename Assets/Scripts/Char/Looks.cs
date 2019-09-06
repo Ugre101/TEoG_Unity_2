@@ -10,6 +10,7 @@ public class Looks
         settings = set;
         who = whom;
     }
+
     protected Settings settings;
     protected BasicChar who;
     private string newLine = Environment.NewLine;
@@ -63,7 +64,7 @@ public class Looks
             {
                 dLooks += $"a {size} long dick";
             }
-             if (i == dicks.Count - 2)
+            if (i == dicks.Count - 2)
             {
                 dLooks += " and ";
             }
@@ -95,7 +96,7 @@ public class Looks
             {
                 bLooks += $"";
             }
-             if (i == balls.Count - 2)
+            if (i == balls.Count - 2)
             {
                 bLooks += $" and ";
             }
@@ -146,13 +147,14 @@ public class Looks
             "K","Large K","L","Large L","M","Large M","N","Large N","O","Large O","scale-breaking"
         };
         int i = Mathf.Clamp(Mathf.FloorToInt(size / 2), 0, Bra.Count - 1);
-      
+
         string prefix()
         {
-            if (i == Bra.Count -1 ||  i < 2)
+            if (i == Bra.Count - 1 || i < 2)
             {
                 return "";
-            }else
+            }
+            else
             {
                 return "-cup";
             }

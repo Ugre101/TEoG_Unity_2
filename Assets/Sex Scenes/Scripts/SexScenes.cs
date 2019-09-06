@@ -1,29 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
-using TMPro;
+
 [CreateAssetMenu(fileName = "Sex scene", menuName = ("Sex/Test"))]
 public class SexScenes : ScriptableObject
 {
     public Settings settings;
+
     [Header("Player needs")]
     public bool PlayerDick;
+
     public bool PlayerBalls;
     public bool PlayerBoobs;
     public bool PlayerVagina;
+
     [Header("Other needs")]
     public bool Dick;
+
     public bool Balls;
     public bool Boobs;
     public bool Vagina;
+
     [Tooltip("These values get multied by char stats")]
     [Header("Base arousal gain")]
     public int CasterGain;
+
     public int ReciverGain;
     public int EnduranceMultiplier = 1;
     public int CharmMultiplier = 1;
     public int StrengthMultiplier = 1;
+
     public virtual bool CanDo(BasicChar player, BasicChar Other)
     {
         if (PlayerDick)
@@ -84,16 +89,19 @@ public class SexScenes : ScriptableObject
         }
         return true;
     }
+
     public virtual string StartScene(playerMain player, BasicChar other)
     {
         ArousalGain(player, other);
         return $"";
     }
+
     public virtual string ContinueScene(playerMain player, BasicChar other)
     {
         ArousalGain(player, other);
         return $"";
     }
+
     public virtual void ArousalGain(playerMain player, BasicChar other)
     {
         float PlayerGain = CasterGain;
@@ -101,10 +109,12 @@ public class SexScenes : ScriptableObject
         player.sexStats.GainArousal(PlayerGain);
         other.sexStats.GainArousal(OtherGain);
     }
+
     public string CmOrInch(float size)
     {
         return settings != null ? settings.MorInch(size) : size + "cm";
     }
+
     public string BiggestDick(BasicChar whom)
     {
         return CmOrInch(whom.Dicks.Max(d => d.Size));
@@ -129,8 +139,8 @@ public class MonoScene : MonoBehaviour
     {
         return true;
     }
-    public virtual void DoScene(playerMain player,BasicChar other)
-    {
 
+    public virtual void DoScene(playerMain player, BasicChar other)
+    {
     }
 }

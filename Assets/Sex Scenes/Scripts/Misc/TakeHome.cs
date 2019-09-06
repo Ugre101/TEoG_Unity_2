@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+
 public class TakeHome : MonoBehaviour
 {
     public Dorm dorm;
@@ -13,6 +11,7 @@ public class TakeHome : MonoBehaviour
         gameUI = GetComponentInParent<GameUI>();
         afterBattle = GetComponentInParent<AfterBattleActions>();
     }
+
     public void DoScene()
     {
         dorm.AddTo(afterBattle.enemies[0].transform.gameObject);

@@ -21,6 +21,7 @@ public class VoreEngine
         Stomach = new VoreStomach(pred);
         Anal = new VoreAnal(pred);
     }
+
     public void Digest()
     {
         if (eventLog != null)
@@ -28,7 +29,7 @@ public class VoreEngine
             List<ThePrey> Ballsdigested = Balls.Digest();
             if (Ballsdigested.Count > 0)
             {
-                foreach(ThePrey prey in Ballsdigested)
+                foreach (ThePrey prey in Ballsdigested)
                 {
                     string text = $"{prey.Prey.FullName} has been fully transfomed into cum.";
                     eventLog.AddTo(text);
@@ -37,7 +38,7 @@ public class VoreEngine
             List<ThePrey> Boobsdigested = Boobs.Digest();
             if (Boobsdigested.Count > 0)
             {
-                foreach(ThePrey prey in Boobsdigested)
+                foreach (ThePrey prey in Boobsdigested)
                 {
                     string text = $"{prey.Prey.FullName} is now nothing but milk.";
                     eventLog.AddTo(text);
@@ -46,7 +47,7 @@ public class VoreEngine
             List<ThePrey> Stomachdigested = Stomach.Digest();
             if (Stomachdigested.Count > 0)
             {
-                foreach(ThePrey prey in Stomachdigested)
+                foreach (ThePrey prey in Stomachdigested)
                 {
                     string text = $"{prey.Prey.FullName} has been digested.";
                     eventLog.AddTo(text);
@@ -55,14 +56,15 @@ public class VoreEngine
             List<ThePrey> Analdigested = Anal.Digest();
             if (Analdigested.Count > 0)
             {
-                foreach(ThePrey prey in Analdigested)
+                foreach (ThePrey prey in Analdigested)
                 {
                     string text = $"{prey.Prey.FullName} has been reduced to nothing in your bowels.";
                     eventLog.AddTo(text);
                 }
             }
             // unbirth or rebirth
-        }else
+        }
+        else
         {
             Balls.Digest();
             Boobs.Digest();
@@ -71,7 +73,6 @@ public class VoreEngine
             // unbirth or rebirth
         }
     }
-
 }
 
 public class ThePrey

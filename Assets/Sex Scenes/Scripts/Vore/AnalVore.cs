@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 [CreateAssetMenu(fileName = "Anal vore", menuName = ("Sex/Vore/Anal vore"))]
 public class AnalVore : VoreScene
 {
@@ -17,7 +16,7 @@ public class AnalVore : VoreScene
                  " Rough shoves and struggles in your gut are all that is left of them as your gut conforms and kneads its meal.";
             ;
         }
-       else
+        else
         {
             // can't fit or too full?
             return $"You can't fit him/her into you rectum";

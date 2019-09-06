@@ -46,7 +46,7 @@ public class Bar : MonoBehaviour
 
     private void Large()
     {
-       if (player.CanAfford(8))
+        if (player.CanAfford(8))
         {
             player.HP.Gain(8);
             player.WP.Gain(8);

@@ -12,7 +12,6 @@ public class CombatEnemies : MonoBehaviour
         combatButtons._enemies.Add(enemy);
         _enemies.Add(enemy);
         enemyTeam.StartFight(_enemies);
-
     }
 
     private void OnDisable()

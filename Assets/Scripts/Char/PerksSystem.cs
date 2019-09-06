@@ -62,6 +62,7 @@ public class Perks
                 return "";
         }
     }
+
     public int PerkBonus(PerksTypes type)
     {
         switch (type)

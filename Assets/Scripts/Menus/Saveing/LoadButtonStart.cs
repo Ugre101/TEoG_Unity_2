@@ -1,10 +1,8 @@
 ﻿using System.IO;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class LoadButtonStart : MonoBehaviour
 {
@@ -33,18 +31,22 @@ public class LoadButtonStart : MonoBehaviour
         _load.onClick.AddListener(LoadGame);
         _del.onClick.AddListener(DeleteSave);
     }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+
     public void LoadGame()
     {
         SceneManager.LoadScene("MainGame");
     }
+
     public void DeleteSave()
     {
         string path = CurrentPath();
@@ -53,22 +55,29 @@ public class LoadButtonStart : MonoBehaviour
             File.Delete(path);
         }
     }
+
     private string CurrentPath()
     {
         string currPath = _text.text;
         return _mainPath + currPath + ".json";
     }
+
     private playerMain player;
     private Transform pos;
     private Dorm dorm;
     private GameUI gameUI;
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private MapEvents mapEvents;
+    private SaveMananger saveMananger;
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
-        pos = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        gameUI = GameObject.Find("Canvas").GetComponent<GameUI>();
-        dorm = GameObject.Find("Dorm-servants").GetComponent<Dorm>();
-        Save save = new Save(player, pos, dorm);
+        saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
+        player = saveMananger.player; //GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
+        pos = saveMananger.playerSprite; //GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        gameUI = saveMananger.gameUI; //GameObject.Find("Canvas").GetComponent<GameUI>();
+        dorm = saveMananger.dorm; //GameObject.Find("Dorm-servants").GetComponent<Dorm>();
+        mapEvents = saveMananger.mapEvents;
+        Save save = new Save(player, pos, dorm, mapEvents);
         string path = CurrentPath();
         if (File.Exists(path))
         {

@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
     public GameUI canvas;
     public EnemySpawner _spawner;
     public MapEvents mapEvents;
+
     // Private
     private Tilemap _map;
 
@@ -25,7 +26,7 @@ public class Movement : MonoBehaviour
     private void Start()
     {
         _map = mapEvents.CurrentMap;
-        MapEvents.worldMapChange += DoorChanged;
+        MapEvents.WorldMapChange += DoorChanged;
         _rb2d = GetComponent<Rigidbody2D>();
         _coll = GetComponent<BoxCollider2D>();
     }

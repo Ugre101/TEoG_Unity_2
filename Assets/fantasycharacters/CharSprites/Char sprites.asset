@@ -30,3 +30,15 @@ MonoBehaviour:
   dwarfFemaleHealer: {fileID: 21300000, guid: 0db1d8b37932fc942a0b396eacf3bb84, type: 3}
   drowMale: {fileID: 21300000, guid: 71b58269ab5a5834aa877ed99a709591, type: 3}
   drowFemale: {fileID: 21300000, guid: 9ec76e2bb53ae534bae001ae4b0b7622, type: 3}
+  defaultSprite: {fileID: 11400000, guid: f089d44174e7a9042ab8f34d3ce1a6fc, type: 2}
+  charSprites:
+  - {fileID: 11400000, guid: 9f3a12fdbb313b142be7028f42c4b787, type: 2}
+  - {fileID: 11400000, guid: d165e62696e198d47871ec71177bc810, type: 2}
+  - {fileID: 11400000, guid: ffaa7ab2ad0f3114c90a708015ae55c5, type: 2}
+  - {fileID: 11400000, guid: 7e30484fcb2a88f408472ff20644132f, type: 2}
+  - {fileID: 11400000, guid: a7edbffbf060a31459dc8febc34c42d4, type: 2}
+  - {fileID: 11400000, guid: 5abb570b9537c1f45919b0e1bf8b15e4, type: 2}
+  - {fileID: 11400000, guid: f089d44174e7a9042ab8f34d3ce1a6fc, type: 2}
+  - {fileID: 11400000, guid: 08581a06f36e52a4497fee7784dacb70, type: 2}
+  - {fileID: 11400000, guid: 447f1a3979b9d6543888bedce5566ddd, type: 2}
+  - {fileID: 11400000, guid: b3fa9cf5413774e44a5a08c8ea2fde47, type: 2}

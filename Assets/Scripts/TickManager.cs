@@ -6,21 +6,24 @@ public class TickManager : MonoBehaviour
     public EventLog eventlog;
     private float _reGainRate;
     private int hour, day, month, year;
+
     private void OnEnable()
     {
         InvokeRepeating("ReGain", 0f, 1f);
     }
+
     private void OnDisable()
     {
         CancelInvoke();
     }
+
     private void ReGain()
     {
         player.HP.Gain(player.RestRate);
         player.WP.Gain(player.RestRate);
         if (player.Balls.Count > 0)
         {
-            foreach(Balls ball in player.Balls)
+            foreach (Balls ball in player.Balls)
             {
                 ball.Fluid.ReFill();
             }
@@ -34,6 +37,7 @@ public class TickManager : MonoBehaviour
         }
         eventlog.AddTo("tick");
     }
+
     private void DateSystem()
     {
         hour++;
@@ -53,10 +57,12 @@ public class TickManager : MonoBehaviour
             year++;
         }
     }
+
     private string CurrentDate()
     {
         return $"{year} {month} {day} {hour}";
     }
+
     public void Sleep()
     {
         // loop so I can add stuff inside datesystem later, like e.g. dorm stuff.

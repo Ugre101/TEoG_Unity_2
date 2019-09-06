@@ -1,40 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using System.Collections.Generic;
 using TMPro;
-
+using UnityEngine;
 
 public class AfterBattleActions : MonoBehaviour
 {
     public playerMain _player;
-    public List<BasicChar> enemies = new List<BasicChar>(); 
+    public List<BasicChar> enemies = new List<BasicChar>();
     public TextMeshProUGUI _textBox;
     public GameObject ButtonPrefab;
     public GameObject ButtonPrefabMono;
+
     [Header("Buttons containers")]
     public GameObject DickActions;
+
     public GameObject BoobsActions;
     public GameObject VaginaActions;
     public GameObject AssActions;
     public GameObject HandActions;
     public GameObject MouthActions;
     public GameObject MiscActions;
+
     [Header("ScriptableObject Scenes")]
     public List<SexScenes> dickScenes;
+
     public List<SexScenes> boobScenes;
     public List<SexScenes> mouthScenes;
     public List<SexScenes> vaginaScenes;
     public List<SexScenes> analScenes;
+
     [Header("Other")]
     public SexScenes LastScene;
+
     public GameObject Leave;
     public GameObject TakeHome;
     public Dorm dorm;
+
     private void Awake()
     {
-
     }
+
     private void OnEnable()
     {
         if (_textBox == null)
@@ -48,10 +52,12 @@ public class AfterBattleActions : MonoBehaviour
         }
         LastScene = null;
     }
+
     private void OnDisable()
     {
         enemies.Clear();
     }
+
     private void RefreshScenes()
     {
         SceneChecker(DickActions.transform, dickScenes);
@@ -65,6 +71,7 @@ public class AfterBattleActions : MonoBehaviour
         }
         TakeHome.SetActive(dorm.CanTake(enemies[0]));
     }
+
     private void SceneChecker(Transform container, List<SexScenes> scenes)
     {
         foreach (Transform child in container)
@@ -84,6 +91,7 @@ public class AfterBattleActions : MonoBehaviour
             }
         }
     }
+
     public void AddToTextBox(string text)
     {
         _textBox.text = text;

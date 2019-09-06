@@ -8,6 +8,7 @@ public class SaveMananger : MonoBehaviour
     public Transform playerSprite;
     public Dorm dorm;
     public GameUI gameUI;
+    public MapEvents mapEvents;
     private string _mainPath;
 
     private void Start()
@@ -22,10 +23,10 @@ public class SaveMananger : MonoBehaviour
     public void NewSaveGame()
     {
         DateTime now = DateTime.Now;
-        string cleanPath = "playerName" + now;
+        string cleanPath = player.FullName + now;
         char[] illegal = Path.GetInvalidFileNameChars();
         // if file contain illegal chars replave them
-        if (illegal.Length > 0 && cleanPath.IndexOfAny(illegal) != -1) 
+        if (illegal.Length > 0 && cleanPath.IndexOfAny(illegal) != -1)
         {
             foreach (char c in illegal)
             {
@@ -37,7 +38,7 @@ public class SaveMananger : MonoBehaviour
         }
         cleanPath = cleanPath.Replace(" ", string.Empty);
         string path = _mainPath + cleanPath + ".json";
-        Save save = new Save(player, playerSprite, dorm);
+        Save save = new Save(player, playerSprite, dorm, mapEvents);
         File.WriteAllText(path, save.SaveData());
     }
 }

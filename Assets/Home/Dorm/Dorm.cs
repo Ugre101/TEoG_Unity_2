@@ -1,12 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
 [System.Serializable]
 public class Dorm : MonoBehaviour
 {
     public int Level = 0;
     public int BaseCost = 0;
     public float CostMod = 1f;
+
     public int Cost
     {
         get
@@ -14,6 +15,7 @@ public class Dorm : MonoBehaviour
             return Mathf.CeilToInt(BaseCost * CostMod);
         }
     }
+
     public bool Upgrade(int gold)
     {
         if (Cost > gold)
@@ -25,6 +27,7 @@ public class Dorm : MonoBehaviour
             return false;
         }
     }
+
     public bool HasSpace
     {
         get
@@ -32,15 +35,19 @@ public class Dorm : MonoBehaviour
             return Level * 3 > this.transform.childCount;
         }
     }
+
     public bool CanTake(BasicChar wannaTake)
     {
         return HasSpace && wannaTake.sexStats.SessionOrgasm >= 0;
     }
+
     private BasicChar[] arrayServants;
     private bool ServantsDirty = true;
+
     [SerializeField]
     private List<BasicChar> lastServants;
-    public List <BasicChar>Servants
+
+    public List<BasicChar> Servants
     {
         get
         {
@@ -53,16 +60,19 @@ public class Dorm : MonoBehaviour
             return lastServants;
         }
     }
+
     public void AddTo(GameObject toAdd)
     {
         GameObject sercv = Instantiate(toAdd, this.transform);
         sercv.name = toAdd.name;
         ServantsDirty = true;
     }
+
     public List<GameObject> servantPrefabs;
+
     public void Load(DormSave toLoad)
     {
-       if (servantPrefabs.Exists(n => n.name == toLoad.name))
+        if (servantPrefabs.Exists(n => n.name == toLoad.name))
         {
             GameObject loaded = Instantiate(servantPrefabs.Find(n => n.name == toLoad.name), this.transform);
             loaded.name = toLoad.name;
@@ -72,5 +82,3 @@ public class Dorm : MonoBehaviour
         }
     }
 }
-
-

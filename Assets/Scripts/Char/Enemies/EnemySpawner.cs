@@ -24,7 +24,7 @@ public class EnemySpawner : MonoBehaviour
     {
         _enemyToAdd = 6;
         _currMap = mapEvents.CurrentMap;
-        MapEvents.worldMapChange += DoorChanged;
+        MapEvents.WorldMapChange += DoorChanged;
         _CurrEnemies.AddRange(_startEnemies);
     }
 

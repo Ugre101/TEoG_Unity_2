@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "Settings", menuName = "Tools")]
@@ -72,35 +71,44 @@ public class Settings : ScriptableObject//Bad name?
             else if (kg > 1)
             {
                 toReturn += Mathf.FloorToInt(kg) + "kg";
-            }else
+            }
+            else
             {
                 toReturn += Mathf.Ceil(kg * 1000) + "g";
             }
         }
         return toReturn;
     }
+
     [SerializeField]
     [Header("Pronuns")]
     public string Male = "male";
+
     public string Female = "female";
     public string Herm = "herm";
     public string Cuntboy = "cuntboy";
     public string Dickgirl = "dickgirl";
     public string Doll = "doll";
+
     public string GetGender(BasicChar who, bool capital = false)
     {
         switch (who.Gender)
         {
             case Genders.Herm:
                 return capital ? char.ToUpper(Herm[0]) + Herm.Substring(1) : Herm.ToLower();
+
             case Genders.Male:
                 return capital ? char.ToUpper(Male[0]) + Male.Substring(1) : Male.ToLower();
+
             case Genders.Female:
                 return capital ? char.ToUpper(Female[0]) + Female.Substring(1) : Female.ToLower();
+
             case Genders.Dickgirl:
                 return capital ? char.ToUpper(Dickgirl[0]) + Dickgirl.Substring(1) : Dickgirl.ToLower();
+
             case Genders.Cuntboy:
                 return capital ? char.ToUpper(Cuntboy[0]) + Cuntboy.Substring(1) : Cuntboy.ToLower();
+
             case Genders.Doll:
             default:
                 return capital ? char.ToUpper(Doll[0]) + Doll.Substring(1) : Doll.ToLower();

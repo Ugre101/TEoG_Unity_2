@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class HoverText : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler
+public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private TextMeshProUGUI _hoverText;
 
@@ -23,6 +23,7 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler
             _hoverText.enabled = true;
         }
     }
+
     public void OnPointerExit(PointerEventData eventData)
     {
         if (_hoverText != null)
@@ -30,5 +31,4 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler,IPointerExitHandler
             _hoverText.enabled = false;
         }
     }
-
 }
