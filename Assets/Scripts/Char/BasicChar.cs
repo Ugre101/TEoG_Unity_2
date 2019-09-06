@@ -110,6 +110,7 @@ public abstract class BasicChar : MonoBehaviour
 
     [Header("Stats")]
     public CharStats strength;
+
     public float Str { get { return strength.Value; } }
     public CharStats charm;
     public float Charm { get { return charm.Value; } }
@@ -119,7 +120,7 @@ public abstract class BasicChar : MonoBehaviour
     public float Dex { get { return dexterity.Value; } }
     public CharStats intelligence;
     public float Int { get { return intelligence.Value; } }
-    
+
     public void Init(int lvl, float maxhp, float maxwp)
     {
         HP = new Health(maxhp);
@@ -141,10 +142,12 @@ public abstract class BasicChar : MonoBehaviour
 
     [SerializeField]
     private Essence masc = new Essence();
+
     public Essence Masc { get { return masc; } }
 
     [SerializeField]
     private Essence femi = new Essence();
+
     public Essence Femi { get { return femi; } }
     public float EssDrain { get { return 3 + Perk.PerkBonus(PerksTypes.GainEss); } }
     public float EssGive { get { return 3 + Perk.PerkBonus(PerksTypes.GiveEss); } }

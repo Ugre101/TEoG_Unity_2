@@ -26,7 +26,7 @@ public class SaveMananger : MonoBehaviour
         string cleanPath = player.FullName + now;
         char[] illegal = Path.GetInvalidFileNameChars();
         // if file contain illegal chars replave them
-        if (illegal.Length > 0 && cleanPath.IndexOfAny(illegal) != -1) 
+        if (illegal.Length > 0 && cleanPath.IndexOfAny(illegal) != -1)
         {
             foreach (char c in illegal)
             {

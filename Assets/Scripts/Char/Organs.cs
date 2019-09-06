@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
 public enum OrganType
 {
     Dick,
@@ -19,6 +20,7 @@ public class SexualFluid
 {
     [SerializeField]
     protected float _current;
+
     protected float _max;
     protected FluidType _type;
     public virtual float Current { get { return _current; } }
@@ -27,6 +29,7 @@ public class SexualFluid
     protected float _baseRate;
     protected float _cumRateFlat = 0;
     protected float _cumRatePer = 1f;
+
     // protected bool _dirtyRate = true;
     private float CumRate
     {
@@ -35,6 +38,7 @@ public class SexualFluid
             return _baseRate + (_cumRateFlat * _cumRatePer);
         }
     }
+
     public SexualFluid(FluidType type)
     {
         _current = 0;
@@ -56,15 +60,18 @@ public class SexualFluid
     {
         if (Current < Max)
         {
-            _current += Mathf.Min(CumRate,Max - Current);
+            _current += Mathf.Min(CumRate, Max - Current);
             FluidSlider?.Invoke();
         }
     }
+
     public void ManualSlider()
     {
         FluidSlider?.Invoke();
     }
+
     public delegate void fluidSlider();
+
     public static event fluidSlider FluidSlider;
 }
 
@@ -73,6 +80,7 @@ public abstract class SexualOrgan
 {
     [SerializeField]
     protected int _baseSize;
+
     protected Races race = Races.Humanoid;
     public Races Race { get { return race; } }
 
@@ -130,6 +138,7 @@ public abstract class SexualOrgan
         _baseSize -= toShrink;
         return _baseSize <= 0 ? true : false;
     }
+
     public void ChangeRace(Races changeTo)
     {
         race = changeTo;
@@ -139,7 +148,6 @@ public abstract class SexualOrgan
 [System.Serializable]
 public class Dick : SexualOrgan
 {
-
 }
 
 public static class DickExtensions
@@ -153,14 +161,17 @@ public static class DickExtensions
         }
         return tot;
     }
+
     public static void AddDick(this List<Dick> dicks)
     {
         dicks.Add(new Dick());
     }
+
     public static float Cost(this List<Dick> dicks)
     {
         return Mathf.Round(30 * Mathf.Pow(4, dicks.Count));
     }
+
     public static float ReCycle(this List<Dick> dicks)
     {
         Dick toShrink = dicks[dicks.Count - 1];
@@ -169,12 +180,12 @@ public static class DickExtensions
         {
             dicks.Remove(toShrink);
             return 30f;
-        }else
+        }
+        else
         {
             return toShrink.Cost;
         }
     }
-
 }
 
 [System.Serializable]
@@ -182,6 +193,7 @@ public class Balls : SexualOrgan
 {
     [SerializeField]
     protected SexualFluid _fluid = new SexualFluid(FluidType.Cum);
+
     public virtual SexualFluid Fluid
     {
         get
@@ -201,6 +213,7 @@ public class Balls : SexualOrgan
         return balls;
     }
 }
+
 public static class BallsExtensions
 {
     public static float Total(this List<Balls> balls)
@@ -212,14 +225,17 @@ public static class BallsExtensions
         }
         return tot;
     }
+
     public static void AddBalls(this List<Balls> balls)
     {
         balls.Add(new Balls());
     }
+
     public static float Cost(this List<Balls> balls)
     {
         return Mathf.Round(30 * Mathf.Pow(4, balls.Count));
     }
+
     public static float ReCycle(this List<Balls> balls)
     {
         Balls toShrink = balls[balls.Count - 1];
@@ -228,11 +244,13 @@ public static class BallsExtensions
         {
             balls.Remove(toShrink);
             return 30f;
-        }else
+        }
+        else
         {
             return toShrink.Cost;
         }
     }
+
     public static float CumTotal(this List<Balls> balls)
     {
         float tot = 0f;
@@ -242,6 +260,7 @@ public static class BallsExtensions
         }
         return tot;
     }
+
     public static float CumMax(this List<Balls> balls)
     {
         float max = 0f;
@@ -252,6 +271,7 @@ public static class BallsExtensions
         return max;
     }
 }
+
 [System.Serializable]
 public class Vagina : SexualOrgan
 {
@@ -261,6 +281,7 @@ public class Vagina : SexualOrgan
         return vagina;
     }
 }
+
 public static class VaginaExtensions
 {
     public static float Total(this List<Vagina> vaginas)
@@ -272,14 +293,17 @@ public static class VaginaExtensions
         }
         return tot;
     }
+
     public static void AddVag(this List<Vagina> vaginas)
     {
         vaginas.Add(new Vagina());
     }
+
     public static float Cost(this List<Vagina> vaginas)
     {
         return Mathf.Round(30 * Mathf.Pow(4, vaginas.Count));
     }
+
     public static float ReCycle(this List<Vagina> vaginas)
     {
         Vagina toShrink = vaginas[vaginas.Count - 1];
@@ -288,13 +312,13 @@ public static class VaginaExtensions
         {
             vaginas.Remove(toShrink);
             return 30f;
-        }else
+        }
+        else
         {
             return toShrink.Cost;
         }
     }
 }
-
 
 [System.Serializable]
 public class Boobs : SexualOrgan
@@ -302,14 +326,17 @@ public class Boobs : SexualOrgan
     [SerializeField]
     protected SexualFluid _fluid = new SexualFluid(FluidType.Milk);
 
-    public virtual SexualFluid Fluid {
+    public virtual SexualFluid Fluid
+    {
         get
         {
             if (_fluidDirty || _baseSize != _lastCost)
             {
                 _fluid.FluidCalc(Size);
             }
-            return _fluid; } }
+            return _fluid;
+        }
+    }
 
     public string Looks()
     {
@@ -318,6 +345,7 @@ public class Boobs : SexualOrgan
         return boobs;
     }
 }
+
 public static class BoobExtensions
 {
     public static float Total(this List<Boobs> boobs)
@@ -329,14 +357,17 @@ public static class BoobExtensions
         }
         return tot;
     }
+
     public static void AddBoobs(this List<Boobs> boobs)
     {
         boobs.Add(new Boobs());
     }
+
     public static float Cost(this List<Boobs> boobs)
     {
         return Mathf.Round(30 * Mathf.Pow(4, boobs.Count));
     }
+
     public static float ReCycle(this List<Boobs> boobs)
     {
         Boobs toShrink = boobs[boobs.Count - 1];
@@ -345,11 +376,13 @@ public static class BoobExtensions
         {
             boobs.Remove(toShrink);
             return 30f;
-        }else
+        }
+        else
         {
             return toShrink.Cost;
         }
     }
+
     public static float MilkTotal(this List<Boobs> boobs)
     {
         float tot = 0f;
@@ -359,6 +392,7 @@ public static class BoobExtensions
         }
         return tot;
     }
+
     public static float MilkMax(this List<Boobs> boobs)
     {
         float max = 0f;

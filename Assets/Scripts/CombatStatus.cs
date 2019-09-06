@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
+
 public class CombatStatus : MonoBehaviour
 {
     public BasicChar whom;
     public TextMeshProUGUI name;
     public HealthSlider healthSlider;
     public WillSlider willSlider;
+
     public void Setup(BasicChar who)
     {
         whom = who;

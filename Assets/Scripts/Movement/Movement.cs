@@ -11,6 +11,7 @@ public class Movement : MonoBehaviour
     public GameUI canvas;
     public EnemySpawner _spawner;
     public MapEvents mapEvents;
+
     // Private
     private Tilemap _map;
 

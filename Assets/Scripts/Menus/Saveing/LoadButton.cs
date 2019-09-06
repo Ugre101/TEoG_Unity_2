@@ -42,9 +42,10 @@ public class LoadButton : MonoBehaviour
         _load.onClick.AddListener(LoadGame);
         _del.onClick.AddListener(DeleteSave);
     }
+
     public void LoadGame()
     {
-        Save save = new Save(player, pos, dorm,mapEvents);
+        Save save = new Save(player, pos, dorm, mapEvents);
         string path = CurrentPath();
         if (File.Exists(path))
         {
@@ -53,6 +54,7 @@ public class LoadButton : MonoBehaviour
         }
         gameUI.Resume();
     }
+
     public void DeleteSave()
     {
         string path = CurrentPath();
@@ -61,6 +63,7 @@ public class LoadButton : MonoBehaviour
             File.Delete(path);
         }
     }
+
     private string CurrentPath()
     {
         string currPath = _text.text;

@@ -34,7 +34,7 @@ public class EnemyPrefabEditor : Editor
             myTarget.lastName = EditorGUILayout.TextArea("");
             GUILayout.EndHorizontal();
             GUILayout.BeginVertical("Box");
-            GUILayout.Label("Random name giver",EditorStyles.boldLabel);
+            GUILayout.Label("Random name giver", EditorStyles.boldLabel);
             myTarget.randomName = (RandomName)EditorGUILayout.ObjectField(myTarget.randomName, typeof(RandomName), true);
             GUILayout.BeginHorizontal();
             GUILayout.Label("Give first name");
@@ -55,11 +55,11 @@ public class EnemyPrefabEditor : Editor
             }
             serializedObject.Update();
             GUILayout.BeginHorizontal();
-            GUILayout.Label("Race",EditorStyles.boldLabel);
-            GUILayout.Label("Probability",EditorStyles.boldLabel);
+            GUILayout.Label("Race", EditorStyles.boldLabel);
+            GUILayout.Label("Probability", EditorStyles.boldLabel);
             GUILayout.EndHorizontal();
             SerializedProperty RaceList = serializedObject.FindProperty("assingRace.Options");
-            for (int i  = 0; i< RaceList.arraySize; i++)
+            for (int i = 0; i < RaceList.arraySize; i++)
             {
                 EditorGUILayout.PropertyField(RaceList.GetArrayElementAtIndex(i));
             }

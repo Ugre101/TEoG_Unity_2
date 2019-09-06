@@ -1,6 +1,5 @@
-﻿ using TMPro;
+﻿using TMPro;
 using UnityEngine;
-using System;
 
 public class LooksMenu : MonoBehaviour
 {

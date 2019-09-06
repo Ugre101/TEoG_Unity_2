@@ -5,6 +5,7 @@ public class CameraController : MonoBehaviour
 {
     // Public
     public Transform _player;
+
     public MapEvents mapEvents;
     public KeyBindings keyBindings;
 
@@ -14,7 +15,7 @@ public class CameraController : MonoBehaviour
     private Tilemap _map;
     private Camera cam;
     private float _smoothing = 1f;
-    private float _xMax, _xMin, _yMin, _yMax,_maxCam = 20f;
+    private float _xMax, _xMin, _yMin, _yMax, _maxCam = 20f;
     private float _orthSize = 8f;
 
     // Start is called before the first frame update
@@ -66,6 +67,7 @@ public class CameraController : MonoBehaviour
 
         //_maxCam = Mathf.Min((maxTile.y - minTile.y) / 2f, (maxTile.x - minTile.x) / (cam.aspect * 2f));
     }
+
     private void DoorChanged()
     {
         _map = mapEvents.CurrentMap;

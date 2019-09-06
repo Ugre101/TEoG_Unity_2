@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class GameButtonHandler : MonoBehaviour
 {
@@ -12,11 +11,13 @@ public class GameButtonHandler : MonoBehaviour
         if (PlayerPrefs.HasKey("voreToggle"))
         {
             Vore.SetActive(PlayerPrefs.GetInt("voreToggle") == 1 ? true : false);
-        }else
+        }
+        else
         {
             Vore.SetActive(false);
         }
     }
+
     private void Update()
     {
         if (LevelUp != null)
@@ -31,5 +32,4 @@ public class GameButtonHandler : MonoBehaviour
             }
         }
     }
-
 }

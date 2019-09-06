@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameUI : MonoBehaviour
 {
@@ -32,6 +31,7 @@ public class GameUI : MonoBehaviour
     public GameObject essence;
     public GameObject levelUp;
     public GameObject looks;
+
     [Header("Eventlog stuff")]
     public GameObject openEventlog;
 
@@ -39,6 +39,7 @@ public class GameUI : MonoBehaviour
 
     [Space]
     public CombatEnemies CombatEnemies;
+
     public AfterBattleActions afterBattleActions;
     private float _eventTime;
 
@@ -46,6 +47,7 @@ public class GameUI : MonoBehaviour
     {
         Resume();
     }
+
     private void Update()
     {
         // if in menus or main game(not combat)
@@ -86,7 +88,8 @@ public class GameUI : MonoBehaviour
             else if (Input.GetKeyDown(keys.eventKey))
             {
                 _eventTime = Time.time;
-            }else if (Input.GetKeyDown(keys.lookKey))
+            }
+            else if (Input.GetKeyDown(keys.lookKey))
             {
                 ResumePause(looks);
             }
@@ -157,6 +160,7 @@ public class GameUI : MonoBehaviour
     {
         Resume();
     }
+
     public enum BigPanels
     {
         GameUI,
@@ -165,9 +169,10 @@ public class GameUI : MonoBehaviour
         Buildings,
         Home
     }
+
     private void ToggleBigPanel(BigPanels panel)
     {
-        foreach ( Transform bigPanel in this.transform)
+        foreach (Transform bigPanel in this.transform)
         {
             bigPanel.gameObject.SetActive(false);
         }
@@ -176,14 +181,18 @@ public class GameUI : MonoBehaviour
             case BigPanels.Battle:
                 battle.SetActive(true);
                 break;
+
             case BigPanels.Buildings:
                 break;
+
             case BigPanels.GameUI:
                 gameui.SetActive(true);
                 break;
+
             case BigPanels.Menus:
                 menus.SetActive(true);
                 break;
+
             case BigPanels.Home:
                 home.SetActive(true);
                 break;
@@ -202,6 +211,7 @@ public class GameUI : MonoBehaviour
             Resume();
         }
     }
+
     public void EnterHome()
     {
         ToggleBigPanel(BigPanels.Home);
@@ -211,6 +221,7 @@ public class GameUI : MonoBehaviour
         }
         home.transform.GetChild(0).gameObject.SetActive(true);
     }
+
     public void LeaveHome()
     {
         Resume();

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-public enum ClassTypes
+﻿public enum ClassTypes
 {
     Other,
     Warrior,
@@ -9,4 +6,3 @@ public enum ClassTypes
     Rogue,
     Warlock
 }
-

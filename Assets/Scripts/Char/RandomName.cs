@@ -27,11 +27,14 @@ public class RandomName : ScriptableObject
         "Vargas", "Hatfield", "Mata", "Lozano", "Everett", "Krueger", "Jimenez", "Fitzpatrick", "Nelson", "Scott", "Vaughn",
         "Lee", "Hodge", "Blackburn", "Wall", "Hernandez", "Valdez", "Summers", "Mercado", "Villarreal", "Mitchell", "Duran",
         "David", "Black", "Hopkins", "Hughes", "Rangel" };
+
     public string LastName { get { return lastNames.Count > 0 ? lastNames[Random.Range(0, lastNames.Count)] : ""; } }
 
     private List<string> evilMaleNames = new List<string> {"Neclord", "Virion", "Dario", "Grumio", "Auron", "Jaymes", "Fark", "Cidolfus",
         "Bartholomew", "Arthur"};
+
     public string EvilMale { get { return evilMaleNames.Count > 0 ? evilMaleNames[Random.Range(0, evilMaleNames.Count)] : ""; } }
+
     private List<string> evilFemaleNames = new List<string> {"Autumn", "Imeena", "Margorie", "Draven", "Lauden", "Ethel", "Cat", "Raven",
         "Senka", "Jinx"};
 

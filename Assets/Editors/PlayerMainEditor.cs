@@ -17,6 +17,14 @@ public class PlayerMainEditor : Editor
         GUILayout.Label(player.Race);
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("First name");
+        GUILayout.Label("Last name");
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        player.firstName = EditorGUILayout.TextField("");
+        player.lastName = EditorGUILayout.TextField("");
+        GUILayout.EndHorizontal();
         base.OnInspectorGUI();
     }
 }

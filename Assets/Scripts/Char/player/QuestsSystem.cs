@@ -12,7 +12,9 @@ public class QuestsSystem
 {
     [SerializeField]
     private List<Quest> quests = new List<Quest>();
+
     public List<Quest> List { get { return quests; } }
+
     public void AddQuest(Quests which)
     {
         switch (which)
@@ -23,6 +25,7 @@ public class QuestsSystem
                     quests.Add(new BanditQuest());
                 }
                 break;
+
             case Quests.Elfs:
                 if (!quests.Exists(q => q.Type == Quests.Elfs))
                 {
@@ -38,7 +41,9 @@ public class Quest
 {
     [SerializeField]
     protected Quests type;
+
     public Quests Type { get { return type; } }
+
     [SerializeField]
     private int count = 0;
 
@@ -60,19 +65,28 @@ public class Quest
     }
 
     protected int goalCount = 0;
+
     // do I need to add serizefield to this or should I make a other solution? feels stupid to save general quest data and not just progress.
     protected string desc;
+
     public string Desc { get { return desc; } }
+
     [SerializeField]
     private bool completed = false;
+
     public bool Completed { get { return completed; } }
+
     [SerializeField]
     protected bool hasTiers = false;
+
     public bool HasTiers { get { return hasTiers; } }
+
     [SerializeField]
     private int tier = 0;
+
     [SerializeField]
     protected int tierStep;
+
     public int Tier { get { tier = Mathf.FloorToInt(Count / tierStep); return tier; } }
     protected string title;
     public string Title { get { return title; } }
@@ -106,6 +120,7 @@ public class QuestDesc
 {
     private string desc;
     public string Desc { get { return desc; } }
+
     public QuestDesc(Quests which)
     {
         switch (which)
@@ -113,6 +128,7 @@ public class QuestDesc
             case Quests.Bandit:
                 desc = "Bandit";
                 break;
+
             case Quests.Elfs:
                 desc = "Elf hunt";
                 break;

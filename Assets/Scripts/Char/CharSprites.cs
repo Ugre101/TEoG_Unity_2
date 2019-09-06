@@ -6,13 +6,14 @@ public class CharSprites : ScriptableObject
 {
     public void OnEnable()
     {
-
     }
 
     public Sprite GetSprite(BasicChar who)
     {
         return BestMatch(who).sprite;
+
         #region old code
+
         /* switch (who.raceSystem.CurrentRace())
          {
              case Races.Dwarf:
@@ -61,7 +62,8 @@ public class CharSprites : ScriptableObject
              default:
                  return humanMaleScout;
          } */
-        #endregion
+
+        #endregion old code
     }
 
     public CharSprite defaultSprite;
@@ -76,8 +78,8 @@ public class CharSprites : ScriptableObject
                 // if class exist chose class
                 if (false)
                 {
-
-                }else
+                }
+                else
                 {
                     return charSprites.Find(c => c.gender == who.Gender);
                 }

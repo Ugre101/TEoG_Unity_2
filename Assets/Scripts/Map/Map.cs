@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum Maps
 {
@@ -13,8 +11,9 @@ public enum Maps
     Forest,
     DeepForest
 }
+
 public class Map : MonoBehaviour
 {
     public Maps map;
-    public string testMap{get { return this.transform.name;  }}
+    public string testMap { get { return this.transform.name; } }
 }
