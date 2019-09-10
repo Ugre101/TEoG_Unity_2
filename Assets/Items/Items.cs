@@ -1,12 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+
 [CreateAssetMenu(fileName = "Items", menuName = "Items")]
-[System.Serializable]
 public class Items : ScriptableObject
 {
-        public List<Item> items;   
+    public List<Item> items;
+
+    public void Add(Item toAdd)
+    {
+        items.Add(toAdd);
+    }
 }
+
 public enum ItemRefs
 {
     Item,

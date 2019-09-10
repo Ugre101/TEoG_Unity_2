@@ -7,16 +7,20 @@ public class InventoryHandler : MonoBehaviour
 {
     public GameObject ItemPrefab;
     public playerMain player;
-    public List<Item> Items;
+    //  public List<Item> Items;
+    public Items items;
 
     public GameObject SlotsHolder;
     public GameObject SlotPrefab;
     public int AmountOfSlots = 40;
     private InventorySlot[] Slots;
 
+    private void Awake()
+    {
+        DragInventory.used += UpdateInventory;
+    }
     private void OnEnable()
     {
-        Debug.Log(SlotsHolder.transform.childCount< AmountOfSlots);
         if (SlotsHolder.transform.childCount < AmountOfSlots)
         {
             for (int i = SlotsHolder.transform.childCount; i < AmountOfSlots; i++)
@@ -30,6 +34,7 @@ public class InventoryHandler : MonoBehaviour
         }
         UpdateInventory();
     }
+
     public void UpdateInventory()
     {
         foreach(InventorySlot slot in Slots)
@@ -39,17 +44,12 @@ public class InventoryHandler : MonoBehaviour
                 slot.Clean();
             }
         }
-        if (player.Inventory.Items.Exists(i => i.amount < 1))
-        {
-            foreach (InventoryItem item in player.Inventory.Items.FindAll(i => i.amount < 1))
-            {
-                player.Inventory.Items.Remove(item);
-            }
-        }
+        player.Inventory.Items.RemoveAll(i => i.amount < 1);
         foreach(InventoryItem item in player.Inventory.Items)
         {
             GameObject toAdd = ItemPrefab;
             DragInventory inventorySlot = toAdd.GetComponent<DragInventory>();
+            inventorySlot.item = items.items.Find(i => i.Id == item.id);
             inventorySlot.NewItem(item,item.invPos);
             void OutOf()
             {
