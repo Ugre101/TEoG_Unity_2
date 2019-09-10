@@ -9,25 +9,25 @@ public class Inventory
     // Maybe add bonus to inventory size?
     public int SlotsAmount { get { return baseAmount; } }
 
-    public Items itemRefs;
+    //public Items itemRefs;
 
     //public BasicChar Owner;
     public List<InventoryItem> Items = new List<InventoryItem>();
 
-    public bool AddItem(ItemRefs theitem)
+    public bool AddItem(ItemId theitem)
     {
-        Item toAdd = itemRefs.items.Find(i => i.name == theitem.ToString());
+        /*   Item toAdd = itemRefs.items.Find(i => i.name == theitem.ToString());
         if (toAdd == null || Items.Count == SlotsAmount)
         {
             return false;
-        }
-        if (Items.Exists(i => i.item.Title == toAdd.Title))
+        } */
+        if (Items.Exists(i => i.id == theitem))
         {
-            Items.Find(i => i.item.Title == toAdd.Title).amount++;
+            Items.Find(i => i.id == theitem).amount++;
         }
         else
         {
-            InventoryItem newItem = new InventoryItem(toAdd)
+            InventoryItem newItem = new InventoryItem(theitem)
             {
                 invPos = FirstEmpty()
             };
@@ -50,13 +50,19 @@ public class Inventory
 [System.Serializable]
 public class InventoryItem
 {
-    public InventoryItem(Item toAdd, int num = 1)
+    public InventoryItem(ItemId toAdd, int num = 1)
     {
-        item = toAdd;
+        id = toAdd;
         amount = num;
     }
 
-    public Item item;
+   // public Item item;
+    public ItemId id;
     public int amount;
     public int invPos = -1;
+}
+public enum ItemId
+{
+    Pouch,
+    Potion
 }

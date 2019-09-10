@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class DragInventory : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
@@ -13,15 +14,21 @@ public class DragInventory : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndD
     private InventoryHandler inventory;
     private InventoryHoverText hoverText;
     private Transform Parent;
+    private Image image { get { return GetComponent<Image>(); } }
+    private float firstClick;
+  
+  
     private void Awake()
     {
         hoverText = this.GetComponentInParent<InventoryHoverText>();
         inventory = GetComponentInParent<InventoryHandler>();
+     //   spriteRenderer = GetComponent<SpriteRenderer>();
     }
     private void OnEnable()
     {
         Parent = transform.parent;
         transform.position = transform.parent.position;
+      
     }
     public void OnBeginDrag(PointerEventData pointerEvent)
     {
@@ -48,7 +55,17 @@ public class DragInventory : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndD
         }
         this.GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
-    public void OnPointerClick(PointerEventData pointerEvent) => hoverText.Hovering(this.gameObject);
+    public void OnPointerClick(PointerEventData pointerEvent)
+    {
+        hoverText.Hovering(this.gameObject);
+            if (Time.realtimeSinceStartup <= firstClick + 1)
+            {
+                Debug.Log("dc");
+            }else
+            {
+                firstClick = Time.realtimeSinceStartup;
+            }
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         hoverText.Hovering(this.gameObject);
@@ -70,7 +87,11 @@ public class DragInventory : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndD
     public void NewItem(InventoryItem Invitem, int slot)
     {
         invItem = Invitem;
-        item = Invitem.item;
+            //Invitem.item;
+        if (item != null ? item.sprite != null : false)
+        {
+            image.sprite = item.sprite;
+        }
     }
     public delegate void Used();
     public static event Used used;
