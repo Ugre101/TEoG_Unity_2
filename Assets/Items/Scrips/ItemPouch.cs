@@ -11,8 +11,9 @@ public class ItemPouch : Item
         type = ItemTypes.Misc;
         title = "Pouch";
     }
-    public override void Use()
+    public override string Use(BasicChar user)
     {
-        base.Use();
+        user.Gold += Random.Range(10, 30);
+        return "You gain some gold.";
     }
 }

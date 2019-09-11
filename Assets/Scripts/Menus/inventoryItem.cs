@@ -12,7 +12,7 @@ public class inventoryItem : MonoBehaviour
     public void UseItem()
     {
         Debug.Log("Using item" + Item.name);
-        Item.Use();
+    //    Item.Use();
         //   amount.text = Item.Amount.ToString();
     }
 

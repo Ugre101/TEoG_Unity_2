@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public enum ItemTypes
 {
     Consumables,
     Misc
 }
+
 [CreateAssetMenu(fileName = "Item", menuName = "Item/Items holder")]
 [System.Serializable]
 public class Item : ScriptableObject
@@ -15,23 +13,34 @@ public class Item : ScriptableObject
     public Sprite sprite;
     protected ItemId itemId;
     public ItemId Id { get { return itemId; } }
+
     [SerializeField]
     protected ItemTypes type;
+
     public ItemTypes Type { get { return type; } }
+
     [SerializeField]
     protected string title = "Item";
+
     public string Title { get { return title; } }
+
     [SerializeField]
+    [TextArea]
     protected string desc = "";
+
     public string Desc { get { return desc; } }
+
     [SerializeField]
     protected string useName = "Use";
-    public string UseName { get { return useName; } }
-    public virtual void Use()
-    {
 
+    public string UseName { get { return useName; } }
+
+    public virtual string Use(BasicChar user)
+    {
+        return "used";
     }
 }
+
 public class Drinks : Item
 {
     public Drinks()
@@ -40,6 +49,7 @@ public class Drinks : Item
         type = ItemTypes.Consumables;
     }
 }
+
 public class Edibles : Item
 {
     public Edibles()
@@ -48,6 +58,7 @@ public class Edibles : Item
         type = ItemTypes.Consumables;
     }
 }
+
 public class Misc : Item
 {
     public Misc()
