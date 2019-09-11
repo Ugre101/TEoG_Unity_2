@@ -77,7 +77,7 @@ public class DragInventory : MonoBehaviour,IBeginDragHandler, IDragHandler,IEndD
     public void UseItem()
     {
         Debug.Log("Using item" + item.name);
-        item.Use();
+        item.Use(inventory.player);
         //amount.text = Item.Amount.ToString();
         if (invItem.amount < 1)
         {

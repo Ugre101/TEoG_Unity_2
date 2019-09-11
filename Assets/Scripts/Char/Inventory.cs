@@ -61,8 +61,3 @@ public class InventoryItem
     public int amount;
     public int invPos = -1;
 }
-public enum ItemId
-{
-    Pouch,
-    Potion
-}

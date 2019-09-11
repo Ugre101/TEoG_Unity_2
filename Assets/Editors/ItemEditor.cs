@@ -19,7 +19,7 @@ public class ItemEditor : Editor
         EditorGUILayout.LabelField("Type: " + item.Type);
         EditorGUILayout.LabelField("Use: " + item.UseName);
         EditorGUILayout.EndHorizontal();
-        EditorGUILayout.TextArea(item.Desc);
+        EditorGUILayout.TextArea(item.Desc,GUILayout.ExpandHeight(true));
         EditorGUILayout.EndVertical();
         base.OnInspectorGUI();
     }
