@@ -11,6 +11,8 @@ public class QuestMenuHandler : MonoBehaviour
     public playerMain player;
     public TextMeshProUGUI bigQuestText;
     private string nl = Environment.NewLine;
+
+    //  private Quest last;
     private void OnEnable()
     {
         foreach(Transform child in this.transform)

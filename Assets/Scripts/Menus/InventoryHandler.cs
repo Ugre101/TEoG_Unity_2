@@ -51,11 +51,6 @@ public class InventoryHandler : MonoBehaviour
             DragInventory inventorySlot = toAdd.GetComponent<DragInventory>();
             inventorySlot.item = items.items.Find(i => i.Id == item.id);
             inventorySlot.NewItem(item,item.invPos);
-            void OutOf()
-            {
-                UpdateInventory();
-            }
-            DragInventory.used += OutOf;
             Slots[item.invPos].AddTo(toAdd);
         }
     }

@@ -23,8 +23,8 @@ public class QuestMiniBtn : MonoBehaviour
         quest = toAdd;
         bigText = big;
         title.text = quest.Title;
-        desc.text = quest.Completed.ToString();
-        icon = null;
+        desc.text = $"Completed: {quest.Completed}";
+        icon.sprite = null;
     }
 
     public void ToBigText()
