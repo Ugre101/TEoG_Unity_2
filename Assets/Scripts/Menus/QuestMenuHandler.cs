@@ -9,8 +9,10 @@ public class QuestMenuHandler : MonoBehaviour
     [Header("Quest prefab")]
     public GameObject Prefab;
     public playerMain player;
+    public TextMeshProUGUI bigQuestText;
     private string nl = Environment.NewLine;
 
+    //  private Quest last;
     private void OnEnable()
     {
         foreach(Transform child in this.transform)
@@ -31,12 +33,18 @@ public class QuestMenuHandler : MonoBehaviour
     private void QuestPrefab(Quest q)
     {
         GameObject AQuest = Instantiate(Prefab, this.transform);
-        TextMeshProUGUI[] texts = AQuest.GetComponentsInChildren<TextMeshProUGUI>();
+        QuestMiniBtn miniQuest = AQuest.GetComponent<QuestMiniBtn>();
+        miniQuest.Init(q, bigQuestText);
+     /*   TextMeshProUGUI[] texts = AQuest.GetComponentsInChildren<TextMeshProUGUI>();
         TextMeshProUGUI title = texts[0];
         TextMeshProUGUI info = texts[1];
         title.text = $"{q.Title}";
-        info.text = string.Format("Completed: {0}{1}Count: {2}{1}{3}", q.Completed,nl,q.Count,q.HasTiers ? $"Tier: {q.Tier}" : "");
+        info.text = $"Completed: {q.Completed}{nl}Count: {q.Count}{nl}"; 
+        if (q.HasTiers)
+        {
+         //   q.HasTiers ? $"Tier: {q.Tier}" : "";
+        }
         Image icon = AQuest.gameObject.transform.GetChild(3).GetComponent<Image>();
-        icon.sprite = null;
+        icon.sprite = null; */
     }
 }
