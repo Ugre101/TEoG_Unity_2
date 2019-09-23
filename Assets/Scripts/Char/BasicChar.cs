@@ -103,6 +103,8 @@ public abstract class BasicChar : MonoBehaviour
     public int StatsPoints { get { return expSystem.StatPoints; } }
     public bool StatBool { get { return expSystem.StatBool(); } }
     public int PerkPoints { get { return expSystem.PerkPoints; } }
+
+    /// <summary> Checks if char has perkpoints, and if true it subtracts one point and return true. </summary>
     public bool PerkBool { get { return expSystem.PerkBool(); } }
 
     [SerializeField]
