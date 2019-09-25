@@ -4,27 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class BasicStatButton : MonoBehaviour
+public class BasicStatButton : PerkTreeBasicBtn
 {
-    public bool taken = false;
-    public playerMain player;
-    public TextMeshProUGUI amount;
     public StatType stat;
     public int statAmount = 1;
-    private Button btn;
-    // Start is called before the first frame update
-    void Start()
-    {
-        btn = GetComponent<Button>();
-        btn.onClick.AddListener(Use);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    public virtual void Use()
+    public override void Use()
     {
         if (player.PerkBool)
         {

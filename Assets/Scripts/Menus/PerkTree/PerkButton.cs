@@ -1,29 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-public class PerkButton : MonoBehaviour
+﻿public class PerkButton : PerkTreeBasicBtn
 {
-    public bool taken = false;
-    public playerMain player;
-    public TextMeshProUGUI amount;
     public PerksTypes perk;
-    private Button btn;
-    // Start is called before the first frame update
-    void Start()
-    {
-        btn = GetComponent<Button>();
-        btn.onClick.AddListener(Use);
-    }
 
-    // Update is called once per frame
-    void Update()
+    public override void Use()
     {
-                
-    }
-    public virtual void Use()
-    {
-
+        if (player.PerkBool)
+        {
+            taken = true;
+            player.Perk.GainPerk(perk);
+        }
     }
 }

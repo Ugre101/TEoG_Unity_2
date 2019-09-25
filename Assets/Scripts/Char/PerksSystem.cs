@@ -31,8 +31,8 @@ public class Perk
 public class Perks
 {
     [SerializeField]
-    protected List<Perk> perkList = new List<Perk>();
-
+    private List<Perk> perkList = new List<Perk>();
+    public List<Perk> List { get { return perkList; } }
     public void GainPerk(PerksTypes type)
     {
         if (perkList.Exists(p => p.Type == type))
