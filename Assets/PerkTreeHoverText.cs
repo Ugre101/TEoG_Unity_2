@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PerkTreeHoverText : BasicMenuHoverText
 {
@@ -8,18 +6,22 @@ public class PerkTreeHoverText : BasicMenuHoverText
     {
         base.Start();
     }
+
     public override void Hovering(GameObject hoverOver)
     {
-        hoverblock.SetActive(true);
-        RectTransform rt = (RectTransform)hoverOver.transform;
-        RectTransform hrt = (RectTransform)hoverblock.transform;
-        Vector3 finalPos = rt.position;
-        Debug.Log(rt.position);
-        Debug.Log(rt.rect.position);
-        Debug.Log(rt.rect.width);
-        finalPos.x += hrt.rect.width;
-        hoverblock.transform.position = finalPos;
-        //  base.Hovering(hoverOver);
+        base.Hovering(hoverOver);
+        /*
+            hoverblock.SetActive(true);
+            RectTransform rt = (RectTransform)hoverOver.transform;
+            RectTransform hrt = (RectTransform)hoverblock.transform;
+            Vector3 finalPos = rt.localPosition;
+            Debug.Log("rt pos: " + rt.position);
+            Debug.Log("rt localpos: " + rt.localPosition);
+            Debug.Log("rt width: " + rt.rect.width);
+            Debug.Log("hrt width: " + hrt.rect.width);
+            finalPos.x += rt.rect.width / 2;
+            finalPos.x += hrt.rect.width / 2;
+            hrt.localPosition = finalPos;
+        */
     }
-
 }

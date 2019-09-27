@@ -27,28 +27,29 @@ public class BasicMenuHoverText : MonoBehaviour
     public virtual void Hovering(GameObject hoverOver)
     {
         hoverblock.SetActive(true);
-        GameObject over = hoverOver.transform.parent.gameObject;
-        RectTransform rt = (RectTransform)over.transform;
-        Vector3 vector3 = rt.position;
+        RectTransform rt = (RectTransform)hoverOver.transform;
+        float width = rt.rect.width / 2 + hoverRect.rect.width / 2;
+        float height = rt.rect.height / 2 + hoverRect.rect.height / 2;
+        Vector3 vector3 = rt.localPosition;
         if (rt.position.x < Screen.width / 2)
         {
-            vector3.x += Screen.width * xDistance; // xDistance;
+            vector3.x += width; // xDistance;
         }
         else
         {
-            vector3.x -= Screen.width * xDistance;
+            vector3.x -= width; // xDistance;
         }
         if (rt.position.y < Screen.height / 2)
         {
-            vector3.y += Screen.height * yDistance;
+            vector3.y += height; // yDistance;
         }
         else
         {
-            vector3.y -= Screen.height * yDistance;
+            vector3.y -= height; // yDistance;
         }
-        Debug.Log(over.transform.position.x);
-        Debug.Log(rt.rect.yMax);
-        hoverRect.position = vector3;
+        Debug.Log(height + " " + width);
+        Debug.Log(vector3);
+        hoverRect.localPosition = vector3;
     }
 
     public virtual void StopHovering()
