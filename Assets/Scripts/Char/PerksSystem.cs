@@ -12,14 +12,13 @@ public enum PerksTypes
 public class Perk
 {
     [SerializeField]
-    protected int _baseValue;
+    private int _baseValue;
 
     [SerializeField]
-    protected PerksTypes _type;
+    private PerksTypes _type;
 
-    public int Value { get { return _baseValue; } set { _baseValue = value; } }
-    public PerksTypes Type { get { return _type; } }
-
+    public int Value { get { return _baseValue; }  set { _baseValue = value; } }
+    public PerksTypes Type => _type;
     public Perk(PerksTypes type)
     {
         _baseValue = 1;
@@ -31,13 +30,15 @@ public class Perk
 public class Perks
 {
     [SerializeField]
-    protected List<Perk> perkList = new List<Perk>();
+    private List<Perk> perkList = new List<Perk>();
+
+    public List<Perk> List { get { return perkList; } }
 
     public void GainPerk(PerksTypes type)
     {
         if (perkList.Exists(p => p.Type == type))
         {
-            perkList.Find(p => p.Type == type).Value++;
+            perkList.Find(p => p.Type == type).Value++; ;
         }
         else
         {
