@@ -6,7 +6,5 @@ public class PerkInfo : ScriptableObject
     [TextArea]
     private string perkInfo = "";
     public string Info => perkInfo;
-    [SerializeField]
-    private Sprite icon;
-    public Sprite Icon => icon;
 }
+// store perk info in a ScriptableObject so that it's consistent

@@ -45,10 +45,10 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
     {
         if (_oneClick)
         {
-            if (Time.time - _time > 0.7f)
+            if (data.clickTime - _time > 0.7f)
             {
                 // if time since last click more than 1f just reset time
-                _time = Time.time;
+                _time = data.clickTime;
             }
             else
             {
@@ -63,7 +63,7 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
         else
         {
             _oneClick = true;
-            _time = Time.time;
+            _time = data.clickTime;
         }
     }
 

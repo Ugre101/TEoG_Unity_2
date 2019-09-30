@@ -7,11 +7,11 @@ public class BasicMenuHoverText : MonoBehaviour
     public TextMeshProUGUI hovertext;
 
     [SerializeField]
-    [Range(0f, 0.5f)]
+    [Range(0f, 50f)]
     private float xDistance = 0.123f;
 
     [SerializeField]
-    [Range(0f, 0.5f)]
+    [Range(0f, 50f)]
     private float yDistance = 0.123f;
 
     private RectTransform Parent;
@@ -24,32 +24,15 @@ public class BasicMenuHoverText : MonoBehaviour
         hoverRect = (RectTransform)hoverblock.transform;
     }
 
-    public virtual void Hovering(GameObject hoverOver)
+    public virtual void Hovering(GameObject hoverOver,Vector2 mousePos)
     {
         hoverblock.SetActive(true);
-        RectTransform rt = (RectTransform)hoverOver.transform;
-        float width = rt.rect.width / 2 + hoverRect.rect.width / 2;
-        float height = rt.rect.height / 2 + hoverRect.rect.height / 2;
-        Vector3 vector3 = rt.localPosition;
-        if (rt.position.x < Screen.width / 2)
-        {
-            vector3.x += width; // xDistance;
-        }
-        else
-        {
-            vector3.x -= width; // xDistance;
-        }
-        if (rt.position.y < Screen.height / 2)
-        {
-            vector3.y += height; // yDistance;
-        }
-        else
-        {
-            vector3.y -= height; // yDistance;
-        }
-        Debug.Log(height + " " + width);
-        Debug.Log(vector3);
-        hoverRect.localPosition = vector3;
+        /*
+        Vector2 vector2 = mousePos;
+        vector2.x += xDistance;
+        vector2.y += yDistance;
+        hoverRect.position = vector2;
+        */
     }
 
     public virtual void StopHovering()
