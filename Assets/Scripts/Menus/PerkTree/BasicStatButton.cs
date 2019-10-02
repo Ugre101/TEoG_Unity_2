@@ -1,33 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+﻿using UnityEngine;
 
 public class BasicStatButton : PerkTreeBasicBtn
 {
+    [Space]
     public StatType stat;
+
     public int statAmount = 1;
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        amount.text = player.GetStat(stat)._baseValue > 0 ? player.GetStat(stat)._baseValue.ToString() : string.Empty;
+    }
+
     public override void Use()
     {
         if (player.PerkBool)
         {
             taken = true;
-            switch (stat)
-            {
-                case StatType.Charm:
-                    player.charm._baseValue += statAmount;
-                    break;
-                case StatType.Dex:
-                    player.dexterity._baseValue += statAmount;
-                    break;
-                case StatType.End:
-                    player.dexterity._baseValue += statAmount;
-                    break;
-                case StatType.Str:
-                    player.strength._baseValue += statAmount;
-                    break;
-            }
+            player.GetStat(stat)._baseValue += statAmount;
+            amount.text = player.GetStat(stat)._baseValue.ToString();
         }
     }
 }

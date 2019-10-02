@@ -1,5 +1,7 @@
-﻿public class PerkButton : PerkTreeBasicBtn
+﻿using UnityEngine;
+public class PerkButton : PerkTreeBasicBtn
 {
+    [Space]
     public PerksTypes perk;
 
     public override void Use()

@@ -8,6 +8,7 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public bool taken = false;
     public playerMain player;
     public TextMeshProUGUI amount;
+    public PerkInfo perkInfo;
     private Button btn;
     private PerkTreeHoverText hoverText;
 
@@ -18,14 +19,18 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
         btn.onClick.AddListener(Use);
         hoverText = GetComponentInParent<PerkTreeHoverText>();
     }
-
+    public virtual void OnEnable()
+    {
+        
+    }
     public virtual void Use()
     {
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hoverText.Hovering(gameObject);
+        hoverText.Hovering(gameObject,eventData.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)

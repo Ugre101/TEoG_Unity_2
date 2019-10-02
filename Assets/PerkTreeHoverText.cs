@@ -7,9 +7,17 @@ public class PerkTreeHoverText : BasicMenuHoverText
         base.Start();
     }
 
-    public override void Hovering(GameObject hoverOver)
+    public override void Hovering(GameObject hoverOver,Vector2 mosPos)
     {
-        base.Hovering(hoverOver);
+        PerkInfo info = hoverOver.GetComponent<PerkTreeBasicBtn>().perkInfo;
+        if (info != null)
+        {
+            hovertext.text = info.Info;
+        }else
+        {
+            hovertext.text = string.Empty;
+        }
+        base.Hovering(hoverOver,mosPos);
         /*
             hoverblock.SetActive(true);
             RectTransform rt = (RectTransform)hoverOver.transform;

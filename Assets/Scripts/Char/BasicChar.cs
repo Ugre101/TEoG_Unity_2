@@ -24,11 +24,11 @@ public abstract class BasicChar : MonoBehaviour
     [Space]
     public string firstName, lastName;
 
-    public string FullName { get { return $"{firstName} {lastName}"; } }
+    public string FullName => $"{firstName} {lastName}";
 
     public Inventory Inventory;
     public RaceSystem raceSystem = new RaceSystem();
-    public string Race { get { return raceSystem.CurrentRace().ToString(); } }
+    public string Race => raceSystem.CurrentRace().ToString();
 
     public Genders Gender
     {
@@ -85,7 +85,7 @@ public abstract class BasicChar : MonoBehaviour
     public VoreEngine Vore;
     public Age Age;
     public Body Body;
-    public float Weight { get { return Body.weight.Value; } set { Body.weight.Value = value; } }
+    public float Weight { get => Body.weight.Value; set { Body.weight.Value = value; } }
 
     public virtual void Awake()
     {
@@ -98,14 +98,14 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField]
     public ExpSystem expSystem = new ExpSystem();
 
-    public int Level { get { return expSystem.Level; } }
-    public int Exp { get { return expSystem.Exp; } set { expSystem.Exp += value; } }
-    public int StatsPoints { get { return expSystem.StatPoints; } }
-    public bool StatBool { get { return expSystem.StatBool(); } }
-    public int PerkPoints { get { return expSystem.PerkPoints; } }
+    public int Level => expSystem.Level;
+    public int Exp { get => expSystem.Exp; set { expSystem.Exp += value; } }
+    public int StatsPoints => expSystem.StatPoints;
+    public bool StatBool => expSystem.StatBool();
+    public int PerkPoints => expSystem.PerkPoints;
 
     /// <summary> Checks if char has perkpoints, and if true it subtracts one point and return true. </summary>
-    public bool PerkBool { get { return expSystem.PerkBool(); } }
+    public bool PerkBool => expSystem.PerkBool();
 
     [SerializeField]
     public Perks Perk = new Perks();
@@ -113,16 +113,30 @@ public abstract class BasicChar : MonoBehaviour
     [Header("Stats")]
     public CharStats strength;
 
-    public float Str { get { return strength.Value; } }
+    public float Str => strength.Value;
     public CharStats charm;
-    public float Charm { get { return charm.Value; } }
+    public float Charm => charm.Value;
     public CharStats endurance;
-    public float End { get { return endurance.Value; } }
+    public float End=> endurance.Value;
     public CharStats dexterity;
-    public float Dex { get { return dexterity.Value; } }
+    public float Dex => dexterity.Value;
     public CharStats intelligence;
+    public CharStats GetStat(StatType stat)
+    {
+        switch (stat)
+        {
+            case StatType.Charm:
+                return charm;
+            case StatType.Dex:
+                return dexterity;
+            case StatType.End:
+                return endurance;
+            default:
+            case StatType.Str:
+                return strength;
+        }
+    }
     public float Int { get { return intelligence.Value; } }
-
     public void Init(int lvl, float maxhp, float maxwp)
     {
         HP = new Health(maxhp);
