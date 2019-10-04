@@ -9,9 +9,14 @@ public class StartButton : MonoBehaviour
     {
         btn = GetComponent<Button>();
         btn.onClick.AddListener(StartGame);
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
     public void StartGame()
     {
-        SceneManager.LoadScene("MainGame");
+
+    }
+    public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

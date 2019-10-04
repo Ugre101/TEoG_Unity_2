@@ -4,6 +4,7 @@ public class TickManager : MonoBehaviour
 {
     public playerMain player;
     public EventLog eventlog;
+    public PerkInfo healtyBody, strongMind;
     private float _reGainRate;
     private int hour, day, month, year;
 
@@ -19,8 +20,8 @@ public class TickManager : MonoBehaviour
 
     private void ReGain()
     {
-        player.HP.Gain(player.RestRate);
-        player.WP.Gain(player.RestRate);
+        player.HP.Gain(1f + healtyBody.Value);
+        player.WP.Gain(1f + strongMind.Value);
         if (player.Balls.Count > 0)
         {
             foreach (Balls ball in player.Balls)
