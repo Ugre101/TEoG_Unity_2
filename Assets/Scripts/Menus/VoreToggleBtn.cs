@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 public class VoreToggleBtn : MonoBehaviour
 {
-    public playerMain player;
+    public bool Status = false;
     private Button btn;
     private TextMeshProUGUI text;
     // Start is called before the first frame update
@@ -12,11 +12,11 @@ public class VoreToggleBtn : MonoBehaviour
         btn = GetComponent<Button>();
         btn.onClick.AddListener(ToggleVore);
         text = GetComponentInChildren<TextMeshProUGUI>();
-        text.text = $"Vore: {player.Vore.Active}";
+        text.text = $"Vore: {Status}";
     }
     private void ToggleVore()
     {
-        player.Vore.Active = player.Vore.Active ? false : true;
-        text.text = $"Vore: {player.Vore.Active}";
+        Status = !Status;
+        text.text = $"Vore: {Status}";
     }
 }

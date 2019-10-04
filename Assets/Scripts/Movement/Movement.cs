@@ -5,16 +5,16 @@ using UnityEngine.Tilemaps;
 public class Movement : MonoBehaviour
 {
     // Public
-    public float _speed = 7.0f;
+    [Range(1f,20f)]
+    public float movementSpeed = 7.0f;
 
-    public GameObject _pointer;
+    public GameObject pointer;
     public GameUI canvas;
-    public EnemySpawner _spawner;
+    public EnemySpawner spawner;
     public MapEvents mapEvents;
 
     // Private
     private Tilemap _map;
-
     private BoxCollider2D _coll;
     private Rigidbody2D _rb2d;
     private Vector2 _target;
@@ -48,7 +48,7 @@ public class Movement : MonoBehaviour
         {
             // Mouse set target
             _target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Instantiate(_pointer, _target, Quaternion.identity);
+            Instantiate(pointer, _target, Quaternion.identity);
             _move = true;
         }
         else if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
@@ -59,8 +59,8 @@ public class Movement : MonoBehaviour
             float movVert = Input.GetAxis("Vertical");
             float movHori = Input.GetAxis("Horizontal");
 
-            _pos.x += movHori * _speed * Time.deltaTime;
-            _pos.y += movVert * _speed * Time.deltaTime;
+            _pos.x += movHori * movementSpeed * Time.deltaTime;
+            _pos.y += movVert * movementSpeed * Time.deltaTime;
             _target = _pos;
             _move = false;
         }
@@ -73,7 +73,7 @@ public class Movement : MonoBehaviour
         // Handle all player movement in one place to ease clamping
         if (_rb2d.position != _target)
         {
-            _rb2d.position = Vector2.MoveTowards(_rb2d.position, _target, _speed * Time.deltaTime);
+            _rb2d.position = Vector2.MoveTowards(_rb2d.position, _target, movementSpeed * Time.deltaTime);
         }
         // Reset _target if player stops holding mouse 0
     }
@@ -93,9 +93,9 @@ public class Movement : MonoBehaviour
         {
             _colEnemy = collision.gameObject.GetComponent<EnemyPrefab>();
             canvas.StartCombat(_colEnemy);
-            if (_spawner != null)
+            if (spawner != null)
             {
-                _spawner.RePosistion(collision.gameObject);
+                spawner.RePosistion(collision.gameObject);
             }
         }
     }
