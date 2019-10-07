@@ -137,7 +137,7 @@ public abstract class BasicChar : MonoBehaviour
         }
     }
     public float Int { get { return intelligence.Value; } }
-    public void Init(int lvl, float maxhp, float maxwp)
+    public virtual void Init(int lvl, float maxhp, float maxwp)
     {
         HP = new Health(maxhp);
         WP = new Health(maxwp);
@@ -149,25 +149,21 @@ public abstract class BasicChar : MonoBehaviour
     private bool autoEss = true;
 
     public bool AutoEss { get { return autoEss; } }
-
-    public void ToggleAutoEssence()
-    {
-        autoEss = autoEss ? false : true;
-        // if autoessence check if need to grow stuff
-    }
+    // Maybe a bit overkill but I want to make sure autoEss isn't toggled by mistake
+    public void ToggleAutoEssence() => autoEss = !autoEss;
 
     [SerializeField]
     private Essence masc = new Essence();
 
-    public Essence Masc { get { return masc; } }
+    public Essence Masc => masc; 
 
     [SerializeField]
     private Essence femi = new Essence();
 
-    public Essence Femi { get { return femi; } }
-    public float EssDrain { get { return 3 + Perk.PerkBonus(PerksTypes.GainEss); } }
-    public float EssGive { get { return 3 + Perk.PerkBonus(PerksTypes.GiveEss); } }
-    public float RestRate { get { return 1f + Perk.PerkBonus(PerksTypes.FasterRest); } }
+    public Essence Femi => femi;
+    public float EssDrain => 3 + Perk.PerkBonus(PerksTypes.GainEss);
+    public float EssGive => 3 + Perk.PerkBonus(PerksTypes.GiveEss);
+    public float RestRate => 1f + Perk.PerkBonus(PerksTypes.FasterRest);
 
     public float LoseMasc(float mascToLose)
     {

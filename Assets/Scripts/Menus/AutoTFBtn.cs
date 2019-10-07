@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 public class AutoTFBtn : MonoBehaviour
 {
-    public bool Status = true;
+    public playerMain player;
     private Button btn;
     private TextMeshProUGUI text;
     // Start is called before the first frame update
@@ -12,11 +12,11 @@ public class AutoTFBtn : MonoBehaviour
         btn = GetComponent<Button>();
         btn.onClick.AddListener(AutoTF);
         text = GetComponentInChildren<TextMeshProUGUI>();
-        text.text = $"Auto TF: {Status}";
+        text.text = $"Auto TF: {player.AutoEss}";
     }
     private void AutoTF()
     {
-        Status = !Status;
-        text.text = $"Auto TF: {Status}";
+        player.ToggleAutoEssence();
+        text.text = $"Auto TF: {player.AutoEss}";
     }
 }

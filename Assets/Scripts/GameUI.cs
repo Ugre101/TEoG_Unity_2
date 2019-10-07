@@ -43,11 +43,6 @@ public class GameUI : MonoBehaviour
     public AfterBattleActions afterBattleActions;
     private float _eventTime;
 
-    private void Start()
-    {
-        Resume();
-    }
-
     private void Update()
     {
         // if in menus or main game(not combat)
@@ -172,7 +167,7 @@ public class GameUI : MonoBehaviour
 
     private void ToggleBigPanel(BigPanels panel)
     {
-        foreach (Transform bigPanel in this.transform)
+        foreach (Transform bigPanel in transform)
         {
             bigPanel.gameObject.SetActive(false);
         }

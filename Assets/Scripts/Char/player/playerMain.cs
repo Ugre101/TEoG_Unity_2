@@ -21,11 +21,16 @@ public class playerMain : BasicChar
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Elfs);
         raceSystem.AddRace(Races.Human, 100);
-        firstName = "adofa";
         Body = new Body(160, 60, 10, 20);
         // Inventory.AddItem(ItemId.Potion);
         Inventory.AddItem(ItemId.Pouch);
         // Inventory.AddItem(new TestPotion());
         // Inventory.AddItem(new TestPotion());
+    }
+    public void PlayerInit(string first, string last)
+    {
+        firstName = first;
+        lastName = last;
+        Debug.Log(firstName);
     }
 }

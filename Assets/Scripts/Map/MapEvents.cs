@@ -17,15 +17,34 @@ public class MapEvents : MonoBehaviour
     [SerializeField]
     private List<WorldMap> worldMaps;
 
-    private List<Transform> Maps { get { return new List<Transform>(CurrentWorld.GetComponentsInChildren<Transform>()); } }
+    private List<Transform> Children { get { return new List<Transform>(CurrentWorld.GetComponentsInChildren<Transform>()); } }
+    #region mapScript
+    private List<Map> GetMaps => new List<Map>(CurrentWorld.GetComponentsInChildren<Map>());
+    private Map lastMap;
+    private bool mapDirty = true;
 
+    public Map CurMapScript
+    {
+        get
+        {
+            if (mapDirty)
+            {
+                lastMap = GetMaps.Find(m => m.name == CurrentMap.name);
+                mapDirty = false;
+            }
+            return lastMap;
+        }
+    }
+    #endregion
     private void Awake()
     {
         worldMaps = new List<WorldMap>(GetComponentsInChildren<WorldMap>());
+        mapDirty = true;
     }
 
     public void Teleport(WorldMaps toWorld, Tilemap toMap, Tilemap teleportPlatform = null)
     {
+        mapDirty = true;
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
@@ -40,12 +59,14 @@ public class MapEvents : MonoBehaviour
 
     public void MapChange(Tilemap newMap)
     {
+        mapDirty = true;
         CurrentMap = newMap;
         WorldMapChange?.Invoke();
     }
 
     public void WorldChange(WorldMaps newWorld, Tilemap newMap)
     {
+        mapDirty = true;
         // CurrentWorld = newWorld;
         ActiveMap = newWorld;
         CurrentMap = newMap;
@@ -54,13 +75,14 @@ public class MapEvents : MonoBehaviour
 
     public void Load(PosSave save)
     {
+        mapDirty = true;
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
         ActiveMap = save.world;
         CurrentWorld.SetActive(true);
-        CurrentMap = Maps.Find(m => m.name == save.map).transform.gameObject.GetComponent<Tilemap>();
+        CurrentMap = Children.Find(m => m.name == save.map).transform.gameObject.GetComponent<Tilemap>();
         WorldMapChange?.Invoke();
         player.transform.position = save.pos;
         Debug.Log(ActiveMap + " " + CurrentMap);

@@ -22,8 +22,8 @@ public class PlayerMainEditor : Editor
         GUILayout.Label("Last name");
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
-        player.firstName = EditorGUILayout.TextField("");
-        player.lastName = EditorGUILayout.TextField("");
+        player.firstName = EditorGUILayout.TextField(player.firstName);
+        player.lastName = EditorGUILayout.TextField(player.lastName);
         GUILayout.EndHorizontal();
         base.OnInspectorGUI();
     }

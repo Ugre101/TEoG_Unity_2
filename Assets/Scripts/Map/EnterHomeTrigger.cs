@@ -7,7 +7,10 @@ public class EnterHomeTrigger : MonoBehaviour
     public GameUI GameUI;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameUI.EnterHome();
+        if (collision.tag == "Player")
+        {
+            GameUI.EnterHome();
+        }
     }
    
 }
