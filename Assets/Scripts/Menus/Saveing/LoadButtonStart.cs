@@ -6,10 +6,8 @@ using UnityEngine.UI;
 
 public class LoadButtonStart : MonoBehaviour
 {
-    private TextMeshProUGUI[] _textList;
-    private TextMeshProUGUI _text;
-    private Button[] _buttons;
-    private Button _load, _del;
+    public TextMeshProUGUI title;
+    public Button load, dal;
 
     private string _mainPath;
 
@@ -21,25 +19,14 @@ public class LoadButtonStart : MonoBehaviour
         {
             Directory.CreateDirectory(_mainPath);
         }
-        // Set buttons
-        _buttons = GetComponentsInChildren<Button>();
-        _load = _buttons[0];
-        _del = _buttons[1];
 
-        _textList = GetComponentsInChildren<TextMeshProUGUI>();
-        _text = _textList[0];
-        _load.onClick.AddListener(LoadGame);
-        _del.onClick.AddListener(DeleteSave);
+        load.onClick.AddListener(LoadGame);
+        dal.onClick.AddListener(DeleteSave);
     }
 
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void LoadGame()
@@ -58,7 +45,7 @@ public class LoadButtonStart : MonoBehaviour
 
     private string CurrentPath()
     {
-        string currPath = _text.text;
+        string currPath = title.text;
         return _mainPath + currPath + ".json";
     }
 
@@ -71,6 +58,7 @@ public class LoadButtonStart : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("Running");
         saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
         player = saveMananger.player; //GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
         pos = saveMananger.playerSprite; //GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
@@ -79,11 +67,14 @@ public class LoadButtonStart : MonoBehaviour
         mapEvents = saveMananger.mapEvents;
         Save save = new Save(player, pos, dorm, mapEvents);
         string path = CurrentPath();
+        Debug.Log(path);
+        Debug.Log(File.Exists(path));
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             save.LoadData(json);
         }
         gameUI.Resume();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

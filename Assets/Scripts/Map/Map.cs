@@ -15,7 +15,7 @@ public enum Maps
 
 public class Map : MonoBehaviour
 {
-    public Maps map;
+    public string map;
     public string testMap { get { return this.transform.name; } }
 
     [Header("Map enemies")]

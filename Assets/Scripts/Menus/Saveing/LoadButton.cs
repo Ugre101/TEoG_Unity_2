@@ -11,17 +11,15 @@ public class LoadButton : MonoBehaviour
     private Dorm dorm;
     private GameUI gameUI;
     private MapEvents mapEvents;
-    private TextMeshProUGUI[] _textList;
-    private TextMeshProUGUI _text;
-    private Button[] _buttons;
-    private Button _load, _del;
+    public TextMeshProUGUI title;
+    public Button load, del;
 
     private string _mainPath;
 
     // Start is called before the first frame update
     private void Start()
     {
-        saveMananger = GetComponentInParent<SaveMananger>();
+        saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
         player = saveMananger.player;
         pos = saveMananger.playerSprite;
         gameUI = saveMananger.gameUI;
@@ -33,14 +31,8 @@ public class LoadButton : MonoBehaviour
             Directory.CreateDirectory(_mainPath);
         }
         // Set buttons
-        _buttons = GetComponentsInChildren<Button>();
-        _load = _buttons[0];
-        _del = _buttons[1];
-
-        _textList = GetComponentsInChildren<TextMeshProUGUI>();
-        _text = _textList[0];
-        _load.onClick.AddListener(LoadGame);
-        _del.onClick.AddListener(DeleteSave);
+        load.onClick.AddListener(LoadGame);
+        del.onClick.AddListener(DeleteSave);
     }
 
     public void LoadGame()
@@ -66,7 +58,7 @@ public class LoadButton : MonoBehaviour
 
     private string CurrentPath()
     {
-        string currPath = _text.text;
+        string currPath = title.text;
         return _mainPath + currPath + ".json";
     }
 }

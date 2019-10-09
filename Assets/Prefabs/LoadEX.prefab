@@ -331,6 +331,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a9b93491a280441aeafbe2941f2538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  title: {fileID: 4565971353875555109}
+  load: {fileID: 4565971352917659520}
+  del: {fileID: 29320730513368346}
 --- !u!1 &4565971353875555163
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,13 +468,13 @@ MonoBehaviour:
   m_margin: {x: 5, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 4565971353875555109}
-    characterCount: 0
+    characterCount: 28
     spriteCount: 0
-    spaceCount: 0
-    wordCount: 0
+    spaceCount: 5
+    wordCount: 6
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
@@ -622,13 +625,13 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 4565971354249876758}
-    characterCount: 0
+    characterCount: 4
     spriteCount: 0
     spaceCount: 0
-    wordCount: 0
+    wordCount: 1
     linkCount: 0
-    lineCount: 0
-    pageCount: 0
+    lineCount: 1
+    pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0

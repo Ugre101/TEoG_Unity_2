@@ -57,7 +57,6 @@ public class KeyBindings : ScriptableObject
 
     private KeyCode HasSavedKey(string name, KeyCode key)
     {
-        Debug.Log(name);
         return PlayerPrefs.HasKey(name) ? (KeyCode)PlayerPrefs.GetInt(name) : key;
     }
 
