@@ -4,51 +4,65 @@
 [CreateAssetMenu(fileName = "Key bindings", menuName = "Key bindings")]
 public class KeyBindings : ScriptableObject
 {
-    public KeyCode saveKey;
-    public KeyCode optionsKey;
-    public KeyCode voreKey;
-    public KeyCode lvlKey;
-    public KeyCode essenceKey;
-    public KeyCode inventoryKey;
-    public KeyCode escKey;
-    public KeyCode questKey;
-    public KeyCode mapKey;
-    public KeyCode eventKey;
-    public KeyCode lookKey;
-    public KeyCode zoomInKey;
-    public KeyCode zoomOutKey;
+    public KeyCode saveKey = KeyCode.G;
+    public KeyCode optionsKey = KeyCode.O;
+    public KeyCode voreKey = KeyCode.V;
+    public KeyCode lvlKey = KeyCode.B;
+    public KeyCode essenceKey = KeyCode.T;
+    public KeyCode inventoryKey = KeyCode.Tab;
+    public KeyCode escKey = KeyCode.Escape;
+    public KeyCode questKey = KeyCode.Q;
+    public KeyCode mapKey = KeyCode.M;
+    public KeyCode eventKey = KeyCode.E;
+    public KeyCode lookKey = KeyCode.L;
+    public KeyCode zoomInKey = KeyCode.Comma;
+    public KeyCode zoomOutKey = KeyCode.Period;
+    public KeyCode hideAllKey = KeyCode.Space;
 
     private void OnEnable()
     {
         // if key saved in playerprefs use that else use default.
-        saveKey = PlayerPrefs.HasKey("saveKey") ? (KeyCode)PlayerPrefs.GetInt("saveKey") : KeyCode.G;
-        optionsKey = PlayerPrefs.HasKey("optionsKey") ? (KeyCode)PlayerPrefs.GetInt("optionsKey") : KeyCode.O;
-        voreKey = PlayerPrefs.HasKey("voreKey") ? (KeyCode)PlayerPrefs.GetInt("voreKey") : KeyCode.V;
-        lvlKey = PlayerPrefs.HasKey("lvlKey") ? (KeyCode)PlayerPrefs.GetInt("lvlKey") : KeyCode.B;
-        essenceKey = PlayerPrefs.HasKey("essenceKey") ? (KeyCode)PlayerPrefs.GetInt("essenceKey") : KeyCode.T;
-        inventoryKey = PlayerPrefs.HasKey("inventoryKey") ? (KeyCode)PlayerPrefs.GetInt("inventoryKey") : KeyCode.Tab;
-        escKey = PlayerPrefs.HasKey("escKey") ? (KeyCode)PlayerPrefs.GetInt("escKey") : KeyCode.Escape;
-        questKey = PlayerPrefs.HasKey("questKey") ? (KeyCode)PlayerPrefs.GetInt("questKey") : KeyCode.Q;
-        mapKey = PlayerPrefs.HasKey("mapKey") ? (KeyCode)PlayerPrefs.GetInt("mapKey") : KeyCode.M;
-        eventKey = PlayerPrefs.HasKey("eventKey") ? (KeyCode)PlayerPrefs.GetInt("eventKey") : KeyCode.E;
-        lookKey = PlayerPrefs.HasKey("lookKey") ? (KeyCode)PlayerPrefs.GetInt("lookKey") : KeyCode.L;
-        zoomInKey = PlayerPrefs.HasKey("zoomInKey") ? (KeyCode)PlayerPrefs.GetInt("zoomInKey") : KeyCode.Comma;
-        zoomOutKey = PlayerPrefs.HasKey("zoomOutKey") ? (KeyCode)PlayerPrefs.GetInt("zoomOutKey") : KeyCode.Period;
+        saveKey = HasSavedKey(nameof(saveKey), saveKey);
+        optionsKey = HasSavedKey(nameof(optionsKey), optionsKey);
+        voreKey = HasSavedKey(nameof(voreKey), voreKey);
+        lvlKey = HasSavedKey(nameof(lvlKey), lvlKey);
+        essenceKey = HasSavedKey(nameof(essenceKey), essenceKey);
+        inventoryKey = HasSavedKey(nameof(inventoryKey), inventoryKey);
+        escKey = HasSavedKey(nameof(escKey), escKey);
+        questKey = HasSavedKey(nameof(questKey), questKey);
+        mapKey = HasSavedKey(nameof(mapKey), mapKey);
+        eventKey = HasSavedKey(nameof(eventKey), eventKey);
+        lookKey = HasSavedKey(nameof(lookKey), lookKey);
+        zoomInKey = HasSavedKey(nameof(zoomInKey), zoomInKey);
+        zoomOutKey = HasSavedKey(nameof(zoomOutKey), zoomOutKey);
+        hideAllKey = HasSavedKey(nameof(hideAllKey), hideAllKey);
     }
 
     private void OnDestroy()
     {
         // Save key binds
-        PlayerPrefs.SetInt("saveKey", (int)saveKey);
-        PlayerPrefs.SetInt("optionsKey", (int)optionsKey);
-        PlayerPrefs.SetInt("voreKey", (int)voreKey);
-        PlayerPrefs.SetInt("lvlKey", (int)lvlKey);
-        PlayerPrefs.SetInt("essenceKey", (int)essenceKey);
-        PlayerPrefs.SetInt("inventoryKey", (int)inventoryKey);
-        PlayerPrefs.SetInt("escKey", (int)escKey);
-        PlayerPrefs.SetInt("questKey", (int)questKey);
-        PlayerPrefs.SetInt("mapKey", (int)mapKey);
-        PlayerPrefs.SetInt("eventKey", (int)eventKey);
-        PlayerPrefs.SetInt("lookKey", (int)lookKey);
+        KeySave(nameof(saveKey), saveKey);
+        KeySave(nameof(optionsKey), optionsKey);
+        KeySave(nameof(voreKey), voreKey);
+        KeySave(nameof(lvlKey), lvlKey);
+        KeySave(nameof(essenceKey), essenceKey);
+        KeySave(nameof(inventoryKey), inventoryKey);
+        KeySave(nameof(escKey), escKey);
+        KeySave(nameof(questKey), questKey);
+        KeySave(nameof(mapKey), mapKey);
+        KeySave(nameof(eventKey), eventKey);
+        KeySave(nameof(lookKey), lookKey);
+        KeySave(nameof(hideAllKey), hideAllKey);
+    }
+
+    private KeyCode HasSavedKey(string name, KeyCode key)
+    {
+        Debug.Log(name);
+        return PlayerPrefs.HasKey(name) ? (KeyCode)PlayerPrefs.GetInt(name) : key;
+    }
+
+    private void KeySave(string name, KeyCode key)
+    {
+        PlayerPrefs.SetInt(name, (int)key);
     }
 }

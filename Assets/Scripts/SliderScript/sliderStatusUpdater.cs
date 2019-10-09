@@ -13,7 +13,7 @@ public class BasicSlider : MonoBehaviour
         slider = GetComponent<Slider>();
         if (slider == null || basicChar == null)
         {
-            GetComponent<BasicSlider>().enabled = false;
+            enabled = false;
         }
     }
 }

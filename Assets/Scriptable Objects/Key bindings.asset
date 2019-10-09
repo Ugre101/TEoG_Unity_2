@@ -19,6 +19,10 @@ MonoBehaviour:
   essenceKey: 116
   inventoryKey: 9
   escKey: 27
-  questKey: 108
+  questKey: 113
   mapKey: 109
   eventKey: 101
+  lookKey: 108
+  zoomInKey: 44
+  zoomOutKey: 46
+  hideAllKey: 32
