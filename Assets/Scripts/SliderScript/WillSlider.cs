@@ -6,6 +6,10 @@
         if (TextMesh != null)
         {
             TextMesh.text = basicChar.WP.Status();
+            if (endSuffix)
+            {
+                TextMesh.text += suffix;
+            }
         }
     }
 

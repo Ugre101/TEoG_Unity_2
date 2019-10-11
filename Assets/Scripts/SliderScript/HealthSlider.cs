@@ -6,6 +6,10 @@
         if (TextMesh != null)
         {
             TextMesh.text = basicChar.HP.Status();
+            if (endSuffix)
+            {
+                TextMesh.text += suffix;
+            }
         }
     }
 
