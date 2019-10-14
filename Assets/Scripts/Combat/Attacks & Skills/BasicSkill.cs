@@ -12,7 +12,7 @@ public enum SkillType
     Magical,
     Seduction
 }
-
+[CreateAssetMenu(fileName = "testSkill", menuName = "ScriptableObject/CombatSkills/testSkill")]
 public class BasicSkill : ScriptableObject
 {
     #region Variables

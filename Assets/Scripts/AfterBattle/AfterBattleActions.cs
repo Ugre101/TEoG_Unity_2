@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AfterBattleActions : MonoBehaviour
 {
-    public playerMain _player;
+    public playerMain player;
     public List<BasicChar> enemies = new List<BasicChar>();
     public TextMeshProUGUI _textBox;
     public GameObject ButtonPrefab;
@@ -80,7 +80,7 @@ public class AfterBattleActions : MonoBehaviour
         }
         foreach (SexScenes scene in scenes)
         {
-            if (scene.CanDo(_player, enemies[0]))
+            if (scene.CanDo(player, enemies[0]))
             {
                 GameObject button = ButtonPrefab;
                 TextMeshProUGUI title = button.GetComponentInChildren<TextMeshProUGUI>();

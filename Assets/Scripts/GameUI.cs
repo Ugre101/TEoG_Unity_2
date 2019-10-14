@@ -45,14 +45,14 @@ public class GameUI : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(keys.escKey))
+        {
+            ResumePause(pausemenu);
+        }
         // if in menus or main game(not combat)
         if (gameui.activeSelf || menus.activeSelf)
         {
-            if (Input.GetKeyDown(keys.escKey))
-            {
-                ResumePause(pausemenu);
-            }
-            else if (Input.GetKeyDown(keys.saveKey))
+            if (Input.GetKeyDown(keys.saveKey))
             {
                 ResumePause(savemenu);
             }
@@ -220,5 +220,19 @@ public class GameUI : MonoBehaviour
     public void LeaveHome()
     {
         Resume();
+    }
+
+    private void EscapePause()
+    {
+        if (gameui.activeSelf || menus.activeSelf)
+        {
+            // Resume
+            // Break out pause menu from menus
+        }
+        else
+        {
+            // Overlay pause
+            // Option to save, change options, or quit game regardless of current status
+        }
     }
 }

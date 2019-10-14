@@ -14,7 +14,7 @@ public class SexButtonMono : MonoBehaviour
         afterBattle = GetComponentInParent<AfterBattleActions>();
         if (afterBattle != null)
         {
-            player = afterBattle._player;
+            player = afterBattle.player;
             other = afterBattle.enemies[0];
         }
         btn.onClick.AddListener(Func);

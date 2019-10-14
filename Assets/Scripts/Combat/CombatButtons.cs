@@ -10,7 +10,8 @@ public class CombatButtons : MonoBehaviour
     public playerMain player;
     public GameObject combatPanel, sexPanel, losePanel;
     public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
-
+    public EnemyPrefab CurrentEnemy => _enemies[indexCurrentEnemy];
+    private int indexCurrentEnemy = 0;
     [Header("Win")]
     public AfterBattleActions afterBattle;
 

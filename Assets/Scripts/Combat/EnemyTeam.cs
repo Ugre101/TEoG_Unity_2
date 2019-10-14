@@ -15,8 +15,10 @@ public class EnemyTeam : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        int i = 0;
         foreach (BasicChar combatant in Team)
         {
+            Debug.Log(i++);
             GameObject StatusToAdd = StatusPrefab;
             CombatStatus status = StatusToAdd.GetComponent<CombatStatus>();
             status.Setup(combatant);
