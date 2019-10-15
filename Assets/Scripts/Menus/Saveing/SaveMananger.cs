@@ -10,7 +10,7 @@ public class SaveMananger : MonoBehaviour
     public GameUI gameUI;
     public MapEvents mapEvents;
     private string _mainPath;
-
+    private string lastSavePath;
     private void Start()
     {
         _mainPath = Application.persistentDataPath + "/Game_Save/";
@@ -20,6 +20,7 @@ public class SaveMananger : MonoBehaviour
         }
     }
 
+  
     public void NewSaveGame()
     {
         DateTime now = DateTime.Now;
@@ -37,8 +38,18 @@ public class SaveMananger : MonoBehaviour
             }
         }
         cleanPath = cleanPath.Replace(" ", string.Empty);
-        string path = _mainPath + cleanPath + ".json";
+         lastSavePath = _mainPath + cleanPath + ".json";
         Save save = new Save(player, playerSprite, dorm, mapEvents);
-        File.WriteAllText(path, save.SaveData());
+        File.WriteAllText(lastSavePath, save.SaveData());
+    }
+
+    public void SaveAndQuit()
+    {
+        NewSaveGame();
+        if (File.Exists(lastSavePath))
+        {
+            Debug.Log("Pause menu; save & quit");
+            Application.Quit();
+        }
     }
 }

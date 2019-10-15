@@ -47,7 +47,7 @@ public class GameUI : MonoBehaviour
     {
         if (Input.GetKeyDown(keys.escKey))
         {
-            ResumePause(pausemenu);
+            EscapePause();
         }
         // if in menus or main game(not combat)
         if (gameui.activeSelf || menus.activeSelf)
@@ -194,16 +194,16 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    private void ResumePause(GameObject toBeActivated)
+    public void ResumePause(GameObject toBeActivated)
     {
-        if (!GameIsPaused)
+        if (GameIsPaused)
         {
-            Pause();
-            toBeActivated.SetActive(true);
+            Resume();
         }
         else
         {
-            Resume();
+            Pause();
+            toBeActivated.SetActive(true);
         }
     }
 
@@ -222,17 +222,21 @@ public class GameUI : MonoBehaviour
         Resume();
     }
 
-    private void EscapePause()
+    public void EscapePause()
     {
-        if (gameui.activeSelf || menus.activeSelf)
+        if (menus.activeSelf)
         {
-            // Resume
-            // Break out pause menu from menus
+            Resume();
+        }
+        else if (pausemenu.activeSelf)
+        {
+            pausemenu.SetActive(false);
         }
         else
         {
-            // Overlay pause
-            // Option to save, change options, or quit game regardless of current status
+            GameIsPaused = true;
+            Time.timeScale = 0f;
+            pausemenu.SetActive(true);
         }
     }
 }
