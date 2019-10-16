@@ -74,4 +74,8 @@ public class TickManager : MonoBehaviour
         player.HP.FullGain();
         player.WP.FullGain();
     }
+    public DateSave Save()
+    {
+        return new DateSave(year, month, day, hour);
+    }
 }

@@ -9,14 +9,16 @@ public class Save
     private readonly Transform Pos;
     private readonly Dorm dorm;
     private readonly MapEvents mapEvents;
+    private readonly TickManager tickManager;
     private PlayerSave save;
 
-    public Save(playerMain player, Transform pos, Dorm theDorm, MapEvents map)
+    public Save(playerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager)
     {
         Player = player;
         Pos = pos.transform;
         dorm = theDorm;
         mapEvents = map;
+        tickManager = manager;
     }
 
     public string SaveData()
@@ -29,7 +31,8 @@ public class Save
             temp.Add(tempDorm);
         }
         PosSave pos = new PosSave(Pos.position, mapEvents.ActiveMap, mapEvents.CurrentMap.transform.name);
-        FullSave fullSave = new FullSave(save, pos, temp);
+        DateSave date = tickManager.Save();
+        FullSave fullSave = new FullSave(save, pos, temp, date);
         Debug.Log(JsonUtility.ToJson(fullSave));
 
         return JsonUtility.ToJson(fullSave);
@@ -58,12 +61,14 @@ public class FullSave
     public PlayerSave playerPart;
     public PosSave posPart;
     public List<DormSave> dormPart;
+    public DateSave datePart;
 
-    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm)
+    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, DateSave date)
     {
         playerPart = player;
         posPart = pos;
         dormPart = dorm;
+        datePart = date;
     }
 }
 
@@ -104,5 +109,19 @@ public class DormSave
     {
         name = Name;
         who = JsonUtility.ToJson(Who);
+    }
+}
+
+[Serializable]
+public class DateSave
+{
+    public int year, month, day, hour;
+
+    public DateSave(int Year, int Month, int Day, int Hour)
+    {
+        year = Year;
+        month = Month;
+        day = Day;
+        hour = Hour;
     }
 }

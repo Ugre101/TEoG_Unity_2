@@ -987,7 +987,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whom: {fileID: 0}
-  name: {fileID: 6354736374969644252}
+  title: {fileID: 6354736374969644252}
   healthSlider: {fileID: 6354736373874061387}
   willSlider: {fileID: 6354736374753014596}
 --- !u!1 &6354736374882809187

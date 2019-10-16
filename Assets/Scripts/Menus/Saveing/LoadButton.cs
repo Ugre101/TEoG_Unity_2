@@ -11,6 +11,7 @@ public class LoadButton : MonoBehaviour
     private Dorm dorm;
     private GameUI gameUI;
     private MapEvents mapEvents;
+    private TickManager tickManager;
     public TextMeshProUGUI title;
     public Button load, del;
 
@@ -37,7 +38,7 @@ public class LoadButton : MonoBehaviour
 
     public void LoadGame()
     {
-        Save save = new Save(player, pos, dorm, mapEvents);
+        Save save = new Save(player, pos, dorm, mapEvents, tickManager);
         string path = CurrentPath();
         if (File.Exists(path))
         {

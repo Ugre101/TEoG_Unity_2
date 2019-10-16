@@ -9,8 +9,10 @@ public class SaveMananger : MonoBehaviour
     public Dorm dorm;
     public GameUI gameUI;
     public MapEvents mapEvents;
+    public TickManager tickManager;
     private string _mainPath;
     private string lastSavePath;
+
     private void Start()
     {
         _mainPath = Application.persistentDataPath + "/Game_Save/";
@@ -20,7 +22,6 @@ public class SaveMananger : MonoBehaviour
         }
     }
 
-  
     public void NewSaveGame()
     {
         DateTime now = DateTime.Now;
@@ -38,8 +39,8 @@ public class SaveMananger : MonoBehaviour
             }
         }
         cleanPath = cleanPath.Replace(" ", string.Empty);
-         lastSavePath = _mainPath + cleanPath + ".json";
-        Save save = new Save(player, playerSprite, dorm, mapEvents);
+        lastSavePath = _mainPath + cleanPath + ".json";
+        Save save = new Save(player, playerSprite, dorm, mapEvents, tickManager);
         File.WriteAllText(lastSavePath, save.SaveData());
     }
 

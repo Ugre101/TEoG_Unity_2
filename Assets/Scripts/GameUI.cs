@@ -106,7 +106,6 @@ public class GameUI : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
-        //foreach (Transform child in)
         ToggleBigPanel(BigPanels.GameUI);
         GameIsPaused = false;
         Time.timeScale = 1f;

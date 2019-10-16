@@ -55,6 +55,7 @@ public class LoadButtonStart : MonoBehaviour
     private GameUI gameUI;
     private MapEvents mapEvents;
     private SaveMananger saveMananger;
+    private TickManager tickManager;
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -65,7 +66,8 @@ public class LoadButtonStart : MonoBehaviour
         gameUI = saveMananger.gameUI; //GameObject.Find("Canvas").GetComponent<GameUI>();
         dorm = saveMananger.dorm; //GameObject.Find("Dorm-servants").GetComponent<Dorm>();
         mapEvents = saveMananger.mapEvents;
-        Save save = new Save(player, pos, dorm, mapEvents);
+        tickManager = saveMananger.tickManager;
+        Save save = new Save(player, pos, dorm, mapEvents, tickManager);
         string path = CurrentPath();
         Debug.Log(path);
         Debug.Log(File.Exists(path));
