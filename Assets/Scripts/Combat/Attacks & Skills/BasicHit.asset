@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41820a31eb5b0be4292eca314a307856, type: 3}
   m_Name: BasicHit
   m_EditorClassIdentifier: 
-  title: 
-  baseAttack: 0
+  title: Hit
+  baseAttack: 10
   skill: 0
   type: 0
+  rng: 4.1

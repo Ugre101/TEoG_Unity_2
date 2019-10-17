@@ -12,16 +12,17 @@ public class Health
         _current = _max;
     }
 
-    public float Current
-    {
-        get { return Mathf.Round(_current); }
-        //set { _current += Mathf.Clamp(value,-_current,_max -_current); }
-    }
+    public float Current => Mathf.Round(_current);
+    //set { _current += Mathf.Clamp(value,-_current,_max -_current); }
 
     public bool TakeDmg(float dmg)
     {
         _current -= Mathf.Clamp(dmg, 0, _current);
         updateSlider?.Invoke();
+        if (_current <= 0)
+        {
+            Died?.Invoke();
+        }
         return _current <= 0 ? true : false;
     }
 
@@ -49,6 +50,10 @@ public class Health
     public delegate void UpdateSlider();
 
     public static event UpdateSlider updateSlider;
+
+    public delegate void Dead();
+
+    public static event Dead Died;
 
     public void manualSliderUpdate()
     {

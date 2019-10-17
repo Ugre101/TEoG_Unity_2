@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 7548901553399319816}
   - component: {fileID: 7548901553399319823}
   - component: {fileID: 7548901553399319822}
+  - component: {fileID: 2625839893290379263}
   m_Layer: 5
-  m_Name: Basic-Hit
+  m_Name: Combat-Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,6 +122,20 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &2625839893290379263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7548901553399319820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddca4e7fec8470d40a020c089e7578e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill: {fileID: 0}
+  text: {fileID: 7548901554265017063}
 --- !u!1 &7548901554265017061
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,8 +38,7 @@ public class GameUI : MonoBehaviour
     public GameObject closedEventlog;
 
     [Space]
-    public CombatEnemies CombatEnemies;
-
+    public CombatButtons combatButtons;
     public AfterBattleActions afterBattleActions;
     private float _eventTime;
 
@@ -147,7 +146,10 @@ public class GameUI : MonoBehaviour
         }
         combat.SetActive(true);
         ToggleBigPanel(BigPanels.Battle);
-        CombatEnemies.AddEnemy(enemy);
+        combatButtons.enemyTeamChars.Clear();
+        combatButtons.enemyTeamChars.Add(enemy);
+        combatButtons.SetUpCombat();
+        // or add range if more that one
     }
 
     public void LeaveCombat()

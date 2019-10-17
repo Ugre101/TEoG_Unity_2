@@ -10,8 +10,11 @@ public class CombatButtons : MonoBehaviour
     public playerMain player;
     public GameObject combatPanel, sexPanel, losePanel;
     public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
-    public EnemyPrefab CurrentEnemy => _enemies[indexCurrentEnemy];
+    public BasicChar CurrentEnemy => enemyTeamChars[indexCurrentEnemy];
     private int indexCurrentEnemy = 0;
+    public List<BasicChar> playerTeamChars, enemyTeamChars;
+    public CombatTeam playerTeam, enemyTeam;
+
     [Header("Win")]
     public AfterBattleActions afterBattle;
 
@@ -24,6 +27,12 @@ public class CombatButtons : MonoBehaviour
     private string _PlayerTeamAttacks, _EnemyTeamAttacks;
     private int _turn;
 
+    private void Start()
+    {
+        // every time someone dies check if a team losses
+        Health.Died += SomeOneDead;
+    }
+
     private void OnEnable()
     {
         _battleLog.Clear();
@@ -34,7 +43,11 @@ public class CombatButtons : MonoBehaviour
     {
         _enemies.Clear();
     }
-
+    public void SetUpCombat()
+    {
+        enemyTeam.StartFight(enemyTeamChars);
+        playerTeam.StartFight(playerTeamChars);
+    }
     public void FleeButton()
     {
         float toBeat = 7;
@@ -156,5 +169,11 @@ public class CombatButtons : MonoBehaviour
         combatPanel.SetActive(false);
         losePanel.SetActive(true);
         // init enemy(s) in lose
+    }
+
+    public void SomeOneDead()
+    {
+        Debug.Log(playerTeam.TeamDead + " : " + enemyTeam.TeamDead);
+
     }
 }

@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class CombatEnemies : MonoBehaviour
 {
-    public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
+    public List<BasicChar> _enemies = new List<BasicChar>();
     public CombatButtons combatButtons;
-    public EnemyTeam enemyTeam;
+    public CombatTeam enemyTeam;
 
     public void AddEnemy(EnemyPrefab enemy)
     {
