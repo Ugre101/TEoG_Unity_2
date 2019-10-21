@@ -11,6 +11,10 @@ public class CombatTeam : MonoBehaviour
     // if nobody is alive return true else false
     public bool TeamDead => !combatStatuses.Exists(s => s.Dead == false);
 
+    private void Start()
+    {
+    }
+
     public void StartFight(List<BasicChar> EnemyTeam)
     {
         if (combatStatuses.Count > 0)
@@ -26,8 +30,20 @@ public class CombatTeam : MonoBehaviour
         {
             GameObject StatusToAdd = StatusPrefab;
             CombatStatus status = StatusToAdd.GetComponent<CombatStatus>();
-            status.Setup(combatant);
+            status.Setup(combatant, this);
             Instantiate(StatusToAdd, TeamContainer.transform);
+        }
+    }
+
+    public delegate void TeamLost();
+
+    public static event TeamLost Lost;
+
+    public void WeLost()
+    {
+        if (TeamDead)
+        {
+            Lost?.Invoke();
         }
     }
 }

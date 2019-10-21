@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 public class CombatButton : MonoBehaviour
 {
     public BasicSkill skill;
@@ -11,8 +10,10 @@ public class CombatButton : MonoBehaviour
     private Button btn;
     private playerMain player => combatButtons.player;
     private BasicChar target => combatButtons.CurrentEnemy;
+
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         combatButtons = GetComponentInParent<CombatButtons>();
         btn = GetComponent<Button>();
@@ -20,10 +21,6 @@ public class CombatButton : MonoBehaviour
         text.text = skill.Title;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
     private void Click()
     {
         combatButtons.AddToCombatLog(skill.Action(player, target));

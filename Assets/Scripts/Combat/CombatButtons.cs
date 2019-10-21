@@ -15,6 +15,9 @@ public class CombatButtons : MonoBehaviour
     public List<BasicChar> playerTeamChars, enemyTeamChars;
     public CombatTeam playerTeam, enemyTeam;
 
+    public BasicChar target => newTarget ?? CurrentEnemy;
+    public BasicChar newTarget;
+
     [Header("Win")]
     public AfterBattleActions afterBattle;
 
@@ -30,7 +33,7 @@ public class CombatButtons : MonoBehaviour
     private void Start()
     {
         // every time someone dies check if a team losses
-        Health.Died += SomeOneDead;
+        CombatTeam.Lost += SomeOneDead;
     }
 
     private void OnEnable()
@@ -43,11 +46,13 @@ public class CombatButtons : MonoBehaviour
     {
         _enemies.Clear();
     }
+
     public void SetUpCombat()
     {
         enemyTeam.StartFight(enemyTeamChars);
         playerTeam.StartFight(playerTeamChars);
     }
+
     public void FleeButton()
     {
         float toBeat = 7;
@@ -174,6 +179,13 @@ public class CombatButtons : MonoBehaviour
     public void SomeOneDead()
     {
         Debug.Log(playerTeam.TeamDead + " : " + enemyTeam.TeamDead);
-
+        if (playerTeam.TeamDead)
+        {
+            LoseBattle();
+        }
+        else if (enemyTeam.TeamDead)
+        {
+            WinBattle();
+        }
     }
 }
