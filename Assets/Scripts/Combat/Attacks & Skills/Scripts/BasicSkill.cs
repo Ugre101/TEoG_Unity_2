@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using UnityEngine.UI;
 public enum Skills
 {
     BasicAttack,
@@ -23,7 +23,10 @@ public class BasicSkill : ScriptableObject
     private string title = "";
 
     public string Title => title;
+    [SerializeField]
+    private Sprite icon;
 
+    public Sprite Icon => icon;
     [SerializeField]
     private int baseAttack;
 

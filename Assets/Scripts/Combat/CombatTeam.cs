@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CombatTeam : MonoBehaviour
 {
+    public GameUI gameUI;
     public List<BasicChar> Team;
     public GameObject TeamContainer;
     public GameObject StatusPrefab;
@@ -17,21 +18,24 @@ public class CombatTeam : MonoBehaviour
 
     public void StartFight(List<BasicChar> EnemyTeam)
     {
-        if (combatStatuses.Count > 0)
-        {
-            combatStatuses.Clear();
-        }
         Team = EnemyTeam;
         foreach (Transform child in TeamContainer.transform)
         {
             Destroy(child.gameObject);
         }
-        foreach (BasicChar combatant in Team)
+        if (Team.Count < 1) // if team is less than 1 an error must have occured
         {
-            GameObject StatusToAdd = StatusPrefab;
-            CombatStatus status = StatusToAdd.GetComponent<CombatStatus>();
-            status.Setup(combatant, this);
-            Instantiate(StatusToAdd, TeamContainer.transform);
+            gameUI.Resume();
+        }
+        else
+        {
+            foreach (BasicChar combatant in Team)
+            {
+                GameObject StatusToAdd = StatusPrefab;
+                CombatStatus status = StatusToAdd.GetComponent<CombatStatus>();
+                status.Setup(combatant, this);
+                Instantiate(StatusToAdd, TeamContainer.transform);
+            }
         }
     }
 

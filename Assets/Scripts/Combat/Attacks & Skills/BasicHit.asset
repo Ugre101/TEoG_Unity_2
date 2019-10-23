@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BasicHit
   m_EditorClassIdentifier: 
   title: Hit
+  icon: {fileID: 21300000, guid: c47d5e09fac794b4c87103e35858ff99, type: 3}
   baseAttack: 10
   skill: 0
   type: 0

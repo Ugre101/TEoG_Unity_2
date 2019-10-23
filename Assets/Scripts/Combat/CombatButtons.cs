@@ -5,17 +5,28 @@ using UnityEngine;
 public class CombatButtons : MonoBehaviour
 {
     // Public
+    public GameUI gameUI;
+
     public TextMeshProUGUI _textbox;
 
     public playerMain player;
     public GameObject combatPanel, sexPanel, losePanel;
     public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
-    public BasicChar CurrentEnemy => enemyTeamChars[indexCurrentEnemy];
+
+    public BasicChar CurrentEnemy
+    {
+        get
+        {
+            if (enemyTeamChars.Count < 1) { gameUI.Resume(); }
+            return enemyTeamChars[indexCurrentEnemy];
+        }
+    }
+
     private int indexCurrentEnemy = 0;
     public List<BasicChar> playerTeamChars, enemyTeamChars;
     public CombatTeam playerTeam, enemyTeam;
 
-    public BasicChar target => newTarget ?? CurrentEnemy;
+    public BasicChar target => newTarget != null ? newTarget : CurrentEnemy;
     public BasicChar newTarget;
 
     [Header("Win")]
@@ -69,38 +80,19 @@ public class CombatButtons : MonoBehaviour
         }
     }
 
-    public void BasicAttack()
+    public void PlayerAttack(string attack)
     {
-        float dmg = attackMulti(player.strength.Value);
-        string text = $"You dealth {dmg}dmg to her/him";
-        _EnemyTeamAttacks += text + "\n";
+        _PlayerTeamAttacks += attack + "\n";
         TurnManager();
-        if (_enemies[0].HP.TakeDmg(dmg))
-        {
-            //  WIN in future have to array and send beaten enmies to other array
-            WinBattle();
-        }
-    }
-
-    public void BasicTease()
-    {
-        float lust = attackMulti(player.charm.Value);
-        string text = $"You teased {lust}";
-        _EnemyTeamAttacks += text + "\n";
-        TurnManager();
-        if (_enemies[0].WP.TakeDmg(lust))
-        {
-            WinBattle();
-        }
     }
 
     public void EnemyAI(BasicChar Enemy)
     {
         float str = Enemy.strength.Value, charm = Enemy.charm.Value;
         float dmg = attackMulti(charm < str ? str : charm);
-        var strAttack = new List<string> { "Hits you", "Kicks you",
+        List<string> strAttack = new List<string> { "Hits you", "Kicks you",
         "Grapples you down to the ground"};
-        var charmAttack = new List<string> { $"Teases you" };
+        List<string> charmAttack = new List<string> { $"Teases you" };
         string randomStr = strAttack[Random.Range(0, strAttack.Count)] + $", causing {dmg} dmg.";
         string randomCharm = charmAttack[Random.Range(0, charmAttack.Count)] + $", weakening your will by {dmg}.";
         string text = charm < str ? randomStr : randomCharm;
@@ -145,7 +137,7 @@ public class CombatButtons : MonoBehaviour
     private void TurnManager()
     {
         // PlayerTeam
-        foreach (BasicChar e in _enemies)
+        foreach (BasicChar e in enemyTeamChars)
         {
             EnemyAI(e);
         }

@@ -47,6 +47,12 @@ public class GameUI : MonoBehaviour
         if (Input.GetKeyDown(keys.escKey))
         {
             EscapePause();
+        }else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (!GameIsPaused)
+            {
+                gameui.SetActive(!gameui.activeSelf);
+            }
         }
         // if in menus or main game(not combat)
         if (gameui.activeSelf || menus.activeSelf)
@@ -231,6 +237,8 @@ public class GameUI : MonoBehaviour
         }
         else if (pausemenu.activeSelf)
         {
+            Time.timeScale = 1f;
+            GameIsPaused = false;
             pausemenu.SetActive(false);
         }
         else

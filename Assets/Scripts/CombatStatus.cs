@@ -4,18 +4,20 @@ using UnityEngine.UI;
 
 public class CombatStatus : MonoBehaviour
 {
-    private BasicChar whom;
+    public BasicChar whom;
     public TextMeshProUGUI title;
     public HealthSlider healthSlider;
     public WillSlider willSlider;
-    private CombatTeam team;
+    public CombatTeam team;
     public bool Dead { get; private set; } = false;
     public Button btn;
     public GameObject frame;
+
     private void Start()
     {
         btn.onClick.AddListener(Select);
     }
+
     private void OnEnable()
     {
         Health.Died += HasDied;
@@ -46,6 +48,7 @@ public class CombatStatus : MonoBehaviour
     {
         Health.Died -= HasDied;
     }
+
     public void Select()
     {
         frame.SetActive(true);
