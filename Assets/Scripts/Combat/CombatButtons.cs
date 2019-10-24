@@ -150,11 +150,11 @@ public class CombatButtons : MonoBehaviour
 
     private void WinBattle()
     {
-        for (int i = 0; i < _enemies.Count; i++)
+        foreach (EnemyPrefab e in enemyTeamChars)
         {
-            afterBattle.enemies.Add(_enemies[i]);
-            player.Exp += _enemies[i].reward.ExpReward;
-            player.Gold += _enemies[i].reward.GoldReward;
+            afterBattle.enemies.Add(e);
+            player.Exp += e.reward.ExpReward;
+            player.Gold += e.reward.GoldReward;
         }
         combatPanel.SetActive(false);
         sexPanel.SetActive(true);

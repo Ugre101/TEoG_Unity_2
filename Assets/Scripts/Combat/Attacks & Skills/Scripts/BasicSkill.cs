@@ -24,21 +24,21 @@ public class BasicSkill : ScriptableObject
 
     public string Title => title;
     [SerializeField]
-    private Sprite icon;
+    private Sprite icon = null;
 
     public Sprite Icon => icon;
     [SerializeField]
-    private int baseAttack;
+    private int baseAttack = 10;
 
     public int BaseAttack => baseAttack;
 
     [SerializeField]
-    private Skills skill;
+    private Skills skill = Skills.BasicAttack;
 
     public Skills Skill => skill;
 
     [SerializeField]
-    private SkillType type;
+    private SkillType type = SkillType.Magical;
 
     public SkillType Type => type;
 

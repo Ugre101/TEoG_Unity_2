@@ -21,7 +21,7 @@ public class Map : MonoBehaviour
     [Header("Map enemies")]
     [Tooltip("Types of enemies that can spawn on this map.")]
     [SerializeField]
-    private List<GameObject> enemies;
+    private List<GameObject> enemies = null;
 
     public List<GameObject> Enemies => enemies;
     [Tooltip("Amount of ememies to spawn.")]

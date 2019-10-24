@@ -38,7 +38,7 @@ public class CombatButton : MonoBehaviour,IPointerClickHandler
         }
     }
 
-    private void Setup()
+    public void Setup()
     {
         text.text = skill.Title;
         img.sprite = skill.Icon;

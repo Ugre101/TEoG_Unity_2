@@ -26,6 +26,7 @@ public class LoadButton : MonoBehaviour
         gameUI = saveMananger.gameUI;
         dorm = saveMananger.dorm;
         mapEvents = saveMananger.mapEvents;
+        tickManager = saveMananger.tickManager;
         _mainPath = Application.persistentDataPath + "/Game_Save/";
         if (!Directory.Exists(_mainPath))
         {

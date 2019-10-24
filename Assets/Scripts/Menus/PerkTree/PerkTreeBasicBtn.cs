@@ -9,9 +9,9 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public playerMain player;
     public TextMeshProUGUI amount;
     public PerkInfo perkInfo;
-    private Button btn;
+    public   Button btn;
     private PerkTreeHoverText hoverText;
-    protected Image rune;
+    public Image rune;
     protected Color color;
     // Start is called before the first frame update
     private void Start()
@@ -19,11 +19,10 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
         btn = GetComponent<Button>();
         btn.onClick.AddListener(Use);
         hoverText = GetComponentInParent<PerkTreeHoverText>();
-        rune = GetComponent<Image>();
-        color = rune.color;
     }
     public virtual void OnEnable()
     {
+        color = rune.color;
         color.a = taken ? 1f : 0.5f;
         rune.color = color;
     }
