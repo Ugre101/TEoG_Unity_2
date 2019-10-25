@@ -1,13 +1,16 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class ChooseSkillMain : MonoBehaviour
 {
     public GameObject container;
     public List<BasicSkill> knowSkills;
     public GameObject prefab;
     public CombatButton combatButton;
-
+    public GameObject hoverBlock;
+    public TextMeshProUGUI hoverText;
+    public SkillButtons skillButtons;
     private void OnEnable()
     {
         // Clean container
@@ -20,7 +23,9 @@ public class ChooseSkillMain : MonoBehaviour
         {
             GameObject option = Instantiate(prefab, container.transform);
             ChooseSkill choose = option.GetComponent<ChooseSkill>();
-            choose.Setup(skill, combatButton);
+            choose.Setup(skill, combatButton, hoverBlock, hoverText);
+            Button btn = option.GetComponent<Button>();
+            btn.onClick.AddListener(skillButtons.ToogleButtons);
         }
     }
 
@@ -32,7 +37,7 @@ public class ChooseSkillMain : MonoBehaviour
             {
                 GameObject option = Instantiate(prefab, container.transform);
                 ChooseSkill choose = option.GetComponent<ChooseSkill>();
-                choose.Setup(skill, combatButton);
+                choose.Setup(skill, combatButton, hoverBlock, hoverText);
             }
         }
     }

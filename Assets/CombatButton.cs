@@ -1,22 +1,23 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class CombatButton : MonoBehaviour,IPointerClickHandler
+using UnityEngine.UI;
+
+public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public BasicSkill skill;
-    public TextMeshProUGUI text;
-    private CombatButtons combatButtons;
+    public TextMeshProUGUI text, keycode;
+    public CombatButtons combatButtons;
     public Button btn;
     public Image img;
     public KeyCode quickKey;
+    public SkillButtons skillButtons;
     private playerMain player => combatButtons.player;
     private BasicChar target => combatButtons.CurrentEnemy;
 
     // Start is called before the first frame update
     private void Start()
     {
-        combatButtons = GetComponentInParent<CombatButtons>();
         btn.onClick.AddListener(Click);
         if (skill != null) { Setup(); }
     }
@@ -48,7 +49,17 @@ public class CombatButton : MonoBehaviour,IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            Debug.Log("Chose new skill, when implemented.");
+            skillButtons.ToogleChooseSkill(this);
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        skillButtons.EnableHoverText($"{skill.Title}\n{skill.Type}\n{skill.BaseAttack}");
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        skillButtons.DisableHoverText();
     }
 }

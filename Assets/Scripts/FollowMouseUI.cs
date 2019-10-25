@@ -11,6 +11,15 @@ public class FollowMouseUI : MonoBehaviour
     public int sensitivity = 5;
 
     private Vector3 lastPos;
+    public bool FluidPivot = false;
+    public RectTransform rect;
+
+    [Header("Pivot settings")]
+    [Range(0, 1f)]
+    public float width;
+
+    [Range(0, 1f)]
+    public float height;
 
     private void LateUpdate()
     {
@@ -26,6 +35,16 @@ public class FollowMouseUI : MonoBehaviour
                 pos.x += xDist;
                 pos.y += yDist;
                 transform.position = pos;
+                if (FluidPivot)
+                {
+                    Vector2 newPiv = rect.pivot;
+                    newPiv.x = newPos.x > Screen.width * width ? 1 : 0;
+                    newPiv.y = newPos.y > Screen.height * height ? 1 : 0;
+                    if (newPiv.y > Screen.height * 0.7f)
+                    {
+                    }
+                    rect.pivot = newPiv;
+                }
             }
         }
     }

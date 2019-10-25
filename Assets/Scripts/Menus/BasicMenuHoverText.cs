@@ -6,13 +6,13 @@ public class BasicMenuHoverText : MonoBehaviour
     public GameObject hoverblock;
     public TextMeshProUGUI hovertext;
 
-    [SerializeField]
-    [Range(0f, 50f)]
-    private float xDistance = 0.123f;
+    /*   [SerializeField]
+       [Range(0f, 50f)]
+       private float xDistance = 0.123f;
 
-    [SerializeField]
-    [Range(0f, 50f)]
-    private float yDistance = 0.123f;
+       [SerializeField]
+       [Range(0f, 50f)]
+       private float yDistance = 0.123f;*/
 
     private RectTransform Parent;
     private RectTransform hoverRect;
@@ -24,7 +24,7 @@ public class BasicMenuHoverText : MonoBehaviour
         hoverRect = (RectTransform)hoverblock.transform;
     }
 
-    public virtual void Hovering(GameObject hoverOver,Vector2 mousePos)
+    public virtual void Hovering(GameObject hoverOver, Vector2 mousePos)
     {
         hoverblock.SetActive(true);
         /*
