@@ -14,12 +14,16 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public SkillButtons skillButtons;
     private playerMain player => combatButtons.player;
     private BasicChar target => combatButtons.CurrentEnemy;
+    private bool hovering;
+    private bool hoverBlockActive = false;
+    private float timeStarted;
 
     // Start is called before the first frame update
     private void Start()
     {
         btn.onClick.AddListener(Click);
         if (skill != null) { Setup(); }
+        else { text.text = null; img.gameObject.SetActive(false); }
     }
 
     private void Click()
@@ -37,11 +41,24 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         {
             Click();
         }
+        // Delay before starting hoverText
+        if (hovering)
+        {
+            if (timeStarted + 0.8f <= Time.unscaledTime)
+            {
+                if (!hoverBlockActive)
+                {
+                    skillButtons.EnableHoverText($"{skill.Title}\n{skill.Type}\n{skill.BaseAttack}");
+                    hoverBlockActive = true;
+                }
+            }
+        }
     }
 
     public void Setup()
     {
         text.text = skill.Title;
+        img.gameObject.SetActive(true);
         img.sprite = skill.Icon;
     }
 
@@ -55,11 +72,17 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        skillButtons.EnableHoverText($"{skill.Title}\n{skill.Type}\n{skill.BaseAttack}");
+        if (skill != null)
+        {
+            hovering = true;
+            timeStarted = Time.unscaledTime;
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        hovering = false;
+        hoverBlockActive = false;
         skillButtons.DisableHoverText();
     }
 }

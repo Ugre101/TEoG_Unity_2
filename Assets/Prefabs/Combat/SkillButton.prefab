@@ -318,13 +318,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddca4e7fec8470d40a020c089e7578e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skill: {fileID: 11400000, guid: e705afa8d19a1f64b9d0a90a352b47e1, type: 2}
+  skill: {fileID: 0}
   text: {fileID: 4901062227330565620}
   keycode: {fileID: 4901062227149557648}
   combatButtons: {fileID: 0}
   btn: {fileID: 4901062227253060302}
   img: {fileID: 4901062225951841210}
   quickKey: 0
+  skillButtons: {fileID: 0}
 --- !u!114 &4901062227253060302
 MonoBehaviour:
   m_ObjectHideFlags: 0
