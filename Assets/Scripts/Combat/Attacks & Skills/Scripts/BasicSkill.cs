@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+
 public enum Skills
 {
     BasicAttack,
@@ -23,10 +23,12 @@ public class BasicSkill : ScriptableObject
     private string title = "";
 
     public string Title => title;
+
     [SerializeField]
     private Sprite icon = null;
 
     public Sprite Icon => icon;
+
     [SerializeField]
     private int baseAttack = 10;
 
@@ -41,6 +43,17 @@ public class BasicSkill : ScriptableObject
     private SkillType type = SkillType.Magical;
 
     public SkillType Type => type;
+
+    [Header("Cooldown")]
+    [SerializeField]
+    private bool hasCoolDown = false;
+
+    public bool HasCoolDown => hasCoolDown;
+
+    [SerializeField]
+    private int coolDown = 0;
+
+    public int CoolDown => coolDown;    
 
     [Tooltip("0 means no rng, RNG works by value * random.range(1, 1 + rng). So 1 rng means 2dmg can become 2 or 4. Making it so baseAttack is lowest value possible.")]
     [Range(0, 10)]

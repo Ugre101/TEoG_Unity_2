@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public BasicSkill skill;
+    public UserSkill userSkill;
+    public BasicSkill skill => userSkill.skill;
     public TextMeshProUGUI text, keycode;
     public CombatButtons combatButtons;
     public Button btn;
@@ -18,6 +19,8 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     private bool hoverBlockActive = false;
     private float timeStarted;
 
+    // CoolDown
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -28,10 +31,11 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     private void Click()
     {
+        Debug.Log(skill);
         if (skill != null) { combatButtons.PlayerAttack(skill.Action(player, target)); }
         else
         {
-            // Chose skill
+            skillButtons.ToogleChooseSkill(this);
         }
     }
 

@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class ChooseSkill : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Button btn;
-    private BasicSkill skill;
+    private UserSkill userSkill;
+    private BasicSkill skill => userSkill.skill;
     private CombatButton target;
     private GameObject hoverBlock;
     private TextMeshProUGUI hoverText;
@@ -20,13 +21,13 @@ public class ChooseSkill : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     public void Click()
     {
-        target.skill = skill;
+        target.userSkill = userSkill;
         target.Setup();
     }
 
-    public void Setup(BasicSkill basicSkill, CombatButton combatButton,GameObject hover,TextMeshProUGUI text)
+    public void Setup(UserSkill basicSkill, CombatButton combatButton,GameObject hover,TextMeshProUGUI text)
     {
-        skill = basicSkill;
+        userSkill = basicSkill;
         target = combatButton;
         hoverBlock = hover;
         hoverText = text;

@@ -117,26 +117,32 @@ public abstract class BasicChar : MonoBehaviour
     public CharStats charm;
     public float Charm => charm.Value;
     public CharStats endurance;
-    public float End=> endurance.Value;
+    public float End => endurance.Value;
     public CharStats dexterity;
     public float Dex => dexterity.Value;
     public CharStats intelligence;
+
     public CharStats GetStat(StatType stat)
     {
         switch (stat)
         {
             case StatType.Charm:
                 return charm;
+
             case StatType.Dex:
                 return dexterity;
+
             case StatType.End:
                 return endurance;
+
             default:
             case StatType.Str:
                 return strength;
         }
     }
+
     public float Int { get { return intelligence.Value; } }
+
     public virtual void Init(int lvl, float maxhp, float maxwp)
     {
         HP = new Health(maxhp);
@@ -149,13 +155,14 @@ public abstract class BasicChar : MonoBehaviour
     private bool autoEss = true;
 
     public bool AutoEss { get { return autoEss; } }
+
     // Maybe a bit overkill but I want to make sure autoEss isn't toggled by mistake
     public void ToggleAutoEssence() => autoEss = !autoEss;
 
     [SerializeField]
     private Essence masc = new Essence();
 
-    public Essence Masc => masc; 
+    public Essence Masc => masc;
 
     [SerializeField]
     private Essence femi = new Essence();
@@ -324,6 +331,10 @@ public abstract class BasicChar : MonoBehaviour
         Looks = new Looks(basicCharGame.settings, this);
         Vore = new VoreEngine(basicCharGame.eventLog, this);
         Age = new Age();
+        foreach (BasicSkill s in skillsToAdd)
+        {
+            skills.Add(new UserSkill(s));
+        }
         //Inventory.Owner = this;
     }
 
@@ -419,5 +430,56 @@ public abstract class BasicChar : MonoBehaviour
                 }
             }
         }
+    }
+
+    [SerializeField]
+    private List<UserSkill> skills = new List<UserSkill>();
+
+    public List<UserSkill> Skills => skills;
+
+    [SerializeField]
+    private List<BasicSkill> skillsToAdd = new List<BasicSkill>();
+}
+[System.Serializable]
+public class UserSkill
+{
+    public UserSkill(BasicSkill basicSkill)
+    {
+        skill = basicSkill;
+    }
+
+    public BasicSkill skill;
+    private int coolDownTimer = 0;
+    public int CoolDownTurnsLeft => coolDownTimer;
+    public float CoolDownPercent => skill.CoolDown / (skill.CoolDown + coolDownTimer);
+
+    public bool Ready
+    {
+        get
+        {
+            if (skill.HasCoolDown)
+            {
+                return coolDownTimer > 0;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    }
+
+    public void StartCoolDown()
+    {
+        coolDownTimer = skill.CoolDown;
+    }
+
+    public void RefreshCoolDown(int n = 1)
+    {
+        coolDownTimer -= n;
+    }
+
+    public void ResetCoolDown()
+    {
+        coolDownTimer = 0;
     }
 }

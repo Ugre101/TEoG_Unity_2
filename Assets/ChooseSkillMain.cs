@@ -5,9 +5,10 @@ using UnityEngine.UI;
 
 public class ChooseSkillMain : MonoBehaviour
 {
+    public playerMain player;
     public GameObject container;
     public List<BasicSkill> knowSkills;
-    public GameObject prefab;
+    public GameObject prefab, chooseNone;
     public CombatButton combatButton;
     public GameObject hoverBlock;
     public TextMeshProUGUI hoverText;
@@ -33,12 +34,15 @@ public class ChooseSkillMain : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+        GameObject none = Instantiate(chooseNone, container.transform);
+        Button noneBtn = none.GetComponent<Button>();
+        noneBtn.onClick.AddListener(() => { CleanSlot(); skillButtons.ToogleButtons(); });
         // Add all skills
-        foreach (BasicSkill skill in knowSkills)
+        foreach (UserSkill skill in player.Skills)
         {
             GameObject option = Instantiate(prefab, container.transform);
             ChooseSkill choose = option.GetComponent<ChooseSkill>();
-            choose.Setup(skill, combatButton, hoverBlock, hoverText);
+            choose.Setup(skill, combatButton, hoverBlock, hoverText); 
             Button btn = option.GetComponent<Button>();
             btn.onClick.AddListener(skillButtons.ToogleButtons);
         }
@@ -53,12 +57,18 @@ public class ChooseSkillMain : MonoBehaviour
         }
         if (knowSkills.Exists(s => s.Type == skillType))
         {
-            foreach (BasicSkill skill in knowSkills.FindAll(s => s.Type == skillType))
+            foreach (UserSkill skill in player.Skills.FindAll(s => s.skill.Type == skillType))
             {
                 GameObject option = Instantiate(prefab, container.transform);
                 ChooseSkill choose = option.GetComponent<ChooseSkill>();
                 choose.Setup(skill, combatButton, hoverBlock, hoverText);
             }
         }
+    }
+
+    private void CleanSlot()
+    {
+        combatButton.img.gameObject.SetActive(false);
+        combatButton.userSkill = null;
     }
 }

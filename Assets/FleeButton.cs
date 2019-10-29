@@ -40,11 +40,11 @@ public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        skillButtons.EnableHoverText("Flee\n50% success chance");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
+        skillButtons.DisableHoverText();
     }
 }
