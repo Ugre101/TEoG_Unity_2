@@ -6,15 +6,16 @@ using UnityEngine.UI;
 public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public UserSkill userSkill;
-    public BasicSkill skill => userSkill.skill;
+    public BasicSkill Skill => userSkill?.skill;
     public TextMeshProUGUI text, keycode;
     public CombatButtons combatButtons;
     public Button btn;
     public Image img;
     public KeyCode quickKey;
     public SkillButtons skillButtons;
+    public Image coolDownImg;
     private playerMain player => combatButtons.player;
-    private BasicChar target => combatButtons.CurrentEnemy;
+    private BasicChar target => combatButtons.Target;
     private bool hovering;
     private bool hoverBlockActive = false;
     private float timeStarted;
@@ -25,14 +26,36 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     private void Start()
     {
         btn.onClick.AddListener(Click);
-        if (skill != null) { Setup(); }
-        else { text.text = null; img.gameObject.SetActive(false); }
+        if (Skill != null)
+        {
+            Setup();
+        }
+        else
+        {
+            text.text = null;
+            img.gameObject.SetActive(false);
+            coolDownImg.fillAmount = 0;
+        }
     }
 
     private void Click()
     {
-        Debug.Log(skill);
-        if (skill != null) { combatButtons.PlayerAttack(skill.Action(player, target)); }
+        if (Skill != null)
+        {
+            if (Skill.HasCoolDown)
+            {
+                if (userSkill.Ready)
+                {
+                    combatButtons.PlayerAttack(Skill.Action(player, target));
+                    userSkill.StartCoolDown();
+                    // code to put dim on skill to show it's on cooldown
+                }
+            }
+            else
+            {
+                combatButtons.PlayerAttack(Skill.Action(player, target));
+            }
+        }
         else
         {
             skillButtons.ToogleChooseSkill(this);
@@ -50,9 +73,9 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         {
             if (timeStarted + 0.8f <= Time.unscaledTime)
             {
-                if (!hoverBlockActive)
+                if (!hoverBlockActive && Skill != null)
                 {
-                    skillButtons.EnableHoverText($"{skill.Title}\n{skill.Type}\n{skill.BaseAttack}");
+                    skillButtons.EnableHoverText($"{Skill.Title}\n{Skill.Type}\n{Skill.BaseAttack}");
                     hoverBlockActive = true;
                 }
             }
@@ -61,22 +84,27 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void Setup()
     {
-        text.text = skill.Title;
+        text.text = Skill.Title;
         img.gameObject.SetActive(true);
-        img.sprite = skill.Icon;
+        img.sprite = Skill.Icon;
+        if (Skill.HasCoolDown)
+        {
+            coolDownImg.fillAmount = 1 - userSkill.CoolDownPercent;
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
+            StopHoverText();
             skillButtons.ToogleChooseSkill(this);
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (skill != null)
+        if (Skill != null)
         {
             hovering = true;
             timeStarted = Time.unscaledTime;
@@ -85,8 +113,18 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        StopHoverText();
+    }
+
+    private void StopHoverText()
+    {
         hovering = false;
         hoverBlockActive = false;
         skillButtons.DisableHoverText();
+    }
+
+    public void CoolDownHandler()
+    {
+        coolDownImg.fillAmount = 1 - userSkill.CoolDownPercent;
     }
 }

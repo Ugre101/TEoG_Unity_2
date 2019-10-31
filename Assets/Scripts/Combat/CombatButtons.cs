@@ -11,6 +11,7 @@ public class CombatButtons : MonoBehaviour
 
     public playerMain player;
     public GameObject combatPanel, sexPanel, losePanel;
+    public GameObject skillButtons;
     public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
 
     public BasicChar CurrentEnemy
@@ -26,7 +27,7 @@ public class CombatButtons : MonoBehaviour
     public List<BasicChar> playerTeamChars, enemyTeamChars;
     public CombatTeam playerTeam, enemyTeam;
 
-    public BasicChar target => newTarget != null ? newTarget : CurrentEnemy;
+    public BasicChar Target => newTarget != null ? newTarget : CurrentEnemy;
     public BasicChar newTarget;
 
     [Header("Win")]
@@ -45,6 +46,18 @@ public class CombatButtons : MonoBehaviour
     {
         // every time someone dies check if a team losses
         CombatTeam.Lost += SomeOneDead;
+        List<CombatButton> skillButton = new List<CombatButton>(skillButtons.GetComponentsInChildren<CombatButton>());
+        if (skillButton.Exists(s => s.Skill != null))
+        {
+
+        }else
+        {
+            for (int i = 0; i < player.Skills.Count; i++)
+            {
+                skillButton[i].userSkill = player.Skills[i];
+                skillButton[i].Setup();
+            }
+        }
     }
 
     private void OnEnable()
