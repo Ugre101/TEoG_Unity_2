@@ -19,7 +19,6 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     private bool hovering;
     private bool hoverBlockActive = false;
     private float timeStarted;
-
     // CoolDown
 
     // Start is called before the first frame update
@@ -48,6 +47,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
                 {
                     combatButtons.PlayerAttack(Skill.Action(player, target));
                     userSkill.StartCoolDown();
+                    CoolDownHandler();
                     // code to put dim on skill to show it's on cooldown
                 }
             }
@@ -75,7 +75,16 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             {
                 if (!hoverBlockActive && Skill != null)
                 {
-                    skillButtons.EnableHoverText($"{Skill.Title}\n{Skill.Type}\n{Skill.BaseAttack}");
+                    string toSend = $"{Skill.Title}\n{Skill.Type}\nAvg dmg: {Skill.AvgValue}";
+                    if (Skill.HasCoolDown)
+                    {
+                        toSend += $"\nCooldown: {Skill.CoolDown} turns";
+                        if (!userSkill.Ready)
+                        {
+                            toSend += $"\n{userSkill.TurnsLeft} turns left";
+                        }
+                    }
+                    skillButtons.EnableHoverText(toSend);
                     hoverBlockActive = true;
                 }
             }
@@ -89,7 +98,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         img.sprite = Skill.Icon;
         if (Skill.HasCoolDown)
         {
-            coolDownImg.fillAmount = 1 - userSkill.CoolDownPercent;
+            coolDownImg.fillAmount = userSkill.CoolDownPercent;
         }
     }
 
@@ -125,6 +134,12 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void CoolDownHandler()
     {
-        coolDownImg.fillAmount = 1 - userSkill.CoolDownPercent;
+        if (Skill.HasCoolDown)
+        {
+            coolDownImg.fillAmount = userSkill.CoolDownPercent;
+        }else
+        {
+            coolDownImg.fillAmount = 0;
+        }
     }
 }

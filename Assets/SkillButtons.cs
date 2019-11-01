@@ -7,16 +7,6 @@ public class SkillButtons : MonoBehaviour
     public TextMeshProUGUI hoverText;
     public ChooseSkillMain ChooseSkillMain;
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-    }
-
     public void EnableHoverText(string text)
     {
         hoverBlock.SetActive(true);

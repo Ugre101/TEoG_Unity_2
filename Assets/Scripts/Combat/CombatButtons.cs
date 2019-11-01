@@ -11,7 +11,8 @@ public class CombatButtons : MonoBehaviour
 
     public playerMain player;
     public GameObject combatPanel, sexPanel, losePanel;
-    public GameObject skillButtons;
+    public GameObject skillButtonsContainer;
+    public List<CombatButton> skillButtons;
     public List<EnemyPrefab> _enemies = new List<EnemyPrefab>();
 
     public BasicChar CurrentEnemy
@@ -44,18 +45,15 @@ public class CombatButtons : MonoBehaviour
 
     private void Start()
     {
+        skillButtons = new List<CombatButton>(skillButtonsContainer.GetComponentsInChildren<CombatButton>());
         // every time someone dies check if a team losses
         CombatTeam.Lost += SomeOneDead;
-        List<CombatButton> skillButton = new List<CombatButton>(skillButtons.GetComponentsInChildren<CombatButton>());
-        if (skillButton.Exists(s => s.Skill != null))
-        {
-
-        }else
+        if (!skillButtons.Exists(s => s.Skill != null))
         {
             for (int i = 0; i < player.Skills.Count; i++)
             {
-                skillButton[i].userSkill = player.Skills[i];
-                skillButton[i].Setup();
+                skillButtons[i].userSkill = player.Skills[i];
+                skillButtons[i].Setup();
             }
         }
     }
@@ -64,6 +62,19 @@ public class CombatButtons : MonoBehaviour
     {
         _battleLog.Clear();
         _turn = 1;
+        ResetSkills(playerTeamChars);
+        ResetSkills(enemyTeamChars);
+    }
+
+    private void ResetSkills(List<BasicChar> basicChars)
+    {
+        foreach (BasicChar bc in basicChars)
+        {
+            foreach (UserSkill us in bc.Skills)
+            {
+                us.ResetCoolDown();
+            }
+        }
     }
 
     private void OnDisable()
@@ -159,6 +170,29 @@ public class CombatButtons : MonoBehaviour
         _turn++;
         _PlayerTeamAttacks = null;
         _EnemyTeamAttacks = null;
+        RefreshCooldown(playerTeamChars);
+        RefreshCooldown(enemyTeamChars);
+        foreach (CombatButton cb in skillButtons)
+        {
+            if (cb.Skill != null)
+            {
+                cb.CoolDownHandler();
+            }
+        }
+    }
+
+    private void RefreshCooldown(List<BasicChar> basicChars)
+    {
+        foreach (BasicChar c in basicChars)
+        {
+            foreach (UserSkill s in c.Skills)
+            {
+                if (s.skill.HasCoolDown ? !s.Ready : false)
+                {
+                    s.RefreshCoolDown();
+                }
+            }
+        }
     }
 
     private void WinBattle()

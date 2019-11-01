@@ -440,6 +440,7 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField]
     private List<BasicSkill> skillsToAdd = new List<BasicSkill>();
 }
+
 [System.Serializable]
 public class UserSkill
 {
@@ -450,8 +451,9 @@ public class UserSkill
 
     public BasicSkill skill;
     private int coolDownTimer = 0;
-    public int CoolDownTurnsLeft => coolDownTimer;
-    public float CoolDownPercent => skill.CoolDown / (skill.CoolDown + coolDownTimer);
+    public int TurnsLeft => coolDownTimer;
+
+    public float CoolDownPercent => skill.CoolDown != 0 ? TurnsLeft / (float)skill.CoolDown : 1;
 
     public bool Ready
     {
@@ -459,7 +461,7 @@ public class UserSkill
         {
             if (skill.HasCoolDown)
             {
-                return coolDownTimer > 0;
+                return TurnsLeft < 1;
             }
             else
             {
