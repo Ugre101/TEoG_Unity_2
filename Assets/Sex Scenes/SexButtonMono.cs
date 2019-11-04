@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 public class SexButtonMono : MonoBehaviour
 {
-    public AfterBattleActions afterBattle;
+    public AfterBattleMain afterBattle;
     public MonoScene monoScene;
     public Button btn;
 
@@ -11,7 +11,7 @@ public class SexButtonMono : MonoBehaviour
     void Start()
     {
         btn = GetComponent<Button>();
-        afterBattle = GetComponentInParent<AfterBattleActions>();
+        afterBattle = GetComponentInParent<AfterBattleMain>();
         if (afterBattle != null)
         {
             player = afterBattle.player;

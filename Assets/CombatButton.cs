@@ -8,7 +8,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public UserSkill userSkill;
     public BasicSkill Skill => userSkill?.skill;
     public TextMeshProUGUI text, keycode;
-    public CombatButtons combatButtons;
+    public CombatMain combatButtons;
     public Button btn;
     public Image img;
     public KeyCode quickKey;

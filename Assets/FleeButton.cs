@@ -6,7 +6,7 @@ public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     public playerMain player;
     public GameUI gameUI;
-    public CombatButtons combatButtons;
+    public CombatMain combatButtons;
     public Button btn;
     public KeyCode quickKey;
     public SkillButtons skillButtons;

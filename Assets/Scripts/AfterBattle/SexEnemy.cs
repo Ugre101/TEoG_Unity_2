@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SexEnemy : SexChar
 {
-    public AfterBattleActions enemy;
+    public AfterBattleMain enemy;
     public override void OnEnable()
     {
         if (enemy.enemies.Count > 0)

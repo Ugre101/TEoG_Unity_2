@@ -121,13 +121,13 @@ SubShader {
 		#pragma multi_compile __ UNITY_UI_CLIP_RECT
 		#pragma multi_compile __ UNITY_UI_ALPHACLIP
 
-
 		#include "UnityCG.cginc"
 		#include "UnityUI.cginc"
 		#include "TMPro_Properties.cginc"
 		#include "TMPro.cginc"
 
 		struct vertex_t {
+			UNITY_VERTEX_INPUT_INSTANCE_ID
 			float4	position		: POSITION;
 			float3	normal			: NORMAL;
 			fixed4	color			: COLOR;
@@ -137,6 +137,8 @@ SubShader {
 
 
 		struct pixel_t {
+			UNITY_VERTEX_INPUT_INSTANCE_ID
+			UNITY_VERTEX_OUTPUT_STEREO
 			float4	position		: SV_POSITION;
 			fixed4	color			: COLOR;
 			float2	atlas			: TEXCOORD0;		// Atlas
@@ -157,11 +159,19 @@ SubShader {
 
 		pixel_t VertShader(vertex_t input)
 		{
+			pixel_t output;
+
+			UNITY_INITIALIZE_OUTPUT(pixel_t, output);
+			UNITY_SETUP_INSTANCE_ID(input);
+			UNITY_TRANSFER_INSTANCE_ID(input,output);
+			UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
+
 			float bold = step(input.texcoord1.y, 0);
 
 			float4 vert = input.position;
 			vert.x += _VertexOffsetX;
 			vert.y += _VertexOffsetY;
+
 			float4 vPosition = UnityObjectToClipPos(vert);
 
 			float2 pixelSize = vPosition.w;
@@ -205,19 +215,18 @@ SubShader {
 			float2 faceUV = TRANSFORM_TEX(textureUV, _FaceTex);
 			float2 outlineUV = TRANSFORM_TEX(textureUV, _OutlineTex);
 
-			pixel_t output = {
-				vPosition,
-				input.color,
-				input.texcoord0,
-				float4(alphaClip, scale, bias, weight),
-				half4(vert.xy * 2 - clampedRect.xy - clampedRect.zw, 0.25 / (0.25 * half2(_MaskSoftnessX, _MaskSoftnessY) + pixelSize.xy)),
-				mul((float3x3)_EnvMatrix, _WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, vert).xyz),
+			
+			output.position = vPosition;
+			output.color = input.color;
+			output.atlas =	input.texcoord0;
+			output.param =	float4(alphaClip, scale, bias, weight);
+			output.mask = half4(vert.xy * 2 - clampedRect.xy - clampedRect.zw, 0.25 / (0.25 * half2(_MaskSoftnessX, _MaskSoftnessY) + pixelSize.xy));
+			output.viewDir =	mul((float3x3)_EnvMatrix, _WorldSpaceCameraPos.xyz - mul(unity_ObjectToWorld, vert).xyz);
 			#if (UNDERLAY_ON || UNDERLAY_INNER)
-				float4(input.texcoord0 + bOffset, bScale, bBias),
-				underlayColor,
+			output.texcoord2 = float4(input.texcoord0 + bOffset, bScale, bBias);
+			output.underlayColor =	underlayColor;
 			#endif
-				float4(faceUV, outlineUV),
-			};
+			output.textures = float4(faceUV, outlineUV);
 
 			return output;
 		}
@@ -225,6 +234,8 @@ SubShader {
 
 		fixed4 PixShader(pixel_t input) : SV_Target
 		{
+			UNITY_SETUP_INSTANCE_ID(input);
+
 			float c = tex2D(_MainTex, input.atlas).a;
 		
 		#ifndef UNDERLAY_ON

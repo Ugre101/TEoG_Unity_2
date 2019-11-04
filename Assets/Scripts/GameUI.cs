@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameUI : MonoBehaviour
 {
@@ -38,8 +39,8 @@ public class GameUI : MonoBehaviour
     public GameObject closedEventlog;
 
     [Space]
-    public CombatButtons combatButtons;
-    public AfterBattleActions afterBattleActions;
+    public CombatMain combatButtons;
+    public AfterBattleMain afterBattleActions;
     private float _eventTime;
 
     private void Update()
@@ -150,11 +151,12 @@ public class GameUI : MonoBehaviour
         {
             p.gameObject.SetActive(false);
         }
-        combat.SetActive(true);
+        // combat.SetActive(true);
         ToggleBigPanel(BigPanels.Battle);
-        combatButtons.enemyTeamChars.Clear();
-        combatButtons.enemyTeamChars.Add(enemy);
-        combatButtons.SetUpCombat();
+        // combatButtons.enemyTeamChars.Clear();
+        // combatButtons.enemyTeamChars.Add(enemy);
+        List<EnemyPrefab> toAdd = new List<EnemyPrefab>{enemy};
+        combatButtons.SetUpCombat(toAdd);
         // or add range if more that one
     }
 
