@@ -4,9 +4,15 @@ public class TickManager : MonoBehaviour
 {
     public playerMain player;
     public EventLog eventlog;
-    public PerkInfo healtyBody, strongMind;
-    private float _reGainRate;
-    private int hour, day, month, year;
+    public PerkInfo healtyBody, strongMind, gluttony, lowMetabolism;
+
+    [SerializeField]
+    private float baseRecGainRate = 1f;
+
+    [SerializeField]
+    private float baseFatBurnRate = 0.0005f;
+
+    private int minute = 0, hour, day, month, year;
 
     private void OnEnable()
     {
@@ -20,8 +26,23 @@ public class TickManager : MonoBehaviour
 
     private void ReGain()
     {
-        player.HP.Gain(1f + healtyBody.Value);
-        player.WP.Gain(1f + strongMind.Value);
+        float fatBurnRate = baseFatBurnRate + gluttony.PosetiveValue;
+        float hpGain = baseRecGainRate + healtyBody.PosetiveValue;
+        float wpGain = baseRecGainRate + strongMind.PosetiveValue;
+        if (player.Perk.HasPerk(PerksTypes.Gluttony))
+        {
+            fatBurnRate += gluttony.NegativeValue;
+            hpGain += gluttony.PosetiveValue;
+            wpGain += gluttony.PosetiveValue;
+        }
+        else if (player.Perk.HasPerk(PerksTypes.LowMetabolism))
+        {
+            fatBurnRate -= lowMetabolism.PosetiveValue;
+        }
+        player.Body.fat.Lose(fatBurnRate);
+
+        player.HP.Gain(hpGain);
+        player.WP.Gain(wpGain);
         if (player.Balls.Count > 0)
         {
             foreach (Balls ball in player.Balls)
@@ -36,7 +57,11 @@ public class TickManager : MonoBehaviour
                 boob.Fluid.ReFill();
             }
         }
-        eventlog.AddTo("tick");
+        if (minute++ > 60)
+        {
+            DateSystem();
+            minute = 0;
+        }
     }
 
     private void DateSystem()
@@ -74,6 +99,7 @@ public class TickManager : MonoBehaviour
         player.HP.FullGain();
         player.WP.FullGain();
     }
+
     public DateSave Save()
     {
         return new DateSave(year, month, day, hour);

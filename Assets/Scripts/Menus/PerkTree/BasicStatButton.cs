@@ -5,7 +5,8 @@ public class BasicStatButton : PerkTreeBasicBtn
     [Space]
     public StatType stat;
 
-    public int statAmount = 1;
+    [SerializeField]
+    private int statAmount = 1;
 
     public override void OnEnable()
     {

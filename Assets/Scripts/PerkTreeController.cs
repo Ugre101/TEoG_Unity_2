@@ -10,7 +10,7 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
     public PerkButton[] perkButtons;
     public BasicStatButton[] statButtons;
     public GameObject vorePerksTree;
-
+    public RectTransform perkRect;
     [Range(1f, 5f)]
     [SerializeField]
     private float zoom = 1f;
@@ -34,6 +34,8 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
         {
             vorePerksTree.SetActive(player.Vore.Active);
         }
+        
+        perkRect.localPosition = new Vector3(0, 0, 0);
     }
 
     private void Start()

@@ -5,7 +5,7 @@ using UnityEditor;
 using System.IO;
 public class CustomScript
 {
-    public static string PathToTemplate = Application.dataPath + @"/Editors\ScriptPrefab\ItemTemplate.cs";
+    public static string PathToTemplate = Application.dataPath + @"/Editor/ScriptPrefab/ItemTemplate.cs";
 
     [MenuItem("Assets/Create My Custom C# Script")]
     public static void CreateCustomScript(MenuCommand cmd)

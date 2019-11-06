@@ -11,7 +11,8 @@ public enum PerksTypes
     EssenceThief,
     EssenceHoarder,
     HealthyBody,
-    StrongMind
+    StrongMind,
+    LowMetabolism
 }
 
 [System.Serializable]
