@@ -21,9 +21,12 @@ public class PerkInfo : ScriptableObject
     [Tooltip(" ")]
     [SerializeField]
     private float negValue = 0;
-
+    [Tooltip(" ")]
+    [SerializeField]
+    private int maxLevel = 0;
     public float PosetiveValue => posValue;
     public float NegativeValue => negValue;
+    public int MaxLevel => maxLevel;
 }
 
 /*

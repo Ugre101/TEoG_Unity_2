@@ -20,4 +20,6 @@ MonoBehaviour:
     - Higher penalty for starving
 
     * Not compatible with low-metabolism'
-  value: 0
+  posValue: 0
+  negValue: 0
+  maxLevel: 1

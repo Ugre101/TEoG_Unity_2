@@ -1,25 +1,32 @@
-﻿using UnityEngine;
-using TMPro;
+﻿using TMPro;
+using UnityEngine;
 
 public class PerkPointsLeft : MonoBehaviour
 {
     public playerMain player;
-    private TextMeshProUGUI textUGUI;
+    public TextMeshProUGUI textUGUI;
     private int lastLeft;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        textUGUI = GetComponent<TextMeshProUGUI>();
-        if (textUGUI == null || player == null)
+        if (textUGUI == null)
         {
-            this.GetComponent<PerkPointsLeft>().enabled = false;
+            if (GetComponent<TextMeshProUGUI>() != null)
+            {
+                textUGUI = GetComponent<TextMeshProUGUI>();
+            }
+        }
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
         }
         lastLeft = player.PerkPoints;
         textUGUI.text = $"Perkpoints: {lastLeft}";
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (lastLeft != player.PerkPoints)
         {

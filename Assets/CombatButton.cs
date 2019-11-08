@@ -96,10 +96,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         text.text = Skill.Title;
         img.gameObject.SetActive(true);
         img.sprite = Skill.Icon;
-        if (Skill.HasCoolDown)
-        {
-            coolDownImg.fillAmount = userSkill.CoolDownPercent;
-        }
+        CoolDownHandler();
     }
 
     public void OnPointerClick(PointerEventData eventData)

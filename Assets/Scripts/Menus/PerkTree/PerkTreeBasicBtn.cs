@@ -10,22 +10,35 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public TextMeshProUGUI amount;
     public PerkInfo perkInfo;
     public Button btn;
-    private PerkTreeHoverText hoverText;
+    public PerkTreeHoverText hoverText;
     public Image rune;
     protected Color color;
 
     // Start is called before the first frame update
-    private void Start()
+    public virtual void Start()
     {
+        // if not assing, then assing hover remember to not become to lazy as it can affect perfomance(I think).
         if (btn == null)
         {
             btn = GetComponent<Button>();
         }
         btn.onClick.AddListener(Use);
-        hoverText = GetComponentInParent<PerkTreeHoverText>();
+        if (hoverText == null)
+        {
+            hoverText = GetComponentInParent<PerkTreeHoverText>();
+        }
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
+        }
     }
 
     public virtual void OnEnable()
+    {
+        RuneOpacity();
+    }
+
+    public void RuneOpacity()
     {
         color = rune.color;
         color.a = taken ? 1f : 0.5f;
@@ -36,6 +49,7 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
     }
 
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         hoverText.Hovering(gameObject, eventData.position);
@@ -45,4 +59,5 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
         hoverText.StopHovering();
     }
+    
 }

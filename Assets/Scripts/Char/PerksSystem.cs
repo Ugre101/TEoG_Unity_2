@@ -58,7 +58,14 @@ public class Perks
     {
         return perkList.Exists(p => p.Type == type);
     }
-
+    public bool NotMaxLevel(PerksTypes type, int maxLevel)
+    {
+        if (perkList.Exists(p => p.Type == type))
+        {
+            return perkList.Find(p => p.Type == type).Value < maxLevel;
+        }
+        return false;
+    }
     public string DisplayPerk(PerksTypes type)
     {
         switch (type)
