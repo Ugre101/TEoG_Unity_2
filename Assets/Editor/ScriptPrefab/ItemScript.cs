@@ -1,32 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.IO;
 using UnityEditor;
-using System.IO;
+using UnityEngine;
+
 public class CustomScript
 {
     public static string PathToTemplate = Application.dataPath + @"/Editor/ScriptPrefab/ItemTemplate.cs";
 
-    [MenuItem("Assets/Create My Custom C# Script")]
+    [MenuItem("Assets/ScriptTemplete/ItemTemplete")]
     public static void CreateCustomScript(MenuCommand cmd)
     {
-        if (Selection.activeObject == null) ;
-        var path = AssetDatabase.GetAssetPath(Selection.activeObject);
-        if (File.Exists(path))
+        if (Selection.activeObject == null)
         {
-            path = Path.GetDirectoryName(path);
+            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            if (File.Exists(path))
+            {
+                path = Path.GetDirectoryName(path);
+            }
+            if (string.IsNullOrEmpty(path))
+            {
+                path = "Assets/";
+            }
+            File.Copy(PathToTemplate, Path.Combine(path, "NewScript.cs"));
+            AssetDatabase.Refresh();
         }
-        if(string.IsNullOrEmpty(path))
-        {
-            path = "Assets/";
-        }
-        File.Copy(PathToTemplate, Path.Combine(path, "NewScript.cs"));
-        AssetDatabase.Refresh();
     }
-
-    public void Start()
-    {
-
-    }
-
 }

@@ -7,8 +7,12 @@ public class AfterBattleMain : MonoBehaviour
     public playerMain player;
     public List<BasicChar> enemies;
     public TextMeshProUGUI _textBox;
-    public GameObject ButtonPrefab;
-    public GameObject ButtonPrefabMono;
+
+    [SerializeField]
+    private GameObject ButtonPrefab;
+
+    [SerializeField]
+    private GameObject ButtonPrefabMono;
 
     #region Button containers
 
@@ -43,6 +47,8 @@ public class AfterBattleMain : MonoBehaviour
     public GameObject TakeHome;
     public Dorm dorm;
     public SexChar playerChar, enemyChar;
+    private BasicChar newTarget;
+    public BasicChar Target => newTarget != null ? newTarget : enemies[0];
 
     private void OnEnable()
     {
@@ -60,9 +66,11 @@ public class AfterBattleMain : MonoBehaviour
         RefreshScenes();
         _textBox.text = null;
         LastScene = null;
-        // in future make it so several statuses spawn if team har more than one member
+        newTarget = null;
+        // in future make it so several statuses spawn if team har more than one member.
+        // if enemies more than one, make selector view next to status
         playerChar.Setup(player);
-        enemyChar.Setup(enemies[0]);
+        enemyChar.Setup(Target);
     }
 
     private void RefreshScenes()
@@ -72,10 +80,7 @@ public class AfterBattleMain : MonoBehaviour
         SceneChecker(BoobsActions, boobScenes);
         SceneChecker(VaginaActions, vaginaScenes);
         SceneChecker(AssActions, analScenes);
-        if (true)
-        {
-            Leave.SetActive(true);
-        }
+        Leave.SetActive(true);
         TakeHome.SetActive(dorm.CanTake(enemies[0]));
     }
 

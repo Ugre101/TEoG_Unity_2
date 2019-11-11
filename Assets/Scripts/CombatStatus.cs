@@ -5,32 +5,39 @@ using UnityEngine.UI;
 public class CombatStatus : MonoBehaviour
 {
     public BasicChar whom;
-    public TextMeshProUGUI title;
-    public HealthSlider healthSlider;
-    public WillSlider willSlider;
-    public CombatTeam team;
     public bool Dead { get; private set; } = false;
-    public Button btn;
-    public GameObject frame;
 
-    private void Start()
-    {
-        btn.onClick.AddListener(Select);
-    }
+    [SerializeField]
+    private TextMeshProUGUI title;
 
-    private void OnEnable()
-    {
-        Health.Died += HasDied;
-    }
+    [SerializeField]
+    private HealthSlider healthSlider;
 
-    public void Setup(BasicChar who, CombatTeam combatTeam)
+    [SerializeField]
+    private WillSlider willSlider;
+
+    [SerializeField]
+    private Button btn;
+
+    [SerializeField]
+    private GameObject frame;
+
+    private CombatTeam team;
+
+    [SerializeField]
+    private CombatMain combatMain;
+
+    public void Setup(BasicChar who, CombatTeam combatTeam, CombatMain main)
     {
         whom = who;
-        title.text = who.firstName;
-        healthSlider.basicChar = who;
-        willSlider.basicChar = who;
+        title.text = whom.firstName;
+        healthSlider.Setup(whom);
+        willSlider.Setup(whom);
         Dead = false;
         team = combatTeam;
+        combatMain = main;
+        btn.onClick.AddListener(Select);
+        Health.Died += HasDied;
     }
 
     public void HasDied()
@@ -48,9 +55,22 @@ public class CombatStatus : MonoBehaviour
     {
         Health.Died -= HasDied;
     }
-
+    private void OnDestroy()
+    {
+        Health.Died -= HasDied;
+    }
+    /// <summary>
+    /// Click once to select and twice to deselect
+    /// </summary>
     public void Select()
     {
-        frame.SetActive(true);
+        bool active = frame.activeSelf;
+        combatMain.SelectNewTarget(active ? null : whom);
+        frame.SetActive(!active);
+    }
+
+    public void DeSelect()
+    {
+        frame.SetActive(false);
     }
 }
