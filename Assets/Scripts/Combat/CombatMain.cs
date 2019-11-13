@@ -112,7 +112,7 @@ public class CombatMain : MonoBehaviour
 
     public void EnemyAI(BasicChar Enemy)
     {
-        float str = Enemy.strength.Value, charm = Enemy.charm.Value;
+        float str = Enemy.Stats.Str, charm = Enemy.Stats.Charm;
         float dmg = attackMulti(charm < str ? str : charm);
         List<string> strAttack = new List<string> { "Hits you", "Kicks you",
         "Grapples you down to the ground"};

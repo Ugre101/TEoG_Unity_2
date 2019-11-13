@@ -9,22 +9,17 @@ public class AfterBattleMain : MonoBehaviour
     public TextMeshProUGUI _textBox;
 
     [SerializeField]
-    private GameObject ButtonPrefab;
-
-    [SerializeField]
-    private GameObject ButtonPrefabMono;
+    private SexButton sexButton;
 
     #region Button containers
 
     [Header("Buttons containers")]
-    public GameObject DickActions;
+    [SerializeField]
+    private GameObject DickActions;
 
-    public GameObject BoobsActions;
-    public GameObject VaginaActions;
-    public GameObject AssActions;
-    public GameObject HandActions;
-    public GameObject MouthActions;
-    public GameObject MiscActions;
+    [SerializeField]
+    private GameObject BoobsActions, VaginaActions, AssActions, HandActions,
+        MouthActions, DrainActions, MiscActions;
 
     #endregion Button containers
 
@@ -33,10 +28,7 @@ public class AfterBattleMain : MonoBehaviour
     [Header("ScriptableObject Scenes")]
     public List<SexScenes> dickScenes;
 
-    public List<SexScenes> boobScenes;
-    public List<SexScenes> mouthScenes;
-    public List<SexScenes> vaginaScenes;
-    public List<SexScenes> analScenes;
+    public List<SexScenes> boobScenes, mouthScenes, vaginaScenes, analScenes;
 
     #endregion Scene lists
 
@@ -92,14 +84,10 @@ public class AfterBattleMain : MonoBehaviour
         }
         foreach (SexScenes scene in scenes)
         {
-            if (scene.CanDo(player, enemies[0]))
+            if (scene.CanDo(player, Target))
             {
-                GameObject button = ButtonPrefab;
-                TextMeshProUGUI title = button.GetComponentInChildren<TextMeshProUGUI>();
-                title.text = scene.name;
-                SexButton sexBtn = button.GetComponent<SexButton>();
-                sexBtn.scene = scene;
-                Instantiate(button, container.transform);
+                SexButton button = Instantiate(sexButton, container.transform);
+                button.Setup(player, Target, this, scene);
             }
         }
     }

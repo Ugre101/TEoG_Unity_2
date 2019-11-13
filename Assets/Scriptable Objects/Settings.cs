@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [System.Serializable]
 [CreateAssetMenu(fileName = "Settings", menuName = "Tools")]
@@ -9,7 +10,7 @@ public class Settings : ScriptableObject//Bad name?
 
     public bool ToogleImp()
     {
-        return Imperial = Imperial ? false : true;
+        return Imperial = !Imperial;
     }
 
     private void OnEnable()
@@ -19,42 +20,54 @@ public class Settings : ScriptableObject//Bad name?
 
     public string LorGal(float L)
     {
+        if (L == 0)
+        {
+            return "empty";
+        }
         if (Imperial)
         {
-            return Mathf.Round(0.264172052f * L) < 1 ?
+            return Mathf.Floor(0.264172052f * L) < 1 ?
                 $"{Mathf.Round(L * 4.22675284f)}cups" : $"{Mathf.Round(L * 0.264172052f)}gallon";
         }
         else
         {
-            return L < 0.1f ? $"{Mathf.Round(L * 100)}cl" : L < 0.99 ? $"{Mathf.Round(L * 10)}dl" : $"{Mathf.Round(L)}L";
+            return L < 0.1f ? $"{Mathf.Round(L * 100)}cl" : L < 0.99 ? $"{Mathf.Round(L * 10)}dl" : $"{(float)Math.Round(L, 1)}L";
         }
     }
 
     public string MorInch(float cm)
     {
+        if (cm == 0)
+        {
+            return "zero?";
+        }
         if (Imperial)
         {
             float Inch = Mathf.Round(cm / 2.54f);
             float Feet = Mathf.Floor(Inch / 12);
             float Yard = Mathf.Floor(Feet / 3);
-            return Yard > 0 ? $"{Yard}yard" : Feet > 0 ? $"{Feet}feet" : Inch > 0 ? $"{Inch}inches" : $"";
+            return Yard > 0 ? $"{Yard}yard" : Feet > 0 ? $"{Feet}feet" : Inch > 0 ? $"{Inch}inches" : $"less than one inch";
         }
         else
         {
-            float m = Mathf.Floor(cm / 100);
-            return m > 5f ? $"{m}m" : $"{cm}cm";
+            float m = (float)Math.Round(cm / 100,1);
+            return m > 5f ? $"{m}m" : $"{Mathf.Round(cm)}cm";
         }
     }
 
     public string KgorP(float kg)
     {
+        if (kg <= 0)
+        {
+            return "zero?";
+        }
         string toReturn = "";
         if (Imperial)
         {
             // int stone = Mathf.FloorToInt(kg * 0.15747304441777f); // when to use stone?
-            float pound = kg * 2.20462262f;
-            float ounce = kg * 35.27396194958f;
-            toReturn += pound < 1 ? $"{ounce}ounce" : $"{pound}pound";
+            float pound = Mathf.Round(kg * 2.20462262f);
+            float ounce = Mathf.Round(kg * 35.27396194958f);
+            toReturn += pound < 1 ? $"{ounce}oz" : $"{pound}lbs";
         }
         else
         {
@@ -62,7 +75,7 @@ public class Settings : ScriptableObject//Bad name?
             {
                 int tonne = Mathf.FloorToInt(kg / 1000);
                 toReturn += tonne + "tonne";
-                int left = Mathf.FloorToInt(kg - tonne * 1000);
+                int left = Mathf.FloorToInt(kg - (tonne * 1000));
                 if (left > 99)
                 {
                     toReturn += $" and {left}kg";

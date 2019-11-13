@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class playerMain : BasicChar
 {
@@ -14,20 +13,17 @@ public class playerMain : BasicChar
     {
         base.Start();
         Init(1, 100f, 100f);
-        strength._baseValue = 10;
-        charm._baseValue = 10;
-        dexterity._baseValue = 10;
-        endurance._baseValue = 10;
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Elfs);
         raceSystem.AddRace(Races.Human, 100);
-        Body = new Body(160, 60, 10, 20);
+        Body = new Body(160, 10, 20);
         // Inventory.AddItem(ItemId.Potion);
         Inventory.AddItem(ItemId.Pouch);
         // Inventory.AddItem(new TestPotion());
         // Inventory.AddItem(new TestPotion());
     }
+
     public void PlayerInit(string first, string last)
     {
         firstName = first;

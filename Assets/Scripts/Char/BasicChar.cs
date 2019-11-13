@@ -19,7 +19,18 @@ public enum GenderType
 
 public abstract class BasicChar : MonoBehaviour
 {
-    protected BasicCharGame basicCharGame;
+    public BasicChar()
+    {
+        essence = new EssenceSystem(this);
+        Looks = new Looks(this);
+        Vore = new VoreEngine(this);
+        Age = new Age();
+    }
+
+    [SerializeField]
+    private BasicCharGame basicCharGame;
+
+    public BasicCharGame BasicCharGame => basicCharGame;
 
     [Space]
     public string firstName, lastName;
@@ -85,7 +96,7 @@ public abstract class BasicChar : MonoBehaviour
     public VoreEngine Vore;
     public Age Age;
     public Body Body;
-    public float Weight { get => Body.weight.Value; set { Body.weight.Value = value; } }
+    public float Weight => Body.Weight;
 
     public virtual void Awake()
     {
@@ -111,38 +122,9 @@ public abstract class BasicChar : MonoBehaviour
     public Perks Perk = new Perks();
 
     [Header("Stats")]
-    public CharStats strength;
-
-    public float Str => strength.Value;
-    public CharStats charm;
-    public float Charm => charm.Value;
-    public CharStats endurance;
-    public float End => endurance.Value;
-    public CharStats dexterity;
-    public float Dex => dexterity.Value;
-    public CharStats intelligence;
-
-    public CharStats GetStat(StatType stat)
-    {
-        switch (stat)
-        {
-            case StatType.Charm:
-                return charm;
-
-            case StatType.Dex:
-                return dexterity;
-
-            case StatType.End:
-                return endurance;
-
-            default:
-            case StatType.Str:
-                return strength;
-        }
-    }
-
-    public float Int { get { return intelligence.Value; } }
-
+    [SerializeField]
+    protected StatsContainer stats = new StatsContainer();
+    public StatsContainer Stats => stats;
     public virtual void Init(int lvl, float maxhp, float maxwp)
     {
         HP = new Health(maxhp);
@@ -160,14 +142,10 @@ public abstract class BasicChar : MonoBehaviour
     public void ToggleAutoEssence() => autoEss = !autoEss;
 
     [SerializeField]
-    private Essence masc = new Essence();
+    private EssenceSystem essence;
 
-    public Essence Masc => masc;
-
-    [SerializeField]
-    private Essence femi = new Essence();
-
-    public Essence Femi => femi;
+    public Essence Masc => essence.Masc;
+    public Essence Femi => essence.Femi;
     public float EssDrain => 3 + Perk.PerkBonus(PerksTypes.GainEss);
     public float EssGive => 3 + Perk.PerkBonus(PerksTypes.GiveEss);
     public float RestRate => 1f + Perk.PerkBonus(PerksTypes.FasterRest);
@@ -328,9 +306,6 @@ public abstract class BasicChar : MonoBehaviour
     public virtual void Start()
     {
         basicCharGame = GetComponent<BasicCharGame>();
-        Looks = new Looks(basicCharGame.settings, this);
-        Vore = new VoreEngine(basicCharGame.eventLog, this);
-        Age = new Age();
         foreach (BasicSkill s in skillsToAdd)
         {
             skills.Add(new UserSkill(s));
@@ -385,7 +360,7 @@ public abstract class BasicChar : MonoBehaviour
                     }
                     else if (Masc.Amount >= Balls.Cost())
                     {
-                        masc.Lose(Balls.Cost());
+                        Masc.Lose(Balls.Cost());
                         Balls.AddBalls();
                     }
                 }

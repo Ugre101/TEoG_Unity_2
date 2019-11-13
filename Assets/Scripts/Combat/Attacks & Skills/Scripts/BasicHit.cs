@@ -5,7 +5,7 @@ public class BasicHit : BasicSkill
 {
     public override string Action(BasicChar user, BasicChar target)
     {
-        float dmg = BaseAttack * (user.Str / 10) * RNG;
+        float dmg = BaseAttack * (user.Stats.Str / 10) * RNG;
         target.HP.TakeDmg(dmg);
         return $"{user.firstName} dealt {dmg}dmg to {target.firstName}'s health.";
     }

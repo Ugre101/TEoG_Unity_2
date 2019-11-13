@@ -1,27 +1,34 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class SexButton : MonoBehaviour
 {
-    public AfterBattleMain afterbattle;
+    public AfterBattleMain afterBattle;
     public SexScenes scene;
     public Button btn;
+    public TextMeshProUGUI title;
 
     private playerMain player;
     private BasicChar other;
     public void Start()
     {
-        btn = GetComponent<Button>();
-        afterbattle = GetComponentInParent<AfterBattleMain>();
-        if (afterbattle != null)
+        if (btn == null)
         {
-            player = afterbattle.player;
-            other = afterbattle.enemies[0];
+            btn = GetComponent<Button>();
         }
-        btn.onClick.AddListener(Func);
     }
     private void Func()
     {
-        afterbattle.AddToTextBox(afterbattle.LastScene == scene ? scene.ContinueScene(player,other) : scene.StartScene(player,other));
-        afterbattle.LastScene = scene;
+        afterBattle.AddToTextBox(afterBattle.LastScene == scene ? scene.ContinueScene(player,other) : scene.StartScene(player,other));
+        afterBattle.LastScene = scene;
+    }
+    public void Setup(playerMain parPlayer, BasicChar parPartner,AfterBattleMain parAfterBattle,SexScenes parScene)
+    {
+        player = parPlayer;
+        other = parPartner;
+        afterBattle = parAfterBattle;
+        scene = parScene;
+        title.text = scene.name;
+        btn.onClick.AddListener(Func);
     }
 }

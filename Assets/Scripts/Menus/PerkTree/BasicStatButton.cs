@@ -11,7 +11,7 @@ public class BasicStatButton : PerkTreeBasicBtn
     public override void OnEnable()
     {
         base.OnEnable();
-        amount.text = player.GetStat(stat)._baseValue > 0 ? player.GetStat(stat)._baseValue.ToString() : string.Empty;
+        amount.text = player.Stats.GetStat(stat)._baseValue > 0 ? player.Stats.GetStat(stat)._baseValue.ToString() : string.Empty;
     }
 
     public override void Use()
@@ -19,8 +19,8 @@ public class BasicStatButton : PerkTreeBasicBtn
         if (player.PerkBool)
         {
             taken = true;
-            player.GetStat(stat)._baseValue += statAmount;
-            amount.text = player.GetStat(stat)._baseValue.ToString();
+            player.Stats.GetStat(stat)._baseValue += statAmount;
+            amount.text = player.Stats.GetStat(stat)._baseValue.ToString();
         }
     }
 }

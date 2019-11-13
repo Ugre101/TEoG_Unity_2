@@ -3,14 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 
-public enum StatType
-{
-    Str,
-    Charm,
-    End,
-    Dex
-}
-
 [Serializable]
 public class CharStats
 {
@@ -40,7 +32,7 @@ public class CharStats
 
     public CharStats()
     {
-        _baseValue = 0;
+        _baseValue = 10;
         _statMods = new List<StatMods>();
         _StatMods = _statMods.AsReadOnly();
     }
