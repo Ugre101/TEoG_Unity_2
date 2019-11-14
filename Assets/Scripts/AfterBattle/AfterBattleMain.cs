@@ -15,6 +15,9 @@ public class AfterBattleMain : MonoBehaviour
 
     [Header("Buttons containers")]
     [SerializeField]
+    private GameObject buttons;
+
+    [SerializeField]
     private GameObject DickActions;
 
     [SerializeField]
@@ -67,27 +70,31 @@ public class AfterBattleMain : MonoBehaviour
 
     private void RefreshScenes()
     {
-        SceneChecker(DickActions, dickScenes);
-        SceneChecker(MouthActions, mouthScenes);
-        SceneChecker(BoobsActions, boobScenes);
-        SceneChecker(VaginaActions, vaginaScenes);
-        SceneChecker(AssActions, analScenes);
+        SceneChecker(buttons,
+            new List<List<SexScenes>> { dickScenes, mouthScenes, boobScenes, vaginaScenes, analScenes });
+        //   SceneChecker(MouthActions, mouthScenes);
+        //   SceneChecker(BoobsActions, boobScenes);
+        //   SceneChecker(VaginaActions, vaginaScenes);
+        //   SceneChecker(AssActions, analScenes);
         Leave.SetActive(true);
         TakeHome.SetActive(dorm.CanTake(enemies[0]));
     }
 
-    private void SceneChecker(GameObject container, List<SexScenes> scenes)
+    private void SceneChecker(GameObject container, List<List<SexScenes>> scenes)
     {
         foreach (Transform child in container.transform)
         {
             Destroy(child.gameObject);
         }
-        foreach (SexScenes scene in scenes)
+        foreach (List<SexScenes> list in scenes)
         {
-            if (scene.CanDo(player, Target))
+            foreach (SexScenes scene in list)
             {
-                SexButton button = Instantiate(sexButton, container.transform);
-                button.Setup(player, Target, this, scene);
+                if (scene.CanDo(player, Target))
+                {
+                    SexButton button = Instantiate(sexButton, container.transform);
+                    button.Setup(player, Target, this, scene);
+                }
             }
         }
     }
