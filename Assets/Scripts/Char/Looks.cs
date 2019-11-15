@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class Looks
 {
-    public Looks(Settings set, BasicChar whom)
+    public Looks(BasicChar whom)
     {
-        settings = set;
         who = whom;
     }
 
-    protected Settings settings;
-    protected BasicChar who;
-    private string newLine = Environment.NewLine;
+    private Settings settings => who.BasicCharGame.settings;
+
+    [SerializeField]
+    private BasicChar who;
+
     private string Height { get { return settings.MorInch(who.Weight); } }
     private string Weight { get { return settings.KgorP(who.Weight); } }
     private string Name { get { return who.FullName; } }
@@ -27,8 +26,8 @@ public class Looks
         {
             string title = Name;
             string desc = $"A {Height} tall {Race} {Gender}";
-            string stats = Age + newLine + $"Weight: {Weight}" + newLine + $"Height: {Height}";
-            return title + newLine + newLine + desc + newLine + stats;
+            string stats = $" {Age}\nWeight: {Weight}\nHeight: {Height}";
+            return $" {title}\n\n{desc}\n{stats}";
         }
     }
 
@@ -113,8 +112,9 @@ public class Looks
         return $"an {BoobSizeConvertor(b.Size)} chest";
     }
 
-    public string BoobsLook(List<Boobs> boobs)
+    public string BoobsLook()
     {
+        List<Boobs> boobs = who.Boobs;
         string bLooks = "";
         for (int i = 0; i < boobs.Count; i++)
         {
@@ -167,8 +167,9 @@ public class Looks
         return $"a {vag.Size} deep vagina";
     }
 
-    public string VagsLook(List<Vagina> vaginas)
+    public string VagsLook()
     {
+        List<Vagina> vaginas = who.Vaginas;
         string vLooks = "";
         for (int i = 0; i < vaginas.Count; i++)
         {

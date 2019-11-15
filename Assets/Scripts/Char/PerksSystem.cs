@@ -83,7 +83,12 @@ public class Perks
                 return "";
         }
     }
-
+    /// <summary>
+    /// First check if player has said perk and then if it does then return the value of said
+    /// perk.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     public int PerkBonus(PerksTypes type)
     {
         return HasPerk(type) ? perkList.Find(p => p.Type == type).Value : 0;

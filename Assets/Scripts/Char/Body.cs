@@ -24,42 +24,41 @@ public class BodyStat
 [System.Serializable]
 public class Body
 {
-    public Body(float h,float w,float f,float m)
+    public Body(float parHeight,float parFat,float parMuscle)
     {
-        height = new BodyStat(f);
-        weight = new BodyStat(w);
-        fat = new BodyStat(f);
-        muscle = new BodyStat(m);
+        height = new BodyStat(parHeight);
+        fat = new BodyStat(parFat);
+        muscle = new BodyStat(parMuscle);
     }
     public BodyStat height;
-    public BodyStat weight;
     public BodyStat fat;
     public BodyStat muscle;
+    public float Weight => height.Value * 0.15f + fat.Value + muscle.Value;
 
     public string Fitness()
     {
         string a = "", b = "", c = "";
-        if ((fat.Value / weight.Value) * 100f <= 2f)
+        if ((fat.Value / Weight) * 100f <= 2f)
         {
             a = "You look malnourished ";
         }
-        else if ((fat.Value / weight.Value) * 100f <= 14f)
+        else if ((fat.Value / Weight) * 100f <= 14f)
         {
             a = "You have an athletic body ";
         }
-        else if ((fat.Value / weight.Value) * 100f <= 18f)
+        else if ((fat.Value / Weight) * 100f <= 18f)
         {
             a = "You have a fit body ";
         }
-        else if ((fat.Value / weight.Value) * 100f <= 26f)
+        else if ((fat.Value / Weight) * 100f <= 26f)
         {
             a = "You have a healthy body ";
         }
-        else if ((fat.Value / weight.Value) * 100f <= 31f)
+        else if ((fat.Value / Weight) * 100f <= 31f)
         {
             a = "You have an pudgy body "; // Probably should change to more positive words, plus size? fat?
         }
-        else if ((fat.Value / weight.Value) * 100f <= 36f)
+        else if ((fat.Value / Weight) * 100f <= 36f)
         {
             a = "You have a plump body "; // Obese
         }
@@ -97,23 +96,23 @@ public class Body
             b = "with colossal muscle"; // This is relative does a fairy ever have colossal muscle?
         }
 
-        if ((fat.Value / weight.Value) * 100f <= 25f)
+        if ((fat.Value / Weight) * 100f <= 25f)
         {
             c = ".";
         }
-        else if ((fat.Value / weight.Value) * 100f <= 31f && muscle.Value < height.Value * 0.18f)
+        else if ((fat.Value / Weight) * 100f <= 31f && muscle.Value < height.Value * 0.18f)
         {
             c = " covered in fat.";
         }
-        else if ((fat.Value / weight.Value) * 100f <= 38f && muscle.Value < height.Value * 0.20f)
+        else if ((fat.Value / Weight) * 100f <= 38f && muscle.Value < height.Value * 0.20f)
         {
             c = " buried in fat.";
         }
-        else if ((fat.Value / weight.Value) * 100f <= 55f && muscle.Value > height.Value * 0.22f)
+        else if ((fat.Value / Weight) * 100f <= 55f && muscle.Value > height.Value * 0.22f)
         {
             c = "... Otherwise, you couldn't move.";
         }
-        else if ((fat.Value / weight.Value) * 100f <= 55f && muscle.Value < height.Value * 0.22f)
+        else if ((fat.Value / Weight) * 100f <= 55f && muscle.Value < height.Value * 0.22f)
         {
             c = "... Your weight is a burden to your ability to move.";
         }

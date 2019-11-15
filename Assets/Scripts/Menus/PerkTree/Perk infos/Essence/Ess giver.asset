@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Ess giver
   m_EditorClassIdentifier: 
   perkInfo: 
-  perkEffects: 
+  perkEffects: '+ You can give more essence.
+
+    + Higher essence capacity'
   posValue: 0
   negValue: 0
   maxLevel: 0

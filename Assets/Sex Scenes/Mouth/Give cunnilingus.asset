@@ -21,8 +21,8 @@ MonoBehaviour:
   Balls: 0
   Boobs: 0
   Vagina: 1
-  CasterGain: 0
-  ReciverGain: 0
+  CasterGain: 33
+  ReciverGain: 33
   EnduranceMultiplier: 1
   CharmMultiplier: 1
   StrengthMultiplier: 1

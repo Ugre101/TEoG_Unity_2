@@ -21,6 +21,15 @@
     private void OnEnable()
     {
         Health.updateSlider += changeHealth;
+        if (basicChar != null)
+        {
+            basicChar.HP.manualSliderUpdate();
+        }
+    }
+
+    public override void Setup(BasicChar who)
+    {
+        base.Setup(who);
         basicChar.HP.manualSliderUpdate();
     }
 }

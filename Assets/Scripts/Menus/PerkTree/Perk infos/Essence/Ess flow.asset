@@ -14,3 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   perkInfo: Essence flows easier trough your body allowing you to siphon more, but
     it also allow other to siphon more from you.
+  perkEffects: '+ You siphon more.
+
+    - Others can siphon more from you.'
+  posValue: 5
+  negValue: 5
+  maxLevel: 5

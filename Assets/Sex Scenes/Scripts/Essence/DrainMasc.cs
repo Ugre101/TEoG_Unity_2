@@ -2,14 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Drain masc", menuName = ("Sex/Essence/Drain masc"))]
 public class DrainMasc : SexScenes
 {
+    public PerkInfo essFlow;
+
+    private float toDrain(playerMain drainer)
+    {
+        float drain = drainer.EssDrain;
+        if (drainer.Perk.HasPerk(PerksTypes.EssenceFlow))
+        {
+            drain += essFlow.PosetiveValue;
+        }
+        return drain;
+    }
     public override string StartScene(playerMain player, BasicChar other)
     {
-        float toDrain = player.EssDrain;
-        float have = 0f;
-        have += other.LoseMasc(toDrain);
+        float have = other.LoseMasc(toDrain(player));
         player.Masc.Gain(have);
         return "Drain masc";
+    }
+    public override string ContinueScene(playerMain player, BasicChar other)
+    {
+        return StartScene(player, other);
     }
 }

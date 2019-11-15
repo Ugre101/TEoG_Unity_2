@@ -68,7 +68,7 @@ public class EnemyPrefabEditor : Editor
         }
         serializedObject.Update();
         EditorGUILayout.PropertyField(serializedObject.FindProperty("Inventory"), true);
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("Looks"), true);
+  //      EditorGUILayout.PropertyField(serializedObject.FindProperty("Looks"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("Vore"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("Body"), true);
         EditorGUILayout.PropertyField(serializedObject.FindProperty("expSystem"), true);

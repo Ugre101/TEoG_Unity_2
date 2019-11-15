@@ -16,8 +16,8 @@ MonoBehaviour:
   PlayerDick: 0
   PlayerBalls: 0
   PlayerBoobs: 0
-  PlayerVagina: 0
-  Dick: 0
+  PlayerVagina: 1
+  Dick: 1
   Balls: 0
   Boobs: 0
   Vagina: 0

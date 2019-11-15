@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Ess thief
   m_EditorClassIdentifier: 
   perkInfo: 
-  perkEffects: 
+  perkEffects: '+ Steal more essence
+
+    + Slighty higher essence capacity'
   posValue: 0
   negValue: 0
   maxLevel: 0

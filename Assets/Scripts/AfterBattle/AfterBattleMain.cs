@@ -5,22 +5,23 @@ using UnityEngine;
 public class AfterBattleMain : MonoBehaviour
 {
     public playerMain player;
-    public List<BasicChar> enemies;
+    public List<EnemyPrefab> enemies;
     public TextMeshProUGUI _textBox;
-    public GameObject ButtonPrefab;
-    public GameObject ButtonPrefabMono;
+
+    [SerializeField]
+    private SexButton sexButton;
 
     #region Button containers
 
     [Header("Buttons containers")]
-    public GameObject DickActions;
+    [SerializeField]
+    private GameObject buttons;
 
-    public GameObject BoobsActions;
-    public GameObject VaginaActions;
-    public GameObject AssActions;
-    public GameObject HandActions;
-    public GameObject MouthActions;
-    public GameObject MiscActions;
+    [SerializeField]
+    private GameObject DrainActions, MiscActions;
+
+    [SerializeField]
+    private GameObject drainMasc, drainFemi;
 
     #endregion Button containers
 
@@ -29,10 +30,7 @@ public class AfterBattleMain : MonoBehaviour
     [Header("ScriptableObject Scenes")]
     public List<SexScenes> dickScenes;
 
-    public List<SexScenes> boobScenes;
-    public List<SexScenes> mouthScenes;
-    public List<SexScenes> vaginaScenes;
-    public List<SexScenes> analScenes;
+    public List<SexScenes> boobScenes, mouthScenes, vaginaScenes, analScenes;
 
     #endregion Scene lists
 
@@ -43,6 +41,11 @@ public class AfterBattleMain : MonoBehaviour
     public GameObject TakeHome;
     public Dorm dorm;
     public SexChar playerChar, enemyChar;
+    private EnemyPrefab newTarget;
+    public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
+
+    // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
+    public playerMain Caster => player;
 
     private void OnEnable()
     {
@@ -51,52 +54,78 @@ public class AfterBattleMain : MonoBehaviour
     private void OnDisable()
     {
         enemies.Clear();
+        SexStats.orgasmed -= RefreshScenes;
     }
 
-    public void Setup(List<BasicChar> chars)
+    public void Setup(List<EnemyPrefab> chars)
     {
         gameObject.SetActive(true);
         enemies = chars;
         RefreshScenes();
         _textBox.text = null;
         LastScene = null;
-        // in future make it so several statuses spawn if team har more than one member
+        newTarget = null;
+        // in future make it so several statuses spawn if team har more than one member.
+        // if enemies more than one, make selector view next to status
         playerChar.Setup(player);
-        enemyChar.Setup(enemies[0]);
+        enemyChar.Setup(Target);
+        SexStats.orgasmed += RefreshScenes;
     }
 
-    private void RefreshScenes()
+    public void RefreshScenes()
     {
-        SceneChecker(DickActions, dickScenes);
-        SceneChecker(MouthActions, mouthScenes);
-        SceneChecker(BoobsActions, boobScenes);
-        SceneChecker(VaginaActions, vaginaScenes);
-        SceneChecker(AssActions, analScenes);
-        if (true)
+        if (player.sexStats.SessionOrgasm < 1)
         {
+            SceneChecker(buttons,
+                new List<List<SexScenes>> { dickScenes, mouthScenes, boobScenes, vaginaScenes, analScenes });
             Leave.SetActive(true);
         }
-        TakeHome.SetActive(dorm.CanTake(enemies[0]));
+        else
+        {
+            foreach (Transform child in buttons.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        if (Target.CanTake(Target.sexStats.SessionOrgasm))
+        {
+            TakeHome.SetActive(dorm.CanTake(Target));
+        }
+        Debug.Log(Target.sexStats.CanDrain);
+        if (Target.sexStats.CanDrain)
+        {
+            drainMasc.gameObject.SetActive(Target.Essence.CanDrainMasc);
+            drainFemi.gameObject.SetActive(Target.Essence.CanDrainFemi);
+        }
+        else
+        {
+            drainFemi.gameObject.SetActive(false);
+            drainMasc.gameObject.SetActive(false);
+        }
     }
 
-    private void SceneChecker(GameObject container, List<SexScenes> scenes)
+    private void SceneChecker(GameObject container, List<List<SexScenes>> scenes)
     {
         foreach (Transform child in container.transform)
         {
             Destroy(child.gameObject);
         }
-        foreach (SexScenes scene in scenes)
+        foreach (List<SexScenes> list in scenes)
         {
-            if (scene.CanDo(player, enemies[0]))
+            foreach (SexScenes scene in list)
             {
-                GameObject button = ButtonPrefab;
-                TextMeshProUGUI title = button.GetComponentInChildren<TextMeshProUGUI>();
-                title.text = scene.name;
-                SexButton sexBtn = button.GetComponent<SexButton>();
-                sexBtn.scene = scene;
-                Instantiate(button, container.transform);
+                if (scene.CanDo(player, Target))
+                {
+                    SexButton button = Instantiate(sexButton, container.transform);
+                    button.Setup(player, Target, this, scene);
+                }
             }
         }
+    }
+
+    public void HandleScene(string txt)
+    {
+        AddToTextBox(txt);
     }
 
     public void AddToTextBox(string text)

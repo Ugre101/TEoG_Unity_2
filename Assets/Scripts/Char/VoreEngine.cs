@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class VoreEngine
 {
-    private EventLog eventLog;
+    private EventLog EveLog => Pred.BasicCharGame.eventLog;
     private BasicChar Pred;
     public bool Active = false;
     public VoreBalls Balls;
@@ -12,9 +12,8 @@ public class VoreEngine
     public VoreStomach Stomach;
     public VoreAnal Anal;
 
-    public VoreEngine(EventLog log, BasicChar pred)
+    public VoreEngine(BasicChar pred)
     {
-        eventLog = log;
         Pred = pred;
         Balls = new VoreBalls(pred);
         Boobs = new VoreBoobs(pred);
@@ -24,7 +23,7 @@ public class VoreEngine
 
     public void Digest()
     {
-        if (eventLog != null)
+        if (EveLog != null)
         {
             List<ThePrey> Ballsdigested = Balls.Digest();
             if (Ballsdigested.Count > 0)
@@ -32,7 +31,7 @@ public class VoreEngine
                 foreach (ThePrey prey in Ballsdigested)
                 {
                     string text = $"{prey.Prey.FullName} has been fully transfomed into cum.";
-                    eventLog.AddTo(text);
+                    EveLog.AddTo(text);
                 }
             }
             List<ThePrey> Boobsdigested = Boobs.Digest();
@@ -41,7 +40,7 @@ public class VoreEngine
                 foreach (ThePrey prey in Boobsdigested)
                 {
                     string text = $"{prey.Prey.FullName} is now nothing but milk.";
-                    eventLog.AddTo(text);
+                    EveLog.AddTo(text);
                 }
             }
             List<ThePrey> Stomachdigested = Stomach.Digest();
@@ -50,7 +49,7 @@ public class VoreEngine
                 foreach (ThePrey prey in Stomachdigested)
                 {
                     string text = $"{prey.Prey.FullName} has been digested.";
-                    eventLog.AddTo(text);
+                    EveLog.AddTo(text);
                 }
             }
             List<ThePrey> Analdigested = Anal.Digest();
@@ -59,7 +58,7 @@ public class VoreEngine
                 foreach (ThePrey prey in Analdigested)
                 {
                     string text = $"{prey.Prey.FullName} has been reduced to nothing in your bowels.";
-                    eventLog.AddTo(text);
+                    EveLog.AddTo(text);
                 }
             }
             // unbirth or rebirth
@@ -91,7 +90,16 @@ public class ThePrey
     public float Digest(float toDigest)
     {
         float fatGain = Mathf.Min(toDigest, prey.Weight);
-        prey.Weight -= toDigest;
+        if (prey.Body.fat.Value > 0)
+        {
+            prey.Body.fat.Lose(toDigest);
+        } else if (prey.Body.muscle.Value > 0)
+        {
+            prey.Body.muscle.Lose(toDigest);
+        }else
+        {
+            prey.Body.height.Lose(toDigest);
+        }
         return fatGain;
     }
 }
@@ -137,7 +145,7 @@ public class VoreBasic
         List<ThePrey> Digested = new List<ThePrey>();
         foreach (ThePrey prey in Preys)
         {
-            Pred.Weight += prey.Digest(1f);
+            Pred.Body.fat.Gain(prey.Digest(1f));
             if (prey.Prey.Weight <= 0)
             {
                 Digested.Add(prey);

@@ -104,8 +104,9 @@ public class SexScenes : ScriptableObject
 
     public virtual void ArousalGain(playerMain player, BasicChar other)
     {
-        float PlayerGain = CasterGain;
-        float OtherGain = 0;
+        float PlayerGain = CasterGain * Mathf.Pow(EnduranceMultiplier, player.Stats.End);
+        float OtherGain = ReciverGain * Mathf.Pow(CharmMultiplier, player.Stats.Charm) *
+            Mathf.Pow(EnduranceMultiplier, other.Stats.End);
         player.sexStats.GainArousal(PlayerGain);
         other.sexStats.GainArousal(OtherGain);
     }

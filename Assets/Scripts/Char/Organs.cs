@@ -130,12 +130,14 @@ public abstract class SexualOrgan
     {
         float growCost = Cost;
         _baseSize += toGrow;
+        SomethingChanged?.Invoke();
         return growCost;
     }
 
     public bool Shrink(int toShrink = 1)
     {
         _baseSize -= toShrink;
+        SomethingChanged?.Invoke();
         return _baseSize <= 0 ? true : false;
     }
 
@@ -143,11 +145,16 @@ public abstract class SexualOrgan
     {
         race = changeTo;
     }
+    public delegate void Change();
+
+    public static event Change SomethingChanged;
+
 }
 
 [System.Serializable]
 public class Dick : SexualOrgan
 {
+
 }
 
 public static class DickExtensions

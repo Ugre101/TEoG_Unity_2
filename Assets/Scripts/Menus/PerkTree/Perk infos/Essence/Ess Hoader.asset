@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ess Hoader
   m_EditorClassIdentifier: 
   perkInfo: 
-  perkEffects: 
+  perkEffects: + Much higher essence capacity
   posValue: 0
   negValue: 0
   maxLevel: 0

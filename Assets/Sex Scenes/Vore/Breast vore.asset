@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b1606779ee0dc14895475fb11e4773f, type: 3}
   m_Name: Breast vore
   m_EditorClassIdentifier: 
+  settings: {fileID: 0}
   PlayerDick: 0
   PlayerBalls: 0
-  PlayerBoobs: 0
+  PlayerBoobs: 1
   PlayerVagina: 0
   Dick: 0
   Balls: 0

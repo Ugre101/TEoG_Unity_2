@@ -25,7 +25,8 @@ public class CombatMain : MonoBehaviour
     private int indexCurrentEnemy = 0;
     public List<BasicChar> playerTeamChars;
     public List<EnemyPrefab> enemyTeamChars;
-    public CombatTeam playerTeam, enemyTeam;
+    public CombatTeam playerTeam;
+    public CombatTeam enemyTeam;
 
     public BasicChar Target => newTarget != null ? newTarget : CurrentEnemy;
     public BasicChar newTarget;
@@ -57,14 +58,6 @@ public class CombatMain : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        _battleLog.Clear();
-        _turn = 1;
-        ResetSkills(playerTeamChars);
-        ResetSkills(new List<BasicChar>(enemyTeamChars));
-    }
-
     private void ResetSkills(List<BasicChar> basicChars)
     {
         foreach (BasicChar bc in basicChars)
@@ -83,10 +76,16 @@ public class CombatMain : MonoBehaviour
     public void SetUpCombat(List<EnemyPrefab> enemies)
     {
         gameObject.SetActive(true);
+        _battleLog.Clear();
+        _turn = 1;
+
         enemyTeamChars.Clear();
         enemyTeamChars.AddRange(enemies);
-        enemyTeam.StartFight(new List<BasicChar>(enemies));
-        playerTeam.StartFight(playerTeamChars);
+        enemyTeam.StartCoroutine(enemyTeam.StartFight(new List<BasicChar>(enemies)));
+        playerTeam.StartCoroutine(playerTeam.StartFight(playerTeamChars));
+        ResetSkills(playerTeamChars);
+        ResetSkills(new List<BasicChar>(enemyTeamChars));
+
     }
 
     public void FleeButton()
@@ -113,7 +112,7 @@ public class CombatMain : MonoBehaviour
 
     public void EnemyAI(BasicChar Enemy)
     {
-        float str = Enemy.strength.Value, charm = Enemy.charm.Value;
+        float str = Enemy.Stats.Str, charm = Enemy.Stats.Charm;
         float dmg = attackMulti(charm < str ? str : charm);
         List<string> strAttack = new List<string> { "Hits you", "Kicks you",
         "Grapples you down to the ground"};
@@ -171,6 +170,7 @@ public class CombatMain : MonoBehaviour
         _turn++;
         _PlayerTeamAttacks = null;
         _EnemyTeamAttacks = null;
+        // Reset cooldoowns
         RefreshCooldown(playerTeamChars);
         RefreshCooldown(new List<BasicChar>(enemyTeamChars));
         foreach (CombatButton cb in skillButtons)
@@ -180,6 +180,8 @@ public class CombatMain : MonoBehaviour
                 cb.CoolDownHandler();
             }
         }
+        // Reset newTarget
+        SelectNewTarget(null);
     }
 
     private void RefreshCooldown(List<BasicChar> basicChars)
@@ -203,7 +205,7 @@ public class CombatMain : MonoBehaviour
             player.Exp += e.reward.ExpReward;
             player.Gold += e.reward.GoldReward;
         }
-        afterBattle.Setup(new List<BasicChar> (enemyTeamChars));
+        afterBattle.Setup(enemyTeamChars);
         combatPanel.SetActive(false);
     }
 
@@ -225,5 +227,11 @@ public class CombatMain : MonoBehaviour
         {
             WinBattle();
         }
+    }
+    public void SelectNewTarget(BasicChar target)
+    {
+        playerTeam.DeSelectAll();
+        enemyTeam.DeSelectAll();
+        newTarget = target;
     }
 }

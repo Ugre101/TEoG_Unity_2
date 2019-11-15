@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CombatTeam : MonoBehaviour
@@ -6,23 +7,26 @@ public class CombatTeam : MonoBehaviour
     public GameUI gameUI;
     public List<BasicChar> Team;
     public GameObject TeamContainer;
-    public GameObject StatusPrefab;
-    private List<CombatStatus> combatStatuses => new List<CombatStatus>(TeamContainer.GetComponentsInChildren<CombatStatus>());
+    public CombatStatus CombatStatusPrefab;
+    public CombatMain combatMain;
+    private List<CombatStatus> combatStatuses = new List<CombatStatus>();
 
     // if nobody is alive return true else false
     public bool TeamDead => !combatStatuses.Exists(s => s.Dead == false);
-
-    private void Start()
+    private void OnEnable()
     {
+
     }
-
-    public void StartFight(List<BasicChar> EnemyTeam)
+   
+    public IEnumerator StartFight(List<BasicChar> EnemyTeam)
     {
-        Team = EnemyTeam;
         foreach (Transform child in TeamContainer.transform)
         {
             Destroy(child.gameObject);
         }
+        Team = EnemyTeam;
+        // Wait one frame so all children are properly dead...
+        yield return null;
         if (Team.Count < 1) // if team is less than 1 an error must have occured
         {
             gameUI.Resume();
@@ -31,11 +35,10 @@ public class CombatTeam : MonoBehaviour
         {
             foreach (BasicChar combatant in Team)
             {
-                GameObject StatusToAdd = StatusPrefab;
-                CombatStatus status = StatusToAdd.GetComponent<CombatStatus>();
-                status.Setup(combatant, this);
-                Instantiate(StatusToAdd, TeamContainer.transform);
+                CombatStatus StatusToAdd = Instantiate(CombatStatusPrefab, TeamContainer.transform);
+                StatusToAdd.Setup(combatant, this, combatMain);
             }
+            combatStatuses = new List<CombatStatus>(TeamContainer.GetComponentsInChildren<CombatStatus>());
         }
     }
 
@@ -48,6 +51,14 @@ public class CombatTeam : MonoBehaviour
         if (TeamDead)
         {
             Lost?.Invoke();
+        }
+    }
+
+    public void DeSelectAll()
+    {
+        foreach (CombatStatus cs in combatStatuses)
+        {
+            cs.DeSelect();
         }
     }
 }
