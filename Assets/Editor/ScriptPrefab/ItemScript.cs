@@ -10,23 +10,20 @@ public class CustomScript
     [MenuItem("Assets/Create My Custom C# Script")]
     public static void CreateCustomScript(MenuCommand cmd)
     {
-        if (Selection.activeObject == null) ;
-        var path = AssetDatabase.GetAssetPath(Selection.activeObject);
-        if (File.Exists(path))
+        if (Selection.activeObject == null)
         {
-            path = Path.GetDirectoryName(path);
+            ;
+            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            if (File.Exists(path))
+            {
+                path = Path.GetDirectoryName(path);
+            }
+            if (string.IsNullOrEmpty(path))
+            {
+                path = "Assets/";
+            }
+            File.Copy(PathToTemplate, Path.Combine(path, "NewScript.cs"));
+            AssetDatabase.Refresh();
         }
-        if(string.IsNullOrEmpty(path))
-        {
-            path = "Assets/";
-        }
-        File.Copy(PathToTemplate, Path.Combine(path, "NewScript.cs"));
-        AssetDatabase.Refresh();
     }
-
-    public void Start()
-    {
-
-    }
-
 }
