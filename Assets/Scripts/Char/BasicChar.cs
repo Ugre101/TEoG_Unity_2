@@ -124,7 +124,9 @@ public abstract class BasicChar : MonoBehaviour
     [Header("Stats")]
     [SerializeField]
     protected StatsContainer stats = new StatsContainer();
+
     public StatsContainer Stats => stats;
+
     public virtual void Init(int lvl, float maxhp, float maxwp)
     {
         HP = new Health(maxhp);
@@ -144,6 +146,7 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField]
     private EssenceSystem essence;
 
+    public EssenceSystem Essence => essence;
     public Essence Masc => essence.Masc;
     public Essence Femi => essence.Femi;
     public float EssDrain => 3 + Perk.PerkBonus(PerksTypes.GainEss);

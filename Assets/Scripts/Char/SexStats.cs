@@ -1,51 +1,52 @@
 ﻿public class SexStats
 {
-    private float arousal;
-    private float maxArousal = 100f;
-    private int orgasms = 0;
-    private int sessionOrgasm = 0;
-    public float Arousal { get { return arousal; } }
-    public int Orgasms { get { return orgasms; } }
-    public int SessionOrgasm { get { return sessionOrgasm; } }
+    private readonly float maxArousal = 100f;
+    private int currOrgasm = 0;
+    public float Arousal { get; private set; }
+    public int Orgasms { get; private set; } = 0;
+    public int SessionOrgasm { get; private set; } = 0;
 
+    public bool CanDrain => currOrgasm > 0;
+    public void Drained () { currOrgasm--; }
     public bool GainArousal(float gain)
     {
-        arousal += gain;
-        if (arousal > maxArousal)
+        Arousal += gain;
+        bool org = Arousal > maxArousal;
+        if (org)
         {
-            orgasms++;
-            sessionOrgasm++;
-            arousal -= maxArousal;
-            arousalChange?.Invoke();
-            return true;
+            Orgasms++;
+            SessionOrgasm++;
+            currOrgasm++;
+            Arousal -= maxArousal;
+            orgasmed?.Invoke();
         }
-        else
-        {
-            arousalChange?.Invoke();
-            return false;
-        }
+        arousalChange?.Invoke();
+        return org;
     }
 
     public void Reset()
     {
-        sessionOrgasm = 0;
-        //orgasms = 0;
-        arousal = 0;
+        SessionOrgasm = 0;
+        currOrgasm = 0;
     }
 
     public float ArousalSlider()
     {
-        return arousal / maxArousal;
+        return Arousal / maxArousal;
     }
 
     public string ArousalStatus()
     {
-        return $"{arousal}/{maxArousal}";
+        return $"{Arousal}/{maxArousal}";
     }
 
     public delegate void ArousalChange();
 
     public static event ArousalChange arousalChange;
+
+    public delegate void Orgasmed();
+
+    public static event Orgasmed orgasmed;
 
     public void ManualArousalUpdate()
     {

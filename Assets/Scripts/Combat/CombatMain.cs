@@ -205,7 +205,7 @@ public class CombatMain : MonoBehaviour
             player.Exp += e.reward.ExpReward;
             player.Gold += e.reward.GoldReward;
         }
-        afterBattle.Setup(new List<BasicChar> (enemyTeamChars));
+        afterBattle.Setup(enemyTeamChars);
         combatPanel.SetActive(false);
     }
 

@@ -26,3 +26,4 @@ MonoBehaviour:
   EnduranceMultiplier: 1
   CharmMultiplier: 1
   StrengthMultiplier: 1
+  essFlow: {fileID: 11400000, guid: b50c881d2f835114f99861097b58cb02, type: 2}

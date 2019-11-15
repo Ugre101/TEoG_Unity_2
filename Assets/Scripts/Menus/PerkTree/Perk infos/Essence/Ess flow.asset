@@ -17,6 +17,6 @@ MonoBehaviour:
   perkEffects: '+ You siphon more.
 
     - Others can siphon more from you.'
-  posValue: 0
-  negValue: 0
-  maxLevel: 0
+  posValue: 5
+  negValue: 5
+  maxLevel: 5

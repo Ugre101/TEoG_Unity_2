@@ -5,7 +5,7 @@ using UnityEngine;
 public class AfterBattleMain : MonoBehaviour
 {
     public playerMain player;
-    public List<BasicChar> enemies;
+    public List<EnemyPrefab> enemies;
     public TextMeshProUGUI _textBox;
 
     [SerializeField]
@@ -18,11 +18,10 @@ public class AfterBattleMain : MonoBehaviour
     private GameObject buttons;
 
     [SerializeField]
-    private GameObject DickActions;
+    private GameObject DrainActions, MiscActions;
 
     [SerializeField]
-    private GameObject BoobsActions, VaginaActions, AssActions, HandActions,
-        MouthActions, DrainActions, MiscActions;
+    private GameObject drainMasc, drainFemi;
 
     #endregion Button containers
 
@@ -42,8 +41,11 @@ public class AfterBattleMain : MonoBehaviour
     public GameObject TakeHome;
     public Dorm dorm;
     public SexChar playerChar, enemyChar;
-    private BasicChar newTarget;
-    public BasicChar Target => newTarget != null ? newTarget : enemies[0];
+    private EnemyPrefab newTarget;
+    public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
+
+    // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
+    public playerMain Caster => player;
 
     private void OnEnable()
     {
@@ -52,9 +54,10 @@ public class AfterBattleMain : MonoBehaviour
     private void OnDisable()
     {
         enemies.Clear();
+        SexStats.orgasmed -= RefreshScenes;
     }
 
-    public void Setup(List<BasicChar> chars)
+    public void Setup(List<EnemyPrefab> chars)
     {
         gameObject.SetActive(true);
         enemies = chars;
@@ -66,18 +69,39 @@ public class AfterBattleMain : MonoBehaviour
         // if enemies more than one, make selector view next to status
         playerChar.Setup(player);
         enemyChar.Setup(Target);
+        SexStats.orgasmed += RefreshScenes;
     }
 
-    private void RefreshScenes()
+    public void RefreshScenes()
     {
-        SceneChecker(buttons,
-            new List<List<SexScenes>> { dickScenes, mouthScenes, boobScenes, vaginaScenes, analScenes });
-        //   SceneChecker(MouthActions, mouthScenes);
-        //   SceneChecker(BoobsActions, boobScenes);
-        //   SceneChecker(VaginaActions, vaginaScenes);
-        //   SceneChecker(AssActions, analScenes);
-        Leave.SetActive(true);
-        TakeHome.SetActive(dorm.CanTake(enemies[0]));
+        if (player.sexStats.SessionOrgasm < 1)
+        {
+            SceneChecker(buttons,
+                new List<List<SexScenes>> { dickScenes, mouthScenes, boobScenes, vaginaScenes, analScenes });
+            Leave.SetActive(true);
+        }
+        else
+        {
+            foreach (Transform child in buttons.transform)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        if (Target.CanTake(Target.sexStats.SessionOrgasm))
+        {
+            TakeHome.SetActive(dorm.CanTake(Target));
+        }
+        Debug.Log(Target.sexStats.CanDrain);
+        if (Target.sexStats.CanDrain)
+        {
+            drainMasc.gameObject.SetActive(Target.Essence.CanDrainMasc);
+            drainFemi.gameObject.SetActive(Target.Essence.CanDrainFemi);
+        }
+        else
+        {
+            drainFemi.gameObject.SetActive(false);
+            drainMasc.gameObject.SetActive(false);
+        }
     }
 
     private void SceneChecker(GameObject container, List<List<SexScenes>> scenes)
@@ -97,6 +121,11 @@ public class AfterBattleMain : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void HandleScene(string txt)
+    {
+        AddToTextBox(txt);
     }
 
     public void AddToTextBox(string text)

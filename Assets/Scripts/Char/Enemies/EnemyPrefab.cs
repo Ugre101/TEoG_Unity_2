@@ -56,7 +56,12 @@ public class EnemyPrefab : BasicChar
     private int FinalMuscle => Mathf.FloorToInt(assingMuscle * Random.Range(1 - muscleRng, 1 + muscleRng));
 
     #endregion Body stats
-
+    [Header("Dorm related")]
+    [SerializeField]
+    private bool canTakeToDorm = true;
+    [SerializeField]
+    private int orgsNeeded = 3;
+    public bool CanTake(int sessOrg) => canTakeToDorm ? sessOrg >= orgsNeeded : false;
     public override void Start()
     {
         stats = new StatsContainer(FinalStat(assingStr), FinalStat(assingCharm),

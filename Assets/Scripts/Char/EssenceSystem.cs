@@ -1,5 +1,5 @@
 ﻿using System;
-using UnityEngine;
+
 [Serializable]
 public class EssenceSystem
 {
@@ -29,4 +29,7 @@ public class EssenceSystem
     /// Base value give, add perk bonuses after localy
     /// </summary>
     public float baseEssGive => 3 + bonusGive;
+
+    public bool CanDrainMasc => Masc.Amount > 0 || who.Balls.Count > 0 || who.Dicks.Count > 0;
+    public bool CanDrainFemi => Femi.Amount > 0 || who.Boobs.Count > 0 || who.Dicks.Count > 0;
 }
