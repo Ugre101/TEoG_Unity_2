@@ -8,7 +8,7 @@ public class Looks
         who = whom;
     }
 
-    private Settings settings => who.BasicCharGame.settings;
+    private Settings settings => who.BasicCharGame.Settings;
 
     [SerializeField]
     private BasicChar who;

@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class VoreEngine
 {
-    private EventLog EveLog => Pred.BasicCharGame.eventLog;
+    private EventLog EveLog => Pred.BasicCharGame.EventLog;
     private BasicChar Pred;
     public bool Active = false;
     public VoreBalls Balls;

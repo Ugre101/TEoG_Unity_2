@@ -2,23 +2,35 @@
 
 public class BasicCharGame : MonoBehaviour
 {
-    public CharSprites sprites;
-    private SpriteRenderer spriteRenderer;
+    [SerializeField]
+    private CharSprites sprites = null;
+
+    [SerializeField]
+    private SpriteRenderer spriteRenderer = null;
 
     [Header("Scriptable objects")]
-    public Settings settings;
+    [SerializeField]
+    private Settings settings = null;
 
-    public EventLog eventLog;
+    [SerializeField]
+    private EventLog eventLog = null;
+
     private BasicChar whom;
 
-    private void Awake()
-    {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        whom = GetComponent<BasicChar>();
-    }
+    public Settings Settings => settings;
+
+    public EventLog EventLog => eventLog;
 
     private void Start()
     {
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+        if (whom == null)
+        {
+            whom = GetComponent<BasicChar>();
+        }
         spriteRenderer.sprite = sprites.GetSprite(whom);
     }
 }

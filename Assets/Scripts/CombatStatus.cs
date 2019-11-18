@@ -8,24 +8,24 @@ public class CombatStatus : MonoBehaviour
     public bool Dead { get; private set; } = false;
 
     [SerializeField]
-    private TextMeshProUGUI title;
+    private TextMeshProUGUI title = null;
 
     [SerializeField]
-    private HealthSlider healthSlider;
+    private HealthSlider healthSlider = null;
 
     [SerializeField]
-    private WillSlider willSlider;
+    private WillSlider willSlider = null;
 
     [SerializeField]
-    private Button btn;
+    private Button btn = null;
 
     [SerializeField]
-    private GameObject frame;
+    private GameObject frame = null;
 
-    private CombatTeam team;
+    private CombatTeam team = null;
 
     [SerializeField]
-    private CombatMain combatMain;
+    private CombatMain combatMain = null;
 
     public void Setup(BasicChar who, CombatTeam combatTeam, CombatMain main)
     {

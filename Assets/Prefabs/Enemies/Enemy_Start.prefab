@@ -47,10 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d524558d4031c9f4ab3a25d8d3a9559c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  basicCharGame: {fileID: 0}
   firstName: 
   lastName: 
   Inventory:
-    itemRefs: {fileID: 0}
     Items: []
   raceSystem:
     raceList: []
@@ -58,8 +58,6 @@ MonoBehaviour:
     Active: 0
   Body:
     height:
-      Value: 0
-    weight:
       Value: 0
     fat:
       Value: 0
@@ -78,27 +76,29 @@ MonoBehaviour:
     statPoints: 0
   Perk:
     perkList: []
-  strength:
-    _baseValue: 0
-  charm:
-    _baseValue: 0
-  endurance:
-    _baseValue: 0
-  dexterity:
-    _baseValue: 0
-  intelligence:
-    _baseValue: 0
+  stats:
+    strength:
+      _baseValue: 10
+    charm:
+      _baseValue: 10
+    endurance:
+      _baseValue: 10
+    dexterity:
+      _baseValue: 10
+    intelligence:
+      _baseValue: 10
   autoEss: 1
-  masc:
-    _amount: 0
-  femi:
-    _amount: 0
+  essence:
+    bonusDrain: 0
+    bonusGive: 0
   gold: 0
   dicks: []
   balls: []
   boobs: []
   lactating: 0
   vaginas: []
+  skills: []
+  skillsToAdd: []
   NeedFirstName: 1
   NeedLastName: 1
   randomName: {fileID: 11400000, guid: 0f369db329ad0a5408daee8e97de42fb, type: 2}
@@ -115,10 +115,13 @@ MonoBehaviour:
   assingCharm: 2
   assingEnd: 6
   assingDex: 5
+  assingInt: 0
+  statRngFactor: 0.4
   assingHeight: 160
-  assingWeight: 60
   assingFat: 10
   assingMuscle: 20
+  canTakeToDorm: 1
+  orgsNeeded: 3
 --- !u!212 &8534239450746442158
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -144,6 +147,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -227,6 +231,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: {fileID: 11400000, guid: 30f7ea40fe5120b4f95bbc7c29587544, type: 2}
+  spriteRenderer: {fileID: 8534239450746442158}
   settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
   eventLog: {fileID: 11400000, guid: afafec6ffb983614b80c3fc20d9a8849, type: 2}
-  whom: {fileID: 0}

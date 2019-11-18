@@ -18,19 +18,17 @@ public class Movement : MonoBehaviour
     private Tilemap lastMap;
 
     [SerializeField]
-    private GameObject pointer;
+    private GameObject pointer = null;
 
     [SerializeField]
-    private BoxCollider2D _coll;
+    private BoxCollider2D _coll = null;
 
     [SerializeField]
-    private Rigidbody2D _rb2d;
+    private Rigidbody2D _rb2d = null;
 
     private Vector2 CurPos { get => _rb2d.position; set => _rb2d.position = value; }
     private Vector2 _target;
     private float _xMax, _xMin, _yMin, _yMax;
-    private bool rightClick = false;
-    private EnemyPrefab _colEnemy;
     private bool mobilePlatform, touchSupport, mousePresent;
 
     // Start is called before the first frame update
@@ -129,7 +127,7 @@ public class Movement : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            _colEnemy = collision.gameObject.GetComponent<EnemyPrefab>();
+            EnemyPrefab _colEnemy = collision.gameObject.GetComponent<EnemyPrefab>();
             canvas.StartCombat(_colEnemy);
             if (spawner != null)
             {

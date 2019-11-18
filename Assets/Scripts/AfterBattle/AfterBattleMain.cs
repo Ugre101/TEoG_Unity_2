@@ -15,13 +15,13 @@ public class AfterBattleMain : MonoBehaviour
 
     [Header("Buttons containers")]
     [SerializeField]
-    private GameObject buttons;
+    private GameObject buttons = null;
 
     [SerializeField]
-    private GameObject DrainActions, MiscActions;
+    private GameObject DrainActions = null, MiscActions = null;
 
     [SerializeField]
-    private GameObject drainMasc, drainFemi;
+    private GameObject drainMasc = null, drainFemi = null;
 
     #endregion Button containers
 
