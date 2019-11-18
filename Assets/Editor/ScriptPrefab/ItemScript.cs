@@ -11,8 +11,6 @@ public class CustomScript
     {
         if (Selection.activeObject == null)
         {
-
-            var path = AssetDatabase.GetAssetPath(Selection.activeObject);
             string path = AssetDatabase.GetAssetPath(Selection.activeObject);
             if (File.Exists(path))
             {
