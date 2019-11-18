@@ -9,7 +9,7 @@ public class AfterBattleMain : MonoBehaviour
     public TextMeshProUGUI _textBox;
 
     [SerializeField]
-    private SexButton sexButton;
+    private SexButton sexButton = null;
 
     #region Button containers
 
