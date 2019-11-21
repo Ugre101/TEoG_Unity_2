@@ -24,12 +24,7 @@ public class Save
     public string SaveData()
     {
         save = new PlayerSave(Player);
-        List<DormSave> temp = new List<DormSave>();
-        foreach (Transform child in dorm.transform)
-        {
-            DormSave tempDorm = new DormSave(child.name, child.GetComponent<BasicChar>());
-            temp.Add(tempDorm);
-        }
+        List<DormSave> temp = dorm.Save();
         PosSave pos = new PosSave(Pos.position, mapEvents.ActiveMap, mapEvents.CurrentMap.transform.name);
         DateSave date = tickManager.Save();
         FullSave fullSave = new FullSave(save, pos, temp, date);
@@ -44,14 +39,7 @@ public class Save
         mapEvents.Load(fullSave.posPart);
         // Pos.position = fullSave.posPart.pos;
         JsonUtility.FromJsonOverwrite(fullSave.playerPart.who, Player);
-        foreach (Transform child in dorm.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-        foreach (DormSave dormSave in fullSave.dormPart)
-        {
-            dorm.Load(dormSave);
-        }
+        dorm.Load(fullSave.dormPart);
     }
 }
 

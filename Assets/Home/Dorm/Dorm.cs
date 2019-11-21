@@ -70,15 +70,36 @@ public class Dorm : MonoBehaviour
 
     public List<GameObject> servantPrefabs;
 
-    public void Load(DormSave toLoad)
+    public List<DormSave> Save()
     {
-        if (servantPrefabs.Exists(n => n.name == toLoad.name))
+        List<DormSave> dormSaves = new List<DormSave>();
+        foreach (Transform child in transform)
         {
-            GameObject loaded = Instantiate(servantPrefabs.Find(n => n.name == toLoad.name), this.transform);
-            loaded.name = toLoad.name;
-            BasicChar loadedChar = loaded.GetComponent<BasicChar>();
-            JsonUtility.FromJsonOverwrite(toLoad.who, loadedChar);
-            ServantsDirty = true;
+            DormSave tempDorm = new DormSave(child.name, child.GetComponent<BasicChar>());
+            dormSaves.Add(tempDorm);
+        }
+        return dormSaves;
+    }
+
+    public void Load(List<DormSave> toLoad)
+    {
+        foreach(Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach(DormSave ds in toLoad)
+        {
+            if (servantPrefabs.Exists(n => n.name == ds.name))
+            {
+                GameObject loaded = Instantiate(servantPrefabs.Find(n => n.name == ds.name), transform);
+                loaded.name = ds.name;
+                BasicChar loadedChar = loaded.GetComponent<BasicChar>();
+                JsonUtility.FromJsonOverwrite(ds.who, loadedChar);
+                ServantsDirty = true;
+            }else
+            {
+                Debug.Log("Failed to load dorm servant...");
+            }
         }
     }
 }

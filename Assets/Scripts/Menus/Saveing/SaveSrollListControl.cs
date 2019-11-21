@@ -43,10 +43,7 @@ public class SaveSrollListControl : MonoBehaviour
         // Destroy buttons
         if (transform.childCount > 0)
         {
-            foreach (Transform c in container.transform)
-            {
-                Destroy(c.gameObject);
-            }
+            transform.KillChildren(container.transform);
         }
         // Add buttons
         foreach (FileInfo f in _fileInfo)

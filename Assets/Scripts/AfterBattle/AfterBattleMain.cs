@@ -82,16 +82,12 @@ public class AfterBattleMain : MonoBehaviour
         }
         else
         {
-            foreach (Transform child in buttons.transform)
-            {
-                Destroy(child.gameObject);
-            }
+            transform.KillChildren(buttons.transform);
         }
         if (Target.CanTake(Target.sexStats.SessionOrgasm))
         {
             TakeHome.SetActive(dorm.CanTake(Target));
         }
-        Debug.Log(Target.sexStats.CanDrain);
         if (Target.sexStats.CanDrain)
         {
             drainMasc.gameObject.SetActive(Target.Essence.CanDrainMasc);
@@ -106,10 +102,7 @@ public class AfterBattleMain : MonoBehaviour
 
     private void SceneChecker(GameObject container, List<List<SexScenes>> scenes)
     {
-        foreach (Transform child in container.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        transform.KillChildren(container.transform);
         foreach (List<SexScenes> list in scenes)
         {
             foreach (SexScenes scene in list)
@@ -121,11 +114,6 @@ public class AfterBattleMain : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void HandleScene(string txt)
-    {
-        AddToTextBox(txt);
     }
 
     public void AddToTextBox(string text)

@@ -9,7 +9,6 @@ public class CombatMain : MonoBehaviour
     public TextMeshProUGUI _textbox;
 
     public playerMain player;
-    public GameObject combatPanel, sexPanel;
     public GameObject skillButtonsContainer;
     public List<CombatButton> skillButtons;
 
@@ -35,8 +34,7 @@ public class CombatMain : MonoBehaviour
     public AfterBattleMain afterBattle;
 
     [Header("Lose")]
-    public loseBattleEnemy loseBattle;
-
+    public LoseMain loseBattle;
     // Private
     private List<string> _battleLog = new List<string>();
 
@@ -206,14 +204,13 @@ public class CombatMain : MonoBehaviour
             player.Gold += e.reward.GoldReward;
         }
         afterBattle.Setup(enemyTeamChars);
-        combatPanel.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     private void LoseBattle()
     {
-        combatPanel.SetActive(false);
-       // losePanel.SetActive(true);
-        // init enemy(s) in lose
+        gameObject.SetActive(false);
+        loseBattle.Setup(enemyTeamChars);
     }
 
     public void SomeOneDead()

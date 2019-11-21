@@ -20,10 +20,7 @@ public class CombatTeam : MonoBehaviour
    
     public IEnumerator StartFight(List<BasicChar> EnemyTeam)
     {
-        foreach (Transform child in TeamContainer.transform)
-        {
-            Destroy(child.gameObject);
-        }
+        transform.KillChildren(TeamContainer.transform);
         Team = EnemyTeam;
         // Wait one frame so all children are properly dead...
         yield return null;

@@ -1,45 +1,44 @@
 ﻿using System.Collections;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SpawnKeyBindings : MonoBehaviour
 {
-    public GameObject Prefab;
+    public KeyBindingButton Prefab;
+    public KeyBindingButton bindingButton;
     public KeyBindings keyBindings;
     private KeyCode newKey;
     private bool waitingForKey;
 
-    private enum Keys { save, options, vore, lvl, essence, inventory, esc, quest, looks ,zoomIn,zoomOut};
+    private enum Keys { save, options, vore, lvl, essence, inventory, esc, quest, looks, zoomIn, zoomOut };
 
     private Keys keys;
-    private GameObject save, opt, vore, lvl, ess, inv, esc, quest, looks,zoomIn,zoomOut;
+    private KeyBindingButton save, opt, vore, lvl, ess, inv, esc, quest, looks, zoomIn, zoomOut;
 
     // Start is called before the first frame update
     private void Start()
     {
-        save = Instantiate(CreateBindButton("Save", keyBindings.saveKey), this.transform);
-        Button savebtn = CreateButtonPart(save, Keys.save);
-        opt = Instantiate(CreateBindButton("Options", keyBindings.optionsKey), this.transform);
-        Button optbtn = CreateButtonPart(opt, Keys.options);
-        vore = Instantiate(CreateBindButton("Vore", keyBindings.voreKey), this.transform);
-        Button vorebtn = CreateButtonPart(vore, Keys.vore);
-        lvl = Instantiate(CreateBindButton("Level up", keyBindings.lvlKey), this.transform);
-        Button lvlbtn = CreateButtonPart(lvl, Keys.lvl);
-        ess = Instantiate(CreateBindButton("Essence", keyBindings.essenceKey), this.transform);
-        Button essbtn = CreateButtonPart(ess, Keys.essence);
-        inv = Instantiate(CreateBindButton("Inventory", keyBindings.inventoryKey), this.transform);
-        Button invbtn = CreateButtonPart(inv, Keys.inventory);
-        esc = Instantiate(CreateBindButton("Esc", keyBindings.escKey), this.transform);
-        Button escbtn = CreateButtonPart(esc, Keys.esc);
-        quest = Instantiate(CreateBindButton("Quest", keyBindings.questKey), this.transform);
-        Button questbtn = CreateButtonPart(quest, Keys.quest);
-        looks = Instantiate(CreateBindButton("Looks", keyBindings.lookKey), this.transform);
-        Button looksbtn = CreateButtonPart(looks, Keys.looks);
-        zoomIn = Instantiate(CreateBindButton("Zoom in", keyBindings.zoomInKey), this.transform);
-        Button zoomInbtn = CreateButtonPart(zoomIn, Keys.zoomIn);
-        zoomOut = Instantiate(CreateBindButton("Zoom out", keyBindings.zoomOutKey), this.transform);
-        Button zoomOutbtn = CreateButtonPart(zoomOut, Keys.zoomOut);
+        save = Instantiate(CreateBindButton("Save", keyBindings.saveKey), transform);
+        CreateButtonPart(save, Keys.save);
+        opt = Instantiate(CreateBindButton("Options", keyBindings.optionsKey), transform);
+        CreateButtonPart(opt, Keys.options);
+        vore = Instantiate(CreateBindButton("Vore", keyBindings.voreKey), transform);
+        CreateButtonPart(vore, Keys.vore);
+        lvl = Instantiate(CreateBindButton("Level up", keyBindings.lvlKey), transform);
+        CreateButtonPart(lvl, Keys.lvl);
+        ess = Instantiate(CreateBindButton("Essence", keyBindings.essenceKey), transform);
+        CreateButtonPart(ess, Keys.essence);
+        inv = Instantiate(CreateBindButton("Inventory", keyBindings.inventoryKey), transform);
+        CreateButtonPart(inv, Keys.inventory);
+        esc = Instantiate(CreateBindButton("Esc", keyBindings.escKey), transform);
+        CreateButtonPart(esc, Keys.esc);
+        quest = Instantiate(CreateBindButton("Quest", keyBindings.questKey), transform);
+        CreateButtonPart(quest, Keys.quest);
+        looks = Instantiate(CreateBindButton("Looks", keyBindings.lookKey), transform);
+        CreateButtonPart(looks, Keys.looks);
+        zoomIn = Instantiate(CreateBindButton("Zoom in", keyBindings.zoomInKey), transform);
+        CreateButtonPart(zoomIn, Keys.zoomIn);
+        zoomOut = Instantiate(CreateBindButton("Zoom out", keyBindings.zoomOutKey), transform);
+        CreateButtonPart(zoomOut, Keys.zoomOut);
     }
 
     private void OnEnable()
@@ -47,22 +46,17 @@ public class SpawnKeyBindings : MonoBehaviour
         waitingForKey = false;
     }
 
-    private GameObject CreateBindButton(string title, KeyCode key)
+    private KeyBindingButton CreateBindButton(string title, KeyCode key)
     {
-        GameObject button = Prefab;
-        TextMeshProUGUI[] texts = button.GetComponentsInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI Title = texts[0];
-        TextMeshProUGUI Key = texts[1];
-        Title.text = title;
-        Key.text = key.ToString();
+        KeyBindingButton button = bindingButton;
+        button.Title.text = title;
+        button.CurKey.text = key.ToString();
         return button;
     }
 
-    private Button CreateButtonPart(GameObject toBind, Keys key)
+    private void CreateButtonPart(KeyBindingButton toBind, Keys key)
     {
-        Button btn = toBind.GetComponentInChildren<Button>();
-        btn.onClick.AddListener(() => WaitFor(key));
-        return btn;
+        toBind.Button.onClick.AddListener(() => WaitFor(key));
     }
 
     private void WaitFor(Keys key)
@@ -101,7 +95,7 @@ public class SpawnKeyBindings : MonoBehaviour
 
             case Keys.essence:
                 keyBindings.essenceKey = newKey;
-                ChangeKeyText(esc, newKey);
+                ChangeKeyText(ess, newKey);
                 break;
 
             case Keys.inventory:
@@ -133,28 +127,30 @@ public class SpawnKeyBindings : MonoBehaviour
                 keyBindings.voreKey = newKey;
                 ChangeKeyText(vore, newKey);
                 break;
+
             case Keys.looks:
                 keyBindings.lookKey = newKey;
                 ChangeKeyText(looks, newKey);
                 break;
+
             case Keys.zoomIn:
                 keyBindings.zoomInKey = newKey;
                 ChangeKeyText(zoomIn, newKey);
                 break;
+
             case Keys.zoomOut:
                 keyBindings.zoomOutKey = newKey;
                 ChangeKeyText(zoomOut, newKey);
                 break;
+
             default:
                 break;
         }
         yield return null;
     }
 
-    private void ChangeKeyText(GameObject button, KeyCode newKey)
+    private void ChangeKeyText(KeyBindingButton button, KeyCode newKey)
     {
-        TextMeshProUGUI[] texts = button.GetComponentsInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI Key = texts[1];
-        Key.text = newKey.ToString();
+        button.CurKey.text = newKey.ToString();
     }
 }
