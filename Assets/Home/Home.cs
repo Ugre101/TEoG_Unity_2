@@ -3,5 +3,8 @@
 [CreateAssetMenu(fileName = "Home", menuName = ("Home"))]
 public class Home : ScriptableObject
 {
-    public HomeStats Stats = new HomeStats();
+    [SerializeField]
+    private HomeStats stats = new HomeStats();
+
+    public HomeStats Stats => stats;
 }

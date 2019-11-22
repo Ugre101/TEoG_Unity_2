@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Ignore
   - SaveMenu
+  - GameUI
   layers:
   - Default
   - TransparentFX

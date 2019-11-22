@@ -1,10 +1,11 @@
 ﻿using System.IO;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class SaveSrollListControl : MonoBehaviour
 {
-    public GameObject exload;
+    public SaveMananger saveMananger;
+    public LoadButton exload;
     public GameObject container;
 
     private DirectoryInfo _dirInfo;
@@ -12,6 +13,7 @@ public class SaveSrollListControl : MonoBehaviour
     private string _path;
     private TextMeshProUGUI[] _textList;
     private TextMeshProUGUI _text;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -48,11 +50,8 @@ public class SaveSrollListControl : MonoBehaviour
         // Add buttons
         foreach (FileInfo f in _fileInfo)
         {
-            GameObject newButton = Instantiate(exload) as GameObject;
-            _textList = newButton.GetComponentsInChildren<TextMeshProUGUI>();
-            _text = _textList[0];
-            _text.text = f.Name.Split('.')[0].Trim();
-            newButton.transform.SetParent(container.transform, false);
+            LoadButton newButton = Instantiate(exload, container.transform);
+            newButton.Setup(saveMananger, f.Name.Split('.')[0].Trim());
             newButton.transform.SetAsFirstSibling();
         }
     }

@@ -3,7 +3,11 @@ using UnityEngine;
 
 public class GameUI : MonoBehaviour
 {
-    public static bool GameIsPaused = false;
+    // In menu pause short keys still work
+    private bool menuPaused = false;
+
+    // Disable shortkeys
+    private bool totalPaused = false;
 
     public KeyBindings keys;
 
@@ -12,6 +16,7 @@ public class GameUI : MonoBehaviour
 
     public GameObject battle;
     public GameObject menus;
+    public GameObject buildings;
 
     [Header("Battle panels")]
     public GameObject combat;
@@ -40,6 +45,7 @@ public class GameUI : MonoBehaviour
 
     [Space]
     public CombatMain combatButtons;
+
     public AfterBattleMain afterBattleActions;
     private float _eventTime;
 
@@ -48,15 +54,16 @@ public class GameUI : MonoBehaviour
         if (Input.GetKeyDown(keys.escKey))
         {
             EscapePause();
-        }else if (Input.GetKeyDown(KeyCode.Space))
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (!GameIsPaused)
+            if (!totalPaused || !menuPaused)
             {
                 gameui.SetActive(!gameui.activeSelf);
             }
         }
         // if in menus or main game(not combat)
-        if (gameui.activeSelf || menus.activeSelf)
+        if (!totalPaused)
         {
             if (Input.GetKeyDown(keys.saveKey))
             {
@@ -113,14 +120,21 @@ public class GameUI : MonoBehaviour
             child.gameObject.SetActive(false);
         }
         ToggleBigPanel(BigPanels.GameUI);
-        GameIsPaused = false;
+        menuPaused = false;
+        totalPaused = false;
         Time.timeScale = 1f;
     }
 
     public void Pause()
     {
         ToggleBigPanel(BigPanels.Menus);
-        GameIsPaused = true;
+        menuPaused = true;
+        Time.timeScale = 0f;
+    }
+
+    public void TotalPause()
+    {
+        totalPaused = true;
         Time.timeScale = 0f;
     }
 
@@ -146,18 +160,14 @@ public class GameUI : MonoBehaviour
 
     public void StartCombat(EnemyPrefab enemy)
     {
-        Pause();
+        TotalPause();
         foreach (Transform p in battle.transform)
         {
             p.gameObject.SetActive(false);
         }
-        // combat.SetActive(true);
         ToggleBigPanel(BigPanels.Battle);
-        // combatButtons.enemyTeamChars.Clear();
-        // combatButtons.enemyTeamChars.Add(enemy);
-        List<EnemyPrefab> toAdd = new List<EnemyPrefab>{enemy};
+        List<EnemyPrefab> toAdd = new List<EnemyPrefab> { enemy };
         combatButtons.SetUpCombat(toAdd);
-        // or add range if more that one
     }
 
     public void LeaveCombat()
@@ -187,6 +197,7 @@ public class GameUI : MonoBehaviour
                 break;
 
             case BigPanels.Buildings:
+                buildings.SetActive(true);
                 break;
 
             case BigPanels.GameUI:
@@ -205,7 +216,7 @@ public class GameUI : MonoBehaviour
 
     public void ResumePause(GameObject toBeActivated)
     {
-        if (GameIsPaused)
+        if (menuPaused)
         {
             Resume();
         }
@@ -218,6 +229,7 @@ public class GameUI : MonoBehaviour
 
     public void EnterHome()
     {
+        TotalPause();
         ToggleBigPanel(BigPanels.Home);
         foreach (Transform child in home.transform)
         {
@@ -240,14 +252,24 @@ public class GameUI : MonoBehaviour
         else if (pausemenu.activeSelf)
         {
             Time.timeScale = 1f;
-            GameIsPaused = false;
+            menuPaused = false;
             pausemenu.SetActive(false);
         }
         else
         {
-            GameIsPaused = true;
+            menuPaused = true;
             Time.timeScale = 0f;
             pausemenu.SetActive(true);
+        }
+    }
+    public void EnterBuilding()
+    {
+        TotalPause();
+        ToggleBigPanel(BigPanels.Buildings);
+        // Disable all buildings
+        foreach(Transform building in buildings.transform)
+        {
+            building.gameObject.SetActive(false);
         }
     }
 }

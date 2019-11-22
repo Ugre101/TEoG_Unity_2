@@ -10,15 +10,17 @@ public class Save
     private readonly Dorm dorm;
     private readonly MapEvents mapEvents;
     private readonly TickManager tickManager;
+    private readonly Home home;
     private PlayerSave save;
 
-    public Save(playerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager)
+    public Save(playerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome)
     {
         Player = player;
         Pos = pos.transform;
         dorm = theDorm;
         mapEvents = map;
         tickManager = manager;
+        home = parHome;
     }
 
     public string SaveData()
@@ -27,7 +29,8 @@ public class Save
         List<DormSave> temp = dorm.Save();
         PosSave pos = new PosSave(Pos.position, mapEvents.ActiveMap, mapEvents.CurrentMap.transform.name);
         DateSave date = tickManager.Save();
-        FullSave fullSave = new FullSave(save, pos, temp, date);
+        HomeSave homeSave = home.Stats.Save();
+        FullSave fullSave = new FullSave(save, pos, temp, date, homeSave);
         Debug.Log(JsonUtility.ToJson(fullSave));
 
         return JsonUtility.ToJson(fullSave);
@@ -37,8 +40,8 @@ public class Save
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
         mapEvents.Load(fullSave.posPart);
-        // Pos.position = fullSave.posPart.pos;
         JsonUtility.FromJsonOverwrite(fullSave.playerPart.who, Player);
+        home.Stats.Load(fullSave.homePart);
         dorm.Load(fullSave.dormPart);
     }
 }
@@ -50,13 +53,15 @@ public class FullSave
     public PosSave posPart;
     public List<DormSave> dormPart;
     public DateSave datePart;
+    public HomeSave homePart;
 
-    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, DateSave date)
+    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, DateSave date, HomeSave parHome)
     {
         playerPart = player;
         posPart = pos;
-        dormPart = dorm;
+        dormPart = dorm; 
         datePart = date;
+        homePart = parHome;
     }
 }
 
@@ -111,5 +116,18 @@ public class DateSave
         month = Month;
         day = Day;
         hour = Hour;
+    }
+}
+
+[Serializable]
+public class HomeSave
+{
+    public int dormLevel, dormGymLevel, dormKitchenLevel;
+
+    public HomeSave(int parDormLevel, int parDormGymLevel, int parDormKitchenLevel)
+    {
+        dormLevel = parDormLevel;
+        dormGymLevel = parDormGymLevel;
+        dormKitchenLevel = parDormKitchenLevel;
     }
 }

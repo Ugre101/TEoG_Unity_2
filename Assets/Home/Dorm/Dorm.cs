@@ -4,44 +4,13 @@ using UnityEngine;
 [System.Serializable]
 public class Dorm : MonoBehaviour
 {
-    public int Level = 0;
-    public int BaseCost = 0;
-    public float CostMod = 1f;
+    public Home home;
 
-    public int Cost
-    {
-        get
-        {
-            return Mathf.CeilToInt(BaseCost * CostMod);
-        }
-    }
+    public bool HasSpace => home.Stats.Dorm.Level * 3 > transform.childCount;
 
-    public bool Upgrade(int gold)
-    {
-        if (Cost > gold)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+    public bool CanTake(BasicChar wannaTake) => HasSpace && wannaTake.sexStats.SessionOrgasm >= 0;
 
-    public bool HasSpace
-    {
-        get
-        {
-            return Level * 3 > this.transform.childCount;
-        }
-    }
-
-    public bool CanTake(BasicChar wannaTake)
-    {
-        return HasSpace && wannaTake.sexStats.SessionOrgasm >= 0;
-    }
-
-    private BasicChar[] arrayServants;
+    private BasicChar[] arrayServants => GetComponentsInChildren<BasicChar>();
     private bool ServantsDirty = true;
 
     [SerializeField]
@@ -53,7 +22,6 @@ public class Dorm : MonoBehaviour
         {
             if (ServantsDirty)
             {
-                arrayServants = GetComponentsInChildren<BasicChar>();
                 lastServants = new List<BasicChar>(arrayServants);
                 ServantsDirty = false;
             }
@@ -63,7 +31,7 @@ public class Dorm : MonoBehaviour
 
     public void AddTo(GameObject toAdd)
     {
-        GameObject sercv = Instantiate(toAdd, this.transform);
+        GameObject sercv = Instantiate(toAdd, transform);
         sercv.name = toAdd.name;
         ServantsDirty = true;
     }
@@ -83,10 +51,7 @@ public class Dorm : MonoBehaviour
 
     public void Load(List<DormSave> toLoad)
     {
-        foreach(Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
+        transform.KillChildren();
         foreach(DormSave ds in toLoad)
         {
             if (servantPrefabs.Exists(n => n.name == ds.name))

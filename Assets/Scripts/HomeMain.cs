@@ -4,10 +4,14 @@ public class HomeMain : MonoBehaviour
 {
     public GameUI gameUI;
     public GameObject HouseStart;
+    public Home home;
+    private void OnEnable()
+    {
 
+    }
     public void ToStart()
     {
-        foreach (Transform child in this.transform)
+        foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }

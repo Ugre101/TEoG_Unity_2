@@ -6,27 +6,24 @@ using UnityEngine.UI;
 public class LoadButton : MonoBehaviour
 {
     private SaveMananger saveMananger;
-    private playerMain player;
-    private Transform pos;
-    private Dorm dorm;
-    private GameUI gameUI;
-    private MapEvents mapEvents;
-    private TickManager tickManager;
+    // Short commands
+    private playerMain player => saveMananger.player;
+    private Transform pos => saveMananger.playerSprite;
+    private Dorm dorm => saveMananger.dorm;
+    private GameUI gameUI => saveMananger.gameUI;
+    private MapEvents mapEvents => saveMananger.mapEvents;
+    private TickManager tickManager => saveMananger.tickManager;
+    [SerializeField]
+    private Home home;
     public TextMeshProUGUI title;
     public Button load, del;
 
     private string _mainPath;
 
-    // Start is called before the first frame update
-    private void Start()
+    public void Setup(SaveMananger parSaveMananger,string parTitle)
     {
-        saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
-        player = saveMananger.player;
-        pos = saveMananger.playerSprite;
-        gameUI = saveMananger.gameUI;
-        dorm = saveMananger.dorm;
-        mapEvents = saveMananger.mapEvents;
-        tickManager = saveMananger.tickManager;
+        saveMananger = parSaveMananger;
+        title.text = parTitle;
         _mainPath = Application.persistentDataPath + "/Game_Save/";
         if (!Directory.Exists(_mainPath))
         {
@@ -37,14 +34,18 @@ public class LoadButton : MonoBehaviour
         del.onClick.AddListener(DeleteSave);
     }
 
+
     public void LoadGame()
     {
-        Save save = new Save(player, pos, dorm, mapEvents, tickManager);
         string path = CurrentPath();
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
+            Save save = new Save(player, pos, dorm, mapEvents, tickManager, home);
             save.LoadData(json);
+        }else
+        {
+            Debug.Log("Error load failed...");
         }
         gameUI.Resume();
     }

@@ -56,18 +56,20 @@ public class LoadButtonStart : MonoBehaviour
     private MapEvents mapEvents;
     private SaveMananger saveMananger;
     private TickManager tickManager;
+    [SerializeField]
+    private Home home;
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("Running");
         saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
-        player = saveMananger.player; //GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
-        pos = saveMananger.playerSprite; //GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-        gameUI = saveMananger.gameUI; //GameObject.Find("Canvas").GetComponent<GameUI>();
-        dorm = saveMananger.dorm; //GameObject.Find("Dorm-servants").GetComponent<Dorm>();
+        player = saveMananger.player;
+        pos = saveMananger.playerSprite; 
+        gameUI = saveMananger.gameUI; 
+        dorm = saveMananger.dorm; 
         mapEvents = saveMananger.mapEvents;
         tickManager = saveMananger.tickManager;
-        Save save = new Save(player, pos, dorm, mapEvents, tickManager);
+        Save save = new Save(player, pos, dorm, mapEvents, tickManager,home);
         string path = CurrentPath();
         Debug.Log(path);
         Debug.Log(File.Exists(path));
