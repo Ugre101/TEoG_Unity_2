@@ -74,7 +74,9 @@ public class CombatMain : MonoBehaviour
     public void SetUpCombat(List<EnemyPrefab> enemies)
     {
         gameObject.SetActive(true);
+        // Clear battle log
         _battleLog.Clear();
+        _textbox.text = "";
         _turn = 1;
 
         enemyTeamChars.Clear();

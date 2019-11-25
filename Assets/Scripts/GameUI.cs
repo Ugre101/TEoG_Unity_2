@@ -108,7 +108,7 @@ public class GameUI : MonoBehaviour
                     openEventlog.SetActive(openEventlog.activeSelf ? false : true);
                     closedEventlog.SetActive(closedEventlog.activeSelf ? false : true);
                 }
-                else if (bigEventLog()) { }
+                else if (BigEventLog()) { }
             }
         }
     }
@@ -119,7 +119,7 @@ public class GameUI : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
-        ToggleBigPanel(BigPanels.GameUI);
+        ToggleBigPanel(gameui);
         menuPaused = false;
         totalPaused = false;
         Time.timeScale = 1f;
@@ -127,7 +127,7 @@ public class GameUI : MonoBehaviour
 
     public void Pause()
     {
-        ToggleBigPanel(BigPanels.Menus);
+        ToggleBigPanel(menus);
         menuPaused = true;
         Time.timeScale = 0f;
     }
@@ -143,7 +143,7 @@ public class GameUI : MonoBehaviour
         Application.Quit();
     }
 
-    public bool bigEventLog()
+    public bool BigEventLog()
     {
         if (gameui.activeSelf)
         {
@@ -165,7 +165,7 @@ public class GameUI : MonoBehaviour
         {
             p.gameObject.SetActive(false);
         }
-        ToggleBigPanel(BigPanels.Battle);
+        ToggleBigPanel(battle);
         List<EnemyPrefab> toAdd = new List<EnemyPrefab> { enemy };
         combatButtons.SetUpCombat(toAdd);
     }
@@ -175,43 +175,13 @@ public class GameUI : MonoBehaviour
         Resume();
     }
 
-    public enum BigPanels
-    {
-        GameUI,
-        Menus,
-        Battle,
-        Buildings,
-        Home
-    }
-
-    private void ToggleBigPanel(BigPanels panel)
+    private void ToggleBigPanel(GameObject toActivate)
     {
         foreach (Transform bigPanel in transform)
         {
             bigPanel.gameObject.SetActive(false);
         }
-        switch (panel)
-        {
-            case BigPanels.Battle:
-                battle.SetActive(true);
-                break;
-
-            case BigPanels.Buildings:
-                buildings.SetActive(true);
-                break;
-
-            case BigPanels.GameUI:
-                gameui.SetActive(true);
-                break;
-
-            case BigPanels.Menus:
-                menus.SetActive(true);
-                break;
-
-            case BigPanels.Home:
-                home.SetActive(true);
-                break;
-        }
+        toActivate.SetActive(true);
     }
 
     public void ResumePause(GameObject toBeActivated)
@@ -230,7 +200,7 @@ public class GameUI : MonoBehaviour
     public void EnterHome()
     {
         TotalPause();
-        ToggleBigPanel(BigPanels.Home);
+        ToggleBigPanel(home);
         foreach (Transform child in home.transform)
         {
             child.gameObject.SetActive(false);
@@ -262,12 +232,13 @@ public class GameUI : MonoBehaviour
             pausemenu.SetActive(true);
         }
     }
+
     public void EnterBuilding()
     {
         TotalPause();
-        ToggleBigPanel(BigPanels.Buildings);
+        ToggleBigPanel(buildings);
         // Disable all buildings
-        foreach(Transform building in buildings.transform)
+        foreach (Transform building in buildings.transform)
         {
             building.gameObject.SetActive(false);
         }

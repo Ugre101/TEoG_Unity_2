@@ -6,13 +6,13 @@ public class KeyBindingButton : MonoBehaviour
 {
 
     [SerializeField]
-    private TextMeshProUGUI title;
+    private TextMeshProUGUI title = null;
 
     [SerializeField]
-    private TextMeshProUGUI curKey;
+    private TextMeshProUGUI curKey = null;
 
     [SerializeField]
-    private Button btn;
+    private Button btn = null;
 
     public TextMeshProUGUI Title => title;
     public TextMeshProUGUI CurKey => curKey;

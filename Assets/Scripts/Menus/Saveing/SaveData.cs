@@ -11,9 +11,10 @@ public class Save
     private readonly MapEvents mapEvents;
     private readonly TickManager tickManager;
     private readonly Home home;
+    private EventLog eventLog;
     private PlayerSave save;
 
-    public Save(playerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome)
+    public Save(playerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome,EventLog parEventLog)
     {
         Player = player;
         Pos = pos.transform;
@@ -21,6 +22,7 @@ public class Save
         mapEvents = map;
         tickManager = manager;
         home = parHome;
+        eventLog = parEventLog;
     }
 
     public string SaveData()
@@ -43,6 +45,7 @@ public class Save
         JsonUtility.FromJsonOverwrite(fullSave.playerPart.who, Player);
         home.Stats.Load(fullSave.homePart);
         dorm.Load(fullSave.dormPart);
+        eventLog.ClearLog();
     }
 }
 

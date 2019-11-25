@@ -5,8 +5,6 @@ using UnityEngine;
 public class PerkTreeEditor : Editor
 {
     private PerkTree perkTree;
-    private Rect dropArea;
-
     public override void OnInspectorGUI()
     {
         perkTree = (PerkTree)target;

@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b816594eb50fc1446abe310662adc673, type: 3}
   m_Name: Eventlog
   m_EditorClassIdentifier: 
+  text:
+  - Hello Log
+  - Hello Log
+  - Hello Log

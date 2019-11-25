@@ -8,67 +8,48 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
 {
     // Public
     public GameUI gameui;
-    public EventLog eventlog;
+    public EventLog eventLog;
     public KeyBindings keys;
     // Private
-    private TextMeshProUGUI _eventLog;
+    [SerializeField]
+    private TextMeshProUGUI logText;
 
-    private bool _oneClick = false;
-    private float _time;
-    private float _down, _up;
-    private static List<string> _loggedText = new List<string>();
-
-    // Remember that this script handles both small eventlog and big.
-    // Start is called before the first frame update.
-    private void Awake()
-    {
-        _eventLog = GetComponentInChildren<TextMeshProUGUI>();
-        if (_eventLog != null)
-        {
-            _eventLog.text = "works";
-        }
-        else
-        {
-            // if script can't find tmpro kill script
-            this.enabled = false;
-        }
-        _time = Time.time;
-        EventLog.eventText += PrintEventlog;
-    }
+    private bool oneClick = false;
+    private float timeFirstClick;
 
     private void OnEnable()
     {
+        EventLog.eventText += PrintEventlog;
         PrintEventlog();
     }
-
+    private void OnDisable()
+    {
+        EventLog.eventText -= PrintEventlog;
+    }
     public void OnPointerClick(PointerEventData data)
     {
-        if (_oneClick)
+        if (oneClick)
         {
-            if (data.clickTime - _time > 0.7f)
+            if (data.clickTime - timeFirstClick > 0.7f)
             {
                 // if time since last click more than 1f just reset time
-                _time = data.clickTime;
+                timeFirstClick = data.clickTime;
             }
             else
             {
-                // else handle double click
-                _oneClick = false;
-                if (gameui.bigEventLog())
-                {
-                    PrintEventlog();
-                }
+                oneClick = false;
+                _ = gameui.BigEventLog();
             }
         }
         else
         {
-            _oneClick = true;
-            _time = data.clickTime;
+            oneClick = true;
+            timeFirstClick = data.clickTime;
         }
     }
 
     private void PrintEventlog()
     {
-        _eventLog.text = eventlog.Print();
+        logText.text = eventLog.Print();
     }
 }

@@ -7,22 +7,28 @@ public class EventLog : ScriptableObject
 {
     [SerializeField]
     private List<string> text = new List<string>();
+
     public void AddTo(string addText)
     {
-        text.Add(addText);
+        text.Insert(0,addText);
         eventText?.Invoke();
     }
     public string Print()
     {
         string toPrint = "";
-        List<string> lastFirst = text;
-        lastFirst.Reverse();
-        foreach(string line in lastFirst)
+        foreach(string line in text)
         {
-            toPrint += string.Format("{0}{1}{1}", line, System.Environment.NewLine);
+            toPrint += line + "\n\n";
         }
         return toPrint;
     }
+
+    public void ClearLog()
+    {
+        text.Clear();
+        eventText?.Invoke();
+    }
+
     public delegate void EventText();
     public static event EventText eventText;
 }

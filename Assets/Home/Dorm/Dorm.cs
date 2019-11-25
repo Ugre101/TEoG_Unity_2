@@ -10,7 +10,7 @@ public class Dorm : MonoBehaviour
 
     public bool CanTake(BasicChar wannaTake) => HasSpace && wannaTake.sexStats.SessionOrgasm >= 0;
 
-    private BasicChar[] arrayServants => GetComponentsInChildren<BasicChar>();
+    private BasicChar[] ArrayServants => GetComponentsInChildren<BasicChar>();
     private bool ServantsDirty = true;
 
     [SerializeField]
@@ -22,7 +22,7 @@ public class Dorm : MonoBehaviour
         {
             if (ServantsDirty)
             {
-                lastServants = new List<BasicChar>(arrayServants);
+                lastServants = new List<BasicChar>(ArrayServants);
                 ServantsDirty = false;
             }
             return lastServants;

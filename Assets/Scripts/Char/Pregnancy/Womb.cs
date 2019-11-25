@@ -5,13 +5,13 @@ using UnityEngine;
 public class Womb 
 {
     private List<Fetus> fetuses = new List<Fetus>();
-
-    public bool Grow()
+    public bool HasFetus => fetuses.Count > 0;
+    public bool Grow(float parDaysToGrow = 1f)
     {
         bool waitingToBeBorn = false;
         foreach(Fetus f in fetuses)
         {
-            if (f.Grow())
+            if (f.Grow(parDaysToGrow))
             {
                 waitingToBeBorn = true;
             }

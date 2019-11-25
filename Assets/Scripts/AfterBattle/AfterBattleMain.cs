@@ -17,8 +17,8 @@ public class AfterBattleMain : MonoBehaviour
     [SerializeField]
     private GameObject buttons = null;
 
-    [SerializeField]
-    private GameObject DrainActions = null, MiscActions = null;
+//    [SerializeField]
+//    private GameObject DrainActions = null, MiscActions = null;
 
     [SerializeField]
     private GameObject drainMasc = null, drainFemi = null;
@@ -61,7 +61,6 @@ public class AfterBattleMain : MonoBehaviour
     {
         gameObject.SetActive(true);
         enemies = chars;
-        RefreshScenes();
         _textBox.text = null;
         LastScene = null;
         newTarget = null;
@@ -70,6 +69,8 @@ public class AfterBattleMain : MonoBehaviour
         playerChar.Setup(player);
         enemyChar.Setup(Target);
         SexStats.orgasmed += RefreshScenes;
+        player.sexStats.Reset();
+        RefreshScenes();
     }
 
     public void RefreshScenes()

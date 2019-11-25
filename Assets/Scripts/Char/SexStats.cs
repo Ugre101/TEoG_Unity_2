@@ -2,7 +2,7 @@
 {
     private readonly float maxArousal = 100f;
     private int currOrgasm = 0;
-    public float Arousal { get; private set; }
+    public float Arousal { get; private set; } = 0;
     public int Orgasms { get; private set; } = 0;
     public int SessionOrgasm { get; private set; } = 0;
 

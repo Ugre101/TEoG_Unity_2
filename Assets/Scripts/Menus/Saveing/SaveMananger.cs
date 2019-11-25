@@ -11,6 +11,7 @@ public class SaveMananger : MonoBehaviour
     public MapEvents mapEvents;
     public TickManager tickManager;
     public Home home;
+    public EventLog eventLog;
     private string _mainPath;
     private string lastSavePath;
 
@@ -41,7 +42,7 @@ public class SaveMananger : MonoBehaviour
         }
         cleanPath = cleanPath.Replace(" ", string.Empty);
         lastSavePath = _mainPath + cleanPath + ".json";
-        Save save = new Save(player, playerSprite, dorm, mapEvents, tickManager,home);
+        Save save = new Save(player, playerSprite, dorm, mapEvents, tickManager, home, eventLog);
         File.WriteAllText(lastSavePath, save.SaveData());
     }
 

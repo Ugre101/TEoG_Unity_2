@@ -10,7 +10,7 @@ public class LoseMain : MonoBehaviour
 
     public GameObject Leave;
     public SexChar playerChar, enemyChar;
-    private EnemyPrefab newTarget;
+    private EnemyPrefab newTarget = null;
     public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
 
     public void Setup(List<EnemyPrefab> parEnemies) 
