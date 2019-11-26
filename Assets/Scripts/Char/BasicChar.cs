@@ -25,6 +25,7 @@ public abstract class BasicChar : MonoBehaviour
         Looks = new Looks(this);
         Vore = new VoreEngine(this);
         Age = new Age();
+        pregnancySystem = new PregnancySystem(this);
     }
 
     [SerializeField]
@@ -249,6 +250,9 @@ public abstract class BasicChar : MonoBehaviour
     }
 
     public Flags Flags;
+    [SerializeField]
+    private PregnancySystem pregnancySystem;
+    public PregnancySystem PregnancySystem => pregnancySystem;
 
     [Header("Organs")]
     [SerializeField]

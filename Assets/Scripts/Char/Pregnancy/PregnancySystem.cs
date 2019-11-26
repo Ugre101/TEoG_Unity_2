@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
+[Serializable]
 public class PregnancySystem
 {
     public PregnancySystem(BasicChar parWho)
     {
         who = parWho;
     }
-
+    [SerializeField]
     private BasicChar who;
     private List<Child> children = new List<Child>();
 
@@ -25,9 +28,25 @@ public class PregnancySystem
 
     public void SetFertility(float parChange) => fertility += parChange;
 
-    // growth in days
-    private float baseFetusGrowth = 1f;
+    public bool Impregnate(BasicChar parFather)
+    {
+        // TODO add random.range where, motherRoll gets smaller and father higher
+        float motherRoll = GetFertility;
+        float fatherRoll = parFather.PregnancySystem.GetVirility;
+        if (motherRoll < fatherRoll)
+        {
+            // if mother has empty womb then impregnate first empty womb
+            if (who.Vaginas.Exists(v => !v.Womb.HasFetus))
+            {
+                who.Vaginas.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(who, parFather);
+            }
+        }
+        return false;
+    }
 
+    // growth in days
+    private readonly float baseFetusGrowth = 1f;
+    [SerializeField]
     private float bonusFetusGrowth = 0f;
     private float FinalGrowthRate => baseFetusGrowth + bonusFetusGrowth;
 
