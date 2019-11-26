@@ -21,7 +21,7 @@ public class MilkBar : FluidSliders
     }
     private void MilkChange()
     {
-        slider.value = player.MilkSlider();
+        slider.value = player.MilkSlider;
         if (statusText != null)
         {
             statusText.text = convert.LorGal(player.Boobs.MilkTotal()/1000);

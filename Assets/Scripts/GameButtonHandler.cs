@@ -18,7 +18,7 @@ public class GameButtonHandler : MonoBehaviour
            } */
         levelNotNull = LevelUp != null;
         voreNotNull = Vore != null;
-        hasLeveld = player.PerkPoints > 0;
+        hasLeveld = player.ExpSystem.PerkPoints > 0;
         if (levelNotNull)
         {
             LevelUp.SetActive(hasLeveld);

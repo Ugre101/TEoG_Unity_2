@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+using Vore;
 public enum Genders
 {
     Male,
@@ -107,16 +107,8 @@ public abstract class BasicChar : MonoBehaviour
 
     [Header("Level,exp, stats & perks")]
     [SerializeField]
-    public ExpSystem expSystem = new ExpSystem();
-
-    public int Level => expSystem.Level;
-    public int Exp { get => expSystem.Exp; set { expSystem.Exp += value; } }
-    public int StatsPoints => expSystem.StatPoints;
-    public bool StatBool => expSystem.StatBool();
-    public int PerkPoints => expSystem.PerkPoints;
-
-    /// <summary> Checks if char has perkpoints, and if true it subtracts one point and return true. </summary>
-    public bool PerkBool => expSystem.PerkBool();
+    private ExpSystem expSystem = new ExpSystem();
+    public ExpSystem ExpSystem => expSystem;
 
     [SerializeField]
     public Perks Perk = new Perks();
@@ -138,7 +130,7 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField]
     private bool autoEss = true;
 
-    public bool AutoEss { get { return autoEss; } }
+    public bool AutoEss => autoEss;
 
     // Maybe a bit overkill but I want to make sure autoEss isn't toggled by mistake
     public void ToggleAutoEssence() => autoEss = !autoEss;
@@ -237,13 +229,15 @@ public abstract class BasicChar : MonoBehaviour
 
     public float Gold
     {
-        get { return Mathf.Floor(gold); }
-        set
-        {
-            gold += Mathf.Clamp(value, -gold, Mathf.Infinity);
-        }
+        get => Mathf.Floor(gold);
+        set => gold += Mathf.Clamp(value, -gold, Mathf.Infinity);
     }
 
+    /// <summary>
+    /// Checks if you can afford it and if you can; pay it else return false and lose zero gold.
+    /// </summary>
+    /// <param name="cost"></param>
+    /// <returns></returns>
     public bool CanAfford(int cost)
     {
         if (cost <= Gold)
@@ -251,10 +245,7 @@ public abstract class BasicChar : MonoBehaviour
             Gold -= cost;
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     public Flags Flags;
@@ -263,52 +254,47 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField]
     private List<Dick> dicks = new List<Dick>();
 
-    public List<Dick> Dicks { get { return dicks; } }
+    public List<Dick> Dicks => dicks;
 
     [SerializeField]
     private List<Balls> balls = new List<Balls>();
 
-    public List<Balls> Balls { get { return balls; } }
+    public List<Balls> Balls => balls;
 
-    public float CumSlider()
-    {
-        return Balls.CumTotal() / Balls.CumMax();
-    }
+    public float CumSlider => Balls.CumTotal() / Balls.CumMax();
 
-    public string CumStatus()
-    {
-        return $"{Mathf.Round(Balls.CumTotal())}";
-    }
+    public string CumStatus => $"{Mathf.Round(Balls.CumTotal())}";
 
     [SerializeField]
     private List<Boobs> boobs = new List<Boobs>();
 
-    public List<Boobs> Boobs { get { return boobs; } }
+    public List<Boobs> Boobs => boobs;
 
     [SerializeField]
     private bool lactating = false;
 
-    public bool Lactating { get { return lactating; } }
+    public bool Lactating => lactating;
 
-    public float MilkSlider()
-    {
-        return Boobs.MilkTotal() / Boobs.MilkMax();
-    }
+    public float MilkSlider => Boobs.MilkTotal() / Boobs.MilkMax();
 
-    public string MilkStatus()
-    {
-        return $"{Mathf.Round(Boobs.MilkTotal() / 1000)}";
-    }
+    public string MilkStatus => $"{Mathf.Round(Boobs.MilkTotal() / 1000)}";
 
     [SerializeField]
     private List<Vagina> vaginas = new List<Vagina>();
 
-    public List<Vagina> Vaginas { get { return vaginas; } }
-    public SexStats sexStats = new SexStats();
+    public List<Vagina> Vaginas => vaginas;
+
+    [SerializeField]
+    private SexStats sexStats = new SexStats();
+
+    public SexStats SexStats => sexStats;
 
     public virtual void Start()
     {
-        basicCharGame = GetComponent<BasicCharGame>();
+        if (basicCharGame == null)
+        {
+            basicCharGame = GetComponent<BasicCharGame>();
+        }
         foreach (BasicSkill s in skillsToAdd)
         {
             skills.Add(new UserSkill(s));
@@ -316,10 +302,7 @@ public abstract class BasicChar : MonoBehaviour
         //Inventory.Owner = this;
     }
 
-    private void Update()
-    {
-        RefreshOrgans();
-    }
+    private void Update() => RefreshOrgans();
 
     public void RefreshOrgans()
     {
@@ -422,44 +405,20 @@ public abstract class BasicChar : MonoBehaviour
 [System.Serializable]
 public class UserSkill
 {
-    public UserSkill(BasicSkill basicSkill)
-    {
-        skill = basicSkill;
-    }
+    public UserSkill(BasicSkill basicSkill) => skill = basicSkill;
 
     public BasicSkill skill;
-    private int coolDownTimer = 0;
-    public int TurnsLeft => coolDownTimer;
+
+    public int TurnsLeft { get; private set; } = 0;
 
     public float CoolDownPercent => skill.CoolDown != 0 ? TurnsLeft / (float)skill.CoolDown : 1;
 
-    public bool Ready
-    {
-        get
-        {
-            if (skill.HasCoolDown)
-            {
-                return TurnsLeft < 1;
-            }
-            else
-            {
-                return true;
-            }
-        }
-    }
+    public bool Ready => skill.HasCoolDown ? TurnsLeft < 1 : true;
 
-    public void StartCoolDown()
-    {
-        coolDownTimer = skill.CoolDown;
-    }
 
-    public void RefreshCoolDown(int n = 1)
-    {
-        coolDownTimer -= n;
-    }
+    public void StartCoolDown() => TurnsLeft = skill.CoolDown;
 
-    public void ResetCoolDown()
-    {
-        coolDownTimer = 0;
-    }
+    public void RefreshCoolDown(int n = 1) => TurnsLeft -= n;
+
+    public void ResetCoolDown() => TurnsLeft = 0;
 }

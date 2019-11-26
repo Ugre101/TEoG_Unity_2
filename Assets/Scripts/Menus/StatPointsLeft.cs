@@ -13,16 +13,16 @@ public class StatPointsLeft : MonoBehaviour
         {
             this.GetComponent<StatPointsLeft>().enabled = false;
         }
-        lastLeft = player.StatsPoints;
+        lastLeft = player.ExpSystem.StatPoints;
         textUGUI.text = $"Statpoints: {lastLeft}";
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (lastLeft != player.StatsPoints)
+        if (lastLeft != player.ExpSystem.StatPoints)
         {
-            lastLeft = player.StatsPoints;
+            lastLeft = player.ExpSystem.StatPoints;
             textUGUI.text = $"Statpoints: {lastLeft}";
         }
     }

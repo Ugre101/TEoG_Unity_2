@@ -69,13 +69,13 @@ public class AfterBattleMain : MonoBehaviour
         playerChar.Setup(player);
         enemyChar.Setup(Target);
         SexStats.orgasmed += RefreshScenes;
-        player.sexStats.Reset();
+        player.SexStats.Reset();
         RefreshScenes();
     }
 
     public void RefreshScenes()
     {
-        if (player.sexStats.SessionOrgasm < 1)
+        if (player.SexStats.SessionOrgasm < 1)
         {
             SceneChecker(buttons,
                 new List<List<SexScenes>> { dickScenes, mouthScenes, boobScenes, vaginaScenes, analScenes });
@@ -85,11 +85,11 @@ public class AfterBattleMain : MonoBehaviour
         {
             transform.KillChildren(buttons.transform);
         }
-        if (Target.CanTake(Target.sexStats.SessionOrgasm))
+        if (Target.CanTake(Target.SexStats.SessionOrgasm))
         {
             TakeHome.SetActive(dorm.CanTake(Target));
         }
-        if (Target.sexStats.CanDrain)
+        if (Target.SexStats.CanDrain)
         {
             drainMasc.gameObject.SetActive(Target.Essence.CanDrainMasc);
             drainFemi.gameObject.SetActive(Target.Essence.CanDrainFemi);

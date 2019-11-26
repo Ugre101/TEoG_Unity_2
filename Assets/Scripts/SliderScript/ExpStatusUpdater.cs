@@ -15,7 +15,7 @@ public class ExpStatusUpdater : MonoBehaviour
     {
         slider = GetComponent<Slider>();
         ExpSystem.expChange += expSsagdsaa;
-        player.expSystem.manualExpUpdate();
+        player.ExpSystem.ManualExpUpdate();
     }
     private void OnDisable()
     {
@@ -29,15 +29,15 @@ public class ExpStatusUpdater : MonoBehaviour
     {
         if (slider != null)
         {
-            slider.value = player.expSystem.ExpSlider();
+            slider.value = player.ExpSystem.ExpSlider;
         }
         if (_statusExp != null)
         {
-            _statusExp.text = player.expSystem.ExpStatus();
+            _statusExp.text = player.ExpSystem.ExpStatus;
         }
         if (_statusLevel != null)
         {
-            _statusLevel.text = player.expSystem.LevelStatus();
+            _statusLevel.text = player.ExpSystem.LevelStatus;
         }
     }
 }

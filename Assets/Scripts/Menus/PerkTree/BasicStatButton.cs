@@ -16,7 +16,7 @@ public class BasicStatButton : PerkTreeBasicBtn
 
     public override void Use()
     {
-        if (player.PerkBool)
+        if (player.ExpSystem.PerkBool())
         {
             taken = true;
             player.Stats.GetStat(stat)._baseValue += statAmount;

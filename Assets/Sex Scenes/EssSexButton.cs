@@ -19,7 +19,7 @@ public class EssSexButton : MonoBehaviour
         afterBattle.AddToTextBox(afterBattle.LastScene == scene ?
             scene.ContinueScene(Caster, Other) : scene.StartScene(Caster, Other));
         afterBattle.LastScene = scene;
-        Other.sexStats.Drained();
+        Other.SexStats.Drained();
         afterBattle.RefreshScenes();
     }
 }

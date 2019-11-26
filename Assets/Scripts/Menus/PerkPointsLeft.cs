@@ -21,16 +21,16 @@ public class PerkPointsLeft : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
         }
-        lastLeft = player.PerkPoints;
+        lastLeft = player.ExpSystem.PerkPoints;
         textUGUI.text = $"Perkpoints: {lastLeft}";
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (lastLeft != player.PerkPoints)
+        if (lastLeft != player.ExpSystem.PerkPoints)
         {
-            lastLeft = player.PerkPoints;
+            lastLeft = player.ExpSystem.PerkPoints;
             textUGUI.text = $"Perkpoints: {lastLeft}";
         }
     }

@@ -6,20 +6,22 @@ public class ExpSystem
     [SerializeField]
     private int level = 0;
 
-    public int Level { get { return level; } set { level = value; } }
+    // TODO decide if set level should be public or not, problem is setting level of enemies will be harder
+    // if it isn't
+    public int Level { get => level; set { level = value; } }
 
     [SerializeField]
     private int exp = 0;
 
     public int Exp
     {
-        get { return exp; }
+        get => exp;
         set
         {
-            exp += value;
-            while (exp > MaxExp())
+            exp += Mathf.Max(0, value);
+            while (exp > MaxExp)
             {
-                exp -= MaxExp();
+                exp -= MaxExp;
                 level++;
                 statPoints += 3;
                 perkPoints++;
@@ -31,65 +33,51 @@ public class ExpSystem
     [SerializeField]
     private int perkPoints = 0;
 
-    public int PerkPoints { get { return perkPoints; } set { perkPoints += value; } }
+    /// <summary>
+    /// Show amount of parkpoints, note you can only add extra perkpoints not remove. This is to avoid
+    /// getting negative amount of points. All 
+    /// </summary>
+    public int PerkPoints { get => perkPoints; set { perkPoints += Mathf.Max(0,value); } }
 
-    public bool PerkBool()
+    public bool PerkBool(int parCost = 1)
     {
-        if (perkPoints > 0)
+        if (perkPoints >= parCost)
         {
-            perkPoints--;
+            perkPoints -= parCost;
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     [SerializeField]
     private int statPoints = 0;
 
-    public int StatPoints { get { return statPoints; } set { statPoints += value; } }
+    public int StatPoints => statPoints;
 
-    public bool StatBool()
+    public bool StatBool
     {
-        if (statPoints > 0)
+        get
         {
-            statPoints--;
-            return true;
-        }
-        else
-        {
+            if (statPoints > 0)
+            {
+                statPoints--;
+                return true;
+            }
             return false;
         }
     }
 
-    public float ExpSlider()
-    {
-        return (float)Exp / (float)MaxExp();
-    }
+    public float ExpSlider => Exp / (float)MaxExp;
 
-    public string ExpStatus()
-    {
-        return $"{Exp}/{MaxExp()}";
-    }
+    public string ExpStatus => $"{Exp}/{MaxExp}";
 
-    private int MaxExp()
-    {
-        return (int)Mathf.Round(30f * Mathf.Pow(1.05f, level - 1f));
-    }
+    private int MaxExp => Mathf.RoundToInt(30f * Mathf.Pow(1.05f, level - 1f));
 
-    public string LevelStatus()
-    {
-        return $"Level: {level}";
-    }
+    public string LevelStatus => $"Level: {level}";
 
     public delegate void ExpChange();
 
     public static event ExpChange expChange;
 
-    public void manualExpUpdate()
-    {
-        expChange();
-    }
+    public void ManualExpUpdate() => expChange?.Invoke();
 }

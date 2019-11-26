@@ -107,8 +107,8 @@ public class SexScenes : ScriptableObject
         float PlayerGain = CasterGain * Mathf.Pow(EnduranceMultiplier, player.Stats.End);
         float OtherGain = ReciverGain * Mathf.Pow(CharmMultiplier, player.Stats.Charm) *
             Mathf.Pow(EnduranceMultiplier, other.Stats.End);
-        player.sexStats.GainArousal(PlayerGain);
-        other.sexStats.GainArousal(OtherGain);
+        player.SexStats.GainArousal(PlayerGain);
+        other.SexStats.GainArousal(OtherGain);
     }
 
     public string CmOrInch(float size)

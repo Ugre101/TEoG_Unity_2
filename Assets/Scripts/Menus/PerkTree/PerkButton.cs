@@ -7,6 +7,9 @@ public class PerkButton : PerkTreeBasicBtn
 
     public Sprite icon;
 
+    [SerializeField]
+    private int perkCost = 1;
+
     public override void Start()
     {
         base.Start();
@@ -15,6 +18,7 @@ public class PerkButton : PerkTreeBasicBtn
             rune.sprite = icon;
         }
     }
+
     public override void OnEnable()
     {
         if (player != null)
@@ -28,7 +32,7 @@ public class PerkButton : PerkTreeBasicBtn
     {
         if (player.Perk.HasPerk(perk) ? player.Perk.NotMaxLevel(perk, perkInfo.MaxLevel) : true)
         {
-            if (player.PerkBool)
+            if (player.ExpSystem.PerkBool(perkCost))
             {
                 taken = true;
                 player.Perk.GainPerk(perk);

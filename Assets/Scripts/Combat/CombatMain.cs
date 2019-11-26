@@ -202,7 +202,7 @@ public class CombatMain : MonoBehaviour
     {
         foreach (EnemyPrefab e in enemyTeamChars)
         {
-            player.Exp += e.reward.ExpReward;
+            player.ExpSystem.Exp += e.reward.ExpReward;
             player.Gold += e.reward.GoldReward;
         }
         afterBattle.Setup(enemyTeamChars);

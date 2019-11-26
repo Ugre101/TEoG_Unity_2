@@ -21,7 +21,7 @@ public class CumBar : FluidSliders
 
     private void CumChange()
     {
-        slider.value = player.CumSlider();
+        slider.value = player.CumSlider;
         if (statusText != null)
         {
             statusText.text = convert.LorGal(player.Balls.CumTotal()/1000);

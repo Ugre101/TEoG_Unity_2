@@ -74,7 +74,7 @@ public class LevelMenu : MonoBehaviour
 
     private void GainStr()
     {
-        if (_player.StatBool)
+        if (_player.ExpSystem.StatBool)
         {
             _player.Stats.strength._baseValue++;
             _strText.text = $"Strength: {_player.Stats.strength._baseValue}";
@@ -83,7 +83,7 @@ public class LevelMenu : MonoBehaviour
 
     private void GainCharm()
     {
-        if (_player.StatBool)
+        if (_player.ExpSystem.StatBool)
         {
             _player.Stats.charm._baseValue++;
             _charmText.text = $"Charm: {_player.Stats.charm._baseValue}";
@@ -92,7 +92,7 @@ public class LevelMenu : MonoBehaviour
 
     private void GainEnd()
     {
-        if (_player.StatBool)
+        if (_player.ExpSystem.StatBool)
         {
             _player.Stats.endurance._baseValue++;
             _endText.text = $"Endurance: {_player.Stats.endurance._baseValue}";
@@ -101,7 +101,7 @@ public class LevelMenu : MonoBehaviour
 
     private void GainDex()
     {
-        if (_player.StatBool)
+        if (_player.ExpSystem.StatBool)
         {
             _player.Stats.dexterity._baseValue++;
             _dexText.text = $"Dexterity: {_player.Stats.dexterity._baseValue}";
@@ -111,7 +111,7 @@ public class LevelMenu : MonoBehaviour
     // Perks
     private void FasterRest()
     {
-        if (_player.PerkBool)
+        if (_player.ExpSystem.PerkBool())
         {
             _player.Perk.GainPerk(PerksTypes.FasterRest);
             _fasterText.text = _player.Perk.DisplayPerk(PerksTypes.FasterRest);
@@ -120,7 +120,7 @@ public class LevelMenu : MonoBehaviour
 
     private void GiveEss()
     {
-        if (_player.PerkBool)
+        if (_player.ExpSystem.PerkBool())
         {
             _player.Perk.GainPerk(PerksTypes.GiveEss);
             _giveText.text = _player.Perk.DisplayPerk(PerksTypes.GiveEss);
@@ -129,7 +129,7 @@ public class LevelMenu : MonoBehaviour
 
     private void GainEss()
     {
-        if (_player.PerkBool)
+        if (_player.ExpSystem.PerkBool())
         {
             _player.Perk.GainPerk(PerksTypes.GainEss);
             _moreText.text = _player.Perk.DisplayPerk(PerksTypes.GainEss);

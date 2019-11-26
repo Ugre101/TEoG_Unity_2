@@ -3,6 +3,10 @@
 [CreateAssetMenu(fileName = "Anal vore", menuName = ("Sex/Vore/Anal vore"))]
 public class AnalVore : VoreScene
 {
+    public override bool CanDo(BasicChar player, BasicChar Other)
+    {
+        return base.CanDo(player, Other);
+    }
     public override string StartScene(playerMain player, BasicChar other)
     {
         if (player.Vore.Anal.Vore(other))

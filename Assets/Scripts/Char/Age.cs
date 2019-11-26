@@ -1,5 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
+public enum AgeClass
+{
+    Baby,
+    Child,
+    Teenager,
+    YoungAdult,
+    Adult,
+    Senior
+}
+
+[Serializable]
 public class Age
 {
     public Age(int AgeInYears = 18)
@@ -7,49 +19,66 @@ public class Age
         ageYears = AgeInYears;
     }
 
+    [SerializeField]
     private int ageYears;
-    private int ageDays;
-    public int AgeDays { get { return ageDays; } }
-    public int Agemonth { get { return Mathf.FloorToInt(ageDays / 30); } }
-    public int AgeYears { get { return ageYears; } set { ageYears = value; } }
 
-    public bool AgeUp(int by = 1)
+    [SerializeField]
+    private int ageDays;
+
+    public int AgeDays => ageDays;
+    public int Agemonth => Mathf.FloorToInt(ageDays / 30);
+    public int AgeYears => ageYears;
+
+    public bool AgeUp(int byDays = 1)
     {
-        ageDays += by;
+        ageDays += byDays;
         if (ageDays > 365)
         {
             ageYears++;
             ageDays -= 365;
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
-    public bool AgeDown(int by = 1)
+    public bool AgeDown(int byDays = 1)
     {
-        ageDays -= by;
+        ageDays -= byDays;
         if (ageDays <= 0)
         {
             ageYears--;
             ageDays += 365;
             return true;
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     // Diffent races age different a 100 years old elf is quite young, while a 100 years old human is dying.
-    public string AgeByRace(BasicChar who)
+    public AgeClass AgeByRace(BasicChar who)
     {
-        switch (who.Race)
+        switch (who.raceSystem.CurrentRace())
         {
+            case Races.Human:
             default:
-                return AgeYears >= 18 ? "adult" : "minor";
+                if (AgeYears < 5)
+                {
+                    return AgeClass.Baby;
+                }else if (AgeYears < 13)
+                {
+                    return AgeClass.Child;
+                }else if (AgeYears < 18)
+                {
+                    return AgeClass.Teenager;
+                }else if (AgeYears < 25)
+                {
+                    return AgeClass.YoungAdult;
+                }else if (AgeYears < 65)
+                {
+                    return AgeClass.Adult;
+                }else
+                {
+                    return AgeClass.Senior;
+                }
         }
     }
 }

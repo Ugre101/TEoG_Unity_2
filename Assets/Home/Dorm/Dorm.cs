@@ -8,7 +8,7 @@ public class Dorm : MonoBehaviour
 
     public bool HasSpace => home.Stats.Dorm.Level * 3 > transform.childCount;
 
-    public bool CanTake(BasicChar wannaTake) => HasSpace && wannaTake.sexStats.SessionOrgasm >= 0;
+    public bool CanTake(BasicChar wannaTake) => HasSpace && wannaTake.SexStats.SessionOrgasm >= 0;
 
     private BasicChar[] ArrayServants => GetComponentsInChildren<BasicChar>();
     private bool ServantsDirty = true;
