@@ -11,10 +11,16 @@ public static class UgreTools
     /// </summary>
     /// <param name="parTransform"></param>
     /// <param name="parAlternative"></param>
-    public static void KillChildren(this Transform parTransform, Transform parAlternative = null)
+    public static void KillChildren(this Transform parTransform)
     {
-        Transform parent = parAlternative != null ? parAlternative : parTransform;
-        foreach(Transform child in parent)
+        foreach(Transform child in parTransform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+    } 
+    public static void KillChildren(this Transform parTransform, Transform parAlternative)
+    {
+        foreach (Transform child in parAlternative)
         {
             GameObject.Destroy(child.gameObject);
         }
