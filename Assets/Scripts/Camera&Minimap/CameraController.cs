@@ -46,7 +46,7 @@ public class CameraController : MonoBehaviour
     {
         if (_orthSize != _lastOrthSize)
         {
-            tilemapLimits();
+            TilemapLimits();
             _lastOrthSize = _orthSize;
         }
         Vector3 _target = _player.transform.position + _offset;
@@ -91,7 +91,7 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, _target, _smoothing);
     }
 
-    private void tilemapLimits()
+    private void TilemapLimits()
     {
         Camera cam = Camera.main;
         float height = 2f * cam.orthographicSize;
@@ -110,6 +110,6 @@ public class CameraController : MonoBehaviour
         _map = mapEvents.CurrentMap;
         minTile = _map.CellToWorld(_map.cellBounds.min);
         maxTile = _map.CellToWorld(_map.cellBounds.max);
-        tilemapLimits();
+        TilemapLimits();
     }
 }

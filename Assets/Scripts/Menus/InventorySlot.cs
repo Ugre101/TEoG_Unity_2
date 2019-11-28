@@ -1,25 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InventorySlot : MonoBehaviour
 {
-   // public InventoryItem item;
+    // public InventoryItem item;
     public bool Empty = true;
+
     public int Id;
-    public void AddTo(GameObject item)
+
+    public void AddTo(DragInventory item)
     {
-        DragInventory drag = item.GetComponent<DragInventory>();
+        DragInventory drag = Instantiate(item, transform);
         drag.SlotId = Id;
-        Instantiate(item, this.transform);
         Empty = false;
     }
+
     public void Clean()
     {
         Empty = true;
-        if (this.transform.childCount > 0)
-        {
-            Destroy(this.transform.GetChild(0).gameObject);
-        }
+        transform.KillChildren();
     }
 }

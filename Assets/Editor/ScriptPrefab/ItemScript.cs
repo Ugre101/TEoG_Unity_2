@@ -9,7 +9,7 @@ public class CustomScript
     [MenuItem("Assets/ScriptTemplete/ItemTemplete")]
     public static void CreateCustomScript(MenuCommand cmd)
     {
-        if (Selection.activeObject == null)
+        if (Selection.activeObject != null)
         {
             string path = AssetDatabase.GetAssetPath(Selection.activeObject);
             if (File.Exists(path))

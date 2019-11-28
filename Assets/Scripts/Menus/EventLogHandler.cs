@@ -12,19 +12,19 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
     public KeyBindings keys;
     // Private
     [SerializeField]
-    private TextMeshProUGUI logText;
+    private TextMeshProUGUI logText = null;
 
     private bool oneClick = false;
     private float timeFirstClick;
 
     private void OnEnable()
     {
-        EventLog.eventText += PrintEventlog;
+        EventLog.EventTextEvent += PrintEventlog;
         PrintEventlog();
     }
     private void OnDisable()
     {
-        EventLog.eventText -= PrintEventlog;
+        EventLog.EventTextEvent -= PrintEventlog;
     }
     public void OnPointerClick(PointerEventData data)
     {

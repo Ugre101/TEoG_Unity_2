@@ -1,29 +1,39 @@
-﻿public enum StatsModType
+﻿using UnityEngine;
+public enum StatsModType
 {
     Flat = 100,
     Precent = 200,
 }
-
+[System.Serializable]
 public class StatMods
 {
-    public readonly float _value;
-    public readonly StatsModType _type;
-    public readonly int _order;
-    public readonly object _source;
+    [SerializeField]
+    private float value;
+    [SerializeField]
+    private  StatsModType type;
+    [SerializeField]
+    private int order;
+    public object Source { get; private set; }
 
-    public StatMods(float Value, StatsModType Type, int Order, object Source)
+    public float Value => value;
+
+    public StatsModType Type => type;
+
+    public int Order => order;
+
+    public StatMods(float parValue, StatsModType parType, int parOrder, object parSource)
     {
-        _value = Value;
-        _type = Type;
-        _order = Order;
-        _source = Source;
+        value = parValue;
+        type = parType;
+        order = parOrder;
+        Source = parSource;
     }
 
-    public StatMods(float Value, StatsModType Type) : this(Value, Type, (int)Type, null)
+    public StatMods(float parValue, StatsModType parType) : this(parValue, parType, (int)parType, null)
     {
     }
 
-    public StatMods(float Value, StatsModType Type, int Order) : this(Value, Type, Order, null)
+    public StatMods(float parValue, StatsModType parType, int parOrder) : this(parValue, parType, parOrder, null)
     {
     }
 }

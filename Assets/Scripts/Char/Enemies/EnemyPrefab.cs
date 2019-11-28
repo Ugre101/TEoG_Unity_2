@@ -69,8 +69,8 @@ public class EnemyPrefab : BasicChar
         Init(1, 100f, 100f);
         Femi.Gain(200f);
         Masc.Gain(300f);
-        Body = new Body(FinalHeight, FinalFat, FinalMuscle);
-        raceSystem.AddRace(assingRace.GetRace(), 100);
+        body = new Body(FinalHeight, FinalFat, FinalMuscle);
+        RaceSystem.AddRace(assingRace.GetRace(), 100);
         if (NeedFirstName)
         {
             if (GenderType == GenderType.Masculine)

@@ -247,7 +247,6 @@ public class Vagina : SexualOrgan
     private Womb womb = new Womb();
 
     public Womb Womb => womb;
-
     public string Looks()
     {
         string vagina = "";

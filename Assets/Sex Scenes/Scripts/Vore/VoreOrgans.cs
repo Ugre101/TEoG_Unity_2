@@ -46,7 +46,7 @@ namespace Vore
             List<ThePrey> Digested = new List<ThePrey>();
             foreach (ThePrey prey in Preys)
             {
-                pred.Body.fat.Gain(prey.Digest(toDigest));
+                pred.Body.Fat.Gain(prey.Digest(toDigest));
                 if (prey.Prey.Weight <= 0)
                 {
                     Digested.Add(prey);
@@ -91,7 +91,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.Body.height.Value / 3;
+            float cap = pred.Body.Height.Value / 3;
             return cap * VoreExpCapBonus;
         }
     }
@@ -104,7 +104,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.Body.height.Value / 4;
+            float cap = pred.Body.Height.Value / 4;
             return cap * VoreExpCapBonus;
         }
     }

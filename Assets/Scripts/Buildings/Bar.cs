@@ -30,7 +30,7 @@ public class Bar : MonoBehaviour
         {
             player.HP.Gain(3);
             player.WP.Gain(3);
-            player.Body.fat.Gain(3);
+            player.Body.Fat.Gain(3);
         }
     }
 
@@ -40,7 +40,7 @@ public class Bar : MonoBehaviour
         {
             player.HP.Gain(5);
             player.WP.Gain(5);
-            player.Body.fat.Gain(5);
+            player.Body.Fat.Gain(5);
         }
     }
 
@@ -50,7 +50,7 @@ public class Bar : MonoBehaviour
         {
             player.HP.Gain(8);
             player.WP.Gain(8);
-            player.Body.fat.Gain(8);
+            player.Body.Fat.Gain(8);
         }
     }
 }

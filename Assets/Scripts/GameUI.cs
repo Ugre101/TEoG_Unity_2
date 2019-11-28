@@ -128,6 +128,10 @@ public class GameUI : MonoBehaviour
     public void Pause()
     {
         ToggleBigPanel(menus);
+        foreach (Transform child in menus.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
         menuPaused = true;
         Time.timeScale = 0f;
     }
@@ -151,11 +155,8 @@ public class GameUI : MonoBehaviour
             bigeventlog.SetActive(true);
             return true;
         }
-        else
-        {
-            Resume();
-            return false;
-        }
+        Resume();
+        return false;
     }
 
     public void StartCombat(EnemyPrefab enemy)

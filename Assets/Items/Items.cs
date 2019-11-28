@@ -17,8 +17,3 @@ public enum ItemRefs
     Item,
     TestPotion
 }
-public enum ItemId
-{
-    Pouch,
-    Potion
-}

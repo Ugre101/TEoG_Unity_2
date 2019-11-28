@@ -14,19 +14,19 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private InventoryHandler inventory;
     private InventoryHoverText hoverText;
     private Transform Parent;
-    private Image image { get { return GetComponent<Image>(); } }
+    private Image GetImage => GetComponent<Image>();
+
     private int Amount
     {
-        get { return invItem != null ? player.Inventory.Items.Find(i => i.invPos == invItem.invPos).amount : 0; }
-        set { player.Inventory.Items.Find(i => i.invPos == invItem.invPos).amount = value; }
+        get => invItem != null ? player.Inventory.Items.Find(i => i.invPos == invItem.invPos).amount : 0;
+        set => player.Inventory.Items.Find(i => i.invPos == invItem.invPos).amount = value;
     }
+
     private float firstClick;
 
     private void Awake()
     {
         hoverText = GetComponentInParent<InventoryHoverText>();
-        inventory = GetComponentInParent<InventoryHandler>();
-        player = inventory.player;
         //   spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -67,7 +67,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerClick(PointerEventData pointerEvent)
     {
-        hoverText.Hovering(gameObject);
+        hoverText.Hovering(gameObject, pointerEvent.position);
         if (Time.realtimeSinceStartup <= firstClick + 1)
         {
             UseItem();
@@ -80,7 +80,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hoverText.Hovering(gameObject);
+        hoverText.Hovering(gameObject, eventData.position);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -91,22 +91,30 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void UseItem()
     {
         Debug.Log("Using item" + item.name);
-        item.Use(inventory.player);
+        if (item.Type == ItemTypes.Weapon)
+        {
+            Weapon weapon = (Weapon)item;
+            player.Stats.strength.AddMods(weapon.Mods[0]);
+        }
+        item.Use(player);
         //amount.text = Item.Amount.ToString();
         Amount--;
         if (Amount < 1)
         {
             used?.Invoke();
+            hoverText.StopHovering();
         }
     }
 
-    public void NewItem(InventoryItem Invitem, int slot)
+    public void NewItem(InventoryHandler parHandler, InventoryItem Invitem, int slot)
     {
         invItem = Invitem;
+        inventory = parHandler;
+        player = inventory.player;
         //Invitem.item;
-        if (item != null ? item.sprite != null : false)
+        if (item != null ? item.Sprite != null : false)
         {
-            image.sprite = item.sprite;
+            GetImage.sprite = item.Sprite;
         }
     }
 

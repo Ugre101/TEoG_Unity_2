@@ -14,6 +14,7 @@ public class PregnancySystem
 
     private List<Child> children = new List<Child>();
 
+    public bool Pregnant => who.Vaginas.Exists(v => v.Womb.HasFetus);
     [SerializeField]
     private float virility = 1f;
 
@@ -30,15 +31,16 @@ public class PregnancySystem
 
     public bool Impregnate(BasicChar parFather)
     {
-        // TODO add random.range where, motherRoll gets smaller and father higher
-        float motherRoll = Random.Range(0 - GetFertility, 100);
-        float fatherRoll = Random.Range(0, parFather.PregnancySystem.GetVirility);
+        float fatherVir = parFather.PregnancySystem.GetVirility;
+        float motherRoll = Random.Range(0 - GetFertility, 200 - GetFertility);
+        float fatherRoll = Random.Range(0 + fatherVir, 100 + fatherVir);
         if (motherRoll < fatherRoll)
         {
             // if mother has empty womb then impregnate first empty womb
             if (who.Vaginas.Exists(v => !v.Womb.HasFetus))
             {
                 who.Vaginas.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(who, parFather);
+                return true;
             }
         }
         return false;
@@ -79,6 +81,6 @@ public class PregnancySystem
     public void GrowAll()
     {
         GrowFetus();
-        GrowChild();
+        if (children.Count > 0) { GrowChild(); }
     }
 }

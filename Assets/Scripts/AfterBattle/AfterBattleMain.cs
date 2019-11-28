@@ -47,10 +47,6 @@ public class AfterBattleMain : MonoBehaviour
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
     public playerMain Caster => player;
 
-    private void OnEnable()
-    {
-    }
-
     private void OnDisable()
     {
         enemies.Clear();

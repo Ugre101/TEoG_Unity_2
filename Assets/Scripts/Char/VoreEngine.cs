@@ -124,17 +124,17 @@ namespace Vore
         public float Digest(float toDigest)
         {
             float fatGain = Mathf.Min(toDigest, prey.Weight);
-            if (prey.Body.fat.Value > 0)
+            if (prey.Body.Fat.Value > 0)
             {
-                prey.Body.fat.Lose(toDigest);
+                prey.Body.Fat.Lose(toDigest);
             }
-            else if (prey.Body.muscle.Value > 0)
+            else if (prey.Body.Muscle.Value > 0)
             {
-                prey.Body.muscle.Lose(toDigest);
+                prey.Body.Muscle.Lose(toDigest);
             }
             else
             {
-                prey.Body.height.Lose(toDigest);
+                prey.Body.Height.Lose(toDigest);
             }
             return fatGain;
         }

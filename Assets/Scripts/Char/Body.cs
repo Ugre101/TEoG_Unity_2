@@ -3,123 +3,75 @@
 [System.Serializable]
 public class BodyStat
 {
-    public BodyStat(float stat)
-    {
-        Value = stat;
-    }
+    public BodyStat(float stat) => value = stat;
 
-    public float Value;
+    [SerializeField]
+    private float value;
 
-    public void Lose(float toLose)
-    {
-        Value -= toLose;
-    }
+    public float Value => value;
 
-    public void Gain(float toGain)
-    {
-        Value += toGain;
-    }
+    /// <summary>Max(Value - Abs(toLose),0.01f)</summary>
+    public void Lose(float toLose) => value = Mathf.Max(value - Mathf.Abs(toLose), 0.01f);
+
+    /// <summary>Value += Abs(toGain)</summary>
+    public void Gain(float toGain) => value += Mathf.Abs(toGain);
 }
 
 [System.Serializable]
 public class Body
 {
-    public Body(float parHeight,float parFat,float parMuscle)
+    public Body(float parHeight, float parFat, float parMuscle)
     {
         height = new BodyStat(parHeight);
         fat = new BodyStat(parFat);
         muscle = new BodyStat(parMuscle);
     }
-    public BodyStat height;
-    public BodyStat fat;
-    public BodyStat muscle;
-    public float Weight => height.Value * 0.15f + fat.Value + muscle.Value;
+
+    [SerializeField]
+    private BodyStat height, fat, muscle;
+
+    public BodyStat Height => height;
+    public BodyStat Fat => fat;
+    public BodyStat Muscle => muscle;
+
+    // TODO centaurs and etc need to weight more and in future maybe add diffrent settings for female body frame
+
+    ///<summary> Bones and organs = Height * 0.15; add to that weight of Fat and Muscle </summary>
+    public float Weight => Height.Value * 0.15f + Fat.Value + Muscle.Value;
+
+    ///<summary>Body fat percentage</summary>
+    public float FatPer => Fat.Value / Weight * 100f;
+
+    private bool FatPerLowerThan(float parPer) => FatPer <= parPer;
+
+    private bool MuscleLessHeight(float f) => Muscle.Value < Height.Value * f;
+
+    private bool MuscleMoreHeight(float f) => Muscle.Value > Height.Value * f;
 
     public string Fitness()
     {
-        string a = "", b = "", c = "";
-        if ((fat.Value / Weight) * 100f <= 2f)
-        {
-            a = "You look malnourished ";
-        }
-        else if ((fat.Value / Weight) * 100f <= 14f)
-        {
-            a = "You have an athletic body ";
-        }
-        else if ((fat.Value / Weight) * 100f <= 18f)
-        {
-            a = "You have a fit body ";
-        }
-        else if ((fat.Value / Weight) * 100f <= 26f)
-        {
-            a = "You have a healthy body ";
-        }
-        else if ((fat.Value / Weight) * 100f <= 31f)
-        {
-            a = "You have an pudgy body "; // Probably should change to more positive words, plus size? fat?
-        }
-        else if ((fat.Value / Weight) * 100f <= 36f)
-        {
-            a = "You have a plump body "; // Obese
-        }
-        else
-        {
-            a = "You have a plus size body "; // morbidly obese
-        }
+        string a = FatPerLowerThan(2f) ? "You look malnourished " :
+        FatPerLowerThan(14f) ? "You have an athletic body " :
+        FatPerLowerThan(18f) ? "You have a fit body " :
+        FatPerLowerThan(26f) ? "You have a healthy body " :
+        FatPerLowerThan(31f) ? "You have an pudgy body " :
+        FatPerLowerThan(36f) ? "You have a plump body " :
+        "You have a plus size body ";  // morbidly obese
 
-        if (muscle.Value < height.Value * 0.18f)
-        {
-            b = "with unnoticable muscle";
-        }
-        else if (muscle.Value < height.Value * 0.20f)
-        {
-            b = "with some defined muscle";
-        }
-        else if (muscle.Value < height.Value * 0.22f)
-        {
-            b = "with well-defined muscle";
-        }
-        else if (muscle.Value < height.Value * 0.26f)
-        {
-            b = "with bulky muscle";
-        }
-        else if (muscle.Value < height.Value * 0.30f)
-        {
-            b = "with hulking muscle";
-        }
-        else if (muscle.Value < height.Value * 0.34f)
-        {
-            b = "with enormous muscle";
-        }
-        else
-        {
-            b = "with colossal muscle"; // This is relative does a fairy ever have colossal muscle?
-        }
+        string b = MuscleLessHeight(0.18f) ? "with unnoticable muscle" :
+        MuscleLessHeight(0.20f) ? "with some defined muscle" :
+        MuscleLessHeight(0.22f) ? "with well-defined muscle" :
+        MuscleLessHeight(0.26f) ? "with bulky muscle" :
+        MuscleLessHeight(0.30f) ? "with hulking muscle" :
+        MuscleLessHeight(0.34f) ? "with enormous muscle" :
+        "with colossal muscle"; // This is relative does a fairy ever have colossal muscle?
 
-        if ((fat.Value / Weight) * 100f <= 25f)
-        {
-            c = ".";
-        }
-        else if ((fat.Value / Weight) * 100f <= 31f && muscle.Value < height.Value * 0.18f)
-        {
-            c = " covered in fat.";
-        }
-        else if ((fat.Value / Weight) * 100f <= 38f && muscle.Value < height.Value * 0.20f)
-        {
-            c = " buried in fat.";
-        }
-        else if ((fat.Value / Weight) * 100f <= 55f && muscle.Value > height.Value * 0.22f)
-        {
-            c = "... Otherwise, you couldn't move.";
-        }
-        else if ((fat.Value / Weight) * 100f <= 55f && muscle.Value < height.Value * 0.22f)
-        {
-            c = "... Your weight is a burden to your ability to move.";
-        }
-        else
-        {
-            c = "... No-one knows how you move.";
-        }
+        string c = FatPerLowerThan(25f) ? "." :
+        FatPerLowerThan(31f) && MuscleLessHeight(0.18f) ? " covered in fat." :
+        FatPerLowerThan(38f) && MuscleLessHeight(0.20f) ? " buried in fat." :
+        FatPerLowerThan(55f) && MuscleMoreHeight(0.22f) ? "... Otherwise, you couldn't move." :
+        FatPerLowerThan(55f) && MuscleLessHeight(0.22f) ? "... Your weight is a burden to your ability to move." :
+         "... No-one knows how you move.";
 
         return a + b + c;
     }

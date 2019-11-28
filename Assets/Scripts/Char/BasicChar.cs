@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Vore;
+
 public enum Genders
 {
     Male,
@@ -22,9 +23,9 @@ public abstract class BasicChar : MonoBehaviour
     public BasicChar()
     {
         essence = new EssenceSystem(this);
-        Looks = new Looks(this);
-        Vore = new VoreEngine(this);
-        Age = new Age();
+        looks = new Looks(this);
+        vore = new VoreEngine(this);
+        age = new Age();
         pregnancySystem = new PregnancySystem(this);
     }
 
@@ -39,8 +40,12 @@ public abstract class BasicChar : MonoBehaviour
     public string FullName => $"{firstName} {lastName}";
 
     public Inventory Inventory;
-    public RaceSystem raceSystem = new RaceSystem();
-    public string Race => raceSystem.CurrentRace().ToString();
+
+    [SerializeField]
+    private RaceSystem raceSystem = new RaceSystem();
+
+    public RaceSystem RaceSystem => raceSystem;
+    public string Race => RaceSystem.CurrentRace().ToString();
 
     public Genders Gender
     {
@@ -93,22 +98,44 @@ public abstract class BasicChar : MonoBehaviour
         }
     }
 
-    public Looks Looks;
-    public VoreEngine Vore;
-    public Age Age;
-    public Body Body;
+    [SerializeField]
+    private Looks looks;
+
+    public Looks Looks => looks;
+
+    [SerializeField]
+    private VoreEngine vore;
+
+    public VoreEngine Vore => vore;
+
+    [SerializeField]
+    private Age age;
+
+    public Age Age => age;
+
+    [SerializeField]
+    protected Body body;
+
+    public Body Body => body;
     public float Weight => Body.Weight;
 
     public virtual void Awake()
     {
     }
 
-    public Health HP;
-    public Health WP;
+    [SerializeField]
+    private Health hp;
+
+    [SerializeField]
+    private Health wp;
+
+    public Health HP => hp;
+    public Health WP => wp;
 
     [Header("Level,exp, stats & perks")]
     [SerializeField]
     private ExpSystem expSystem = new ExpSystem();
+
     public ExpSystem ExpSystem => expSystem;
 
     [SerializeField]
@@ -122,8 +149,8 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void Init(int lvl, float maxhp, float maxwp)
     {
-        HP = new Health(maxhp);
-        WP = new Health(maxwp);
+        hp = new Health(maxhp);
+        wp = new Health(maxwp);
         expSystem.Level = lvl;
     }
 
@@ -250,8 +277,10 @@ public abstract class BasicChar : MonoBehaviour
     }
 
     public Flags Flags;
+
     [SerializeField]
     private PregnancySystem pregnancySystem;
+
     public PregnancySystem PregnancySystem => pregnancySystem;
 
     [Header("Organs")]
@@ -418,7 +447,6 @@ public class UserSkill
     public float CoolDownPercent => skill.CoolDown != 0 ? TurnsLeft / (float)skill.CoolDown : 1;
 
     public bool Ready => skill.HasCoolDown ? TurnsLeft < 1 : true;
-
 
     public void StartCoolDown() => TurnsLeft = skill.CoolDown;
 

@@ -16,12 +16,13 @@ public class playerMain : BasicChar
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Elfs);
-        raceSystem.AddRace(Races.Human, 100);
-        Body = new Body(160, 10, 20);
-        // Inventory.AddItem(ItemId.Potion);
+        RaceSystem.AddRace(Races.Human, 100);
+        body = new Body(160, 10, 20);
         Inventory.AddItem(ItemId.Pouch);
-        // Inventory.AddItem(new TestPotion());
-        // Inventory.AddItem(new TestPotion());
+        for (int i = 0; i < 20; i++)
+        {
+            Inventory.AddItem(ItemId.Stick);
+        }
     }
 
     public void PlayerInit(string first, string last)

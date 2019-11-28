@@ -2,91 +2,86 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using System.Linq;
 
 [Serializable]
 public class CharStats
 {
-    public int _baseValue;
+    public int baseValue;
 
-    protected float _lastBaseValue;
-    protected float _currValue;
+    private float _lastBaseValue;
+    private float _currValue;
 
-    protected bool _isDirty = true;
+    private bool _isDirty = true;
 
-    public virtual float Value
+    public float Value
     {
         get
         {
-            if (_isDirty || _baseValue != _lastBaseValue)
+            if (_isDirty || baseValue != _lastBaseValue)
             {
-                _lastBaseValue = _baseValue;
+                _lastBaseValue = baseValue;
                 _currValue = CalcFinalValue();
                 _isDirty = false;
             }
             return _currValue;
         }
     }
-
-    protected readonly List<StatMods> _statMods;
-    public readonly ReadOnlyCollection<StatMods> _StatMods;
+    [SerializeField]
+    private List<StatMods> _statMods = new List<StatMods>();
+    public List<StatMods> StatMods => _statMods;
 
     public CharStats()
     {
-        _baseValue = 10;
-        _statMods = new List<StatMods>();
-        _StatMods = _statMods.AsReadOnly();
+        baseValue = 10;
     }
 
-    public CharStats(int baseValue) : this()
-    {
-        _baseValue = baseValue;
-    }
+    public CharStats(int parBaseValue) : this() => baseValue = parBaseValue;
 
-    public virtual void addMods(StatMods mod)
+    public void AddMods(StatMods mod)
     {
         _isDirty = true;
         _statMods.Add(mod);
     }
 
-    public virtual void removeMods(StatMods mod)
+    public void RemoveMods(StatMods mod)
     {
         _isDirty = true;
         _statMods.Remove(mod);
     }
 
-    public bool removeFromSource(object Source)
+    public bool RemoveFromSource(object Source)
     {
         bool didRemove = false;
-        for (int i = _statMods.Count - 1; i >= 0; i--)
+        if (_statMods.Exists(sm => sm.Source == Source))
         {
-            StatMods mod = _statMods[i];
-            if (mod._source == Source)
+            foreach (StatMods sm in _statMods.FindAll(s => s.Source == Source))
             {
-                _isDirty = true;
-                didRemove = true;
-                _statMods.Remove(mod);
+                _statMods.Remove(sm);
             }
+            _isDirty = true;
+            didRemove = true;
         }
+        /*  for (int i = _statMods.Count - 1; i >= 0; i--)
+          {
+              StatMods mod = _statMods[i];
+              if (mod._source == Source)
+              {
+                  _isDirty = true;
+                  didRemove = true;
+                  _statMods.Remove(mod);
+              }
+          } */
         return didRemove;
     }
 
     private float CalcFinalValue()
     {
-        float finalValue = _baseValue;
-        float perMulti = 1;
-        _statMods.Sort((a, b) => a._order.CompareTo(b._order));
-        for (int i = 0; i < _statMods.Count; i++)
-        {
-            StatMods mod = _statMods[i];
-            if (mod._type == StatsModType.Flat)
-            {
-                finalValue += mod._value;
-            }
-            else if (mod._type == StatsModType.Precent)
-            {
-                perMulti += mod._value;
-            }
-        }
+        _statMods.Sort((a, b) => a.Order.CompareTo(b.Order));
+        float finalValue = baseValue + 
+            _statMods.FindAll(sm => sm.Type == StatsModType.Flat).Sum(sm => sm.Value); ;
+        float perMulti = 1 + 
+            _statMods.FindAll(sm => sm.Type == StatsModType.Precent).Sum(sm => sm.Value);
         return Mathf.Round(finalValue * perMulti);
     }
 }

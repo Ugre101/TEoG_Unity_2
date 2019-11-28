@@ -11,7 +11,7 @@ public class EventLog : ScriptableObject
     public void AddTo(string addText)
     {
         text.Insert(0,addText);
-        eventText?.Invoke();
+        EventTextEvent?.Invoke();
     }
     public string Print()
     {
@@ -26,9 +26,9 @@ public class EventLog : ScriptableObject
     public void ClearLog()
     {
         text.Clear();
-        eventText?.Invoke();
+        EventTextEvent?.Invoke();
     }
 
     public delegate void EventText();
-    public static event EventText eventText;
+    public static event EventText EventTextEvent;
 }
