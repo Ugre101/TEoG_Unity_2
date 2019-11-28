@@ -19,7 +19,7 @@ public class playerMain : BasicChar
         RaceSystem.AddRace(Races.Human, 100);
         body = new Body(160, 10, 20);
         Inventory.AddItem(ItemId.Pouch);
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 40; i++)
         {
             Inventory.AddItem(ItemId.Stick);
         }

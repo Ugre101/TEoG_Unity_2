@@ -9,12 +9,13 @@ public class PregnancySystem
         who = parWho;
     }
 
-    [SerializeField]
-    private BasicChar who;
+    private readonly BasicChar who;
 
+    [SerializeField]
     private List<Child> children = new List<Child>();
 
     public bool Pregnant => who.Vaginas.Exists(v => v.Womb.HasFetus);
+
     [SerializeField]
     private float virility = 1f;
 

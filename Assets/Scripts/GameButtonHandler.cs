@@ -1,30 +1,28 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
-public class GameButtonHandler : MonoBehaviour
+namespace UI
 {
-    public GameObject Vore, LevelUp;
-    public playerMain player;
-    private bool levelNotNull = false, voreNotNull = false, hasLeveld = false;
-
-    private void OnEnable()
+    public class GameButtonHandler : MonoBehaviour
     {
-        /*   if (PlayerPrefs.HasKey("voreToggle"))
-           {
-               Vore.SetActive(PlayerPrefs.GetInt("voreToggle") == 1 ? true : false);
-           }
-           else
-           {
-               Vore.SetActive(false);
-           } */
-        levelNotNull = LevelUp != null;
-        voreNotNull = Vore != null;
-        hasLeveld = player.ExpSystem.PerkPoints > 0;
-        if (levelNotNull)
+        [SerializeField]
+        private GameObject Vore = null, LevelUp = null;
+
+        [SerializeField]
+        private playerMain player = null;
+
+        [SerializeField]
+        private Image levelBtnImg = null;
+
+        [SerializeField]
+        private Sprite levelImg = null, noLevelImg = null;
+
+        private bool hasLeveld = false;
+
+        private void OnEnable()
         {
-            LevelUp.SetActive(hasLeveld);
-        }
-        if (voreNotNull)
-        {
+            hasLeveld = player.ExpSystem.PerkPoints > 0;
+            levelBtnImg.sprite = hasLeveld ? levelImg : noLevelImg;
             Vore.SetActive(player.Vore.Active);
         }
     }

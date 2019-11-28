@@ -10,8 +10,7 @@ namespace Vore
     {
         public VoreBasic(BasicChar parPred) => pred = parPred;
 
-        [SerializeField]
-        protected BasicChar pred;
+        protected readonly BasicChar pred;
 
         [SerializeField]
         protected List<ThePrey> preys = new List<ThePrey>();
@@ -31,9 +30,11 @@ namespace Vore
 
         public virtual float Current => preys.Sum(p => p.Prey.Weight);
 
+        public virtual bool CanVore(BasicChar parPrey) => Current + parPrey.Weight <= MaxCapacity();
+
         public virtual bool Vore(BasicChar p)
         {
-            if (Current + p.Weight <= MaxCapacity())
+            if (CanVore(p))
             {
                 preys.Add(new ThePrey(p));
                 return true;
@@ -57,6 +58,7 @@ namespace Vore
         }
     }
 
+    [Serializable]
     public class VoreBalls : VoreBasic
     {
         public VoreBalls(BasicChar parPred) : base(parPred)
@@ -69,7 +71,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
     }
-
+    [Serializable]
     public class VoreBoobs : VoreBasic
     {
         public VoreBoobs(BasicChar pred) : base(pred)
@@ -82,7 +84,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
     }
-
+    [Serializable]
     public class VoreStomach : VoreBasic
     {
         public VoreStomach(BasicChar pred) : base(pred)
@@ -95,7 +97,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
     }
-
+    [Serializable]
     public class VoreAnal : VoreBasic
     {
         public VoreAnal(BasicChar pred) : base(pred)
@@ -108,7 +110,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
     }
-
+    [Serializable]
     public class VoreVagiana : VoreBasic
     {
         public VoreVagiana(BasicChar parPred) : base(parPred)
@@ -136,21 +138,37 @@ namespace Vore
                 // TODO make them shrink once they start aging under adult age.
             }
         }
-
+        [Serializable]
         public class PreyToChild
         {
             public PreyToChild(ThePrey parPrey)
             {
                 prey = parPrey;
                 startAge = prey.Prey.Age.AgeYears;
-                curAge = startAge;
+                lastAge = startAge;
             }
-
+            [SerializeField]
             private ThePrey prey;
             public ThePrey Prey => prey;
+            [SerializeField]
             private int startAge;
-            private int curAge;
+            [SerializeField]
+            private int lastAge;
+            public int CurAge => prey.Prey.Age.AgeYears;
             public int StartAge => startAge;
+            public bool AgeDown()
+            {
+                prey.Prey.Age.AgeDown();
+                if (lastAge != CurAge)
+                {
+                    float shrinkFactor = lastAge / CurAge;
+                    lastAge = CurAge;
+                    // TODO shrink prey maybe eventlog it?
+                    // prey shall shrink very little while over 25, but once under 18 they shrink steadely.
+                    return true;
+                }
+                return false;
+            }
         }
     }
 }
