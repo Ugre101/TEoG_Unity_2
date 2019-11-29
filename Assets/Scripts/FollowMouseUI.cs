@@ -20,10 +20,12 @@ public class FollowMouseUI : MonoBehaviour
 
     [Range(0, 1f)]
     public float height;
+
     private void Start()
     {
         if (rect == null) rect = GetComponent<RectTransform>();
     }
+
     private void LateUpdate()
     {
         Vector3 newPos = Input.mousePosition;
@@ -41,27 +43,8 @@ public class FollowMouseUI : MonoBehaviour
                 if (FluidPivot)
                 {
                     Vector2 newPiv = rect.pivot;
-                    if (newPos.x > Screen.width * width)
-                    {
-                        newPiv.x = 1;
-                        pos.x -= xDist * 2;
-                    }
-                    else
-                    {
-                        newPiv.x = 0;
-                    }
-                    if (newPos.y > Screen.height)
-                    {
-                        newPiv.y = 1;
-                        pos.y -= yDist * 2;
-                    }
-                    else
-                    {
-                        newPiv.y = 0;
-                    }
-                    if (newPiv.y > Screen.height * 0.7f)
-                    {
-                    }
+                    newPiv.x = newPos.x > Screen.width * width ? 1 : 0;
+                    newPiv.y = newPos.y > Screen.height * height ? 0 : 1;
                     rect.pivot = newPiv;
                 }
             }
