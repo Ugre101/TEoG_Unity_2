@@ -4,17 +4,10 @@ using UnityEngine;
 [System.Serializable]
 public class PregnancySystem
 {
-    public PregnancySystem(BasicChar parWho)
-    {
-        who = parWho;
-    }
-
-    private readonly BasicChar who;
 
     [SerializeField]
     private List<Child> children = new List<Child>();
 
-    public bool Pregnant => who.Vaginas.Exists(v => v.Womb.HasFetus);
 
     [SerializeField]
     private float virility = 1f;
@@ -30,22 +23,7 @@ public class PregnancySystem
 
     public void SetFertility(float parChange) => fertility += parChange;
 
-    public bool Impregnate(BasicChar parFather)
-    {
-        float fatherVir = parFather.PregnancySystem.GetVirility;
-        float motherRoll = Random.Range(0 - GetFertility, 200 - GetFertility);
-        float fatherRoll = Random.Range(0 + fatherVir, 100 + fatherVir);
-        if (motherRoll < fatherRoll)
-        {
-            // if mother has empty womb then impregnate first empty womb
-            if (who.Vaginas.Exists(v => !v.Womb.HasFetus))
-            {
-                who.Vaginas.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(who, parFather);
-                return true;
-            }
-        }
-        return false;
-    }
+ 
 
     // growth in days
     private readonly float baseFetusGrowth = 1f;
@@ -55,9 +33,9 @@ public class PregnancySystem
 
     private float FinalGrowthRate => baseFetusGrowth + bonusFetusGrowth;
 
-    public void GrowFetus()
+    public void GrowFetus(BasicChar who)
     {
-        foreach (Vagina v in who.Vaginas.FindAll(v => v.Womb.HasFetus))
+        foreach (Vagina v in who.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus))
         {
             if (v.Womb.Grow(FinalGrowthRate))
             {
@@ -78,10 +56,24 @@ public class PregnancySystem
             c.Grow();
         }
     }
-
-    public void GrowAll()
+}
+public static class PregnancyExtensions
+{
+    public static bool Impregnate(this BasicChar mother, BasicChar parFather)
     {
-        GrowFetus();
-        if (children.Count > 0) { GrowChild(); }
+        float motherFet = mother.PregnancySystem.GetFertility;
+        float fatherVir = parFather.PregnancySystem.GetVirility;
+        float motherRoll = Random.Range(0 - motherFet, 200 - motherFet);
+        float fatherRoll = Random.Range(0 + fatherVir, 100 + fatherVir);
+        if (motherRoll < fatherRoll)
+        {
+            // if mother has empty womb then impregnate first empty womb
+            if (mother.SexualOrgans.Vaginas.Exists(v => !v.Womb.HasFetus))
+            {
+                mother.SexualOrgans.Vaginas.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(mother, parFather);
+                return true;
+            }
+        }
+        return false;
     }
 }

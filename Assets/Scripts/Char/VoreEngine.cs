@@ -33,15 +33,21 @@ namespace Vore
 
         public VoreAnal Anal => anal;
 
+        [SerializeField]
+        private VoreVagina vagina;
+
+        public VoreVagina Vagina => vagina;
+
         #endregion voreOrgans
 
-        public VoreEngine(BasicChar parRred)
+        public VoreEngine(BasicChar parPred)
         {
-            pred = parRred;
-            balls = new VoreBalls(parRred);
-            boobs = new VoreBoobs(parRred);
-            stomach = new VoreStomach(parRred);
-            anal = new VoreAnal(parRred);
+            pred = parPred;
+            balls = new VoreBalls(parPred);
+            boobs = new VoreBoobs(parPred);
+            stomach = new VoreStomach(parPred);
+            anal = new VoreAnal(parPred);
+            vagina = new VoreVagina(parPred);
         }
 
         public void Digest()

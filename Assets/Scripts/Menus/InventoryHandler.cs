@@ -3,10 +3,10 @@
 public class InventoryHandler : MonoBehaviour
 {
     [SerializeField]
-    private DragInventory ItemPrefab;
+    private DragInventory ItemPrefab = null;
 
     [SerializeField]
-    private InventorySlot SlotPrefab;
+    private InventorySlot SlotPrefab = null;
 
     public playerMain player;
 

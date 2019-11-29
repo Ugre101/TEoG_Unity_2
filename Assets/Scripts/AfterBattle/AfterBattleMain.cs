@@ -87,8 +87,8 @@ public class AfterBattleMain : MonoBehaviour
         }
         if (Target.SexStats.CanDrain)
         {
-            drainMasc.gameObject.SetActive(Target.Essence.CanDrainMasc);
-            drainFemi.gameObject.SetActive(Target.Essence.CanDrainFemi);
+            drainMasc.gameObject.SetActive(Target.CanDrainMasc);
+            drainFemi.gameObject.SetActive(Target.CanDrainFemi);
         }
         else
         {

@@ -1,35 +1,28 @@
 ﻿public class WillSlider : BasicSlider
 {
-    private void changeWill()
+    private void ChangeWill()
     {
-        slider.value = basicChar.WP.Slider();
+        slider.value = basicChar.WP.SliderValue;
         if (TextMesh != null)
         {
-            TextMesh.text = basicChar.WP.Status();
-            if (endSuffix)
-            {
-                TextMesh.text += suffix;
-            }
+            TextMesh.text = basicChar.WP.Status+ (endSuffix ? suffix : "");
         }
     }
 
     private void OnDisable()
     {
-        Health.updateSlider -= changeWill;
+        Health.UpdateSliderEvent -= ChangeWill;
     }
 
     private void OnEnable()
     {
-        Health.updateSlider += changeWill;
-        if (basicChar != null)
-        {
-            basicChar.WP.manualSliderUpdate();
-        }
+        Health.UpdateSliderEvent += ChangeWill;
+        if (basicChar != null) { basicChar.WP.ManualSliderUpdate(); }
     }
 
     public override void Setup(BasicChar who)
     {
         base.Setup(who);
-        basicChar.WP.manualSliderUpdate();
+        basicChar.WP.ManualSliderUpdate();
     }
 }

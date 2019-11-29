@@ -47,56 +47,88 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d524558d4031c9f4ab3a25d8d3a9559c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicCharGame: {fileID: 0}
+  basicCharGame: {fileID: -7890518083212860946}
   firstName: 
   lastName: 
-  Inventory:
+  inventory:
     Items: []
   raceSystem:
     raceList: []
-  Vore:
+  vore:
     Active: 0
-  Body:
+    balls:
+      preys: []
+      voreExp: 0
+    boobs:
+      preys: []
+      voreExp: 0
+    stomach:
+      preys: []
+      voreExp: 0
+    anal:
+      preys: []
+      voreExp: 0
+    vagina:
+      preys: []
+      voreExp: 0
+      childTf: 0
+  age:
+    ageYears: 18
+    ageDays: 0
+  body:
     height:
-      Value: 0
+      value: 0
     fat:
-      Value: 0
+      value: 0
     muscle:
-      Value: 0
-  HP:
+      value: 0
+  hp:
     _current: 0
-    _max: 0
-  WP:
+  wp:
     _current: 0
-    _max: 0
   expSystem:
     level: 0
     exp: 0
     perkPoints: 0
     statPoints: 0
-  Perk:
+  perk:
     perkList: []
   stats:
     strength:
-      _baseValue: 10
+      baseValue: 10
+      _statMods: []
     charm:
-      _baseValue: 10
+      baseValue: 10
+      _statMods: []
     endurance:
-      _baseValue: 10
+      baseValue: 10
+      _statMods: []
     dexterity:
-      _baseValue: 10
+      baseValue: 10
+      _statMods: []
     intelligence:
-      _baseValue: 10
+      baseValue: 10
+      _statMods: []
   autoEss: 1
   essence:
+    masc:
+      _amount: 0
+    femi:
+      _amount: 0
     bonusDrain: 0
     bonusGive: 0
   gold: 0
-  dicks: []
-  balls: []
-  boobs: []
-  lactating: 0
-  vaginas: []
+  pregnancySystem:
+    children: []
+    virility: 1
+    fertility: 1
+    bonusFetusGrowth: 0
+  sexualOrgans:
+    dicks: []
+    balls: []
+    boobs: []
+    lactating: 0
+    vaginas: []
   skills: []
   skillsToAdd: []
   NeedFirstName: 1
@@ -111,11 +143,13 @@ MonoBehaviour:
   reward:
     _expReward: 0
     _goldReward: 0
-  assingStr: 11
-  assingCharm: 2
-  assingEnd: 6
-  assingDex: 5
-  assingInt: 0
+  assingHP: 220
+  assingWP: 220
+  assingStr: 10
+  assingCharm: 10
+  assingEnd: 10
+  assingDex: 10
+  assingInt: 10
   statRngFactor: 0.4
   assingHeight: 160
   assingFat: 10

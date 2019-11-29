@@ -37,14 +37,11 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (_empty.Count < 1)
-        {
-            AvailblePos();
-        }
+        if (_empty.Count < 1) { AvailblePos(); }
         else if (_enemies.Count < enemyToAdd && _CurrEnemies.Count > 0)
         {
             int index = Random.Range(0, _empty.Count);
-            int enemyIndex = Random.Range(0, _CurrEnemies.Count - 1);
+            int enemyIndex = Random.Range(0, _CurrEnemies.Count);
             GameObject enemu = Instantiate(_CurrEnemies[enemyIndex], _empty[index], Quaternion.identity, transform);
             enemu.name = _CurrEnemies[enemyIndex].name;
             _enemies.Add(enemu);
@@ -58,7 +55,7 @@ public class EnemySpawner : MonoBehaviour
         {
             for (int p = _currMap.cellBounds.yMin + distFromBorder; p < _currMap.cellBounds.yMax - distFromBorder; p++)
             {
-                Vector3Int localPlace = new Vector3Int(n, p, (int)_currMap.transform.position.y);
+                Vector3Int localPlace = new Vector3Int(n, p, (int)_currMap.transform.position.z);
                 if (_currMap.HasTile(localPlace) && !dontSpawnOn.Exists(t => t.HasTile(localPlace)) && !AroundPlayer().Contains(localPlace))
                 {
                     Vector3 place = _currMap.CellToWorld(localPlace);

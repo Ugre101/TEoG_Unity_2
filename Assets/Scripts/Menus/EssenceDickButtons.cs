@@ -19,7 +19,7 @@ public class EssenceDickButtons : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (lastAmount != player.Dicks.Count)
+        if (lastAmount != player.SexualOrgans.Dicks.Count)
         {
             UpdateButtons();
         }
@@ -35,8 +35,8 @@ public class EssenceDickButtons : MonoBehaviour
         Button AddBtn = AddDick.GetComponent<Button>();
         AddBtn.onClick.AddListener(AddFunc);
         AddText = AddDick.GetComponentInChildren<TextMeshProUGUI>();
-        AddText.text = $"Add dick: {player.Dicks.Cost()}";
-        foreach (Dick d in player.Dicks)
+        AddText.text = $"Add dick: {player.SexualOrgans.Dicks.Cost()}";
+        foreach (Dick d in player.SexualOrgans.Dicks)
         {
             GameObject pre = Instantiate(prefab, this.transform);
             Button btn = pre.GetComponent<Button>();
@@ -44,7 +44,7 @@ public class EssenceDickButtons : MonoBehaviour
             t.text = $"{settings.MorInch(d.Size)} {d.Cost}Masc";
             btn.onClick.AddListener(() => GrowDick(d, t));
         }
-        lastAmount = player.Dicks.Count;
+        lastAmount = player.SexualOrgans.Dicks.Count;
     }
 
     private void GrowDick(Dick d, TextMeshProUGUI t)
@@ -58,11 +58,11 @@ public class EssenceDickButtons : MonoBehaviour
 
     private void AddFunc()
     {
-        if (player.Masc.Amount > player.Dicks.Cost())
+        if (player.Masc.Amount > player.SexualOrgans.Dicks.Cost())
         {
-            player.Masc.Lose(player.Dicks.Cost());
-            player.Dicks.AddDick();
-            AddText.text = $"Add dick: {player.Dicks.Cost()}";
+            player.Masc.Lose(player.SexualOrgans.Dicks.Cost());
+            player.SexualOrgans.Dicks.AddDick();
+            AddText.text = $"Add dick: {player.SexualOrgans.Dicks.Cost()}";
         }
     }
 }

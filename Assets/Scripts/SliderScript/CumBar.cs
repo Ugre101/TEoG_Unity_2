@@ -8,9 +8,9 @@ public class CumBar : FluidSliders
     private void OnEnable()
     {
         SexualFluid.FluidSlider += CumChange;
-        if (player.Balls.Count > 0)
+        if (player.SexualOrgans.Balls.Count > 0)
         {
-           player.Balls[0].Fluid.ManualSlider();
+           player.SexualOrgans.Balls[0].Fluid.ManualSlider();
         }
     }
    
@@ -21,10 +21,10 @@ public class CumBar : FluidSliders
 
     private void CumChange()
     {
-        slider.value = player.CumSlider;
+        slider.value = player.SexualOrgans.CumSlider;
         if (statusText != null)
         {
-            statusText.text = convert.LorGal(player.Balls.CumTotal()/1000);
+            statusText.text = convert.LorGal(player.SexualOrgans.Balls.CumTotal()/1000);
         }
     }
 }

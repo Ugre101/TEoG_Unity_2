@@ -1,11 +1,4 @@
 ﻿using UnityEngine;
-
-public enum Skills
-{
-    BasicAttack,
-    BasicTease
-}
-
 public enum SkillType
 {
     Physical,
@@ -35,9 +28,9 @@ public class BasicSkill : ScriptableObject
     public int BaseAttack => baseAttack;
 
     [SerializeField]
-    private Skills skill = Skills.BasicAttack;
+    private SkillId id = SkillId.BasicAttack;
 
-    public Skills Skill => skill;
+    public SkillId Id => id;
 
     [SerializeField]
     private SkillType type = SkillType.Magical;

@@ -15,7 +15,7 @@ MonoBehaviour:
   title: Tease
   icon: {fileID: 21300000, guid: b763dba9ab169cf43804e2b6a066d83f, type: 3}
   baseAttack: 10
-  skill: 1
+  id: 1
   type: 2
   hasCoolDown: 0
   coolDown: 0

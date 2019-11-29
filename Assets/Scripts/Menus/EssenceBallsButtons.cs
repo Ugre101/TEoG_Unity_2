@@ -19,7 +19,7 @@ public class EssenceBallsButtons : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (lastAmount != player.Balls.Count)
+        if (lastAmount != player.SexualOrgans.Balls.Count)
         {
             UpdateButtons();
         }
@@ -35,8 +35,8 @@ public class EssenceBallsButtons : MonoBehaviour
         Button AddBtn = AddBalls.GetComponent<Button>();
         AddBtn.onClick.AddListener(AddFunc);
         AddText = AddBalls.GetComponentInChildren<TextMeshProUGUI>();
-        AddText.text = $"Add balls: {player.Balls.Cost()}";
-        foreach (Balls b in player.Balls)
+        AddText.text = $"Add balls: {player.SexualOrgans.Balls.Cost()}";
+        foreach (Balls b in player.SexualOrgans.Balls)
         {
             GameObject pre = Instantiate(prefab, this.transform);
             Button btn = pre.GetComponent<Button>();
@@ -44,7 +44,7 @@ public class EssenceBallsButtons : MonoBehaviour
             t.text = $"{settings.MorInch(b.Size)} {b.Cost}Masc";
             btn.onClick.AddListener(() => GrowBalls(b, t));
         }
-        lastAmount = player.Balls.Count;
+        lastAmount = player.SexualOrgans.Balls.Count;
     }
 
     private void GrowBalls(Balls b, TextMeshProUGUI t)
@@ -58,11 +58,11 @@ public class EssenceBallsButtons : MonoBehaviour
 
     private void AddFunc()
     {
-        if (player.Masc.Amount > player.Balls.Cost())
+        if (player.Masc.Amount > player.SexualOrgans.Balls.Cost())
         {
-            player.Masc.Lose(player.Balls.Cost());
-            player.Balls.AddBalls();
-            AddText.text = $"Add balls: {player.Balls.Cost()}Masc";
+            player.Masc.Lose(player.SexualOrgans.Balls.Cost());
+            player.SexualOrgans.Balls.AddBalls();
+            AddText.text = $"Add balls: {player.SexualOrgans.Balls.Cost()}Masc";
         }
     }
 }

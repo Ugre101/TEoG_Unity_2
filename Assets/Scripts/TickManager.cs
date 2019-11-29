@@ -29,13 +29,13 @@ public class TickManager : MonoBehaviour
         float fatBurnRate = baseFatBurnRate + gluttony.PosetiveValue;
         float hpGain = baseRecGainRate + healtyBody.PosetiveValue;
         float wpGain = baseRecGainRate + strongMind.PosetiveValue;
-        if (player.Perk.HasPerk(PerksTypes.Gluttony))
+        if (player.Perks.HasPerk(PerksTypes.Gluttony))
         {
             fatBurnRate += gluttony.NegativeValue;
             hpGain += gluttony.PosetiveValue;
             wpGain += gluttony.PosetiveValue;
         }
-        else if (player.Perk.HasPerk(PerksTypes.LowMetabolism))
+        else if (player.Perks.HasPerk(PerksTypes.LowMetabolism))
         {
             fatBurnRate -= lowMetabolism.PosetiveValue;
         }
@@ -43,16 +43,16 @@ public class TickManager : MonoBehaviour
 
         player.HP.Gain(hpGain);
         player.WP.Gain(wpGain);
-        if (player.Balls.Count > 0)
+        if (player.SexualOrgans.Balls.Count > 0)
         {
-            foreach (Balls ball in player.Balls)
+            foreach (Balls ball in player.SexualOrgans.Balls)
             {
                 ball.Fluid.ReFill();
             }
         }
-        if (player.Lactating)
+        if (player.SexualOrgans.Lactating)
         {
-            foreach (Boobs boob in player.Boobs)
+            foreach (Boobs boob in player.SexualOrgans.Boobs)
             {
                 boob.Fluid.ReFill();
             }

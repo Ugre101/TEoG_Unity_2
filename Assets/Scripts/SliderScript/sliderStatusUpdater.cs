@@ -4,7 +4,9 @@ using UnityEngine.UI;
 
 public class BasicSlider : MonoBehaviour
 {
-    public BasicChar basicChar;
+    [SerializeField]
+    protected BasicChar basicChar;
+
     [SerializeField]
     protected TextMeshProUGUI TextMesh;
 
@@ -19,19 +21,11 @@ public class BasicSlider : MonoBehaviour
 
     private void Awake()
     {
-        if (slider == null)
-        {
-            slider = GetComponent<Slider>();
-        }
-        if (TextMesh == null)
-        {
-            TextMesh = GetComponentInChildren<TextMeshProUGUI>();
-        }
-        if (basicChar == null)
-        {
-            enabled = false;
-        }
+        if (slider == null) { slider = GetComponent<Slider>(); }
+        if (TextMesh == null) { TextMesh = GetComponentInChildren<TextMeshProUGUI>(); }
+        if (basicChar == null) { enabled = false; }
     }
+
     public virtual void Setup(BasicChar who)
     {
         enabled = true;

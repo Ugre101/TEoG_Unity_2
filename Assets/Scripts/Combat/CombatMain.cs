@@ -6,11 +6,13 @@ public class CombatMain : MonoBehaviour
 {
     // Public
     public GameUI gameUI;
+
     public TextMeshProUGUI _textbox;
 
     public playerMain player;
     public GameObject skillButtonsContainer;
     public List<CombatButton> skillButtons;
+    public SkillBook skillBook;
 
     public BasicChar CurrentEnemy
     {
@@ -35,6 +37,7 @@ public class CombatMain : MonoBehaviour
 
     [Header("Lose")]
     public LoseMain loseBattle;
+
     // Private
     private List<string> _battleLog = new List<string>();
 
@@ -50,7 +53,9 @@ public class CombatMain : MonoBehaviour
         {
             for (int i = 0; i < player.Skills.Count; i++)
             {
-                skillButtons[i].userSkill = player.Skills[i];
+                Debug.Log(player.Skills[i].Id);
+                Debug.Log(skillBook.Dict.Match(player.Skills[i].Id).skill.name);
+                skillButtons[i].userSkill = skillBook.Dict.Match(player.Skills[i].Id);
                 skillButtons[i].Setup();
             }
         }
@@ -60,7 +65,7 @@ public class CombatMain : MonoBehaviour
     {
         foreach (BasicChar bc in basicChars)
         {
-            foreach (UserSkill us in bc.Skills)
+            foreach (UserSkill us in skillBook.Dict.OwnedSkills(bc.Skills))
             {
                 us.ResetCoolDown();
             }
@@ -85,7 +90,6 @@ public class CombatMain : MonoBehaviour
         playerTeam.StartCoroutine(playerTeam.StartFight(playerTeamChars));
         ResetSkills(playerTeamChars);
         ResetSkills(new List<BasicChar>(enemyTeamChars));
-
     }
 
     public void FleeButton()
@@ -113,7 +117,7 @@ public class CombatMain : MonoBehaviour
     public void EnemyAI(BasicChar Enemy)
     {
         float str = Enemy.Stats.Str, charm = Enemy.Stats.Charm;
-        float dmg = attackMulti(charm < str ? str : charm);
+        float dmg = AttackMulti(charm < str ? str : charm);
         List<string> strAttack = new List<string> { "Hits you", "Kicks you",
         "Grapples you down to the ground"};
         List<string> charmAttack = new List<string> { $"Teases you" };
@@ -151,7 +155,7 @@ public class CombatMain : MonoBehaviour
         }
     }
 
-    private float attackMulti(float dmg)
+    private float AttackMulti(float dmg)
     {
         float finalDMG = dmg;
         finalDMG *= Random.Range(1f, 3f);
@@ -188,7 +192,7 @@ public class CombatMain : MonoBehaviour
     {
         foreach (BasicChar c in basicChars)
         {
-            foreach (UserSkill s in c.Skills)
+            foreach (UserSkill s in skillBook.Dict.OwnedSkills(c.Skills))
             {
                 if (s.skill.HasCoolDown ? !s.Ready : false)
                 {
@@ -227,6 +231,7 @@ public class CombatMain : MonoBehaviour
             WinBattle();
         }
     }
+
     public void SelectNewTarget(BasicChar target)
     {
         playerTeam.DeSelectAll();

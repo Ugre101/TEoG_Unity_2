@@ -23,19 +23,19 @@ public class PerkButton : PerkTreeBasicBtn
     {
         if (player != null)
         {
-            taken = player.Perk.HasPerk(perk);
+            taken = player.Perks.HasPerk(perk);
         }
         base.OnEnable();
     }
 
     public override void Use()
     {
-        if (player.Perk.HasPerk(perk) ? player.Perk.NotMaxLevel(perk, perkInfo.MaxLevel) : true)
+        if (player.Perks.HasPerk(perk) ? player.Perks.NotMaxLevel(perk, perkInfo.MaxLevel) : true)
         {
             if (player.ExpSystem.PerkBool(perkCost))
             {
                 taken = true;
-                player.Perk.GainPerk(perk);
+                player.Perks.GainPerk(perk);
                 RuneOpacity();
             }
         }

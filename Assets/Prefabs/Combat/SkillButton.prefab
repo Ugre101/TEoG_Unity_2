@@ -321,7 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   userSkill:
     skill: {fileID: 0}
-  text: {fileID: 4901062227330565620}
+  title: {fileID: 4901062227330565620}
   keycode: {fileID: 4901062227149557648}
   combatButtons: {fileID: 0}
   btn: {fileID: 4901062227253060302}

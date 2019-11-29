@@ -8,7 +8,7 @@ public class DrainFemi : SexScenes
     private float ToDrain(playerMain drainer)
     {
         float drain = drainer.EssDrain;
-        if (drainer.Perk.HasPerk(PerksTypes.EssenceFlow))
+        if (drainer.Perks.HasPerk(PerksTypes.EssenceFlow))
         {
             drain += essFlow.PosetiveValue;
         }

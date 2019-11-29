@@ -8,11 +8,13 @@ public class ChooseSkillMain : MonoBehaviour
     public playerMain player;
     public GameObject container;
     public List<BasicSkill> knowSkills;
-    public GameObject prefab, chooseNone;
+    public GameObject prefab;
+    public Button chooseNone;
     public CombatButton combatButton;
     public GameObject hoverBlock;
     public TextMeshProUGUI hoverText;
     public SkillButtons skillButtons;
+    public SkillBook skillBook;
 
     [Header("Sorting buttons")]
     public Button physical;
@@ -31,15 +33,15 @@ public class ChooseSkillMain : MonoBehaviour
     {
         // Clean container
         transform.KillChildren(container.transform);
-        GameObject none = Instantiate(chooseNone, container.transform);
-        Button noneBtn = none.GetComponent<Button>();
+        Button noneBtn = Instantiate(chooseNone, container.transform);
         noneBtn.onClick.AddListener(() => { CleanSlot(); skillButtons.ToogleButtons(); });
         // Add all skills
-        foreach (UserSkill skill in player.Skills)
+        foreach (Skill skill in player.Skills)
         {
             GameObject option = Instantiate(prefab, container.transform);
             ChooseSkill choose = option.GetComponent<ChooseSkill>();
-            choose.Setup(skill, combatButton, hoverBlock, hoverText); 
+            UserSkill userSkill = skillBook.Dict.Match(skill.Id);
+            choose.Setup(userSkill, combatButton, hoverBlock, hoverText);
             Button btn = option.GetComponent<Button>();
             btn.onClick.AddListener(skillButtons.ToogleButtons);
         }
@@ -51,7 +53,8 @@ public class ChooseSkillMain : MonoBehaviour
         transform.KillChildren(container.transform);
         if (knowSkills.Exists(s => s.Type == skillType))
         {
-            foreach (UserSkill skill in player.Skills.FindAll(s => s.skill.Type == skillType))
+            List<UserSkill> mySkills = skillBook.Dict.OwnedSkills(player.Skills);
+            foreach (UserSkill skill in mySkills.FindAll(s => s.skill.Type == skillType))
             {
                 GameObject option = Instantiate(prefab, container.transform);
                 ChooseSkill choose = option.GetComponent<ChooseSkill>();
@@ -64,5 +67,6 @@ public class ChooseSkillMain : MonoBehaviour
     {
         combatButton.img.gameObject.SetActive(false);
         combatButton.userSkill = null;
+        combatButton.title.text = null;
     }
 }

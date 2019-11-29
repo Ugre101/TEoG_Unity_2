@@ -67,9 +67,9 @@ public class LevelMenu : MonoBehaviour
         _willText.text = $"Willpower: ";
         _dexText.text = $"Dexterity {_player.Stats.dexterity.baseValue}";
         // perks
-        _fasterText.text = _player.Perk.DisplayPerk(PerksTypes.FasterRest);
-        _giveText.text = _player.Perk.DisplayPerk(PerksTypes.GiveEss);
-        _moreText.text = _player.Perk.DisplayPerk(PerksTypes.GainEss);
+        _fasterText.text = _player.Perks.DisplayPerk(PerksTypes.FasterRest);
+        _giveText.text = _player.Perks.DisplayPerk(PerksTypes.GiveEss);
+        _moreText.text = _player.Perks.DisplayPerk(PerksTypes.GainEss);
     }
 
     private void GainStr()
@@ -113,8 +113,8 @@ public class LevelMenu : MonoBehaviour
     {
         if (_player.ExpSystem.PerkBool())
         {
-            _player.Perk.GainPerk(PerksTypes.FasterRest);
-            _fasterText.text = _player.Perk.DisplayPerk(PerksTypes.FasterRest);
+            _player.Perks.GainPerk(PerksTypes.FasterRest);
+            _fasterText.text = _player.Perks.DisplayPerk(PerksTypes.FasterRest);
         }
     }
 
@@ -122,8 +122,8 @@ public class LevelMenu : MonoBehaviour
     {
         if (_player.ExpSystem.PerkBool())
         {
-            _player.Perk.GainPerk(PerksTypes.GiveEss);
-            _giveText.text = _player.Perk.DisplayPerk(PerksTypes.GiveEss);
+            _player.Perks.GainPerk(PerksTypes.GiveEss);
+            _giveText.text = _player.Perks.DisplayPerk(PerksTypes.GiveEss);
         }
     }
 
@@ -131,8 +131,8 @@ public class LevelMenu : MonoBehaviour
     {
         if (_player.ExpSystem.PerkBool())
         {
-            _player.Perk.GainPerk(PerksTypes.GainEss);
-            _moreText.text = _player.Perk.DisplayPerk(PerksTypes.GainEss);
+            _player.Perks.GainPerk(PerksTypes.GainEss);
+            _moreText.text = _player.Perks.DisplayPerk(PerksTypes.GainEss);
         }
     }
 }

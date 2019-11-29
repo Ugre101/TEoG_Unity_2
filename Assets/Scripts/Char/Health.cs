@@ -4,59 +4,53 @@
 public class Health
 {
     [SerializeField]
-    protected float _current, _max;
+    protected float _current;
 
-    public Health(float max)
+    protected int _max;
+
+    public Health(int parMax)
     {
-        _max = max;
-        _current = _max;
+        _max = parMax;
+        _current = parMax;
     }
 
+    public void RaiseMax(int toRaise) => _max += Mathf.Abs(toRaise);
+
+    public void LowerMax(int toLower) => _max -= Mathf.Abs(toLower);
+
     public float Current => Mathf.Round(_current);
-    //set { _current += Mathf.Clamp(value,-_current,_max -_current); }
 
     public bool TakeDmg(float dmg)
     {
-        _current -= Mathf.Clamp(dmg, 0, _current);
-        updateSlider?.Invoke();
+        _current = Mathf.Max(0, _current - dmg);
+        UpdateSliderEvent?.Invoke();
         if (_current <= 0)
         {
-            Died?.Invoke();
+            DeadEvent?.Invoke();
+            return true;
         }
-        return _current <= 0 ? true : false;
+        return false;
     }
 
     public void Gain(float gain)
     {
         _current += Mathf.Clamp(gain, 0, _max - _current);
-        updateSlider?.Invoke();
+        UpdateSliderEvent?.Invoke();
     }
 
-    public void FullGain()
-    {
-        _current = _max;
-    }
+    public void FullGain() => _current = _max;
 
-    public float Slider()
-    {
-        return _current / _max;
-    }
+    public float SliderValue => _current / _max;
 
-    public string Status()
-    {
-        return $"{_current}/{_max}";
-    }
+    public string Status => $"{_current} / {_max}";
 
     public delegate void UpdateSlider();
 
-    public static event UpdateSlider updateSlider;
+    public static event UpdateSlider UpdateSliderEvent;
 
     public delegate void Dead();
 
-    public static event Dead Died;
+    public static event Dead DeadEvent;
 
-    public void manualSliderUpdate()
-    {
-        updateSlider();
-    }
+    public void ManualSliderUpdate() => UpdateSliderEvent();
 }

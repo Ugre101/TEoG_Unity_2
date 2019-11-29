@@ -67,7 +67,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.Balls.Sum(b => b.Size);
+            float cap = pred.SexualOrgans.Balls.Sum(b => b.Size);
             return cap * VoreExpCapBonus;
         }
     }
@@ -80,7 +80,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.Boobs.Sum(b => b.Size);
+            float cap = pred.SexualOrgans.Boobs.Sum(b => b.Size);
             return cap * VoreExpCapBonus;
         }
     }
@@ -111,9 +111,9 @@ namespace Vore
         }
     }
     [Serializable]
-    public class VoreVagiana : VoreBasic
+    public class VoreVagina : VoreBasic
     {
-        public VoreVagiana(BasicChar parPred) : base(parPred)
+        public VoreVagina(BasicChar Pred) : base(Pred)
         {
         }
 
@@ -126,7 +126,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.Vaginas.Sum(v => v.Size);
+            float cap = pred.SexualOrgans.Vaginas.Sum(v => v.Size);
             return cap * VoreExpCapBonus;
         }
 

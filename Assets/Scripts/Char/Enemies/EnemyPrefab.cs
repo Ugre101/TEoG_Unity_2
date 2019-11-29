@@ -3,24 +3,26 @@
 [System.Serializable]
 public class EnemyPrefab : BasicChar
 {
-    public bool NeedFirstName = true;
-    public bool NeedLastName = true;
+    [HideInInspector]
+    public bool NeedFirstName = true, NeedLastName = true;
+
     public RandomName randomName;
-    public AssingRace assingRace;
+    public AssingRace assingRace = new AssingRace();
 
     [Tooltip("Chosen values get mulitled by random range 0.5f to 1.5f")]
-    public Reward reward;
+    public Reward reward = new Reward();
 
     #region Stats
 
-    [Tooltip("Base value for enemy stats")]
-    [Header("Stats")]
-    [Range(0, 100)]
+    [HideInInspector]
+    [SerializeField]
+    private int assingHP = 100, assingWP = 100;
+
+    [HideInInspector]
     [SerializeField]
     private int assingStr = 0;
 
-    [Tooltip("Base value for enemy stats")]
-    [Range(0, 100)]
+    [HideInInspector]
     [SerializeField]
     private int assingCharm = 0, assingEnd = 0, assingDex = 0, assingInt = 0;
 
@@ -56,24 +58,28 @@ public class EnemyPrefab : BasicChar
     private int FinalMuscle => Mathf.FloorToInt(assingMuscle * Random.Range(1 - muscleRng, 1 + muscleRng));
 
     #endregion Body stats
+
     [Header("Dorm related")]
     [SerializeField]
     private bool canTakeToDorm = true;
+
     [SerializeField]
     private int orgsNeeded = 3;
+
     public bool CanTake(int sessOrg) => canTakeToDorm ? sessOrg >= orgsNeeded : false;
+
     public override void Start()
     {
         stats = new StatsContainer(FinalStat(assingStr), FinalStat(assingCharm),
             FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt));
-        Init(1, 100f, 100f);
+        Init(1, assingHP, assingWP);
         Femi.Gain(200f);
         Masc.Gain(300f);
         body = new Body(FinalHeight, FinalFat, FinalMuscle);
         RaceSystem.AddRace(assingRace.GetRace(), 100);
         if (NeedFirstName)
         {
-            if (GenderType == GenderType.Masculine)
+            if (GenderType == GenderTypes.Masculine)
             {
                 firstName = randomName.MaleName;
             }

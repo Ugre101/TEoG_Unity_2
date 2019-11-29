@@ -2,25 +2,16 @@
 using UnityEngine;
 
 [CustomEditor(typeof(EnemyPrefab))]
-public class EnemyPrefabEditor : Editor
+public class EnemyPrefabEditor : BasicCharEditor
 {
-    private bool nameFold;
-    private bool healthFold;
-    private bool StartRace;
-    private bool statsFold;
+    private bool nameFold = true;
+    private bool StartRace = true;
+    private bool healthStats = true;
 
     public override void OnInspectorGUI()
     {
         //GUILayout.Label("test");
         EnemyPrefab myTarget = (EnemyPrefab)target;
-        GUILayout.Label("Summary", EditorStyles.boldLabel);
-        GUILayout.BeginVertical("Box");
-        GUILayout.Label(myTarget.FullName);
-        GUILayout.BeginHorizontal();
-        GUILayout.Label(myTarget.Gender.ToString());
-        GUILayout.Label(myTarget.Race);
-        GUILayout.EndHorizontal();
-        GUILayout.EndVertical();
         nameFold = EditorGUILayout.Foldout(nameFold, "Name", true, EditorStyles.foldout);
         if (nameFold)
         {
@@ -66,55 +57,57 @@ public class EnemyPrefabEditor : Editor
             serializedObject.ApplyModifiedProperties();
             GUILayout.EndVertical();
         }
-        serializedObject.Update();
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("Inventory"), true);
-  //      EditorGUILayout.PropertyField(serializedObject.FindProperty("Looks"), true);
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("Vore"), true);
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("Body"), true);
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("expSystem"), true);
-        EditorGUILayout.PropertyField(serializedObject.FindProperty("Perk"), true);
-        serializedObject.ApplyModifiedProperties();
-
-        healthFold = EditorGUILayout.Foldout(healthFold, "Health & will");
-        if (healthFold)
+        healthStats = EditorGUILayout.Foldout(healthStats, "Stats", true, EditorStyles.foldout);
+        if (healthStats)
         {
-            GUILayout.BeginVertical("Box");
+            EditorGUILayout.BeginVertical("Box");
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("HP", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("WP", EditorStyles.boldLabel);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
             serializedObject.Update();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("HP"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("WP"), true);
+            var hp = serializedObject.FindProperty("assingHP");
+            var wp = serializedObject.FindProperty("assingWP");
+            hp.intValue = EditorGUILayout.IntSlider(hp.intValue, 1, 9999);
+            wp.intValue = EditorGUILayout.IntSlider(wp.intValue, 1, 9999);
             serializedObject.ApplyModifiedProperties();
-            GUILayout.EndVertical();
-        }
-
-        statsFold = EditorGUILayout.Foldout(statsFold, "Stats");
-        if (statsFold)
-        {
-            GUILayout.BeginVertical("Box");
+            EditorGUILayout.EndHorizontal();
             serializedObject.Update();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("strength"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("charm"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("endurance"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("dexterity"), true);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("intelligence"), true);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Assing str", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Assing charm", EditorStyles.boldLabel);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            var assingStr = serializedObject.FindProperty("assingStr");
+            assingStr.intValue = EditorGUILayout.IntSlider(assingStr.intValue, 0, 99);
+            var assingCharm = serializedObject.FindProperty("assingCharm");
+            assingCharm.intValue = EditorGUILayout.IntSlider(assingCharm.intValue, 0, 99);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Assing end", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Assing dex", EditorStyles.boldLabel);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            var assingEnd = serializedObject.FindProperty("assingEnd");
+            assingEnd.intValue = EditorGUILayout.IntSlider(assingEnd.intValue, 0, 99);
+            var assingDex = serializedObject.FindProperty("assingDex");
+            assingDex.intValue = EditorGUILayout.IntSlider(assingDex.intValue, 0, 99);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Assing int", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Stats rng factor", EditorStyles.boldLabel);
+            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            var assingInt = serializedObject.FindProperty("assingInt");
+            assingInt.intValue = EditorGUILayout.IntSlider(assingInt.intValue, 0, 99);
+            var statRngFactor = serializedObject.FindProperty("statRngFactor");
+            statRngFactor.floatValue = EditorGUILayout.Slider(statRngFactor.floatValue, 0, 1f);
+            // var  = serializedObject.FindProperty("");
+            EditorGUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
-            GUILayout.EndVertical();
+            EditorGUILayout.EndVertical();
         }
-
-        /* EditorGUILayout.LabelField("Sciptable Objects",EditorStyles.boldLabel);
-             GUILayout.BeginVertical("Box");
-                 GUILayout.BeginHorizontal();
-                     GUILayout.Label("Sprites");
-                     myTarget.sprites = (CharSprites)EditorGUILayout.ObjectField(myTarget.sprites, typeof(CharSprites), true);
-                 GUILayout.EndHorizontal();
-                 GUILayout.BeginHorizontal();
-                     GUILayout.Label("Settings");
-                     myTarget.settings = (Settings)EditorGUILayout.ObjectField(myTarget.settings, typeof(Settings), true);
-                 GUILayout.EndHorizontal();
-                 GUILayout.BeginHorizontal();
-                     GUILayout.Label("EventLog");
-                     myTarget.eventLog = (EventLog)EditorGUILayout.ObjectField(myTarget.eventLog, typeof(EventLog), true);
-                 GUILayout.EndHorizontal();
-            GUILayout.EndVertical(); */
         GUILayout.Label("Standard editor and end of custom editor", EditorStyles.boldLabel);
         GUILayout.Space(20);
         base.OnInspectorGUI();

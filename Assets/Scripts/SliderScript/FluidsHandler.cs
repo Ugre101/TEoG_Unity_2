@@ -7,7 +7,7 @@ public class FluidsHandler : MonoBehaviour
     public GameObject cBar, mBar;
     private void OnEnable()
     {
-        if (_player.Balls.Total() <= 0)
+        if (_player.SexualOrgans.Balls.Total() <= 0)
         {
             cBar.SetActive(false);
         }
@@ -15,7 +15,7 @@ public class FluidsHandler : MonoBehaviour
         {
             cBar.SetActive(true);
         }
-        if (_player.Lactating)
+        if (_player.SexualOrgans.Lactating)
         {
             mBar.SetActive(true);
         }

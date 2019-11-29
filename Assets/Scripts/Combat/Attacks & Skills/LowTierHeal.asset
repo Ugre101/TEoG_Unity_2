@@ -15,7 +15,7 @@ MonoBehaviour:
   title: Low tier heal
   icon: {fileID: 21300000, guid: aa0c0d81d8f83fa459f2f5561b7160cf, type: 3}
   baseAttack: 10
-  skill: 0
+  id: 2
   type: 1
   hasCoolDown: 1
   coolDown: 2

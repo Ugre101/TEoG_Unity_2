@@ -43,13 +43,13 @@ public class Looks
 
     public string DickLook(int i)
     {
-        Dick d = who.Dicks[Mathf.Clamp(i, 0, who.Dicks.Count - 1)];
-        return who.Dicks.Count > 0 ? $"a {settings.MorInch(d.Size)} long dick" : "";
+        Dick d = who.SexualOrgans.Dicks[Mathf.Clamp(i, 0, who.SexualOrgans.Dicks.Count - 1)];
+        return who.SexualOrgans.Dicks.Count > 0 ? $"a {settings.MorInch(d.Size)} long dick" : "";
     }
 
     public string DicksLook()
     {
-        List<Dick> dicks = who.Dicks;
+        List<Dick> dicks = who.SexualOrgans.Dicks;
         string dLooks = "";
         for (int i = 0; i < dicks.Count; i++)
         {
@@ -77,13 +77,13 @@ public class Looks
 
     public string BallLook(int i)
     {
-        Balls b = who.Balls[Mathf.Clamp(i, 0, who.Balls.Count - 1)];
+        Balls b = who.SexualOrgans.Balls[Mathf.Clamp(i, 0, who.SexualOrgans.Balls.Count - 1)];
         return $"a pair of {settings.MorInch(b.Size)} wide balls";
     }
 
     public string BallsLook()
     {
-        List<Balls> balls = who.Balls;
+        List<Balls> balls = who.SexualOrgans.Balls;
         string bLooks = "";
         for (int i = 0; i < balls.Count; i++)
         {
@@ -114,7 +114,7 @@ public class Looks
 
     public string BoobsLook()
     {
-        List<Boobs> boobs = who.Boobs;
+        List<Boobs> boobs = who.SexualOrgans.Boobs;
         string bLooks = "";
         for (int i = 0; i < boobs.Count; i++)
         {
@@ -169,7 +169,7 @@ public class Looks
 
     public string VagsLook()
     {
-        List<Vagina> vaginas = who.Vaginas;
+        List<Vagina> vaginas = who.SexualOrgans.Vaginas;
         string vLooks = "";
         for (int i = 0; i < vaginas.Count; i++)
         {

@@ -19,7 +19,7 @@ public class EssenceBoobsButtons : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (lastAmount != player.Boobs.Count)
+        if (lastAmount != player.SexualOrgans.Boobs.Count)
         {
             UpdateButtons();
         }
@@ -35,8 +35,8 @@ public class EssenceBoobsButtons : MonoBehaviour
         Button AddBtn = AddBoobs.GetComponent<Button>();
         AddBtn.onClick.AddListener(AddFunc);
         AddText = AddBoobs.GetComponentInChildren<TextMeshProUGUI>();
-        AddText.text = $"Add boobs: {player.Boobs.Cost()}Femi";
-        foreach (Boobs b in player.Boobs)
+        AddText.text = $"Add boobs: {player.SexualOrgans.Boobs.Cost()}Femi";
+        foreach (Boobs b in player.SexualOrgans.Boobs)
         {
             GameObject pre = Instantiate(prefab, this.transform);
             Button btn = pre.GetComponent<Button>();
@@ -44,7 +44,7 @@ public class EssenceBoobsButtons : MonoBehaviour
             t.text = $"{settings.MorInch(b.Size)} {b.Cost}Femi";
             btn.onClick.AddListener(() => GrowBoobs(b, t));
         }
-        lastAmount = player.Boobs.Count;
+        lastAmount = player.SexualOrgans.Boobs.Count;
     }
 
     private void GrowBoobs(Boobs b, TextMeshProUGUI t)
@@ -58,11 +58,11 @@ public class EssenceBoobsButtons : MonoBehaviour
 
     private void AddFunc()
     {
-        if (player.Femi.Amount > player.Boobs.Cost())
+        if (player.Femi.Amount > player.SexualOrgans.Boobs.Cost())
         {
-            player.Femi.Lose(player.Boobs.Cost());
-            player.Boobs.AddBoobs();
-            AddText.text = $"Add boobs: {player.Boobs.Cost()}Femi";
+            player.Femi.Lose(player.SexualOrgans.Boobs.Cost());
+            player.SexualOrgans.Boobs.AddBoobs();
+            AddText.text = $"Add boobs: {player.SexualOrgans.Boobs.Cost()}Femi";
         }
     }
 }

@@ -6,7 +6,7 @@ namespace UI
     public class GameButtonHandler : MonoBehaviour
     {
         [SerializeField]
-        private GameObject Vore = null, LevelUp = null;
+        private GameObject Vore = null;
 
         [SerializeField]
         private playerMain player = null;

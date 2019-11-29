@@ -37,7 +37,7 @@ public class CombatStatus : MonoBehaviour
         team = combatTeam;
         combatMain = main;
         btn.onClick.AddListener(Select);
-        Health.Died += HasDied;
+        Health.DeadEvent += HasDied;
     }
 
     public void HasDied()
@@ -53,11 +53,11 @@ public class CombatStatus : MonoBehaviour
 
     public void OnDisable()
     {
-        Health.Died -= HasDied;
+        Health.DeadEvent -= HasDied;
     }
     private void OnDestroy()
     {
-        Health.Died -= HasDied;
+        Health.DeadEvent -= HasDied;
     }
     /// <summary>
     /// Click once to select and twice to deselect

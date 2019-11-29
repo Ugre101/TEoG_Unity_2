@@ -19,7 +19,7 @@ public class EssenceVagButtons : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (lastAmount != player.Vaginas.Count)
+        if (lastAmount != player.SexualOrgans.Vaginas.Count)
         {
             UpdateButtons();
         }
@@ -35,8 +35,8 @@ public class EssenceVagButtons : MonoBehaviour
         Button AddBtn = AddVag.GetComponent<Button>();
         AddBtn.onClick.AddListener(AddFunc);
         AddText = AddVag.GetComponentInChildren<TextMeshProUGUI>();
-        AddText.text = $"Add vagina: {player.Vaginas.Cost()}Femi";
-        foreach (Vagina b in player.Vaginas)
+        AddText.text = $"Add vagina: {player.SexualOrgans.Vaginas.Cost()}Femi";
+        foreach (Vagina b in player.SexualOrgans.Vaginas)
         {
             GameObject pre = Instantiate(prefab, this.transform);
             Button btn = pre.GetComponent<Button>();
@@ -44,7 +44,7 @@ public class EssenceVagButtons : MonoBehaviour
             t.text = $"{settings.MorInch(b.Size)} {b.Cost}Femi";
             btn.onClick.AddListener(() => GrowVag(b, t));
         }
-        lastAmount = player.Vaginas.Count;
+        lastAmount = player.SexualOrgans.Vaginas.Count;
     }
 
     private void GrowVag(Vagina b, TextMeshProUGUI t)
@@ -58,11 +58,11 @@ public class EssenceVagButtons : MonoBehaviour
 
     private void AddFunc()
     {
-        if (player.Femi.Amount > player.Vaginas.Cost())
+        if (player.Femi.Amount > player.SexualOrgans.Vaginas.Cost())
         {
-            player.Femi.Lose(player.Vaginas.Cost());
-            player.Vaginas.AddVag();
-            AddText.text = $"Add vagina: {player.Vaginas.Cost()}Femi";
+            player.Femi.Lose(player.SexualOrgans.Vaginas.Cost());
+            player.SexualOrgans.Vaginas.AddVag();
+            AddText.text = $"Add vagina: {player.SexualOrgans.Vaginas.Cost()}Femi";
         }
     }
 }

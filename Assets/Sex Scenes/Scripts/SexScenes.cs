@@ -33,56 +33,56 @@ public class SexScenes : ScriptableObject
     {
         if (PlayerDick)
         {
-            if (player.Dicks.Count < 1)
+            if (player.SexualOrgans.Dicks.Count < 1)
             {
                 return false;
             }
         }
         if (PlayerBalls)
         {
-            if (player.Balls.Count < 1)
+            if (player.SexualOrgans.Balls.Count < 1)
             {
                 return false;
             }
         }
         if (PlayerBoobs)
         {
-            if (player.Boobs.Max(b => b.Size) < 3)
+            if (player.SexualOrgans.Boobs.Max(b => b.Size) < 3)
             {
                 return false;
             }
         }
         if (PlayerVagina)
         {
-            if (player.Vaginas.Count < 1)
+            if (player.SexualOrgans.Vaginas.Count < 1)
             {
                 return false;
             }
         }
         if (Dick)
         {
-            if (Other.Dicks.Count < 1)
+            if (Other.SexualOrgans.Dicks.Count < 1)
             {
                 return false;
             }
         }
         if (Balls)
         {
-            if (Other.Balls.Count < 1)
+            if (Other.SexualOrgans.Balls.Count < 1)
             {
                 return false;
             }
         }
         if (Boobs)
         {
-            if (Other.Boobs.Max(b => b.Size) < 3)
+            if (Other.SexualOrgans.Boobs.Max(b => b.Size) < 3)
             {
                 return false;
             }
         }
         if (Vagina)
         {
-            if (Other.Vaginas.Count < 1)
+            if (Other.SexualOrgans.Vaginas.Count < 1)
             {
                 return false;
             }
@@ -118,7 +118,7 @@ public class SexScenes : ScriptableObject
 
     public string BiggestDick(BasicChar whom)
     {
-        return CmOrInch(whom.Dicks.Max(d => d.Size));
+        return CmOrInch(whom.SexualOrgans.Dicks.Max(d => d.Size));
     }
 }
 

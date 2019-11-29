@@ -7,7 +7,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 {
     public UserSkill userSkill;
     public BasicSkill Skill => userSkill?.skill;
-    public TextMeshProUGUI text, keycode;
+    public TextMeshProUGUI title, keycode;
     public CombatMain combatButtons;
     public Button btn;
     public Image img;
@@ -31,7 +31,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
         else
         {
-            text.text = null;
+            title.text = null;
             img.gameObject.SetActive(false);
             coolDownImg.fillAmount = 0;
         }
@@ -93,7 +93,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void Setup()
     {
-        text.text = Skill.Title;
+        title.text = Skill.Title;
         img.gameObject.SetActive(true);
         img.sprite = Skill.Icon;
         CoolDownHandler();
@@ -117,10 +117,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        StopHoverText();
-    }
+    public void OnPointerExit(PointerEventData eventData) => StopHoverText();
 
     private void StopHoverText()
     {
@@ -131,12 +128,6 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void CoolDownHandler()
     {
-        if (Skill.HasCoolDown)
-        {
-            coolDownImg.fillAmount = userSkill.CoolDownPercent;
-        }else
-        {
-            coolDownImg.fillAmount = 0;
-        }
+        coolDownImg.fillAmount = Skill.HasCoolDown ? userSkill.CoolDownPercent : 0;
     }
 }

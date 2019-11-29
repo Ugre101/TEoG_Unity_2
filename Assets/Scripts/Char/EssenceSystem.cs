@@ -1,20 +1,17 @@
 ﻿using System;
+using UnityEngine;
 
 [Serializable]
 public class EssenceSystem
 {
-    private BasicChar who;
-
-    public EssenceSystem(BasicChar parWho)
-    {
-        who = parWho;
-    }
-
+    [SerializeField]
     private Essence masc = new Essence();
+
+    [SerializeField]
     private Essence femi = new Essence();
 
-    public Essence Masc { get => masc; }
-    public Essence Femi { get => femi; }
+    public Essence Masc => masc;
+    public Essence Femi => femi;
 
     public float bonusDrain = 0;
 
@@ -29,7 +26,4 @@ public class EssenceSystem
     /// Base value give, add perk bonuses after localy
     /// </summary>
     public float baseEssGive => 3 + bonusGive;
-
-    public bool CanDrainMasc => Masc.Amount > 0 || who.Balls.Count > 0 || who.Dicks.Count > 0;
-    public bool CanDrainFemi => Femi.Amount > 0 || who.Boobs.Count > 0 || who.Dicks.Count > 0;
 }

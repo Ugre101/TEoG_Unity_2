@@ -10,9 +10,9 @@ public class MilkBar : FluidSliders
     private void OnEnable()
     {
         SexualFluid.FluidSlider += MilkChange;
-        if (player.Lactating && player.Boobs.Count > 0)
+        if (player.SexualOrgans.Lactating && player.SexualOrgans.Boobs.Count > 0)
         {
-            player.Boobs[0].Fluid.ManualSlider();
+            player.SexualOrgans.Boobs[0].Fluid.ManualSlider();
         }
     }
     private void OnDisable()
@@ -21,10 +21,10 @@ public class MilkBar : FluidSliders
     }
     private void MilkChange()
     {
-        slider.value = player.MilkSlider;
+        slider.value = player.SexualOrgans.MilkSlider;
         if (statusText != null)
         {
-            statusText.text = convert.LorGal(player.Boobs.MilkTotal()/1000);
+            statusText.text = convert.LorGal(player.SexualOrgans.Boobs.MilkTotal()/1000);
         }
     }
 }

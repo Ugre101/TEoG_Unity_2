@@ -2,34 +2,16 @@
 using UnityEngine;
 using Vore;
 
-public enum Genders
-{
-    Male,
-    Female,
-    Herm,
-    Dickgirl,
-    Cuntboy,
-    Doll
-}
-
-public enum GenderType
-{
-    Feminine,
-    Masculine
-}
-
+[System.Serializable]
 public abstract class BasicChar : MonoBehaviour
 {
     public BasicChar()
     {
-        essence = new EssenceSystem(this);
         looks = new Looks(this);
         vore = new VoreEngine(this);
-        age = new Age();
-        pregnancySystem = new PregnancySystem(this);
     }
 
-    [SerializeField]
+    // can't Serialize because it gets saved
     private BasicCharGame basicCharGame;
 
     public BasicCharGame BasicCharGame => basicCharGame;
@@ -39,7 +21,10 @@ public abstract class BasicChar : MonoBehaviour
 
     public string FullName => $"{firstName} {lastName}";
 
-    public Inventory Inventory;
+    [SerializeField]
+    private Inventory inventory = new Inventory();
+
+    public Inventory Inventory => inventory;
 
     [SerializeField]
     private RaceSystem raceSystem = new RaceSystem();
@@ -47,61 +32,13 @@ public abstract class BasicChar : MonoBehaviour
     public RaceSystem RaceSystem => raceSystem;
     public string Race => RaceSystem.CurrentRace().ToString();
 
-    public Genders Gender
-    {
-        get
-        {
-            if (Dicks.Count > 0 && Vaginas.Count > 0)
-            {
-                return Genders.Herm;
-            }
-            else if (Dicks.Count > 0 && Boobs.Total() > 2)
-            {
-                return Genders.Dickgirl;
-            }
-            else if (Dicks.Count > 0)
-            {
-                return Genders.Male;
-            }
-            else if (Vaginas.Count > 0 && Boobs.Total() > 2)
-            {
-                return Genders.Female;
-            }
-            else if (Vaginas.Count > 0)
-            {
-                return Genders.Cuntboy;
-            }
-            else
-            {
-                return Genders.Doll;
-            }
-        }
-    }
-
-    public GenderType GenderType
-    {
-        get
-        {
-            switch (Gender)
-            {
-                case Genders.Cuntboy:
-                case Genders.Doll:
-                case Genders.Male:
-                    return GenderType.Masculine;
-
-                case Genders.Dickgirl:
-                case Genders.Female:
-                case Genders.Herm:
-                default:
-                    return GenderType.Feminine;
-            }
-        }
-    }
-
     [SerializeField]
     private Looks looks;
 
     public Looks Looks => looks;
+
+    public Genders Gender => this.Gender();
+    public GenderTypes GenderType => this.GenderType();
 
     [SerializeField]
     private VoreEngine vore;
@@ -109,7 +46,7 @@ public abstract class BasicChar : MonoBehaviour
     public VoreEngine Vore => vore;
 
     [SerializeField]
-    private Age age;
+    private Age age = new Age();
 
     public Age Age => age;
 
@@ -121,6 +58,10 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void Awake()
     {
+        if (basicCharGame == null)
+        {
+            basicCharGame = GetComponent<BasicCharGame>();
+        }
     }
 
     [SerializeField]
@@ -139,7 +80,9 @@ public abstract class BasicChar : MonoBehaviour
     public ExpSystem ExpSystem => expSystem;
 
     [SerializeField]
-    public Perks Perk = new Perks();
+    public Perks perk = new Perks();
+
+    public Perks Perks => perk;
 
     [Header("Stats")]
     [SerializeField]
@@ -147,7 +90,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public StatsContainer Stats => stats;
 
-    public virtual void Init(int lvl, float maxhp, float maxwp)
+    public virtual void Init(int lvl, int maxhp, int maxwp)
     {
         hp = new Health(maxhp);
         wp = new Health(maxwp);
@@ -164,14 +107,16 @@ public abstract class BasicChar : MonoBehaviour
     public void ToggleAutoEssence() => autoEss = !autoEss;
 
     [SerializeField]
-    private EssenceSystem essence;
+    private EssenceSystem essence = new EssenceSystem();
 
     public EssenceSystem Essence => essence;
     public Essence Masc => essence.Masc;
     public Essence Femi => essence.Femi;
-    public float EssDrain => 3 + Perk.PerkBonus(PerksTypes.GainEss);
-    public float EssGive => 3 + Perk.PerkBonus(PerksTypes.GiveEss);
-    public float RestRate => 1f + Perk.PerkBonus(PerksTypes.FasterRest);
+    public float EssDrain => 3 + Perks.PerkBonus(PerksTypes.GainEss);
+    public float EssGive => 3 + Perks.PerkBonus(PerksTypes.GiveEss);
+    public float RestRate => 1f + Perks.PerkBonus(PerksTypes.FasterRest);
+    public bool CanDrainMasc => Masc.Amount > 0 || SexualOrgans.Balls.Count > 0 || SexualOrgans.Dicks.Count > 0;
+    public bool CanDrainFemi => Femi.Amount > 0 || SexualOrgans.Boobs.Count > 0 || SexualOrgans.Dicks.Count > 0;
 
     public float LoseMasc(float mascToLose)
     {
@@ -180,26 +125,26 @@ public abstract class BasicChar : MonoBehaviour
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            while (missing > fromOrgans && (Dicks.Count > 0 || Balls.Count > 0))// have needed organs
+            while (missing > fromOrgans && (SexualOrgans.Dicks.Count > 0 || SexualOrgans.Balls.Count > 0))// have needed organs
             {
-                if (Balls.Count > 0 && Dicks.Count > 0)
+                if (SexualOrgans.Balls.Count > 0 && SexualOrgans.Dicks.Count > 0)
                 {
-                    if (Dicks.Total() >= Balls.Total() * 2f + 1f)
+                    if (SexualOrgans.Dicks.Total() >= SexualOrgans.Balls.Total() * 2f + 1f)
                     {
-                        fromOrgans += Dicks.ReCycle();
+                        fromOrgans += SexualOrgans.Dicks.ReCycle();
                     }
                     else
                     {
-                        fromOrgans += Balls.ReCycle();
+                        fromOrgans += SexualOrgans.Balls.ReCycle();
                     }
                 }
-                else if (Balls.Count > 0)
+                else if (SexualOrgans.Balls.Count > 0)
                 {
-                    fromOrgans += Balls.ReCycle();
+                    fromOrgans += SexualOrgans.Balls.ReCycle();
                 }
                 else
                 {
-                    fromOrgans += Dicks.ReCycle();
+                    fromOrgans += SexualOrgans.Dicks.ReCycle();
                 }
             }
             have += Mathf.Min(fromOrgans, missing);
@@ -219,26 +164,26 @@ public abstract class BasicChar : MonoBehaviour
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            while (missing > fromOrgans && (Vaginas.Count > 0 || Boobs.Count > 0))// have needed organs
+            while (missing > fromOrgans && (SexualOrgans.Vaginas.Count > 0 || SexualOrgans.Boobs.Count > 0))// have needed organs
             {
-                if (Boobs.Count > 0 && Vaginas.Count > 0)
+                if (SexualOrgans.Boobs.Count > 0 && SexualOrgans.Vaginas.Count > 0)
                 {
-                    if (Boobs.Total() >= Vaginas.Total() * 2f + 1f)
+                    if (SexualOrgans.Boobs.Total() >= SexualOrgans.Vaginas.Total() * 2f + 1f)
                     {
-                        fromOrgans += Boobs.ReCycle();
+                        fromOrgans += SexualOrgans.Boobs.ReCycle();
                     }
                     else
                     {
-                        fromOrgans += Vaginas.ReCycle();
+                        fromOrgans += SexualOrgans.Vaginas.ReCycle();
                     }
                 }
-                else if (Vaginas.Count > 0)
+                else if (SexualOrgans.Vaginas.Count > 0)
                 {
-                    fromOrgans += Vaginas.ReCycle();
+                    fromOrgans += SexualOrgans.Vaginas.ReCycle();
                 }
                 else
                 {
-                    fromOrgans += Boobs.ReCycle();
+                    fromOrgans += SexualOrgans.Boobs.ReCycle();
                 }
             }
             have += Mathf.Min(fromOrgans, missing);
@@ -258,7 +203,7 @@ public abstract class BasicChar : MonoBehaviour
     public float Gold
     {
         get => Mathf.Floor(gold);
-        set => gold += Mathf.Clamp(value, -gold, Mathf.Infinity);
+        set => gold = Mathf.Clamp(value, -gold, Mathf.Infinity);
     }
 
     /// <summary>
@@ -276,46 +221,20 @@ public abstract class BasicChar : MonoBehaviour
         return false;
     }
 
-    public Flags Flags;
+    private Flags flags = new Flags();
+    public Flags Flags => flags;
 
     [SerializeField]
-    private PregnancySystem pregnancySystem;
+    private PregnancySystem pregnancySystem = new PregnancySystem();
 
     public PregnancySystem PregnancySystem => pregnancySystem;
+    public bool Pregnant => SexualOrgans.Vaginas.Exists(v => v.Womb.HasFetus);
 
     [Header("Organs")]
     [SerializeField]
-    private List<Dick> dicks = new List<Dick>();
+    private Organs sexualOrgans = new Organs();
 
-    public List<Dick> Dicks => dicks;
-
-    [SerializeField]
-    private List<Balls> balls = new List<Balls>();
-
-    public List<Balls> Balls => balls;
-
-    public float CumSlider => Balls.CumTotal() / Balls.CumMax();
-
-    public string CumStatus => $"{Mathf.Round(Balls.CumTotal())}";
-
-    [SerializeField]
-    private List<Boobs> boobs = new List<Boobs>();
-
-    public List<Boobs> Boobs => boobs;
-
-    [SerializeField]
-    private bool lactating = false;
-
-    public bool Lactating => lactating;
-
-    public float MilkSlider => Boobs.MilkTotal() / Boobs.MilkMax();
-
-    public string MilkStatus => $"{Mathf.Round(Boobs.MilkTotal() / 1000)}";
-
-    [SerializeField]
-    private List<Vagina> vaginas = new List<Vagina>();
-
-    public List<Vagina> Vaginas => vaginas;
+    public Organs SexualOrgans => sexualOrgans;
 
     [SerializeField]
     private SexStats sexStats = new SexStats();
@@ -324,133 +243,12 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void Start()
     {
-        if (basicCharGame == null)
-        {
-            basicCharGame = GetComponent<BasicCharGame>();
-        }
-        foreach (BasicSkill s in skillsToAdd)
-        {
-            skills.Add(new UserSkill(s));
-        }
-        //Inventory.Owner = this;
     }
 
-    private void Update() => RefreshOrgans();
-
-    public void RefreshOrgans()
-    {
-        Dicks.RemoveAll(d => d.Size <= 0);
-        Balls.RemoveAll(b => b.Size <= 0);
-        Vaginas.RemoveAll(v => v.Size <= 0);
-        Boobs.RemoveAll(b => b.Size <= 0);
-        if (autoEss)
-        {
-            if (Masc.Amount > 0)
-            {
-                if (Dicks.Total() <= Balls.Total() * 2f + 1f)
-                {
-                    if (Dicks.Exists(d => Masc.Amount >= d.Cost))
-                    {
-                        foreach (Dick d in Dicks)
-                        {
-                            if (Masc.Amount >= d.Cost)
-                            {
-                                Masc.Lose(d.Grow());
-                            }
-                        }
-                    }
-                    else if (Masc.Amount >= Dicks.Cost())
-                    {
-                        Masc.Lose(Dicks.Cost());
-                        Dicks.AddDick();
-                    }
-                }
-                else
-                {
-                    if (Balls.Exists(b => Masc.Amount >= b.Cost))
-                    {
-                        foreach (Balls b in Balls)
-                        {
-                            if (Masc.Amount >= b.Cost)
-                            {
-                                Masc.Lose(b.Grow());
-                            }
-                        }
-                    }
-                    else if (Masc.Amount >= Balls.Cost())
-                    {
-                        Masc.Lose(Balls.Cost());
-                        Balls.AddBalls();
-                    }
-                }
-            }
-            if (Femi.Amount > 0)
-            {
-                if (Boobs.Total() <= Vaginas.Total() * 1.5f + 1f)
-                {
-                    if (Boobs.Exists(b => Femi.Amount >= b.Cost))
-                    {
-                        foreach (Boobs b in Boobs)
-                        {
-                            if (Femi.Amount >= b.Cost)
-                            {
-                                Femi.Lose(b.Grow());
-                            }
-                        }
-                    }
-                    else if (Femi.Amount >= Boobs.Cost())
-                    {
-                        Femi.Lose(Boobs.Cost());
-                        Boobs.AddBoobs();
-                    }
-                }
-                else
-                {
-                    if (Vaginas.Exists(v => Femi.Amount >= v.Cost))
-                    {
-                        foreach (Vagina v in Vaginas)
-                        {
-                            if (Femi.Amount >= v.Cost)
-                            {
-                                Femi.Lose(v.Grow());
-                            }
-                        }
-                    }
-                    else if (Femi.Amount >= Vaginas.Cost())
-                    {
-                        Femi.Lose(Vaginas.Cost());
-                        Vaginas.AddVag();
-                    }
-                }
-            }
-        }
-    }
+    private void Update() => SexualOrgans.RefreshOrgans(this, AutoEss);
 
     [SerializeField]
-    private List<UserSkill> skills = new List<UserSkill>();
+    private List<Skill> skills = new List<Skill>();
 
-    public List<UserSkill> Skills => skills;
-
-    [SerializeField]
-    private List<BasicSkill> skillsToAdd = new List<BasicSkill>();
-}
-
-[System.Serializable]
-public class UserSkill
-{
-    public UserSkill(BasicSkill basicSkill) => skill = basicSkill;
-
-    public BasicSkill skill;
-
-    public int TurnsLeft { get; private set; } = 0;
-
-    public float CoolDownPercent => skill.CoolDown != 0 ? TurnsLeft / (float)skill.CoolDown : 1;
-
-    public bool Ready => skill.HasCoolDown ? TurnsLeft < 1 : true;
-
-    public void StartCoolDown() => TurnsLeft = skill.CoolDown;
-
-    public void RefreshCoolDown(int n = 1) => TurnsLeft -= n;
-
-    public void ResetCoolDown() => TurnsLeft = 0;
+    public List<Skill> Skills => skills;
 }

@@ -21,7 +21,7 @@ public class Inventory
         {
             return false;
         } */
-        if (Items.Exists(i => i.id == theitem) && false)
+        if (Items.Exists(i => i.id == theitem))
         {
             Items.Find(i => i.id == theitem).amount++;
         }
@@ -56,8 +56,9 @@ public class InventoryItem
         amount = num;
     }
 
-   // public Item item;
+    // public Item item;
     public ItemId id;
+
     public int amount;
     public int invPos = -1;
 }

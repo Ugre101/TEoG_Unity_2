@@ -7,13 +7,13 @@ public class EnemyHealthSlider : BasicSlider
     public void Init(BasicChar enemy)
     {
         basicChar = enemy;
-        Health.updateSlider += changeHealth;
-        basicChar.HP.manualSliderUpdate();
+        Health.UpdateSliderEvent += changeHealth;
+        basicChar.HP.ManualSliderUpdate();
     }
     private void OnDisable()
     {
 
-                Health.updateSlider -= changeHealth;
+                Health.UpdateSliderEvent -= changeHealth;
 
     }
 
@@ -21,10 +21,10 @@ public class EnemyHealthSlider : BasicSlider
 
     private void changeHealth()
     {
-        slider.value = basicChar.HP.Slider();
+        slider.value = basicChar.HP.SliderValue;
         if (TextMesh != null)
         {
-            TextMesh.text = basicChar.HP.Status();
+            TextMesh.text = basicChar.HP.Status;
         }
     }
 }

@@ -12,7 +12,7 @@ public class playerMain : BasicChar
     public override void Start()
     {
         base.Start();
-        Init(1, 100f, 100f);
+        Init(1, 100, 100);
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Elfs);
