@@ -7,7 +7,7 @@
         gameUI = GetComponentInParent<GameUI>();
     }
 
-    public override void DoScene(playerMain player, BasicChar other)
+    public override void DoScene(PlayerMain player, BasicChar other)
     {
         gameUI.Resume();
     }

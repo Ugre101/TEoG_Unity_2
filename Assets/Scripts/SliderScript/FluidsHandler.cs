@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class FluidsHandler : MonoBehaviour
 {
-    public playerMain _player;
+    public PlayerMain _player;
     public GameObject cBar, mBar;
     private void OnEnable()
     {

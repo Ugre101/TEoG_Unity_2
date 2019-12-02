@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SaveMananger : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     public Transform playerSprite;
     public Dorm dorm;
     public GameUI gameUI;

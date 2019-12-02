@@ -7,7 +7,7 @@ public class AnalVore : VoreScene
     {
         return base.CanDo(player, Other);
     }
-    public override string StartScene(playerMain player, BasicChar other)
+    public override string StartScene(PlayerMain player, BasicChar other)
     {
         if (player.Vore.Anal.Vore(other))
         {

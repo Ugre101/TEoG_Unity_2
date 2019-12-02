@@ -16,6 +16,7 @@ public class CameraController : MonoBehaviour
 
     [Range(0.01f, 0.5f)]
     public float zoomSpeed = 0.1f;
+
     [Tooltip("Less is more, changes how much out of map camera can see")]
     [Range(0.1f, 0.6f)]
     public float viewLimit = 1f;
@@ -27,7 +28,10 @@ public class CameraController : MonoBehaviour
 
     private Camera cam;
     private float _xMax, _xMin, _yMin, _yMax;
+
+    [SerializeField]
     private float _orthSize = 8f;
+
     private float _lastOrthSize;
     private Vector3 minTile, maxTile;
 
@@ -44,11 +48,6 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     private void LateUpdate()
     {
-        if (_orthSize != _lastOrthSize)
-        {
-            TilemapLimits();
-            _lastOrthSize = _orthSize;
-        }
         Vector3 _target = _player.transform.position + _offset;
         _target.x = Mathf.Clamp(_target.x, _xMin, _xMax);
         _target.y = Mathf.Clamp(_target.y, _yMin, _yMax);
@@ -86,21 +85,25 @@ public class CameraController : MonoBehaviour
         {
             _orthSize -= Input.GetAxis("Mouse ScrollWheel"); // times zoom speed
         }
-        _orthSize = Mathf.Clamp(_orthSize, 4, _maxCam);
-        cam.orthographicSize = _orthSize;
+        if (_orthSize != _lastOrthSize)
+        {
+            TilemapLimits();
+            _lastOrthSize = _orthSize;
+            _orthSize = Mathf.Clamp(_orthSize, 4, _maxCam);
+            cam.orthographicSize = _orthSize;
+        }
         transform.position = Vector3.Lerp(transform.position, _target, _smoothing);
     }
 
     private void TilemapLimits()
     {
-        Camera cam = Camera.main;
         float height = 2f * cam.orthographicSize;
         float width = height * cam.aspect;
-        _xMin = minTile.x + width * viewLimit;
-        _xMax = maxTile.x - width * viewLimit;
+        _xMin = minTile.x + (width * viewLimit);
+        _xMax = maxTile.x - (width * viewLimit);
 
-        _yMin = minTile.y + height * viewLimit;
-        _yMax = maxTile.y - height * viewLimit;
+        _yMin = minTile.y + (height * viewLimit);
+        _yMax = maxTile.y - (height * viewLimit);
 
         //_maxCam = Mathf.Min((maxTile.y - minTile.y) / 2f, (maxTile.x - minTile.x) / (cam.aspect * 2f));
     }

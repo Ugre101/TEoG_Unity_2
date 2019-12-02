@@ -7,7 +7,7 @@ public class ChooseSkill : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 {
     public Button btn;
     private UserSkill userSkill;
-    private BasicSkill skill => userSkill.skill;
+    private BasicSkill Skill => userSkill.skill;
     private CombatButton target;
     private GameObject hoverBlock;
     private TextMeshProUGUI hoverText;
@@ -31,13 +31,13 @@ public class ChooseSkill : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         target = combatButton;
         hoverBlock = hover;
         hoverText = text;
-        img.sprite = skill.Icon;
+        img.sprite = Skill.Icon;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         hoverBlock.SetActive(true);
-        hoverText.text = $"{skill.Title}";
+        hoverText.text = $"{Skill.Title}";
     }
 
     public void OnPointerExit(PointerEventData eventData)

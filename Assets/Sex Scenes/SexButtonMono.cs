@@ -6,7 +6,7 @@ public class SexButtonMono : MonoBehaviour
     public MonoScene monoScene;
     public Button btn;
 
-    private playerMain player;
+    private PlayerMain player;
     private BasicChar other;
     void Start()
     {

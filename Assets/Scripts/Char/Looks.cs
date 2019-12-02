@@ -8,16 +8,16 @@ public class Looks
         who = whom;
     }
 
-    private Settings settings => who.BasicCharGame.Settings;
+    private Settings Settings => who.BasicCharGame.Settings;
 
     [SerializeField]
     private BasicChar who;
 
-    private string Height { get { return settings.MorInch(who.Weight); } }
-    private string Weight { get { return settings.KgorP(who.Weight); } }
+    private string Height { get { return Settings.MorInch(who.Weight); } }
+    private string Weight { get { return Settings.KgorP(who.Weight); } }
     private string Name { get { return who.FullName; } }
     private string Race { get { return who.Race; } }
-    private string Gender { get { return settings.GetGender(who); } }
+    private string Gender { get { return Settings.GetGender(who); } }
     private string Age { get { return $"{who.Age.AgeYears}years old"; } }
 
     public string Summary
@@ -44,7 +44,7 @@ public class Looks
     public string DickLook(int i)
     {
         Dick d = who.SexualOrgans.Dicks[Mathf.Clamp(i, 0, who.SexualOrgans.Dicks.Count - 1)];
-        return who.SexualOrgans.Dicks.Count > 0 ? $"a {settings.MorInch(d.Size)} long dick" : "";
+        return who.SexualOrgans.Dicks.Count > 0 ? $"a {Settings.MorInch(d.Size)} long dick" : "";
     }
 
     public string DicksLook()
@@ -54,7 +54,7 @@ public class Looks
         for (int i = 0; i < dicks.Count; i++)
         {
             Dick d = dicks[i];
-            string size = settings.MorInch(d.Size);
+            string size = Settings.MorInch(d.Size);
             if (i == 0)
             {
                 dLooks += $"A {size} long dick";
@@ -78,7 +78,7 @@ public class Looks
     public string BallLook(int i)
     {
         Balls b = who.SexualOrgans.Balls[Mathf.Clamp(i, 0, who.SexualOrgans.Balls.Count - 1)];
-        return $"a pair of {settings.MorInch(b.Size)} wide balls";
+        return $"a pair of {Settings.MorInch(b.Size)} wide balls";
     }
 
     public string BallsLook()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AfterBattleMain : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     public List<EnemyPrefab> enemies;
     public TextMeshProUGUI _textBox;
 
@@ -45,12 +45,12 @@ public class AfterBattleMain : MonoBehaviour
     public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
 
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
-    public playerMain Caster => player;
+    public PlayerMain Caster => player;
 
     private void OnDisable()
     {
         enemies.Clear();
-        SexStats.orgasmed -= RefreshScenes;
+        SexStats.OrgasmedEvent -= RefreshScenes;
     }
 
     public void Setup(List<EnemyPrefab> chars)
@@ -64,7 +64,7 @@ public class AfterBattleMain : MonoBehaviour
         // if enemies more than one, make selector view next to status
         playerChar.Setup(player);
         enemyChar.Setup(Target);
-        SexStats.orgasmed += RefreshScenes;
+        SexStats.OrgasmedEvent += RefreshScenes;
         player.SexStats.Reset();
         RefreshScenes();
     }

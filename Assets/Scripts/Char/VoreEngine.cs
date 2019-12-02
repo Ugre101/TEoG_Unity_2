@@ -132,15 +132,15 @@ namespace Vore
             float fatGain = Mathf.Min(toDigest, prey.Weight);
             if (prey.Body.Fat.Value > 0)
             {
-                prey.Body.Fat.Lose(toDigest);
+                prey.Body.Fat.LoseFlat(toDigest);
             }
             else if (prey.Body.Muscle.Value > 0)
             {
-                prey.Body.Muscle.Lose(toDigest);
+                prey.Body.Muscle.LoseFlat(toDigest);
             }
             else
             {
-                prey.Body.Height.Lose(toDigest);
+                prey.Body.Height.LoseFlat(toDigest);
             }
             return fatGain;
         }

@@ -49,7 +49,7 @@ public class LoadButtonStart : MonoBehaviour
         return _mainPath + currPath + ".json";
     }
 
-    private playerMain player;
+    private PlayerMain player;
     private Transform pos;
     private Dorm dorm;
     private GameUI gameUI;

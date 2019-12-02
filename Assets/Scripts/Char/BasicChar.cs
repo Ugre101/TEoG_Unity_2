@@ -221,7 +221,9 @@ public abstract class BasicChar : MonoBehaviour
         return false;
     }
 
+    [SerializeField]
     private Flags flags = new Flags();
+
     public Flags Flags => flags;
 
     [SerializeField]
@@ -245,7 +247,10 @@ public abstract class BasicChar : MonoBehaviour
     {
     }
 
-    private void Update() => SexualOrgans.RefreshOrgans(this, AutoEss);
+    private void Update()
+    {
+        SexualOrgans.RefreshOrgans(this, AutoEss);
+    }
 
     [SerializeField]
     private List<Skill> skills = new List<Skill>();

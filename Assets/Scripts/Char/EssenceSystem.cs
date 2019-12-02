@@ -25,5 +25,5 @@ public class EssenceSystem
     /// <summary>
     /// Base value give, add perk bonuses after localy
     /// </summary>
-    public float baseEssGive => 3 + bonusGive;
+    public float BaseEssGive => 3 + bonusGive;
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public class CharStats
@@ -27,16 +26,15 @@ public class CharStats
             return _currValue;
         }
     }
+
     [SerializeField]
     private List<StatMods> _statMods = new List<StatMods>();
+
     public List<StatMods> StatMods => _statMods;
 
-    public CharStats()
-    {
-        baseValue = 10;
-    }
+    public CharStats() => baseValue = 10;
 
-    public CharStats(int parBaseValue) : this() => baseValue = parBaseValue;
+    public CharStats(int parBaseValue) => baseValue = parBaseValue;
 
     public void AddMods(StatMods mod)
     {
@@ -62,25 +60,14 @@ public class CharStats
             _isDirty = true;
             didRemove = true;
         }
-        /*  for (int i = _statMods.Count - 1; i >= 0; i--)
-          {
-              StatMods mod = _statMods[i];
-              if (mod._source == Source)
-              {
-                  _isDirty = true;
-                  didRemove = true;
-                  _statMods.Remove(mod);
-              }
-          } */
         return didRemove;
     }
 
     private float CalcFinalValue()
     {
-        _statMods.Sort((a, b) => a.Order.CompareTo(b.Order));
-        float finalValue = baseValue + 
+        float finalValue = baseValue +
             _statMods.FindAll(sm => sm.Type == StatsModType.Flat).Sum(sm => sm.Value); ;
-        float perMulti = 1 + 
+        float perMulti = 1 +
             _statMods.FindAll(sm => sm.Type == StatsModType.Precent).Sum(sm => sm.Value);
         return Mathf.Round(finalValue * perMulti);
     }

@@ -9,7 +9,7 @@ namespace UI
         private GameObject Vore = null;
 
         [SerializeField]
-        private playerMain player = null;
+        private PlayerMain player = null;
 
         [SerializeField]
         private Image levelBtnImg = null;

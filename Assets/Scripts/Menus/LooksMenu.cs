@@ -4,7 +4,7 @@ using UnityEngine;
 public class LooksMenu : MonoBehaviour
 {
     public TextMeshProUGUI _looksIntro;
-    public playerMain _player;
+    public PlayerMain _player;
     public Settings _sett;
 
     private void OnEnable()

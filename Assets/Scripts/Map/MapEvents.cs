@@ -8,7 +8,7 @@ public class MapEvents : MonoBehaviour
 
     public static event worldMapChange WorldMapChange;
 
-    public playerMain player;
+    public PlayerMain player;
 
     public Tilemap CurrentMap;
     public WorldMaps ActiveMap;

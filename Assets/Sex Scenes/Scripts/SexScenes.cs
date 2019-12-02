@@ -90,19 +90,19 @@ public class SexScenes : ScriptableObject
         return true;
     }
 
-    public virtual string StartScene(playerMain player, BasicChar other)
+    public virtual string StartScene(PlayerMain player, BasicChar other)
     {
         ArousalGain(player, other);
         return $"";
     }
 
-    public virtual string ContinueScene(playerMain player, BasicChar other)
+    public virtual string ContinueScene(PlayerMain player, BasicChar other)
     {
         ArousalGain(player, other);
         return $"";
     }
 
-    public virtual void ArousalGain(playerMain player, BasicChar other)
+    public virtual void ArousalGain(PlayerMain player, BasicChar other)
     {
         float PlayerGain = CasterGain * Mathf.Pow(EnduranceMultiplier, player.Stats.End);
         float OtherGain = ReciverGain * Mathf.Pow(CharmMultiplier, player.Stats.Charm) *
@@ -136,12 +136,12 @@ public class VoreScene : SexScenes
 
 public class MonoScene : MonoBehaviour
 {
-    public virtual bool CanDo(playerMain player, BasicChar other)
+    public virtual bool CanDo(PlayerMain player, BasicChar other)
     {
         return true;
     }
 
-    public virtual void DoScene(playerMain player, BasicChar other)
+    public virtual void DoScene(PlayerMain player, BasicChar other)
     {
     }
 }

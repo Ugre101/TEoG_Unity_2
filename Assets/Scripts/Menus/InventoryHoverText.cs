@@ -2,8 +2,6 @@
 
 public class InventoryHoverText : BasicMenuHoverText
 {
-    public void OnEnable() => StopHovering();
-
     public override void Hovering(GameObject hoverOver, Vector2 mousePos)
     {
         base.Hovering(hoverOver, mousePos);

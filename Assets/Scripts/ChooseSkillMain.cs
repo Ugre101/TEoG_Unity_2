@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ChooseSkillMain : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     public GameObject container;
     public List<BasicSkill> knowSkills;
     public GameObject prefab;

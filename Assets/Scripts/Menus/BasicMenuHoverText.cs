@@ -6,22 +6,15 @@ public class BasicMenuHoverText : MonoBehaviour
     public GameObject hoverblock;
     public TextMeshProUGUI hovertext;
 
-    /*   [SerializeField]
-       [Range(0f, 50f)]
-       private float xDistance = 0.123f;
-
-       [SerializeField]
-       [Range(0f, 50f)]
-       private float yDistance = 0.123f;*/
-
-    private RectTransform Parent;
-    private RectTransform hoverRect;
-
     // Start is called before the first frame update
     public virtual void Start()
     {
-        Parent = (RectTransform)transform;
-        hoverRect = (RectTransform)hoverblock.transform;
+        StopHovering();
+    }
+
+    private void OnDisable()
+    {
+        StopHovering();
     }
 
     public virtual void Hovering(GameObject hoverOver, Vector2 mousePos)

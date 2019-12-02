@@ -8,7 +8,7 @@ public class QuestMenuHandler : MonoBehaviour
 {
     [Header("Quest prefab")]
     public GameObject Prefab;
-    public playerMain player;
+    public PlayerMain player;
     public TextMeshProUGUI bigQuestText;
     private string nl = Environment.NewLine;
 

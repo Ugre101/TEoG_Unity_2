@@ -9,7 +9,7 @@ public class CombatMain : MonoBehaviour
 
     public TextMeshProUGUI _textbox;
 
-    public playerMain player;
+    public PlayerMain player;
     public GameObject skillButtonsContainer;
     public List<CombatButton> skillButtons;
     public SkillBook skillBook;
@@ -39,7 +39,7 @@ public class CombatMain : MonoBehaviour
     public LoseMain loseBattle;
 
     // Private
-    private List<string> _battleLog = new List<string>();
+    private readonly List<string> _battleLog = new List<string>();
 
     private string _PlayerTeamAttacks, _EnemyTeamAttacks;
     private int _turn;
@@ -48,13 +48,10 @@ public class CombatMain : MonoBehaviour
     {
         skillButtons = new List<CombatButton>(skillButtonsContainer.GetComponentsInChildren<CombatButton>());
         // every time someone dies check if a team losses
-        CombatTeam.Lost += SomeOneDead;
         if (!skillButtons.Exists(s => s.Skill != null))
         {
             for (int i = 0; i < player.Skills.Count; i++)
             {
-                Debug.Log(player.Skills[i].Id);
-                Debug.Log(skillBook.Dict.Match(player.Skills[i].Id).skill.name);
                 skillButtons[i].userSkill = skillBook.Dict.Match(player.Skills[i].Id);
                 skillButtons[i].Setup();
             }
@@ -70,10 +67,6 @@ public class CombatMain : MonoBehaviour
                 us.ResetCoolDown();
             }
         }
-    }
-
-    private void OnDisable()
-    {
     }
 
     public void SetUpCombat(List<EnemyPrefab> enemies)

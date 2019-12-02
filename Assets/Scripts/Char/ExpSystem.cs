@@ -26,7 +26,7 @@ public class ExpSystem
                 statPoints += 3;
                 perkPoints++;
             }
-            expChange?.Invoke();
+            ExpChangeEvent?.Invoke();
         }
     }
 
@@ -77,7 +77,7 @@ public class ExpSystem
 
     public delegate void ExpChange();
 
-    public static event ExpChange expChange;
+    public static event ExpChange ExpChangeEvent;
 
-    public void ManualExpUpdate() => expChange?.Invoke();
+    public void ManualExpUpdate() => ExpChangeEvent?.Invoke();
 }

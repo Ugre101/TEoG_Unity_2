@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class IntroScript : MonoBehaviour
 {
     public GameUI gameUI;
-    public playerMain player;
+    public PlayerMain player;
     public Button firstAccept, secondAccept;
     public TMP_InputField firstName, lastName;
     public GameObject charCreator, startSettings;

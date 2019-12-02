@@ -11,10 +11,16 @@ public class BodyStat
     public float Value => value;
 
     /// <summary>Max(Value - Abs(toLose),0.01f)</summary>
-    public void Lose(float toLose) => value = Mathf.Max(value - Mathf.Abs(toLose), 0.01f);
+    public void LoseFlat(float toLose) => value = Mathf.Max(value - Mathf.Abs(toLose), 0.01f);
+
+    /// <summary>Value *= clamp(value, 0.01f, 1f) </summary>
+    public void LosePrecent(float lostPrecent) => value *= Mathf.Clamp(lostPrecent, 0.001f, 1f);
 
     /// <summary>Value += Abs(toGain)</summary>
-    public void Gain(float toGain) => value += Mathf.Abs(toGain);
+    public void GainFlat(float toGain) => value += Mathf.Abs(toGain);
+
+    /// <summary>Value *= clamp(gainPrecent, 1.001f, infinity)</summary>
+    public void GainPrecent(float gainPrecent) => value *= Mathf.Clamp(gainPrecent, 1.001f, Mathf.Infinity);
 }
 
 [System.Serializable]

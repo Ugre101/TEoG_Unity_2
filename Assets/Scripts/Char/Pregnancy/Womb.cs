@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class Womb
 {
+    [SerializeField]
     private List<Fetus> fetuses = new List<Fetus>();
+
     public bool HasFetus => fetuses.Count > 0;
 
     public bool Grow(float parDaysToGrow = 1f)

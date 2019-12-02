@@ -37,16 +37,23 @@ public class FollowMouseUI : MonoBehaviour
             {
                 Vector3 pos = newPos;
                 lastPos = Input.mousePosition;
-                pos.x += xDist;
-                pos.y += yDist;
-                transform.position = pos;
                 if (FluidPivot)
                 {
                     Vector2 newPiv = rect.pivot;
-                    newPiv.x = newPos.x > Screen.width * width ? 1 : 0;
-                    newPiv.y = newPos.y > Screen.height * height ? 0 : 1;
+                    bool xBool = newPos.x > Screen.width * width;
+                    bool yBool = newPos.y > Screen.height * height;
+                    newPiv.x = xBool ? 1 : 0;
+                    newPiv.y = yBool ? 1 : 0;
+                    pos.x += xBool ? -xDist : xDist;
+                    pos.y += yBool ? -yDist : yDist;
                     rect.pivot = newPiv;
                 }
+                else
+                {
+                    pos.x += xDist;
+                    pos.y += yDist;
+                }
+                transform.position = pos;
             }
         }
     }

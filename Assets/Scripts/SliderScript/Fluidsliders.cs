@@ -7,7 +7,7 @@ using TMPro;
 
 public class FluidSliders : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     public TextMeshProUGUI statusText;
     public Settings convert;
     protected Slider slider;

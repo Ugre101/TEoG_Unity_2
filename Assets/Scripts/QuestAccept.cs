@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 public class QuestAccept : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     public Quests type;
     public Button accept;
     public TextMeshProUGUI textBox;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum SkillId
@@ -12,38 +13,25 @@ public enum SkillId
 [System.Serializable]
 public class SkillDict
 {
-    //  [SerializeField]
-    //  private List<UserSkill> skills = new List<UserSkill>();
-
-    //  public List<UserSkill> Skills => skills;
     [SerializeField]
     private List<BasicSkill> skills = new List<BasicSkill>();
 
-    public List<BasicSkill> Skills => skills;
+    public List<BasicSkill> BasicSkills => skills;
 
     public UserSkill Match(SkillId parId)
     {
-        if (skills.Exists(s => s.Id == parId))
+        if (!skills.Exists(s => s.Id == parId))
         {
-            // Error
+            Debug.LogError("No skills with matching id");
         }
-        return new UserSkill(Skills.Find(s => s.Id == parId));
+        return new UserSkill(BasicSkills.Find(s => s.Id == parId));
     }
 
     public List<UserSkill> OwnedSkills(List<Skill> skills)
     {
-        List<UserSkill> toReturn = new List<UserSkill>();
-
-        foreach (BasicSkill basicSkill in Skills)
-        {
-            foreach (Skill skill in skills)
-            {
-                if (basicSkill.Id == skill.Id)
-                {
-                    toReturn.Add(new UserSkill(basicSkill));
-                }
-            }
-        }
-        return toReturn;
+        return (from basicSkill in BasicSkills
+                join skill in skills
+                on basicSkill.Id equals skill.Id
+                select new UserSkill(basicSkill)).ToList();
     }
 }

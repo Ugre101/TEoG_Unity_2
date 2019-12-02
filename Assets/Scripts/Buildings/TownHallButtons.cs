@@ -3,7 +3,7 @@
 public class TownHallButtons : MonoBehaviour
 {
     public GameObject buyHouse, banditQuest, elfQuest;
-    public playerMain player;
+    public PlayerMain player;
 
     private void OnEnable()
     {

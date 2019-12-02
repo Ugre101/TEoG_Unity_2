@@ -42,19 +42,25 @@ public class EnemyPrefab : BasicChar
     [Range(0, 300)]
     public int assingHeight = 160;
 
+    [SerializeField]
     private float heightRng = 0.1f;
+
     private int FinalHeight => Mathf.FloorToInt(assingHeight * Random.Range(1 - heightRng, 1 + heightRng));
 
     [Range(0, 100)]
     public int assingFat = 20;
 
+    [SerializeField]
     private float fatRng = 0.1f;
+
     private int FinalFat => Mathf.RoundToInt(assingFat * Random.Range(1 - fatRng, 1 + fatRng));
 
     [Range(0, 100)]
     public int assingMuscle = 30;
 
+    [SerializeField]
     private float muscleRng = 0.1f;
+
     private int FinalMuscle => Mathf.FloorToInt(assingMuscle * Random.Range(1 - muscleRng, 1 + muscleRng));
 
     #endregion Body stats

@@ -47,7 +47,7 @@ namespace Vore
             List<ThePrey> Digested = new List<ThePrey>();
             foreach (ThePrey prey in Preys)
             {
-                pred.Body.Fat.Gain(prey.Digest(toDigest));
+                pred.Body.Fat.GainFlat(prey.Digest(toDigest));
                 if (prey.Prey.Weight <= 0)
                 {
                     Digested.Add(prey);
@@ -71,6 +71,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
     }
+
     [Serializable]
     public class VoreBoobs : VoreBasic
     {
@@ -84,6 +85,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
     }
+
     [Serializable]
     public class VoreStomach : VoreBasic
     {
@@ -97,6 +99,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
     }
+
     [Serializable]
     public class VoreAnal : VoreBasic
     {
@@ -110,6 +113,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
     }
+
     [Serializable]
     public class VoreVagina : VoreBasic
     {
@@ -138,6 +142,7 @@ namespace Vore
                 // TODO make them shrink once they start aging under adult age.
             }
         }
+
         [Serializable]
         public class PreyToChild
         {
@@ -147,15 +152,21 @@ namespace Vore
                 startAge = prey.Prey.Age.AgeYears;
                 lastAge = startAge;
             }
+
             [SerializeField]
             private ThePrey prey;
+
             public ThePrey Prey => prey;
+
             [SerializeField]
             private int startAge;
+
             [SerializeField]
             private int lastAge;
+
             public int CurAge => prey.Prey.Age.AgeYears;
             public int StartAge => startAge;
+
             public bool AgeDown()
             {
                 prey.Prey.Age.AgeDown();
@@ -163,6 +174,9 @@ namespace Vore
                 {
                     float shrinkFactor = lastAge / CurAge;
                     lastAge = CurAge;
+                    prey.Prey.Body.Height.LosePrecent(shrinkFactor);
+                    prey.Prey.Body.Fat.LosePrecent(shrinkFactor);
+                    prey.Prey.Body.Muscle.LosePrecent(shrinkFactor);
                     // TODO shrink prey maybe eventlog it?
                     // prey shall shrink very little while over 25, but once under 18 they shrink steadely.
                     return true;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LoseMain : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     public List<EnemyPrefab> enemies;
     public TextMeshProUGUI _textBox;
 

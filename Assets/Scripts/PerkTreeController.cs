@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class PerkTreeController : MonoBehaviour, IScrollHandler
 {
-    public playerMain player;
+    public PlayerMain player;
     public KeyBindings keyBindings;
     public GameObject toZoom;
     public RectTransform zoomRect;
@@ -11,16 +11,20 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
     public BasicStatButton[] statButtons;
     public GameObject vorePerksTree;
     public RectTransform perkRect;
+
     [Range(1f, 5f)]
     [SerializeField]
     private float zoom = 1f;
 
+    [SerializeField]
     private float touchpadZoomSen = 0.05f;
+
+    [SerializeField]
     private float keyZooomSen = 0.05f;
 
-    public float setZoom
+    public float SetZoom
     {
-        get { return zoom; }
+        get => zoom;
         set
         {
             zoom = Mathf.Clamp(value, 1f, 5f);
@@ -34,7 +38,7 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
         {
             vorePerksTree.SetActive(player.Vore.Active);
         }
-        
+
         perkRect.localPosition = new Vector3(0, 0, 0);
     }
 
@@ -63,11 +67,11 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
     {
         if (Input.GetKey(keyBindings.zoomInKey))
         {
-            setZoom += keyZooomSen;
+            SetZoom += keyZooomSen;
         }
         else if (Input.GetKey(keyBindings.zoomOutKey))
         {
-            setZoom -= keyZooomSen;
+            SetZoom -= keyZooomSen;
         }
     }
 
@@ -84,11 +88,11 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
             float abY = Mathf.Abs(y);
             if (y < 0)
             {
-                setZoom -= abY * touchpadZoomSen;
+                SetZoom -= abY * touchpadZoomSen;
             }
             else if (y > 0)
             {
-                setZoom += abY * touchpadZoomSen;
+                SetZoom += abY * touchpadZoomSen;
             }
         }
     }

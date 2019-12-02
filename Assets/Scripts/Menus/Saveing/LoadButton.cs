@@ -8,13 +8,13 @@ public class LoadButton : MonoBehaviour
     private SaveMananger saveMananger;
 
     // Short commands
-    private playerMain player => saveMananger.player;
+    private PlayerMain Player => saveMananger.player;
 
-    private Transform pos => saveMananger.playerSprite;
-    private Dorm dorm => saveMananger.dorm;
-    private GameUI gameUI => saveMananger.gameUI;
-    private MapEvents mapEvents => saveMananger.mapEvents;
-    private TickManager tickManager => saveMananger.tickManager;
+    private Transform GetPos => saveMananger.playerSprite;
+    private Dorm GetDorm => saveMananger.dorm;
+    private GameUI GetGameUI => saveMananger.gameUI;
+    private MapEvents GetMapEvents => saveMananger.mapEvents;
+    private TickManager GetTickManager => saveMananger.tickManager;
 
     [SerializeField]
     private Home home = null;
@@ -47,14 +47,14 @@ public class LoadButton : MonoBehaviour
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            Save save = new Save(player, pos, dorm, mapEvents, tickManager, home, eventLog);
+            Save save = new Save(Player, GetPos, GetDorm, GetMapEvents, GetTickManager, home, eventLog);
             save.LoadData(json);
         }
         else
         {
             Debug.Log("Error load failed...");
         }
-        gameUI.Resume();
+        GetGameUI.Resume();
     }
 
     public void DeleteSave()

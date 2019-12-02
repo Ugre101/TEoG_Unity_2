@@ -3,7 +3,7 @@
 public class BasicStatButton : PerkTreeBasicBtn
 {
     [Space]
-    public StatType stat;
+    public StatTypes stat;
 
     [SerializeField]
     private int statAmount = 1;

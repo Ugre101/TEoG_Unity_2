@@ -100,7 +100,7 @@ public class Movement : MonoBehaviour
         // Clamp player inside tilemap & handle all player movement in one place to ease clamping
         if (_map != lastMap)
         {
-            tilemapLimits();
+            TilemapLimits();
         }
         if (CurPos != _target)
         {
@@ -110,7 +110,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void tilemapLimits()
+    private void TilemapLimits()
     {
         Vector3 minTile = _map.CellToWorld(_map.cellBounds.min);
         Vector3 maxTile = _map.CellToWorld(_map.cellBounds.max);

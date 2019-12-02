@@ -16,7 +16,7 @@ public enum Maps
 public class Map : MonoBehaviour
 {
     public string map;
-    public string testMap { get { return this.transform.name; } }
+    public string TestMap => transform.name;
 
     [Header("Map enemies")]
     [Tooltip("Types of enemies that can spawn on this map.")]

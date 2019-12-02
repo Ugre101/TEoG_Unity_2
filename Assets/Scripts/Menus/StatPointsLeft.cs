@@ -2,7 +2,7 @@
 using TMPro;
 public class StatPointsLeft : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     private TextMeshProUGUI textUGUI;
     private int lastLeft;
     // Start is called before the first frame update

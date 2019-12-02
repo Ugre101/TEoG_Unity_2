@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PerkPointsLeft : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     public TextMeshProUGUI textUGUI;
     private int lastLeft;
 
@@ -19,7 +19,7 @@ public class PerkPointsLeft : MonoBehaviour
         }
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
         }
         lastLeft = player.ExpSystem.PerkPoints;
         textUGUI.text = $"Perkpoints: {lastLeft}";

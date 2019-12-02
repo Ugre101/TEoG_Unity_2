@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public bool taken = false;
-    public playerMain player;
+    public PlayerMain player;
     public TextMeshProUGUI amount;
     public PerkInfo perkInfo;
     public Button btn;
@@ -29,7 +29,7 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerMain>();
+            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
         }
     }
 

@@ -18,9 +18,9 @@
             SessionOrgasm++;
             currOrgasm++;
             Arousal -= maxArousal;
-            orgasmed?.Invoke();
+            OrgasmedEvent?.Invoke();
         }
-        arousalChange?.Invoke();
+        ArousalChangeEvent?.Invoke();
         return org;
     }
 
@@ -42,14 +42,14 @@
 
     public delegate void ArousalChange();
 
-    public static event ArousalChange arousalChange;
+    public static event ArousalChange ArousalChangeEvent;
 
     public delegate void Orgasmed();
 
-    public static event Orgasmed orgasmed;
+    public static event Orgasmed OrgasmedEvent;
 
     public void ManualArousalUpdate()
     {
-        arousalChange?.Invoke();
+        ArousalChangeEvent?.Invoke();
     }
 }

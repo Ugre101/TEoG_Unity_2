@@ -2,7 +2,7 @@
 
 public class TickManager : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     public EventLog eventlog;
     public PerkInfo healtyBody, strongMind, gluttony, lowMetabolism;
 
@@ -39,7 +39,7 @@ public class TickManager : MonoBehaviour
         {
             fatBurnRate -= lowMetabolism.PosetiveValue;
         }
-        player.Body.Fat.Lose(fatBurnRate);
+        player.Body.Fat.LoseFlat(fatBurnRate);
 
         player.HP.Gain(hpGain);
         player.WP.Gain(wpGain);

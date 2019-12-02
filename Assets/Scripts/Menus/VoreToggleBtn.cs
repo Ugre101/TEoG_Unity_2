@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 public class VoreToggleBtn : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     private Button btn;
     private TextMeshProUGUI text;
     // Start is called before the first frame update

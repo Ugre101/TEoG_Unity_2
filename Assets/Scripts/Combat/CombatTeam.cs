@@ -13,11 +13,7 @@ public class CombatTeam : MonoBehaviour
 
     // if nobody is alive return true else false
     public bool TeamDead => !combatStatuses.Exists(s => s.Dead == false);
-    private void OnEnable()
-    {
 
-    }
-   
     public IEnumerator StartFight(List<BasicChar> EnemyTeam)
     {
         transform.KillChildren(TeamContainer.transform);
@@ -39,15 +35,11 @@ public class CombatTeam : MonoBehaviour
         }
     }
 
-    public delegate void TeamLost();
-
-    public static event TeamLost Lost;
-
     public void WeLost()
     {
         if (TeamDead)
         {
-            Lost?.Invoke();
+            combatMain.SomeOneDead();
         }
     }
 

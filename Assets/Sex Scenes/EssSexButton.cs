@@ -6,7 +6,7 @@ public class EssSexButton : MonoBehaviour
     public AfterBattleMain afterBattle;
     public SexScenes scene;
     public Button btn;
-    private playerMain Caster => afterBattle.Caster;
+    private PlayerMain Caster => afterBattle.Caster;
     private EnemyPrefab Other => afterBattle.Target;
 
     private void Start()

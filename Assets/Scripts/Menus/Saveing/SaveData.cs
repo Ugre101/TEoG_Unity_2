@@ -5,16 +5,16 @@ using UnityEngine;
 [Serializable]
 public class Save
 {
-    private readonly playerMain Player;
+    private readonly PlayerMain Player;
     private readonly Transform Pos;
     private readonly Dorm dorm;
     private readonly MapEvents mapEvents;
     private readonly TickManager tickManager;
     private readonly Home home;
-    private EventLog eventLog;
+    private readonly EventLog eventLog;
     private PlayerSave save;
 
-    public Save(playerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome,EventLog parEventLog)
+    public Save(PlayerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome,EventLog parEventLog)
     {
         Player = player;
         Pos = pos.transform;

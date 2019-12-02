@@ -1,13 +1,13 @@
 ﻿using UnityEditor;
 
-[CustomEditor(typeof(playerMain))]
+[CustomEditor(typeof(PlayerMain))]
 public class PlayerMainEditor : BasicCharEditor
 {
-    private playerMain player;
+    private PlayerMain player;
 
     public override void OnInspectorGUI()
     {
-        player = (playerMain)target;
+        player = (PlayerMain)target;
         base.OnInspectorGUI();
     }
 }

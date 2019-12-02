@@ -2,21 +2,15 @@
 
 public class InventorySlot : MonoBehaviour
 {
+    public void SetId(int parId) => Id = parId;
+
     // public InventoryItem item;
-    public bool Empty = true;
+    public bool Empty => transform.childCount == 0;
 
-    public int Id;
-
-    public void AddTo(DragInventory item)
-    {
-        DragInventory drag = Instantiate(item, transform);
-        drag.SlotId = Id;
-        Empty = false;
-    }
+    public int Id { get; private set; }
 
     public void Clean()
     {
-        Empty = true;
         transform.KillChildren();
     }
 }

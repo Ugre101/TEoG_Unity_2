@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 public class PotionShop : MonoBehaviour
 {
-    public playerMain player;
+    public PlayerMain player;
     public TextMeshProUGUI textbox;
     public Button str, charm, end,dex, inte;
     // Start is called before the first frame update

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class afterBattleEnemy : MonoBehaviour
 {
     public List<BasicChar> _enemies = new List<BasicChar>();
-    public playerMain _player;
+    public PlayerMain _player;
     // essence gameobject
 
     public void AddEnemy(BasicChar enemy)

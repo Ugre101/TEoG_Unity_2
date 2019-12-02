@@ -15,7 +15,7 @@ public class LevelMenu : MonoBehaviour
     public GameObject _moreEss, _giveEss;
 
     [Header("Player")]
-    public playerMain _player;
+    public PlayerMain _player;
 
     private Button _strBtn, _charmBtn, _endBtn, _intBtn, _willBtn, _dexBtn;
     private Button _fasterBtn, _moreBtn, _giveBtn;

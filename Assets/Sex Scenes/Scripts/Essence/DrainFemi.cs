@@ -5,7 +5,7 @@ public class DrainFemi : SexScenes
 {
     public PerkInfo essFlow;
 
-    private float ToDrain(playerMain drainer)
+    private float ToDrain(PlayerMain drainer)
     {
         float drain = drainer.EssDrain;
         if (drainer.Perks.HasPerk(PerksTypes.EssenceFlow))
@@ -15,14 +15,14 @@ public class DrainFemi : SexScenes
         return drain;
     }
 
-    public override string StartScene(playerMain player, BasicChar other)
+    public override string StartScene(PlayerMain player, BasicChar other)
     {
         float have = other.LoseFemi(ToDrain(player));
         player.Femi.Gain(have);
         return "Drain femi";
     }
 
-    public override string ContinueScene(playerMain player, BasicChar other)
+    public override string ContinueScene(PlayerMain player, BasicChar other)
     {
         return StartScene(player, other);
     }

@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using TMPro;
 using UnityEngine;
 
 public class SaveSrollListControl : MonoBehaviour
@@ -11,8 +10,6 @@ public class SaveSrollListControl : MonoBehaviour
     private DirectoryInfo _dirInfo;
     private FileInfo[] _fileInfo, _fileInfoOld;
     private string _path;
-    private TextMeshProUGUI[] _textList;
-    private TextMeshProUGUI _text;
 
     // Start is called before the first frame update
     private void Start()

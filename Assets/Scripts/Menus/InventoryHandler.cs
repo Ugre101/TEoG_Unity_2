@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryHandler : MonoBehaviour
 {
@@ -8,7 +11,7 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField]
     private InventorySlot SlotPrefab = null;
 
-    public playerMain player;
+    public PlayerMain player;
 
     //  public List<Item> Items;
     public Items items;
@@ -17,21 +20,31 @@ public class InventoryHandler : MonoBehaviour
 
     public int AmountOfSlots = 40;
     private InventorySlot[] Slots;
+    public Button sortAll, sortEatDrink, sortMisc;
+    private Color selected = new Color(0.5f, 0.5f, 0.5f, 1f), notSelected = new Color(0, 0, 0, 1);
 
-    private void Awake() => DragInventory.used += UpdateInventory;
+    private void Awake() => DragInventory.UsedEvent += UpdateInventory;
 
     private void OnEnable()
     {
+        ToggleButtons(sortAll);
         if (SlotsHolder.transform.childCount < AmountOfSlots)
         {
             for (int i = SlotsHolder.transform.childCount; i < AmountOfSlots; i++)
             {
                 InventorySlot slot = Instantiate(SlotPrefab, SlotsHolder.transform);
-                slot.Id = i;
+                slot.SetId(i);
             }
             Slots = SlotsHolder.GetComponentsInChildren<InventorySlot>();
         }
         UpdateInventory();
+    }
+
+    private void Start()
+    {
+        sortAll.onClick.AddListener(() => { UpdateInventory(); ToggleButtons(sortAll); });
+        sortEatDrink.onClick.AddListener(() => { UpdateInventory(ItemTypes.Consumables); ToggleButtons(sortEatDrink); });
+        sortMisc.onClick.AddListener(() => { UpdateInventory(ItemTypes.Misc); ToggleButtons(sortMisc); });
     }
 
     public void UpdateInventory()
@@ -46,29 +59,56 @@ public class InventoryHandler : MonoBehaviour
         player.Inventory.Items.RemoveAll(i => i.amount < 1);
         foreach (InventoryItem item in player.Inventory.Items)
         {
-            DragInventory dragInv = ItemPrefab;
-            dragInv.item = items.items.Find(i => i.Id == item.id);
+            DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.invPos].transform);
+            dragInv.item = items.ItemsDict.Find(i => i.Id == item.id);
             dragInv.NewItem(this, item, item.invPos);
-            Slots[item.invPos].AddTo(dragInv);
         }
     }
 
-    public void Move(GameObject item, int startSlot, int EndSlot)
+    public void UpdateInventory(ItemTypes parType)
     {
-        if (Slots[EndSlot].Empty)
+        foreach (InventorySlot slot in Slots)
+        {
+            if (!slot.Empty)
+            {
+                slot.Clean();
+            }
+        }
+        player.Inventory.Items.RemoveAll(i => i.amount < 1);
+        List<InventoryItem> test = (from item in items.ItemsDict
+                                    join invItem in player.Inventory.Items
+                                    on item.Id equals invItem.id
+                                    where item.Type == parType
+                                    select invItem).ToList();
+        Debug.Log(test.Count);
+        Debug.Log(player.Inventory.Items.Count);
+        foreach (InventoryItem item in test)
+        {
+            DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.invPos].transform);
+            dragInv.item = items.ItemsDict.Find(i => i.Id == item.id);
+            dragInv.NewItem(this, item, item.invPos);
+        }
+    }
+
+    public void ToggleButtons(Button selectedBtn)
+    {
+        sortAll.image.color = sortAll.name == selectedBtn.name ? selected : notSelected;
+        sortEatDrink.image.color = sortEatDrink.name == selectedBtn.name ? selected : notSelected;
+        sortMisc.image.color = sortMisc.name == selectedBtn.name ? selected : notSelected;
+    }
+
+    public void Move(int startSlot, int EndSlot)
+    {
+        Debug.Log(startSlot + " " + EndSlot);
+        if (Slots[EndSlot].Empty && !player.Inventory.Items.Exists(i => i.invPos == EndSlot))
         {
             player.Inventory.Items.Find(i => i.invPos == startSlot).invPos = EndSlot;
             //UpdateInventory();
-            Slots[EndSlot].Empty = false;
-            Slots[startSlot].Empty = true;
         }
     }
 
-    public void Move(GameObject item, int startSlot)
+    public void Move(int startSlot)
     {
-        //  player.Inventory.Items.Find(i => i.invPos == startSlot);
-        //UpdateInventory();
-        //  Slots[startSlot].Empty = true;
         Debug.Log("Remove item?");
     }
 }

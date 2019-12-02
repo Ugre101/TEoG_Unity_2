@@ -5,7 +5,7 @@ using TMPro;
 public class ExpStatusUpdater : MonoBehaviour
 {
     // Public
-    public playerMain player;
+    public PlayerMain player;
     public TextMeshProUGUI _statusExp, _statusLevel;
     // Private
     private Slider slider;
@@ -14,18 +14,18 @@ public class ExpStatusUpdater : MonoBehaviour
     private void OnEnable()
     {
         slider = GetComponent<Slider>();
-        ExpSystem.expChange += expSsagdsaa;
+        ExpSystem.ExpChangeEvent += ExpStatus;
         player.ExpSystem.ManualExpUpdate();
     }
     private void OnDisable()
     {
-        ExpSystem.expChange -= expSsagdsaa;
+        ExpSystem.ExpChangeEvent -= ExpStatus;
     }
 
 
     // Update is called once per frame
 
-    public void expSsagdsaa()
+    public void ExpStatus()
     {
         if (slider != null)
         {

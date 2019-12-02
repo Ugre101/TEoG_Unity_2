@@ -9,9 +9,9 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public Item item;
     public int SlotId;
-    public playerMain player;
+    public PlayerMain player;
 
-    private InventoryHandler inventory;
+    private InventoryHandler invHandler;
     private InventoryHoverText hoverText;
     private Transform Parent;
     private Image GetImage => GetComponent<Image>();
@@ -54,12 +54,17 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             InventorySlot slot = pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>();
             if (slot != null ? slot.Empty : false)
             {
-                inventory.Move(gameObject, SlotId, slot.Id);
+                invHandler.Move(SlotId, slot.Id);
                 transform.SetParent(pointerEvent.pointerCurrentRaycast.gameObject.transform);
                 transform.position = transform.parent.position;
                 SlotId = slot.Id;
                 Parent = transform.parent;
-                used?.Invoke();
+                UsedEvent?.Invoke();
+            }
+            else
+            {
+                Debug.Log("Do you want to remove");
+                invHandler.Move(SlotId);
             }
         }
         GetComponent<CanvasGroup>().blocksRaycasts = true;
@@ -78,13 +83,31 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
+    private bool isHovering = false, hoverTextActive = false;
+    private float timeStartedHovering;
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hoverText.Hovering(gameObject, eventData.position);
+        timeStartedHovering = Time.realtimeSinceStartup;
+        isHovering = true;
+    }
+
+    private void Update()
+    {
+        if (isHovering && !hoverTextActive)
+        {
+            if (timeStartedHovering + 0.8f < Time.realtimeSinceStartup)
+            {
+                hoverText.Hovering(gameObject, Input.mousePosition);
+                hoverTextActive = true;
+            }
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        isHovering = false;
+        hoverTextActive = false;
         hoverText.StopHovering();
     }
 
@@ -94,23 +117,28 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (item.Type == ItemTypes.Weapon)
         {
             Weapon weapon = (Weapon)item;
-            player.Stats.strength.AddMods(weapon.Mods[0]);
+            foreach (StatMods mod in weapon.Mods)
+            {
+                player.Stats.GetStat(mod.StatType).AddMods(mod);
+            }
+            // TODO if player has weapong equipt then dequip it.
         }
         item.Use(player);
         //amount.text = Item.Amount.ToString();
         Amount--;
         if (Amount < 1)
         {
-            used?.Invoke();
+            UsedEvent?.Invoke();
             hoverText.StopHovering();
         }
     }
 
-    public void NewItem(InventoryHandler parHandler, InventoryItem Invitem, int slot)
+    public void NewItem(InventoryHandler parHandler, InventoryItem parInvitem, int slot)
     {
-        invItem = Invitem;
-        inventory = parHandler;
-        player = inventory.player;
+        invItem = parInvitem;
+        invHandler = parHandler;
+        player = invHandler.player;
+        SlotId = slot;
         //Invitem.item;
         if (item != null ? item.Sprite != null : false)
         {
@@ -120,5 +148,5 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public delegate void Used();
 
-    public static event Used used;
+    public static event Used UsedEvent;
 }

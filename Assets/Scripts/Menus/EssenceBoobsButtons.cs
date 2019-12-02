@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class EssenceBoobsButtons : MonoBehaviour
 {
     public GameObject prefab;
-    public playerMain player;
+    public PlayerMain player;
     public Settings settings;
     private int lastAmount;
     private TextMeshProUGUI AddText;

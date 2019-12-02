@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum StatType
+public enum StatTypes
 {
     Str,
     Charm,
@@ -40,14 +40,14 @@ public class StatsContainer
     public CharStats intelligence;
     public float Int => intelligence.Value;
 
-    public CharStats GetStat(StatType stat)
+    public CharStats GetStat(StatTypes stat)
     {
         switch (stat)
         {
-            case StatType.Charm: return charm;
-            case StatType.Dex: return dexterity;
-            case StatType.End: return endurance;
-            case StatType.Str: return strength;
+            case StatTypes.Charm: return charm;
+            case StatTypes.Dex: return dexterity;
+            case StatTypes.End: return endurance;
+            case StatTypes.Str: return strength;
             default: throw new ArgumentOutOfRangeException();
         }
     }

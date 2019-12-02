@@ -63,7 +63,7 @@ public class SpawnKeyBindings : MonoBehaviour
     {
         keys = key;
         waitingForKey = true;
-        StartCoroutine(getKey());
+        StartCoroutine(GetKey());
     }
 
     private void OnGUI()
@@ -80,7 +80,7 @@ public class SpawnKeyBindings : MonoBehaviour
         }
     }
 
-    private IEnumerator getKey()
+    private IEnumerator GetKey()
     {
         while (waitingForKey)
         {

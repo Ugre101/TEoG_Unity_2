@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class EssenceMenu : MonoBehaviour
 {
-    public playerMain _player;
+    public PlayerMain _player;
     public GameObject _autoEss;
 
     private Button _autoEssBtn;

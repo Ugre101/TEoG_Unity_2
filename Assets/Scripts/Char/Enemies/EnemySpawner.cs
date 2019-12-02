@@ -21,10 +21,10 @@ public class EnemySpawner : MonoBehaviour
     private int distFromBorder = 2;
 
     // Private
-    private List<Vector3> _empty = new List<Vector3>();
+    private readonly List<Vector3> _empty = new List<Vector3>();
 
-    private List<GameObject> _enemies = new List<GameObject>();
-    private List<GameObject> _CurrEnemies = new List<GameObject>();
+    private readonly List<GameObject> _enemies = new List<GameObject>();
+    private readonly List<GameObject> _CurrEnemies = new List<GameObject>();
     private Tilemap _currMap;
 
     private void Start()
