@@ -10,14 +10,9 @@ public class BasicCharGame : MonoBehaviour
 
     [Header("Scriptable objects")]
     [SerializeField]
-    private Settings settings = null;
-
-    [SerializeField]
     private EventLog eventLog = null;
 
     private BasicChar whom;
-
-    public Settings Settings => settings;
 
     public EventLog EventLog => eventLog;
 

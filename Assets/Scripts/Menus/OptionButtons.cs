@@ -15,7 +15,6 @@ public class OptionButtons : MonoBehaviour
     [Header("Imperial")]
     public Button impButton;
 
-    public Settings settings;
     private TextMeshProUGUI impText;
     private bool impToggle;
 
@@ -65,7 +64,7 @@ public class OptionButtons : MonoBehaviour
 
     private void ToggleImp()
     {
-        impToggle = settings.ToogleImp();
+        impToggle = Settings.ToogleImp();
         PlayerPrefs.SetInt("Imperial", impToggle ? 1 : 0);
         if (impText != null)
         {

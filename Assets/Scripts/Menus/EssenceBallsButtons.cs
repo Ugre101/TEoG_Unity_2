@@ -6,7 +6,6 @@ public class EssenceBallsButtons : MonoBehaviour
 {
     public GameObject prefab;
     public PlayerMain player;
-    public Settings settings;
     private int lastAmount;
     private TextMeshProUGUI AddText;
 
@@ -41,7 +40,7 @@ public class EssenceBallsButtons : MonoBehaviour
             GameObject pre = Instantiate(prefab, this.transform);
             Button btn = pre.GetComponent<Button>();
             TextMeshProUGUI t = pre.GetComponentInChildren<TextMeshProUGUI>();
-            t.text = $"{settings.MorInch(b.Size)} {b.Cost}Masc";
+            t.text = $"{Settings.MorInch(b.Size)} {b.Cost}Masc";
             btn.onClick.AddListener(() => GrowBalls(b, t));
         }
         lastAmount = player.SexualOrgans.Balls.Count;
@@ -52,7 +51,7 @@ public class EssenceBallsButtons : MonoBehaviour
         if (player.Masc.Amount >= b.Cost)
         {
             b.Grow();
-            t.text = $"{settings.MorInch(b.Size)} {b.Cost}Masc";
+            t.text = $"{Settings.MorInch(b.Size)} {b.Cost}Masc";
         }
     }
 

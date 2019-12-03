@@ -1,29 +1,18 @@
 ﻿using System;
 using UnityEngine;
 
-[System.Serializable]
-[CreateAssetMenu(fileName = "Settings", menuName = "Tools")]
-public class Settings : ScriptableObject//Bad name?
+public static class Settings
 {
-    [SerializeField]
-    private bool Imperial = false;
+    public static bool Imperial { get; private set; } = false;
 
-    public bool ToogleImp()
+    public static bool ToogleImp()
     {
         return Imperial = !Imperial;
     }
 
-    private void OnEnable()
+    public static string LorGal(float L)
     {
-        Imperial = PlayerPrefs.HasKey("Imperial") ? PlayerPrefs.GetInt("Imperial") == 1 ? true : false : false;
-    }
-
-    public string LorGal(float L)
-    {
-        if (L == 0)
-        {
-            return "empty";
-        }
+        if (L == 0) { return "empty"; }
         if (Imperial)
         {
             return Mathf.Floor(0.264172052f * L) < 1 ?
@@ -35,12 +24,9 @@ public class Settings : ScriptableObject//Bad name?
         }
     }
 
-    public string MorInch(float cm)
+    public static string MorInch(float cm)
     {
-        if (cm == 0)
-        {
-            return "zero?";
-        }
+        if (cm == 0) { return "zero?"; }
         if (Imperial)
         {
             float Inch = Mathf.Round(cm / 2.54f);
@@ -50,60 +36,48 @@ public class Settings : ScriptableObject//Bad name?
         }
         else
         {
-            float m = (float)Math.Round(cm / 100,1);
+            float m = (float)Math.Round(cm / 100, 1);
             return m > 5f ? $"{m}m" : $"{Mathf.Round(cm)}cm";
         }
     }
 
-    public string KgorP(float kg)
+    public static string KgorP(float kg)
     {
-        if (kg <= 0)
-        {
-            return "zero?";
-        }
-        string toReturn = "";
+        if (kg <= 0) { return "zero?"; }
         if (Imperial)
         {
             // int stone = Mathf.FloorToInt(kg * 0.15747304441777f); // when to use stone?
             float pound = Mathf.Round(kg * 2.20462262f);
             float ounce = Mathf.Round(kg * 35.27396194958f);
-            toReturn += pound < 1 ? $"{ounce}oz" : $"{pound}lbs";
+            return pound < 1 ? $"{ounce}oz" : $"{pound}lbs";
         }
         else
         {
             if (kg > 1000)
             {
                 int tonne = Mathf.FloorToInt(kg / 1000);
-                toReturn += tonne + "tonne";
+                string toReturn = tonne + "tonne";
                 int left = Mathf.FloorToInt(kg - (tonne * 1000));
                 if (left > 99)
                 {
                     toReturn += $" and {left}kg";
                 }
+                return toReturn;
             }
-            else if (kg > 1)
-            {
-                toReturn += Mathf.FloorToInt(kg) + "kg";
-            }
-            else
-            {
-                toReturn += Mathf.Ceil(kg * 1000) + "g";
-            }
+            else if (kg > 1) { return Mathf.FloorToInt(kg) + "kg"; }
+            else { return Mathf.Ceil(kg * 1000) + "g"; }
         }
-        return toReturn;
     }
 
-    [SerializeField]
-    [Header("Pronuns")]
-    public string Male = "male";
+    public static string Male = "male";
 
-    public string Female = "female";
-    public string Herm = "herm";
-    public string Cuntboy = "cuntboy";
-    public string Dickgirl = "dickgirl";
-    public string Doll = "doll";
+    public static string Female = "female";
+    public static string Herm = "herm";
+    public static string Cuntboy = "cuntboy";
+    public static string Dickgirl = "dickgirl";
+    public static string Doll = "doll";
 
-    public string GetGender(BasicChar who, bool capital = false)
+    public static string GetGender(BasicChar who, bool capital = false)
     {
         switch (who.Gender)
         {

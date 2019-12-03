@@ -80,7 +80,7 @@ public class CombatMain : MonoBehaviour
         enemyTeamChars.Clear();
         enemyTeamChars.AddRange(enemies);
         enemyTeam.StartCoroutine(enemyTeam.StartFight(new List<BasicChar>(enemies)));
-        playerTeam.StartCoroutine(playerTeam.StartFight(playerTeamChars));
+        _ = playerTeam.StartCoroutine(playerTeam.StartFight(playerTeamChars));
         ResetSkills(playerTeamChars);
         ResetSkills(new List<BasicChar>(enemyTeamChars));
     }

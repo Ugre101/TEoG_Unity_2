@@ -9,7 +9,6 @@ public class FluidSliders : MonoBehaviour
 {
     public PlayerMain player;
     public TextMeshProUGUI statusText;
-    public Settings convert;
     protected Slider slider;
     
     private void Awake()

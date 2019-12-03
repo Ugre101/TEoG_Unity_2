@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -6,6 +7,28 @@ public class Womb
 {
     [SerializeField]
     private List<Fetus> fetuses = new List<Fetus>();
+
+    public List<Fetus> Fetuses => fetuses;
+    public string AgeOfOldest
+    {
+        get
+        {
+            Fetus oldest = Fetuses.OrderByDescending(a => a.DaysOld).First();
+            int days = oldest.DaysOld;
+            if (days > 30)
+            {
+                return Mathf.FloorToInt(days / 30) + " months";
+            }
+            else if (days > 7)
+            {
+                return Mathf.FloorToInt(days / 7) + " weeks";
+            }
+            else
+            {
+                return days + " days";
+            }
+        }
+    }
 
     public bool HasFetus => fetuses.Count > 0;
 

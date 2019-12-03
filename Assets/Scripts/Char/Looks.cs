@@ -8,25 +8,19 @@ public class Looks
         who = whom;
     }
 
-    private Settings Settings => who.BasicCharGame.Settings;
-
     [SerializeField]
     private BasicChar who;
 
     private string Height { get { return Settings.MorInch(who.Weight); } }
     private string Weight { get { return Settings.KgorP(who.Weight); } }
-    private string Name { get { return who.FullName; } }
-    private string Race { get { return who.Race; } }
-    private string Gender { get { return Settings.GetGender(who); } }
-    private string Age { get { return $"{who.Age.AgeYears}years old"; } }
 
     public string Summary
     {
         get
         {
-            string title = Name;
-            string desc = $"A {Height} tall {Race} {Gender}";
-            string stats = $" {Age}\nWeight: {Weight}\nHeight: {Height}";
+            string title = who.FullName;
+            string desc = $"A {Height} tall {who.Race} {who.Gender.ToString()}";
+            string stats = $" {who.Age.AgeYears}years old\nWeight: {Weight}\nHeight: {Height}";
             return $" {title}\n\n{desc}\n{stats}";
         }
     }

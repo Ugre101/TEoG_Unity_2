@@ -6,7 +6,6 @@ public class EssenceVagButtons : MonoBehaviour
 {
     public GameObject prefab;
     public PlayerMain player;
-    public Settings settings;
     private int lastAmount;
     private TextMeshProUGUI AddText;
 
@@ -41,7 +40,7 @@ public class EssenceVagButtons : MonoBehaviour
             GameObject pre = Instantiate(prefab, this.transform);
             Button btn = pre.GetComponent<Button>();
             TextMeshProUGUI t = pre.GetComponentInChildren<TextMeshProUGUI>();
-            t.text = $"{settings.MorInch(b.Size)} {b.Cost}Femi";
+            t.text = $"{Settings.MorInch(b.Size)} {b.Cost}Femi";
             btn.onClick.AddListener(() => GrowVag(b, t));
         }
         lastAmount = player.SexualOrgans.Vaginas.Count;
@@ -52,7 +51,7 @@ public class EssenceVagButtons : MonoBehaviour
         if (player.Femi.Amount >= b.Cost)
         {
             b.Grow();
-            t.text = $"{settings.MorInch(b.Size)} {b.Cost}Femi";
+            t.text = $"{Settings.MorInch(b.Size)} {b.Cost}Femi";
         }
     }
 

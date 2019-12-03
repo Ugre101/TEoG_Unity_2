@@ -25,4 +25,18 @@ public static class UgreTools
             GameObject.Destroy(child.gameObject);
         }
     }
+    public static string FirstSecondEtc(this int parInt,bool capitalLetter = false)
+    {
+        switch (parInt)
+        {
+            case 1:
+                return capitalLetter ? "First": "first";
+            case 2:
+                return capitalLetter ? "Second" : "second";
+            case 3:
+                return capitalLetter ? "Third" : "third";
+            default:
+                return parInt + "th";
+        }
+    }
 }

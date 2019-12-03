@@ -4,8 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Sex scene", menuName = ("Sex/Test"))]
 public class SexScenes : ScriptableObject
 {
-    public Settings settings;
-
     [Header("Player needs")]
     public bool PlayerDick;
 
@@ -113,7 +111,7 @@ public class SexScenes : ScriptableObject
 
     public string CmOrInch(float size)
     {
-        return settings != null ? settings.MorInch(size) : size + "cm";
+        return Settings.MorInch(size);
     }
 
     public string BiggestDick(BasicChar whom)

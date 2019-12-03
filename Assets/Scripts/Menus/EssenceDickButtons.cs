@@ -6,7 +6,6 @@ public class EssenceDickButtons : MonoBehaviour
 {
     public GameObject prefab;
     public PlayerMain player;
-    public Settings settings;
     private int lastAmount;
     private TextMeshProUGUI AddText;
 
@@ -41,7 +40,7 @@ public class EssenceDickButtons : MonoBehaviour
             GameObject pre = Instantiate(prefab, this.transform);
             Button btn = pre.GetComponent<Button>();
             TextMeshProUGUI t = pre.GetComponentInChildren<TextMeshProUGUI>();
-            t.text = $"{settings.MorInch(d.Size)} {d.Cost}Masc";
+            t.text = $"{Settings.MorInch(d.Size)} {d.Cost}Masc";
             btn.onClick.AddListener(() => GrowDick(d, t));
         }
         lastAmount = player.SexualOrgans.Dicks.Count;
@@ -52,7 +51,7 @@ public class EssenceDickButtons : MonoBehaviour
         if (player.Masc.Amount >= d.Cost)
         {
             d.Grow();
-            t.text = $"{settings.MorInch(d.Size)} {d.Cost}Masc";
+            t.text = $"{Settings.MorInch(d.Size)} {d.Cost}Masc";
         }
     }
 

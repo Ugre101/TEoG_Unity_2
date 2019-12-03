@@ -22,6 +22,8 @@ public class SaveMananger : MonoBehaviour
         {
             Directory.CreateDirectory(_mainPath);
         }
+        bool Imperial = PlayerPrefs.HasKey("Imperial") ? PlayerPrefs.GetInt("Imperial") == 1 ? true : false : false;
+        if (Settings.Imperial == Imperial) { Settings.ToogleImp(); }
     }
 
     public void NewSaveGame()

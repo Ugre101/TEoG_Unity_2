@@ -24,7 +24,7 @@ public class CumBar : FluidSliders
         slider.value = player.SexualOrgans.CumSlider;
         if (statusText != null)
         {
-            statusText.text = convert.LorGal(player.SexualOrgans.Balls.CumTotal()/1000);
+            statusText.text = Settings.LorGal(player.SexualOrgans.Balls.CumTotal()/1000);
         }
     }
 }

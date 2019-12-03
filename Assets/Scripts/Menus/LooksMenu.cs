@@ -1,22 +1,54 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LooksMenu : MonoBehaviour
 {
     public TextMeshProUGUI _looksIntro;
-    public PlayerMain _player;
-    public Settings _sett;
+    public PlayerMain player;
+    private bool exactDetails = false;
 
     private void OnEnable()
     {
         // if missing disable script
-        if (_player == null)
+        if (player == null)
         {
             GetComponent<LooksMenu>().enabled = false;
         }
         if (_looksIntro != null)
         {
-            _looksIntro.text = _player.Looks.Summary;
+            _looksIntro.text = player.Looks.Summary;
         }
+    }
+
+    public void OrgansLook()
+    {
+        string organs = player.SexualOrgans.Dicks.Looks();
+        _looksIntro.text = organs;
+    }
+
+    public void PregnancyLook()
+    {
+        string pregLook = $"Virility: {player.PregnancySystem.GetVirility}\n" +
+            $"Fertility: {player.PregnancySystem.GetFertility}\n\n";
+        if (player.Pregnant)
+        {
+            List<Vagina> pregVags = player.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus);
+            foreach (Vagina vag in pregVags)
+            {
+                pregLook += FetusDesc(vag) + "\n";
+            }
+        }
+    }
+
+    private string FetusDesc(Vagina pregVag)
+    {
+        int index = player.SexualOrgans.Vaginas.IndexOf(pregVag);
+        if (pregVag.Womb.Fetuses.Count > 1)
+        {
+            // TODO add text for multitude of children
+        }
+        return $"The unborn child inside your {index.FirstSecondEtc()} vagina's womb " +
+            $"is about {pregVag.Womb.AgeOfOldest} old.";
     }
 }

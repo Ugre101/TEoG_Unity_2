@@ -56,6 +56,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -141,6 +142,7 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -224,10 +226,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 10
-  pointer: {fileID: 3212981430073784373, guid: c772b2ce14481f1478f0c253ebd4a48a, type: 3}
   canvas: {fileID: 0}
   spawner: {fileID: 0}
   mapEvents: {fileID: 0}
+  pointer: {fileID: 3212981430073784373, guid: c772b2ce14481f1478f0c253ebd4a48a, type: 3}
+  _coll: {fileID: 0}
+  _rb2d: {fileID: 0}
 --- !u!114 &404725221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,6 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: {fileID: 11400000, guid: 30f7ea40fe5120b4f95bbc7c29587544, type: 2}
+  spriteRenderer: {fileID: 0}
   settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
   eventLog: {fileID: 11400000, guid: afafec6ffb983614b80c3fc20d9a8849, type: 2}
 --- !u!114 &404725225
@@ -252,60 +257,91 @@ MonoBehaviour:
   m_GameObject: {fileID: 3561722265227643819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7536373ca11a5d240a5d0df7e920b539, type: 3}
+  m_Script: {fileID: 11500000, guid: c380547a57972ea4abc4064990388e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   firstName: 
   lastName: 
-  Inventory:
+  inventory:
     Items: []
   raceSystem:
     raceList: []
-  Vore:
+  vore:
     Active: 0
-  Body:
+    balls:
+      preys: []
+      voreExp: 0
+    boobs:
+      preys: []
+      voreExp: 0
+    stomach:
+      preys: []
+      voreExp: 0
+    anal:
+      preys: []
+      voreExp: 0
+    vagina:
+      preys: []
+      voreExp: 0
+      childTf: 0
+  age:
+    ageYears: 18
+    ageDays: 0
+  body:
     height:
-      Value: 0
-    weight:
-      Value: 0
+      value: 0
     fat:
-      Value: 0
+      value: 0
     muscle:
-      Value: 0
-  HP:
+      value: 0
+  hp:
     _current: 0
-    _max: 0
-  WP:
+  wp:
     _current: 0
-    _max: 0
   expSystem:
     level: 0
     exp: 0
     perkPoints: 0
     statPoints: 0
-  Perk:
+  perk:
     perkList: []
-  strength:
-    _baseValue: 0
-  charm:
-    _baseValue: 0
-  endurance:
-    _baseValue: 0
-  dexterity:
-    _baseValue: 0
-  intelligence:
-    _baseValue: 0
+  stats:
+    strength:
+      baseValue: 10
+      _statMods: []
+    charm:
+      baseValue: 10
+      _statMods: []
+    endurance:
+      baseValue: 10
+      _statMods: []
+    dexterity:
+      baseValue: 10
+      _statMods: []
+    intelligence:
+      baseValue: 10
+      _statMods: []
   autoEss: 1
-  masc:
-    _amount: 0
-  femi:
-    _amount: 0
+  essence:
+    masc:
+      _amount: 0
+    femi:
+      _amount: 0
+    bonusDrain: 0
+    bonusGive: 0
   gold: 0
-  dicks: []
-  balls: []
-  boobs: []
-  lactating: 0
-  vaginas: []
+  pregnancySystem:
+    children: []
+    virility: 1
+    fertility: 1
+    bonusFetusGrowth: 0
+  sexualOrgans:
+    dicks: []
+    balls: []
+    boobs: []
+    lactating: 0
+    vaginas: []
+  skills: []
   Quest:
     quests: []
   PlayerFlags:
