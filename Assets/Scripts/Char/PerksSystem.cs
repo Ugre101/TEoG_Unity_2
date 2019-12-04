@@ -24,7 +24,7 @@ public class Perk
     [SerializeField]
     private PerksTypes _type;
 
-    public int Value { get { return _baseValue; } set { _baseValue = value; } }
+    public int Value { get => _baseValue; set => _baseValue = value; }
     public PerksTypes Type => _type;
 
     public Perk(PerksTypes type)

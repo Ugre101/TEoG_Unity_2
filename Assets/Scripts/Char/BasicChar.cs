@@ -94,7 +94,7 @@ public abstract class BasicChar : MonoBehaviour
     {
         hp = new Health(maxhp);
         wp = new Health(maxwp);
-        expSystem.Level = lvl;
+        expSystem = new ExpSystem(lvl);
     }
 
     [Header("Essence")]
@@ -249,7 +249,7 @@ public abstract class BasicChar : MonoBehaviour
 
     private void Update()
     {
-        SexualOrgans.RefreshOrgans(this, AutoEss);
+        this.RefreshOrgans(AutoEss);
     }
 
     [SerializeField]

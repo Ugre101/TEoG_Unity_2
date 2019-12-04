@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class Inventory
@@ -6,31 +7,27 @@ public class Inventory
     // Base amount
     private readonly int baseAmount = 40;
 
-    // Maybe add bonus to inventory size?
-    public int SlotsAmount { get { return baseAmount; } }
+    [SerializeField]
+    private int bonusAmount = 0;
 
-    //public Items itemRefs;
+    public void SetBonusAmount(int toGrow) => bonusAmount = toGrow;
 
-    //public BasicChar Owner;
-    public List<InventoryItem> Items = new List<InventoryItem>();
+    public int SlotsAmount => baseAmount + bonusAmount;
+
+    [SerializeField]
+    private List<InventoryItem> items = new List<InventoryItem>();
+
+    public List<InventoryItem> Items => items;
 
     public bool AddItem(ItemId theitem)
     {
-        /*   Item toAdd = itemRefs.items.Find(i => i.name == theitem.ToString());
-        if (toAdd == null || Items.Count == SlotsAmount)
+        if (Items.Exists(i => i.Id == theitem))
         {
-            return false;
-        } */
-        if (Items.Exists(i => i.id == theitem))
-        {
-            Items.Find(i => i.id == theitem).amount++;
+            Items.Find(i => i.Id == theitem).Amount++;
         }
         else
         {
-            InventoryItem newItem = new InventoryItem(theitem)
-            {
-                invPos = FirstEmpty()
-            };
+            InventoryItem newItem = new InventoryItem(theitem, FirstEmpty());
             Items.Add(newItem);
         }
         return true;
@@ -39,7 +36,7 @@ public class Inventory
     private int FirstEmpty()
     {
         int First = 0;
-        while (Items.Exists(inv => inv.invPos == First))
+        while (Items.Exists(inv => inv.InvPos == First))
         {
             First++;
         }
@@ -50,15 +47,23 @@ public class Inventory
 [System.Serializable]
 public class InventoryItem
 {
-    public InventoryItem(ItemId toAdd, int num = 1)
+    public InventoryItem(ItemId toAdd, int parInvPos, int num = 1)
     {
         id = toAdd;
         amount = num;
+        invPos = parInvPos;
     }
 
-    // public Item item;
-    public ItemId id;
+    [SerializeField]
+    private ItemId id;
 
-    public int amount;
-    public int invPos = -1;
+    [SerializeField]
+    private int amount;
+
+    [SerializeField]
+    private int invPos = -1;
+
+    public ItemId Id => id;
+    public int Amount { get => amount; set => amount = value; }
+    public int InvPos { get => invPos; set => invPos = value; }
 }

@@ -3,12 +3,18 @@
 [System.Serializable]
 public class ExpSystem
 {
+    public ExpSystem()
+    {
+    }
+
+    public ExpSystem(int startLevel) => level = startLevel;
+
     [SerializeField]
     private int level = 0;
 
     // TODO decide if set level should be public or not, problem is setting level of enemies will be harder
     // if it isn't
-    public int Level { get => level; set { level = value; } }
+    public int Level => level;
 
     [SerializeField]
     private int exp = 0;
@@ -35,13 +41,13 @@ public class ExpSystem
 
     /// <summary>
     /// Show amount of parkpoints, note you can only add extra perkpoints not remove. This is to avoid
-    /// getting negative amount of points. All 
+    /// getting negative amount of points. All
     /// </summary>
-    public int PerkPoints { get => perkPoints; set { perkPoints += Mathf.Max(0,value); } }
+    public int PerkPoints => perkPoints;
 
     public bool PerkBool(int parCost = 1)
     {
-        if (perkPoints >= parCost)
+        if (PerkPoints >= parCost)
         {
             perkPoints -= parCost;
             return true;

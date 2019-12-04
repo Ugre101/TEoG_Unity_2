@@ -56,12 +56,12 @@ public class InventoryHandler : MonoBehaviour
                 slot.Clean();
             }
         }
-        player.Inventory.Items.RemoveAll(i => i.amount < 1);
+        player.Inventory.Items.RemoveAll(i => i.Amount < 1);
         foreach (InventoryItem item in player.Inventory.Items)
         {
-            DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.invPos].transform);
-            dragInv.item = items.ItemsDict.Find(i => i.Id == item.id);
-            dragInv.NewItem(this, item, item.invPos);
+            DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.InvPos].transform);
+            dragInv.item = items.ItemsDict.Find(i => i.Id == item.Id);
+            dragInv.NewItem(this, item, item.InvPos);
         }
     }
 
@@ -74,19 +74,19 @@ public class InventoryHandler : MonoBehaviour
                 slot.Clean();
             }
         }
-        player.Inventory.Items.RemoveAll(i => i.amount < 1);
+        player.Inventory.Items.RemoveAll(i => i.Amount < 1);
         List<InventoryItem> test = (from item in items.ItemsDict
                                     join invItem in player.Inventory.Items
-                                    on item.Id equals invItem.id
+                                    on item.Id equals invItem.Id
                                     where item.Type == parType
                                     select invItem).ToList();
         Debug.Log(test.Count);
         Debug.Log(player.Inventory.Items.Count);
         foreach (InventoryItem item in test)
         {
-            DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.invPos].transform);
-            dragInv.item = items.ItemsDict.Find(i => i.Id == item.id);
-            dragInv.NewItem(this, item, item.invPos);
+            DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.InvPos].transform);
+            dragInv.item = items.ItemsDict.Find(i => i.Id == item.Id);
+            dragInv.NewItem(this, item, item.InvPos);
         }
     }
 
@@ -100,9 +100,9 @@ public class InventoryHandler : MonoBehaviour
     public void Move(int startSlot, int EndSlot)
     {
         Debug.Log(startSlot + " " + EndSlot);
-        if (Slots[EndSlot].Empty && !player.Inventory.Items.Exists(i => i.invPos == EndSlot))
+        if (Slots[EndSlot].Empty && !player.Inventory.Items.Exists(i => i.InvPos == EndSlot))
         {
-            player.Inventory.Items.Find(i => i.invPos == startSlot).invPos = EndSlot;
+            player.Inventory.Items.Find(i => i.InvPos == startSlot).InvPos = EndSlot;
             //UpdateInventory();
         }
     }

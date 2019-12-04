@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 public enum OrganType
@@ -144,6 +143,96 @@ public static class SexOrganExtension
     {
         return list.Sum(so => so.Size);
     }
+
+    public static void RefreshOrgans(this BasicChar bc, bool autoEss = false)
+    {
+        bc.SexualOrgans.Dicks.RemoveAll(d => d.Size <= 0);
+        bc.SexualOrgans.Balls.RemoveAll(b => b.Size <= 0);
+        bc.SexualOrgans.Vaginas.RemoveAll(v => v.Size <= 0);
+        bc.SexualOrgans.Boobs.RemoveAll(b => b.Size <= 0);
+        if (autoEss)
+        {
+            if (bc.Masc.Amount > 0)
+            {
+                if (bc.SexualOrgans.Dicks.Total()
+                    <= bc.SexualOrgans.Balls.Total() * 2f + 1f)
+                {
+                    if (bc.SexualOrgans.Dicks.Exists(d
+                        => bc.Masc.Amount >= d.Cost))
+                    {
+                        foreach (Dick d in bc.SexualOrgans.Dicks)
+                        {
+                            if (bc.Masc.Amount >= d.Cost)
+                            {
+                                bc.Masc.Lose(d.Grow());
+                            }
+                        }
+                    }
+                    else if (bc.Masc.Amount >= bc.SexualOrgans.Dicks.Cost())
+                    {
+                        bc.Masc.Lose(bc.SexualOrgans.Dicks.Cost());
+                        bc.SexualOrgans.Dicks.AddDick();
+                    }
+                }
+                else
+                {
+                    if (bc.SexualOrgans.Balls.Exists(b => bc.Masc.Amount >= b.Cost))
+                    {
+                        foreach (Balls b in bc.SexualOrgans.Balls)
+                        {
+                            if (bc.Masc.Amount >= b.Cost)
+                            {
+                                bc.Masc.Lose(b.Grow());
+                            }
+                        }
+                    }
+                    else if (bc.Masc.Amount >= bc.SexualOrgans.Balls.Cost())
+                    {
+                        bc.Masc.Lose(bc.SexualOrgans.Balls.Cost());
+                        bc.SexualOrgans.Balls.AddBalls();
+                    }
+                }
+            }
+            if (bc.Femi.Amount > 0)
+            {
+                if (bc.SexualOrgans.Boobs.Total()
+                    <= bc.SexualOrgans.Vaginas.Total() * 1.5f + 1f)
+                {
+                    if (bc.SexualOrgans.Boobs.Exists(b => bc.Femi.Amount >= b.Cost))
+                    {
+                        foreach (Boobs b in bc.SexualOrgans.Boobs)
+                        {
+                            if (bc.Femi.Amount >= b.Cost)
+                            {
+                                bc.Femi.Lose(b.Grow());
+                            }
+                        }
+                    }
+                    else if (bc.Femi.Amount >= bc.SexualOrgans.Boobs.Cost())
+                    {
+                        bc.Femi.Lose(bc.SexualOrgans.Boobs.Cost());
+                        bc.SexualOrgans.Boobs.AddBoobs();
+                    }
+                }
+                else
+                {
+                    if (bc.SexualOrgans.Vaginas.Exists(v => bc.Femi.Amount >= v.Cost))
+                    {
+                        foreach (Vagina v in bc.SexualOrgans.Vaginas)
+                        {
+                            if (bc.Femi.Amount >= v.Cost)
+                            {
+                                bc.Femi.Lose(v.Grow());
+                            }
+                        }
+                    }
+                    else if (bc.Femi.Amount >= bc.SexualOrgans.Vaginas.Cost())
+                    {
+                        bc.Femi.Lose(bc.SexualOrgans.Vaginas.Cost());
+                        bc.SexualOrgans.Vaginas.AddVag();
+                    }
+                }
+            }
+        }
+    }
 }
-
-

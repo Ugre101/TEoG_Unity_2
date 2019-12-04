@@ -18,8 +18,8 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private int Amount
     {
-        get => invItem != null ? player.Inventory.Items.Find(i => i.invPos == invItem.invPos).amount : 0;
-        set => player.Inventory.Items.Find(i => i.invPos == invItem.invPos).amount = value;
+        get => invItem != null ? player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount : 0;
+        set => player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount = value;
     }
 
     private float firstClick;
