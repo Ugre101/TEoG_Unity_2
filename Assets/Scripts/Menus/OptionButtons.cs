@@ -10,13 +10,14 @@ public class OptionButtons : MonoBehaviour
 
     public Button pixelCameraButton;
     private bool pixelToggle = false;
+
+    [SerializeField]
     private TextMeshProUGUI pixelText;
 
     [Header("Imperial")]
     public Button impButton;
 
     private TextMeshProUGUI impText;
-    private bool impToggle;
 
     // Start is called before the first frame update
     private void Start()
@@ -24,21 +25,16 @@ public class OptionButtons : MonoBehaviour
         // PixelButton
         if (PlayerPrefs.HasKey("pixelToggle"))
         {
-            pixelToggle = PlayerPrefs.GetInt("pixelToggle") == 1 ? true : false;
+            pixelToggle = PlayerPrefs.GetInt("pixelToggle") == 1;
         }
         if (pixelCameraButton != null && pixelPerfectCamera != null)
         {
             pixelCameraButton.onClick.AddListener(TogglePixelCamera);
-            pixelText = pixelCameraButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (pixelText != null)
+            if (pixelText == null)
             {
-                pixelText.text = $"Pixelperfect: {pixelToggle}";
+                pixelText = pixelCameraButton.GetComponentInChildren<TextMeshProUGUI>();
             }
-        }
-        // Imperial units
-        if (PlayerPrefs.HasKey("Imperial"))
-        {
-            impToggle = PlayerPrefs.GetInt("Imperial") == 1 ? true : false;
+            pixelText.text = $"Pixelperfect: {pixelToggle}";
         }
         if (impButton != null)
         {
@@ -46,7 +42,7 @@ public class OptionButtons : MonoBehaviour
             impText = impButton.GetComponentInChildren<TextMeshProUGUI>();
             if (impText != null)
             {
-                impText.text = $"Imperial: {impToggle}";
+                impText.text = $"Imperial: {Settings.Imperial}";
             }
         }
     }
@@ -64,11 +60,11 @@ public class OptionButtons : MonoBehaviour
 
     private void ToggleImp()
     {
-        impToggle = Settings.ToogleImp();
-        PlayerPrefs.SetInt("Imperial", impToggle ? 1 : 0);
+        Settings.ToogleImp();
+        PlayerPrefs.SetInt("Imperial", Settings.Imperial ? 1 : 0);
         if (impText != null)
         {
-            impText.text = $"Imperial: {impToggle}";
+            impText.text = $"Imperial: {Settings.Imperial}";
         }
     }
 }

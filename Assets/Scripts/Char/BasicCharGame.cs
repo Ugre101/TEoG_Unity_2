@@ -12,6 +12,7 @@ public class BasicCharGame : MonoBehaviour
     [SerializeField]
     private EventLog eventLog = null;
 
+    [SerializeField]
     private BasicChar whom;
 
     public EventLog EventLog => eventLog;

@@ -4,6 +4,7 @@ using UnityEngine;
 public static class Settings
 {
     public static bool Imperial { get; private set; } = false;
+    public static bool SetImperial { set => Imperial = value; }
 
     public static bool ToogleImp()
     {

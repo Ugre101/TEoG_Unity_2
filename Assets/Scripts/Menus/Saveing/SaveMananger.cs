@@ -12,38 +12,22 @@ public class SaveMananger : MonoBehaviour
     public TickManager tickManager;
     public Home home;
     public EventLog eventLog;
-    private string _mainPath;
+    public string SaveFolder => Application.persistentDataPath + "/Game_Save/";
     private string lastSavePath;
 
     private void Start()
     {
-        _mainPath = Application.persistentDataPath + "/Game_Save/";
-        if (!Directory.Exists(_mainPath))
+        if (!Directory.Exists(SaveFolder))
         {
-            Directory.CreateDirectory(_mainPath);
+            _ = Directory.CreateDirectory(SaveFolder);
         }
-        bool Imperial = PlayerPrefs.HasKey("Imperial") ? PlayerPrefs.GetInt("Imperial") == 1 ? true : false : false;
-        if (Settings.Imperial == Imperial) { Settings.ToogleImp(); }
+        Settings.SetImperial = PlayerPrefs.HasKey("Imperial") ? PlayerPrefs.GetInt("Imperial") == 1 : false; ;
     }
 
     public void NewSaveGame()
     {
-        DateTime now = DateTime.Now;
-        string cleanPath = player.FullName + now;
-        char[] illegal = Path.GetInvalidFileNameChars();
-        // if file contain illegal chars replave them
-        if (illegal.Length > 0 && cleanPath.IndexOfAny(illegal) != -1)
-        {
-            foreach (char c in illegal)
-            {
-                if (cleanPath.IndexOf(c) != -1)
-                {
-                    cleanPath = cleanPath.Replace(c.ToString(), string.Empty);
-                }
-            }
-        }
-        cleanPath = cleanPath.Replace(" ", string.Empty);
-        lastSavePath = _mainPath + cleanPath + ".json";
+        SaveName saveName = new SaveName(player, DateTime.Now);
+        lastSavePath = SaveFolder + saveName.CleanSave + ".json";
         Save save = new Save(player, playerSprite, dorm, mapEvents, tickManager, home, eventLog);
         File.WriteAllText(lastSavePath, save.SaveData());
     }
@@ -55,6 +39,43 @@ public class SaveMananger : MonoBehaviour
         {
             Debug.Log("Pause menu; save & quit");
             Application.Quit();
+        }
+    }
+}
+
+[Serializable]
+public class SaveName
+{
+    public SaveName(PlayerMain player, DateTime parDate)
+    {
+        Name = player.FullName;
+        Lvl = player.ExpSystem.Level.ToString();
+        Date = parDate.ToString();
+    }
+
+    public string Name, Lvl, Date;
+
+    public string CleanSave
+    {
+        get
+        {
+            string cleanNow = Date.Remove(Date.Length - 3, 3);
+            //    .Replace(":", "-").Replace(" ", "-");
+            string cleanPath = Name + "-Lvl" + Lvl + "-" + cleanNow;
+            char[] illegal = Path.GetInvalidFileNameChars();
+            // if file contain illegal chars replave them
+            if (illegal.Length > 0 && cleanPath.IndexOfAny(illegal) != -1)
+            {
+                foreach (char c in illegal)
+                {
+                    if (cleanPath.IndexOf(c) != -1)
+                    {
+                        cleanPath = cleanPath.Replace(c.ToString(), "-");
+                    }
+                }
+            }
+            cleanPath = cleanPath.Replace(" ", "-");
+            return cleanPath;
         }
     }
 }

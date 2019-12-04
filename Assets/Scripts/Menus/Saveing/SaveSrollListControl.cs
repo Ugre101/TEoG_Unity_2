@@ -9,17 +9,16 @@ public class SaveSrollListControl : MonoBehaviour
 
     private DirectoryInfo _dirInfo;
     private FileInfo[] _fileInfo, _fileInfoOld;
-    private string _path;
+    private string Path => saveMananger.SaveFolder;
 
     // Start is called before the first frame update
     private void Start()
     {
-        _path = Application.persistentDataPath + "/Game_Save/";
-        if (!Directory.Exists(_path))
+        if (!Directory.Exists(Path))
         {
-            Directory.CreateDirectory(_path);
+            Directory.CreateDirectory(Path);
         }
-        _dirInfo = new DirectoryInfo(_path);
+        _dirInfo = new DirectoryInfo(Path);
         _fileInfo = _dirInfo.GetFiles("*.json");
         _fileInfoOld = _fileInfo;
         RefreshSaveList();

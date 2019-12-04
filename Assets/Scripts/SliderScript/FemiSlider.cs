@@ -5,13 +5,13 @@ public class FemiSlider : EssenceSlider
     public override void Init(BasicChar who)
     {
         base.Init(who);
-        Essence.essenceSlider += changeFemi;
+        Essence.EssenceSliderEvent += changeFemi;
         basicChar.Femi.ManualUpdate();
     }
 
     private void OnDisable()
     {
-        Essence.essenceSlider -= changeFemi;
+        Essence.EssenceSliderEvent -= changeFemi;
     }
 
     private void changeFemi()
