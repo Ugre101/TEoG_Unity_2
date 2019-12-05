@@ -47,7 +47,7 @@ public class PotionShop : MonoBehaviour
         if (BaseBuy(100))
         {
             textbox.text = "afford str";
-            player.Stats.strength.baseValue++;
+            player.Stats.Strength.baseValue++;
         }
     }
 
@@ -56,7 +56,7 @@ public class PotionShop : MonoBehaviour
         if (BaseBuy(100))
         {
             textbox.text = "";
-            player.Stats.charm.baseValue++;
+            player.Stats.Charm.baseValue++;
         }
     }
 
@@ -65,7 +65,7 @@ public class PotionShop : MonoBehaviour
         if (BaseBuy(100))
         {
             textbox.text = "";
-            player.Stats.endurance.baseValue++;
+            player.Stats.Endurance.baseValue++;
         }
     }
     private void BuyDex()
@@ -73,7 +73,7 @@ public class PotionShop : MonoBehaviour
         if (BaseBuy(100))
         {
             textbox.text = "";
-            player.Stats.dexterity.baseValue++;
+            player.Stats.Dexterity.baseValue++;
         }
     }
     private void BuyInt()

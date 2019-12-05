@@ -13,21 +13,25 @@ public class QuestsSystem
     [SerializeField]
     private List<Quest> quests = new List<Quest>();
 
-    public List<Quest> List { get { return quests; } }
+    public List<Quest> List => quests;
+
+    public bool HasQuest(Quests parQuest) => quests.Exists(q => q.Type == parQuest);
+
+    public Quest GetQuest(Quests parQuest) => List.Find(q => q.Type == parQuest);
 
     public void AddQuest(Quests which)
     {
         switch (which)
         {
             case Quests.Bandit:
-                if (!quests.Exists(q => q.Type == Quests.Bandit))
+                if (!HasQuest(Quests.Bandit))
                 {
                     quests.Add(new BanditQuest());
                 }
                 break;
 
             case Quests.Elfs:
-                if (!quests.Exists(q => q.Type == Quests.Elfs))
+                if (!HasQuest(Quests.Elfs))
                 {
                     quests.Add(new ElfQuest());
                 }
@@ -42,16 +46,14 @@ public class Quest
     [SerializeField]
     protected Quests type;
 
-    public Quests Type { get { return type; } }
+    public Quests Type => type;
 
     [SerializeField]
     private int count = 0;
 
-    public int Count { get { return count; } }
+    public int Count => count;
 
-    /// <summary>
-    /// Call when succesfuly completing quest condition, returns a bool if you completed quest or not.
-    /// </summary>
+    /// <summary> Call when succesfuly completing quest condition, returns a bool if you completed quest or not. </summary>
     /// <param name="toStep"></param>
     /// <returns></returns>
     public bool DidQuest(int toStep)
@@ -66,20 +68,20 @@ public class Quest
 
     protected int goalCount = 0;
 
-    // do I need to add serizefield to this or should I make a other solution? feels stupid to save general quest data and not just progress.
+    // TODO get rid of desc from quest itself I don't want to save desc.
     protected string desc;
 
-    public string Desc { get { return desc; } }
+    public string Desc => desc;
 
     [SerializeField]
     private bool completed = false;
 
-    public bool Completed { get { return completed; } }
+    public bool Completed => completed;
 
     [SerializeField]
     protected bool hasTiers = false;
 
-    public bool HasTiers { get { return hasTiers; } }
+    public bool HasTiers => hasTiers;
 
     [SerializeField]
     private int tier = 0;
@@ -88,8 +90,11 @@ public class Quest
     protected int tierStep;
 
     public int Tier { get { tier = Mathf.FloorToInt(Count / tierStep); return tier; } }
+
+    [SerializeField]
     protected string title;
-    public string Title { get { return title; } }
+
+    public string Title => title;
 }
 
 public class BanditQuest : Quest

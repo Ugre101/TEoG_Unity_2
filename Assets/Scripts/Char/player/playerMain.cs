@@ -4,9 +4,14 @@ public class PlayerMain : BasicChar
 {
     // public Settings sett;
     [Space]
-    public QuestsSystem Quest = new QuestsSystem();
+    [SerializeField]
+    private QuestsSystem quest = new QuestsSystem();
 
-    public PlayerFlags PlayerFlags = new PlayerFlags();
+    [SerializeField]
+    private PlayerFlags playerFlags = new PlayerFlags();
+
+    public QuestsSystem Quest => quest;
+    public PlayerFlags PlayerFlags => playerFlags;
 
     // Start is called before the first frame update
     public override void Start()

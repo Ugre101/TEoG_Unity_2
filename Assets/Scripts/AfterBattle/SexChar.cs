@@ -41,7 +41,7 @@ public class SexChar : MonoBehaviour
 
     private void Arousal()
     {
-        ArousalSlider.value = whom.SexStats.ArousalSlider();
+        ArousalSlider.value = whom.SexStats.ArousalSlider;
         OrgasmCounter.text = whom.SexStats.SessionOrgasm.ToString();
     }
 

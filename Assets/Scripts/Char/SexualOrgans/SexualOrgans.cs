@@ -110,10 +110,7 @@ public abstract class SexualOrgan
         }
     }
 
-    public SexualOrgan()
-    {
-        baseSize = 2;
-    }
+    public SexualOrgan() => baseSize = 2;
 
     public float Grow(int toGrow = 1)
     {
@@ -139,10 +136,7 @@ public abstract class SexualOrgan
 
 public static class SexOrganExtension
 {
-    public static float Total(this IEnumerable<SexualOrgan> list)
-    {
-        return list.Sum(so => so.Size);
-    }
+    public static float Total(this IEnumerable<SexualOrgan> list) => list.Sum(so => so.Size);
 
     public static void RefreshOrgans(this BasicChar bc, bool autoEss = false)
     {

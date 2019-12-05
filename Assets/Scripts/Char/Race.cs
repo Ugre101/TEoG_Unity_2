@@ -16,9 +16,9 @@ public class RaceSystem
     [SerializeField]
     private List<Race> raceList = new List<Race>();
 
-    public List<Race> RaceList { get { return raceList; } }
+    public List<Race> RaceList => raceList;
 
-    public void AddRace(Races race, int amount = 1)
+    public void AddRace(Races race, int amount = 100)
     {
         if (raceList.Exists(r => r.Name == race))
         {
@@ -55,16 +55,13 @@ public class RaceSystem
 
     private void CleanRaces()
     {
-        if (raceList.Exists(r => r.Dirty == true))
+        if (raceList.Exists(r => r.Dirty))
         {
+            RaceList.RemoveAll(r => r.Amount <= 0);
             raceList.Sort((r1, r2) => r1.Amount.CompareTo(r2.Amount));
-            foreach (Race race in raceList.FindAll(r => r.Amount <= 0))
+            foreach (Race race in raceList.FindAll(r => r.Dirty))
             {
-                raceList.Remove(race);
-            }
-            foreach (Race race in raceList.FindAll(r => r.Dirty == true))
-            {
-                race.Dirty = false;
+                race.Clean();
             }
         }
     }
@@ -75,30 +72,40 @@ public class Race
 {
     public Race(Races r, int a)
     {
-        race = r; essence = a;
+        race = r;
+        essence = a;
     }
 
     [SerializeField]
     private Races race;
 
-    public Races Name { get { return race; } }
+    public Races Name => race;
 
     [SerializeField]
     private int essence;
 
-    public int Amount { get { return essence; } }
-    public bool Dirty = true;
+    public int Amount => essence;
+
+    public bool Dirty => dirty;
+
+    [SerializeField]
+    private bool dirty = true;
+
+    public void Clean() => dirty = false;
 
     public void Gain(int gain)
     {
         essence += Mathf.Max(0, gain);
-        Dirty = true;
+        dirty = true;
     }
 
+    /// <summary>ess -= Abs(lose)</summary>
+    /// <param name="lose"></param>
+    /// <returns></returns>
     public bool Lose(int lose)
     {
-        essence -= Mathf.Max(0, lose);
-        Dirty = true;
+        essence -= Mathf.Abs(lose);
+        dirty = true;
         return essence <= 0;
     }
 }

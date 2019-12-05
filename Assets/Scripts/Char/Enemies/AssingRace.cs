@@ -7,14 +7,9 @@ public class AssingRace
 {
     public List<WeightedRace> Options;
 
-    public void AddOption()
-    {
-        Options.Add(new WeightedRace());
-    }
+    public void AddOption() => Options.Add(new WeightedRace());
 
-    /// <summary>
-    /// Weighted random roll for starting race
-    /// </summary>
+    /// <summary> Weighted random roll for starting race </summary>
     /// <returns></returns>
     public Races GetRace()
     {

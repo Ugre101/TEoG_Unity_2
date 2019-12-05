@@ -7,7 +7,9 @@
     public int SessionOrgasm { get; private set; } = 0;
 
     public bool CanDrain => currOrgasm > 0;
-    public void Drained () { currOrgasm--; }
+
+    public void Drained() => currOrgasm--;
+
     public bool GainArousal(float gain)
     {
         Arousal += gain;
@@ -30,15 +32,9 @@
         currOrgasm = 0;
     }
 
-    public float ArousalSlider()
-    {
-        return Arousal / maxArousal;
-    }
+    public float ArousalSlider => Arousal / maxArousal;
 
-    public string ArousalStatus()
-    {
-        return $"{Arousal}/{maxArousal}";
-    }
+    public string ArousalStatus => $"{Arousal}/{maxArousal}";
 
     public delegate void ArousalChange();
 
@@ -48,8 +44,5 @@
 
     public static event Orgasmed OrgasmedEvent;
 
-    public void ManualArousalUpdate()
-    {
-        ArousalChangeEvent?.Invoke();
-    }
+    public void ManualArousalUpdate() => ArousalChangeEvent?.Invoke();
 }

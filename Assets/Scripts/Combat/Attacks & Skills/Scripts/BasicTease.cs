@@ -7,7 +7,7 @@ public class BasicTease : BasicSkill
 {
     public override string Action(BasicChar user, BasicChar target)
     {
-        float dmg = BaseAttack * (user.Stats.Charm / 10) * RNG;
+        float dmg = BaseAttack * (user.Stats.Cha / 10) * RNG;
         target.WP.TakeDmg(dmg);
         return $"{user.firstName} teases {target.firstName}, causing {target.firstName} to lose {dmg} willpower.";
     }

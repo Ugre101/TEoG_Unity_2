@@ -30,7 +30,7 @@ public class Save
         save = new PlayerSave(Player);
         List<DormSave> temp = dorm.Save();
         PosSave pos = new PosSave(Pos.position, mapEvents.ActiveMap, mapEvents.CurrentMap.transform.name);
-        DateSave date = tickManager.Save();
+        DateSave date = tickManager.Save;
         HomeSave homeSave = home.Stats.Save();
         FullSave fullSave = new FullSave(save, pos, temp, date, homeSave);
         Debug.Log(JsonUtility.ToJson(fullSave));

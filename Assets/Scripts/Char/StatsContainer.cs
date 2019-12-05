@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 public enum StatTypes
 {
     Str,
     Charm,
     End,
-    Dex
+    Dex,
+    Int
 }
+
 [System.Serializable]
-public class StatsContainer 
+public class StatsContainer
 {
     public StatsContainer()
     {
@@ -20,7 +21,8 @@ public class StatsContainer
         endurance = new CharStats();
         intelligence = new CharStats();
     }
-    public StatsContainer(int parStr = 10,int parCharm = 10, int parDex = 10, int parEnd = 10, int parInt = 10)
+
+    public StatsContainer(int parStr = 10, int parCharm = 10, int parDex = 10, int parEnd = 10, int parInt = 10)
     {
         strength = new CharStats(parStr);
         charm = new CharStats(parCharm);
@@ -28,26 +30,47 @@ public class StatsContainer
         endurance = new CharStats(parEnd);
         intelligence = new CharStats(parInt);
     }
-    public CharStats strength;
 
-    public float Str => strength.Value;
-    public CharStats charm;
-    public float Charm => charm.Value;
-    public CharStats endurance;
-    public float End => endurance.Value;
-    public CharStats dexterity;
-    public float Dex => dexterity.Value;
-    public CharStats intelligence;
-    public float Int => intelligence.Value;
+    [SerializeField]
+    private CharStats strength;
+
+    public float Str => Strength.Value;
+
+    [SerializeField]
+    private CharStats charm;
+
+    public float Cha => Charm.Value;
+
+    [SerializeField]
+    private CharStats endurance;
+
+    public float End => Endurance.Value;
+
+    [SerializeField]
+    private CharStats dexterity;
+
+    public float Dex => Dexterity.Value;
+
+    [SerializeField]
+    private CharStats intelligence;
+
+    public float Int => Intelligence.Value;
+
+    public CharStats Strength => strength;
+    public CharStats Charm => charm;
+    public CharStats Endurance => endurance;
+    public CharStats Dexterity => dexterity;
+    public CharStats Intelligence => intelligence;
 
     public CharStats GetStat(StatTypes stat)
     {
         switch (stat)
         {
-            case StatTypes.Charm: return charm;
-            case StatTypes.Dex: return dexterity;
-            case StatTypes.End: return endurance;
-            case StatTypes.Str: return strength;
+            case StatTypes.Charm: return Charm;
+            case StatTypes.Dex: return Dexterity;
+            case StatTypes.End: return Endurance;
+            case StatTypes.Str: return Strength;
+            case StatTypes.Int: return Intelligence;
             default: throw new ArgumentOutOfRangeException();
         }
     }

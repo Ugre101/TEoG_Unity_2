@@ -1,10 +1,7 @@
 ﻿[System.Serializable]
 public class Skill
 {
-    public Skill(SkillId parId)
-    {
-        id = parId;
-    }
+    public Skill(SkillId parId) => id = parId;
 
     [UnityEngine.SerializeField]
     private SkillId id;

@@ -5,13 +5,13 @@ using UnityEngine;
 [System.Serializable]
 public class RandomName : ScriptableObject
 {
-    public List<string> maleNames = new List<string> {"Jerome", "Napoleon", "Duncan", "Brant", "Chance", "Dewitt", "Brendan",
+    private readonly List<string> maleNames = new List<string> {"Jerome", "Napoleon", "Duncan", "Brant", "Chance", "Dewitt", "Brendan",
         "Asim", "Faith", "Macy", "Landon", "Sulaiman", "Iestyn", "Gordon", "Hector", "Haris", "Lee", "Simran", "Ronnie", "Rishi",
         "Bartosz", "Shelley", "Virgil", "Howard", "Rio", "Prince", "Glenn", "Daniel", "Felipe", "Willie", "Aden", "Brennen",
         "Cale", "Arnav", "Quentin", "River", "Clarence", "Jamal", "Luca", "Brent", "Tyrone", "Ryan", "Damien", "Carmelo",
         "Reese", "Braiden", "Beckham" };
 
-    public string MaleName { get { return maleNames.Count > 0 ? maleNames[Random.Range(0, maleNames.Count)] : ""; } }
+    public string MaleName => maleNames.Count > 0 ? maleNames[Random.Range(0, maleNames.Count)] : "";
 
     public List<string> femaleNames = new List<string> {"Jaiden", "Judy", "Nia", "Kelis", "Chelsea", "Amani", "Veronica", "Kyra",
         "Lauryn", "Alicja", "Tate", "Colleen", "Melody", "Pippa", "Keziah", "Melissa", "Lana", "Marie", "Molly", "Sandra",
@@ -20,35 +20,35 @@ public class RandomName : ScriptableObject
         "Amari", "Sharon", "Miah", "Karen", "Kylie"
     };
 
-    public string FemaleName { get { return femaleNames.Count > 0 ? femaleNames[Random.Range(0, femaleNames.Count)] : ""; } }
+    public string FemaleName => femaleNames.Count > 0 ? femaleNames[Random.Range(0, femaleNames.Count)] : "";
 
-    private List<string> lastNames = new List<string> {"Paine", "Ward", "Bostock", "Devine", "Heath", "Bone", "Dupont", "Patterson",
+    private readonly List<string> lastNames = new List<string> {"Paine", "Ward", "Bostock", "Devine", "Heath", "Bone", "Dupont", "Patterson",
         "Garza", "Stein", "Madden", "Francis", "Villanueva", "Perry", "Lyssa", "Beach", "Crouch", "Sharp", "Clifford", "Wade",
         "Vargas", "Hatfield", "Mata", "Lozano", "Everett", "Krueger", "Jimenez", "Fitzpatrick", "Nelson", "Scott", "Vaughn",
         "Lee", "Hodge", "Blackburn", "Wall", "Hernandez", "Valdez", "Summers", "Mercado", "Villarreal", "Mitchell", "Duran",
         "David", "Black", "Hopkins", "Hughes", "Rangel" };
 
-    public string LastName { get { return lastNames.Count > 0 ? lastNames[Random.Range(0, lastNames.Count)] : ""; } }
+    public string LastName => lastNames.Count > 0 ? lastNames[Random.Range(0, lastNames.Count)] : "";
 
-    private List<string> evilMaleNames = new List<string> {"Neclord", "Virion", "Dario", "Grumio", "Auron", "Jaymes", "Fark", "Cidolfus",
+    private readonly List<string> evilMaleNames = new List<string> {"Neclord", "Virion", "Dario", "Grumio", "Auron", "Jaymes", "Fark", "Cidolfus",
         "Bartholomew", "Arthur"};
 
-    public string EvilMale { get { return evilMaleNames.Count > 0 ? evilMaleNames[Random.Range(0, evilMaleNames.Count)] : ""; } }
+    public string EvilMale => evilMaleNames.Count > 0 ? evilMaleNames[Random.Range(0, evilMaleNames.Count)] : "";
 
-    private List<string> evilFemaleNames = new List<string> {"Autumn", "Imeena", "Margorie", "Draven", "Lauden", "Ethel", "Cat", "Raven",
+    private readonly List<string> evilFemaleNames = new List<string> {"Autumn", "Imeena", "Margorie", "Draven", "Lauden", "Ethel", "Cat", "Raven",
         "Senka", "Jinx"};
 
-    private List<string> evilLastNames = new List<string> {"Crimson", "Kane", "Duke", "Interfector", "Geulimja", "Ebonywood", "Grove",
+    private readonly List<string> evilLastNames = new List<string> {"Crimson", "Kane", "Duke", "Interfector", "Geulimja", "Ebonywood", "Grove",
         "Helion", "Church", "Geulimja", "Moonfall", "Winter", "Hart", "Calarook", "Crypt", "Wolf", "Rex", "Fadington", "Maganti",
         "Hook"};
 
-    private List<string> dragonMaleNames = new List<string> {"Kalzreot", "Pendryss", "Xierdiss", "Frayvrag", "Cyddrunth", "Zergyr",
+    private readonly List<string> dragonMaleNames = new List<string> {"Kalzreot", "Pendryss", "Xierdiss", "Frayvrag", "Cyddrunth", "Zergyr",
         "Cennir", "Akosdiat", "Jygoda", "Qothasdyr", "Bryrgusdirth", "Frorvedeg", "Kytidum", "Jialdrum", "Pegis", "Ymrirth",
         "Dayddrog", "Byrvog", "Brenneg", "Kairranth" };
 
-    private List<string> dragonFemaleNames = new List<string> {"Adhonth", "Rindyth", "Hendro", "Frarlei", "Fukyss", "Fover", "Chaghess",
+    private readonly List<string> dragonFemaleNames = new List<string> {"Adhonth", "Rindyth", "Hendro", "Frarlei", "Fukyss", "Fover", "Chaghess",
         "Indarrass", "Aeghentanth", "Dodhisser", "Nisses", "Rephes", "Eny", "Qierleo", "Qirass", "Zevno", "Persoan",
         "Frairmossolth", "Bayzassath", "Pullontinth" };
 
-    private List<string> dragonLastNames = new List<string> { "" };
+    private readonly List<string> dragonLastNames = new List<string> { "" };
 }

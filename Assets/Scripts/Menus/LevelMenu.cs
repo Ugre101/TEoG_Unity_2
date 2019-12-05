@@ -60,12 +60,12 @@ public class LevelMenu : MonoBehaviour
     private void OnEnable()
     {
         // stats
-        _strText.text = $"Strength: {_player.Stats.strength.baseValue}";
-        _charmText.text = $"Charm: {_player.Stats.charm.baseValue}";
-        _endText.text = $"Endurance: {_player.Stats.endurance.baseValue}";
+        _strText.text = $"Strength: {_player.Stats.Strength.baseValue}";
+        _charmText.text = $"Charm: {_player.Stats.Charm.baseValue}";
+        _endText.text = $"Endurance: {_player.Stats.Endurance.baseValue}";
         _intText.text = $"Int:";
         _willText.text = $"Willpower: ";
-        _dexText.text = $"Dexterity {_player.Stats.dexterity.baseValue}";
+        _dexText.text = $"Dexterity {_player.Stats.Dexterity.baseValue}";
         // perks
         _fasterText.text = _player.Perks.DisplayPerk(PerksTypes.FasterRest);
         _giveText.text = _player.Perks.DisplayPerk(PerksTypes.GiveEss);
@@ -76,8 +76,8 @@ public class LevelMenu : MonoBehaviour
     {
         if (_player.ExpSystem.StatBool)
         {
-            _player.Stats.strength.baseValue++;
-            _strText.text = $"Strength: {_player.Stats.strength.baseValue}";
+            _player.Stats.Strength.baseValue++;
+            _strText.text = $"Strength: {_player.Stats.Strength.baseValue}";
         }
     }
 
@@ -85,8 +85,8 @@ public class LevelMenu : MonoBehaviour
     {
         if (_player.ExpSystem.StatBool)
         {
-            _player.Stats.charm.baseValue++;
-            _charmText.text = $"Charm: {_player.Stats.charm.baseValue}";
+            _player.Stats.Charm.baseValue++;
+            _charmText.text = $"Charm: {_player.Stats.Charm.baseValue}";
         }
     }
 
@@ -94,8 +94,8 @@ public class LevelMenu : MonoBehaviour
     {
         if (_player.ExpSystem.StatBool)
         {
-            _player.Stats.endurance.baseValue++;
-            _endText.text = $"Endurance: {_player.Stats.endurance.baseValue}";
+            _player.Stats.Endurance.baseValue++;
+            _endText.text = $"Endurance: {_player.Stats.Endurance.baseValue}";
         }
     }
 
@@ -103,8 +103,8 @@ public class LevelMenu : MonoBehaviour
     {
         if (_player.ExpSystem.StatBool)
         {
-            _player.Stats.dexterity.baseValue++;
-            _dexText.text = $"Dexterity: {_player.Stats.dexterity.baseValue}";
+            _player.Stats.Dexterity.baseValue++;
+            _dexText.text = $"Dexterity: {_player.Stats.Dexterity.baseValue}";
         }
     }
 

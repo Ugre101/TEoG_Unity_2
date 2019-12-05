@@ -12,7 +12,7 @@ public class TickManager : MonoBehaviour
     [SerializeField]
     private float baseFatBurnRate = 0.0005f;
 
-    private int minute = 0, hour, day, month, year;
+    private int minute = 0, hour = 0, day = 1, month = 1, year = 0;
 
     private void OnEnable()
     {
@@ -84,10 +84,7 @@ public class TickManager : MonoBehaviour
         }
     }
 
-    private string CurrentDate()
-    {
-        return $"{year} {month} {day} {hour}";
-    }
+    private string CurrentDate => $"{year} {month} {day} {hour}";
 
     public void Sleep()
     {
@@ -100,8 +97,5 @@ public class TickManager : MonoBehaviour
         player.WP.FullGain();
     }
 
-    public DateSave Save()
-    {
-        return new DateSave(year, month, day, hour);
-    }
+    public DateSave Save => new DateSave(year, month, day, hour);
 }
