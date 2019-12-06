@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -131,6 +132,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -245,9 +247,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites: {fileID: 11400000, guid: 30f7ea40fe5120b4f95bbc7c29587544, type: 2}
-  spriteRenderer: {fileID: 0}
-  settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
+  spriteRenderer: {fileID: 3561722265227643812}
   eventLog: {fileID: 11400000, guid: afafec6ffb983614b80c3fc20d9a8849, type: 2}
+  whom: {fileID: 0}
 --- !u!114 &404725225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,7 +265,8 @@ MonoBehaviour:
   firstName: 
   lastName: 
   inventory:
-    Items: []
+    bonusAmount: 0
+    items: []
   raceSystem:
     raceList: []
   vore:
@@ -330,6 +333,11 @@ MonoBehaviour:
     bonusDrain: 0
     bonusGive: 0
   gold: 0
+  flags:
+    Pregnant:
+      value: 0
+    ImPregnated:
+      value: 0
   pregnancySystem:
     children: []
     virility: 1
@@ -342,7 +350,8 @@ MonoBehaviour:
     lactating: 0
     vaginas: []
   skills: []
-  Quest:
+  quest:
     quests: []
-  PlayerFlags:
-    BeatenBanditLord: 0
+  playerFlags:
+    beatenBanditLord:
+      cleared: 0

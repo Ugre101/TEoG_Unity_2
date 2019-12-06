@@ -1,10 +1,18 @@
 ﻿using UnityEngine;
 
-public class StartMenu : MonoBehaviour
+namespace StartMenuStuff
 {
-    public void QuitGame()
+    public class StartMenu : MonoBehaviour
     {
-        Debug.Log("Quit game");
-        Application.Quit();
+        private void OnEnable()
+        {
+            transform.SleepChildren(transform.GetChild(0));
+        }
+
+        public void QuitGame()
+        {
+            Debug.Log("Quit game");
+            Application.Quit();
+        }
     }
 }

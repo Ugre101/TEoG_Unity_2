@@ -45,7 +45,7 @@ public class SexScenes : ScriptableObject
         }
         if (PlayerBoobs)
         {
-            if (player.SexualOrgans.Boobs.Max(b => b.Size) < 3)
+            if (player.SexualOrgans.Boobs.Count > 0 ? player.SexualOrgans.Boobs.Max(b => b.Size) < 3 : false)
             {
                 return false;
             }
@@ -73,7 +73,7 @@ public class SexScenes : ScriptableObject
         }
         if (Boobs)
         {
-            if (Other.SexualOrgans.Boobs.Max(b => b.Size) < 3)
+            if (Other.SexualOrgans.Boobs.Count > 0 ? Other.SexualOrgans.Boobs.Max(b => b.Size) < 3 : false)
             {
                 return false;
             }

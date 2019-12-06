@@ -4,85 +4,58 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class LoadButtonStart : MonoBehaviour
+namespace StartMenuStuff
 {
-    public TextMeshProUGUI title;
-    public Button load, dal;
-
-    private string _mainPath;
-
-    // Start is called before the first frame update
-    private void Start()
+    public class LoadButtonStart : MonoBehaviour
     {
-        _mainPath = Application.persistentDataPath + "/Game_Save/";
-        if (!Directory.Exists(_mainPath))
+        [SerializeField]
+        private TextMeshProUGUI title = null;
+
+        [SerializeField]
+        private Button load = null, del = null;
+
+        private FileInfo file;
+        private StartSaveSrollListControl saveList;
+        public void Setup(FileInfo parFile,StartSaveSrollListControl parSaveList)
         {
-            Directory.CreateDirectory(_mainPath);
+            file = parFile;
+            saveList = parSaveList;
+            load.onClick.AddListener(LoadGame);
+            del.onClick.AddListener(DeleteSave);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            string cleanedTitleText = file.Name.Substring(0, file.Name.LastIndexOf("."))
+                .Replace("-", " ");
+            title.text = cleanedTitleText;
         }
 
-        load.onClick.AddListener(LoadGame);
-        dal.onClick.AddListener(DeleteSave);
-    }
+        public void LoadGame() => SceneManager.LoadScene("MainGame");
 
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    public void LoadGame()
-    {
-        SceneManager.LoadScene("MainGame");
-    }
-
-    public void DeleteSave()
-    {
-        string path = CurrentPath();
-        if (File.Exists(path))
+        public void DeleteSave()
         {
-            File.Delete(path);
+            string path = file.FullName;
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            saveList.RefreshSaveList();
         }
-    }
 
-    private string CurrentPath()
-    {
-        string currPath = title.text;
-        return _mainPath + currPath + ".json";
-    }
-
-    private PlayerMain player;
-    private Transform pos;
-    private Dorm dorm;
-    private GameUI gameUI;
-    private MapEvents mapEvents;
-    private SaveMananger saveMananger;
-    private TickManager tickManager;
-
-    [SerializeField]
-    private Home home = null;
-
-    [SerializeField]
-    private EventLog eventLog = null;
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        Debug.Log("Running");
-        saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
-        player = saveMananger.player;
-        pos = saveMananger.playerSprite;
-        gameUI = saveMananger.gameUI;
-        dorm = saveMananger.dorm;
-        mapEvents = saveMananger.mapEvents;
-        tickManager = saveMananger.tickManager;
-        Save save = new Save(player, pos, dorm, mapEvents, tickManager, home, eventLog);
-        string path = CurrentPath();
-        Debug.Log(path);
-        Debug.Log(File.Exists(path));
-        if (File.Exists(path))
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            string json = File.ReadAllText(path);
-            save.LoadData(json);
+            SaveMananger saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
+            string path = file.FullName;
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                Save save = saveMananger.NewSave;
+                save.LoadData(json);
+                saveMananger.gameUI.Resume();
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+            }
+            else
+            {
+                Debug.LogError("Load failed...");
+            }
         }
-        gameUI.Resume();
-        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }

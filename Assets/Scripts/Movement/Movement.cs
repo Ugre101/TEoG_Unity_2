@@ -47,7 +47,9 @@ public class Movement : MonoBehaviour
         {
             _coll = GetComponent<BoxCollider2D>();
         }
+        _target = CurPos;
     }
+
     // Update for player input
     private void Update()
     {
@@ -90,10 +92,12 @@ public class Movement : MonoBehaviour
                 Touch t = Input.GetTouch(0);
                 _target = Camera.main.WorldToScreenPoint(t.position);
             }
-        }else
+        }
+        else
         {
         }
     }
+
     // FixedUpdate for movement
     private void FixedUpdate()
     {

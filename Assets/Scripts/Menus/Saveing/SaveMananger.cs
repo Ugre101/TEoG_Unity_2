@@ -12,10 +12,12 @@ public class SaveMananger : MonoBehaviour
     public TickManager tickManager;
     public Home home;
     public EventLog eventLog;
-    public string SaveFolder => Application.persistentDataPath + "/Game_Save/";
+
+    public string SaveFolder => SaveSettings.SaveFolder;
+    public SaveSrollListControl saveList;
     private string lastSavePath;
 
-    private void Start()
+    private void Awake()
     {
         if (!Directory.Exists(SaveFolder))
         {
@@ -28,8 +30,9 @@ public class SaveMananger : MonoBehaviour
     {
         SaveName saveName = new SaveName(player, DateTime.Now);
         lastSavePath = SaveFolder + saveName.CleanSave + ".json";
-        Save save = new Save(player, playerSprite, dorm, mapEvents, tickManager, home, eventLog);
+        Save save = NewSave;
         File.WriteAllText(lastSavePath, save.SaveData());
+        saveList.RefreshSaveList();
     }
 
     public void SaveAndQuit()
@@ -41,6 +44,15 @@ public class SaveMananger : MonoBehaviour
             Application.Quit();
         }
     }
+
+    public void Load(string filePath)
+    {
+        Save toLoad = new Save(player, playerSprite, dorm, mapEvents, tickManager, home, eventLog);
+        string json = File.ReadAllText(filePath);
+        toLoad.LoadData(json);
+    }
+
+    public Save NewSave => new Save(player, playerSprite, dorm, mapEvents, tickManager, home, eventLog);
 }
 
 [Serializable]

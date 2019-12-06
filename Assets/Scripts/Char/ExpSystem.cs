@@ -29,7 +29,6 @@ public class ExpSystem
             {
                 exp -= MaxExp;
                 level++;
-                statPoints += 3;
                 perkPoints++;
             }
             ExpChangeEvent?.Invoke();
@@ -53,24 +52,6 @@ public class ExpSystem
             return true;
         }
         return false;
-    }
-
-    [SerializeField]
-    private int statPoints = 0;
-
-    public int StatPoints => statPoints;
-
-    public bool StatBool
-    {
-        get
-        {
-            if (statPoints > 0)
-            {
-                statPoints--;
-                return true;
-            }
-            return false;
-        }
     }
 
     public float ExpSlider => Exp / (float)MaxExp;

@@ -6,36 +6,23 @@ using UnityEngine.UI;
 public class LoadButton : MonoBehaviour
 {
     private SaveMananger saveMananger;
+    private FileInfo file;
 
     // Short commands
-    private PlayerMain Player => saveMananger.player;
-
-    private Transform GetPos => saveMananger.playerSprite;
-    private Dorm GetDorm => saveMananger.dorm;
     private GameUI GetGameUI => saveMananger.gameUI;
-    private MapEvents GetMapEvents => saveMananger.mapEvents;
-    private TickManager GetTickManager => saveMananger.tickManager;
-
-    [SerializeField]
-    private Home home = null;
-
-    [SerializeField]
-    private EventLog eventLog = null;
 
     public TextMeshProUGUI title;
     public Button load, del;
+    public SaveSrollListControl saveList;
 
-    private string _mainPath;
-
-    public void Setup(SaveMananger parSaveMananger, string parTitle)
+    public void Setup(SaveMananger parSaveMananger, FileInfo parFile, SaveSrollListControl parSaveList)
     {
         saveMananger = parSaveMananger;
-        title.text = parTitle;
-        _mainPath = Application.persistentDataPath + "/Game_Save/";
-        if (!Directory.Exists(_mainPath))
-        {
-            Directory.CreateDirectory(_mainPath);
-        }
+        file = parFile;
+        saveList = parSaveList;
+        string cleanedTitleText = file.Name.Substring(0, file.Name.LastIndexOf("."))
+                .Replace("-", " ");
+        title.text = cleanedTitleText;
         // Set buttons
         load.onClick.AddListener(LoadGame);
         del.onClick.AddListener(DeleteSave);
@@ -43,11 +30,11 @@ public class LoadButton : MonoBehaviour
 
     public void LoadGame()
     {
-        string path = CurrentPath();
+        string path = file.FullName;
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            Save save = new Save(Player, GetPos, GetDorm, GetMapEvents, GetTickManager, home, eventLog);
+            Save save = saveMananger.NewSave;
             save.LoadData(json);
         }
         else
@@ -59,16 +46,11 @@ public class LoadButton : MonoBehaviour
 
     public void DeleteSave()
     {
-        string path = CurrentPath();
+        string path = file.FullName;
         if (File.Exists(path))
         {
             File.Delete(path);
         }
-    }
-
-    private string CurrentPath()
-    {
-        string currPath = title.text;
-        return _mainPath + currPath + ".json";
+        saveList.RefreshSaveList();
     }
 }

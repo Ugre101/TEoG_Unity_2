@@ -1,84 +1,64 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class SystemOptions : MonoBehaviour
 {
-    public TextMeshProUGUI screenBtn;
-    private FullScreenMode curMode;
+    private FullScreenMode curMode => Screen.fullScreenMode;
+    public TMP_Dropdown dropDown, screenMode;
+    private Resolution[] resolutions;
+    private Array screenModes;
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        screenBtn.text = Screen.fullScreenMode.ToString();
-        curMode = Screen.fullScreenMode;
+        GetResolutions();
+        GetScreenModes();
+        dropDown.onValueChanged.AddListener(delegate { SetResolution(dropDown); }); ;
+        screenMode.onValueChanged.AddListener(delegate { ChangeScreenMode(screenMode); });
     }
 
-    public void ChangeScreenMode()
+    public void ChangeScreenMode(TMP_Dropdown parDrop)
     {
-        FullScreenMode mode()
+        if (Enum.IsDefined(typeof(FullScreenMode), (FullScreenMode)parDrop.value))
         {
-            switch (curMode)
-            {
-                case FullScreenMode.ExclusiveFullScreen:
-                    return FullScreenMode.FullScreenWindow;
-                case FullScreenMode.FullScreenWindow:
-                    return FullScreenMode.MaximizedWindow;
-                case FullScreenMode.MaximizedWindow:
-                    return FullScreenMode.Windowed;
-                case FullScreenMode.Windowed:
-                default:
-                    return FullScreenMode.ExclusiveFullScreen;
-            }
+            FullScreenMode mode = (FullScreenMode)parDrop.value;
+            Debug.Log(mode);
+            Screen.SetResolution(Screen.width, Screen.height, mode);
         }
-        Debug.Log(mode());
-        curMode = mode();
-        Screen.fullScreenMode = curMode;
-        Screen.SetResolution(Screen.width, Screen.height, curMode);
-         screenBtn.text = Screen.fullScreenMode.ToString();
-        Debug.Log(Screen.fullScreenMode);
     }
-    public void SetResolution()
+
+    public void GetScreenModes()
     {
-        int i = 0;
-        switch (i)
+        screenMode.ClearOptions();
+        screenModes = Enum.GetValues(typeof(FullScreenMode));
+        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+        foreach (var e in screenModes)
         {
-            case 0:
-                Screen.SetResolution(800, 600, curMode);
-                break;
-            case 1:
-                Screen.SetResolution(1024, 768, curMode);
-                break;
-            case 2:
-                Screen.SetResolution(1280, 720, curMode);
-                break;
-            case 3:
-                Screen.SetResolution(1280, 960, curMode);
-                break;
-            case 4:
-                Screen.SetResolution(1280, 1024, curMode);
-                break;
-            case 5:
-                Screen.SetResolution(1440, 900, curMode);
-                break;
-            case 6:
-                Screen.SetResolution(1600, 900, curMode);
-                break;
-            case 7:
-                Screen.SetResolution(1600, 1200, curMode);
-                break;
-            case 8:
-                Screen.SetResolution(1680, 1050, curMode);
-                break;
-            case 9:
-                Screen.SetResolution(1920, 1080, curMode);
-                break;
-            case 10:
-                Screen.SetResolution(1920, 1200, curMode);
-                break;
-            case 11:
-                Screen.SetResolution(2560, 1440, curMode);
-                break;
+            options.Add(new TMP_Dropdown.OptionData(e.ToString()));
         }
+        screenMode.AddOptions(options);
+        screenMode.value = Array.IndexOf(screenModes, curMode);
+    }
+
+    public void SetResolution(TMP_Dropdown parDrop)
+    {
+        int i = Mathf.Clamp(parDrop.value, 0, resolutions.Length - 1);
+        Resolution rs = resolutions[i];
+        Screen.SetResolution(rs.width, rs.height, curMode);
+    }
+
+    private void GetResolutions()
+    {
+        resolutions = Screen.resolutions;
+        dropDown.ClearOptions();
+        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
+        foreach (Resolution rs in resolutions)
+        {
+            options.Add(new TMP_Dropdown.OptionData($"{rs.height}x{rs.width}"));
+        }
+        dropDown.AddOptions(options);
+        dropDown.value = options.Count - 1;
     }
 }

@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d524558d4031c9f4ab3a25d8d3a9559c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basicCharGame: {fileID: -7890518083212860946}
   firstName: 
   lastName: 
   inventory:
-    Items: []
+    bonusAmount: 0
+    items: []
   raceSystem:
     raceList: []
   vore:
@@ -90,7 +90,6 @@ MonoBehaviour:
     level: 0
     exp: 0
     perkPoints: 0
-    statPoints: 0
   perk:
     perkList: []
   stats:
@@ -118,6 +117,11 @@ MonoBehaviour:
     bonusDrain: 0
     bonusGive: 0
   gold: 0
+  flags:
+    Pregnant:
+      value: 0
+    ImPregnated:
+      value: 0
   pregnancySystem:
     children: []
     virility: 1
@@ -130,7 +134,6 @@ MonoBehaviour:
     lactating: 0
     vaginas: []
   skills: []
-  skillsToAdd: []
   NeedFirstName: 1
   NeedLastName: 1
   randomName: {fileID: 11400000, guid: 0f369db329ad0a5408daee8e97de42fb, type: 2}
@@ -141,8 +144,8 @@ MonoBehaviour:
     - Race: 2
       Weight: 5
   reward:
-    _expReward: 0
-    _goldReward: 0
+    expReward: 212
+    goldReward: 332
   assingHP: 220
   assingWP: 220
   assingStr: 10
@@ -152,8 +155,11 @@ MonoBehaviour:
   assingInt: 10
   statRngFactor: 0.4
   assingHeight: 160
+  heightRng: 0.1
   assingFat: 10
+  fatRng: 0.1
   assingMuscle: 20
+  muscleRng: 0.1
   canTakeToDorm: 1
   orgsNeeded: 3
 --- !u!212 &8534239450746442158
@@ -170,6 +176,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -266,5 +273,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites: {fileID: 11400000, guid: 30f7ea40fe5120b4f95bbc7c29587544, type: 2}
   spriteRenderer: {fileID: 8534239450746442158}
-  settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
   eventLog: {fileID: 11400000, guid: afafec6ffb983614b80c3fc20d9a8849, type: 2}
+  whom: {fileID: 0}

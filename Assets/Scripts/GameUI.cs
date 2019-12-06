@@ -113,6 +113,15 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    public void Intro()
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+        transform.GetChild(0).gameObject.SetActive(true);
+    }
+
     public void Resume()
     {
         foreach (Transform child in menus.transform)

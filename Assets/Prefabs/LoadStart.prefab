@@ -246,7 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: {fileID: 2258750430134915622}
   load: {fileID: 2258750431124209283}
-  dal: {fileID: 2336537255874827289}
+  del: {fileID: 2336537255874827289}
   home: {fileID: 11400000, guid: b82dfba6e98807a45a5718c4215a8627, type: 2}
   eventLog: {fileID: 11400000, guid: afafec6ffb983614b80c3fc20d9a8849, type: 2}
 --- !u!1 &2258750431124209285
@@ -535,7 +535,7 @@ GameObject:
   - component: {fileID: 4471468488190057047}
   - component: {fileID: 2336537255874827289}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Delete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
