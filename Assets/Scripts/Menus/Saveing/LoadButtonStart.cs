@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,21 +15,25 @@ namespace StartMenuStuff
         [SerializeField]
         private Button load = null, del = null;
 
-        private FileInfo file;
+        private static FileInfo file;
         private StartSaveSrollListControl saveList;
-        public void Setup(FileInfo parFile,StartSaveSrollListControl parSaveList)
+        private StartLoader loader;
+
+        public void Setup(FileInfo parFile, StartSaveSrollListControl parSaveList, StartLoader parLoader)
         {
             file = parFile;
             saveList = parSaveList;
-            load.onClick.AddListener(LoadGame);
+            loader = parLoader;
+            load.onClick.AddListener(() => loader.StartLoading(file));
             del.onClick.AddListener(DeleteSave);
-            SceneManager.sceneLoaded += OnSceneLoaded;
+
+            //SceneManager.sceneLoaded += OnSceneLoaded;
             string cleanedTitleText = file.Name.Substring(0, file.Name.LastIndexOf("."))
                 .Replace("-", " ");
             title.text = cleanedTitleText;
         }
 
-        public void LoadGame() => SceneManager.LoadScene("MainGame");
+        // public void LoadGame() => SceneManager.LoadScene("MainGame");
 
         public void DeleteSave()
         {
@@ -57,5 +62,6 @@ namespace StartMenuStuff
                 Debug.LogError("Load failed...");
             }
         }
+
     }
 }

@@ -8,6 +8,7 @@ namespace StartMenuStuff
     {
         public LoadButtonStart loadButton;
         public Transform container;
+        public StartLoader loader;
 
         private DirectoryInfo _dirInfo;
         private FileInfo[] _fileInfo;
@@ -37,7 +38,7 @@ namespace StartMenuStuff
             foreach (FileInfo f in _fileInfo)
             {
                 LoadButtonStart newButton = Instantiate(loadButton, container);
-                newButton.Setup(f, this);
+                newButton.Setup(f, this, loader);
                 newButton.transform.SetAsFirstSibling();
             }
         }

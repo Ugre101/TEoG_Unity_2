@@ -15,7 +15,7 @@ public class SaveMananger : MonoBehaviour
 
     public string SaveFolder => SaveSettings.SaveFolder;
     public SaveSrollListControl saveList;
-    private string lastSavePath;
+    private string newSavePath, lastSavePath;
 
     private void Awake()
     {
@@ -29,10 +29,11 @@ public class SaveMananger : MonoBehaviour
     public void NewSaveGame()
     {
         SaveName saveName = new SaveName(player, DateTime.Now);
-        lastSavePath = SaveFolder + saveName.CleanSave + ".json";
+        newSavePath = SaveFolder + saveName.CleanSave + ".json";
         Save save = NewSave;
-        File.WriteAllText(lastSavePath, save.SaveData());
+        File.WriteAllText(newSavePath, save.SaveData());
         saveList.RefreshSaveList();
+        lastSavePath = newSavePath;
     }
 
     public void SaveAndQuit()
@@ -71,7 +72,7 @@ public class SaveName
     {
         get
         {
-            string cleanNow = Date.Remove(Date.Length - 3, 3);
+            string cleanNow = Date; //.Remove(Date.Length - 3, 3);
             //    .Replace(":", "-").Replace(" ", "-");
             string cleanPath = Name + "-Lvl" + Lvl + "-" + cleanNow;
             char[] illegal = Path.GetInvalidFileNameChars();

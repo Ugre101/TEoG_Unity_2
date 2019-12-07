@@ -27,7 +27,19 @@ public class Movement : MonoBehaviour
     private Rigidbody2D _rb2d = null;
 
     private Vector2 CurPos { get => _rb2d.position; set => _rb2d.position = value; }
-    private Vector2 _target;
+    private bool first = false;
+    private Vector2 target;
+
+    private Vector2 Target
+    {
+        get => target;
+        set
+        {
+            first = true;
+            target = value;
+        }
+    }
+
     private float _xMax, _xMin, _yMin, _yMax;
     private bool mobilePlatform, touchSupport, mousePresent;
 
@@ -47,7 +59,6 @@ public class Movement : MonoBehaviour
         {
             _coll = GetComponent<BoxCollider2D>();
         }
-        _target = CurPos;
     }
 
     // Update for player input
@@ -58,18 +69,18 @@ public class Movement : MonoBehaviour
             // Mouse left hold
             if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                _target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
             // Cancel mouse left hold
             else if (Input.GetMouseButtonUp(0))
             {
-                _target = CurPos;
+                Target = CurPos;
             }
             // Mouse right click
             else if (Input.GetMouseButtonDown(1))
             {
-                _target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Instantiate(pointer, _target, Quaternion.identity);
+                Target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Instantiate(pointer, Target, Quaternion.identity);
             }
         }
         // WASD and Arrow keys
@@ -82,7 +93,7 @@ public class Movement : MonoBehaviour
             float movHori = Input.GetAxis("Horizontal");
             _pos.x += movHori;
             _pos.y += movVert;
-            _target = _pos;
+            Target = _pos;
         }
         if (touchSupport || mobilePlatform)
         {
@@ -90,7 +101,7 @@ public class Movement : MonoBehaviour
             if (Input.touchCount == 1)
             {
                 Touch t = Input.GetTouch(0);
-                _target = Camera.main.WorldToScreenPoint(t.position);
+                Target = Camera.main.WorldToScreenPoint(t.position);
             }
         }
         else
@@ -106,11 +117,10 @@ public class Movement : MonoBehaviour
         {
             TilemapLimits();
         }
-        if (CurPos != _target)
+        if (CurPos != Target && first)
         {
-            _target.x = Mathf.Clamp(_target.x, _xMin, _xMax);
-            _target.y = Mathf.Clamp(_target.y, _yMin, _yMax);
-            CurPos = Vector2.MoveTowards(CurPos, _target, movementSpeed * Time.fixedDeltaTime);
+            Target = new Vector2(Mathf.Clamp(Target.x, _xMin, _xMax), Mathf.Clamp(Target.y, _yMin, _yMax));
+            CurPos = Vector2.MoveTowards(CurPos, Target, movementSpeed * Time.fixedDeltaTime);
         }
     }
 
