@@ -3,64 +3,71 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class StartLoader : MonoBehaviour
+namespace StartMenuStuff
 {
-    private FileInfo file;
-
-    private void Start()
+    public class StartLoader : MonoBehaviour
     {
-        DontDestroyOnLoad(gameObject);
-    }
-
-    public void StartLoading(FileInfo parFile)
-    {
-        file = parFile;
-        StartCoroutine(AsyncLoadGame(parFile));
-        // SceneManager.LoadScene("MainGame");
-        // SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        SaveMananger saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
-        string path = file.FullName;
-        if (File.Exists(path))
+        private FileInfo file;
+        public GameObject canvas;
+        public LoadingScreen loadingScreen;
+        private void Start()
         {
-            string json = File.ReadAllText(path);
-            Save save = saveMananger.NewSave;
-            save.LoadData(json);
-            saveMananger.gameUI.Resume();
-            SceneManager.sceneLoaded -= OnSceneLoaded;
+            DontDestroyOnLoad(gameObject);
         }
-        else
-        {
-            Debug.LogError("Load failed...");
-        }
-    }
 
-    public IEnumerator AsyncLoadGame(FileInfo file)
-    {
-        string path = file.FullName;
-        if (File.Exists(path))
+        public void StartLoading(FileInfo parFile)
         {
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainGame");
-            string json = File.ReadAllText(path);
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
-            // wait so everything is loaded
-            yield return new WaitForEndOfFrame();
+            file = parFile;
+            StartCoroutine(AsyncLoadGame(parFile));
+            // SceneManager.LoadScene("MainGame");
+            // SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
             SaveMananger saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
-            Save save = saveMananger.NewSave;
-            save.LoadData(json);
-            Debug.Log(json);
-            saveMananger.gameUI.Resume();
-            Destroy(gameObject);
+            string path = file.FullName;
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                Save save = saveMananger.NewSave;
+                save.LoadData(json);
+                saveMananger.gameUI.Resume();
+                SceneManager.sceneLoaded -= OnSceneLoaded;
+            }
+            else
+            {
+                Debug.LogError("Load failed...");
+            }
         }
-        else
+
+        public IEnumerator AsyncLoadGame(FileInfo file)
         {
-            Debug.LogError("Load failed...");
+            string path = file.FullName;
+            if (File.Exists(path))
+            {
+                canvas.transform.SleepChildren();
+                loadingScreen.StartLoad();
+                AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("MainGame");
+                string json = File.ReadAllText(path);
+                while (!asyncLoad.isDone)
+                {
+                    loadingScreen.progresBar.text = $"Loading progess: {asyncLoad.progress * 100}%";
+                    yield return null;
+                }
+                // wait so everything is loaded
+                yield return new WaitForEndOfFrame();
+                SaveMananger saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
+                Save save = saveMananger.NewSave;
+                save.LoadData(json);
+                Debug.Log(json);
+                saveMananger.gameUI.Resume();
+                Destroy(gameObject);
+            }
+            else
+            {
+                Debug.LogError("Load failed...");
+            }
         }
     }
 }

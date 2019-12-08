@@ -1,55 +1,64 @@
 ﻿using TMPro;
 using UnityEngine;
 
-public class MainTitle : MonoBehaviour
+namespace StartMenuStuff
 {
-    private TextMeshProUGUI _title;
-
-    private Color _bottom
-        , _top;
-
-    private VertexGradient _gradient;
-
-    private int _counter = 0;
-    // Start is called before the first frame update
-
-    private void Awake()
+    public class MainTitle : MonoBehaviour
     {
-        _title = GetComponent<TextMeshProUGUI>() ?? gameObject.AddComponent<TextMeshProUGUI>();
-        _title.enableVertexGradient = true;
-        // StartCoroutine(GradientTimer());
-    }
+        [SerializeField]
+        private TextMeshProUGUI _title;
 
-    private void Start()
-    {
-        _bottom = new Color(191, 0, 191);
-        _top = new Color(0, 0, 191);
-        InvokeRepeating("gradshift", 0f, 2f);
-    }
+        private Color _bottom
+            , _top;
 
-    private void gradshift()
-    {
-        _counter++;
-        _title.colorGradient = aStepaTime();
-    }
+        private VertexGradient _gradient;
 
-    private VertexGradient aStepaTime()
-    {
-        switch (_counter)
+        private int _counter = 0;
+        // Start is called before the first frame update
+
+        private void Start()
         {
-            case 1:
-                return new VertexGradient(_top, _top, _top, _top);
-            case 2:
-                return new VertexGradient(_bottom, _top, _top, _top);
-            case 3:
-                return new VertexGradient(_bottom, _bottom, _top, _top);
-            case 4:
-                return new VertexGradient(_bottom, _bottom, _bottom, _top);
-            case 5:
-                return new VertexGradient(_bottom, _bottom, _bottom, _bottom);
-            default:
-                _counter = 0;
-                return new VertexGradient(_top, _top, _top, _top);
+            if (_title == null)
+            {
+                _title = GetComponent<TextMeshProUGUI>();
+            }
+            _title.enableVertexGradient = true;
+
+            _bottom = new Color(191, 0, 191);
+            _top = new Color(0, 0, 191);
+            InvokeRepeating("gradshift", 0.0f, 1.0f);
+        }
+        
+        private void gradshift()
+        {
+            _counter++;
+            _title.colorGradient = aStepaTime();
+            Debug.Log(_counter);
+        }
+
+        private VertexGradient aStepaTime()
+        {
+            switch (_counter)
+            {
+                case 1:
+                    return new VertexGradient(_top, _top, _top, _top);
+
+                case 2:
+                    return new VertexGradient(_bottom, _top, _top, _top);
+
+                case 3:
+                    return new VertexGradient(_bottom, _bottom, _top, _top);
+
+                case 4:
+                    return new VertexGradient(_bottom, _bottom, _bottom, _top);
+
+                case 5:
+                    return new VertexGradient(_bottom, _bottom, _bottom, _bottom);
+
+                default:
+                    _counter = 0;
+                    return new VertexGradient(_top, _top, _top, _top);
+            }
         }
     }
 }
