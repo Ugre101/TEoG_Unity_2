@@ -37,28 +37,28 @@ public class CombatStatus : MonoBehaviour
         team = combatTeam;
         combatMain = main;
         btn.onClick.AddListener(Select);
-        Health.DeadEvent += HasDied;
+        whom.HP.DeadEvent += HasDied;
+        whom.WP.DeadEvent += HasDied;
     }
 
     public void HasDied()
     {
-        // When a char dies check if it's the one attached to this script.
-        if (whom.HP.Current <= 0 || whom.WP.Current <= 0)
-        {
-            Dead = true;
-            team.WeLost();
-        }
-        // Change img to show that char is dead/incapitaved
+        Dead = true;
+        team.WeLost();
     }
 
     public void OnDisable()
     {
-        Health.DeadEvent -= HasDied;
+        whom.HP.DeadEvent -= HasDied;
+        whom.WP.DeadEvent -= HasDied;
     }
+
     private void OnDestroy()
     {
-        Health.DeadEvent -= HasDied;
+        whom.HP.DeadEvent -= HasDied;
+        whom.WP.DeadEvent -= HasDied;
     }
+
     /// <summary>
     /// Click once to select and twice to deselect
     /// </summary>

@@ -71,15 +71,13 @@ public abstract class SexualOrgan
     [SerializeField]
     protected int baseSize;
 
-    protected Races race = Races.Humanoid;
-    public Races Race => race;
-
     protected int lastBase;
     protected float currSize;
 
-    [SerializeField]
-    protected float baseCost = 30;
+    protected Races race = Races.Humanoid;
+    public Races Race => race;
 
+    protected float baseCost = 30;
     protected float cost;
     protected float lastCost;
 
@@ -112,6 +110,8 @@ public abstract class SexualOrgan
 
     public SexualOrgan() => baseSize = 2;
 
+    public SexualOrgan(int parBase) => baseSize = parBase;
+
     public float Grow(int toGrow = 1)
     {
         float growCost = Cost;
@@ -136,7 +136,11 @@ public abstract class SexualOrgan
 
 public static class SexOrganExtension
 {
-    public static float Total(this IEnumerable<SexualOrgan> list) => list.Sum(so => so.Size);
+    public static float Total(this IEnumerable<SexualOrgan> list) => list.Select(so => so.Size).DefaultIfEmpty(0).Sum();
+
+    public static float Biggest(this IEnumerable<SexualOrgan> list) => list.Select(so => so.Size).DefaultIfEmpty(0).Max();
+
+    public static float Smallest(this IEnumerable<SexualOrgan> list) => list.Select(so => so.Size).DefaultIfEmpty(0).Min();
 
     public static void RefreshOrgans(this BasicChar bc, bool autoEss = false)
     {

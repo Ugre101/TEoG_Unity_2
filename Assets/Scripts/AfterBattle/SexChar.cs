@@ -9,8 +9,9 @@ public class SexChar : MonoBehaviour
     [Header("Organ descs")]
     [SerializeField]
     private TextMeshProUGUI Dicks = null;
+
     [SerializeField]
-    private TextMeshProUGUI Balls  = null, Vagina = null, Boobs = null;
+    private TextMeshProUGUI Balls = null, Vagina = null, Boobs = null;
 
     [Header("Sliders")]
     public MascSlider mascSlider;

@@ -1,11 +1,18 @@
 ﻿using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
 public class Boobs : SexualOrgan
 {
+    public Boobs() : base()
+    {
+    }
+
+    public Boobs(int size) : base(size)
+    {
+    }
+
     [SerializeField]
     private SexualFluid _fluid = new SexualFluid(FluidType.Milk);
 
@@ -31,15 +38,11 @@ public class Boobs : SexualOrgan
 
 public static class BoobExtensions
 {
-    public static void AddBoobs(this List<Boobs> boobs)
-    {
-        boobs.Add(new Boobs());
-    }
+    public static void AddBoobs(this List<Boobs> boobs) => boobs.Add(new Boobs());
 
-    public static float Cost(this List<Boobs> boobs)
-    {
-        return Mathf.Round(30 * Mathf.Pow(4, boobs.Count));
-    }
+    public static void AddBoobs(this List<Boobs> boobs, int parSize) => boobs.Add(new Boobs(parSize));
+
+    public static float Cost(this List<Boobs> boobs) => Mathf.Round(30 * Mathf.Pow(4, boobs.Count));
 
     public static float ReCycle(this List<Boobs> boobs)
     {
@@ -49,19 +52,10 @@ public static class BoobExtensions
             boobs.Remove(toShrink);
             return 30f;
         }
-        else
-        {
-            return toShrink.Cost;
-        }
+        return toShrink.Cost;
     }
 
-    public static float MilkTotal(this List<Boobs> boobs)
-    {
-        return boobs.Sum(b => b.Fluid.Current);
-    }
+    public static float MilkTotal(this List<Boobs> boobs) => boobs.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
-    public static float MilkMax(this List<Boobs> boobs)
-    {
-        return boobs.Sum(b => b.Fluid.Max);
-    }
+    public static float MilkMax(this List<Boobs> boobs) => boobs.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 }

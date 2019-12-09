@@ -45,6 +45,20 @@ public abstract class BasicChar : MonoBehaviour
 
     public VoreEngine Vore => vore;
 
+    private VoreChar voreChar;
+
+    public VoreChar VoreChar
+    {
+        get
+        {
+            if (voreChar == null)
+            {
+                voreChar = GetComponentInChildren<VoreChar>();
+            }
+            return voreChar;
+        }
+    }
+
     [SerializeField]
     private Age age = new Age();
 

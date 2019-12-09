@@ -1,15 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
-
+using Vore;
 public class AfterBattleMain : MonoBehaviour
 {
     public PlayerMain player;
     public List<EnemyPrefab> enemies;
     public TextMeshProUGUI _textBox;
+    public VoreHandler voreHandler;
 
     [SerializeField]
     private SexButton sexButton = null;
+
+    [SerializeField]
+    private VoreButton voreButton = null;
 
     #region Button containers
 
@@ -17,8 +22,8 @@ public class AfterBattleMain : MonoBehaviour
     [SerializeField]
     private GameObject buttons = null;
 
-//    [SerializeField]
-//    private GameObject DrainActions = null, MiscActions = null;
+    //    [SerializeField]
+    //    private GameObject DrainActions = null, MiscActions = null;
 
     [SerializeField]
     private GameObject drainMasc = null, drainFemi = null;
@@ -31,12 +36,14 @@ public class AfterBattleMain : MonoBehaviour
     public List<SexScenes> dickScenes;
 
     public List<SexScenes> boobScenes, mouthScenes, vaginaScenes, analScenes;
+    public List<VoreScene> voreScenes;
 
     #endregion Scene lists
 
     [Header("Other")]
     public SexScenes LastScene;
 
+    public List<SexScenes> allSexScenes;
     public GameObject Leave;
     public GameObject TakeHome;
     public Dorm dorm;
@@ -47,10 +54,14 @@ public class AfterBattleMain : MonoBehaviour
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
     public PlayerMain Caster => player;
 
+    //TODO add extra for perks
+    private int MaxOrgasm => 1 + Mathf.FloorToInt(player.Stats.End / 20);
+
     private void OnDisable()
     {
         enemies.Clear();
         SexStats.OrgasmedEvent -= RefreshScenes;
+        VoreButton.VoredEvent -= Vored;
     }
 
     public void Setup(List<EnemyPrefab> chars)
@@ -65,16 +76,21 @@ public class AfterBattleMain : MonoBehaviour
         playerChar.Setup(player);
         enemyChar.Setup(Target);
         SexStats.OrgasmedEvent += RefreshScenes;
+        VoreButton.VoredEvent += Vored;
         player.SexStats.Reset();
         RefreshScenes();
     }
 
     public void RefreshScenes()
     {
-        if (player.SexStats.SessionOrgasm < 1)
+        if (player.SexStats.SessionOrgasm < MaxOrgasm)
         {
-            SceneChecker(buttons,
-                new List<List<SexScenes>> { dickScenes, mouthScenes, boobScenes, vaginaScenes, analScenes });
+            if (allSexScenes.Count == 0)
+            {
+                allSexScenes = dickScenes.Concat(mouthScenes).Concat(boobScenes)
+                    .Concat(vaginaScenes).Concat(analScenes).ToList();
+            }
+            SceneChecker(buttons, allSexScenes);
             Leave.SetActive(true);
         }
         else
@@ -97,24 +113,30 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
-    private void SceneChecker(GameObject container, List<List<SexScenes>> scenes)
+    private void SceneChecker(GameObject container, List<SexScenes> scenes)
     {
         transform.KillChildren(container.transform);
-        foreach (List<SexScenes> list in scenes)
+        foreach (SexScenes scene in scenes.FindAll(s => s.CanDo(player, Target)))
         {
-            foreach (SexScenes scene in list)
-            {
-                if (scene.CanDo(player, Target))
-                {
-                    SexButton button = Instantiate(sexButton, container.transform);
-                    button.Setup(player, Target, this, scene);
-                }
-            }
+            SexButton button = Instantiate(sexButton, container.transform);
+            button.Setup(player, Target, this, scene);
+        }
+        foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, Target)))
+        {
+            VoreButton btn = Instantiate(voreButton, container.transform);
+            btn.Setup(player, Target, this, vore);
         }
     }
 
     public void AddToTextBox(string text)
     {
         _textBox.text = text;
+    }
+
+    private void Vored()
+    {
+        // Remove current target
+        Debug.Log(enemies.Count);
+
     }
 }

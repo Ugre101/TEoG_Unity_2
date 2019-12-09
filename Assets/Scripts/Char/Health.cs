@@ -46,11 +46,11 @@ public class Health
 
     public delegate void UpdateSlider();
 
-    public static event UpdateSlider UpdateSliderEvent;
+    public event UpdateSlider UpdateSliderEvent;
 
     public delegate void Dead();
 
-    public static event Dead DeadEvent;
+    public event Dead DeadEvent;
 
-    public void ManualSliderUpdate() => UpdateSliderEvent();
+    public void ManualSliderUpdate() => UpdateSliderEvent?.Invoke();
 }

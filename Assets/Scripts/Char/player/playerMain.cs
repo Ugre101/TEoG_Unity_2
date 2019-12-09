@@ -28,6 +28,10 @@ public class PlayerMain : BasicChar
         {
             Inventory.AddItem(ItemId.Stick);
         }
+        SexualOrgans.Balls.AddBalls(500);
+        SexualOrgans.Boobs.AddBoobs();
+        SexualOrgans.Dicks.AddDick(12);
+        SexualOrgans.Vaginas.AddVag(7);
     }
 
     public void PlayerInit(string first, string last)

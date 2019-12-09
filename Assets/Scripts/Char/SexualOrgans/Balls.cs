@@ -1,11 +1,19 @@
-﻿using UnityEngine;
-using System.Text;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using UnityEngine;
 
 [System.Serializable]
 public class Balls : SexualOrgan
 {
+    public Balls() : base()
+    {
+    }
+
+    public Balls(int size) : base(size)
+    {
+    }
+
     [SerializeField]
     private SexualFluid _fluid = new SexualFluid(FluidType.Cum);
 
@@ -24,15 +32,11 @@ public class Balls : SexualOrgan
 
 public static class BallsExtensions
 {
-    public static void AddBalls(this List<Balls> balls)
-    {
-        balls.Add(new Balls());
-    }
+    public static void AddBalls(this List<Balls> balls) => balls.Add(new Balls());
 
-    public static float Cost(this List<Balls> balls)
-    {
-        return Mathf.Round(30 * Mathf.Pow(4, balls.Count));
-    }
+    public static void AddBalls(this List<Balls> balls, int parSize) => balls.Add(new Balls(parSize));
+
+    public static float Cost(this List<Balls> balls) => Mathf.Round(30 * Mathf.Pow(4, balls.Count));
 
     public static float ReCycle(this List<Balls> balls)
     {
@@ -42,21 +46,12 @@ public static class BallsExtensions
             balls.Remove(toShrink);
             return 30f;
         }
-        else
-        {
-            return toShrink.Cost;
-        }
+        return toShrink.Cost;
     }
 
-    public static float CumTotal(this List<Balls> balls)
-    {
-        return balls.Sum(b => b.Fluid.Current);
-    }
+    public static float CumTotal(this List<Balls> balls) => balls.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
-    public static float CumMax(this List<Balls> balls)
-    {
-        return balls.Sum(b => b.Fluid.Max);
-    }
+    public static float CumMax(this List<Balls> balls) => balls.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
     public static string Looks(this Balls parBalls, bool capital = true)
     {

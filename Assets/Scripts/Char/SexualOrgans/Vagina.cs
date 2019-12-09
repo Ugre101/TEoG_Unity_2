@@ -1,10 +1,18 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class Vagina : SexualOrgan
 {
+    public Vagina() : base()
+    {
+    }
+
+    public Vagina(int parBase) : base(parBase)
+    {
+    }
+
     [SerializeField]
     private Womb womb = new Womb();
 
@@ -13,15 +21,11 @@ public class Vagina : SexualOrgan
 
 public static class VaginaExtensions
 {
-    public static void AddVag(this List<Vagina> vaginas)
-    {
-        vaginas.Add(new Vagina());
-    }
+    public static void AddVag(this List<Vagina> vaginas) => vaginas.Add(new Vagina());
 
-    public static float Cost(this List<Vagina> vaginas)
-    {
-        return Mathf.Round(30 * Mathf.Pow(4, vaginas.Count));
-    }
+    public static void AddVag(this List<Vagina> vaginas, int parSize) => vaginas.Add(new Vagina(parSize));
+
+    public static float Cost(this List<Vagina> vaginas) => Mathf.Round(30 * Mathf.Pow(4, vaginas.Count));
 
     public static float ReCycle(this List<Vagina> vaginas)
     {
@@ -31,15 +35,14 @@ public static class VaginaExtensions
             vaginas.Remove(toShrink);
             return 30f;
         }
-        else
-        {
-            return toShrink.Cost;
-        }
+        return toShrink.Cost;
     }
+
     public static string Looks(this Vagina vag, bool capital = true)
     {
         return $"{(capital ? "A" : "a")} ";
     }
+
     public static string Looks(this List<Vagina> parVags)
     {
         StringBuilder builder = new StringBuilder();

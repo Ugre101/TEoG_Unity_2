@@ -5,19 +5,22 @@ using UnityEngine;
 [System.Serializable]
 public class Dick : SexualOrgan
 {
+    public Dick() : base()
+    {
+    }
+
+    public Dick(int size) : base(size)
+    {
+    }
 }
 
 public static class DickExtensions
 {
-    public static void AddDick(this List<Dick> dicks)
-    {
-        dicks.Add(new Dick());
-    }
+    public static void AddDick(this List<Dick> dicks) => dicks.Add(new Dick());
 
-    public static float Cost(this List<Dick> dicks)
-    {
-        return Mathf.Round(30 * Mathf.Pow(4, dicks.Count));
-    }
+    public static void AddDick(this List<Dick> dicks, int parSize) => dicks.Add(new Dick(parSize));
+
+    public static float Cost(this List<Dick> dicks) => Mathf.Round(30 * Mathf.Pow(4, dicks.Count));
 
     public static float ReCycle(this List<Dick> dicks)
     {

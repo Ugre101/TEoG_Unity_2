@@ -64,6 +64,7 @@ public class Dorm : MonoBehaviour
             }else
             {
                 Debug.Log("Failed to load dorm servant...");
+                // TODO add uneverial char to carry basicChar script
             }
         }
     }
