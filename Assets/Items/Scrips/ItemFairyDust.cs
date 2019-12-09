@@ -12,7 +12,7 @@ public class ItemFairyDust : Item
         useName = "Lick";
         desc = "";
     }
-    public override string Use(BasicChar user)
+    public override string Use(ThePrey user)
     {
         return base.Use(user);
     }

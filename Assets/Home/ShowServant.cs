@@ -4,12 +4,12 @@ using UnityEngine;
 public class ShowServant : MonoBehaviour
 {
     [SerializeField]
-    private BasicChar who;
+    private ThePrey who;
 
     public TextMeshProUGUI Title;
     public TextMeshProUGUI Desc;
 
-    public void Init(BasicChar whom)
+    public void Init(ThePrey whom)
     {
         who = whom;
         Title.text = who.FullName;

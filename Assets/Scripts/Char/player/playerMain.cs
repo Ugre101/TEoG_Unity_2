@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerMain : BasicChar
+public class PlayerMain : ThePrey
 {
     // public Settings sett;
     [Space]

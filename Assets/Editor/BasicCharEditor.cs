@@ -1,14 +1,14 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(BasicChar))]
+[CustomEditor(typeof(ThePrey))]
 public class BasicCharEditor : Editor
 {
-    private BasicChar basicChar;
+    private ThePrey basicChar;
 
     public override void OnInspectorGUI()
     {
-        basicChar = (BasicChar)target;
+        basicChar = (ThePrey)target;
         GUILayout.Label("Summary", EditorStyles.boldLabel);
         GUILayout.BeginVertical("Box");
         GUILayout.Label(basicChar.FullName);

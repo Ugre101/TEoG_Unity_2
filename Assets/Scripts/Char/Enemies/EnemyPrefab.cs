@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class EnemyPrefab : BasicChar
+public class EnemyPrefab : ThePrey
 {
     [HideInInspector]
     public bool NeedFirstName = true, NeedLastName = true;

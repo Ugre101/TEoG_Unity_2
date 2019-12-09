@@ -22,7 +22,7 @@ namespace Vore
             }
         }
 
-        public void AddPrey(GameObject parPrey)
+        public void AddPrey(global::ThePrey parPrey)
         {
             preysDirty = true;
             parPrey.transform.SetParent(transform);
@@ -34,6 +34,5 @@ namespace Vore
             preysDirty = true;
             GameObject prey = Preys.Find(p => p.Prey.GetInstanceID() == parWho.Prey.GetInstanceID()).Prey.gameObject;
         }
-
     }
 }

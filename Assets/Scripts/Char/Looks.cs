@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class Looks
 {
-    public Looks(BasicChar whom)
+    public Looks(ThePrey whom)
     {
         who = whom;
     }
 
     [SerializeField]
-    private BasicChar who;
+    private ThePrey who;
 
     private string Height { get { return Settings.MorInch(who.Weight); } }
     private string Weight { get { return Settings.KgorP(who.Weight); } }

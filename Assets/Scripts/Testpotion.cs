@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [CreateAssetMenu(fileName = "TestPotion", menuName = "TestPotion")]
 public class TestPotion : Drinks
 {
-    public override string Use(BasicChar user)
+    public override string Use(ThePrey user)
     {
         return base.Use(user);
     }

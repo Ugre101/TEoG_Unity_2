@@ -40,7 +40,7 @@ public class HealthSlider : BasicSlider
         _ = StartCoroutine(LetTheGameStart());
     }
 
-    public override void Setup(BasicChar who)
+    public override void Setup(ThePrey who)
     {
         base.Setup(who);
         basicChar.HP.ManualSliderUpdate();

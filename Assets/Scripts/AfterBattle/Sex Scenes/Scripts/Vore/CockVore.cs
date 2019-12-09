@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Cock vore", menuName = ("Sex/Vore/Cock vore"))]
 public class CockVore : VoreScene
 {
-    public override bool CanDo(BasicChar player, BasicChar Other)
+    public override bool CanDo(ThePrey player, ThePrey Other)
     {
         if (player.SexualOrgans.Balls.Count < 1)
         {
@@ -16,10 +16,13 @@ public class CockVore : VoreScene
         return player.Vore.Balls.CanVore(Other);
     }
 
-    public override string Vore(PlayerMain player, BasicChar other)
+    public override string Vore(PlayerMain player, ThePrey other)
     {
-        _ = player.Vore.Balls.Vore(other);
-        player.VoreChar.AddPrey(other.gameObject);
+        if (player.Vore.Balls.Vore(other))
+        {
+            Debug.Log(true);
+            player.VoreChar.Balls.AddPrey(other);
+        }
         return base.Vore(player, other);
     }
 }

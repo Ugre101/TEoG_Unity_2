@@ -15,14 +15,14 @@ public class DrainFemi : SexScenes
         return drain;
     }
 
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(PlayerMain player, ThePrey other)
     {
         float have = other.LoseFemi(ToDrain(player));
         player.Femi.Gain(have);
         return "Drain femi";
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(PlayerMain player, ThePrey other)
     {
         return StartScene(player, other);
     }

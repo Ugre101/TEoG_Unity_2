@@ -3,9 +3,9 @@ using UnityEngine;
 using Vore;
 
 [System.Serializable]
-public abstract class BasicChar : MonoBehaviour
+public abstract class ThePrey : MonoBehaviour
 {
-    public BasicChar()
+    public ThePrey()
     {
         looks = new Looks(this);
         vore = new VoreEngine(this);

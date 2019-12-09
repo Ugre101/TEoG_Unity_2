@@ -8,9 +8,9 @@ namespace Vore
     [Serializable]
     public abstract class VoreBasic
     {
-        public VoreBasic(BasicChar parPred) => pred = parPred;
+        public VoreBasic(global::ThePrey parPred) => pred = parPred;
 
-        protected readonly BasicChar pred;
+        protected readonly global::ThePrey pred;
 
         [SerializeField]
         protected List<ThePrey> preys = new List<ThePrey>();
@@ -30,9 +30,9 @@ namespace Vore
 
         public virtual float Current => preys.Sum(p => p.Prey.Weight);
 
-        public virtual bool CanVore(BasicChar parPrey) => Current + parPrey.Weight <= MaxCapacity();
+        public virtual bool CanVore(global::ThePrey parPrey) => Current + parPrey.Weight <= MaxCapacity();
 
-        public virtual bool Vore(BasicChar parPrey)
+        public virtual bool Vore(global::ThePrey parPrey)
         {
             if (CanVore(parPrey))
             {
@@ -61,7 +61,7 @@ namespace Vore
     [Serializable]
     public class VoreBalls : VoreBasic
     {
-        public VoreBalls(BasicChar parPred) : base(parPred)
+        public VoreBalls(global::ThePrey parPred) : base(parPred)
         {
         }
 
@@ -75,7 +75,7 @@ namespace Vore
     [Serializable]
     public class VoreBoobs : VoreBasic
     {
-        public VoreBoobs(BasicChar pred) : base(pred)
+        public VoreBoobs(global::ThePrey pred) : base(pred)
         {
         }
 
@@ -89,7 +89,7 @@ namespace Vore
     [Serializable]
     public class VoreStomach : VoreBasic
     {
-        public VoreStomach(BasicChar pred) : base(pred)
+        public VoreStomach(global::ThePrey pred) : base(pred)
         {
         }
 
@@ -103,7 +103,7 @@ namespace Vore
     [Serializable]
     public class VoreAnal : VoreBasic
     {
-        public VoreAnal(BasicChar pred) : base(pred)
+        public VoreAnal(global::ThePrey pred) : base(pred)
         {
         }
 
@@ -117,7 +117,7 @@ namespace Vore
     [Serializable]
     public class VoreVagina : VoreBasic
     {
-        public VoreVagina(BasicChar Pred) : base(Pred)
+        public VoreVagina(global::ThePrey Pred) : base(Pred)
         {
         }
 

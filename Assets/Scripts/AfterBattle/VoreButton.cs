@@ -12,7 +12,7 @@ public class VoreButton : MonoBehaviour
     private Button btn;
 
     private PlayerMain player;
-    private BasicChar other;
+    private ThePrey other;
     // Start is called before the first frame update
     private void Start()
     {
@@ -29,7 +29,7 @@ public class VoreButton : MonoBehaviour
         VoredEvent?.Invoke();
     }
 
-    public void Setup(PlayerMain parPlayer, BasicChar parPartner, AfterBattleMain parAfterBattle, VoreScene parScene)
+    public void Setup(PlayerMain parPlayer, ThePrey parPartner, AfterBattleMain parAfterBattle, VoreScene parScene)
     {
         player = parPlayer;
         other = parPartner;

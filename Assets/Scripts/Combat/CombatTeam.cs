@@ -5,7 +5,7 @@ using UnityEngine;
 public class CombatTeam : MonoBehaviour
 {
     public GameUI gameUI;
-    public List<BasicChar> Team;
+    public List<ThePrey> Team;
     public GameObject TeamContainer;
     public CombatStatus CombatStatusPrefab;
     public CombatMain combatMain;
@@ -14,7 +14,7 @@ public class CombatTeam : MonoBehaviour
     // if nobody is alive return true else false
     public bool TeamDead => !combatStatuses.Exists(s => s.Dead == false);
 
-    public IEnumerator StartFight(List<BasicChar> EnemyTeam)
+    public IEnumerator StartFight(List<ThePrey> EnemyTeam)
     {
         transform.KillChildren(TeamContainer.transform);
         Team = EnemyTeam;
@@ -26,7 +26,7 @@ public class CombatTeam : MonoBehaviour
         }
         else
         {
-            foreach (BasicChar combatant in Team)
+            foreach (ThePrey combatant in Team)
             {
                 CombatStatus StatusToAdd = Instantiate(CombatStatusPrefab, TeamContainer.transform);
                 StatusToAdd.Setup(combatant, this, combatMain);

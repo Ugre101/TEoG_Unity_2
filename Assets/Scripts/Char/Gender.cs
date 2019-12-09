@@ -16,7 +16,7 @@ public enum GenderTypes
 
 public static class GenderExtensions
 {
-    public static Genders Gender(this BasicChar parWho)
+    public static Genders Gender(this ThePrey parWho)
     {
         if (parWho.SexualOrgans.Dicks.Count > 0 && parWho.SexualOrgans.Vaginas.Count > 0)
         {
@@ -44,7 +44,7 @@ public static class GenderExtensions
         }
     }
 
-    public static GenderTypes GenderType(this BasicChar parWho)
+    public static GenderTypes GenderType(this ThePrey parWho)
     {
         switch (parWho.Gender())
         {

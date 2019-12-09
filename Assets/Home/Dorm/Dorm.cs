@@ -8,21 +8,21 @@ public class Dorm : MonoBehaviour
 
     public bool HasSpace => home.Stats.Dorm.Level * 3 > transform.childCount;
 
-    public bool CanTake(BasicChar wannaTake) => HasSpace && wannaTake.SexStats.SessionOrgasm >= 0;
+    public bool CanTake(ThePrey wannaTake) => HasSpace && wannaTake.SexStats.SessionOrgasm >= 0;
 
-    private BasicChar[] ArrayServants => GetComponentsInChildren<BasicChar>();
+    private ThePrey[] ArrayServants => GetComponentsInChildren<ThePrey>();
     private bool ServantsDirty = true;
 
     [SerializeField]
-    private List<BasicChar> lastServants;
+    private List<ThePrey> lastServants;
 
-    public List<BasicChar> Servants
+    public List<ThePrey> Servants
     {
         get
         {
             if (ServantsDirty)
             {
-                lastServants = new List<BasicChar>(ArrayServants);
+                lastServants = new List<ThePrey>(ArrayServants);
                 ServantsDirty = false;
             }
             return lastServants;
@@ -43,7 +43,7 @@ public class Dorm : MonoBehaviour
         List<DormSave> dormSaves = new List<DormSave>();
         foreach (Transform child in transform)
         {
-            DormSave tempDorm = new DormSave(child.name, child.GetComponent<BasicChar>());
+            DormSave tempDorm = new DormSave(child.name, child.GetComponent<ThePrey>());
             dormSaves.Add(tempDorm);
         }
         return dormSaves;
@@ -58,7 +58,7 @@ public class Dorm : MonoBehaviour
             {
                 GameObject loaded = Instantiate(servantPrefabs.Find(n => n.name == ds.name), transform);
                 loaded.name = ds.name;
-                BasicChar loadedChar = loaded.GetComponent<BasicChar>();
+                ThePrey loadedChar = loaded.GetComponent<ThePrey>();
                 JsonUtility.FromJsonOverwrite(ds.who, loadedChar);
                 ServantsDirty = true;
             }else

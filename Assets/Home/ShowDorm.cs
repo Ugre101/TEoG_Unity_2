@@ -48,7 +48,7 @@ public class ShowDorm : MonoBehaviour
             {
                 Destroy(child.gameObject);
             }
-            foreach (BasicChar Serv in dorm.Servants)
+            foreach (ThePrey Serv in dorm.Servants)
             {
                 GameObject test = Instantiate(ServantListPrefab, container.transform);
                 ShowServant showServant = test.GetComponent<ShowServant>();

@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using Vore;
+
 public class AfterBattleMain : MonoBehaviour
 {
     public PlayerMain player;
@@ -61,7 +62,6 @@ public class AfterBattleMain : MonoBehaviour
     {
         enemies.Clear();
         SexStats.OrgasmedEvent -= RefreshScenes;
-        VoreButton.VoredEvent -= Vored;
     }
 
     public void Setup(List<EnemyPrefab> chars)
@@ -76,7 +76,6 @@ public class AfterBattleMain : MonoBehaviour
         playerChar.Setup(player);
         enemyChar.Setup(Target);
         SexStats.OrgasmedEvent += RefreshScenes;
-        VoreButton.VoredEvent += Vored;
         player.SexStats.Reset();
         RefreshScenes();
     }
@@ -131,12 +130,5 @@ public class AfterBattleMain : MonoBehaviour
     public void AddToTextBox(string text)
     {
         _textBox.text = text;
-    }
-
-    private void Vored()
-    {
-        // Remove current target
-        Debug.Log(enemies.Count);
-
     }
 }

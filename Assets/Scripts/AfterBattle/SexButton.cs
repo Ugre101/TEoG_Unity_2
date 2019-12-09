@@ -9,7 +9,7 @@ public class SexButton : MonoBehaviour
     public TextMeshProUGUI title;
 
     private PlayerMain player;
-    private BasicChar other;
+    private ThePrey other;
     public void Start()
     {
         if (btn == null)
@@ -22,7 +22,7 @@ public class SexButton : MonoBehaviour
         afterBattle.AddToTextBox(afterBattle.LastScene == scene ? scene.ContinueScene(player,other) : scene.StartScene(player,other));
         afterBattle.LastScene = scene;
     }
-    public void Setup(PlayerMain parPlayer, BasicChar parPartner,AfterBattleMain parAfterBattle,SexScenes parScene)
+    public void Setup(PlayerMain parPlayer, ThePrey parPartner,AfterBattleMain parAfterBattle,SexScenes parScene)
     {
         player = parPlayer;
         other = parPartner;

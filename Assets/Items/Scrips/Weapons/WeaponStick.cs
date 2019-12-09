@@ -17,7 +17,7 @@ public class WeaponStick : Weapon
     }
 
     // use function aka what the item does, base.use() calls Use function of this class's base class (Item.Use) which does nothing.
-    public override string Use(BasicChar user)
+    public override string Use(ThePrey user)
     {
         return base.Use(user);
     }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class SexChar : MonoBehaviour
 {
-    public BasicChar whom;
+    public ThePrey whom;
 
     [Header("Organ descs")]
     [SerializeField]
@@ -30,7 +30,7 @@ public class SexChar : MonoBehaviour
         SexualOrgan.SomethingChanged -= Organs;
     }
 
-    public void Setup(BasicChar basicChar)
+    public void Setup(ThePrey basicChar)
     {
         whom = basicChar;
         mascSlider.Init(whom);

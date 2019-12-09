@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemOrcBrew : Item
 {
-    public override string Use(BasicChar user)
+    public override string Use(ThePrey user)
     {
         return base.Use(user);
     }

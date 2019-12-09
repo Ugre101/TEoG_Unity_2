@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GiveMasc : SexScenes
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(PlayerMain player, ThePrey other)
     {
         float toGive = player.EssGive;
         player.LoseMasc(toGive);

@@ -74,7 +74,7 @@ public class PlayerSave
     //public Vector3 pos;
     public string who;
 
-    public PlayerSave(BasicChar whom)
+    public PlayerSave(ThePrey whom)
     {
         who = JsonUtility.ToJson(whom);
     }
@@ -101,7 +101,7 @@ public class DormSave
     public string name;
     public string who;
 
-    public DormSave(string Name, BasicChar Who)
+    public DormSave(string Name, ThePrey Who)
     {
         name = Name;
         who = JsonUtility.ToJson(Who);

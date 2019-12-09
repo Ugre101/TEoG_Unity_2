@@ -35,7 +35,7 @@ public class WillSlider : BasicSlider
         StartCoroutine(LetTheGameStart());
     }
 
-    public override void Setup(BasicChar who)
+    public override void Setup(ThePrey who)
     {
         base.Setup(who);
         basicChar.WP.ManualSliderUpdate();

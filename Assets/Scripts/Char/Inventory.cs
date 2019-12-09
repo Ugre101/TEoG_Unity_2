@@ -67,3 +67,18 @@ public class InventoryItem
     public int Amount { get => amount; set => amount = value; }
     public int InvPos { get => invPos; set => invPos = value; }
 }
+
+public static class InventoryExtensions
+{
+    /// <summary>Find a item by it's invPos </summary>
+    public static InventoryItem FindByPos(this List<InventoryItem> inventory, int invPos)
+    {
+        return inventory.Find(i => i.InvPos == invPos);
+    }
+
+    /// <summary>Return if item exist by it's invPos </summary>
+    public static bool ExistByPos(this List<InventoryItem> inventory, int invPos)
+    {
+        return inventory.Exists(i => i.InvPos == invPos);
+    }
+}

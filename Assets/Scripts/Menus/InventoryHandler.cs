@@ -100,15 +100,19 @@ public class InventoryHandler : MonoBehaviour
     public void Move(int startSlot, int EndSlot)
     {
         Debug.Log(startSlot + " " + EndSlot);
-        if (Slots[EndSlot].Empty && !player.Inventory.Items.Exists(i => i.InvPos == EndSlot))
+        if (Slots[EndSlot].Empty && !player.Inventory.Items.ExistByPos(EndSlot))
         {
-            player.Inventory.Items.Find(i => i.InvPos == startSlot).InvPos = EndSlot;
+            player.Inventory.Items.FindByPos(startSlot).InvPos = EndSlot;
             //UpdateInventory();
         }
     }
 
     public void Move(int startSlot)
     {
-        Debug.Log("Remove item?");
+        if (player.Inventory.Items.ExistByPos(startSlot))
+        {
+            InventoryItem inv = player.Inventory.Items.FindByPos(startSlot);
+            Debug.Log("Remove item: " + inv.Id);
+        }
     }
 }

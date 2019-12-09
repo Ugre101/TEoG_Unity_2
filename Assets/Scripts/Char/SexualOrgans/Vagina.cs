@@ -40,7 +40,7 @@ public static class VaginaExtensions
 
     public static string Looks(this Vagina vag, bool capital = true)
     {
-        return $"{(capital ? "A" : "a")} ";
+        return $"{(capital ? "A" : "a")} {vag.Race}";
     }
 
     public static string Looks(this List<Vagina> parVags)

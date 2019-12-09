@@ -33,7 +33,7 @@ public class PregnancySystem
 
     private float FinalGrowthRate => baseFetusGrowth + bonusFetusGrowth;
 
-    public void GrowFetus(BasicChar who)
+    public void GrowFetus(ThePrey who)
     {
         foreach (Vagina v in who.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus))
         {
@@ -59,7 +59,7 @@ public class PregnancySystem
 }
 public static class PregnancyExtensions
 {
-    public static bool Impregnate(this BasicChar mother, BasicChar parFather)
+    public static bool Impregnate(this ThePrey mother, ThePrey parFather)
     {
         float motherFet = mother.PregnancySystem.GetFertility;
         float fatherVir = parFather.PregnancySystem.GetVirility;
