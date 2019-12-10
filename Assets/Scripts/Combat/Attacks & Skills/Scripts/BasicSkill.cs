@@ -59,13 +59,13 @@ public class BasicSkill : ScriptableObject
 
     #endregion Variables
 
-    public virtual string Action(ThePrey user, ThePrey target)
+    public virtual string Action(BasicChar user, BasicChar target)
     {
         float dmg = baseAttack * RNG; // + user something
         return $"{user.firstName} action {target.firstName} for {dmg}.";
     }
 
-    public virtual string Text(ThePrey user, ThePrey target)
+    public virtual string Text(BasicChar user, BasicChar target)
     {
         string text = $"{user.firstName} attacks {target.firstName}.";
         return text;

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class loseBattleEnemy : MonoBehaviour
 {
-    public List<ThePrey> _enemies = new List<ThePrey>();
+    public List<BasicChar> _enemies = new List<BasicChar>();
     // essence gameobject
 
-    public void AddEnemy(ThePrey enemy)
+    public void AddEnemy(BasicChar enemy)
     {
         _enemies.Add(enemy);
     }

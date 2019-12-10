@@ -78,7 +78,7 @@ public static class Settings
     public static string Dickgirl = "dickgirl";
     public static string Doll = "doll";
 
-    public static string GetGender(ThePrey who, bool capital = false)
+    public static string GetGender(BasicChar who, bool capital = false)
     {
         switch (who.Gender)
         {

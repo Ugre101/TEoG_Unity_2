@@ -13,7 +13,7 @@ public class BasicCharGame : MonoBehaviour
     private EventLog eventLog = null;
 
     [SerializeField]
-    private ThePrey whom;
+    private BasicChar whom;
 
     public EventLog EventLog => eventLog;
 
@@ -25,7 +25,7 @@ public class BasicCharGame : MonoBehaviour
         }
         if (whom == null)
         {
-            whom = GetComponent<ThePrey>();
+            whom = GetComponent<BasicChar>();
         }
         spriteRenderer.sprite = sprites.GetSprite(whom);
     }

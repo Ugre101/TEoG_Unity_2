@@ -11,7 +11,7 @@ public class Fetus
     [SerializeField]
     private Races race;
     [SerializeField]
-    private ThePrey father, mother;
+    private BasicChar father, mother;
     public string FatherName => father.FullName;
     public string MotherName => mother.FullName;
     public Races Race => race;
@@ -34,7 +34,7 @@ public class Fetus
                 return 274;
         }
     }
-    public Fetus(Races parRace,  ThePrey parFather, ThePrey parMother)
+    public Fetus(Races parRace,  BasicChar parFather, BasicChar parMother)
     {
         race = parRace;
         father = parFather;

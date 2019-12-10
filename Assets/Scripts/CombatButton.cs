@@ -15,7 +15,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     public SkillButtons skillButtons;
     public Image coolDownImg;
     private PlayerMain Player => combatButtons.player;
-    private ThePrey Target => combatButtons.Target;
+    private BasicChar Target => combatButtons.Target;
     private bool hovering;
     private bool hoverBlockActive = false;
     private float timeStarted;

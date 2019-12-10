@@ -8,7 +8,7 @@ namespace Vore
     {
         private EventLog EveLog => pred.BasicCharGame.EventLog;
 
-        private readonly global::ThePrey pred;
+        private readonly global::BasicChar pred;
         public bool Active = false;
 
         #region voreOrgans
@@ -40,7 +40,7 @@ namespace Vore
 
         #endregion voreOrgans
 
-        public VoreEngine(global::ThePrey parPred)
+        public VoreEngine(global::BasicChar parPred)
         {
             pred = parPred;
             balls = new VoreBalls(parPred);
@@ -107,16 +107,16 @@ namespace Vore
     public class ThePrey
     {
         [SerializeField]
-        private global::ThePrey prey;
+        private BasicChar prey;
 
-        public global::ThePrey Prey => prey;
-
+        public BasicChar Prey => prey;
+        public BasicChar SetPrey { set => prey = value; }
         [SerializeField]
         private float startWeight;
 
         public float StartWeight => startWeight;
 
-        public ThePrey(global::ThePrey parPrey)
+        public ThePrey(BasicChar parPrey)
         {
             prey = parPrey;
             startWeight = parPrey.Weight;

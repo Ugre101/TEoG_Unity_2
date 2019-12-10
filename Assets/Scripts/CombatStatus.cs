@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class CombatStatus : MonoBehaviour
 {
-    public ThePrey whom;
+    public BasicChar whom;
     public bool Dead { get; private set; } = false;
 
     [SerializeField]
@@ -27,7 +27,7 @@ public class CombatStatus : MonoBehaviour
     [SerializeField]
     private CombatMain combatMain = null;
 
-    public void Setup(ThePrey who, CombatTeam combatTeam, CombatMain main)
+    public void Setup(BasicChar who, CombatTeam combatTeam, CombatMain main)
     {
         whom = who;
         title.text = whom.firstName;

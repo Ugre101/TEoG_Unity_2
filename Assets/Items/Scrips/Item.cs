@@ -43,7 +43,7 @@ public class Item : ScriptableObject
 
     public string UseName => useName;
 
-    public virtual string Use(ThePrey user)
+    public virtual string Use(BasicChar user)
     {
         return "used";
     }

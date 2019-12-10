@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "LowTierHeal", menuName = "ScriptableObject/CombatSkills/LowTierHeal")]
 public class LowTierHeal : BasicSkill
 {
-    public override string Action(ThePrey user, ThePrey target)
+    public override string Action(BasicChar user, BasicChar target)
     {
         float toHeal = (BaseAttack + user.Stats.Int) * RNG;
         user.HP.Gain(toHeal);

@@ -10,7 +10,7 @@ public class Child
     private Races race;
 
     [SerializeField]
-    private ThePrey father, mother;
+    private BasicChar father, mother;
 
     public string FatherName => father.FullName;
     public string MotherName => mother.FullName;
@@ -35,7 +35,7 @@ public class Child
         }
     }
 
-    public Child(Races parRace, ThePrey parMother, ThePrey parFather)
+    public Child(Races parRace, BasicChar parMother, BasicChar parFather)
     {
         race = parRace;
         father = parFather;

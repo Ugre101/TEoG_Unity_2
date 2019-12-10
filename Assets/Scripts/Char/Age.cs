@@ -54,7 +54,7 @@ public class Age
     }
 
     // Diffent races age different a 100 years old elf is quite young, while a 100 years old human is dying.
-    public AgeClass AgeByRace(ThePrey who)
+    public AgeClass AgeByRace(BasicChar who)
     {
         switch (who.RaceSystem.CurrentRace())
         {

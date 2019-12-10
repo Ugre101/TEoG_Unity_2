@@ -3,36 +3,33 @@ using UnityEngine;
 
 namespace Vore
 {
-    public abstract class VoreContainer : MonoBehaviour
+    public class VoreContainer : MonoBehaviour
     {
-        private ThePrey[] GetPreys => GetComponentsInChildren<ThePrey>();
-        private List<ThePrey> lastPreys = new List<ThePrey>();
+        private BasicChar[] preyArray => GetComponentsInChildren<BasicChar>();
+        private List<BasicChar> lastPreys = new List<BasicChar>();
         private bool preysDirty = true;
 
-        public List<ThePrey> Preys
+        public List<BasicChar> GetPreys()
         {
-            get
+            if (preysDirty)
             {
-                if (preysDirty)
-                {
-                    lastPreys = new List<ThePrey>(GetPreys);
-                    preysDirty = false;
-                }
-                return lastPreys;
+                lastPreys = transform.childCount > 0 ? new List<BasicChar>(preyArray) : new List<BasicChar>();
+                preysDirty = false;
             }
+            return lastPreys;
         }
 
-        public void AddPrey(global::ThePrey parPrey)
+        public void AddPrey(ThePrey parPrey)
         {
             preysDirty = true;
-            parPrey.transform.SetParent(transform);
+            parPrey.Prey.transform.SetParent(transform);
         }
 
         public void ReleasePrey(ThePrey parWho)
         {
             // Not sure if this works
             preysDirty = true;
-            GameObject prey = Preys.Find(p => p.Prey.GetInstanceID() == parWho.Prey.GetInstanceID()).Prey.gameObject;
+            GameObject prey = GetPreys().Find(p => p.GetInstanceID() == parWho.Prey.GetInstanceID()).gameObject;
         }
     }
 }

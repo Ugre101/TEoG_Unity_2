@@ -21,6 +21,16 @@ public class LooksMenu : MonoBehaviour
         }
     }
 
+    public void BodyLook()
+    {
+        string body = $"Age: {player.Age.AgeYears}years old\nHeight: {Settings.MorInch(player.Body.Height.Value)}\nWeight: {Settings.KgorP(player.Body.Weight)}";
+    }
+
+    public void StatsDetails()
+    {
+        string stats = $"Strength: {player.Stats.Str}\nCharm: {player.Stats.Cha}\nEndurance: {player.Stats.End}";
+    }
+
     public void OrgansLook()
     {
         string organs = player.SexualOrgans.Dicks.Looks();

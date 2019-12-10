@@ -8,9 +8,9 @@ namespace Vore
     [Serializable]
     public abstract class VoreBasic
     {
-        public VoreBasic(global::ThePrey parPred) => pred = parPred;
+        public VoreBasic(BasicChar parPred) => pred = parPred;
 
-        protected readonly global::ThePrey pred;
+        protected readonly BasicChar pred;
 
         [SerializeField]
         protected List<ThePrey> preys = new List<ThePrey>();
@@ -28,15 +28,19 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
+        /// <summary> Return weight of prey content</summary>
         public virtual float Current => preys.Sum(p => p.Prey.Weight);
 
-        public virtual bool CanVore(global::ThePrey parPrey) => Current + parPrey.Weight <= MaxCapacity();
+        /// <summary>Returns how full it is; 0.5 = 50%</summary>
+        public virtual float FillPrecent => Current / MaxCapacity();
 
-        public virtual bool Vore(global::ThePrey parPrey)
+        public virtual bool CanVore(ThePrey parPrey) => Current + parPrey.Prey.Weight <= MaxCapacity();
+
+        public virtual bool Vore(ThePrey parPrey)
         {
             if (CanVore(parPrey))
             {
-                preys.Add(new ThePrey(parPrey));
+                preys.Add(parPrey);
                 return true;
             }
             return false;
@@ -61,7 +65,7 @@ namespace Vore
     [Serializable]
     public class VoreBalls : VoreBasic
     {
-        public VoreBalls(global::ThePrey parPred) : base(parPred)
+        public VoreBalls(BasicChar parPred) : base(parPred)
         {
         }
 
@@ -75,7 +79,7 @@ namespace Vore
     [Serializable]
     public class VoreBoobs : VoreBasic
     {
-        public VoreBoobs(global::ThePrey pred) : base(pred)
+        public VoreBoobs(BasicChar pred) : base(pred)
         {
         }
 
@@ -89,7 +93,7 @@ namespace Vore
     [Serializable]
     public class VoreStomach : VoreBasic
     {
-        public VoreStomach(global::ThePrey pred) : base(pred)
+        public VoreStomach(BasicChar pred) : base(pred)
         {
         }
 
@@ -103,7 +107,7 @@ namespace Vore
     [Serializable]
     public class VoreAnal : VoreBasic
     {
-        public VoreAnal(global::ThePrey pred) : base(pred)
+        public VoreAnal(BasicChar pred) : base(pred)
         {
         }
 
@@ -117,7 +121,7 @@ namespace Vore
     [Serializable]
     public class VoreVagina : VoreBasic
     {
-        public VoreVagina(global::ThePrey Pred) : base(Pred)
+        public VoreVagina(BasicChar Pred) : base(Pred)
         {
         }
 

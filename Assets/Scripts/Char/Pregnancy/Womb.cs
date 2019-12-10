@@ -61,7 +61,7 @@ public class Womb
     /// <param name="parMother"></param>
     /// <param name="parFather"></param>
     /// <param name="parMultiChildBonus"> amount = floor(range(1,2.1)); where amount equals the amount of fetuses added to womb.</param>
-    public void GetImpregnated(ThePrey parMother, ThePrey parFather, float parMultiChildBonus = 0, int parBaseChildAmount = 1)
+    public void GetImpregnated(BasicChar parMother, BasicChar parFather, float parMultiChildBonus = 0, int parBaseChildAmount = 1)
     {
         int amount = Mathf.FloorToInt(Random.Range(parBaseChildAmount, 2.1f + Mathf.Max(-1f, parMultiChildBonus)));
         for (int i = 0; i < amount; i++)

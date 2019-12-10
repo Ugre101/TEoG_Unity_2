@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class BasicSlider : MonoBehaviour
 {
     [SerializeField]
-    protected ThePrey basicChar;
+    protected BasicChar basicChar;
 
     [SerializeField]
     protected TextMeshProUGUI TextMesh;
@@ -26,7 +26,7 @@ public class BasicSlider : MonoBehaviour
         if (basicChar == null) { enabled = false; }
     }
 
-    public virtual void Setup(ThePrey who)
+    public virtual void Setup(BasicChar who)
     {
         enabled = true;
         basicChar = who;

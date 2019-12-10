@@ -27,7 +27,7 @@ public class SexScenes : ScriptableObject
     public int CharmMultiplier = 1;
     public int StrengthMultiplier = 1;
 
-    public virtual bool CanDo(ThePrey player, ThePrey Other)
+    public virtual bool CanDo(BasicChar player, BasicChar Other)
     {
         if (PlayerDick)
         {
@@ -88,19 +88,19 @@ public class SexScenes : ScriptableObject
         return true;
     }
 
-    public virtual string StartScene(PlayerMain player, ThePrey other)
+    public virtual string StartScene(PlayerMain player, BasicChar other)
     {
         ArousalGain(player, other);
         return $"";
     }
 
-    public virtual string ContinueScene(PlayerMain player, ThePrey other)
+    public virtual string ContinueScene(PlayerMain player, BasicChar other)
     {
         ArousalGain(player, other);
         return $"";
     }
 
-    public virtual void ArousalGain(PlayerMain player, ThePrey other)
+    public virtual void ArousalGain(PlayerMain player, BasicChar other)
     {
         float PlayerGain = CasterGain * Mathf.Pow(EnduranceMultiplier, player.Stats.End);
         float OtherGain = ReciverGain * Mathf.Pow(CharmMultiplier, player.Stats.Cha) *
@@ -109,21 +109,21 @@ public class SexScenes : ScriptableObject
         other.SexStats.GainArousal(OtherGain);
     }
 
-    public string BiggestDick(ThePrey whom) => Settings.MorInch(whom.SexualOrgans.Dicks.Biggest());
+    public string BiggestDick(BasicChar whom) => Settings.MorInch(whom.SexualOrgans.Dicks.Biggest());
 }
 
 public class VoreScene : SexScenes
 {
-    public override bool CanDo(ThePrey player, ThePrey Other)
+    public virtual bool CanDo(BasicChar player, Vore.ThePrey Other)
     {
         if (!player.Vore.Active)
         {
             return false;
         }
-        return base.CanDo(player, Other);
+        return true;
     }
 
-    public virtual string Vore(PlayerMain player, ThePrey other)
+    public virtual string Vore(PlayerMain player, Vore.ThePrey other)
     {
         return $"";
     }

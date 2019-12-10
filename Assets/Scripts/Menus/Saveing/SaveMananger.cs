@@ -48,12 +48,12 @@ public class SaveMananger : MonoBehaviour
 
     public void Load(string filePath)
     {
-        Save toLoad = new Save(player, playerSprite, dorm, mapEvents, tickManager, home, eventLog);
+        Save toLoad = NewSave;
         string json = File.ReadAllText(filePath);
         toLoad.LoadData(json);
     }
 
-    public Save NewSave => new Save(player, playerSprite, dorm, mapEvents, tickManager, home, eventLog);
+    public Save NewSave => new Save(player, playerSprite, dorm, mapEvents, tickManager, home, eventLog, player.VoreChar);
 }
 
 [Serializable]

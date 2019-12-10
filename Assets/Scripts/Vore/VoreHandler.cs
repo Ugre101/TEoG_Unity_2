@@ -6,7 +6,7 @@ namespace Vore
     public class VoreHandler : MonoBehaviour
     {
         public PlayerMain player;
-        public List<global::ThePrey> otherPreds;
+        public List<global::BasicChar> otherPreds;
 
         public VoreChar prefab;
         private VoreChar playerPred;
@@ -18,7 +18,7 @@ namespace Vore
             playerPred = AddPred(player);
         }
 
-        private VoreChar AddPred(global::ThePrey pred)
+        private VoreChar AddPred(global::BasicChar pred)
         {
             VoreChar otherPred = Instantiate(prefab, transform);
             otherPred.name = pred.name;

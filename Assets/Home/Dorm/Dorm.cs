@@ -8,21 +8,21 @@ public class Dorm : MonoBehaviour
 
     public bool HasSpace => home.Stats.Dorm.Level * 3 > transform.childCount;
 
-    public bool CanTake(ThePrey wannaTake) => HasSpace && wannaTake.SexStats.SessionOrgasm >= 0;
+    public bool CanTake(BasicChar wannaTake) => HasSpace && wannaTake.SexStats.SessionOrgasm >= 0;
 
-    private ThePrey[] ArrayServants => GetComponentsInChildren<ThePrey>();
+    private BasicChar[] ArrayServants => GetComponentsInChildren<BasicChar>();
     private bool ServantsDirty = true;
 
     [SerializeField]
-    private List<ThePrey> lastServants;
+    private List<BasicChar> lastServants;
 
-    public List<ThePrey> Servants
+    public List<BasicChar> Servants
     {
         get
         {
             if (ServantsDirty)
             {
-                lastServants = new List<ThePrey>(ArrayServants);
+                lastServants = new List<BasicChar>(ArrayServants);
                 ServantsDirty = false;
             }
             return lastServants;
@@ -43,7 +43,7 @@ public class Dorm : MonoBehaviour
         List<DormSave> dormSaves = new List<DormSave>();
         foreach (Transform child in transform)
         {
-            DormSave tempDorm = new DormSave(child.name, child.GetComponent<ThePrey>());
+            DormSave tempDorm = new DormSave(child.name, child.GetComponent<BasicChar>());
             dormSaves.Add(tempDorm);
         }
         return dormSaves;
@@ -52,20 +52,34 @@ public class Dorm : MonoBehaviour
     public void Load(List<DormSave> toLoad)
     {
         transform.KillChildren();
-        foreach(DormSave ds in toLoad)
+        foreach (DormSave ds in toLoad)
         {
             if (servantPrefabs.Exists(n => n.name == ds.name))
             {
                 GameObject loaded = Instantiate(servantPrefabs.Find(n => n.name == ds.name), transform);
                 loaded.name = ds.name;
-                ThePrey loadedChar = loaded.GetComponent<ThePrey>();
+                BasicChar loadedChar = loaded.GetComponent<BasicChar>();
                 JsonUtility.FromJsonOverwrite(ds.who, loadedChar);
                 ServantsDirty = true;
-            }else
+            }
+            else
             {
                 Debug.Log("Failed to load dorm servant...");
                 // TODO add uneverial char to carry basicChar script
             }
         }
+    }
+}
+
+[System.Serializable]
+public class DormSave
+{
+    public string name;
+    public string who;
+
+    public DormSave(string Name, BasicChar Who)
+    {
+        name = Name;
+        who = JsonUtility.ToJson(Who);
     }
 }

@@ -142,7 +142,7 @@ public static class SexOrganExtension
 
     public static float Smallest(this IEnumerable<SexualOrgan> list) => list.Select(so => so.Size).DefaultIfEmpty(0).Min();
 
-    public static void RefreshOrgans(this ThePrey bc, bool autoEss = false)
+    public static void RefreshOrgans(this BasicChar bc, bool autoEss = false)
     {
         bc.SexualOrgans.Dicks.RemoveAll(d => d.Size <= 0);
         bc.SexualOrgans.Balls.RemoveAll(b => b.Size <= 0);

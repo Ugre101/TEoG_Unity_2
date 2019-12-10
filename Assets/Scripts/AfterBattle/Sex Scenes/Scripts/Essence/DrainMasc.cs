@@ -16,13 +16,13 @@ public class DrainMasc : SexScenes
         }
         return drain;
     }
-    public override string StartScene(PlayerMain player, ThePrey other)
+    public override string StartScene(PlayerMain player, BasicChar other)
     {
         float have = other.LoseMasc(ToDrain(player));
         player.Masc.Gain(have);
         return "Drain masc";
     }
-    public override string ContinueScene(PlayerMain player, ThePrey other)
+    public override string ContinueScene(PlayerMain player, BasicChar other)
     {
         return StartScene(player, other);
     }

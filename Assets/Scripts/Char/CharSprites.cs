@@ -8,7 +8,7 @@ public class CharSprites : ScriptableObject
     {
     }
 
-    public Sprite GetSprite(ThePrey who)
+    public Sprite GetSprite(BasicChar who)
     {
         return BestMatch(who).sprite;
 
@@ -69,7 +69,7 @@ public class CharSprites : ScriptableObject
     public CharSprite defaultSprite;
     public List<CharSprite> charSprites;
 
-    private CharSprite BestMatch(ThePrey who)
+    private CharSprite BestMatch(BasicChar who)
     {
         if (charSprites.Exists(c => c.race.ToString() == who.Race))
         {

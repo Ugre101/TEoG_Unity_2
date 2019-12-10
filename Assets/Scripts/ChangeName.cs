@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ChangeName : MonoBehaviour
 {
-    public ThePrey player;
+    public BasicChar player;
     public TMP_InputField firstName;
     public TMP_InputField lastName;
     public Button Accept;

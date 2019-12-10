@@ -14,7 +14,7 @@ public class CombatMain : MonoBehaviour
     public List<CombatButton> skillButtons;
     public SkillBook skillBook;
 
-    public ThePrey CurrentEnemy
+    public BasicChar CurrentEnemy
     {
         get
         {
@@ -24,13 +24,13 @@ public class CombatMain : MonoBehaviour
     }
 
     private int indexCurrentEnemy = 0;
-    public List<ThePrey> playerTeamChars;
+    public List<BasicChar> playerTeamChars;
     public List<EnemyPrefab> enemyTeamChars;
     public CombatTeam playerTeam;
     public CombatTeam enemyTeam;
 
-    public ThePrey Target => newTarget != null ? newTarget : CurrentEnemy;
-    public ThePrey newTarget;
+    public BasicChar Target => newTarget != null ? newTarget : CurrentEnemy;
+    public BasicChar newTarget;
 
     [Header("Win")]
     public AfterBattleMain afterBattle;
@@ -58,9 +58,9 @@ public class CombatMain : MonoBehaviour
         }
     }
 
-    private void ResetSkills(List<ThePrey> basicChars)
+    private void ResetSkills(List<BasicChar> basicChars)
     {
-        foreach (ThePrey bc in basicChars)
+        foreach (BasicChar bc in basicChars)
         {
             foreach (UserSkill us in skillBook.Dict.OwnedSkills(bc.Skills))
             {
@@ -79,10 +79,10 @@ public class CombatMain : MonoBehaviour
 
         enemyTeamChars.Clear();
         enemyTeamChars.AddRange(enemies);
-        enemyTeam.StartCoroutine(enemyTeam.StartFight(new List<ThePrey>(enemies)));
+        enemyTeam.StartCoroutine(enemyTeam.StartFight(new List<BasicChar>(enemies)));
         _ = playerTeam.StartCoroutine(playerTeam.StartFight(playerTeamChars));
         ResetSkills(playerTeamChars);
-        ResetSkills(new List<ThePrey>(enemyTeamChars));
+        ResetSkills(new List<BasicChar>(enemyTeamChars));
     }
 
     public void FleeButton()
@@ -107,7 +107,7 @@ public class CombatMain : MonoBehaviour
         TurnManager();
     }
 
-    public void EnemyAI(ThePrey Enemy)
+    public void EnemyAI(BasicChar Enemy)
     {
         float str = Enemy.Stats.Str, charm = Enemy.Stats.Cha;
         float dmg = AttackMulti(charm < str ? str : charm);
@@ -158,7 +158,7 @@ public class CombatMain : MonoBehaviour
     private void TurnManager()
     {
         // PlayerTeam
-        foreach (ThePrey e in enemyTeamChars)
+        foreach (BasicChar e in enemyTeamChars)
         {
             EnemyAI(e);
         }
@@ -169,7 +169,7 @@ public class CombatMain : MonoBehaviour
         _EnemyTeamAttacks = null;
         // Reset cooldoowns
         RefreshCooldown(playerTeamChars);
-        RefreshCooldown(new List<ThePrey>(enemyTeamChars));
+        RefreshCooldown(new List<BasicChar>(enemyTeamChars));
         foreach (CombatButton cb in skillButtons)
         {
             if (cb.Skill != null)
@@ -181,9 +181,9 @@ public class CombatMain : MonoBehaviour
         SelectNewTarget(null);
     }
 
-    private void RefreshCooldown(List<ThePrey> basicChars)
+    private void RefreshCooldown(List<BasicChar> basicChars)
     {
-        foreach (ThePrey c in basicChars)
+        foreach (BasicChar c in basicChars)
         {
             foreach (UserSkill s in skillBook.Dict.OwnedSkills(c.Skills))
             {
@@ -225,7 +225,7 @@ public class CombatMain : MonoBehaviour
         }
     }
 
-    public void SelectNewTarget(ThePrey target)
+    public void SelectNewTarget(BasicChar target)
     {
         playerTeam.DeSelectAll();
         enemyTeam.DeSelectAll();

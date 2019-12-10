@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Vore;
+
 public class VoreButton : MonoBehaviour
 {
     private AfterBattleMain afterBattleMain;
@@ -13,6 +14,7 @@ public class VoreButton : MonoBehaviour
 
     private PlayerMain player;
     private ThePrey other;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -29,10 +31,10 @@ public class VoreButton : MonoBehaviour
         VoredEvent?.Invoke();
     }
 
-    public void Setup(PlayerMain parPlayer, ThePrey parPartner, AfterBattleMain parAfterBattle, VoreScene parScene)
+    public void Setup(PlayerMain parPlayer, BasicChar parPartner, AfterBattleMain parAfterBattle, VoreScene parScene)
     {
         player = parPlayer;
-        other = parPartner;
+        other = new ThePrey(parPartner);
         afterBattleMain = parAfterBattle;
         voreScene = parScene;
         textMeshPro.text = voreScene.name;

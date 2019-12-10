@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Vore;
 
 [Serializable]
 public class Save
@@ -12,9 +13,10 @@ public class Save
     private readonly TickManager tickManager;
     private readonly Home home;
     private readonly EventLog eventLog;
+    private readonly VoreChar voreChar;
     private PlayerSave save;
 
-    public Save(PlayerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome,EventLog parEventLog)
+    public Save(PlayerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome, EventLog parEventLog, VoreChar parVoreChar)
     {
         Player = player;
         Pos = pos.transform;
@@ -23,6 +25,7 @@ public class Save
         tickManager = manager;
         home = parHome;
         eventLog = parEventLog;
+        voreChar = parVoreChar;
     }
 
     public string SaveData()
@@ -32,7 +35,8 @@ public class Save
         PosSave pos = new PosSave(Pos.position, mapEvents.ActiveMap, mapEvents.CurrentMap.transform.name);
         DateSave date = tickManager.Save;
         HomeSave homeSave = home.Stats.Save();
-        FullSave fullSave = new FullSave(save, pos, temp, date, homeSave);
+        VoreSaves voreSaves = voreChar.Save();
+        FullSave fullSave = new FullSave(save, pos, temp, date, homeSave, voreSaves);
         Debug.Log(JsonUtility.ToJson(fullSave));
 
         return JsonUtility.ToJson(fullSave);
@@ -45,6 +49,7 @@ public class Save
         JsonUtility.FromJsonOverwrite(fullSave.playerPart.who, Player);
         home.Stats.Load(fullSave.homePart);
         dorm.Load(fullSave.dormPart);
+        voreChar.Load(fullSave.voreSaves, Player);
         eventLog.ClearLog();
     }
 }
@@ -57,14 +62,16 @@ public class FullSave
     public List<DormSave> dormPart;
     public DateSave datePart;
     public HomeSave homePart;
+    public VoreSaves voreSaves;
 
-    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, DateSave date, HomeSave parHome)
+    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, DateSave date, HomeSave parHome, VoreSaves vore)
     {
         playerPart = player;
         posPart = pos;
-        dormPart = dorm; 
+        dormPart = dorm;
         datePart = date;
         homePart = parHome;
+        voreSaves = vore;
     }
 }
 
@@ -74,7 +81,7 @@ public class PlayerSave
     //public Vector3 pos;
     public string who;
 
-    public PlayerSave(ThePrey whom)
+    public PlayerSave(BasicChar whom)
     {
         who = JsonUtility.ToJson(whom);
     }
@@ -92,19 +99,6 @@ public class PosSave
         pos = vec3;
         world = currWorld;
         map = currMap;
-    }
-}
-
-[Serializable]
-public class DormSave
-{
-    public string name;
-    public string who;
-
-    public DormSave(string Name, ThePrey Who)
-    {
-        name = Name;
-        who = JsonUtility.ToJson(Who);
     }
 }
 

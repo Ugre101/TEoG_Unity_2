@@ -49,7 +49,7 @@ public class HomeUpgrade
     public int Level => level;
     public int Cost => Mathf.CeilToInt(Mathf.Pow(baseCost, costExpo));
 
-    public bool CanAfford(ThePrey buyer)
+    public bool CanAfford(BasicChar buyer)
     {
         return buyer.Gold >= Cost;
     }
@@ -59,7 +59,7 @@ public class HomeUpgrade
     /// </summary>
     /// <param name="buyer"></param>
     /// <returns>If building level up was succesful</returns>
-    public bool Upgrade(ThePrey buyer)
+    public bool Upgrade(BasicChar buyer)
     {
         bool canAfford = CanAfford(buyer);
         if (canAfford)

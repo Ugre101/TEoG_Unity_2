@@ -2,7 +2,7 @@
 
 public class FemiSlider : EssenceSlider
 {
-    public override void Init(ThePrey who)
+    public override void Init(BasicChar who)
     {
         base.Init(who);
         Essence.EssenceSliderEvent += changeFemi;
