@@ -17,8 +17,7 @@ public class Buildings : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            gameUI.EnterBuilding();
-            BuildingToEnter.SetActive(true);
+            gameUI.EnterBuilding(BuildingToEnter);
         }
     }
 }

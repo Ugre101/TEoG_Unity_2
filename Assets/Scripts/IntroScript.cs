@@ -11,10 +11,7 @@ public class IntroScript : MonoBehaviour
     public GameObject charCreator, startSettings;
     public string FirstName => firstName.text;
     public string LastName => lastName.text;
-    private void OnEnable()
-    {
-        gameUI.TotalPause();
-    }
+
     private void Start()
     {
         firstAccept.onClick.AddListener(NamePlayer);
@@ -22,7 +19,7 @@ public class IntroScript : MonoBehaviour
         charCreator.SetActive(true);
         startSettings.SetActive(false);
     }
-    
+
     private void NamePlayer()
     {
         player.firstName = FirstName;

@@ -9,7 +9,7 @@ public class EventLogDrag : MonoBehaviour, IBeginDragHandler, IDragHandler
     [Header("Settings")]
     [Range(0, 50)]
     [SerializeField]
-    private float bottomDist = 0f;
+    private float minHeight = 0f;
 
     [Range(0, 50)]
     [SerializeField]
@@ -30,7 +30,7 @@ public class EventLogDrag : MonoBehaviour, IBeginDragHandler, IDragHandler
     public void OnDrag(PointerEventData eventData)
     {
         mPos = eventData.position;
-        sDelta.y = Mathf.Clamp(mPos.y / yScale, bottomDist, maxHeight);
+        sDelta.y = Mathf.Clamp(mPos.y / yScale, minHeight, maxHeight);
         RectSizeDelta = sDelta;
     }
 }

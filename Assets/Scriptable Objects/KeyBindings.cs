@@ -1,67 +1,33 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic;
 // Scriptable object to hold all keybindings
 [CreateAssetMenu(fileName = "Key bindings", menuName = "Key bindings")]
 public class KeyBindings : ScriptableObject
 {
-    public KeyCode saveKey = KeyCode.G;
-    public KeyCode optionsKey = KeyCode.O;
-    public KeyCode voreKey = KeyCode.V;
-    public KeyCode lvlKey = KeyCode.B;
-    public KeyCode essenceKey = KeyCode.T;
-    public KeyCode inventoryKey = KeyCode.Tab;
-    public KeyCode escKey = KeyCode.Escape;
-    public KeyCode questKey = KeyCode.Q;
-    public KeyCode mapKey = KeyCode.M;
-    public KeyCode eventKey = KeyCode.E;
-    public KeyCode lookKey = KeyCode.L;
-    public KeyCode zoomInKey = KeyCode.Comma;
-    public KeyCode zoomOutKey = KeyCode.Period;
-    public KeyCode hideAllKey = KeyCode.Space;
+    public KeyBind saveKey = new KeyBind(KeyCode.G,nameof(saveKey));
+    public KeyBind optionsKey = new KeyBind(KeyCode.O,nameof(optionsKey));
+    public KeyBind voreKey = new KeyBind(KeyCode.V,nameof(voreKey));
+    public KeyBind lvlKey = new KeyBind(KeyCode.B,nameof(lvlKey));
+    public KeyBind essenceKey = new KeyBind(KeyCode.T,nameof(essenceKey));
+    public KeyBind inventoryKey = new KeyBind(KeyCode.Tab,nameof(inventoryKey));
+    public KeyBind escKey = new KeyBind(KeyCode.Escape,nameof(escKey));
+    public KeyBind questKey = new KeyBind(KeyCode.Q,nameof(questKey));
+    public KeyBind mapKey = new KeyBind(KeyCode.M,nameof(mapKey));
+    public KeyBind eventKey = new KeyBind(KeyCode.E,nameof(eventKey));
+    public KeyBind lookKey = new KeyBind(KeyCode.L,nameof(lookKey));
+    public KeyBind zoomInKey = new KeyBind(KeyCode.Comma,nameof(zoomInKey));
+    public KeyBind zoomOutKey = new KeyBind(KeyCode.Period,nameof(zoomOutKey));
+    public KeyBind hideAllKey = new KeyBind(KeyCode.Space,nameof(hideAllKey));
 
+    private List<KeyBind> keys;
     private void OnEnable()
     {
-        // if key saved in playerprefs use that else use default.
-        saveKey = HasSavedKey(nameof(saveKey), saveKey);
-        optionsKey = HasSavedKey(nameof(optionsKey), optionsKey);
-        voreKey = HasSavedKey(nameof(voreKey), voreKey);
-        lvlKey = HasSavedKey(nameof(lvlKey), lvlKey);
-        essenceKey = HasSavedKey(nameof(essenceKey), essenceKey);
-        inventoryKey = HasSavedKey(nameof(inventoryKey), inventoryKey);
-        escKey = HasSavedKey(nameof(escKey), escKey);
-        questKey = HasSavedKey(nameof(questKey), questKey);
-        mapKey = HasSavedKey(nameof(mapKey), mapKey);
-        eventKey = HasSavedKey(nameof(eventKey), eventKey);
-        lookKey = HasSavedKey(nameof(lookKey), lookKey);
-        zoomInKey = HasSavedKey(nameof(zoomInKey), zoomInKey);
-        zoomOutKey = HasSavedKey(nameof(zoomOutKey), zoomOutKey);
-        hideAllKey = HasSavedKey(nameof(hideAllKey), hideAllKey);
+        keys = new List<KeyBind>() { saveKey, optionsKey, voreKey, lvlKey, essenceKey, inventoryKey, escKey, questKey, mapKey, eventKey, lookKey, zoomInKey, zoomOutKey, hideAllKey };
+        keys.ForEach(k => k.Load());
     }
 
     private void OnDestroy()
     {
-        // Save key binds
-        KeySave(nameof(saveKey), saveKey);
-        KeySave(nameof(optionsKey), optionsKey);
-        KeySave(nameof(voreKey), voreKey);
-        KeySave(nameof(lvlKey), lvlKey);
-        KeySave(nameof(essenceKey), essenceKey);
-        KeySave(nameof(inventoryKey), inventoryKey);
-        KeySave(nameof(escKey), escKey);
-        KeySave(nameof(questKey), questKey);
-        KeySave(nameof(mapKey), mapKey);
-        KeySave(nameof(eventKey), eventKey);
-        KeySave(nameof(lookKey), lookKey);
-        KeySave(nameof(hideAllKey), hideAllKey);
-    }
-
-    private KeyCode HasSavedKey(string name, KeyCode key)
-    {
-        return PlayerPrefs.HasKey(name) ? (KeyCode)PlayerPrefs.GetInt(name) : key;
-    }
-
-    private void KeySave(string name, KeyCode key)
-    {
-        PlayerPrefs.SetInt(name, (int)key);
+        keys.ForEach(k => k.Save());
     }
 }
