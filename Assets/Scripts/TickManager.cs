@@ -2,9 +2,11 @@
 
 public class TickManager : MonoBehaviour
 {
-    public PlayerMain player;
-    public EventLog eventlog;
-    public PerkInfo healtyBody, strongMind, gluttony, lowMetabolism;
+    [SerializeField]
+    private PlayerMain player;
+
+    [SerializeField]
+    private PerkInfo healtyBody, strongMind, gluttony, lowMetabolism;
 
     [SerializeField]
     private float baseRecGainRate = 1f;
@@ -12,7 +14,7 @@ public class TickManager : MonoBehaviour
     [SerializeField]
     private float baseFatBurnRate = 0.0005f;
 
-    private int minute = 0, hour = 0, day = 1, month = 1, year = 0;
+    private int minute = 0;
 
     private void OnEnable()
     {
@@ -40,9 +42,19 @@ public class TickManager : MonoBehaviour
             fatBurnRate -= lowMetabolism.PosetiveValue;
         }
         player.Body.Fat.LoseFlat(fatBurnRate);
-
         player.HP.Gain(hpGain);
         player.WP.Gain(wpGain);
+        ReGainFluids();
+        if (minute++ > 60)
+        {
+            minute = 0;
+            DateSystem.PassHour();
+        }
+        EventLog.AddTo("Tick");
+    }
+
+    public void ReGainFluids()
+    {
         if (player.SexualOrgans.Balls.Count > 0)
         {
             foreach (Balls ball in player.SexualOrgans.Balls)
@@ -57,45 +69,5 @@ public class TickManager : MonoBehaviour
                 boob.Fluid.ReFill();
             }
         }
-        if (minute++ > 60)
-        {
-            DateSystem();
-            minute = 0;
-        }
     }
-
-    private void DateSystem()
-    {
-        hour++;
-        if (hour > 24)
-        {
-            hour = 1;
-            day++;
-        }
-        if (day > 30)
-        {
-            day = 1;
-            month++;
-        }
-        if (month > 12)
-        {
-            month = 1;
-            year++;
-        }
-    }
-
-    private string CurrentDate => $"{year} {month} {day} {hour}";
-
-    public void Sleep()
-    {
-        // loop so I can add stuff inside datesystem later, like e.g. dorm stuff.
-        for (int i = 0; i < 8; i++)
-        {
-            DateSystem();
-        }
-        player.HP.FullGain();
-        player.WP.FullGain();
-    }
-
-    public DateSave Save => new DateSave(year, month, day, hour);
 }

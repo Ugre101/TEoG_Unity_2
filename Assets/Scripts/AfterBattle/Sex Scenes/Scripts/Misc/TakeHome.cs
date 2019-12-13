@@ -3,12 +3,12 @@
 public class TakeHome : MonoBehaviour
 {
     public Dorm dorm;
-    private GameUI gameUI;
+    private CanvasMain gameUI;
     private AfterBattleMain afterBattle;
 
     public void Start()
     {
-        gameUI = GetComponentInParent<GameUI>();
+        gameUI = GetComponentInParent<CanvasMain>();
         afterBattle = GetComponentInParent<AfterBattleMain>();
     }
 

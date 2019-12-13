@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CombatTeam : MonoBehaviour
 {
-    public GameUI gameUI;
+    public CanvasMain gameUI;
     public List<BasicChar> Team;
     public GameObject TeamContainer;
     public CombatStatus CombatStatusPrefab;

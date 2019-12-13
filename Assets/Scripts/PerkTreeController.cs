@@ -65,11 +65,11 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKey(keyBindings.zoomInKey.Key))
+        if (keyBindings.zoomInKey.GetKey())
         {
             SetZoom += keyZooomSen;
         }
-        else if (Input.GetKey(keyBindings.zoomOutKey.Key))
+        else if (keyBindings.zoomOutKey.GetKey())
         {
             SetZoom -= keyZooomSen;
         }

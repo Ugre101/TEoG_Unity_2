@@ -8,7 +8,7 @@ public class MiniMapController : MonoBehaviour
     public KeyBindings keys;
 
     public GameObject miniMap, bigMap;
-
+    public RenderTexture miniTexture,bigTexture;
     [Header("Settings")]
     [Range(1f, 10f)]
     public float smoothing = 1f;
@@ -62,7 +62,7 @@ public class MiniMapController : MonoBehaviour
     {
         Vector3 _target = _player.transform.position + _offset;
         transform.position = Vector3.Lerp(transform.position, _target, smoothing);
-        if (Input.GetKeyDown(keys.mapKey.Key))
+        if (keys.mapKey.GetKeyDown())
         {
             UpdateMapState(NewState);
             //  _down = Time.time;
@@ -105,6 +105,7 @@ public class MiniMapController : MonoBehaviour
                 mini = false;
                 big = true;
                 cam.orthographicSize = 160f;
+                cam.targetTexture = bigTexture;
                 break;
 
             case States.Hidden:
@@ -117,6 +118,7 @@ public class MiniMapController : MonoBehaviour
                 mini = true;
                 big = false;
                 cam.orthographicSize = 80f;
+                cam.targetTexture = miniTexture;
                 break;
         }
         miniMap.SetActive(mini);

@@ -4,17 +4,9 @@ using UnityEngine.UI;
 
 public class KeyBindingButton : MonoBehaviour
 {
-
-    [SerializeField]
-    private TextMeshProUGUI title = null;
-
-    [SerializeField]
-    private TextMeshProUGUI curKey = null;
-
-    [SerializeField]
-    private Button btn = null;
-
-    public TextMeshProUGUI Title => title;
-    public TextMeshProUGUI CurKey => curKey;
-    public Button Button => btn;
+    [field: SerializeField] public TextMeshProUGUI Title { get; private set; } = null;
+    [field: SerializeField] public TextMeshProUGUI CurKey { get; private set; } = null;
+    [field: SerializeField] public TextMeshProUGUI CurAltKey { get; private set; } = null;
+    [field: SerializeField] public Button KeyBtn { get; private set; } = null;
+    [field: SerializeField] public Button AltKeyBtn { get; private set; } = null;
 }

@@ -12,11 +12,10 @@ public class Save
     private readonly MapEvents mapEvents;
     private readonly TickManager tickManager;
     private readonly Home home;
-    private readonly EventLog eventLog;
     private readonly VoreChar voreChar;
     private PlayerSave save;
 
-    public Save(PlayerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome, EventLog parEventLog, VoreChar parVoreChar)
+    public Save(PlayerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome, VoreChar parVoreChar)
     {
         Player = player;
         Pos = pos.transform;
@@ -24,7 +23,6 @@ public class Save
         mapEvents = map;
         tickManager = manager;
         home = parHome;
-        eventLog = parEventLog;
         voreChar = parVoreChar;
     }
 
@@ -33,7 +31,7 @@ public class Save
         save = new PlayerSave(Player);
         List<DormSave> temp = dorm.Save();
         PosSave pos = new PosSave(Pos.position, mapEvents.ActiveMap, mapEvents.CurrentMap.transform.name);
-        DateSave date = tickManager.Save;
+        DateSave date = DateSystem.Save;
         HomeSave homeSave = home.Stats.Save();
         VoreSaves voreSaves = voreChar.Save();
         FullSave fullSave = new FullSave(save, pos, temp, date, homeSave, voreSaves);
@@ -50,7 +48,8 @@ public class Save
         home.Stats.Load(fullSave.homePart);
         dorm.Load(fullSave.dormPart);
         voreChar.Load(fullSave.voreSaves, Player);
-        eventLog.ClearLog();
+        DateSystem.Load(fullSave.datePart);
+        EventLog.ClearLog();
     }
 }
 

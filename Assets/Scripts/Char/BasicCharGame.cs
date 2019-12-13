@@ -8,14 +8,8 @@ public class BasicCharGame : MonoBehaviour
     [SerializeField]
     private SpriteRenderer spriteRenderer = null;
 
-    [Header("Scriptable objects")]
-    [SerializeField]
-    private EventLog eventLog = null;
-
     [SerializeField]
     private BasicChar whom;
-
-    public EventLog EventLog => eventLog;
 
     private void Start()
     {

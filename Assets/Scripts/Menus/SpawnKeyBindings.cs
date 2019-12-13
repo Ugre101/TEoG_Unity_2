@@ -1,44 +1,29 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnKeyBindings : MonoBehaviour
 {
-    public KeyBindingButton Prefab;
-    public KeyBindingButton bindingButton;
-    public KeyBindings keyBindings;
+    [SerializeField]
+    private KeyBindingButton prefab;
+
+    [SerializeField]
+    private KeyBindings keyBindings;
+
+    [SerializeField]
+    private Transform spawnLocation = null;
+
+    private KeyBindingButton selectedBtn;
+    private KeyBind selectedKey;
     private KeyCode newKey;
     private bool waitingForKey;
-
-    private enum Keys { save, options, vore, lvl, essence, inventory, esc, quest, looks, zoomIn, zoomOut };
-
-    private Keys keys;
-    private KeyBindingButton save, opt, vore, lvl, ess, inv, esc, quest, looks, zoomIn, zoomOut;
+    private bool AltKey = false;
+    private List<KeyBindingButton> bindingButtons = new List<KeyBindingButton>();
 
     // Start is called before the first frame update
     private void Start()
     {
-        save = Instantiate(CreateBindButton("Save", keyBindings.saveKey.Key), transform);
-        CreateButtonPart(save, Keys.save);
-        opt = Instantiate(CreateBindButton("Options", keyBindings.optionsKey.Key), transform);
-        CreateButtonPart(opt, Keys.options);
-        vore = Instantiate(CreateBindButton("Vore", keyBindings.voreKey.Key), transform);
-        CreateButtonPart(vore, Keys.vore);
-        lvl = Instantiate(CreateBindButton("Level up", keyBindings.lvlKey.Key), transform);
-        CreateButtonPart(lvl, Keys.lvl);
-        ess = Instantiate(CreateBindButton("Essence", keyBindings.essenceKey.Key), transform);
-        CreateButtonPart(ess, Keys.essence);
-        inv = Instantiate(CreateBindButton("Inventory", keyBindings.inventoryKey.Key), transform);
-        CreateButtonPart(inv, Keys.inventory);
-        esc = Instantiate(CreateBindButton("Esc", keyBindings.escKey.Key), transform);
-        CreateButtonPart(esc, Keys.esc);
-        quest = Instantiate(CreateBindButton("Quest", keyBindings.questKey.Key), transform);
-        CreateButtonPart(quest, Keys.quest);
-        looks = Instantiate(CreateBindButton("Looks", keyBindings.lookKey.Key), transform);
-        CreateButtonPart(looks, Keys.looks);
-        zoomIn = Instantiate(CreateBindButton("Zoom in", keyBindings.zoomInKey.Key), transform);
-        CreateButtonPart(zoomIn, Keys.zoomIn);
-        zoomOut = Instantiate(CreateBindButton("Zoom out", keyBindings.zoomOutKey.Key), transform);
-        CreateButtonPart(zoomOut, Keys.zoomOut);
+        keyBindings.Keys.ForEach(k => SpawnButton(k));
     }
 
     private void OnEnable()
@@ -46,23 +31,23 @@ public class SpawnKeyBindings : MonoBehaviour
         waitingForKey = false;
     }
 
-    private KeyBindingButton CreateBindButton(string title, KeyCode key)
+    private void SpawnButton(KeyBind parBind)
     {
-        KeyBindingButton button = bindingButton;
-        button.Title.text = title;
-        button.CurKey.text = key.ToString();
-        return button;
+        KeyBindingButton btn = Instantiate(prefab, spawnLocation);
+        btn.Title.text = parBind.Title;
+        btn.CurKey.text = parBind.Key.ToString();
+        btn.CurAltKey.text = parBind.AltKey.ToString();
+        btn.KeyBtn.onClick.AddListener(() => WaitFor(parBind, false, btn));
+        btn.AltKeyBtn.onClick.AddListener(() => WaitFor(parBind, true, btn));
+        bindingButtons.Add(btn);
     }
 
-    private void CreateButtonPart(KeyBindingButton toBind, Keys key)
+    private void WaitFor(KeyBind key, bool alt, KeyBindingButton btn)
     {
-        toBind.Button.onClick.AddListener(() => WaitFor(key));
-    }
-
-    private void WaitFor(Keys key)
-    {
-        keys = key;
+        selectedKey = key;
+        selectedBtn = btn;
         waitingForKey = true;
+        AltKey = alt;
         StartCoroutine(GetKey());
     }
 
@@ -82,75 +67,29 @@ public class SpawnKeyBindings : MonoBehaviour
 
     private IEnumerator GetKey()
     {
+        GameManager.KeyBindsActive = false;
         while (waitingForKey)
         {
             yield return null;
         }
-        switch (keys)
+        if (AltKey)
         {
-            case Keys.esc:
-                keyBindings.escKey.ReBind(newKey);
-                ChangeKeyText(esc, newKey);
-                break;
-
-            case Keys.essence:
-                keyBindings.essenceKey.ReBind(newKey);
-                ChangeKeyText(ess, newKey);
-                break;
-
-            case Keys.inventory:
-                keyBindings.inventoryKey.ReBind(newKey);
-                ChangeKeyText(inv, newKey);
-                break;
-
-            case Keys.lvl:
-                keyBindings.lvlKey.ReBind(newKey);
-                ChangeKeyText(lvl, newKey);
-                break;
-
-            case Keys.options:
-                keyBindings.optionsKey.ReBind(newKey);
-                ChangeKeyText(opt, newKey);
-                break;
-
-            case Keys.quest:
-                keyBindings.questKey.ReBind(newKey);
-                ChangeKeyText(quest, newKey);
-                break;
-
-            case Keys.save:
-                keyBindings.saveKey.ReBind(newKey);
-                ChangeKeyText(save, newKey);
-                break;
-
-            case Keys.vore:
-                keyBindings.voreKey.ReBind(newKey);
-                ChangeKeyText(vore, newKey);
-                break;
-
-            case Keys.looks:
-                keyBindings.lookKey.ReBind(newKey);
-                ChangeKeyText(looks, newKey);
-                break;
-
-            case Keys.zoomIn:
-                keyBindings.zoomInKey.ReBind(newKey);
-                ChangeKeyText(zoomIn, newKey);
-                break;
-
-            case Keys.zoomOut:
-                keyBindings.zoomOutKey.ReBind(newKey);
-                ChangeKeyText(zoomOut, newKey);
-                break;
-
-            default:
-                break;
+            KeyBind effected = keyBindings.AltReBind(selectedKey, newKey);
+            if (effected != null)
+            {
+                bindingButtons.Find(bb => bb.Title.text.Equals(effected.Title)).CurAltKey.text = KeyCode.None.ToString();
+            }
+            selectedBtn.CurAltKey.text = newKey.ToString();
         }
-        yield return null;
-    }
-
-    private void ChangeKeyText(KeyBindingButton button, KeyCode newKey)
-    {
-        button.CurKey.text = newKey.ToString();
+        else
+        {
+            KeyBind effected = keyBindings.ReBind(selectedKey, newKey);
+            if (effected != null)
+            {
+                bindingButtons.Find(bb => bb.Title.text.Equals(effected.Title)).CurKey.text = KeyCode.None.ToString();
+            }
+            selectedBtn.CurKey.text = newKey.ToString();
+        }
+        GameManager.KeyBindsActive = true;
     }
 }

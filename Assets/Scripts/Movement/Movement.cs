@@ -8,7 +8,7 @@ public class Movement : MonoBehaviour
     [Range(1f, 20f)]
     public float movementSpeed = 7.0f;
 
-    public GameUI canvas;
+    public CanvasMain canvas;
     public EnemySpawner spawner;
     public MapEvents mapEvents;
 

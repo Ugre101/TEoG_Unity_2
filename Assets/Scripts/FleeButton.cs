@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public PlayerMain player;
-    public GameUI gameUI;
+    public CanvasMain gameUI;
     public CombatMain combatButtons;
     public Button btn;
     public KeyCode quickKey;

@@ -6,11 +6,7 @@ using UnityEngine.UI;
 public class EventLogHandler : MonoBehaviour, IPointerClickHandler
 {
     // Public
-    public GameUI gameui;
-
-    public EventLog eventLog;
-    public KeyBindings keys;
-
+    public CanvasMain gameui;
     // Private
     [SerializeField]
     private TextMeshProUGUI logText = null;
@@ -74,7 +70,7 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
 
     private void PrintEventlog()
     {
-        logText.text = eventLog.Print();
+        logText.text = EventLog.Print();
     }
 
     public void ToggleSize()

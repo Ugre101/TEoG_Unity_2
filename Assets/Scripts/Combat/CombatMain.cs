@@ -5,7 +5,7 @@ using UnityEngine;
 public class CombatMain : MonoBehaviour
 {
     // Public
-    public GameUI gameUI;
+    public CanvasMain gameUI;
 
     public TextMeshProUGUI _textbox;
 

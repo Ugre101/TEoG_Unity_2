@@ -6,9 +6,7 @@ namespace Vore
     [System.Serializable]
     public class VoreEngine
     {
-        private EventLog EveLog => pred.BasicCharGame.EventLog;
-
-        private readonly global::BasicChar pred;
+        private readonly BasicChar pred;
         public bool Active = false;
 
         #region voreOrgans
@@ -40,7 +38,7 @@ namespace Vore
 
         #endregion voreOrgans
 
-        public VoreEngine(global::BasicChar parPred)
+        public VoreEngine(BasicChar parPred)
         {
             pred = parPred;
             balls = new VoreBalls(parPred);
@@ -52,7 +50,7 @@ namespace Vore
 
         public void Digest()
         {
-            if (EveLog != null)
+            if (pred.CompareTag("Player"))
             {
                 List<ThePrey> Ballsdigested = Balls.Digest();
                 if (Ballsdigested.Count > 0)
@@ -60,7 +58,7 @@ namespace Vore
                     foreach (ThePrey prey in Ballsdigested)
                     {
                         string text = $"{prey.Prey.FullName} has been fully transfomed into cum.";
-                        EveLog.AddTo(text);
+                        EventLog.AddTo(text);
                     }
                 }
                 List<ThePrey> Boobsdigested = Boobs.Digest();
@@ -69,7 +67,7 @@ namespace Vore
                     foreach (ThePrey prey in Boobsdigested)
                     {
                         string text = $"{prey.Prey.FullName} is now nothing but milk.";
-                        EveLog.AddTo(text);
+                        EventLog.AddTo(text);
                     }
                 }
                 List<ThePrey> Stomachdigested = Stomach.Digest();
@@ -78,7 +76,7 @@ namespace Vore
                     foreach (ThePrey prey in Stomachdigested)
                     {
                         string text = $"{prey.Prey.FullName} has been digested.";
-                        EveLog.AddTo(text);
+                        EventLog.AddTo(text);
                     }
                 }
                 List<ThePrey> Analdigested = Anal.Digest();
@@ -87,7 +85,7 @@ namespace Vore
                     foreach (ThePrey prey in Analdigested)
                     {
                         string text = $"{prey.Prey.FullName} has been reduced to nothing in your bowels.";
-                        EveLog.AddTo(text);
+                        EventLog.AddTo(text);
                     }
                 }
                 // unbirth or rebirth
@@ -111,6 +109,7 @@ namespace Vore
 
         public BasicChar Prey => prey;
         public BasicChar SetPrey { set => prey = value; }
+
         [SerializeField]
         private float startWeight;
 

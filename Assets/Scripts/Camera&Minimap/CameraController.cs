@@ -73,11 +73,11 @@ public class CameraController : MonoBehaviour
             // ... change the orthographic size based on the change in distance between the touches.
             _orthSize += deltaMagnitudeDiff * zoomSpeed;
         }
-        if (Input.GetKey(keyBindings.zoomInKey.Key))
+        if (keyBindings.zoomInKey.GetKey())
         {
             _orthSize -= zoomSpeed;
         }
-        else if (Input.GetKey(keyBindings.zoomOutKey.Key))
+        else if (keyBindings.zoomOutKey.GetKey())
         {
             _orthSize += zoomSpeed;
         }

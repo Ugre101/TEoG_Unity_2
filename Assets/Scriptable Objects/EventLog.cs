@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Eventlog",menuName ="Eventlog")]
-public class EventLog : ScriptableObject
+public static class EventLog 
 {
-    [SerializeField]
-    private List<string> text = new List<string>();
+    private static List<string> text = new List<string>();
 
-    public void AddTo(string addText)
+    public static void AddTo(string addText)
     {
         text.Insert(0,addText);
         EventTextEvent?.Invoke();
     }
-    public string Print()
+    public static string Print()
     {
         string toPrint = "";
         foreach(string line in text)
@@ -23,7 +21,7 @@ public class EventLog : ScriptableObject
         return toPrint;
     }
 
-    public void ClearLog()
+    public static void ClearLog()
     {
         text.Clear();
         EventTextEvent?.Invoke();

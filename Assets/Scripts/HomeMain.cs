@@ -2,7 +2,7 @@
 
 public class HomeMain : MonoBehaviour
 {
-    public GameUI gameUI;
+    public CanvasMain gameUI;
     public GameObject HouseStart;
     public Home home;
 

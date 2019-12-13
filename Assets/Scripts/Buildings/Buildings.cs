@@ -2,7 +2,7 @@
 
 public class Buildings : MonoBehaviour
 {
-    public GameUI gameUI;
+    public CanvasMain gameUI;
     public GameObject BuildingToEnter;
     private void Start()
     {
@@ -10,7 +10,7 @@ public class Buildings : MonoBehaviour
         if (gameUI == null)
         {
             Debug.Log("You forgot to assing gameUI to: " + name);
-            gameUI = GameObject.FindGameObjectWithTag("GameUI").GetComponent<GameUI>();
+            gameUI = GameObject.FindGameObjectWithTag("GameUI").GetComponent<CanvasMain>();
         }
     }
     private void OnTriggerEnter2D(Collider2D collider)

@@ -9,7 +9,7 @@ public class LoadButton : MonoBehaviour
     private FileInfo file;
 
     // Short commands
-    private GameUI GetGameUI => saveMananger.gameUI;
+    private CanvasMain GetGameUI => saveMananger.gameUI;
 
     public TextMeshProUGUI title;
     public Button load, del;

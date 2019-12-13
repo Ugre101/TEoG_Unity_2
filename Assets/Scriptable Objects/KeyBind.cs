@@ -3,31 +3,55 @@
 [System.Serializable]
 public class KeyBind
 {
-    private string saveName;
+    public readonly string Title;
+    public string SaveName => Title.Replace(" ", string.Empty);
+    public string AltSaveName => Title.Replace(" ", string.Empty) + "Alt";
 
-    [SerializeField]
-    private KeyCode mykey;
-
-    public KeyCode Key => mykey;
+    public KeyCode Key { get; private set; }
+    public KeyCode AltKey { get; private set; } = KeyCode.None;
 
     public void ReBind(KeyCode parKey)
     {
-        mykey = parKey;
+        Key = parKey;
+        PlayerPrefs.SetInt(SaveName, (int)parKey);
     }
 
-    public KeyBind(KeyCode parKey, string parName)
+    public void ReBindAlt(KeyCode parKey)
     {
-        mykey = parKey;
-        saveName = parName;
+        AltKey = parKey;
+        PlayerPrefs.SetInt(AltSaveName, (int)parKey);
     }
 
-    public void Save() => PlayerPrefs.SetInt(saveName, (int)mykey);
+    public KeyBind(KeyCode parKey, string parTitle)
+    {
+        Key = parKey;
+        Title = parTitle;
+    }
+
+    public void Save()
+    {
+        PlayerPrefs.SetInt(SaveName, (int)Key);
+        if (AltKey != KeyCode.None)
+        {
+            PlayerPrefs.SetInt(AltSaveName, (int)AltKey);
+        }
+    }
 
     public void Load()
     {
-        if (PlayerPrefs.HasKey(saveName))
+        if (PlayerPrefs.HasKey(SaveName))
         {
-            mykey = (KeyCode)PlayerPrefs.GetInt(saveName);
+            Key = (KeyCode)PlayerPrefs.GetInt(SaveName);
+        }
+        if (PlayerPrefs.HasKey(AltSaveName))
+        {
+            AltKey = (KeyCode)PlayerPrefs.GetInt(AltSaveName);
         }
     }
+
+    public bool GetKeyDown() => Input.GetKeyDown(Key) || Input.GetKeyDown(AltKey);
+
+    public bool GetKeyUp() => Input.GetKeyUp(Key) || Input.GetKeyUp(AltKey);
+
+    public bool GetKey() => Input.GetKey(Key) || Input.GetKey(AltKey);
 }

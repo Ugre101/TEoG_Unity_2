@@ -7,11 +7,10 @@ public class SaveMananger : MonoBehaviour
     public PlayerMain player;
     public Transform playerSprite;
     public Dorm dorm;
-    public GameUI gameUI;
+    public CanvasMain gameUI;
     public MapEvents mapEvents;
     public TickManager tickManager;
     public Home home;
-    public EventLog eventLog;
 
     public string SaveFolder => SaveSettings.SaveFolder;
     public SaveSrollListControl saveList;
@@ -53,7 +52,7 @@ public class SaveMananger : MonoBehaviour
         toLoad.LoadData(json);
     }
 
-    public Save NewSave => new Save(player, playerSprite, dorm, mapEvents, tickManager, home, eventLog, player.VoreChar);
+    public Save NewSave => new Save(player, playerSprite, dorm, mapEvents, tickManager, home, player.VoreChar);
 }
 
 [Serializable]
