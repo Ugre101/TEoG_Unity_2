@@ -3,10 +3,10 @@
 public class TickManager : MonoBehaviour
 {
     [SerializeField]
-    private PlayerMain player;
+    private PlayerMain player = null;
 
     [SerializeField]
-    private PerkInfo healtyBody, strongMind, gluttony, lowMetabolism;
+    private PerkInfo healtyBody = null, strongMind = null, gluttony = null, lowMetabolism = null;
 
     [SerializeField]
     private float baseRecGainRate = 1f;

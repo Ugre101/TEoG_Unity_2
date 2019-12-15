@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-public class QuestAccept : MonoBehaviour
+using System.Collections.Generic;
+
+public class QuestAccept : MonoBehaviour,IGiveQuest
 {
     public PlayerMain player;
     public Quests type;
@@ -24,5 +26,16 @@ public class QuestAccept : MonoBehaviour
     public void Accept()
     {
         player.Quest.AddQuest(type);
+    }
+
+    public bool PlayerHasQuest(List<Quest> playerQuestList)
+    {
+        return playerQuestList.Exists(q => q.Type == type);
+    }
+
+    public void GiveQuest(List<Quest> playerQuestList)
+    {
+      
+        throw new System.NotImplementedException();
     }
 }

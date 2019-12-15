@@ -4,7 +4,7 @@ using UnityEngine;
 public class DisplayDate : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI display;
+    private TextMeshProUGUI display = null;
 
     private void OnEnable()
     {

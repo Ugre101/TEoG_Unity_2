@@ -5,10 +5,10 @@ using UnityEngine;
 public class SpawnKeyBindings : MonoBehaviour
 {
     [SerializeField]
-    private KeyBindingButton prefab;
+    private KeyBindingButton prefab = null;
 
     [SerializeField]
-    private KeyBindings keyBindings;
+    private KeyBindings keyBindings  = null;
 
     [SerializeField]
     private Transform spawnLocation = null;
