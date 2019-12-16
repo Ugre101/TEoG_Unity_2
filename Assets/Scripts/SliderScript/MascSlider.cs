@@ -5,13 +5,13 @@ public class MascSlider : EssenceSlider
     public override void Init(BasicChar who)
     {
         base.Init(who);
-        Essence.EssenceSliderEvent += changeMasc;
+        who.Essence.Masc.EssenceSliderEvent += changeMasc;
         basicChar.Masc.ManualUpdate();
     }
 
     private void OnDisable()
     {
-        Essence.EssenceSliderEvent -= changeMasc;
+        basicChar.Essence.Masc.EssenceSliderEvent -= changeMasc;
     }
 
     private void changeMasc()

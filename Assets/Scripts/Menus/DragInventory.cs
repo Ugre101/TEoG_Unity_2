@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -6,6 +7,9 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     [SerializeField]
     public InventoryItem invItem;
+
+    [SerializeField]
+    private TextMeshProUGUI amountText;
 
     public Item item;
     public int SlotId;
@@ -19,7 +23,11 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private int Amount
     {
         get => invItem != null ? player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount : 0;
-        set => player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount = value;
+        set
+        {
+            amountText.text = value.ToString();
+            player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount = value;
+        }
     }
 
     private float firstClick;
@@ -114,14 +122,17 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void UseItem()
     {
         Debug.Log("Using item" + item.name);
-        if (item.Type == ItemTypes.Weapon)
+        if (typeof(IHaveStatMods).IsAssignableFrom(item.GetType()))
         {
-            Weapon weapon = (Weapon)item;
-            foreach (StatMods mod in weapon.Mods)
-            {
-                player.Stats.GetStat(mod.StatType).AddMods(mod);
-            }
+            IHaveStatMods haveMods = item as IHaveStatMods;
+            haveMods.Mods.ForEach(m => player.Stats.GetStat(m.StatType).AddMods(m));
+            Debug.Log("Has statmod!");
             // TODO if player has weapong equipt then dequip it.
+        }   
+        if (typeof(IEquip).IsAssignableFrom(item.GetType()))
+        {
+            IEquip toEquip = item as IEquip;
+            Debug.Log("Equipable!");
         }
         item.Use(player);
         //amount.text = Item.Amount.ToString();
@@ -139,6 +150,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         invHandler = parHandler;
         player = invHandler.player;
         SlotId = slot;
+        amountText.text = Amount.ToString();
         //Invitem.item;
         if (item != null ? item.Sprite != null : false)
         {

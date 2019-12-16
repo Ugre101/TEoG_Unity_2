@@ -76,7 +76,7 @@ public class Misc : Item
     }
 }
 
-public class Weapon : Item
+public class Weapon : Item, IHaveStatMods, IEquip
 {
     public Weapon()
     {
@@ -88,4 +88,6 @@ public class Weapon : Item
     protected List<StatMods> mods = new List<StatMods>();
 
     public List<StatMods> Mods => mods;
+
+    [field: SerializeField] public EquipSlot Slot { get; private set; }
 }

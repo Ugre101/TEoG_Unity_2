@@ -11,11 +11,6 @@ public abstract class BasicChar : MonoBehaviour
         vore = new VoreEngine(this);
     }
 
-    // can't Serialize because it gets saved
-    private BasicCharGame basicCharGame;
-
-    public BasicCharGame BasicCharGame => basicCharGame;
-
     [Space]
     public string firstName, lastName;
 
@@ -31,6 +26,20 @@ public abstract class BasicChar : MonoBehaviour
 
     public RaceSystem RaceSystem => raceSystem;
     public string Race => RaceSystem.CurrentRace().ToString();
+    private Genders lastGender;
+
+    private void DidGenderChange()
+    {
+        if (lastGender != this.Gender)
+        {
+            lastGender = this.Gender;
+            GenderChangeEvent?.Invoke();
+        }
+    }
+
+    public delegate void GenderChange();
+
+    public event GenderChange GenderChangeEvent;
 
     [SerializeField]
     private Looks looks;
@@ -72,10 +81,6 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void Awake()
     {
-        if (basicCharGame == null)
-        {
-            basicCharGame = GetComponent<BasicCharGame>();
-        }
     }
 
     [SerializeField]
@@ -259,6 +264,15 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void Start()
     {
+        lastGender = this.Gender;
+        Essence.Masc.EssenceSliderEvent += DidGenderChange;
+        essence.Femi.EssenceSliderEvent += DidGenderChange;
+    }
+
+    public virtual void OnDestroy()
+    {
+        Essence.Masc.EssenceSliderEvent -= DidGenderChange;
+        essence.Femi.EssenceSliderEvent -= DidGenderChange;
     }
 
     private void Update()

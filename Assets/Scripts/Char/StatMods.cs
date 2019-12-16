@@ -19,14 +19,14 @@ public class StatMods
     private StatsModType type;
 
     [SerializeField]
-    private object source;
+    private string source;
 
     public float Value => value;
     public StatTypes StatType => statType;
     public StatsModType Type => type;
-    public object Source => source;
+    public string Source => source;
 
-    public StatMods(float parValue, StatTypes parStatTypes, StatsModType parType, object parSource = null)
+    public StatMods(float parValue, StatTypes parStatTypes, StatsModType parType, string parSource = null)
     {
         value = parValue;
         type = parType;

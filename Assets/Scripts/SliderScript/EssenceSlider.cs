@@ -4,9 +4,14 @@ using UnityEngine.UI;
 
 public class EssenceSlider : MonoBehaviour
 {
-    public BasicChar basicChar;
-    public TextMeshProUGUI essValue;
-    public Image _image;
+    [SerializeField]
+    protected BasicChar basicChar = null;
+
+    [SerializeField]
+    protected TextMeshProUGUI essValue = null;
+
+    [SerializeField]
+    protected Image _image = null;
 
     public virtual void Init(BasicChar who)
     {

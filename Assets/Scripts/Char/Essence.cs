@@ -31,5 +31,5 @@ public class Essence
 
     public delegate void EssenceSlider();
 
-    public static event EssenceSlider EssenceSliderEvent;
+    public event EssenceSlider EssenceSliderEvent;
 }

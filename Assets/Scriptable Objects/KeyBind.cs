@@ -3,12 +3,12 @@
 [System.Serializable]
 public class KeyBind
 {
-    public readonly string Title;
-    public string SaveName => Title.Replace(" ", string.Empty);
-    public string AltSaveName => Title.Replace(" ", string.Empty) + "Alt";
+    public string Title { get; private set; }
+    private string SaveName => Title.Replace(" ", string.Empty);
+    private string AltSaveName => Title.Replace(" ", string.Empty) + "Alt";
 
-    public KeyCode Key { get; private set; }
-    public KeyCode AltKey { get; private set; } = KeyCode.None;
+    [field: SerializeField] public KeyCode Key { get; private set; }
+    [field: SerializeField] public KeyCode AltKey { get; private set; } = KeyCode.None;
 
     public void ReBind(KeyCode parKey)
     {

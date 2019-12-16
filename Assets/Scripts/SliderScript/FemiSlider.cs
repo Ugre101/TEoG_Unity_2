@@ -1,20 +1,18 @@
-﻿using UnityEngine;
-
-public class FemiSlider : EssenceSlider
+﻿public class FemiSlider : EssenceSlider
 {
     public override void Init(BasicChar who)
     {
         base.Init(who);
-        Essence.EssenceSliderEvent += changeFemi;
+        who.Essence.Femi.EssenceSliderEvent += ChangeFemi;
         basicChar.Femi.ManualUpdate();
     }
 
     private void OnDisable()
     {
-        Essence.EssenceSliderEvent -= changeFemi;
+        basicChar.Essence.Femi.EssenceSliderEvent -= ChangeFemi;
     }
 
-    private void changeFemi()
+    private void ChangeFemi()
     {
         essValue.text = basicChar.Femi.StringAmount;
     }

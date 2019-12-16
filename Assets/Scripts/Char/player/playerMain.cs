@@ -16,7 +16,6 @@ public class PlayerMain : BasicChar
     // Start is called before the first frame update
     public override void Start()
     {
-        base.Start();
         Init(1, 100, 100);
         Quest.AddQuest(Quests.Bandit);
         Quest.AddQuest(Quests.Bandit);
@@ -32,6 +31,7 @@ public class PlayerMain : BasicChar
         SexualOrgans.Boobs.AddBoobs();
         SexualOrgans.Dicks.AddDick(12);
         SexualOrgans.Vaginas.AddVag(7);
+        base.Start();
     }
 
     public void PlayerInit(string first, string last)

@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EquipmentSlot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    private EquipSlot slot;
 
-    // Update is called once per frame
-    void Update()
+    [SerializeField]
+    private Item item;
+
+    public Item AddTo(Item parItem)
     {
-        
+        Item toReturn = item;
+        item = parItem;
+        return toReturn;
     }
 }

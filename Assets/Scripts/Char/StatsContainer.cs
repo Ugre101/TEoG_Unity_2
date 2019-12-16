@@ -74,4 +74,8 @@ public class StatsContainer
             default: throw new ArgumentOutOfRangeException();
         }
     }
+    public void AddMods(object hasMods)
+    {
+
+    }
 }
