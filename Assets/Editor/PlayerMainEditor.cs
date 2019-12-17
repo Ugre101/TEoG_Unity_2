@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
-
-[CustomEditor(typeof(PlayerMain))]
+// TODO understand why this chrases editor on runtime
+/*[CustomEditor(typeof(PlayerMain))]
 public class PlayerMainEditor : BasicCharEditor
 {
     private PlayerMain player;
@@ -10,4 +10,4 @@ public class PlayerMainEditor : BasicCharEditor
         player = (PlayerMain)target;
         base.OnInspectorGUI();
     }
-}
+}*/

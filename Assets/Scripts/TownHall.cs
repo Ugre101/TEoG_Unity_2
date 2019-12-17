@@ -8,16 +8,15 @@ public class TownHall : MonoBehaviour, IGiveQuest
     private PlayerMain player = null;
 
     [SerializeField]
-    private TextMeshProUGUI changeNameText, questsText;
+    private TextMeshProUGUI changeNameText;
 
     [SerializeField]
-    private GameObject nameBox, questBox;
+    private GameObject nameBox;
 
     [SerializeField]
     private TextMeshProUGUI textBox;
 
     private string SetChangeNameBtnText { set => changeNameText.text = value; }
-    private string SetQuestsBtnText { set => questsText.text = value; }
     private string SetTextBox { set { textBox.text = value; } }
 
     [field: SerializeField] public List<QuestButton> QuestToGive { get; private set; }
@@ -51,14 +50,6 @@ public class TownHall : MonoBehaviour, IGiveQuest
         bool isActive = nameBox.activeSelf;
         nameBox.SetActive(!isActive);
         SetChangeNameBtnText = isActive ? "Change name" : "Back";
-        SetTextBox = "";
-    }
-
-    public void ToggleQuests()
-    {
-        bool isActive = questBox.activeSelf;
-        questBox.SetActive(!isActive);
-        SetQuestsBtnText = isActive ? "Quests" : "Back";
         SetTextBox = "";
     }
 

@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class TakeQuest : MonoBehaviour
 {
     [SerializeField]
     private QuestAccept questAccept = null;
+
+    [SerializeField]
+    private TextMeshProUGUI textBox = null;
 
     [SerializeField]
     private Button decline = null;
@@ -16,6 +20,7 @@ public class TakeQuest : MonoBehaviour
         gameObject.SetActive(true);
         questAccept.type = whichQuest;
         GameManager.KeyBindsActive = false;
+        textBox.text = new QuestDesc(whichQuest).Desc;
     }
 
     private void DeclineQuest()
