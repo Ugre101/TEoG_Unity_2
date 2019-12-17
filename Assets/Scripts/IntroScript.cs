@@ -2,33 +2,49 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class IntroScript : MonoBehaviour
+namespace Intro
 {
-    public CanvasMain gameUI;
-    public PlayerMain player;
-    public Button firstAccept, secondAccept;
-    public TMP_InputField firstName, lastName;
-    public GameObject charCreator, startSettings;
-    public string FirstName => firstName.text;
-    public string LastName => lastName.text;
-
-    private void Start()
+    public class IntroScript : MonoBehaviour
     {
-        firstAccept.onClick.AddListener(NamePlayer);
-        secondAccept.onClick.AddListener(StartGame);
-        charCreator.SetActive(true);
-        startSettings.SetActive(false);
-    }
+        [SerializeField]
+        private CanvasMain gameUI;
 
-    private void NamePlayer()
-    {
-        player.firstName = FirstName;
-        player.lastName = LastName;
-    }
+        [SerializeField]
+        private PlayerMain player;
 
-    private void StartGame()
-    {
-        gameUI.Resume();
-        Destroy(gameObject);
+        [SerializeField]
+        private Button firstAccept, secondAccept;
+
+        [SerializeField]
+        private TMP_InputField firstName, lastName;
+
+        [SerializeField]
+        private GameObject charCreator, startSettings;
+
+        public string FirstName => firstName.text;
+        public string LastName => lastName.text;
+        private void OnEnable()
+        {
+            GameManager.CurState = GameState.Intro;
+        }
+        private void Start()
+        {
+            firstAccept.onClick.AddListener(NamePlayer);
+            secondAccept.onClick.AddListener(StartGame);
+            charCreator.SetActive(true);
+            startSettings.SetActive(false);
+        }
+
+        private void NamePlayer()
+        {
+            player.firstName = FirstName;
+            player.lastName = LastName;
+        }
+
+        private void StartGame()
+        {
+            gameUI.Resume();
+            Destroy(gameObject);
+        }
     }
 }

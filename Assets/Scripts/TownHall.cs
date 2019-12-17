@@ -1,37 +1,66 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TownHall : MonoBehaviour, IGiveQuest
 {
-    private Quest bandit, elfHunt;
-    private Button changeName;
-    private GameObject nameBox;
+    [SerializeField]
+    private PlayerMain player = null;
+
+    [SerializeField]
+    private TextMeshProUGUI changeNameText, questsText;
+
+    [SerializeField]
+    private GameObject nameBox, questBox;
+
+    [SerializeField]
     private TextMeshProUGUI textBox;
 
-    public void GiveQuest(List<Quest> playerQuestList)
-    {
-        throw new System.NotImplementedException();
-    }
+    private string SetChangeNameBtnText { set => changeNameText.text = value; }
+    private string SetQuestsBtnText { set => questsText.text = value; }
+    private string SetTextBox { set { textBox.text = value; } }
 
-    public bool PlayerHasQuest(List<Quest> playerQuestList)
-    {
-        throw new System.NotImplementedException();
-    }
+    [field: SerializeField] public List<QuestButton> QuestToGive { get; private set; }
+
+    [field: SerializeField] public TakeQuest QuestPanel { get; private set; }
 
     // Start is called before the first frame update
     private void Start()
     {
+        QuestToGive.ForEach(q => q.Btn.onClick.AddListener(() => QuestPanel.Setup(q.Quest)));
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void OnEnable()
     {
+        foreach (QuestButton qb in QuestToGive)
+        {
+            if (PlayerHasQuest(qb.Quest))
+            {
+                qb.Btn.gameObject.SetActive(false);
+                // is quest finished?
+            }
+            else
+            {
+                qb.Btn.gameObject.SetActive(true);
+            }
+        }
     }
 
     public void ToggleNameChange()
     {
-      
+        bool isActive = nameBox.activeSelf;
+        nameBox.SetActive(!isActive);
+        SetChangeNameBtnText = isActive ? "Change name" : "Back";
+        SetTextBox = "";
     }
+
+    public void ToggleQuests()
+    {
+        bool isActive = questBox.activeSelf;
+        questBox.SetActive(!isActive);
+        SetQuestsBtnText = isActive ? "Quests" : "Back";
+        SetTextBox = "";
+    }
+
+    public bool PlayerHasQuest(Quests quest) => player.Quest.HasQuest(quest);
 }

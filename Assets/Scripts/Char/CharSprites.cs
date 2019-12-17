@@ -8,63 +8,7 @@ public class CharSprites : ScriptableObject
     {
     }
 
-    public Sprite GetSprite(BasicChar who)
-    {
-        return BestMatch(who).sprite;
-
-        #region old code
-
-        /* switch (who.raceSystem.CurrentRace())
-         {
-             case Races.Dwarf:
-                 if (who.GenderType == GenderType.Feminine)
-                 {
-                     if (who.strength.Value > who.intelligence.Value)
-                     {
-                         return dwarfFemale;
-                     }
-                     else
-                     {
-                         return dwarfFemaleHealer;
-                     }
-                 }
-                 else
-                 {
-                     return dwarfMale;
-                 }
-             case Races.Elf:
-                 if (who.GenderType == GenderType.Feminine)
-                 {
-                     return elfFemale;
-                 }
-                 else
-                 {
-                     return elfMale;
-                 }
-             case Races.Human:
-                 if (who.GenderType == GenderType.Feminine)
-                 {
-                     return humanFemaleWarrior;
-                 }
-                 else
-                 {
-                     return humanMaleScout;
-                 }
-             case Races.Orc:
-                 if (who.strength.Value > who.intelligence.Value)
-                 {
-                     return orcMaleWarrior;
-                 }
-                 else
-                 {
-                     return orcMaleShaman;
-                 }
-             default:
-                 return humanMaleScout;
-         } */
-
-        #endregion old code
-    }
+    public Sprite GetSprite(BasicChar who) => BestMatch(who).sprite;
 
     public CharSprite defaultSprite;
     public List<CharSprite> charSprites;

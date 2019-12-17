@@ -48,12 +48,12 @@ public class CharStats
         _statMods.Remove(mod);
     }
 
-    public bool RemoveFromSource(object Source)
+    public bool RemoveFromSource(string Source)
     {
         bool didRemove = false;
-        if (_statMods.Exists(sm => sm.Source == Source))
+        if (_statMods.Exists(sm => sm.Source.Equals(Source)))
         {
-            foreach (StatMods sm in _statMods.FindAll(s => s.Source == Source))
+            foreach (StatMods sm in _statMods.FindAll(s => s.Source.Equals(Source)))
             {
                 _statMods.Remove(sm);
             }

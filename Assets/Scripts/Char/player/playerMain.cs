@@ -31,6 +31,11 @@ public class PlayerMain : BasicChar
         SexualOrgans.Boobs.AddBoobs();
         SexualOrgans.Dicks.AddDick(12);
         SexualOrgans.Vaginas.AddVag(7);
+        RaceSystem.AddRace(Races.Dwarf);
+        RaceSystem.AddRace(Races.Elf);
+        RaceSystem.AddRace(Races.Dwarf);
+        RaceSystem.AddRace(Races.Dwarf);
+        RaceSystem.AddRace(Races.Elf);
         base.Start();
     }
 
