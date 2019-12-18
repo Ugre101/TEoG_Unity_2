@@ -42,6 +42,9 @@ public class SaveMananger : MonoBehaviour
         {
             Debug.Log("Pause menu; save & quit");
             Application.Quit();
+        }else
+        {
+            Debug.LogError("Save failed...");
         }
     }
 

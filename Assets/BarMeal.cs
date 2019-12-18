@@ -17,7 +17,7 @@ namespace Bar
         public void Setup(BuyMeal parMeal)
         {
             meal = parMeal;
-            title.text = meal.Title;
+            title.text = parMeal.Title;
             desc.text = $"+hp: {meal.Meal.HpGain}, +wp: {meal.Meal.WpGain}, +fat: {meal.Meal.FatGain}";
             Cost = meal.Cost;
         }

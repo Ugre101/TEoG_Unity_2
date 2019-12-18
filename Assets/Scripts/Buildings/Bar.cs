@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Bar
 {
     public class Bar : MonoBehaviour
     {
-        public PlayerMain player;
-        public Button rest, small, medium, large;
-
+        [SerializeField]
+        private PlayerMain player = null;
+        [SerializeField]
+        private Transform container;
         [SerializeField]
         private BarMeal barMealPrefab = null;
 
-        [SerializeField]
-        private List<BuyMeal> meals;
+        private List<BuyMeal> meals = new List<BuyMeal>();
 
         // Start is called before the first frame update
         private void Start()
@@ -21,9 +20,10 @@ namespace Bar
             meals.Add(new BuyMeal(new Meal(3), 3, "Small meal"));
             meals.Add(new BuyMeal(new Meal(5), 5, "Medium meal"));
             meals.Add(new BuyMeal(new Meal(8), 8, "Large meal"));
+            container.KillChildren();
             meals.ForEach(m =>
             {
-                BarMeal temp = Instantiate(barMealPrefab, transform);
+                BarMeal temp = Instantiate(barMealPrefab, container);
                 temp.Setup(m);
             });
         }

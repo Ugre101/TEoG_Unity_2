@@ -87,10 +87,10 @@ public class CameraController : MonoBehaviour
         }
         if (_orthSize != _lastOrthSize)
         {
-            TilemapLimits();
-            _lastOrthSize = _orthSize;
             _orthSize = Mathf.Clamp(_orthSize, 4, _maxCam);
+            _lastOrthSize = _orthSize;
             cam.orthographicSize = _orthSize;
+            TilemapLimits();
         }
         transform.position = Vector3.Lerp(transform.position, _target, _smoothing);
     }

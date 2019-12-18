@@ -5,14 +5,22 @@ using UnityEngine;
 public class CombatMain : MonoBehaviour
 {
     // Public
-    public CanvasMain gameUI;
+    [SerializeField]
+    private CanvasMain gameUI = null;
 
-    public TextMeshProUGUI _textbox;
+    [SerializeField]
+    private TextMeshProUGUI _textbox = null;
 
-    public PlayerMain player;
-    public GameObject skillButtonsContainer;
-    public List<CombatButton> skillButtons;
-    public SkillBook skillBook;
+    [field: SerializeField] public PlayerMain player { get; private set; } = null;
+
+    [SerializeField]
+    private GameObject skillButtonsContainer;
+
+    [SerializeField]
+    private List<CombatButton> skillButtons;
+
+    [SerializeField]
+    private SkillBook skillBook;
 
     public BasicChar CurrentEnemy
     {
@@ -24,19 +32,25 @@ public class CombatMain : MonoBehaviour
     }
 
     private int indexCurrentEnemy = 0;
-    public List<BasicChar> playerTeamChars;
-    public List<EnemyPrefab> enemyTeamChars;
-    public CombatTeam playerTeam;
-    public CombatTeam enemyTeam;
+    private List<BasicChar> playerTeamChars;
+    private List<EnemyPrefab> enemyTeamChars;
+
+    [SerializeField]
+    private CombatTeam playerTeam;
+
+    [SerializeField]
+    private CombatTeam enemyTeam;
 
     public BasicChar Target => newTarget != null ? newTarget : CurrentEnemy;
-    public BasicChar newTarget;
+    private BasicChar newTarget;
 
+    [SerializeField]
     [Header("Win")]
-    public AfterBattleMain afterBattle;
+    private AfterBattleMain afterBattle;
 
+    [SerializeField]
     [Header("Lose")]
-    public LoseMain loseBattle;
+    private LoseMain loseBattle;
 
     // Private
     private readonly List<string> _battleLog = new List<string>();

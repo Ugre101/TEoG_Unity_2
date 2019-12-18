@@ -6,10 +6,10 @@ public class CanvasMain : MonoBehaviour
     #region Properties
 
     [SerializeField] private KeyBindings Keys = null;
-    [SerializeField] private GameObject Gameui = null;
-    [SerializeField] private GameObject Battle = null;
-    [SerializeField] private GameObject Menus = null;
-    [SerializeField] private GameObject Buildings = null;
+    [SerializeField] private BigPanel Gameui = null;
+    [SerializeField] private BigPanel Battle = null;
+    [SerializeField] private BigPanel Menus = null;
+    [SerializeField] private BigPanel Buildings = null;
     [SerializeField] private GameObject PauseMenu = null;
     [SerializeField] private HomeMain Home = null;
 
@@ -31,7 +31,7 @@ public class CanvasMain : MonoBehaviour
         {
             if (GameManager.CurState.Equals(GameState.Free))
             {
-                Gameui.SetActive(!Gameui.activeSelf);
+                Gameui.gameObject.SetActive(!Gameui.gameObject.activeSelf);
             }
         }
         // if in menus or main game(not combat)
@@ -92,13 +92,13 @@ public class CanvasMain : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
-        ToggleBigPanel(Gameui);
+        ToggleBigPanel(Gameui.gameObject);
         GameManager.CurState = GameState.Free;
     }
 
     public void Pause()
     {
-        ToggleBigPanel(Menus);
+        ToggleBigPanel(Menus.gameObject);
         foreach (Transform child in Menus.transform)
         {
             child.gameObject.SetActive(false);
@@ -130,7 +130,7 @@ public class CanvasMain : MonoBehaviour
         {
             p.gameObject.SetActive(false);
         }
-        ToggleBigPanel(Battle);
+        ToggleBigPanel(Battle.gameObject);
         List<EnemyPrefab> toAdd = new List<EnemyPrefab> { enemy };
         combatMain.SetUpCombat(toAdd);
     }
@@ -192,7 +192,7 @@ public class CanvasMain : MonoBehaviour
     public void EnterBuilding(GameObject buildingToEnter)
     {
         GameManager.CurState = GameState.Home;
-        ToggleBigPanel(Buildings);
+        ToggleBigPanel(Buildings.gameObject);
         // Disable all buildings
         foreach (Transform building in Buildings.transform)
         {
