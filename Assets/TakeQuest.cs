@@ -5,27 +5,44 @@ using UnityEngine.UI;
 public class TakeQuest : MonoBehaviour
 {
     [SerializeField]
-    private QuestAccept questAccept = null;
+    private TextMeshProUGUI title = null, textBox = null;
 
     [SerializeField]
-    private TextMeshProUGUI textBox = null;
+    private Button accept = null, decline = null;
 
-    [SerializeField]
-    private Button decline = null;
+    private Button callBtn = null;
 
-    private void Start() => decline.onClick.AddListener(DeclineQuest);
+    private Quests quest;
 
-    public void Setup(Quests whichQuest)
+    private PlayerMain player;
+
+    private void Start()
+    {
+        decline.onClick.AddListener(DeclineQuest);
+        accept.onClick.AddListener(AcceptQuest);
+    }
+
+    public void Setup(Quests whichQuest, PlayerMain parPlayer, Button btn)
     {
         gameObject.SetActive(true);
-        questAccept.type = whichQuest;
         GameManager.KeyBindsActive = false;
+        player = parPlayer;
+        quest = whichQuest;
+        callBtn = btn;
+        title.text = whichQuest.ToString();
         textBox.text = new QuestDesc(whichQuest).Desc;
     }
 
     private void DeclineQuest()
     {
         GameManager.KeyBindsActive = true;
-        gameObject.SetActive(false);
+        Destroy(gameObject);
+    }
+
+    private void AcceptQuest()
+    {
+        player.Quest.AddQuest(quest);
+        callBtn.gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }

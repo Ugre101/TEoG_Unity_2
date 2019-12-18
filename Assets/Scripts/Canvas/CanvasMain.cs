@@ -3,24 +3,23 @@ using UnityEngine;
 
 public class CanvasMain : MonoBehaviour
 {
-    private GameState CurState { get => GameManager.CurState; set => GameManager.CurState = value; }
-    private GameState lastState => GameManager.LastState;
+    #region Properties
 
-    [field: SerializeField] public KeyBindings Keys { get; private set; }
-
-    [field: SerializeField] public GameObject Gameui { get; private set; }
-
-    [field: SerializeField] public GameObject Battle { get; private set; }
-    [field: SerializeField] public GameObject Menus { get; private set; }
-    [field: SerializeField] public GameObject Buildings { get; private set; }
-    [field: SerializeField] public GameObject PauseMenu { get; private set; }
-
-    [field: SerializeField] public GameObject Home { get; private set; }
+    [SerializeField] private KeyBindings Keys = null;
+    [SerializeField] private GameObject Gameui = null;
+    [SerializeField] private GameObject Battle = null;
+    [SerializeField] private GameObject Menus = null;
+    [SerializeField] private GameObject Buildings = null;
+    [SerializeField] private GameObject PauseMenu = null;
+    [SerializeField] private HomeMain Home = null;
 
     [SerializeField]
     private MenuPanels menuPanels = new MenuPanels();
 
-    [field: SerializeField] public CombatMain combatButtons { get; private set; }
+    [SerializeField]
+    private CombatMain combatMain;
+
+    #endregion Properties
 
     private void Update()
     {
@@ -30,7 +29,7 @@ public class CanvasMain : MonoBehaviour
         }
         else if (Keys.hideAllKey.GetKeyDown())
         {
-            if (CurState.Equals(GameState.Free))
+            if (GameManager.CurState.Equals(GameState.Free))
             {
                 Gameui.SetActive(!Gameui.activeSelf);
             }
@@ -84,7 +83,7 @@ public class CanvasMain : MonoBehaviour
             child.gameObject.SetActive(false);
         }
         transform.GetChild(0).gameObject.SetActive(true);
-        CurState = GameState.Intro;
+        GameManager.CurState = GameState.Intro;
     }
 
     public void Resume()
@@ -94,7 +93,7 @@ public class CanvasMain : MonoBehaviour
             child.gameObject.SetActive(false);
         }
         ToggleBigPanel(Gameui);
-        CurState = GameState.Free;
+        GameManager.CurState = GameState.Free;
     }
 
     public void Pause()
@@ -104,7 +103,7 @@ public class CanvasMain : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
-        CurState = GameState.Menu;
+        GameManager.CurState = GameState.Menu;
     }
 
     public void QuitGame()
@@ -114,7 +113,7 @@ public class CanvasMain : MonoBehaviour
 
     public bool BigEventLog()
     {
-        if (CurState.Equals(GameState.Free))
+        if (GameManager.CurState.Equals(GameState.Free))
         {
             Pause();
             menuPanels.Bigeventlog.SetActive(true);
@@ -126,14 +125,14 @@ public class CanvasMain : MonoBehaviour
 
     public void StartCombat(EnemyPrefab enemy)
     {
-        CurState = GameState.Battle;
+        GameManager.CurState = GameState.Battle;
         foreach (Transform p in Battle.transform)
         {
             p.gameObject.SetActive(false);
         }
         ToggleBigPanel(Battle);
         List<EnemyPrefab> toAdd = new List<EnemyPrefab> { enemy };
-        combatButtons.SetUpCombat(toAdd);
+        combatMain.SetUpCombat(toAdd);
     }
 
     private void ToggleBigPanel(GameObject toActivate)
@@ -147,7 +146,7 @@ public class CanvasMain : MonoBehaviour
 
     public void ResumePause(GameObject toBeActivated)
     {
-        if (CurState.Equals(GameState.Menu))
+        if (GameManager.CurState.Equals(GameState.Menu))
         {
             Resume();
         }
@@ -160,39 +159,39 @@ public class CanvasMain : MonoBehaviour
 
     public void EnterHome()
     {
-        CurState = GameState.Home;
-        ToggleBigPanel(Home);
+        GameManager.CurState = GameState.Home;
+        ToggleBigPanel(Home.gameObject);
         Home.transform.SleepChildren(Home.transform.GetChild(0));
     }
 
     public void EscapePause()
     {
-        if (CurState.Equals(GameState.Menu))
+        if (GameManager.CurState.Equals(GameState.Menu))
         {
             Resume();
         }
-        else if (CurState.Equals(GameState.PauseMenu))
+        else if (GameManager.CurState.Equals(GameState.PauseMenu))
         {
-            if (lastState.Equals(GameState.Free) || lastState.Equals(GameState.Menu) || lastState.Equals(GameState.PauseMenu))
+            if (GameManager.LastState.Equals(GameState.Free) || GameManager.LastState.Equals(GameState.Menu) || GameManager.LastState.Equals(GameState.PauseMenu))
             {
                 Resume();
             }
             else
             {
                 PauseMenu.SetActive(false);
-                CurState = lastState;
+                GameManager.CurState = GameManager.LastState;
             }
         }
         else
         {
-            CurState = GameState.PauseMenu;
+            GameManager.CurState = GameState.PauseMenu;
             PauseMenu.SetActive(true);
         }
     }
 
     public void EnterBuilding(GameObject buildingToEnter)
     {
-        CurState = GameState.Home;
+        GameManager.CurState = GameState.Home;
         ToggleBigPanel(Buildings);
         // Disable all buildings
         foreach (Transform building in Buildings.transform)

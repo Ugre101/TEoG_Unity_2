@@ -33,7 +33,7 @@ public class PotionShop : MonoBehaviour
 
    private bool BaseBuy(int cost = 100)
     {
-        if (player.CanAfford(cost))
+        if (player.TryToBuy(cost))
         {
             return true;
         }else

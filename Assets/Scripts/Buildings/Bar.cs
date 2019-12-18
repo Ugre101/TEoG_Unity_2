@@ -1,56 +1,47 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
-public class Bar : MonoBehaviour
+namespace Bar
 {
-    public PlayerMain player;
-    public Button rest, small, medium, large;
-
-    // Start is called before the first frame update
-    private void Start()
+    public class Bar : MonoBehaviour
     {
-        rest.onClick.AddListener(Rest);
-        small.onClick.AddListener(Small);
-        medium.onClick.AddListener(Medium);
-        large.onClick.AddListener(Large);
-    }
+        public PlayerMain player;
+        public Button rest, small, medium, large;
 
-    private void Rest()
-    {
-        if (player.CanAfford(5))
+        [SerializeField]
+        private BarMeal barMealPrefab = null;
+
+        [SerializeField]
+        private List<BuyMeal> meals;
+
+        // Start is called before the first frame update
+        private void Start()
         {
-            player.HP.FullGain();
-            player.WP.FullGain();
+            meals.Add(new BuyMeal(new Meal(3), 3, "Small meal"));
+            meals.Add(new BuyMeal(new Meal(5), 5, "Medium meal"));
+            meals.Add(new BuyMeal(new Meal(8), 8, "Large meal"));
+            meals.ForEach(m =>
+            {
+                BarMeal temp = Instantiate(barMealPrefab, transform);
+                temp.Setup(m);
+            });
         }
     }
 
-    private void Small()
+    [System.Serializable]
+    public class BuyMeal
     {
-        if (player.CanAfford(3))
+        public BuyMeal(Meal parMeal, int parCost, string parTitle)
         {
-            player.HP.Gain(3);
-            player.WP.Gain(3);
-            player.Body.Fat.GainFlat(3);
+            Meal = parMeal;
+            Cost = parCost;
+            Title = parTitle;
         }
-    }
 
-    private void Medium()
-    {
-        if (player.CanAfford(5))
-        {
-            player.HP.Gain(5);
-            player.WP.Gain(5);
-            player.Body.Fat.GainFlat(5);
-        }
-    }
-
-    private void Large()
-    {
-        if (player.CanAfford(8))
-        {
-            player.HP.Gain(8);
-            player.WP.Gain(8);
-            player.Body.Fat.GainFlat(8);
-        }
+        public string Title { get; private set; } = "Meal";
+        public int Cost { get; private set; }
+        public Meal Meal { get; private set; }
+        [field: SerializeField] public Sprite img { get; private set; }
     }
 }

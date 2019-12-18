@@ -8,7 +8,7 @@ public class QuestMiniBtn : MonoBehaviour
     public TextMeshProUGUI title;
     public TextMeshProUGUI desc;
     private Button btn;
-    private Quest quest;
+    private BasicQuest quest;
     private TextMeshProUGUI bigText;
 
     // Start is called before the first frame update
@@ -18,17 +18,17 @@ public class QuestMiniBtn : MonoBehaviour
         btn.onClick.AddListener(ToBigText);
     }
 
-    public void Init(Quest toAdd, TextMeshProUGUI big)
+    public void Init(BasicQuest toAdd, TextMeshProUGUI big)
     {
         quest = toAdd;
         bigText = big;
-        title.text = quest.Title;
+      //  title.text = quest.Title;
         desc.text = $"Completed: {quest.Completed}";
         icon.sprite = null;
     }
 
     public void ToBigText()
     {
-        bigText.text = quest.Title;
+       // bigText.text = quest.Title;
     }
 }

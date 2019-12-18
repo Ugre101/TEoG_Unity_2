@@ -225,14 +225,12 @@ public abstract class BasicChar : MonoBehaviour
         set => gold = Mathf.Clamp(value, -gold, Mathf.Infinity);
     }
 
-    /// <summary>
-    /// Checks if you can afford it and if you can; pay it else return false and lose zero gold.
-    /// </summary>
-    /// <param name="cost"></param>
-    /// <returns></returns>
-    public bool CanAfford(int cost)
+    /// <summary> Checks if you can afford it. </summary>
+    public bool CanAfford(int cost) => cost <= Gold;
+    /// <summary> Check if you can afford it and if you do then buy it. </summary>
+    public bool TryToBuy(int cost)
     {
-        if (cost <= Gold)
+        if (CanAfford(cost))
         {
             Gold -= cost;
             return true;

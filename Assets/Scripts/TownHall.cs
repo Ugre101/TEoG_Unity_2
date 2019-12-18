@@ -21,12 +21,16 @@ public class TownHall : MonoBehaviour, IGiveQuest
 
     [field: SerializeField] public List<QuestButton> QuestToGive { get; private set; }
 
-    [field: SerializeField] public TakeQuest QuestPanel { get; private set; }
+    [field: SerializeField] public TakeQuest QuestPanelPrefab { get; private set; }
 
     // Start is called before the first frame update
     private void Start()
     {
-        QuestToGive.ForEach(q => q.Btn.onClick.AddListener(() => QuestPanel.Setup(q.Quest)));
+        QuestToGive.ForEach(q => q.Btn.onClick.AddListener(() =>
+        {
+            TakeQuest temp = Instantiate(QuestPanelPrefab, transform);
+            temp.Setup(q.Quest, player, q.Btn);
+        }));
     }
 
     private void OnEnable()

@@ -19,7 +19,7 @@ public class QuestMenuHandler : MonoBehaviour
         {
            GameObject.Destroy(child.gameObject);
         }
-        foreach(Quest q in player.Quest.List)
+        foreach(BasicQuest q in player.Quest.List)
         {
             QuestPrefab(q);
         }
@@ -30,7 +30,7 @@ public class QuestMenuHandler : MonoBehaviour
     {
         
     }
-    private void QuestPrefab(Quest q)
+    private void QuestPrefab(BasicQuest q)
     {
         GameObject AQuest = Instantiate(Prefab, this.transform);
         QuestMiniBtn miniQuest = AQuest.GetComponent<QuestMiniBtn>();

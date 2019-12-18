@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public interface IGiveQuest
 {
     List<QuestButton> QuestToGive { get; }
-    TakeQuest QuestPanel { get; }
+    TakeQuest QuestPanelPrefab { get; }
 
     bool PlayerHasQuest(Quests quest);
 }
