@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 600f7d54ebca46849ba3a3ad8fab4739, type: 3}
   m_Name: Pouch
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: a7b56c734cfc1a941b27aab33d0a78ea, type: 3}
-  type: 1
-  title: Pouch
-  desc: 
-  useName: Use
+  <Sprite>k__BackingField: {fileID: 21300000, guid: a7b56c734cfc1a941b27aab33d0a78ea,
+    type: 3}
+  <ItemId>k__BackingField: 0
+  <Type>k__BackingField: 1
+  <Title>k__BackingField: Pouch
+  <Desc>k__BackingField: 
+  <UseName>k__BackingField: Use

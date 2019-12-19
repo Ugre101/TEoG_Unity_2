@@ -9,11 +9,11 @@ public class WeaponStick : Weapon
 {
     public WeaponStick()
     {
-        itemId = ItemId.Stick;
-        title = "Stick";
-        desc = "Stick for items, desc itself is where you say what the item does. This item happens to do nothing.";
+        ItemId = ItemId.Stick;
+        Title = "Stick";
+        Desc = "Stick for items, desc itself is where you say what the item does. This item happens to do nothing.";
         StatMod mod1 = new StatMod(2f, StatTypes.Str, StatsModType.Flat, this.name);
-        mods.Add(mod1);
+        Mods.Add(mod1);
     }
 
     // use function aka what the item does, base.use() calls Use function of this class's base class (Item.Use) which does nothing.

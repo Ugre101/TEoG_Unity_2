@@ -12,36 +12,18 @@ public enum ItemTypes
 [System.Serializable]
 public class Item : ScriptableObject
 {
-    [SerializeField]
-    protected Sprite sprite;
+    [field: SerializeField] public Sprite Sprite { get; protected set; }
 
-    public Sprite Sprite => sprite;
+    [field: SerializeField] public ItemId ItemId { get; protected set; }
 
-    [SerializeField]
-    protected ItemId itemId;
+    [field: SerializeField] public ItemTypes Type { get; protected set; }
 
-    public ItemId Id => itemId;
+    [field: SerializeField] public string Title { get; protected set; } = "Item";
 
-    [SerializeField]
-    protected ItemTypes type;
+    [field: TextArea]
+    [field: SerializeField] public string Desc { get; protected set; } = "";
 
-    public ItemTypes Type => type;
-
-    [SerializeField]
-    protected string title = "Item";
-
-    public string Title => title;
-
-    [SerializeField]
-    [TextArea]
-    protected string desc = "";
-
-    public string Desc => desc;
-
-    [SerializeField]
-    protected string useName = "Use";
-
-    public string UseName => useName;
+    [field: SerializeField] public string UseName { get; protected set; } = "Use";
 
     public virtual string Use(BasicChar user)
     {
@@ -49,12 +31,12 @@ public class Item : ScriptableObject
     }
 }
 
-public class Drinks : Item
+public class Drinkable : Item
 {
-    public Drinks()
+    public Drinkable()
     {
-        useName = "Drink";
-        type = ItemTypes.Consumables;
+        UseName = "Drink";
+        Type = ItemTypes.Consumables;
     }
 }
 
@@ -62,8 +44,8 @@ public class Edibles : Item
 {
     public Edibles()
     {
-        useName = "Eat";
-        type = ItemTypes.Consumables;
+        UseName = "Eat";
+        Type = ItemTypes.Consumables;
     }
 }
 
@@ -71,8 +53,8 @@ public class Misc : Item
 {
     public Misc()
     {
-        useName = "Use";
-        type = ItemTypes.Misc;
+        UseName = "Use";
+        Type = ItemTypes.Misc;
     }
 }
 
@@ -80,14 +62,11 @@ public class Weapon : Item, IHaveStatMods, IEquip
 {
     public Weapon()
     {
-        useName = "Equip";
-        type = ItemTypes.Weapon;
+        UseName = "Equip";
+        Type = ItemTypes.Weapon;
     }
 
-    [SerializeField]
-    protected List<StatMod> mods = new List<StatMod>();
-
-    public List<StatMod> Mods => mods;
+    [field: SerializeField] public List<StatMod> Mods { get; protected set; } = new List<StatMod>();
 
     [field: SerializeField] public EquipSlot Slot { get; private set; }
 }

@@ -9,12 +9,6 @@ public class Items : ScriptableObject
 
     public List<Item> ItemsDict => items;
 
-    public void Add(Item toAdd)
-    {
-        items.Add(toAdd);
-    }
-    public Item GetById(ItemId parId)
-    {
-        return ItemsDict.Find(i => i.Id == parId);
-    }
+    public void Add(Item toAdd) => items.Add(toAdd);
+    public Item GetById(ItemId parId) => ItemsDict.Find(i => i.ItemId == parId);
 }

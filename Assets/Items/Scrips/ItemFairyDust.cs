@@ -6,11 +6,11 @@ public class ItemFairyDust : Item
 {
     public ItemFairyDust()
     {
-        itemId = ItemId.Potion;
-        type = ItemTypes.Consumables;
-        title = "Fairy dust";
-        useName = "Lick";
-        desc = "";
+        ItemId = ItemId.Potion;
+        Type = ItemTypes.Consumables;
+        Title = "Fairy dust";
+        UseName = "Lick";
+        Desc = "";
     }
     public override string Use(BasicChar user)
     {

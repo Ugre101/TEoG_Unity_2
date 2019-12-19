@@ -49,8 +49,6 @@ namespace Bar
             Title = parTitle;
         }
 
-        public string Title { get; private set; } = "Meal";
-        public int Cost { get; private set; }
         public Meal Meal { get; private set; }
         [field: SerializeField] public Sprite Img { get; private set; }
     }
@@ -59,14 +57,10 @@ namespace Bar
     {
         public RentRoomBasic()
         {
-            title = "Basic room";
-            desc = "Sleep for 8hours and wake up fully restored.";
-            cost = 8;
+            Title = "Basic room";
+            Desc = "Sleep for 8hours and wake up fully restored.";
+            Cost = 8;
         }
-
-        public string Title => title;
-        public string Desc => desc;
-        public int Cost => cost;
 
         public virtual void Sleep(BasicChar basicChar)
         {

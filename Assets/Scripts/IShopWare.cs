@@ -41,7 +41,7 @@ public abstract class ShopWare : MonoBehaviour, IShopWare
 
 public abstract class Ware
 {
-    public int cost { get; protected set; }
-    public string title { get; protected set; }
-    public string desc { get; protected set; }
+    public int Cost { get; protected set; }
+    public string Title { get; protected set; }
+    public string Desc { get; protected set; }
 }
