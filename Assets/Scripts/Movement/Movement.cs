@@ -42,6 +42,7 @@ public class Movement : MonoBehaviour
 
     private float _xMax, _xMin, _yMin, _yMax;
     private bool mobilePlatform, touchSupport, mousePresent;
+    private Vector3 lookRight = new Vector3(0, 0, 0), lookLeft = new Vector3(0, 180, 0);
 
     // Start is called before the first frame update
     private void Start()
@@ -119,6 +120,7 @@ public class Movement : MonoBehaviour
         }
         if (CurPos != Target && first)
         {
+            transform.eulerAngles = Target.x - CurPos.x > 0 ? lookRight : lookLeft;
             Target = new Vector2(Mathf.Clamp(Target.x, _xMin, _xMax), Mathf.Clamp(Target.y, _yMin, _yMax));
             CurPos = Vector2.MoveTowards(CurPos, Target, movementSpeed * Time.fixedDeltaTime);
         }

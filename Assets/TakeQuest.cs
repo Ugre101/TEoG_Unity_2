@@ -30,7 +30,7 @@ public class TakeQuest : MonoBehaviour
         quest = whichQuest;
         callBtn = btn;
         title.text = whichQuest.ToString();
-        textBox.text = new QuestDesc(whichQuest).Desc;
+        textBox.text = QuestDesc.GetDesc(whichQuest);
     }
 
     private void DeclineQuest()

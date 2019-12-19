@@ -28,6 +28,7 @@ public class PlayerMain : BasicChar
         SexualOrgans.Boobs.AddBoobs();
         SexualOrgans.Dicks.AddDick(12);
         SexualOrgans.Vaginas.AddVag(7);
+        Currency.Gold += 100;
         base.Start();
     }
 

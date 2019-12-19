@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8534239450746442153}
   - component: {fileID: 8534239450746442152}
   - component: {fileID: -7890518083212860946}
+  - component: {fileID: 3425824613038632838}
   m_Layer: 0
   m_Name: Enemy_Start
   m_TagString: Enemy
@@ -54,6 +55,7 @@ MonoBehaviour:
     items: []
   raceSystem:
     raceList: []
+    dirty: 1
   vore:
     Active: 0
     balls:
@@ -96,18 +98,23 @@ MonoBehaviour:
     strength:
       baseValue: 10
       _statMods: []
+      tempMods: []
     charm:
       baseValue: 10
       _statMods: []
+      tempMods: []
     endurance:
       baseValue: 10
       _statMods: []
+      tempMods: []
     dexterity:
       baseValue: 10
       _statMods: []
+      tempMods: []
     intelligence:
       baseValue: 10
       _statMods: []
+      tempMods: []
   autoEss: 1
   essence:
     masc:
@@ -116,7 +123,8 @@ MonoBehaviour:
       _amount: 0
     bonusDrain: 0
     bonusGive: 0
-  gold: 0
+  currency:
+    gold: 0
   flags:
     Pregnant:
       value: 0
@@ -246,19 +254,19 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8534239450746442155}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 6
 --- !u!114 &-7890518083212860946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,5 +281,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites: {fileID: 11400000, guid: 30f7ea40fe5120b4f95bbc7c29587544, type: 2}
   spriteRenderer: {fileID: 8534239450746442158}
-  eventLog: {fileID: 11400000, guid: afafec6ffb983614b80c3fc20d9a8849, type: 2}
   whom: {fileID: 0}
+--- !u!114 &3425824613038632838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8534239450746442155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16ff6270a2c6514dbe862567a141b5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  playerRigid: {fileID: 0}
+  rb2d: {fileID: 8534239450746442152}
+  chaseDist: 13
+  movementSpeed: 2.5

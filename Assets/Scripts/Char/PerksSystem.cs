@@ -58,6 +58,7 @@ public class Perks
     {
         return perkList.Exists(p => p.Type == type);
     }
+
     public bool NotMaxLevel(PerksTypes type, int maxLevel)
     {
         if (perkList.Exists(p => p.Type == type))
@@ -66,6 +67,7 @@ public class Perks
         }
         return false;
     }
+
     public string DisplayPerk(PerksTypes type)
     {
         switch (type)
@@ -83,6 +85,7 @@ public class Perks
                 return "";
         }
     }
+
     /// <summary>
     /// First check if player has said perk and then if it does then return the value of said
     /// perk.

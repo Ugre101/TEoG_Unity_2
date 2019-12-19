@@ -32,7 +32,11 @@ public class CombatMain : MonoBehaviour
     }
 
     private int indexCurrentEnemy = 0;
+
+    [SerializeField]
     private List<BasicChar> playerTeamChars;
+
+    [SerializeField]
     private List<EnemyPrefab> enemyTeamChars;
 
     [SerializeField]
@@ -91,9 +95,14 @@ public class CombatMain : MonoBehaviour
         _textbox.text = "";
         _turn = 1;
 
+        if (playerTeamChars.Count < 1)
+        {
+            playerTeamChars.Add(player);
+        }
+
         enemyTeamChars.Clear();
         enemyTeamChars.AddRange(enemies);
-        enemyTeam.StartCoroutine(enemyTeam.StartFight(new List<BasicChar>(enemies)));
+        _ = enemyTeam.StartCoroutine(enemyTeam.StartFight(new List<BasicChar>(enemies)));
         _ = playerTeam.StartCoroutine(playerTeam.StartFight(playerTeamChars));
         ResetSkills(playerTeamChars);
         ResetSkills(new List<BasicChar>(enemyTeamChars));
@@ -214,7 +223,7 @@ public class CombatMain : MonoBehaviour
         foreach (EnemyPrefab e in enemyTeamChars)
         {
             player.ExpSystem.Exp += e.reward.ExpReward;
-            player.Gold += e.reward.GoldReward;
+            player.Currency.Gold += e.reward.GoldReward;
         }
         afterBattle.Setup(enemyTeamChars);
         gameObject.SetActive(false);

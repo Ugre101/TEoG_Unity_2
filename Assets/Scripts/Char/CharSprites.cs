@@ -4,10 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Char sprites", menuName = "Char/CharSprites/Holder")]
 public class CharSprites : ScriptableObject
 {
-    public void OnEnable()
-    {
-    }
-
     public Sprite GetSprite(BasicChar who) => BestMatch(who).sprite;
 
     public CharSprite defaultSprite;

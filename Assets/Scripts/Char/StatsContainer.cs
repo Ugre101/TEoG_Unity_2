@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum StatTypes
@@ -74,8 +75,14 @@ public class StatsContainer
             default: throw new ArgumentOutOfRangeException();
         }
     }
-    public void AddMods(object hasMods)
-    {
 
+    public void AddMods(List<StatMod> mods)
+    {
+        mods.ForEach(m => GetStat(m.StatType).AddMods(m));
+    }
+
+    public void AddTempMods(List<TempStatMod> mods)
+    {
+        mods.ForEach(m => GetStat(m.StatType).AddTempMod(m));
     }
 }

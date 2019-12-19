@@ -51,7 +51,7 @@ public class HomeUpgrade
 
     public bool CanAfford(BasicChar buyer)
     {
-        return buyer.Gold >= Cost;
+        return buyer.Currency.Gold >= Cost;
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class HomeUpgrade
         bool canAfford = CanAfford(buyer);
         if (canAfford)
         {
-            buyer.Gold -= Cost;
+            buyer.Currency.Gold -= Cost;
             level++;
         }
         return canAfford;

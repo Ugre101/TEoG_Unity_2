@@ -1,24 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Text;
 
-public static class EventLog 
+public static class EventLog
 {
-    private static List<string> text = new List<string>();
+    private static readonly List<string> text = new List<string>();
 
     public static void AddTo(string addText)
     {
-        text.Insert(0,addText);
+        text.Insert(0, addText);
         EventTextEvent?.Invoke();
     }
+
     public static string Print()
     {
-        string toPrint = "";
-        foreach(string line in text)
+        StringBuilder toPrint = new StringBuilder();
+        foreach (string line in text)
         {
-            toPrint += line + "\n\n";
+            toPrint.Append(line + "\n\n");
         }
-        return toPrint;
+        return toPrint.ToString();
     }
 
     public static void ClearLog()
@@ -28,5 +28,6 @@ public static class EventLog
     }
 
     public delegate void EventText();
+
     public static event EventText EventTextEvent;
 }

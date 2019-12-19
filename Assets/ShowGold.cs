@@ -16,6 +16,16 @@ public class ShowGold : MonoBehaviour
             // if no owner assinged default to player
             owner = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
         }
-        amountOfGold.text = owner.Gold.ToString();
+        owner.Currency.GoldChanged += UpdateGold;
+    }
+
+    private void OnDisable()
+    {
+        owner.Currency.GoldChanged -= UpdateGold;
+    }
+
+    private void UpdateGold()
+    {
+        amountOfGold.text = owner.Currency.Gold.ToString();
     }
 }

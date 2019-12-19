@@ -1,36 +1,29 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-
-namespace Bar
+﻿namespace Bar
 {
-    public class BarMeal : MonoBehaviour, IShopWare
+    public class BarMeal : ShopWare
     {
-        [SerializeField]
-        private TextMeshProUGUI title = null, desc = null;
-
-        [SerializeField]
-        private Button btn = null;
-
         private BuyMeal meal;
 
-        public void Setup(BuyMeal parMeal)
+        public override void Setup(Ware ware)
         {
-            meal = parMeal;
-            title.text = parMeal.Title;
-            desc.text = $"+hp: {meal.Meal.HpGain}, +wp: {meal.Meal.WpGain}, +fat: {meal.Meal.FatGain}";
+            meal = ware as BuyMeal;
+            title.text = meal.Title;
             Cost = meal.Cost;
+            displayCost.text = meal.Cost.ToString();
+            desc.text = $"+hp: {meal.Meal.HpGain}, +wp: {meal.Meal.WpGain}, +fat: {meal.Meal.FatGain}";
         }
 
-        public int Cost { get; private set; }
-
-        public void Buy(PlayerMain player)
+        public override void Buy(BasicChar buyer)
         {
-            if (player.TryToBuy(Cost))
+            if (buyer.Currency.TryToBuy(Cost))
             {
-                player.Body.Fat.GainFlat(meal.Meal.FatGain);
-                player.HP.Gain(meal.Meal.HpGain);
-                player.WP.Gain(meal.Meal.WpGain);
+                buyer.Body.Fat.GainFlat(meal.Meal.FatGain);
+                buyer.HP.Gain(meal.Meal.HpGain);
+                buyer.WP.Gain(meal.Meal.WpGain);
+                if (meal.Meal.TempMods.Count > 0)
+                {
+                    buyer.Stats.AddTempMods(meal.Meal.TempMods);
+                }
             }
         }
     }

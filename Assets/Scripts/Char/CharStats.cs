@@ -6,7 +6,8 @@ using UnityEngine;
 [Serializable]
 public class CharStats
 {
-    public int baseValue;
+    [SerializeField]
+    private int baseValue;
 
     private float _lastBaseValue;
     private float _currValue;
@@ -17,9 +18,9 @@ public class CharStats
     {
         get
         {
-            if (_isDirty || baseValue != _lastBaseValue)
+            if (_isDirty)
             {
-                _lastBaseValue = baseValue;
+                _lastBaseValue = BaseValue;
                 _currValue = CalcFinalValue();
                 _isDirty = false;
             }
@@ -28,47 +29,113 @@ public class CharStats
     }
 
     [SerializeField]
-    private List<StatMods> _statMods = new List<StatMods>();
+    private List<StatMod> _statMods = new List<StatMod>();
 
-    public List<StatMods> StatMods => _statMods;
+    public List<StatMod> StatMods => _statMods;
 
-    public CharStats() => baseValue = 10;
+    [SerializeField]
+    private List<TempStatMod> tempMods = new List<TempStatMod>();
 
-    public CharStats(int parBaseValue) => baseValue = parBaseValue;
+    public List<TempStatMod> TempMods => tempMods;
 
-    public void AddMods(StatMods mod)
+    public int BaseValue { get => baseValue; set { baseValue = value; _isDirty = true; } }
+
+    public CharStats()
     {
-        _isDirty = true;
-        _statMods.Add(mod);
+        BaseValue = 10;
+        DateSystem.NewHourEvent += TickTempMods;
     }
 
-    public void RemoveMods(StatMods mod)
+    public CharStats(int parBaseValue)
+    {
+        BaseValue = parBaseValue;
+        DateSystem.NewHourEvent += TickTempMods;
+    }
+
+    public void AddMods(StatMod mod)
+    {
+        _isDirty = true;
+        StatMods.Add(mod);
+    }
+
+    public void AddTempMod(TempStatMod mod)
+    {
+        _isDirty = true;
+        if (TempMods.Exists(tm => tm.Source.Equals(mod.Source)))
+        {
+            TempStatMod toChange = TempMods.Find(tm => tm.Source.Equals(mod.Source));
+            float diminishingReturn = (float)toChange.Duration / (float)mod.Duration;
+            int toIncrease = Mathf.Max(0, Mathf.FloorToInt(mod.Duration / Mathf.Max(1, 2 * diminishingReturn)));
+            toChange.IncreaseDuration(toIncrease);
+        }
+        else
+        {
+            // Clone otherwise diminishingReturn doesn't work as duration increase on both.
+            TempMods.Add(new TempStatMod(mod.Value, mod.StatType, mod.Type, mod.Source, mod.Duration));
+        }
+    }
+
+    public void RemoveMods(StatMod mod)
     {
         _isDirty = true;
         _statMods.Remove(mod);
     }
 
+    public void RemoveTempMods(TempStatMod mod)
+    {
+        _isDirty = true;
+        TempMods.Remove(mod);
+    }
+
     public bool RemoveFromSource(string Source)
     {
-        bool didRemove = false;
+        if (string.IsNullOrEmpty(Source))
+        {
+            return false;
+        }
         if (_statMods.Exists(sm => sm.Source.Equals(Source)))
         {
-            foreach (StatMods sm in _statMods.FindAll(s => s.Source.Equals(Source)))
+            foreach (StatMod sm in _statMods.FindAll(s => s.Source.Equals(Source)))
             {
                 _statMods.Remove(sm);
             }
             _isDirty = true;
-            didRemove = true;
+            return true;
         }
-        return didRemove;
+        return false;
+    }
+
+    public bool RemoveTempFromSource(string Source)
+    {
+        if (string.IsNullOrEmpty(Source))
+        {
+            return false;
+        }
+        if (TempMods.Exists(sm => sm.Source.Equals(Source)))
+        {
+            foreach (TempStatMod sm in TempMods.FindAll(s => s.Source.Equals(Source)))
+            {
+                TempMods.Remove(sm);
+            }
+            _isDirty = true;
+            return true;
+        }
+        return false;
     }
 
     private float CalcFinalValue()
     {
-        float finalValue = baseValue +
-            _statMods.FindAll(sm => sm.Type == StatsModType.Flat).Sum(sm => sm.Value); ;
+        float finalValue = BaseValue +
+            _statMods.FindAll(sm => sm.Type == StatsModType.Flat).Sum(sm => sm.Value) +
+            TempMods.FindAll(tm => tm.Type == StatsModType.Flat).Sum(tm => tm.Value);
         float perMulti = 1 +
-            _statMods.FindAll(sm => sm.Type == StatsModType.Precent).Sum(sm => sm.Value);
+            _statMods.FindAll(sm => sm.Type == StatsModType.Precent).Sum(sm => sm.Value) +
+            TempMods.FindAll(tm => tm.Type == StatsModType.Precent).Sum(tm => tm.Value);
         return Mathf.Round(finalValue * perMulti);
+    }
+
+    public void TickTempMods()
+    {
+        TempMods.RemoveAll(tm => tm.Duration < 1);
     }
 }

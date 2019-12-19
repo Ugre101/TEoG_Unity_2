@@ -40,23 +40,19 @@ public class QuestsSystem
     }
 }
 
-
-public class QuestDesc
+public static class QuestDesc
 {
-    private string desc;
-    public string Desc { get { return desc; } }
-
-    public QuestDesc(Quests which)
+    public static string GetDesc(Quests which)
     {
         switch (which)
         {
             case Quests.Bandit:
-                desc = "Bandit";
-                break;
+                return "Bandit";
 
             case Quests.Elfs:
-                desc = "Elf hunt";
-                break;
+                return "Elf hunt";
+            default:
+                return string.Empty;
         }
     }
 }

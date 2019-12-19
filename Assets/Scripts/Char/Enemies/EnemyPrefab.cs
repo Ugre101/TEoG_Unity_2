@@ -100,4 +100,8 @@ public class EnemyPrefab : BasicChar
         }
         base.Start();
     }
+    public override void Update()
+    {
+        base.Update();
+    }
 }

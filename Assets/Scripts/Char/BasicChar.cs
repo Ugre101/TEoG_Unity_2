@@ -217,26 +217,9 @@ public abstract class BasicChar : MonoBehaviour
 
     [Space]
     [SerializeField]
-    private float gold = 0;
+    private Currency currency = new Currency();
 
-    public float Gold
-    {
-        get => Mathf.Floor(gold);
-        set => gold = Mathf.Clamp(value, -gold, Mathf.Infinity);
-    }
-
-    /// <summary> Checks if you can afford it. </summary>
-    public bool CanAfford(int cost) => cost <= Gold;
-    /// <summary> Check if you can afford it and if you do then buy it. </summary>
-    public bool TryToBuy(int cost)
-    {
-        if (CanAfford(cost))
-        {
-            Gold -= cost;
-            return true;
-        }
-        return false;
-    }
+    public Currency Currency => currency;
 
     [SerializeField]
     private Flags flags = new Flags();
@@ -273,7 +256,7 @@ public abstract class BasicChar : MonoBehaviour
         essence.Femi.EssenceSliderEvent -= DidGenderChange;
     }
 
-    private void Update()
+    public virtual void Update()
     {
         this.RefreshOrgans(AutoEss);
     }

@@ -2,5 +2,5 @@
 
 public interface IHaveStatMods
 {
-    List<StatMods> Mods { get; }
+    List<StatMod> Mods { get; }
 }

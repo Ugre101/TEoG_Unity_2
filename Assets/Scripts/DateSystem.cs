@@ -50,7 +50,10 @@
 
     public static string CurrentDate => $"{Year}-{Month}-{Day} {Hour}:00";
 
-    public static void PassHour(int toPass = 1) => Hour += toPass;
+    public static void PassHour(int toPass = 1)
+    {
+        for (int h = 0; h < toPass; h++) Hour++;
+    }
 
     public static DateSave Save => new DateSave(Year, Month, Day, Hour);
 

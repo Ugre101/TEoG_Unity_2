@@ -85,9 +85,9 @@ public class Weapon : Item, IHaveStatMods, IEquip
     }
 
     [SerializeField]
-    protected List<StatMods> mods = new List<StatMods>();
+    protected List<StatMod> mods = new List<StatMod>();
 
-    public List<StatMods> Mods => mods;
+    public List<StatMod> Mods => mods;
 
     [field: SerializeField] public EquipSlot Slot { get; private set; }
 }
