@@ -14,9 +14,5 @@ public class FluidSliders : MonoBehaviour
     private void Awake()
     {
         slider = GetComponent<Slider>();
-        if (slider == null)
-        {
-            GetComponent<FluidSliders>().enabled = false;
-        }
     }
 }

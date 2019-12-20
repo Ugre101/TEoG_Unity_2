@@ -1,7 +1,10 @@
-﻿public class MilkBar : FluidSliders
+﻿using UnityEngine;
+
+public class MilkBar : FluidSliders
 {
     private void OnEnable()
     {
+
         SexualFluid.FluidSlider += MilkChange;
         if (player.SexualOrgans.Lactating && player.SexualOrgans.Boobs.Count > 0)
         {

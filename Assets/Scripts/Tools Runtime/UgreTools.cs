@@ -54,4 +54,5 @@ public static class UgreTools
                 return parInt + "th";
         }
     }
+    public static PlayerMain GetPlayer(this GameObject gameObject) => GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
 }

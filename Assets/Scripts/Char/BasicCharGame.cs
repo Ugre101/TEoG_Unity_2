@@ -36,4 +36,9 @@ public class BasicCharGame : MonoBehaviour
     {
         spriteRenderer.sprite = sprites.GetSprite(whom);
     }
+    private void OnDestroy()
+    {
+        whom.RaceSystem.RaceChangeEvent -= RaceChange;
+        whom.GenderChangeEvent -= RaceChange;
+    }
 }
