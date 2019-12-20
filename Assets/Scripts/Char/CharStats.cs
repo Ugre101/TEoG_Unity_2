@@ -28,15 +28,8 @@ public class CharStats
         }
     }
 
-    [SerializeField]
-    private List<StatMod> _statMods = new List<StatMod>();
-
-    public List<StatMod> StatMods => _statMods;
-
-    [SerializeField]
-    private List<TempStatMod> tempMods = new List<TempStatMod>();
-
-    public List<TempStatMod> TempMods => tempMods;
+    [field: SerializeField] public List<StatMod> StatMods { get; private set; } = new List<StatMod>();
+    [field: SerializeField] public List<TempStatMod> TempMods { get; private set; } = new List<TempStatMod>();
 
     public int BaseValue { get => baseValue; set { baseValue = value; _isDirty = true; } }
 
@@ -78,7 +71,7 @@ public class CharStats
     public void RemoveMods(StatMod mod)
     {
         _isDirty = true;
-        _statMods.Remove(mod);
+        StatMods.Remove(mod);
     }
 
     public void RemoveTempMods(TempStatMod mod)
@@ -93,11 +86,11 @@ public class CharStats
         {
             return false;
         }
-        if (_statMods.Exists(sm => sm.Source.Equals(Source)))
+        if (StatMods.Exists(sm => sm.Source.Equals(Source)))
         {
-            foreach (StatMod sm in _statMods.FindAll(s => s.Source.Equals(Source)))
+            foreach (StatMod sm in StatMods.FindAll(s => s.Source.Equals(Source)))
             {
-                _statMods.Remove(sm);
+                StatMods.Remove(sm);
             }
             _isDirty = true;
             return true;
@@ -126,16 +119,13 @@ public class CharStats
     private float CalcFinalValue()
     {
         float finalValue = BaseValue +
-            _statMods.FindAll(sm => sm.Type == StatsModType.Flat).Sum(sm => sm.Value) +
-            TempMods.FindAll(tm => tm.Type == StatsModType.Flat).Sum(tm => tm.Value);
+            StatMods.FindAll(sm => sm.Type == ModTypes.Flat).Sum(sm => sm.Value) +
+            TempMods.FindAll(tm => tm.Type == ModTypes.Flat).Sum(tm => tm.Value);
         float perMulti = 1 +
-            _statMods.FindAll(sm => sm.Type == StatsModType.Precent).Sum(sm => sm.Value) +
-            TempMods.FindAll(tm => tm.Type == StatsModType.Precent).Sum(tm => tm.Value);
+            StatMods.FindAll(sm => sm.Type == ModTypes.Precent).Sum(sm => sm.Value) +
+            TempMods.FindAll(tm => tm.Type == ModTypes.Precent).Sum(tm => tm.Value);
         return Mathf.Round(finalValue * perMulti);
     }
 
-    public void TickTempMods()
-    {
-        TempMods.RemoveAll(tm => tm.Duration < 1);
-    }
+    public void TickTempMods() => TempMods.RemoveAll(tm => tm.Duration < 1);
 }

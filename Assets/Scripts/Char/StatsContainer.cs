@@ -21,6 +21,7 @@ public class StatsContainer
         dexterity = new CharStats();
         endurance = new CharStats();
         intelligence = new CharStats();
+        GetAll = new List<CharStats>() { strength, charm, dexterity, endurance, intelligence };
     }
 
     public StatsContainer(int parStr = 10, int parCharm = 10, int parDex = 10, int parEnd = 10, int parInt = 10)
@@ -30,6 +31,7 @@ public class StatsContainer
         dexterity = new CharStats(parDex);
         endurance = new CharStats(parEnd);
         intelligence = new CharStats(parInt);
+        GetAll = new List<CharStats>() { strength, charm, dexterity, endurance, intelligence };
     }
 
     [SerializeField]
@@ -62,6 +64,8 @@ public class StatsContainer
     public CharStats Endurance => endurance;
     public CharStats Dexterity => dexterity;
     public CharStats Intelligence => intelligence;
+
+    public List<CharStats> GetAll { get; private set; }
 
     public CharStats GetStat(StatTypes stat)
     {

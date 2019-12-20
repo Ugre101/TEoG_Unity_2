@@ -2,11 +2,8 @@
 using TMPro;
 using UnityEngine;
 
-public class TownHall : MonoBehaviour, IGiveQuest
+public class TownHall : Building, IGiveQuest
 {
-    [SerializeField]
-    private PlayerMain player = null;
-
     [SerializeField]
     private TextMeshProUGUI changeNameText;
 
@@ -24,8 +21,9 @@ public class TownHall : MonoBehaviour, IGiveQuest
     [field: SerializeField] public TakeQuest QuestPanelPrefab { get; private set; }
 
     // Start is called before the first frame update
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         QuestToGive.ForEach(q => q.Btn.onClick.AddListener(() =>
         {
             TakeQuest temp = Instantiate(QuestPanelPrefab, transform);

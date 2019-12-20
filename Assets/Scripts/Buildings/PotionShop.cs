@@ -1,14 +1,13 @@
 ﻿using TMPro;
-using UnityEngine;
 
-public class PotionShop : MonoBehaviour
+public class PotionShop : Building
 {
-    public PlayerMain player;
     public TextMeshProUGUI textbox;
 
     // Start is called before the first frame update
-    private void Start()
+    public override void Start()
     {
+        base.Start();
     }
 }
 

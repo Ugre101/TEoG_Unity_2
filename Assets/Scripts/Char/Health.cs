@@ -1,30 +1,58 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+
+public enum HealthTypes
+{
+    Health,
+    WillPower
+}
 
 [System.Serializable]
 public class Health
 {
     [SerializeField]
-    protected float _current;
+    private float current;
 
-    protected int _max;
+    [SerializeField]
+    private int baseMax;
+
+    private int lastTotal;
+
+    private int MaxFinal
+    {
+        get
+        {
+            if (isDirty)
+            {
+                lastTotal = CalcFinalMax();
+            }
+            return lastTotal;
+        }
+    }
+
+    public int SetMax { set { baseMax = value; isDirty = true; } }
+    private bool isDirty = true;
+    [field: SerializeField] public List<HealthMod> HealthMods { get; private set; } = new List<HealthMod>();
+    [field: SerializeField] public List<TempHealthMod> TempHealthMods { get; private set; } = new List<TempHealthMod>();
+
+    private int CalcFinalMax()
+    {
+        float flatValue = baseMax;
+        float perValue = 1;
+        return Mathf.RoundToInt(flatValue * perValue);
+    }
 
     public Health(int parMax)
     {
-        _max = parMax;
-        _current = parMax;
+        baseMax = parMax;
+        current = parMax;
     }
-
-    public void RaiseMax(int toRaise) => _max += Mathf.Abs(toRaise);
-
-    public void LowerMax(int toLower) => _max -= Mathf.Abs(toLower);
-
-    public float Current => Mathf.Round(_current);
 
     public bool TakeDmg(float dmg)
     {
-        _current = Mathf.Max(0, _current - dmg);
+        current = Mathf.Max(0, current - dmg);
         UpdateSliderEvent?.Invoke();
-        if (_current <= 0)
+        if (current <= 0)
         {
             DeadEvent?.Invoke();
             return true;
@@ -34,15 +62,15 @@ public class Health
 
     public void Gain(float gain)
     {
-        _current += Mathf.Clamp(gain, 0, _max - _current);
+        current += Mathf.Clamp(gain, 0, MaxFinal - current);
         UpdateSliderEvent?.Invoke();
     }
 
-    public void FullGain() => _current = _max;
+    public void FullGain() => current = MaxFinal;
 
-    public float SliderValue => _current / _max;
+    public float SliderValue => current / MaxFinal;
 
-    public string Status => $"{_current} / {_max}";
+    public string Status => $"{current} / {MaxFinal}";
 
     public delegate void UpdateSlider();
 
@@ -53,4 +81,37 @@ public class Health
     public event Dead DeadEvent;
 
     public void ManualSliderUpdate() => UpdateSliderEvent?.Invoke();
+}
+
+[System.Serializable]
+public class HealthMod
+{
+    [field: SerializeField] public float Value { get; private set; }
+    [field: SerializeField] public ModTypes ModType { get; private set; }
+    [field: SerializeField] public HealthTypes HealthType { get; private set; }
+    [field: SerializeField] public string Source { get; private set; }
+
+    public HealthMod(float parVal, ModTypes parModType, HealthTypes parHealthType, string parSource)
+    {
+        Value = parVal;
+        ModType = parModType;
+        HealthType = parHealthType;
+        Source = parSource;
+    }
+}
+
+public class TempHealthMod : HealthMod
+{
+    [field: SerializeField] public int Duration { get; private set; }
+
+    public TempHealthMod(float parVal, ModTypes parModType, HealthTypes parHealthType, string parSource, int parDuration)
+        : base(parVal, parModType, parHealthType, parSource)
+    {
+        Duration = parDuration;
+        DateSystem.NewHourEvent += TickDown;
+    }
+
+    private void TickDown() => Duration--;
+
+    public void IncreaseDuration(int toIncrease) => Duration += toIncrease;
 }

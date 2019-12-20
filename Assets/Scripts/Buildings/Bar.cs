@@ -3,11 +3,8 @@ using UnityEngine;
 
 namespace Bar
 {
-    public class Bar : MonoBehaviour
+    public class Bar : Building
     {
-        [SerializeField]
-        private PlayerMain player = null;
-
         [SerializeField]
         private Transform container;
 
@@ -17,12 +14,13 @@ namespace Bar
         [SerializeField]
         private RentedRoom roomPrefab = null;
 
-        private readonly List<BuyMeal> meals = new List<BuyMeal>() { new BuyMeal(new Meal(3), 3, "Small meal"), new BuyMeal(new Meal(5), 5, "Medium meal"), new BuyMeal(new Meal(8, new List<TempStatMod>() { new TempStatMod(1, StatTypes.Str, StatsModType.Flat, "Large meal", 12) }), 8, "Large meal") };
+        private readonly List<BuyMeal> meals = new List<BuyMeal>() { new BuyMeal(new Meal(3), 3, "Small meal"), new BuyMeal(new Meal(5), 5, "Medium meal"), new BuyMeal(new Meal(8, new List<TempStatMod>() { new TempStatMod(1, StatTypes.Str, ModTypes.Flat, "Large meal", 12) }), 8, "Large meal") };
         private readonly List<RentRoomBasic> rooms = new List<RentRoomBasic>() { new RentRoomBasic() };
 
         // Start is called before the first frame update
-        private void Start()
+        public override void Start()
         {
+            base.Start();
             container.KillChildren();
             meals.ForEach(m =>
             {
