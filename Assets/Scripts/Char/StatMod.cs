@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum StatsModType
+public enum ModTypes
 {
     Flat = 100,
     Precent = 200,
@@ -9,28 +9,16 @@ public enum StatsModType
 [System.Serializable]
 public class StatMod
 {
-    [SerializeField]
-    private float value;
+    [field: SerializeField] public float Value { get; private set; }
+    [field: SerializeField] public StatTypes StatType { get; private set; }
+    [field: SerializeField] public ModTypes Type { get; private set; }
+    [field: SerializeField] public string Source { get; private set; }
 
-    [SerializeField]
-    private StatTypes statType;
-
-    [SerializeField]
-    private StatsModType type;
-
-    [SerializeField]
-    private string source;
-
-    public float Value => value;
-    public StatTypes StatType => statType;
-    public StatsModType Type => type;
-    public string Source => source;
-
-    public StatMod(float parValue, StatTypes parStatTypes, StatsModType parType, string parSource)
+    public StatMod(float parValue, StatTypes parStatTypes, ModTypes parType, string parSource)
     {
-        value = parValue;
-        type = parType;
-        statType = parStatTypes;
-        source = parSource;
+        Value = parValue;
+        Type = parType;
+        StatType = parStatTypes;
+        Source = parSource;
     }
 }
