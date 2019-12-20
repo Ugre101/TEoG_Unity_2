@@ -14,7 +14,7 @@ namespace Bar
         [SerializeField]
         private RentedRoom roomPrefab = null;
 
-        private readonly List<BuyMeal> meals = new List<BuyMeal>() { new BuyMeal(new Meal(3), 3, "Small meal"), new BuyMeal(new Meal(5), 5, "Medium meal"), new BuyMeal(new Meal(8, new List<TempStatMod>() { new TempStatMod(1, StatTypes.Str, ModTypes.Flat, "Large meal", 12) }), 8, "Large meal") };
+        private readonly List<BuyMeal> meals = new List<BuyMeal>() { new BuyMeal(new Meal(3), 3, "Small meal"), new BuyMeal(new Meal(5), 5, "Medium meal"), new BuyMeal(new MealWithBuffs(8, new List<TempStatMod>() { new TempStatMod(1, StatTypes.Str, ModTypes.Flat, "Large meal", 12)  },new List<TempHealthMod>() {new TempHealthMod(10,ModTypes.Flat,HealthTypes.Health,"Large meal",12) }), 8, "Large meal") };
         private readonly List<RentRoomBasic> rooms = new List<RentRoomBasic>() { new RentRoomBasic() };
 
         // Start is called before the first frame update

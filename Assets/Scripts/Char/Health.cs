@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum HealthTypes
@@ -22,23 +23,45 @@ public class Health
     {
         get
         {
-            if (isDirty)
+            if (IsDirty)
             {
                 lastTotal = CalcFinalMax();
+
+                IsDirty = false;
+                UpdateSliderEvent?.Invoke();
+                Debug.Log(CalcFinalMax());
             }
             return lastTotal;
         }
     }
 
-    public int SetMax { set { baseMax = value; isDirty = true; } }
-    private bool isDirty = true;
+    public int SetMax { set { baseMax = value; IsDirty = true; } }
+
+    private bool dirty = true;
+
+    private bool IsDirty
+    {
+        get => dirty;
+        set
+        {
+            dirty = value;
+            _ = MaxFinal;
+        }
+    }
+
     [field: SerializeField] public List<HealthMod> HealthMods { get; private set; } = new List<HealthMod>();
     [field: SerializeField] public List<TempHealthMod> TempHealthMods { get; private set; } = new List<TempHealthMod>();
 
+    public void TickTempMods() => TempHealthMods.RemoveAll(tm => tm.Duration < 1);
+
     private int CalcFinalMax()
     {
-        float flatValue = baseMax;
-        float perValue = 1;
+        float flatValue = baseMax +
+            HealthMods.FindAll(hm => hm.ModType == ModTypes.Flat).Sum(hm => hm.Value) +
+            TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Flat).Sum(thm => thm.Value);
+        float perValue = 1 +
+            HealthMods.FindAll(hm => hm.ModType == ModTypes.Precent).Sum(hm => hm.Value) +
+            TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Precent).Sum(thm => thm.Value);
         return Mathf.RoundToInt(flatValue * perValue);
     }
 
@@ -81,37 +104,79 @@ public class Health
     public event Dead DeadEvent;
 
     public void ManualSliderUpdate() => UpdateSliderEvent?.Invoke();
-}
 
-[System.Serializable]
-public class HealthMod
-{
-    [field: SerializeField] public float Value { get; private set; }
-    [field: SerializeField] public ModTypes ModType { get; private set; }
-    [field: SerializeField] public HealthTypes HealthType { get; private set; }
-    [field: SerializeField] public string Source { get; private set; }
+    #region AddAndRemoveMods
 
-    public HealthMod(float parVal, ModTypes parModType, HealthTypes parHealthType, string parSource)
+    public void AddMods(HealthMod mod)
     {
-        Value = parVal;
-        ModType = parModType;
-        HealthType = parHealthType;
-        Source = parSource;
-    }
-}
-
-public class TempHealthMod : HealthMod
-{
-    [field: SerializeField] public int Duration { get; private set; }
-
-    public TempHealthMod(float parVal, ModTypes parModType, HealthTypes parHealthType, string parSource, int parDuration)
-        : base(parVal, parModType, parHealthType, parSource)
-    {
-        Duration = parDuration;
-        DateSystem.NewHourEvent += TickDown;
+        HealthMods.Add(mod);
+        IsDirty = true;
     }
 
-    private void TickDown() => Duration--;
+    public void AddTempMod(TempHealthMod mod)
+    {
+        if (TempHealthMods.Exists(tm => tm.Source.Equals(mod.Source)))
+        {
+            TempHealthMod toChange = TempHealthMods.Find(tm => tm.Source.Equals(mod.Source));
+            float diminishingReturn = (float)toChange.Duration / (float)mod.Duration;
+            int toIncrease = Mathf.Max(0, Mathf.FloorToInt(mod.Duration / Mathf.Max(1, 2 * diminishingReturn)));
+            toChange.IncreaseDuration(toIncrease);
+        }
+        else
+        {
+            // Clone otherwise diminishingReturn doesn't work as duration increase on both.
+            TempHealthMods.Add(new TempHealthMod(mod.Value, mod.ModType, mod.HealthType, mod.Source, mod.Duration));
+        }
+        IsDirty = true;
+    }
 
-    public void IncreaseDuration(int toIncrease) => Duration += toIncrease;
+    public void RemoveMods(HealthMod mod)
+    {
+        HealthMods.Remove(mod);
+        IsDirty = true;
+    }
+
+    public void RemoveTempMods(TempHealthMod mod)
+    {
+        TempHealthMods.Remove(mod);
+        IsDirty = true;
+    }
+
+    public bool RemoveFromSource(string Source)
+    {
+        if (string.IsNullOrEmpty(Source))
+        {
+            return false;
+        }
+        if (HealthMods.Exists(sm => sm.Source.Equals(Source)))
+        {
+            foreach (HealthMod sm in HealthMods.FindAll(s => s.Source.Equals(Source)))
+            {
+                HealthMods.Remove(sm);
+            }
+            IsDirty = true;
+            return true;
+        }
+        return false;
+    }
+
+    public bool RemoveTempFromSource(string Source)
+    {
+        if (string.IsNullOrEmpty(Source))
+        {
+            return false;
+        }
+        if (TempHealthMods.Exists(sm => sm.Source.Equals(Source)))
+        {
+            foreach (TempHealthMod sm in TempHealthMods.FindAll(s => s.Source.Equals(Source)))
+            {
+                TempHealthMods.Remove(sm);
+            }
+            IsDirty = true;
+            return true;
+        }
+        return false;
+    }
+
+    #endregion AddAndRemoveMods
 }

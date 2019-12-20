@@ -9,7 +9,6 @@ public class CharStats
     [SerializeField]
     private int baseValue;
 
-    private float _lastBaseValue;
     private float _currValue;
 
     private bool _isDirty = true;
@@ -20,7 +19,6 @@ public class CharStats
         {
             if (_isDirty)
             {
-                _lastBaseValue = BaseValue;
                 _currValue = CalcFinalValue();
                 _isDirty = false;
             }
@@ -31,7 +29,7 @@ public class CharStats
     [field: SerializeField] public List<StatMod> StatMods { get; private set; } = new List<StatMod>();
     [field: SerializeField] public List<TempStatMod> TempMods { get; private set; } = new List<TempStatMod>();
 
-    public int BaseValue { get => baseValue; set { baseValue = value; _isDirty = true; } }
+    public int BaseValue { get => baseValue; set { baseValue = value; _isDirty = true; } } 
 
     public CharStats()
     {
