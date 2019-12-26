@@ -11,16 +11,16 @@ public class CharStats
 
     private float _currValue;
 
-    private bool _isDirty = true;
+    private bool IsDirty { get; set; } = true;
 
     public float Value
     {
         get
         {
-            if (_isDirty)
+            if (IsDirty)
             {
                 _currValue = CalcFinalValue();
-                _isDirty = false;
+                IsDirty = false;
             }
             return _currValue;
         }
@@ -29,7 +29,7 @@ public class CharStats
     [field: SerializeField] public List<StatMod> StatMods { get; private set; } = new List<StatMod>();
     [field: SerializeField] public List<TempStatMod> TempMods { get; private set; } = new List<TempStatMod>();
 
-    public int BaseValue { get => baseValue; set { baseValue = value; _isDirty = true; } } 
+    public int BaseValue { get => baseValue; set { baseValue = value; IsDirty = true; } }
 
     public CharStats()
     {
@@ -45,13 +45,13 @@ public class CharStats
 
     public void AddMods(StatMod mod)
     {
-        _isDirty = true;
+        IsDirty = true;
         StatMods.Add(mod);
     }
 
     public void AddTempMod(TempStatMod mod)
     {
-        _isDirty = true;
+        IsDirty = true;
         if (TempMods.Exists(tm => tm.Source.Equals(mod.Source)))
         {
             TempStatMod toChange = TempMods.Find(tm => tm.Source.Equals(mod.Source));
@@ -62,19 +62,19 @@ public class CharStats
         else
         {
             // Clone otherwise diminishingReturn doesn't work as duration increase on both.
-            TempMods.Add(new TempStatMod(mod.Value, mod.StatType, mod.Type, mod.Source, mod.Duration));
+            TempMods.Add(new TempStatMod(mod.Value, mod.StatType, mod.ModType, mod.Source, mod.Duration));
         }
     }
 
     public void RemoveMods(StatMod mod)
     {
-        _isDirty = true;
+        IsDirty = true;
         StatMods.Remove(mod);
     }
 
     public void RemoveTempMods(TempStatMod mod)
     {
-        _isDirty = true;
+        IsDirty = true;
         TempMods.Remove(mod);
     }
 
@@ -90,7 +90,7 @@ public class CharStats
             {
                 StatMods.Remove(sm);
             }
-            _isDirty = true;
+            IsDirty = true;
             return true;
         }
         return false;
@@ -108,7 +108,7 @@ public class CharStats
             {
                 TempMods.Remove(sm);
             }
-            _isDirty = true;
+            IsDirty = true;
             return true;
         }
         return false;
@@ -117,11 +117,11 @@ public class CharStats
     private float CalcFinalValue()
     {
         float finalValue = BaseValue +
-            StatMods.FindAll(sm => sm.Type == ModTypes.Flat).Sum(sm => sm.Value) +
-            TempMods.FindAll(tm => tm.Type == ModTypes.Flat).Sum(tm => tm.Value);
+            StatMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(sm => sm.Value) +
+            TempMods.FindAll(tm => tm.ModType == ModTypes.Flat).Sum(tm => tm.Value);
         float perMulti = 1 +
-            StatMods.FindAll(sm => sm.Type == ModTypes.Precent).Sum(sm => sm.Value) +
-            TempMods.FindAll(tm => tm.Type == ModTypes.Precent).Sum(tm => tm.Value);
+            StatMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(sm => sm.Value) +
+            TempMods.FindAll(tm => tm.ModType == ModTypes.Precent).Sum(tm => tm.Value);
         return Mathf.Round(finalValue * perMulti);
     }
 

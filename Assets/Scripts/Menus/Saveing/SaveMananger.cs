@@ -42,7 +42,8 @@ public class SaveMananger : MonoBehaviour
         {
             Debug.Log("Pause menu; save & quit");
             Application.Quit();
-        }else
+        }
+        else
         {
             Debug.LogError("Save failed...");
         }
@@ -53,9 +54,14 @@ public class SaveMananger : MonoBehaviour
         Save toLoad = NewSave;
         string json = File.ReadAllText(filePath);
         toLoad.LoadData(json);
+        GameLoaded?.Invoke();
     }
 
     public Save NewSave => new Save(player, playerSprite, dorm, mapEvents, tickManager, home, player.VoreChar);
+
+    public delegate void LoadedGame();
+
+    public static event LoadedGame GameLoaded;
 }
 
 [Serializable]

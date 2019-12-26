@@ -7,18 +7,12 @@ public enum ModTypes
 }
 
 [System.Serializable]
-public class StatMod
+public class StatMod : Mod
 {
-    [field: SerializeField] public float Value { get; private set; }
     [field: SerializeField] public StatTypes StatType { get; private set; }
-    [field: SerializeField] public ModTypes Type { get; private set; }
-    [field: SerializeField] public string Source { get; private set; }
 
-    public StatMod(float parValue, StatTypes parStatTypes, ModTypes parType, string parSource)
+    public StatMod(float parValue, StatTypes parStatTypes, string parSource, ModTypes parType) : base(parValue, parType, parSource)
     {
-        Value = parValue;
-        Type = parType;
         StatType = parStatTypes;
-        Source = parSource;
     }
 }

@@ -1,18 +1,12 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class HealthMod
+public class HealthMod : Mod
 {
-    [field: SerializeField] public float Value { get; private set; }
-    [field: SerializeField] public ModTypes ModType { get; private set; }
     [field: SerializeField] public HealthTypes HealthType { get; private set; }
-    [field: SerializeField] public string Source { get; private set; }
 
-    public HealthMod(float parVal, ModTypes parModType, HealthTypes parHealthType, string parSource)
+    public HealthMod(float parVal, ModTypes parModType, string parSource, HealthTypes parHealthType) : base(parVal, parModType, parSource)
     {
-        Value = parVal;
-        ModType = parModType;
         HealthType = parHealthType;
-        Source = parSource;
     }
 }

@@ -1,10 +1,18 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class DisplayTempEffects : MonoBehaviour
+public partial class DisplayTempEffects : MonoBehaviour
 {
     [SerializeField]
-    private PlayerMain player;
+    private PlayerMain player = null;
+
+    [SerializeField]
+    private TempEffect tempEffectPrefab = null;
+
+    [SerializeField]
+    private Transform container = null;
+
+    private List<DisplayMod> displayMods = new List<DisplayMod>();
 
     // Start is called before the first frame update
     private void Start()
@@ -14,7 +22,29 @@ public class DisplayTempEffects : MonoBehaviour
             player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
         }
         AddedEffectEvent += DisplayEffects;
+        SaveMananger.GameLoaded += DisplayEffects;
+        DisplayEffects();
     }
+
+    private int ModsICareAbout()
+    {
+        int Icare = 0;
+        player.Stats.GetAll.ForEach(m => { Icare += m.TempMods.Count; });
+        Icare += player.WP.TempHealthMods.Count;
+        Icare += player.HP.TempHealthMods.Count;
+        return Icare;
+    }
+
+    private int lastCount = 0;
+
+    private void Update()
+    {
+        if (lastCount != ModsICareAbout())
+        {
+            DisplayEffects();
+        }
+    }
+
     private void DisplayEffects()
     {
         TempMods();
@@ -23,7 +53,6 @@ public class DisplayTempEffects : MonoBehaviour
 
     private void TempMods()
     {
-        List<DisplayMod> displayMods = new List<DisplayMod>();
         foreach (CharStats stat in player.Stats.GetAll)
         {
             if (stat.TempMods.Count > 0)
@@ -37,18 +66,31 @@ public class DisplayTempEffects : MonoBehaviour
                 });
             }
         }
+        List<Health> healths = new List<Health>() { player.HP, player.WP };
+        foreach (Health h in healths)
+        {
+            if (h.TempHealthMods.Count > 0)
+            {
+                h.TempHealthMods.ForEach(m =>
+                {
+                    if (!displayMods.Exists(dp => dp.Source == m.Source))
+                    {
+                        displayMods.Add(new DisplayMod(m.Source, m.Duration));
+                    }
+                });
+            }
+        }
+        PrintDisplayMods();
     }
 
-    private class DisplayMod
+    private void PrintDisplayMods()
     {
-        public DisplayMod(string parSource, int parDuration)
+        container.KillChildren();
+        foreach (DisplayMod dm in displayMods)
         {
-            Source = parSource;
-            Duration = parDuration;
+            TempEffect te = Instantiate(tempEffectPrefab, container);
+            te.Setup(dm);
         }
-
-        public string Source { get; private set; }
-        public int Duration { get; private set; }
     }
 
     public delegate void AddedATempEffect();

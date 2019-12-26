@@ -45,7 +45,10 @@ public class Health
         set
         {
             dirty = value;
-            _ = MaxFinal;
+            if (value)
+            {
+                _ = MaxFinal;
+            }
         }
     }
 

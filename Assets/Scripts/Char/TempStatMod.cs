@@ -6,7 +6,7 @@ public class TempStatMod : StatMod
     [field: SerializeField] public int Duration { get; private set; }
 
     public TempStatMod(float parValue, StatTypes parStatTypes, ModTypes parType, string parSource, int parHours) :
-        base(parValue, parStatTypes, parType, parSource)
+        base(parValue, parStatTypes, parSource, parType)
     {
         Duration = parHours;
         DateSystem.NewHourEvent += TickDown;

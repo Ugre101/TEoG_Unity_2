@@ -12,7 +12,7 @@ public class WeaponStick : Weapon
         ItemId = ItemId.Stick;
         Title = "Stick";
         Desc = "Stick for items, desc itself is where you say what the item does. This item happens to do nothing.";
-        StatMod mod1 = new StatMod(2f, StatTypes.Str, ModTypes.Flat, this.name);
+        StatMod mod1 = new StatMod(2f, StatTypes.Str, this.name, ModTypes.Flat);
         Mods.Add(mod1);
     }
 
