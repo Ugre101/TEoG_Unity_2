@@ -1,8 +1,9 @@
 ﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class TempEffect : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler,IPointerClickHandler
+using UnityEngine.UI;
+
+public class TempEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField]
     private TextMeshProUGUI text = null;
@@ -24,11 +25,22 @@ public class TempEffect : MonoBehaviour,IPointerEnterHandler,IPointerExitHandler
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
     }
 
     public void Setup(DisplayMod parMod)
     {
         mod = parMod;
+        DisplayTimeLeft();
+        DateSystem.NewHourEvent += DisplayTimeLeft;
+    }
+
+    private void OnDestroy()
+    {
+        DateSystem.NewHourEvent -= DisplayTimeLeft;
+    }
+
+    private void DisplayTimeLeft()
+    {
+        text.text = $"{mod.Duration}";
     }
 }

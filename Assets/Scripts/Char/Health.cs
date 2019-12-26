@@ -72,6 +72,7 @@ public class Health
     {
         baseMax = parMax;
         current = parMax;
+        DateSystem.NewHourEvent += TickTempMods;
     }
 
     public bool TakeDmg(float dmg)

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class TempHealthMod : HealthMod
+public class TempHealthMod : HealthMod, IDuration
 {
     [field: SerializeField] public int Duration { get; private set; }
 
@@ -12,7 +12,7 @@ public class TempHealthMod : HealthMod
         DateSystem.NewHourEvent += TickDown;
     }
 
-    private void TickDown() => Duration--;
+    public void TickDown() => Duration--;
 
     public void IncreaseDuration(int toIncrease) => Duration += toIncrease;
 }

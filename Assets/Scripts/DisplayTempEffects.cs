@@ -42,6 +42,7 @@ public partial class DisplayTempEffects : MonoBehaviour
         if (lastCount != ModsICareAbout())
         {
             DisplayEffects();
+            lastCount = ModsICareAbout();
         }
     }
 
@@ -53,6 +54,7 @@ public partial class DisplayTempEffects : MonoBehaviour
 
     private void TempMods()
     {
+        displayMods.Clear();
         foreach (CharStats stat in player.Stats.GetAll)
         {
             if (stat.TempMods.Count > 0)
@@ -61,7 +63,7 @@ public partial class DisplayTempEffects : MonoBehaviour
                 {
                     if (!displayMods.Exists(dp => dp.Source == m.Source))
                     {
-                        displayMods.Add(new DisplayMod(m.Source, m.Duration));
+                        displayMods.Add(new DisplayMod(m));
                     }
                 });
             }
@@ -75,7 +77,7 @@ public partial class DisplayTempEffects : MonoBehaviour
                 {
                     if (!displayMods.Exists(dp => dp.Source == m.Source))
                     {
-                        displayMods.Add(new DisplayMod(m.Source, m.Duration));
+                        displayMods.Add(new DisplayMod(m));
                     }
                 });
             }
@@ -86,6 +88,7 @@ public partial class DisplayTempEffects : MonoBehaviour
     private void PrintDisplayMods()
     {
         container.KillChildren();
+        Debug.Log(displayMods.Count);
         foreach (DisplayMod dm in displayMods)
         {
             TempEffect te = Instantiate(tempEffectPrefab, container);

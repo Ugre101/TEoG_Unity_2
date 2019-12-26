@@ -1,11 +1,38 @@
-﻿public class DisplayMod
+﻿using System.Collections.Generic;
+using System.Text;
+
+public class DisplayMod
 {
-    public DisplayMod(string parSource, int parDuration)
+    public DisplayMod(Mod parMod)
     {
-        Source = parSource;
-        Duration = parDuration;
+        Mods = new List<Mod>() { parMod };
+        Source = parMod.Source;
+        if (parMod is IDuration parDur)
+        {
+            iDur = parDur;
+        }
     }
 
+    public List<Mod> Mods { get; private set; }
+    private IDuration iDur;
+    public int Duration => iDur != null ? iDur.Duration : 0;
+
     public string Source { get; private set; }
-    public int Duration { get; private set; }
+
+    public string Desc()
+    {
+        StringBuilder builder = new StringBuilder();
+        Mods.ForEach(m =>
+        {
+            if (m is TempHealthMod thm)
+            {
+                builder.Append(string.Format("{0} {1} {2} {3}", thm.HealthType, thm.Value, thm.ModType, thm.Source));
+            }
+            else if (m is TempStatMod tsm)
+            {
+            }
+        });
+        string desc = $"";
+        return desc;
+    }
 }
