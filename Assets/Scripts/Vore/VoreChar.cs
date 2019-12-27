@@ -73,7 +73,7 @@ namespace Vore
                     loaded.name = vs.name;
                     JsonUtility.FromJsonOverwrite(vs.prey, loaded);
                 }
-                preys[i].SetPrey = loaded;
+                preys[i].SetPrey(loaded);
             }
         }
     }

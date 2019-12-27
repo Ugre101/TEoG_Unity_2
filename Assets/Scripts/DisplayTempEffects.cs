@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public partial class DisplayTempEffects : MonoBehaviour
+public class DisplayTempEffects : MonoBehaviour
 {
     [SerializeField]
     private PlayerMain player = null;
@@ -10,9 +10,13 @@ public partial class DisplayTempEffects : MonoBehaviour
     private TempEffect tempEffectPrefab = null;
 
     [SerializeField]
+    private TempVore tempVorePrefab = null;
+
+    [SerializeField]
     private Transform container = null;
 
-    private List<DisplayMod> displayMods = new List<DisplayMod>();
+    private readonly List<DisplayMod> displayMods = new List<DisplayMod>();
+    private readonly List<DisplayVore> displayVores = new List<DisplayVore>();
 
     // Start is called before the first frame update
     private void Start()
@@ -36,6 +40,7 @@ public partial class DisplayTempEffects : MonoBehaviour
     }
 
     private int lastCount = 0;
+    private int lastPreyCount = 0;
 
     private void Update()
     {
@@ -44,11 +49,21 @@ public partial class DisplayTempEffects : MonoBehaviour
             DisplayEffects();
             lastCount = ModsICareAbout();
         }
+        if (player.Vore.Active)
+        {
+            if (lastPreyCount != player.Vore.TotalPreyCount)
+            {
+                DisplayEffects();
+                lastPreyCount = player.Vore.TotalPreyCount;
+            }
+        }
     }
 
     private void DisplayEffects()
     {
+        container.KillChildren();
         TempMods();
+        VorePreys();
         // The rest
     }
 
@@ -64,6 +79,9 @@ public partial class DisplayTempEffects : MonoBehaviour
                     if (!displayMods.Exists(dp => dp.Source == m.Source))
                     {
                         displayMods.Add(new DisplayMod(m));
+                    }
+                    else
+                    {
                     }
                 });
             }
@@ -85,15 +103,35 @@ public partial class DisplayTempEffects : MonoBehaviour
         PrintDisplayMods();
     }
 
+    private void VorePreys()
+    {
+        displayVores.Clear();
+        player.Vore.VoreOrgans.ForEach(vo =>
+        {
+            if (vo.Preys.Count > 0)
+            {
+                displayVores.Add(new DisplayVore(vo));
+            }
+        });
+        PrintDisplayVores();
+    }
+
     private void PrintDisplayMods()
     {
-        container.KillChildren();
-        Debug.Log(displayMods.Count);
         foreach (DisplayMod dm in displayMods)
         {
             TempEffect te = Instantiate(tempEffectPrefab, container);
             te.Setup(dm);
         }
+    }
+
+    private void PrintDisplayVores()
+    {
+        displayVores.ForEach(dv =>
+        {
+            TempVore tv = Instantiate(tempVorePrefab, container);
+            tv.Setup(dv);
+        });
     }
 
     public delegate void AddedATempEffect();

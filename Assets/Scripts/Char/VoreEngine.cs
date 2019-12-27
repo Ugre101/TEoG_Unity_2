@@ -11,41 +11,45 @@ namespace Vore
 
         #region voreOrgans
 
-        [SerializeField]
-        private VoreBalls balls;
+        [field: SerializeField] public VoreBalls Balls { get; private set; }
+        [field: SerializeField] public VoreBoobs Boobs { get; private set; }
+        [field: SerializeField] public VoreStomach Stomach { get; private set; }
+        [field: SerializeField] public VoreAnal Anal { get; private set; }
+        [field: SerializeField] public VoreVagina Vagina { get; private set; }
+        private List<VoreBasic> voreOrgans = new List<VoreBasic>();
 
-        public VoreBalls Balls => balls;
-
-        [SerializeField]
-        private VoreBoobs boobs;
-
-        public VoreBoobs Boobs => boobs;
-
-        [SerializeField]
-        private VoreStomach stomach;
-
-        public VoreStomach Stomach => stomach;
-
-        [SerializeField]
-        private VoreAnal anal;
-
-        public VoreAnal Anal => anal;
-
-        [SerializeField]
-        private VoreVagina vagina;
-
-        public VoreVagina Vagina => vagina;
+        public List<VoreBasic> VoreOrgans
+        {
+            get
+            {
+                if (voreOrgans.Count < 1)
+                {
+                    voreOrgans = new List<VoreBasic>() { Balls, Boobs, Stomach, Anal, Vagina };
+                }
+                return voreOrgans;
+            }
+        }
 
         #endregion voreOrgans
+
+        public int TotalPreyCount
+        {
+            get
+            {
+                int tot = 0;
+                VoreOrgans.ForEach(vo => tot += vo.Preys.Count);
+                return tot;
+            }
+        }
 
         public VoreEngine(BasicChar parPred)
         {
             pred = parPred;
-            balls = new VoreBalls(parPred);
-            boobs = new VoreBoobs(parPred);
-            stomach = new VoreStomach(parPred);
-            anal = new VoreAnal(parPred);
-            vagina = new VoreVagina(parPred);
+            Balls = new VoreBalls(parPred);
+            Boobs = new VoreBoobs(parPred);
+            Stomach = new VoreStomach(parPred);
+            Anal = new VoreAnal(parPred);
+            Vagina = new VoreVagina(parPred);
         }
 
         public void Digest()
@@ -104,44 +108,39 @@ namespace Vore
     [System.Serializable]
     public class ThePrey
     {
-        [SerializeField]
-        private BasicChar prey;
+        [field: SerializeField] public BasicChar Prey { get; private set; }
 
-        public BasicChar Prey => prey;
-        public BasicChar SetPrey { set => prey = value; }
+        public void SetPrey(BasicChar value) => Prey = value;
 
-        [SerializeField]
-        private float startWeight;
-
-        public float StartWeight => startWeight;
+        [field: SerializeField] public float StartWeight { get; private set; }
 
         public ThePrey(BasicChar parPrey)
         {
-            prey = parPrey;
-            startWeight = parPrey.Weight;
+            Prey = parPrey;
+            StartWeight = parPrey.Weight;
         }
 
-        /// <summary>
-        /// First digest the fat, then the muscle and last the bones(height).
-        /// </summary>
+        /// <summary> First digest the fat, then the muscle and last the bones(height). </summary>
         /// <param name="toDigest">Amount to digest</param>
         /// <returns></returns>
         public float Digest(float toDigest)
         {
-            float fatGain = Mathf.Min(toDigest, prey.Weight);
-            if (prey.Body.Fat.Value > 0)
+            float fatGain = Mathf.Min(toDigest, Prey.Weight);
+            if (Prey.Body.Fat.Value > 0)
             {
-                prey.Body.Fat.LoseFlat(toDigest);
+                Prey.Body.Fat.LoseFlat(toDigest);
             }
-            else if (prey.Body.Muscle.Value > 0)
+            else if (Prey.Body.Muscle.Value > 0)
             {
-                prey.Body.Muscle.LoseFlat(toDigest);
+                Prey.Body.Muscle.LoseFlat(toDigest);
             }
             else
             {
-                prey.Body.Height.LoseFlat(toDigest);
+                Prey.Body.Height.LoseFlat(toDigest);
             }
             return fatGain;
         }
+
+        public float Progress() => (StartWeight - Prey.Weight) / StartWeight;
     }
 }
