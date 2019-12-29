@@ -7,6 +7,6 @@ public class LowTierHeal : BasicSkill
     {
         float toHeal = (BaseAttack + user.Stats.Int) * RNG;
         user.HP.Gain(toHeal);
-        return $"{user.firstName} heals themself for {toHeal}hp.";
+        return $"{user.Identity.FirstName} heals themself for {toHeal}hp.";
     }
 }

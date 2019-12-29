@@ -60,7 +60,6 @@ public class CrudeAi : MonoBehaviour
         {
             if (Vector2.Distance(CurPos, Target) > chaseDist)
             {
-                Debug.Log("Stop");
                 // stop
                 CurPos = Vector2.MoveTowards(CurPos, CurPos, movementSpeed * Time.deltaTime);
                 currentState = State.Idle;
@@ -71,7 +70,6 @@ public class CrudeAi : MonoBehaviour
                 {
                     Debug.Log("Blocked");
                 }
-                Debug.Log("Chasing");
                 CurPos = Vector2.MoveTowards(CurPos, Target, movementSpeed * Time.deltaTime);
             }
         }

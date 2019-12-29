@@ -27,11 +27,11 @@ public class ChangeName : MonoBehaviour
         }
         if (firstName != null)
         {
-            firstName.text = player.firstName;
+            firstName.text = player.Identity.FirstName;
         }
         if (lastName != null)
         {
-            lastName.text = player.lastName;
+            lastName.text = player.Identity.LastName;
         }
     }
 
@@ -41,14 +41,14 @@ public class ChangeName : MonoBehaviour
         {
             if (firstName.text.Length > 0)
             {
-                player.firstName = firstName.text;
+                player.Identity.FirstName = firstName.text;
             }
         }
         if (lastName != null)
         {
             if (lastName.text.Length > 0)
             {
-                player.lastName = lastName.text;
+                player.Identity.LastName = lastName.text;
             }
         }
     }

@@ -21,12 +21,10 @@ public class EnemyPrefabEditor : BasicCharEditor
             GUILayout.Label("Last name");
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            myTarget.firstName = EditorGUILayout.TextArea("");
-            myTarget.lastName = EditorGUILayout.TextArea("");
+            myTarget.Identity.FirstName = EditorGUILayout.TextArea(myTarget.Identity.FirstName);
+            myTarget.Identity.LastName = EditorGUILayout.TextArea(myTarget.Identity.LastName);
             GUILayout.EndHorizontal();
             GUILayout.BeginVertical("Box");
-            GUILayout.Label("Random name giver", EditorStyles.boldLabel);
-            myTarget.randomName = (RandomName)EditorGUILayout.ObjectField(myTarget.randomName, typeof(RandomName), true);
             GUILayout.BeginHorizontal();
             GUILayout.Label("Give first name");
             myTarget.NeedFirstName = EditorGUILayout.Toggle(myTarget.NeedFirstName);

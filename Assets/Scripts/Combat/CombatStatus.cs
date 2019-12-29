@@ -30,7 +30,7 @@ public class CombatStatus : MonoBehaviour
     public void Setup(BasicChar who, CombatTeam combatTeam, CombatMain main)
     {
         whom = who;
-        title.text = whom.firstName;
+        title.text = whom.Identity.FirstName;
         healthSlider.Setup(whom);
         willSlider.Setup(whom);
         Dead = false;

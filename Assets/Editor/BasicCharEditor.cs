@@ -11,7 +11,7 @@ public class BasicCharEditor : Editor
         basicChar = (BasicChar)target;
         GUILayout.Label("Summary", EditorStyles.boldLabel);
         GUILayout.BeginVertical("Box");
-        GUILayout.Label(basicChar.FullName);
+        GUILayout.Label(basicChar.Identity.FullName);
         GUILayout.BeginHorizontal();
         GUILayout.Label(basicChar.Gender.ToString());
         GUILayout.Label(basicChar.Race);
@@ -22,8 +22,8 @@ public class BasicCharEditor : Editor
         GUILayout.Label("Last name");
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
-        basicChar.firstName = EditorGUILayout.TextField(basicChar.firstName);
-        basicChar.lastName = EditorGUILayout.TextField(basicChar.lastName);
+        basicChar.Identity.FirstName = EditorGUILayout.TextField(basicChar.Identity.FirstName);
+        basicChar.Identity.LastName = EditorGUILayout.TextField(basicChar.Identity.LastName);
         GUILayout.EndHorizontal();
         base.OnInspectorGUI();
     }

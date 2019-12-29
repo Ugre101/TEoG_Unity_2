@@ -12,7 +12,7 @@ public class ShowServant : MonoBehaviour
     public void Init(BasicChar whom)
     {
         who = whom;
-        Title.text = who.FullName;
+        Title.text = who.Identity.FullName;
         Desc.text = CharDesc();
     }
 

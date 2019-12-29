@@ -23,10 +23,12 @@ namespace Intro
 
         public string FirstName => firstName.text;
         public string LastName => lastName.text;
+
         private void OnEnable()
         {
             GameManager.CurState = GameState.Intro;
         }
+
         private void Start()
         {
             firstAccept.onClick.AddListener(NamePlayer);
@@ -37,8 +39,8 @@ namespace Intro
 
         private void NamePlayer()
         {
-            player.firstName = FirstName;
-            player.lastName = LastName;
+            player.Identity.FirstName = FirstName;
+            player.Identity.LastName = LastName;
         }
 
         private void StartGame()

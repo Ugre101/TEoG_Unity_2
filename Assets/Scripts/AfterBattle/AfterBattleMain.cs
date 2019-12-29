@@ -61,7 +61,11 @@ public class AfterBattleMain : MonoBehaviour
     private void OnDisable()
     {
         enemies.Clear();
-        SexStats.OrgasmedEvent -= RefreshScenes;
+        player.SexStats.OrgasmedEvent -= RefreshScenes;
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent -= RefreshScenes);
+        player.SexStats.OrgasmedEvent -= Impreg;
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent -= GetImpreg);
+
     }
 
     public void Setup(List<EnemyPrefab> chars)
@@ -74,8 +78,13 @@ public class AfterBattleMain : MonoBehaviour
         // in future make it so several statuses spawn if team har more than one member.
         // if enemies more than one, make selector view next to status
         playerChar.Setup(player);
+        player.SexStats.OrgasmedEvent += RefreshScenes;
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent += RefreshScenes);
+        player.SexStats.OrgasmedEvent += Impreg;
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent += GetImpreg);
+
         enemyChar.Setup(Target);
-        SexStats.OrgasmedEvent += RefreshScenes;
+
         player.SexStats.Reset();
         RefreshScenes();
     }
@@ -109,6 +118,28 @@ public class AfterBattleMain : MonoBehaviour
         {
             drainFemi.gameObject.SetActive(false);
             drainMasc.gameObject.SetActive(false);
+        }
+    }
+
+    private void Impreg()
+    {
+        if (LastScene.IImpregnate)
+        {
+            Debug.Log("Tried to impreg");
+           if(Target.Impregnate(Caster))
+            {
+                AddToTextBox($"{Target.Identity.FirstName} got pregnant!");
+            }
+        }
+    }
+    private void GetImpreg()
+    {
+        if (LastScene.IGetImpregnated)
+        {
+           if(Caster.Impregnate(Target))
+            {
+                AddToTextBox($"You got pregnant!");
+            }
         }
     }
 

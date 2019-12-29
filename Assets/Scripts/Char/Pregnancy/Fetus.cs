@@ -1,22 +1,27 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class Fetus 
+public class Fetus
 {
     [SerializeField]
     private float age;
+
     [SerializeField]
     private Races race;
+
     [SerializeField]
-    private BasicChar father, mother;
+    private Identity father, mother;
+
+    [SerializeField]
+    private bool playerFather = false, playerMother = false;
+
     public string FatherName => father.FullName;
     public string MotherName => mother.FullName;
     public Races Race => race;
     public int DaysOld => Mathf.FloorToInt(age);
     public bool ReadyToBeBorn => DaysOld >= IncubationPeriod();
+
     /// <summary>
     /// Returns the incubation period, is dependent on the fetus race.
     /// </summary>
@@ -34,19 +39,27 @@ public class Fetus
                 return 274;
         }
     }
-    public Fetus(Races parRace,  BasicChar parFather, BasicChar parMother)
+
+    public Fetus(Races parRace, BasicChar parFather, BasicChar parMother)
     {
         race = parRace;
-        father = parFather;
-        mother = parMother;
+        father = parFather.Identity;
+        if (parFather is PlayerMain)
+        {
+            playerFather = true;
+        }
+        mother = parMother.Identity;
+        if (parMother is PlayerMain)
+        {
+            playerMother = true;
+        }
     }
+
     public bool Grow(float parDaysToGrow = 1f)
     {
         age += parDaysToGrow;
         return ReadyToBeBorn;
     }
-   public Child GiveBirth()
-    {
-        return new Child(Race,mother,father );
-    }
+
+    public Child GiveBirth() => new Child(Race, mother, father);
 }

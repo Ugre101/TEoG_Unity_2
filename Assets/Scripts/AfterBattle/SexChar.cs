@@ -26,7 +26,7 @@ public class SexChar : MonoBehaviour
 
     public virtual void OnDisable()
     {
-        SexStats.ArousalChangeEvent -= Arousal;
+        whom.SexStats.ArousalChangeEvent -= Arousal;
         SexualOrgan.SomethingChanged -= Organs;
     }
 
@@ -36,7 +36,7 @@ public class SexChar : MonoBehaviour
         mascSlider.Init(whom);
         femiSlider.Init(whom);
         Organs();
-        SexStats.ArousalChangeEvent += Arousal;
+        whom.SexStats.ArousalChangeEvent += Arousal;
         SexualOrgan.SomethingChanged += Organs;
     }
 

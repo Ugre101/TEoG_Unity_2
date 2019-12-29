@@ -61,7 +61,7 @@ namespace Vore
                 {
                     foreach (ThePrey prey in Ballsdigested)
                     {
-                        string text = $"{prey.Prey.FullName} has been fully transfomed into cum.";
+                        string text = $"{prey.Prey.Identity.FullName} has been fully transfomed into cum.";
                         EventLog.AddTo(text);
                     }
                 }
@@ -70,7 +70,7 @@ namespace Vore
                 {
                     foreach (ThePrey prey in Boobsdigested)
                     {
-                        string text = $"{prey.Prey.FullName} is now nothing but milk.";
+                        string text = $"{prey.Prey.Identity.FullName} is now nothing but milk.";
                         EventLog.AddTo(text);
                     }
                 }
@@ -79,7 +79,7 @@ namespace Vore
                 {
                     foreach (ThePrey prey in Stomachdigested)
                     {
-                        string text = $"{prey.Prey.FullName} has been digested.";
+                        string text = $"{prey.Prey.Identity.FullName} has been digested.";
                         EventLog.AddTo(text);
                     }
                 }
@@ -88,7 +88,7 @@ namespace Vore
                 {
                     foreach (ThePrey prey in Analdigested)
                     {
-                        string text = $"{prey.Prey.FullName} has been reduced to nothing in your bowels.";
+                        string text = $"{prey.Prey.Identity.FullName} has been reduced to nothing in your bowels.";
                         EventLog.AddTo(text);
                     }
                 }

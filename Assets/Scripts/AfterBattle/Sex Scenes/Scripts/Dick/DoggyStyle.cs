@@ -5,13 +5,15 @@ public class DoggyStyle : SexScenes
 {
     public override string StartScene(PlayerMain player, BasicChar other)
     {
-        return $"Commanding {other.firstName} to get down on their all fours you fuck HisHer from behind.\n " +
+        ArousalGain(player, other);
+        return $"Commanding {other.Identity.FirstName} to get down on their all fours you fuck HisHer from behind.\n " +
         $"Their {other.SexualOrgans.Vaginas[0].Race} pussy Tightness(player, enemies[EnemyIndex],) + to your +{BiggestDick(player)}" +
         $" {player.SexualOrgans.Dicks[0].Race} dick.";
     }
 
     public override string ContinueScene(PlayerMain player, BasicChar other)
     {
+        ArousalGain(player, other);
         return $"You continue fucking them from behind. Their {other.SexualOrgans.Vaginas[0].Race} pussy Tightness(player, enemies[EnemyIndex], A) +to your {BiggestDick(player)} dick.";
     }
 }

@@ -69,7 +69,7 @@ public class SaveName
 {
     public SaveName(PlayerMain player, DateTime parDate)
     {
-        Name = player.FullName;
+        Name = player.Identity.FullName;
         Lvl = player.ExpSystem.Level.ToString();
         Date = parDate.ToString();
     }

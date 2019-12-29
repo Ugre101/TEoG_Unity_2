@@ -62,12 +62,12 @@ public class BasicSkill : ScriptableObject
     public virtual string Action(BasicChar user, BasicChar target)
     {
         float dmg = baseAttack * RNG; // + user something
-        return $"{user.firstName} action {target.firstName} for {dmg}.";
+        return $"{user.Identity.FirstName} action {target.Identity.FirstName} for {dmg}.";
     }
 
     public virtual string Text(BasicChar user, BasicChar target)
     {
-        string text = $"{user.firstName} attacks {target.firstName}.";
+        string text = $"{user.Identity.FirstName} attacks {target.Identity.FirstName}.";
         return text;
     }
 }

@@ -38,11 +38,11 @@
 
     public delegate void ArousalChange();
 
-    public static event ArousalChange ArousalChangeEvent;
+    public event ArousalChange ArousalChangeEvent;
 
     public delegate void Orgasmed();
 
-    public static event Orgasmed OrgasmedEvent;
+    public event Orgasmed OrgasmedEvent;
 
     public void ManualArousalUpdate() => ArousalChangeEvent?.Invoke();
 }

@@ -27,6 +27,9 @@ public class SexScenes : ScriptableObject
     public int CharmMultiplier = 1;
     public int StrengthMultiplier = 1;
 
+    [field: SerializeField] public bool IImpregnate { get; private set; } = false;
+    [field: SerializeField] public bool IGetImpregnated { get; private set; } = false;
+
     public virtual bool CanDo(BasicChar player, BasicChar Other)
     {
         if (PlayerDick)

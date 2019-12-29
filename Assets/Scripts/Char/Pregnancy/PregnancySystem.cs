@@ -43,7 +43,7 @@ public class PregnancySystem
                 children.AddRange(born);
                 string amount = born.Count > 1 ? $"a pair of twins babies" : "one baby"; // TODO add more
                 string addText = who.CompareTag("Player") ? $"You have given birth to {amount}."
-                    : $"{who.FullName} has given birth to {amount}";
+                    : $"{who.Identity.FullName} has given birth to {amount}";
                 EventLog.AddTo(addText);
             }
         }

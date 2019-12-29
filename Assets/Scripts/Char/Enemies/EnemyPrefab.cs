@@ -6,7 +6,6 @@ public class EnemyPrefab : BasicChar
     [HideInInspector]
     public bool NeedFirstName = true, NeedLastName = true;
 
-    public RandomName randomName;
     public AssingRace assingRace = new AssingRace();
 
     [Tooltip("Chosen values get mulitled by random range 0.5f to 1.5f")]
@@ -76,6 +75,7 @@ public class EnemyPrefab : BasicChar
 
     public override void Start()
     {
+        base.Start();
         stats = new StatsContainer(FinalStat(assingStr), FinalStat(assingCharm),
             FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt));
         Init(1, assingHP, assingWP);
@@ -87,18 +87,17 @@ public class EnemyPrefab : BasicChar
         {
             if (GenderType == GenderTypes.Masculine)
             {
-                firstName = randomName.MaleName;
+                Identity.FirstName = RandomName.MaleName;
             }
             else
             {
-                firstName = randomName.FemaleName;
+                Identity.FirstName = RandomName.FemaleName;
             }
         }
         if (NeedLastName)
         {
-            lastName = randomName.LastName;
+           Identity.LastName = RandomName.LastName;
         }
-        base.Start();
     }
     public override void Update()
     {

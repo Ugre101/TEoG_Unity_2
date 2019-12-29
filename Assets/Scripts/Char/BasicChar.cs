@@ -11,10 +11,10 @@ public abstract class BasicChar : MonoBehaviour
         vore = new VoreEngine(this);
     }
 
-    [Space]
-    public string firstName, lastName;
+    [SerializeField]
+    protected Identity identity;
 
-    public string FullName => $"{firstName} {lastName}";
+    public Identity Identity => identity;
 
     [SerializeField]
     private Inventory inventory = new Inventory();
@@ -245,7 +245,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void Start()
     {
-        lastGender = this.Gender;
+        identity = new Identity();
         Essence.Masc.EssenceSliderEvent += DidGenderChange;
         essence.Femi.EssenceSliderEvent += DidGenderChange;
     }

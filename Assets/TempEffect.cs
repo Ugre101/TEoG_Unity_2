@@ -3,27 +3,45 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class TempEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class BaseEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField]
-    private TextMeshProUGUI text = null;
+    protected TextMeshProUGUI text = null;
 
     [SerializeField]
-    private Image icon = null;
+    protected Image icon = null;
 
-    private DisplayMod mod;
-
-    public void OnPointerClick(PointerEventData eventData)
+    public virtual void OnPointerClick(PointerEventData eventData)
     {
         throw new System.NotImplementedException();
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public virtual void OnPointerExit(PointerEventData eventData)
+    {
+        throw new System.NotImplementedException();
+    }
+}
+
+public class TempEffect : BaseEffect
+{
+    private DisplayMod mod;
+
+    public override void OnPointerClick(PointerEventData eventData)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log(mod.Duration);
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    public override void OnPointerExit(PointerEventData eventData)
     {
     }
 

@@ -9,6 +9,6 @@ public class BasicTease : BasicSkill
     {
         float dmg = BaseAttack * (user.Stats.Cha / 10) * RNG;
         target.WP.TakeDmg(dmg);
-        return $"{user.firstName} teases {target.firstName}, causing {target.firstName} to lose {dmg} willpower.";
+        return $"{user.Identity.FirstName} teases {target.Identity.FirstName}, causing {target.Identity.FirstName} to lose {dmg} willpower.";
     }
 }

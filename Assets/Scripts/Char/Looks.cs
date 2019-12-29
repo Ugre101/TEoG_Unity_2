@@ -18,7 +18,7 @@ public class Looks
     {
         get
         {
-            string title = who.FullName;
+            string title = who.Identity.FullName;
             string desc = $"A {Height} tall {who.Race} {who.Gender.ToString()}";
             string stats = $" {who.Age.AgeYears}years old\nWeight: {Weight}\nHeight: {Height}";
             return $" {title}\n\n{desc}\n{stats}";

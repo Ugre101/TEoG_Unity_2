@@ -16,6 +16,7 @@ public class PlayerMain : BasicChar
     // Start is called before the first frame update
     public override void Start()
     {
+        base.Start();
         Init(1, 100, 100);
         RaceSystem.AddRace(Races.Human, 100);
         body = new Body(160, 10, 20);
@@ -29,13 +30,11 @@ public class PlayerMain : BasicChar
         SexualOrgans.Dicks.AddDick(12);
         SexualOrgans.Vaginas.AddVag(7);
         Currency.Gold += 100;
-        base.Start();
     }
 
     public void PlayerInit(string first, string last)
     {
-        firstName = first;
-        lastName = last;
-        Debug.Log(firstName);
+        Identity.FirstName = first;
+        Identity.LastName = last;
     }
 }
