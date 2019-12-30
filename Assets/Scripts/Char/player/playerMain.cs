@@ -5,12 +5,8 @@ public class PlayerMain : BasicChar
     // public Settings sett;
     [Space]
     [SerializeField]
-    private QuestsSystem quest = new QuestsSystem();
-
-    [SerializeField]
     private PlayerFlags playerFlags = new PlayerFlags();
 
-    public QuestsSystem Quest => quest;
     public PlayerFlags PlayerFlags => playerFlags;
 
     // Start is called before the first frame update

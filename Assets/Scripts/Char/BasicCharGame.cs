@@ -22,23 +22,19 @@ public class BasicCharGame : MonoBehaviour
             whom = GetComponent<BasicChar>();
         }
         spriteRenderer.sprite = sprites.GetSprite(whom);
-      //  whom.RaceSystem.RaceChangeEvent += RaceChange;
-        whom.GenderChangeEvent += RaceChange;
+        whom.RaceSystem.RaceChangeEvent += RaceChange;
+        whom.GenderChangeEvent += GenderChange;
     }
 
+    private void RaceChange() => ChangeSprite();
 
-    private void RaceChange()
-    {
-        ChangeSprite();
-    }
+    private void GenderChange() => ChangeSprite();
 
-    private void ChangeSprite()
-    {
-        spriteRenderer.sprite = sprites.GetSprite(whom);
-    }
+    private void ChangeSprite() => spriteRenderer.sprite = sprites.GetSprite(whom);
+
     private void OnDestroy()
     {
         whom.RaceSystem.RaceChangeEvent -= RaceChange;
-        whom.GenderChangeEvent -= RaceChange;
+        whom.GenderChangeEvent -= GenderChange;
     }
 }

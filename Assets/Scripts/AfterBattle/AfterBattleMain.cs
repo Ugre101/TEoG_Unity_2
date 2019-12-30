@@ -2,14 +2,14 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using Vore;
 
 public class AfterBattleMain : MonoBehaviour
 {
     public PlayerMain player;
     public List<EnemyPrefab> enemies;
-    public TextMeshProUGUI _textBox;
-    public VoreHandler voreHandler;
+
+    [SerializeField]
+    private TextMeshProUGUI textBox = null;
 
     [SerializeField]
     private SexButton sexButton = null;
@@ -44,11 +44,21 @@ public class AfterBattleMain : MonoBehaviour
     [Header("Other")]
     public SexScenes LastScene;
 
-    public List<SexScenes> allSexScenes;
-    public GameObject Leave;
-    public GameObject TakeHome;
-    public Dorm dorm;
-    public SexChar playerChar, enemyChar;
+    [SerializeField]
+    private List<SexScenes> allSexScenes;
+
+    [SerializeField]
+    private GameObject Leave = null;
+
+    [SerializeField]
+    private GameObject TakeHome = null;
+
+    [SerializeField]
+    private Dorm dorm = null;
+
+    [SerializeField]
+    private SexChar playerChar = null, enemyChar = null;
+
     private EnemyPrefab newTarget;
     public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
 
@@ -65,14 +75,13 @@ public class AfterBattleMain : MonoBehaviour
         enemies.ForEach(e => e.SexStats.OrgasmedEvent -= RefreshScenes);
         player.SexStats.OrgasmedEvent -= Impreg;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent -= GetImpreg);
-
     }
 
     public void Setup(List<EnemyPrefab> chars)
     {
         gameObject.SetActive(true);
         enemies = chars;
-        _textBox.text = null;
+        textBox.text = null;
         LastScene = null;
         newTarget = null;
         // in future make it so several statuses spawn if team har more than one member.
@@ -125,18 +134,18 @@ public class AfterBattleMain : MonoBehaviour
     {
         if (LastScene.IImpregnate)
         {
-            Debug.Log("Tried to impreg");
-           if(Target.Impregnate(Caster))
+            if (Target.Impregnate(Caster))
             {
                 AddToTextBox($"{Target.Identity.FirstName} got pregnant!");
             }
         }
     }
+
     private void GetImpreg()
     {
         if (LastScene.IGetImpregnated)
         {
-           if(Caster.Impregnate(Target))
+            if (Caster.Impregnate(Target))
             {
                 AddToTextBox($"You got pregnant!");
             }
@@ -158,8 +167,5 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
-    public void AddToTextBox(string text)
-    {
-        _textBox.text = text;
-    }
+    public void AddToTextBox(string text) => textBox.text = text;
 }

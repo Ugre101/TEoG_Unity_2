@@ -4,26 +4,20 @@ using UnityEngine;
 [System.Serializable]
 public class PregnancySystem
 {
-
     [SerializeField]
     private List<Child> children = new List<Child>();
 
+    public List<Child> Children => children;
 
     [SerializeField]
-    private float virility = 1f;
+    private CharStats virility = new CharStats(1);
+
+    public CharStats Virility => virility;
 
     [SerializeField]
-    private float fertility = 1f;
+    private CharStats fertility = new CharStats(1);
 
-    public float GetVirility => virility;
-
-    public void SetVirility(float parChange) => virility += parChange;
-
-    public float GetFertility => fertility;
-
-    public void SetFertility(float parChange) => fertility += parChange;
-
- 
+    public CharStats Fertility => fertility;
 
     // growth in days
     private readonly float baseFetusGrowth = 1f;
@@ -57,12 +51,13 @@ public class PregnancySystem
         }
     }
 }
+
 public static class PregnancyExtensions
 {
     public static bool Impregnate(this BasicChar mother, BasicChar parFather)
     {
-        float motherFet = mother.PregnancySystem.GetFertility;
-        float fatherVir = parFather.PregnancySystem.GetVirility;
+        float motherFet = mother.PregnancySystem.Fertility.Value;
+        float fatherVir = parFather.PregnancySystem.Virility.Value;
         float motherRoll = Random.Range(0 - motherFet, 200 - motherFet);
         float fatherRoll = Random.Range(0 + fatherVir, 100 + fatherVir);
         if (motherRoll < fatherRoll)

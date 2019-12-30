@@ -57,7 +57,7 @@ public class SaveMananger : MonoBehaviour
         GameLoaded?.Invoke();
     }
 
-    public Save NewSave => new Save(player, playerSprite, dorm, mapEvents, tickManager, home, player.VoreChar);
+    public Save NewSave => new Save(player, playerSprite, dorm, mapEvents, home, player.VoreChar);
 
     public delegate void LoadedGame();
 

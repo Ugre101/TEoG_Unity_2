@@ -50,11 +50,11 @@ public class CombatMain : MonoBehaviour
 
     [SerializeField]
     [Header("Win")]
-    private AfterBattleMain afterBattle;
+    private AfterBattleMain afterBattle = null;
 
     [SerializeField]
     [Header("Lose")]
-    private LoseMain loseBattle;
+    private LoseMain loseBattle = null;
 
     // Private
     private readonly List<string> _battleLog = new List<string>();

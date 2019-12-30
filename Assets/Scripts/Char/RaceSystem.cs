@@ -10,19 +10,23 @@ public class RaceSystem
     [SerializeField]
     private bool dirty = true;
 
-    private Races lastCurrent;
-
-    public List<Race> RaceList
+    public bool Dirty
     {
-        get
+        get => dirty;
+        set
         {
-            if (dirty)
+            if (value)
             {
                 CleanRaces();
+                _ = CurrentRace();
             }
-            return raceList;
+            dirty = false;
         }
     }
+
+    private Races lastCurrent;
+
+    public List<Race> RaceList => raceList;
 
     public void AddRace(Races race, int amount = 100)
     {
@@ -33,10 +37,10 @@ public class RaceSystem
         else
         {
             Race toAdd = new Race(race, amount);
-            toAdd.DirtyEvent += () => { dirty = true; };
+            toAdd.DirtyEvent += () => { Dirty = true; };
             raceList.Add(toAdd);
         }
-        dirty = true;
+        Dirty = true;
     }
 
     public bool RemoveRace(Races race)
@@ -44,7 +48,7 @@ public class RaceSystem
         if (RaceList.Exists(r => r.Name == race))
         {
             RaceList.Remove(RaceList.Find(r => r.Name == race));
-            dirty = true;
+            Dirty = true;
             return true;
         }
         return false;
@@ -60,7 +64,7 @@ public class RaceSystem
                 return true;
             }
         }
-        dirty = true;
+        Dirty = true;
         return false;
     }
 
@@ -71,15 +75,14 @@ public class RaceSystem
             lastCurrent = Races.Humanoid;
             return Races.Humanoid;
         }
-        Races race = FirstRace;
         // TODO import & improve old race system from javascript version
-        if (lastCurrent != race)
+        if (lastCurrent != FirstRace)
         {
             // not sure if this is a good place to trigger event, will it always trigger when it should?
+            lastCurrent = FirstRace;
             RaceChangeEvent?.Invoke();
-            lastCurrent = race;
         }
-        return race;
+        return lastCurrent;
     }
 
     public Races FirstRace => RaceList[0].Amount >= 100 ? RaceList[0].Name : Races.Humanoid;
@@ -90,7 +93,7 @@ public class RaceSystem
     {
         raceList.RemoveAll(r => r.Amount <= 0);
         raceList.Sort((r1, r2) => r1.Amount.CompareTo(r2.Amount));
-        dirty = false;
+        Dirty = false;
     }
 
     public delegate void RaceChange();

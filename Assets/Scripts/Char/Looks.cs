@@ -1,47 +1,34 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Looks
+public static class Looks
 {
-    public Looks(BasicChar whom)
+    private static string Height(this BasicChar who) => Settings.MorInch(who.Weight);
+
+    private static string Weight(this BasicChar who) => Settings.KgorP(who.Weight);
+
+    public static string Summary(this BasicChar who)
     {
-        who = whom;
+        string title = who.Identity.FullName;
+        string desc = $"A {Height(who)} tall {who.Race} {who.Gender.ToString()}";
+        string stats = $" {who.Age.AgeYears}years old\nWeight: {Weight(who)}\nHeight: {Height(who)}";
+        return $" {title}\n\n{desc}\n{stats}";
     }
 
-    [SerializeField]
-    private BasicChar who;
-
-    private string Height { get { return Settings.MorInch(who.Weight); } }
-    private string Weight { get { return Settings.KgorP(who.Weight); } }
-
-    public string Summary
+    public static string Organs(this BasicChar who)
     {
-        get
-        {
-            string title = who.Identity.FullName;
-            string desc = $"A {Height} tall {who.Race} {who.Gender.ToString()}";
-            string stats = $" {who.Age.AgeYears}years old\nWeight: {Weight}\nHeight: {Height}";
-            return $" {title}\n\n{desc}\n{stats}";
-        }
+        string dicks = DicksLook(who);
+        // and the rest
+        return dicks;
     }
 
-    public string Organs
-    {
-        get
-        {
-            string dicks = DicksLook();
-            // and the rest
-            return dicks;
-        }
-    }
-
-    public string DickLook(int i)
+    public static string DickLook(this BasicChar who, int i)
     {
         Dick d = who.SexualOrgans.Dicks[Mathf.Clamp(i, 0, who.SexualOrgans.Dicks.Count - 1)];
         return who.SexualOrgans.Dicks.Count > 0 ? $"a {Settings.MorInch(d.Size)} long dick" : "";
     }
 
-    public string DicksLook()
+    public static string DicksLook(this BasicChar who)
     {
         List<Dick> dicks = who.SexualOrgans.Dicks;
         string dLooks = "";
@@ -69,13 +56,13 @@ public class Looks
         return dLooks + ".";
     }
 
-    public string BallLook(int i)
+    public static string BallLook(this BasicChar who, int i)
     {
         Balls b = who.SexualOrgans.Balls[Mathf.Clamp(i, 0, who.SexualOrgans.Balls.Count - 1)];
         return $"a pair of {Settings.MorInch(b.Size)} wide balls";
     }
 
-    public string BallsLook()
+    public static string BallsLook(this BasicChar who)
     {
         List<Balls> balls = who.SexualOrgans.Balls;
         string bLooks = "";
@@ -101,12 +88,9 @@ public class Looks
         return bLooks + ".";
     }
 
-    public string BoobLook(Boobs b)
-    {
-        return $"an {BoobSizeConvertor(b.Size)} chest";
-    }
+    public static string BoobLook(Boobs b) => $"an {BoobSizeConvertor(b.Size)} chest";
 
-    public string BoobsLook()
+    public static  string BoobsLook(this BasicChar who)
     {
         List<Boobs> boobs = who.SexualOrgans.Boobs;
         string bLooks = "";
@@ -133,7 +117,7 @@ public class Looks
         return bLooks + ".";
     }
 
-    public string BoobSizeConvertor(float size)
+    public static string BoobSizeConvertor(float size)
     {
         List<string> Bra = new List<string>
         {
@@ -156,12 +140,9 @@ public class Looks
         return Bra[i] + prefix();
     }
 
-    public string VagLook(Vagina vag)
-    {
-        return $"a {vag.Size} deep vagina";
-    }
+    public static string VagLook(Vagina vag) => $"a {vag.Size} deep vagina";
 
-    public string VagsLook()
+    public static string VagsLook(this BasicChar who)
     {
         List<Vagina> vaginas = who.SexualOrgans.Vaginas;
         string vLooks = "";

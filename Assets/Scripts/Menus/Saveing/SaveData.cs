@@ -10,18 +10,16 @@ public class Save
     private readonly Transform Pos;
     private readonly Dorm dorm;
     private readonly MapEvents mapEvents;
-    private readonly TickManager tickManager;
     private readonly Home home;
     private readonly VoreChar voreChar;
     private PlayerSave save;
 
-    public Save(PlayerMain player, Transform pos, Dorm theDorm, MapEvents map, TickManager manager, Home parHome, VoreChar parVoreChar)
+    public Save(PlayerMain player, Transform pos, Dorm theDorm, MapEvents map, Home parHome, VoreChar parVoreChar)
     {
         Player = player;
         Pos = pos.transform;
         dorm = theDorm;
         mapEvents = map;
-        tickManager = manager;
         home = parHome;
         voreChar = parVoreChar;
     }
@@ -31,10 +29,9 @@ public class Save
         save = new PlayerSave(Player);
         List<DormSave> temp = dorm.Save();
         PosSave pos = new PosSave(Pos.position, mapEvents.ActiveMap, mapEvents.CurrentMap.transform.name);
-        DateSave date = DateSystem.Save;
         HomeSave homeSave = home.Stats.Save();
         VoreSaves voreSaves = voreChar.Save();
-        FullSave fullSave = new FullSave(save, pos, temp, date, homeSave, voreSaves);
+        FullSave fullSave = new FullSave(save, pos, temp, homeSave, voreSaves);
         Debug.Log(JsonUtility.ToJson(fullSave));
 
         return JsonUtility.ToJson(fullSave);
@@ -49,6 +46,7 @@ public class Save
         dorm.Load(fullSave.dormPart);
         voreChar.Load(fullSave.voreSaves, Player);
         DateSystem.Load(fullSave.datePart);
+        QuestsSystem.Load(fullSave.questSave);
         EventLog.ClearLog();
     }
 }
@@ -62,15 +60,17 @@ public class FullSave
     public DateSave datePart;
     public HomeSave homePart;
     public VoreSaves voreSaves;
+    public QuestSave questSave;
 
-    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, DateSave date, HomeSave parHome, VoreSaves vore)
+    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, HomeSave parHome, VoreSaves vore)
     {
         playerPart = player;
         posPart = pos;
         dormPart = dorm;
-        datePart = date;
+        datePart = DateSystem.Save;
         homePart = parHome;
         voreSaves = vore;
+        questSave = QuestsSystem.Save();
     }
 }
 

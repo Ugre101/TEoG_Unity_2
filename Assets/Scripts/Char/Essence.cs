@@ -33,3 +33,84 @@ public class Essence
 
     public event EssenceSlider EssenceSliderEvent;
 }
+public static class EssenceExtension
+{
+
+    public static float LoseMasc(this BasicChar who, float mascToLose)
+    {
+        float have = who.Masc.Lose(mascToLose);
+        float missing = mascToLose - have;
+        if (missing > 0)
+        {
+            float fromOrgans = 0f;
+            while (missing > fromOrgans && (who.SexualOrgans.Dicks.Count > 0 || who.SexualOrgans.Balls.Count > 0))// have needed organs
+            {
+                if (who.SexualOrgans.Balls.Count > 0 && who.SexualOrgans.Dicks.Count > 0)
+                {
+                    if (who.SexualOrgans.Dicks.Total() >= who.SexualOrgans.Balls.Total() * 2f + 1f)
+                    {
+                        fromOrgans += who.SexualOrgans.Dicks.ReCycle();
+                    }
+                    else
+                    {
+                        fromOrgans += who.SexualOrgans.Balls.ReCycle();
+                    }
+                }
+                else if (who.SexualOrgans.Balls.Count > 0)
+                {
+                    fromOrgans += who.SexualOrgans.Balls.ReCycle();
+                }
+                else
+                {
+                    fromOrgans += who.SexualOrgans.Dicks.ReCycle();
+                }
+            }
+            have += Mathf.Min(fromOrgans, missing);
+            float left = fromOrgans - missing;
+            if (left > 0)
+            {
+                who.Masc.Gain(left);
+            }
+        }
+        return have;
+    }
+
+    public static float LoseFemi(this BasicChar who, float femiToLose)
+    {
+        float have = who.Femi.Lose(femiToLose);
+        float missing = femiToLose - have;
+        if (missing > 0)
+        {
+            float fromOrgans = 0f;
+            while (missing > fromOrgans && (who.SexualOrgans.Vaginas.Count > 0 || who.SexualOrgans.Boobs.Count > 0))// have needed organs
+            {
+                if (who.SexualOrgans.Boobs.Count > 0 && who.SexualOrgans.Vaginas.Count > 0)
+                {
+                    if (who.SexualOrgans.Boobs.Total() >= who.SexualOrgans.Vaginas.Total() * 2f + 1f)
+                    {
+                        fromOrgans += who.SexualOrgans.Boobs.ReCycle();
+                    }
+                    else
+                    {
+                        fromOrgans += who.SexualOrgans.Vaginas.ReCycle();
+                    }
+                }
+                else if (who.SexualOrgans.Vaginas.Count > 0)
+                {
+                    fromOrgans += who.SexualOrgans.Vaginas.ReCycle();
+                }
+                else
+                {
+                    fromOrgans += who.SexualOrgans.Boobs.ReCycle();
+                }
+            }
+            have += Mathf.Min(fromOrgans, missing);
+            float left = fromOrgans - missing;
+            if (left > 0)
+            {
+                who.Femi.Gain(left);
+            }
+        }
+        return have;
+    }
+}

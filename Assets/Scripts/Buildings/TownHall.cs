@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-public class TownHall : Building, IGiveQuest
+public class TownHall : Building
 {
     [SerializeField]
     private TextMeshProUGUI changeNameText;
@@ -35,7 +35,7 @@ public class TownHall : Building, IGiveQuest
     {
         foreach (QuestButton qb in QuestToGive)
         {
-            if (PlayerHasQuest(qb.Quest))
+            if (QuestsSystem.HasQuest(qb.Quest))
             {
                 qb.Btn.gameObject.SetActive(false);
                 // is quest finished?
@@ -55,5 +55,4 @@ public class TownHall : Building, IGiveQuest
         SetTextBox = "";
     }
 
-    public bool PlayerHasQuest(Quests quest) => player.Quest.HasQuest(quest);
 }

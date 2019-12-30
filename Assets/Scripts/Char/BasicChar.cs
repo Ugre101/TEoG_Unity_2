@@ -7,7 +7,6 @@ public abstract class BasicChar : MonoBehaviour
 {
     public BasicChar()
     {
-        looks = new Looks(this);
         vore = new VoreEngine(this);
     }
 
@@ -40,11 +39,6 @@ public abstract class BasicChar : MonoBehaviour
     public delegate void GenderChange();
 
     public event GenderChange GenderChangeEvent;
-
-    [SerializeField]
-    private Looks looks;
-
-    public Looks Looks => looks;
 
     public Genders Gender => this.Gender();
     public GenderTypes GenderType => this.GenderType();
@@ -136,84 +130,6 @@ public abstract class BasicChar : MonoBehaviour
     public float RestRate => 1f + Perks.PerkBonus(PerksTypes.FasterRest);
     public bool CanDrainMasc => Masc.Amount > 0 || SexualOrgans.Balls.Count > 0 || SexualOrgans.Dicks.Count > 0;
     public bool CanDrainFemi => Femi.Amount > 0 || SexualOrgans.Boobs.Count > 0 || SexualOrgans.Dicks.Count > 0;
-
-    public float LoseMasc(float mascToLose)
-    {
-        float have = Masc.Lose(mascToLose);
-        float missing = mascToLose - have;
-        if (missing > 0)
-        {
-            float fromOrgans = 0f;
-            while (missing > fromOrgans && (SexualOrgans.Dicks.Count > 0 || SexualOrgans.Balls.Count > 0))// have needed organs
-            {
-                if (SexualOrgans.Balls.Count > 0 && SexualOrgans.Dicks.Count > 0)
-                {
-                    if (SexualOrgans.Dicks.Total() >= SexualOrgans.Balls.Total() * 2f + 1f)
-                    {
-                        fromOrgans += SexualOrgans.Dicks.ReCycle();
-                    }
-                    else
-                    {
-                        fromOrgans += SexualOrgans.Balls.ReCycle();
-                    }
-                }
-                else if (SexualOrgans.Balls.Count > 0)
-                {
-                    fromOrgans += SexualOrgans.Balls.ReCycle();
-                }
-                else
-                {
-                    fromOrgans += SexualOrgans.Dicks.ReCycle();
-                }
-            }
-            have += Mathf.Min(fromOrgans, missing);
-            float left = fromOrgans - missing;
-            if (left > 0)
-            {
-                Masc.Gain(left);
-            }
-        }
-        return have;
-    }
-
-    public float LoseFemi(float femiToLose)
-    {
-        float have = Femi.Lose(femiToLose);
-        float missing = femiToLose - have;
-        if (missing > 0)
-        {
-            float fromOrgans = 0f;
-            while (missing > fromOrgans && (SexualOrgans.Vaginas.Count > 0 || SexualOrgans.Boobs.Count > 0))// have needed organs
-            {
-                if (SexualOrgans.Boobs.Count > 0 && SexualOrgans.Vaginas.Count > 0)
-                {
-                    if (SexualOrgans.Boobs.Total() >= SexualOrgans.Vaginas.Total() * 2f + 1f)
-                    {
-                        fromOrgans += SexualOrgans.Boobs.ReCycle();
-                    }
-                    else
-                    {
-                        fromOrgans += SexualOrgans.Vaginas.ReCycle();
-                    }
-                }
-                else if (SexualOrgans.Vaginas.Count > 0)
-                {
-                    fromOrgans += SexualOrgans.Vaginas.ReCycle();
-                }
-                else
-                {
-                    fromOrgans += SexualOrgans.Boobs.ReCycle();
-                }
-            }
-            have += Mathf.Min(fromOrgans, missing);
-            float left = fromOrgans - missing;
-            if (left > 0)
-            {
-                Femi.Gain(left);
-            }
-        }
-        return have;
-    }
 
     [Space]
     [SerializeField]

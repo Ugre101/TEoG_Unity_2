@@ -41,7 +41,7 @@ public class TakeQuest : MonoBehaviour
 
     private void AcceptQuest()
     {
-        player.Quest.AddQuest(quest);
+        QuestsSystem.AddQuest(quest);
         callBtn.gameObject.SetActive(false);
         Destroy(gameObject);
     }

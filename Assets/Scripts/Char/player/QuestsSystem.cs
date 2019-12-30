@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 
 public enum Quests
 {
@@ -7,37 +6,55 @@ public enum Quests
     Elfs
 }
 
-[System.Serializable]
-public class QuestsSystem
+public static class QuestsSystem
 {
-    [SerializeField]
-    private List<BasicQuest> quests = new List<BasicQuest>();
+    public static List<BasicQuest> List { get; private set; } = new List<BasicQuest>();
 
-    public List<BasicQuest> List => quests;
+    public static bool HasQuest(Quests parQuest)
+    {
+        UnityEngine.Debug.Log(List);
+        return List.Exists(q => q.Type == parQuest);
+    }
 
-    public bool HasQuest(Quests parQuest) => quests.Exists(q => q.Type == parQuest);
+    public static BasicQuest GetQuest(Quests parQuest) => List.Find(q => q.Type == parQuest);
 
-    public BasicQuest GetQuest(Quests parQuest) => List.Find(q => q.Type == parQuest);
-
-    public void AddQuest(Quests which)
+    public static void AddQuest(Quests which)
     {
         switch (which)
         {
             case Quests.Bandit:
                 if (!HasQuest(Quests.Bandit))
                 {
-                    quests.Add(new BanditQuest());
+                    List.Add(new BanditQuest());
                 }
                 break;
 
             case Quests.Elfs:
                 if (!HasQuest(Quests.Elfs))
                 {
-                    quests.Add(new ElfQuest());
+                    List.Add(new ElfQuest());
                 }
                 break;
         }
     }
+
+    public static QuestSave Save() => new QuestSave(List);
+
+    public static void Load(QuestSave toLoad) => List = new List<BasicQuest>(toLoad.BasicQuests);
+}
+
+[System.Serializable]
+public struct QuestSave
+{
+    [UnityEngine.SerializeField]
+    private List<BasicQuest> basicQuests;
+
+    public QuestSave(List<BasicQuest> parQuests)
+    {
+        basicQuests = parQuests;
+    }
+
+    public List<BasicQuest> BasicQuests => basicQuests;
 }
 
 public static class QuestDesc
@@ -51,6 +68,7 @@ public static class QuestDesc
 
             case Quests.Elfs:
                 return "Elf hunt";
+
             default:
                 return string.Empty;
         }

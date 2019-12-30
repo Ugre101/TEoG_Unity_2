@@ -17,7 +17,7 @@ public class LooksMenu : MonoBehaviour
         }
         if (_looksIntro != null)
         {
-            _looksIntro.text = player.Looks.Summary;
+            _looksIntro.text = player.Summary();
         }
     }
 
@@ -39,8 +39,8 @@ public class LooksMenu : MonoBehaviour
 
     public void PregnancyLook()
     {
-        string pregLook = $"Virility: {player.PregnancySystem.GetVirility}\n" +
-            $"Fertility: {player.PregnancySystem.GetFertility}\n\n";
+        string pregLook = $"Virility: {player.PregnancySystem.Virility.Value}\n" +
+            $"Fertility: {player.PregnancySystem.Fertility.Value}\n\n";
         if (player.Pregnant)
         {
             List<Vagina> pregVags = player.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus);

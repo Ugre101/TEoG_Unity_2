@@ -11,6 +11,12 @@ public class CharStats
 
     private float _currValue;
 
+    [SerializeField]
+    private List<StatMod> statMods = new List<StatMod>();
+
+    [SerializeField]
+    private List<TempStatMod> tempMods = new List<TempStatMod>();
+
     private bool IsDirty { get; set; } = true;
 
     public float Value
@@ -26,9 +32,8 @@ public class CharStats
         }
     }
 
-    [field: SerializeField] public List<StatMod> StatMods { get; private set; } = new List<StatMod>();
-    [field: SerializeField] public List<TempStatMod> TempMods { get; private set; } = new List<TempStatMod>();
-
+    public List<StatMod> StatMods => statMods;
+    public List<TempStatMod> TempMods => tempMods;
     public int BaseValue { get => baseValue; set { baseValue = value; IsDirty = true; } }
 
     public CharStats()

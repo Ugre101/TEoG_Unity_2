@@ -48,9 +48,9 @@ public class SexChar : MonoBehaviour
 
     private void Organs()
     {
-        Dicks.text = whom.Looks.DicksLook();
-        Balls.text = whom.Looks.BallsLook();
-        Boobs.text = whom.Looks.BoobsLook();
-        Vagina.text = whom.Looks.VagsLook();
+        Dicks.text = whom.DicksLook();
+        Balls.text = whom.BallsLook();
+        Boobs.text = whom.BoobsLook();
+        Vagina.text = whom.VagsLook();
     }
 }

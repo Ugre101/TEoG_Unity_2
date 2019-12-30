@@ -19,7 +19,7 @@ public class QuestMenuHandler : MonoBehaviour
         {
            GameObject.Destroy(child.gameObject);
         }
-        foreach(BasicQuest q in player.Quest.List)
+        foreach(BasicQuest q in QuestsSystem.List)
         {
             QuestPrefab(q);
         }

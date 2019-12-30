@@ -10,7 +10,7 @@ public class Inventory
     [SerializeField]
     private int bonusAmount = 0;
 
-    public void SetBonusAmount(int toGrow) => bonusAmount = toGrow;
+    public void SetBonusAmount(int amount) => bonusAmount = amount;
 
     public int SlotsAmount => baseAmount + bonusAmount;
 
@@ -25,10 +25,14 @@ public class Inventory
         {
             Items.Find(i => i.Id == theitem).Amount++;
         }
-        else
+        else if (items.Count <= SlotsAmount)
         {
             InventoryItem newItem = new InventoryItem(theitem, FirstEmpty());
             Items.Add(newItem);
+        }
+        else
+        {
+            return false;
         }
         return true;
     }
