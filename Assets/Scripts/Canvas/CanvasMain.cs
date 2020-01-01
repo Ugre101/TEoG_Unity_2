@@ -200,4 +200,22 @@ public class CanvasMain : MonoBehaviour
         }
         buildingToEnter.SetActive(true);
     }
+
+    private static CanvasMain thisCanvasMain;
+
+    public static CanvasMain GetCanvasMain
+    {
+        get
+        {
+            if (thisCanvasMain == null)
+            {
+                thisCanvasMain = GameObject.FindGameObjectWithTag("GameUI").GetComponent<CanvasMain>();
+            }
+            if (Debug.isDebugBuild)
+            {
+                Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed canvasMain");
+            }
+            return thisCanvasMain;
+        }
+    }
 }

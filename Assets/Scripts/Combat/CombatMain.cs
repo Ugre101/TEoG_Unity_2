@@ -32,12 +32,8 @@ public class CombatMain : MonoBehaviour
     }
 
     private int indexCurrentEnemy = 0;
-
-    [SerializeField]
-    private List<BasicChar> playerTeamChars;
-
-    [SerializeField]
-    private List<EnemyPrefab> enemyTeamChars;
+    private List<BasicChar> playerTeamChars = new List<BasicChar>();
+    private List<EnemyPrefab> enemyTeamChars = new List<EnemyPrefab>();
 
     [SerializeField]
     private CombatTeam playerTeam;
@@ -64,14 +60,14 @@ public class CombatMain : MonoBehaviour
 
     private void Start()
     {
+        if (player == null) { player = PlayerMain.GetPlayer; }
         skillButtons = new List<CombatButton>(skillButtonsContainer.GetComponentsInChildren<CombatButton>());
         // every time someone dies check if a team losses
         if (!skillButtons.Exists(s => s.Skill != null))
         {
             for (int i = 0; i < player.Skills.Count; i++)
             {
-                skillButtons[i].userSkill = skillBook.Dict.Match(player.Skills[i].Id);
-                skillButtons[i].Setup();
+                skillButtons[i].Setup(skillBook.Dict.Match(player.Skills[i].Id));
             }
         }
     }

@@ -1,15 +1,24 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+
 public class SexButton : MonoBehaviour
 {
-    public AfterBattleMain afterBattle;
-    public SexScenes scene;
-    public Button btn;
-    public TextMeshProUGUI title;
+    [SerializeField]
+    private AfterBattleMain afterBattle = null;
+
+    [SerializeField]
+    private SexScenes scene = null;
+
+    [SerializeField]
+    private Button btn = null;
+
+    [SerializeField]
+    private TextMeshProUGUI title = null;
 
     private PlayerMain player;
     private BasicChar other;
+
     public void Start()
     {
         if (btn == null)
@@ -17,12 +26,14 @@ public class SexButton : MonoBehaviour
             btn = GetComponent<Button>();
         }
     }
+
     private void Func()
     {
-        afterBattle.AddToTextBox(afterBattle.LastScene == scene ? scene.ContinueScene(player,other) : scene.StartScene(player,other));
+        afterBattle.AddToTextBox(afterBattle.LastScene == scene ? scene.ContinueScene(player, other) : scene.StartScene(player, other));
         afterBattle.LastScene = scene;
     }
-    public void Setup(PlayerMain parPlayer, BasicChar parPartner,AfterBattleMain parAfterBattle,SexScenes parScene)
+
+    public void Setup(PlayerMain parPlayer, BasicChar parPartner, AfterBattleMain parAfterBattle, SexScenes parScene)
     {
         player = parPlayer;
         other = parPartner;

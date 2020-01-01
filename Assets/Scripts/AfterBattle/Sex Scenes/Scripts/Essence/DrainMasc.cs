@@ -1,27 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Drain masc", menuName = ("Sex/Essence/Drain masc"))]
-public class DrainMasc : SexScenes
+public class DrainMasc : EssScene
 {
-    public PerkInfo essFlow;
-
-    private float ToDrain(PlayerMain drainer)
+    public override bool CanDo(BasicChar target)
     {
-        float drain = drainer.EssDrain;
-        if (drainer.Perks.HasPerk(PerksTypes.EssenceFlow))
-        {
-            drain += essFlow.PosetiveValue;
-        }
-        return drain;
+        return target.CanDrainMasc;
     }
+
     public override string StartScene(PlayerMain player, BasicChar other)
     {
         float have = other.LoseMasc(ToDrain(player));
         player.Masc.Gain(have);
         return "Drain masc";
     }
+
     public override string ContinueScene(PlayerMain player, BasicChar other)
     {
         return StartScene(player, other);

@@ -23,7 +23,7 @@ namespace StartMenuStuff
 
         private void OnceStarted(Scene scene, LoadSceneMode mode)
         {
-            CanvasMain gameUI = GameObject.FindGameObjectWithTag("GameUI").GetComponent<CanvasMain>();
+            CanvasMain gameUI = CanvasMain.GetCanvasMain;
             gameUI.Intro();
             SceneManager.sceneLoaded -= OnceStarted;
         }

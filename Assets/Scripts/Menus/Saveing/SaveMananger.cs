@@ -5,7 +5,6 @@ using UnityEngine;
 public class SaveMananger : MonoBehaviour
 {
     public PlayerMain player;
-    public Transform playerSprite;
     public Dorm dorm;
     public CanvasMain gameUI;
     public MapEvents mapEvents;
@@ -57,7 +56,7 @@ public class SaveMananger : MonoBehaviour
         GameLoaded?.Invoke();
     }
 
-    public Save NewSave => new Save(player, playerSprite, dorm, mapEvents, home, player.VoreChar);
+    public Save NewSave => new Save(player, dorm, mapEvents, home);
 
     public delegate void LoadedGame();
 

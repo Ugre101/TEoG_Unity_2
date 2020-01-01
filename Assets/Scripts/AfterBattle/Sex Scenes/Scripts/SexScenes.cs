@@ -115,6 +115,27 @@ public class SexScenes : ScriptableObject
     public string BiggestDick(BasicChar whom) => Settings.MorInch(whom.SexualOrgans.Dicks.Biggest());
 }
 
+public class EssScene : SexScenes
+{
+    [SerializeField]
+    protected PerkInfo essFlow = null;
+
+    public virtual bool CanDo(BasicChar target)
+    {
+        return target.CanDrainFemi;
+    }
+
+    protected virtual float ToDrain(PlayerMain drainer)
+    {
+        float drain = drainer.EssDrain;
+        if (drainer.Perks.HasPerk(PerksTypes.EssenceFlow))
+        {
+            drain += essFlow.PosetiveValue;
+        }
+        return drain;
+    }
+}
+
 public class VoreScene : SexScenes
 {
     public virtual bool CanDo(BasicChar player, Vore.ThePrey Other)

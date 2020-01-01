@@ -1,4 +1,6 @@
-﻿public class FemiSlider : EssenceSlider
+﻿using UnityEngine;
+
+public class FemiSlider : EssenceSlider
 {
     public override void Init(BasicChar who)
     {
@@ -14,6 +16,9 @@
 
     private void ChangeFemi()
     {
+        Color temp = _image.color;
+        temp.a = 0.5f;
+        _image.color = temp;
         essValue.text = basicChar.Femi.StringAmount;
     }
 }

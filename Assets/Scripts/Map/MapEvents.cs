@@ -80,10 +80,10 @@ public class MapEvents : MonoBehaviour
         {
             child.gameObject.SetActive(false);
         }
-        ActiveMap = save.world;
+        ActiveMap = save.World;
         CurrentWorld.SetActive(true);
-        CurrentMap = Children.Find(m => m.name == save.map).transform.gameObject.GetComponent<Tilemap>();
+        CurrentMap = Children.Find(m => m.name == save.Map).transform.gameObject.GetComponent<Tilemap>();
         WorldMapChange?.Invoke();
-        player.transform.position = save.pos;
+        player.transform.position = save.Pos;
     }
 }

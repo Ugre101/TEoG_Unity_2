@@ -8,8 +8,7 @@ public class EnterHomeTrigger : MonoBehaviour
     {
         if (GameUI == null)
         {
-            GameUI = GameObject.FindGameObjectWithTag("GameUI").GetComponent<CanvasMain>();
-            Debug.LogError("You forgot to assing a " + this);
+            GameUI = CanvasMain.GetCanvasMain;
         }
     }
 

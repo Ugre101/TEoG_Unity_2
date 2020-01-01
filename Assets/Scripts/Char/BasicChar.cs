@@ -9,7 +9,6 @@ public abstract class BasicChar : MonoBehaviour
     {
         vore = new VoreEngine(this);
     }
-
     [SerializeField]
     protected Identity identity;
 

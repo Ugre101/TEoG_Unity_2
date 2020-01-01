@@ -4,17 +4,14 @@ using UnityEngine;
 [System.Serializable]
 public class Dorm : MonoBehaviour
 {
-    public Home home;
+    [SerializeField]
+    private Home home = null;
 
     public bool HasSpace => home.Stats.Dorm.Level * 3 > transform.childCount;
 
-    public bool CanTake(BasicChar wannaTake) => HasSpace && wannaTake.SexStats.SessionOrgasm >= 0;
-
     private BasicChar[] ArrayServants => GetComponentsInChildren<BasicChar>();
     private bool ServantsDirty = true;
-
-    [SerializeField]
-    private List<BasicChar> lastServants;
+    private List<BasicChar> lastServants = null;
 
     public List<BasicChar> Servants
     {
@@ -36,7 +33,8 @@ public class Dorm : MonoBehaviour
         ServantsDirty = true;
     }
 
-    public List<GameObject> servantPrefabs;
+    [SerializeField]
+    private List<GameObject> servantPrefabs = new List<GameObject>();
 
     public List<DormSave> Save()
     {

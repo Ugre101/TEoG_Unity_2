@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class SexChar : MonoBehaviour
 {
-    public BasicChar whom;
+    [SerializeField]
+    private BasicChar whom;
 
     [Header("Organ descs")]
     [SerializeField]
@@ -14,17 +15,19 @@ public class SexChar : MonoBehaviour
     private TextMeshProUGUI Balls = null, Vagina = null, Boobs = null;
 
     [Header("Sliders")]
-    public MascSlider mascSlider;
+    [SerializeField]
+    private MascSlider mascSlider = null;
 
-    public FemiSlider femiSlider;
-    public Slider ArousalSlider;
-    public TextMeshProUGUI OrgasmCounter;
+    [SerializeField]
+    private FemiSlider femiSlider = null;
 
-    public virtual void OnEnable()
-    {
-    }
+    [SerializeField]
+    private Slider ArousalSlider = null;
 
-    public virtual void OnDisable()
+    [SerializeField]
+    private TextMeshProUGUI OrgasmCounter = null;
+
+    public void OnDisable()
     {
         whom.SexStats.ArousalChangeEvent -= Arousal;
         SexualOrgan.SomethingChanged -= Organs;

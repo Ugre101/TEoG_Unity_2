@@ -2,11 +2,18 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AfterBattleMain : MonoBehaviour
 {
-    public PlayerMain player;
-    public List<EnemyPrefab> enemies;
+    [SerializeField]
+    private PlayerMain player = null;
+
+    [SerializeField]
+    private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
+
+    [SerializeField]
+    private CanvasMain canvasMain = null;
 
     [SerializeField]
     private TextMeshProUGUI textBox = null;
@@ -17,27 +24,36 @@ public class AfterBattleMain : MonoBehaviour
     [SerializeField]
     private VoreButton voreButton = null;
 
+    [SerializeField]
+    private EssSexButton essSexButton = null;
+
     #region Button containers
 
     [Header("Buttons containers")]
     [SerializeField]
-    private GameObject buttons = null;
-
-    //    [SerializeField]
-    //    private GameObject DrainActions = null, MiscActions = null;
+    private Transform buttons = null;
 
     [SerializeField]
-    private GameObject drainMasc = null, drainFemi = null;
+    private Transform DrainActions = null;
+
+    //, MiscActions = null;
 
     #endregion Button containers
 
     #region Scene lists
 
     [Header("ScriptableObject Scenes")]
-    public List<SexScenes> dickScenes;
+    [SerializeField]
+    private List<SexScenes> dickScenes = new List<SexScenes>();
 
-    public List<SexScenes> boobScenes, mouthScenes, vaginaScenes, analScenes;
-    public List<VoreScene> voreScenes;
+    [SerializeField]
+    private List<SexScenes> boobScenes = new List<SexScenes>(), mouthScenes = new List<SexScenes>(), vaginaScenes = new List<SexScenes>(), analScenes = new List<SexScenes>();
+
+    [SerializeField]
+    private List<EssScene> essScenes = new List<EssScene>();
+
+    [SerializeField]
+    private List<VoreScene> voreScenes = new List<VoreScene>();
 
     #endregion Scene lists
 
@@ -59,6 +75,9 @@ public class AfterBattleMain : MonoBehaviour
     [SerializeField]
     private SexChar playerChar = null, enemyChar = null;
 
+    [SerializeField]
+    private Button sortAll = null, sortMouth = null, sortVore = null;
+
     private EnemyPrefab newTarget;
     public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
 
@@ -67,6 +86,28 @@ public class AfterBattleMain : MonoBehaviour
 
     //TODO add extra for perks
     private int MaxOrgasm => 1 + Mathf.FloorToInt(player.Stats.End / 20);
+
+    private void Start()
+    {
+        if (canvasMain == null) { canvasMain = CanvasMain.GetCanvasMain; }
+        sortAll.onClick.AddListener(() => SceneChecker(allSexScenes, player.Vore.Active));
+        sortMouth.onClick.AddListener(() => SceneChecker(mouthScenes));
+        sortVore.onClick.AddListener(() => SceneChecker(player.Vore.Active));
+        VoreButton.VoredEvent += Vored;
+    }
+
+    private void Vored()
+    {
+        if (newTarget == Target)
+        {
+            newTarget = null;
+        }
+        enemies.Remove(Target);
+        if (enemies.Count < 1)
+        {
+            buttons.transform.KillChildren();
+        }
+    }
 
     private void OnDisable()
     {
@@ -79,6 +120,7 @@ public class AfterBattleMain : MonoBehaviour
 
     public void Setup(List<EnemyPrefab> chars)
     {
+        sortVore.gameObject.SetActive(player.Vore.Active);
         gameObject.SetActive(true);
         enemies = chars;
         textBox.text = null;
@@ -107,7 +149,7 @@ public class AfterBattleMain : MonoBehaviour
                 allSexScenes = dickScenes.Concat(mouthScenes).Concat(boobScenes)
                     .Concat(vaginaScenes).Concat(analScenes).ToList();
             }
-            SceneChecker(buttons, allSexScenes);
+            SceneChecker(allSexScenes, player.Vore.Active);
             Leave.SetActive(true);
         }
         else
@@ -116,17 +158,19 @@ public class AfterBattleMain : MonoBehaviour
         }
         if (Target.CanTake(Target.SexStats.SessionOrgasm))
         {
-            TakeHome.SetActive(dorm.CanTake(Target));
+            TakeHome.SetActive(dorm.HasSpace);
         }
+        DrainActions.KillChildren();
         if (Target.SexStats.CanDrain)
         {
-            drainMasc.gameObject.SetActive(Target.CanDrainMasc);
-            drainFemi.gameObject.SetActive(Target.CanDrainFemi);
-        }
-        else
-        {
-            drainFemi.gameObject.SetActive(false);
-            drainMasc.gameObject.SetActive(false);
+            essScenes.ForEach(ess =>
+            {
+                if (ess.CanDo(Target))
+                {
+                    EssSexButton essBtn = Instantiate(essSexButton, DrainActions);
+                    essBtn.Setup(this, ess);
+                }
+            });
         }
     }
 
@@ -152,18 +196,34 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
-    private void SceneChecker(GameObject container, List<SexScenes> scenes)
+    private void SceneChecker(List<SexScenes> scenes, bool showVore = false)
     {
-        transform.KillChildren(container.transform);
+        buttons.transform.KillChildren(buttons.transform);
         foreach (SexScenes scene in scenes.FindAll(s => s.CanDo(player, Target)))
         {
-            SexButton button = Instantiate(sexButton, container.transform);
+            SexButton button = Instantiate(sexButton, buttons.transform);
             button.Setup(player, Target, this, scene);
         }
-        foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, Target)))
+        if (showVore)
         {
-            VoreButton btn = Instantiate(voreButton, container.transform);
-            btn.Setup(player, Target, this, vore);
+            foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
+            {
+                VoreButton btn = Instantiate(voreButton, buttons.transform);
+                btn.Setup(player, Target, this, vore);
+            }
+        }
+    }
+
+    private void SceneChecker(bool showVore)
+    {
+        buttons.transform.KillChildren(buttons.transform);
+        if (showVore)
+        {
+            foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
+            {
+                VoreButton btn = Instantiate(voreButton, buttons.transform);
+                btn.Setup(player, Target, this, vore);
+            }
         }
     }
 

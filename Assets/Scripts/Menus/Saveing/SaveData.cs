@@ -14,14 +14,14 @@ public class Save
     private readonly VoreChar voreChar;
     private PlayerSave save;
 
-    public Save(PlayerMain player, Transform pos, Dorm theDorm, MapEvents map, Home parHome, VoreChar parVoreChar)
+    public Save(PlayerMain player, Dorm theDorm, MapEvents map, Home parHome)
     {
         Player = player;
-        Pos = pos.transform;
+        Pos = player.transform;
         dorm = theDorm;
         mapEvents = map;
         home = parHome;
-        voreChar = parVoreChar;
+        voreChar = player.VoreChar;
     }
 
     public string SaveData()
@@ -41,7 +41,7 @@ public class Save
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
         mapEvents.Load(fullSave.posPart);
-        JsonUtility.FromJsonOverwrite(fullSave.playerPart.who, Player);
+        JsonUtility.FromJsonOverwrite(fullSave.playerPart.Who, Player);
         home.Stats.Load(fullSave.homePart);
         dorm.Load(fullSave.dormPart);
         voreChar.Load(fullSave.voreSaves, Player);
@@ -75,23 +75,31 @@ public class FullSave
 }
 
 [Serializable]
-public class PlayerSave
+public struct PlayerSave
 {
-    //public Vector3 pos;
-    public string who;
+    [SerializeField]
+    private string who;
 
-    public PlayerSave(BasicChar whom)
-    {
-        who = JsonUtility.ToJson(whom);
-    }
+    public PlayerSave(BasicChar whom) => who = JsonUtility.ToJson(whom);
+
+    public string Who => who;
 }
 
 [Serializable]
-public class PosSave
+public struct PosSave
 {
-    public Vector3 pos;
-    public WorldMaps world;
-    public string map;
+    [SerializeField]
+    private Vector3 pos;
+
+    [SerializeField]
+    private WorldMaps world;
+
+    [SerializeField]
+    private string map;
+
+    public Vector3 Pos => pos;
+    public WorldMaps World => world;
+    public string Map => map;
 
     public PosSave(Vector3 vec3, WorldMaps currWorld, string currMap)
     {
@@ -102,7 +110,7 @@ public class PosSave
 }
 
 [Serializable]
-public class DateSave
+public struct DateSave
 {
     public int year, month, day, hour;
 
@@ -116,7 +124,7 @@ public class DateSave
 }
 
 [Serializable]
-public class HomeSave
+public struct HomeSave
 {
     public int dormLevel, dormGymLevel, dormKitchenLevel;
 

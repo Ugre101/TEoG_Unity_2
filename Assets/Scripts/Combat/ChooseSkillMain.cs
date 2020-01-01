@@ -5,22 +5,42 @@ using UnityEngine.UI;
 
 public class ChooseSkillMain : MonoBehaviour
 {
-    public PlayerMain player;
-    public GameObject container;
-    public List<BasicSkill> knowSkills;
-    public GameObject prefab;
-    public Button chooseNone;
-    public CombatButton combatButton;
-    public GameObject hoverBlock;
-    public TextMeshProUGUI hoverText;
-    public SkillButtons skillButtons;
-    public SkillBook skillBook;
+    #region Properties
+
+    [SerializeField]
+    private PlayerMain player = null;
+
+    [SerializeField]
+    private GameObject container = null;
+
+    [SerializeField]
+    private List<BasicSkill> knowSkills = new List<BasicSkill>();
+
+    [SerializeField]
+    private ChooseSkill prefab = null;
+
+    [SerializeField]
+    private Button chooseNone = null;
+
+    private CombatButton combatButton = null;
+
+    [SerializeField]
+    private GameObject hoverBlock = null;
+
+    [SerializeField]
+    private TextMeshProUGUI hoverText = null;
+
+    [SerializeField]
+    private SkillButtons skillButtons = null;
+
+    [SerializeField]
+    private SkillBook skillBook = null;
 
     [Header("Sorting buttons")]
-    public Button physical;
+    [SerializeField]
+    private Button physical, magical, seduction;
 
-    public Button magical;
-    public Button seduction;
+    #endregion Properties
 
     private void Start()
     {
@@ -29,25 +49,24 @@ public class ChooseSkillMain : MonoBehaviour
         seduction.onClick.AddListener(() => SpawnTypeofSkills(SkillType.Seduction));
     }
 
-    private void OnEnable()
+    public void Toggle(CombatButton parCombatBtn)
     {
+        if (player == null) { player = PlayerMain.GetPlayer; }
+        gameObject.SetActive(true);
+        combatButton = parCombatBtn;
         // Clean container
         transform.KillChildren(container.transform);
         Button noneBtn = Instantiate(chooseNone, container.transform);
-        noneBtn.onClick.AddListener(() => { CleanSlot(); skillButtons.ToogleButtons(); });
+        noneBtn.onClick.AddListener(() => { combatButton.Clean(); skillButtons.ToogleButtons(); });
         // Add all skills
         foreach (Skill skill in player.Skills)
         {
-            GameObject option = Instantiate(prefab, container.transform);
-            ChooseSkill choose = option.GetComponent<ChooseSkill>();
-            UserSkill userSkill = skillBook.Dict.Match(skill.Id);
-            choose.Setup(userSkill, combatButton, hoverBlock, hoverText);
-            Button btn = option.GetComponent<Button>();
-            btn.onClick.AddListener(skillButtons.ToogleButtons);
+            ChooseSkill choose = Instantiate(prefab, container.transform);
+            choose.Setup(skillBook.Dict.Match(skill.Id), combatButton, hoverBlock, hoverText, skillButtons.ToogleButtons);
         }
     }
 
-    public void SpawnTypeofSkills(SkillType skillType)
+    private void SpawnTypeofSkills(SkillType skillType)
     {
         // Clean container
         transform.KillChildren(container.transform);
@@ -56,17 +75,9 @@ public class ChooseSkillMain : MonoBehaviour
             List<UserSkill> mySkills = skillBook.Dict.OwnedSkills(player.Skills);
             foreach (UserSkill skill in mySkills.FindAll(s => s.skill.Type == skillType))
             {
-                GameObject option = Instantiate(prefab, container.transform);
-                ChooseSkill choose = option.GetComponent<ChooseSkill>();
-                choose.Setup(skill, combatButton, hoverBlock, hoverText);
+                ChooseSkill choose = Instantiate(prefab, container.transform);
+                choose.Setup(skill, combatButton, hoverBlock, hoverText, skillButtons.ToogleButtons);
             }
         }
-    }
-
-    private void CleanSlot()
-    {
-        combatButton.img.gameObject.SetActive(false);
-        combatButton.userSkill = null;
-        combatButton.title.text = null;
     }
 }

@@ -23,7 +23,6 @@ public class EnemySpawner : MonoBehaviour
     // Private
     private readonly List<Vector3> _empty = new List<Vector3>();
 
-    private readonly List<GameObject> _enemies = new List<GameObject>();
     private readonly List<GameObject> _CurrEnemies = new List<GameObject>();
     private Tilemap _currMap;
 
@@ -38,13 +37,12 @@ public class EnemySpawner : MonoBehaviour
     private void Update()
     {
         if (_empty.Count < 1) { AvailblePos(); }
-        else if (_enemies.Count < enemyToAdd && _CurrEnemies.Count > 0)
+        else if (transform.childCount < enemyToAdd && _CurrEnemies.Count > 0)
         {
             int index = Random.Range(0, _empty.Count);
             int enemyIndex = Random.Range(0, _CurrEnemies.Count);
             GameObject enemu = Instantiate(_CurrEnemies[enemyIndex], _empty[index], Quaternion.identity, transform);
             enemu.name = _CurrEnemies[enemyIndex].name;
-            _enemies.Add(enemu);
             _empty.RemoveAt(index);
         }
     }
@@ -91,12 +89,11 @@ public class EnemySpawner : MonoBehaviour
         _currMap = mapEvents.CurrentMap;
         AvailblePos();
         CurrentEnemies();
-        foreach (GameObject e in _enemies)
+        foreach (Transform e in transform)
         {
-            Destroy(e);
+            Destroy(e.gameObject);
         }
         _empty.Clear();
-        _enemies.Clear();
     }
 
     private void CurrentEnemies()

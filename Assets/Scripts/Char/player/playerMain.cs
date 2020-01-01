@@ -33,4 +33,22 @@ public class PlayerMain : BasicChar
         Identity.FirstName = first;
         Identity.LastName = last;
     }
+
+    private static PlayerMain thisPlayer;
+
+    public static PlayerMain GetPlayer
+    {
+        get
+        {
+            if (thisPlayer == null)
+            {
+                thisPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
+            }
+            if (Debug.isDebugBuild)
+            {
+                Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed playermain");
+            }
+            return thisPlayer;
+        }
+    }
 }

@@ -21,9 +21,8 @@ public class SkillButtons : MonoBehaviour
 
     public void ToogleChooseSkill(CombatButton target)
     {
-        ChooseSkillMain.combatButton = target;
+        ChooseSkillMain.Toggle(target);
         buttons.SetActive(false);
-        ChooseSkillMain.gameObject.SetActive(true);
     }
 
     public void ToogleButtons()

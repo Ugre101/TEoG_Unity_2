@@ -15,8 +15,7 @@ public class EnterBuilding : MonoBehaviour
         // incase of forgetting to assing gameui for new building
         if (gameUI == null)
         {
-            Debug.Log("You forgot to assing gameUI to: " + name);
-            gameUI = GameObject.FindGameObjectWithTag("GameUI").GetComponent<CanvasMain>();
+            gameUI = CanvasMain.GetCanvasMain;
         }
     }
 

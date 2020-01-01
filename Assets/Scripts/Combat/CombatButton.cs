@@ -5,15 +5,32 @@ using UnityEngine.UI;
 
 public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public UserSkill userSkill;
+    [SerializeField]
+    private UserSkill userSkill = null;
+
     public BasicSkill Skill => userSkill?.skill;
-    public TextMeshProUGUI title, keycode;
-    public CombatMain combatButtons;
-    public Button btn;
-    public Image img;
-    public KeyCode quickKey;
-    public SkillButtons skillButtons;
-    public Image coolDownImg;
+
+    [SerializeField]
+    private TextMeshProUGUI title = null, keycode = null;
+
+    [SerializeField]
+    private CombatMain combatButtons = null;
+
+    [SerializeField]
+    private Button btn = null;
+
+    [SerializeField]
+    private Image img = null;
+
+    [SerializeField]
+    private KeyCode quickKey = KeyCode.None;
+
+    [SerializeField]
+    private SkillButtons skillButtons = null;
+
+    [SerializeField]
+    private Image coolDownImg = null;
+
     private PlayerMain Player => combatButtons.player;
     private BasicChar Target => combatButtons.Target;
     private bool hovering;
@@ -25,9 +42,10 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     private void Start()
     {
         btn.onClick.AddListener(Click);
+        keycode.text = quickKey.ToString().Replace("Alpha", string.Empty).Replace(" ", string.Empty);
         if (Skill != null)
         {
-            Setup();
+            Setup(userSkill);
         }
         else
         {
@@ -91,12 +109,20 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
     }
 
-    public void Setup()
+    public void Setup(UserSkill addSkill)
     {
+        userSkill = addSkill;
         title.text = Skill.Title;
         img.gameObject.SetActive(true);
         img.sprite = Skill.Icon;
         CoolDownHandler();
+    }
+
+    public void Clean()
+    {
+        img.gameObject.SetActive(false);
+        userSkill = null;
+        title.text = null;
     }
 
     public void OnPointerClick(PointerEventData eventData)
