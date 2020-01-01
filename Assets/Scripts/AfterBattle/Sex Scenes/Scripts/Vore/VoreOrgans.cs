@@ -34,11 +34,7 @@ namespace Vore
         /// <summary>Returns how full it is; 0.5 = 50%</summary>
         public virtual float FillPrecent => Current / MaxCapacity();
 
-        public virtual bool CanVore(ThePrey parPrey)
-        {
-            Debug.Log(Current + parPrey.Prey.Weight + " <= " + MaxCapacity());
-            return Current + parPrey.Prey.Weight <= MaxCapacity();
-        }
+        public virtual bool CanVore(ThePrey parPrey) => Current + parPrey.Prey.Weight <= MaxCapacity();
 
         public virtual bool Vore(ThePrey parPrey)
         {
@@ -62,6 +58,7 @@ namespace Vore
                 }
                 voreExp += Mathf.FloorToInt(toDigest);
             }
+            Digested.ForEach(d => Preys.Remove(d));
             return Digested;
         }
     }

@@ -4,24 +4,30 @@ using UnityEngine.Tilemaps;
 public class CameraController : MonoBehaviour
 {
     // Public
-    public Transform _player;
+    [SerializeField]
+    private Transform _player = null;
 
-    public MapEvents mapEvents;
-    public KeyBindings keyBindings;
+    [SerializeField]
+    private KeyBindings keyBindings = null;
 
     [Header("Settings")]
-    public float _smoothing = 1f;
+    [SerializeField]
+    private float _smoothing = 1f;
 
-    public float _maxCam = 20f;
+    [SerializeField]
+    private float _maxCam = 20f;
 
     [Range(0.01f, 0.5f)]
-    public float zoomSpeed = 0.1f;
+    [SerializeField]
+    private float zoomSpeed = 0.1f;
 
     [Tooltip("Less is more, changes how much out of map camera can see")]
     [Range(0.1f, 0.6f)]
-    public float viewLimit = 1f;
+    [SerializeField]
+    private float viewLimit = 1f;
 
-    public Vector3 _offset = new Vector3(1f, 0, -10);
+    [SerializeField]
+    private Vector3 _offset = new Vector3(1f, 0, -10);
 
     // Private
     private Tilemap _map;
@@ -38,7 +44,11 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        _map = mapEvents.CurrentMap;
+        if (_player == null)
+        {
+            _player = PlayerMain.GetPlayer.transform;
+        }
+        _map = MapEvents.CurrentMap;
         MapEvents.WorldMapChange += DoorChanged;
         cam = GetComponent<Camera>();
         minTile = _map.CellToWorld(_map.cellBounds.min);
@@ -110,7 +120,7 @@ public class CameraController : MonoBehaviour
 
     private void DoorChanged()
     {
-        _map = mapEvents.CurrentMap;
+        _map = MapEvents.CurrentMap;
         minTile = _map.CellToWorld(_map.cellBounds.min);
         maxTile = _map.CellToWorld(_map.cellBounds.max);
         TilemapLimits();

@@ -13,6 +13,11 @@ public class EssenceSystem
     public Essence Masc => masc;
     public Essence Femi => femi;
 
+    [SerializeField]
+    private bool autoEss = true;
+
+    public bool AutoEss => autoEss;
+    public bool SetAutoEss { set => autoEss = value; }
     public float bonusDrain = 0;
 
     /// <summary>

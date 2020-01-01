@@ -9,17 +9,15 @@ public class Save
     private readonly PlayerMain Player;
     private readonly Transform Pos;
     private readonly Dorm dorm;
-    private readonly MapEvents mapEvents;
     private readonly Home home;
     private readonly VoreChar voreChar;
     private PlayerSave save;
 
-    public Save(PlayerMain player, Dorm theDorm, MapEvents map, Home parHome)
+    public Save(PlayerMain player, Dorm theDorm, Home parHome)
     {
         Player = player;
         Pos = player.transform;
         dorm = theDorm;
-        mapEvents = map;
         home = parHome;
         voreChar = player.VoreChar;
     }
@@ -28,7 +26,7 @@ public class Save
     {
         save = new PlayerSave(Player);
         List<DormSave> temp = dorm.Save();
-        PosSave pos = new PosSave(Pos.position, mapEvents.ActiveMap, mapEvents.CurrentMap.transform.name);
+        PosSave pos = new PosSave(Pos.position, MapEvents.ActiveMap, MapEvents.CurrentMap.transform.name);
         HomeSave homeSave = home.Stats.Save();
         VoreSaves voreSaves = voreChar.Save();
         FullSave fullSave = new FullSave(save, pos, temp, homeSave, voreSaves);
@@ -40,7 +38,7 @@ public class Save
     public void LoadData(string json)
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
-        mapEvents.Load(fullSave.posPart);
+        MapEvents.GetMapEvents.Load(fullSave.posPart);
         JsonUtility.FromJsonOverwrite(fullSave.playerPart.Who, Player);
         home.Stats.Load(fullSave.homePart);
         dorm.Load(fullSave.dormPart);

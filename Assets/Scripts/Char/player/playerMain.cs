@@ -9,6 +9,19 @@ public class PlayerMain : BasicChar
 
     public PlayerFlags PlayerFlags => playerFlags;
 
+    public override void Awake()
+    {
+        if (thisPlayer == null)
+        {
+            thisPlayer = this;
+        }
+        else if (thisPlayer != this)
+        {
+            Destroy(gameObject);
+        }
+        base.Awake();
+    }
+
     // Start is called before the first frame update
     public override void Start()
     {

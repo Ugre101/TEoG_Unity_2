@@ -5,13 +5,13 @@ using UnityEngine;
 public class TownHall : Building
 {
     [SerializeField]
-    private TextMeshProUGUI changeNameText;
+    private TextMeshProUGUI changeNameText = null;
 
     [SerializeField]
-    private GameObject nameBox;
+    private GameObject nameBox = null;
 
     [SerializeField]
-    private TextMeshProUGUI textBox;
+    private TextMeshProUGUI textBox = null;
 
     private string SetChangeNameBtnText { set => changeNameText.text = value; }
     private string SetTextBox { set { textBox.text = value; } }
@@ -54,5 +54,4 @@ public class TownHall : Building
         SetChangeNameBtnText = isActive ? "Change name" : "Back";
         SetTextBox = "";
     }
-
 }

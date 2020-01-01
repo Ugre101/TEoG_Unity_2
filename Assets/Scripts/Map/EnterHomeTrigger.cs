@@ -2,7 +2,8 @@
 
 public class EnterHomeTrigger : MonoBehaviour
 {
-    public CanvasMain GameUI;
+    [SerializeField]
+    private CanvasMain GameUI = null;
 
     private void Start()
     {
@@ -14,7 +15,7 @@ public class EnterHomeTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(PlayerMain.GetPlayer.tag))
         {
             GameUI.EnterHome();
         }

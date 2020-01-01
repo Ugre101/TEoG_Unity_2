@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SaveSrollListControl : MonoBehaviour
 {
-    public SaveMananger saveMananger;
     public LoadButton exload;
     public GameObject container;
 
@@ -31,7 +30,7 @@ public class SaveSrollListControl : MonoBehaviour
         foreach (FileInfo f in _fileInfo)
         {
             LoadButton newButton = Instantiate(exload, container.transform);
-            newButton.Setup(saveMananger, f,this);
+            newButton.Setup(f,this);
         }
     }
 }

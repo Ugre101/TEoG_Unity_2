@@ -4,14 +4,13 @@ using UnityEngine.UI;
 
 public class ChangeName : MonoBehaviour
 {
-    [SerializeField]
-    private BasicChar player = null;
+    private BasicChar player => PlayerMain.GetPlayer;
 
     [SerializeField]
-    private TMP_InputField firstName, lastName;
+    private TMP_InputField firstName = null, lastName = null;
 
     [SerializeField]
-    private Button Accept;
+    private Button Accept = null;
 
     private void Start()
     {

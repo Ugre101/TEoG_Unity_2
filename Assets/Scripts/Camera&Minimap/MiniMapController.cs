@@ -3,15 +3,22 @@
 public class MiniMapController : MonoBehaviour
 {
     // Public
-    public Transform _player;
+    [SerializeField]
+    private Transform _player = null;
 
-    public KeyBindings keys;
+    [SerializeField]
+    private KeyBindings keys = null;
 
-    public GameObject miniMap, bigMap;
-    public RenderTexture miniTexture,bigTexture;
+    [SerializeField]
+    private GameObject miniMap = null, bigMap = null;
+
+    [SerializeField]
+    private RenderTexture miniTexture = null, bigTexture = null;
+
     [Header("Settings")]
     [Range(1f, 10f)]
-    public float smoothing = 1f;
+    [SerializeField]
+    private float smoothing = 1f;
 
     // Private
     private bool mini = true, big = false;
@@ -20,40 +27,44 @@ public class MiniMapController : MonoBehaviour
     private Vector3 _offset = new Vector3(1f, 0, -10);
 
     private Camera cam;
-  //  private float _down;
+    //  private float _down;
 
-    private enum States
+    private enum MiniCamStates
     {
         Hidden,
         Mini,
         Big
     }
 
-    private States curState;
+    private MiniCamStates curState;
 
-    private States NewState
+    private MiniCamStates NewState
     {
         get
         {
-            if (curState == States.Big)
+            if (curState == MiniCamStates.Big)
             {
-                curState = States.Hidden;
-                return curState;
-            } else
+                curState = MiniCamStates.Hidden;
+            }
+            else
             {
                 curState++;
-                return curState;
             }
+            return curState;
         }
     }
 
     // Start is called before the first frame update
     private void Start()
     {
+        if (_player == null)
+        {
+            _player = PlayerMain.GetPlayer.transform;
+        }
         cam = GetComponent<Camera>();
         cam.orthographicSize = 80f;
         // add event to change main map.
-        curState = States.Mini;
+        curState = MiniCamStates.Mini;
         UpdateMapState(curState);
     }
 
@@ -67,7 +78,9 @@ public class MiniMapController : MonoBehaviour
             UpdateMapState(NewState);
             //  _down = Time.time;
         }
+
         #region Old hold down code
+
         /*  if (Input.GetKeyUp(keys.mapKey))
           {
               if (Time.time - _down > 0.8f)
@@ -86,8 +99,10 @@ public class MiniMapController : MonoBehaviour
                   UpdateMaps();
               }
           }*/
-        #endregion
+
+        #endregion Old hold down code
     }
+
     /*
     private void UpdateMaps()
     {
@@ -97,23 +112,23 @@ public class MiniMapController : MonoBehaviour
     }
     */
 
-    private void UpdateMapState(States state)
+    private void UpdateMapState(MiniCamStates state)
     {
         switch (state)
         {
-            case States.Big:
+            case MiniCamStates.Big:
                 mini = false;
                 big = true;
                 cam.orthographicSize = 160f;
                 cam.targetTexture = bigTexture;
                 break;
 
-            case States.Hidden:
+            case MiniCamStates.Hidden:
                 mini = false;
                 big = false;
                 break;
 
-            case States.Mini:
+            case MiniCamStates.Mini:
             default:
                 mini = true;
                 big = false;

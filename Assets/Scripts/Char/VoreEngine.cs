@@ -52,9 +52,23 @@ namespace Vore
             Vagina = new VoreVagina(parPred);
         }
 
+        private bool? playerIsPred;
+
+        private bool PlayerPred
+        {
+            get
+            {
+                if (!playerIsPred.HasValue)
+                {
+                    playerIsPred = pred.CompareTag(PlayerMain.GetPlayer.tag);
+                }
+                return playerIsPred.Value;
+            }
+        }
+
         public void Digest()
         {
-            if (pred.CompareTag("Player"))
+            if (PlayerPred)
             {
                 List<ThePrey> Ballsdigested = Balls.Digest();
                 if (Ballsdigested.Count > 0)

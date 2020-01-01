@@ -16,6 +16,8 @@ public class Fetus
     [SerializeField]
     private bool playerFather = false, playerMother = false;
 
+    public bool PlayerFather => playerFather;
+    public bool PlayerMother => playerMother;
     public string FatherName => father.FullName;
     public string MotherName => mother.FullName;
     public Races Race => race;

@@ -17,7 +17,7 @@ public class CanvasMain : MonoBehaviour
     private MenuPanels menuPanels = new MenuPanels();
 
     [SerializeField]
-    private CombatMain combatMain;
+    private CombatMain combatMain = null;
 
     #endregion Properties
 
@@ -201,6 +201,18 @@ public class CanvasMain : MonoBehaviour
         buildingToEnter.SetActive(true);
     }
 
+    private void Awake()
+    {
+        if (thisCanvasMain == null)
+        {
+            thisCanvasMain = this;
+        }
+        else if (thisCanvasMain != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private static CanvasMain thisCanvasMain;
 
     public static CanvasMain GetCanvasMain
@@ -211,6 +223,7 @@ public class CanvasMain : MonoBehaviour
             {
                 thisCanvasMain = GameObject.FindGameObjectWithTag("GameUI").GetComponent<CanvasMain>();
             }
+            // might seem over kill but it's good to know if something calls getcanvas hundreds of times.
             if (Debug.isDebugBuild)
             {
                 Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed canvasMain");

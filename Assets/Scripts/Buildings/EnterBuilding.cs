@@ -21,7 +21,7 @@ public class EnterBuilding : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player"))
+        if (collider.CompareTag(PlayerMain.GetPlayer.tag))
         {
             gameUI.EnterBuilding(BuildingToEnter);
         }

@@ -47,14 +47,14 @@ namespace StartMenuStuff
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            SaveMananger saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
+            SaveMananger saveMananger = SaveMananger.Instance;
             string path = file.FullName;
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
                 Save save = saveMananger.NewSave;
                 save.LoadData(json);
-                saveMananger.gameUI.Resume();
+                CanvasMain.GetCanvasMain.Resume();
                 SceneManager.sceneLoaded -= OnSceneLoaded;
             }
             else

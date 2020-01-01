@@ -13,17 +13,14 @@ public class BaseEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
     }
 
     public virtual void OnPointerEnter(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
     }
 
     public virtual void OnPointerExit(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
     }
 }
 
@@ -33,7 +30,6 @@ public class TempEffect : BaseEffect
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        throw new System.NotImplementedException();
     }
 
     public override void OnPointerEnter(PointerEventData eventData)

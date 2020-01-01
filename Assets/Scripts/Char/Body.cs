@@ -11,7 +11,7 @@ public class BodyStat
     public float Value => value;
 
     /// <summary>Max(Value - Abs(toLose),0.01f)</summary>
-    public void LoseFlat(float toLose) => value = Mathf.Max(value - Mathf.Abs(toLose), 0.01f);
+    public void LoseFlat(float toLose) => value = Mathf.Max(value - Mathf.Abs(toLose), 0f);
 
     /// <summary>Value *= clamp(value, 0.01f, 1f) </summary>
     public void LosePrecent(float lostPrecent) => value *= Mathf.Clamp(lostPrecent, 0.001f, 1f);

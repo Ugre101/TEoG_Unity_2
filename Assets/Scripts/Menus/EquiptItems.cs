@@ -2,8 +2,7 @@
 
 public class EquiptItems : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerMain player = null;
+    private PlayerMain player => PlayerMain.GetPlayer;
 
     public Items items;
     [field: SerializeField] public EquipmentSlot Head { get; private set; }

@@ -3,23 +3,39 @@ using UnityEngine.Tilemaps;
 
 public class TelePort : MonoBehaviour
 {
-    private MapEvents mapEvents;
-    public WorldMaps toWorld;
-    public Tilemap toMap;
+    [SerializeField]
+    private MapEvents mapEvents = null;
+
+    [SerializeField]
+    private WorldMaps toWorld = WorldMaps.StartMap;
+
+    [SerializeField]
+    private Tilemap toMap = null;
 
     [Header("Optional landing platform")]
-    public Tilemap toPlatform;
+    [SerializeField]
+    private Tilemap toPlatform = null;
 
     public void Start()
     {
-        mapEvents = GetComponentInParent<MapEvents>();
+        if (mapEvents == null)
+        {
+            mapEvents = MapEvents.GetMapEvents;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag(PlayerMain.GetPlayer.tag))
         {
-            mapEvents.Teleport(toWorld, toMap, toPlatform ?? null);
+            if (toPlatform == null)
+            {
+                mapEvents.Teleport(toWorld, toMap);
+            }
+            else
+            {
+                mapEvents.Teleport(toWorld, toMap, toPlatform);
+            }
         }
     }
 }

@@ -62,8 +62,7 @@ public class InventoryHandler : MonoBehaviour
         foreach (InventoryItem item in player.Inventory.Items)
         {
             DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.InvPos].transform);
-            dragInv.item = items.ItemsDict.Find(i => i.ItemId == item.Id);
-            dragInv.NewItem(this, item, item.InvPos);
+            dragInv.NewItem(this, item, item.InvPos, items.ItemsDict.Find(i => i.ItemId == item.Id));
         }
     }
 
@@ -82,13 +81,10 @@ public class InventoryHandler : MonoBehaviour
                                     on item.ItemId equals invItem.Id
                                     where item.Type == parType
                                     select invItem).ToList();
-        Debug.Log(test.Count);
-        Debug.Log(player.Inventory.Items.Count);
         foreach (InventoryItem item in test)
         {
             DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.InvPos].transform);
-            dragInv.item = items.ItemsDict.Find(i => i.ItemId == item.Id);
-            dragInv.NewItem(this, item, item.InvPos);
+            dragInv.NewItem(this, item, item.InvPos, items.ItemsDict.Find(i => i.ItemId == item.Id));
         }
     }
 

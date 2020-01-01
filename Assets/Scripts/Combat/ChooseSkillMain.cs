@@ -38,7 +38,7 @@ public class ChooseSkillMain : MonoBehaviour
 
     [Header("Sorting buttons")]
     [SerializeField]
-    private Button physical, magical, seduction;
+    private Button physical = null, magical = null, seduction = null;
 
     #endregion Properties
 

@@ -10,7 +10,6 @@ public class Movement : MonoBehaviour
 
     public CanvasMain canvas;
     public EnemySpawner spawner;
-    public MapEvents mapEvents;
 
     // Private
     private Tilemap _map;
@@ -50,7 +49,7 @@ public class Movement : MonoBehaviour
         mobilePlatform = Application.isMobilePlatform;
         touchSupport = Input.touchSupported;
         mousePresent = Input.mousePresent;
-        _map = mapEvents.CurrentMap;
+        _map = MapEvents.CurrentMap;
         MapEvents.WorldMapChange += DoorChanged;
         if (_rb2d == null)
         {
@@ -152,8 +151,5 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void DoorChanged()
-    {
-        _map = mapEvents.CurrentMap;
-    }
+    private void DoorChanged() => _map = MapEvents.CurrentMap;
 }

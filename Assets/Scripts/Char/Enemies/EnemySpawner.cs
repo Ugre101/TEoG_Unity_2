@@ -4,9 +4,14 @@ using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject player;
-    public List<Tilemap> dontSpawnOn;
-    public MapEvents mapEvents;
+    [SerializeField]
+    private PlayerMain Player => PlayerMain.GetPlayer;
+
+    [SerializeField]
+    private List<Tilemap> dontSpawnOn = new List<Tilemap>();
+
+    [SerializeField]
+    private MapEvents MapEvents => MapEvents.GetMapEvents;
 
     [Header("Settings")]
     [SerializeField]
@@ -23,12 +28,12 @@ public class EnemySpawner : MonoBehaviour
     // Private
     private readonly List<Vector3> _empty = new List<Vector3>();
 
-    private readonly List<GameObject> _CurrEnemies = new List<GameObject>();
+    private readonly List<EnemyPrefab> _CurrEnemies = new List<EnemyPrefab>();
     private Tilemap _currMap;
 
     private void Start()
     {
-        _currMap = mapEvents.CurrentMap;
+        _currMap = MapEvents.CurrentMap;
         MapEvents.WorldMapChange += DoorChanged;
         CurrentEnemies();
     }
@@ -41,7 +46,7 @@ public class EnemySpawner : MonoBehaviour
         {
             int index = Random.Range(0, _empty.Count);
             int enemyIndex = Random.Range(0, _CurrEnemies.Count);
-            GameObject enemu = Instantiate(_CurrEnemies[enemyIndex], _empty[index], Quaternion.identity, transform);
+            EnemyPrefab enemu = Instantiate(_CurrEnemies[enemyIndex], _empty[index], Quaternion.identity, transform);
             enemu.name = _CurrEnemies[enemyIndex].name;
             _empty.RemoveAt(index);
         }
@@ -49,12 +54,13 @@ public class EnemySpawner : MonoBehaviour
 
     private void AvailblePos()
     {
+        List<Vector3> aroundPlayer = AroundPlayer();
         for (int n = _currMap.cellBounds.xMin + distFromBorder; n < _currMap.cellBounds.xMax - distFromBorder; n++)
         {
             for (int p = _currMap.cellBounds.yMin + distFromBorder; p < _currMap.cellBounds.yMax - distFromBorder; p++)
             {
                 Vector3Int localPlace = new Vector3Int(n, p, (int)_currMap.transform.position.z);
-                if (_currMap.HasTile(localPlace) && !dontSpawnOn.Exists(t => t.HasTile(localPlace)) && !AroundPlayer().Contains(localPlace))
+                if (_currMap.HasTile(localPlace) && !dontSpawnOn.Exists(t => t.HasTile(localPlace)) && !aroundPlayer.Contains(localPlace))
                 {
                     Vector3 place = _currMap.CellToWorld(localPlace);
                     _empty.Add(place);
@@ -66,7 +72,7 @@ public class EnemySpawner : MonoBehaviour
     public List<Vector3> AroundPlayer()
     {
         List<Vector3> around = new List<Vector3>();
-        Vector3 playPos = player.transform.position;
+        Vector3 playPos = Player.transform.position;
         for (int x = -distFromPlayer; x < distFromPlayer; x++)
         {
             for (int y = -distFromPlayer; y < distFromPlayer; y++)
@@ -86,7 +92,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void DoorChanged()
     {
-        _currMap = mapEvents.CurrentMap;
+        _currMap = MapEvents.CurrentMap;
         AvailblePos();
         CurrentEnemies();
         foreach (Transform e in transform)
@@ -99,8 +105,14 @@ public class EnemySpawner : MonoBehaviour
     private void CurrentEnemies()
     {
         _CurrEnemies.Clear();
-        _CurrEnemies.AddRange(mapEvents.CurMapScript.Enemies);
-        enemyToAdd = mapEvents.CurMapScript.EnemyCount;
+        if (MapEvents.CurMapScript != null)
+        {
+            if (MapEvents.CurMapScript.Enemies.Count > 0)
+            {
+                _CurrEnemies.AddRange(MapEvents.CurMapScript.Enemies);
+                enemyToAdd = MapEvents.CurMapScript.EnemyCount;
+            }
+        }
 
         #region old code
 

@@ -4,19 +4,34 @@ using UnityEngine;
 
 public class SaveMananger : MonoBehaviour
 {
-    public PlayerMain player;
-    public Dorm dorm;
-    public CanvasMain gameUI;
-    public MapEvents mapEvents;
-    public TickManager tickManager;
-    public Home home;
+    public static SaveMananger Instance { get; private set; }
 
-    public string SaveFolder => SaveSettings.SaveFolder;
-    public SaveSrollListControl saveList;
+    [SerializeField]
+    private PlayerMain player = null;
+
+    [SerializeField]
+    private Dorm dorm = null;
+
+    [SerializeField]
+    private Home home = null;
+
+    private string SaveFolder => SaveSettings.SaveFolder;
+
+    [SerializeField]
+    private SaveSrollListControl saveList = null;
+
     private string newSavePath, lastSavePath;
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         if (!Directory.Exists(SaveFolder))
         {
             _ = Directory.CreateDirectory(SaveFolder);
@@ -56,7 +71,7 @@ public class SaveMananger : MonoBehaviour
         GameLoaded?.Invoke();
     }
 
-    public Save NewSave => new Save(player, dorm, mapEvents, home);
+    public Save NewSave => new Save(player, dorm, home);
 
     public delegate void LoadedGame();
 

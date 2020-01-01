@@ -5,15 +5,14 @@ using UnityEngine.UI;
 
 public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField]
-    public InventoryItem invItem;
+    private InventoryItem invItem;
 
     [SerializeField]
-    private TextMeshProUGUI amountText;
+    private TextMeshProUGUI amountText = null;
 
-    public Item item;
-    public int SlotId;
-    public PlayerMain player;
+    public Item item { get; private set; }
+    private int SlotId;
+    private PlayerMain player => PlayerMain.GetPlayer;
 
     private InventoryHandler invHandler;
     private InventoryHoverText hoverText;
@@ -128,7 +127,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             haveMods.Mods.ForEach(m => player.Stats.GetStat(m.StatType).AddMods(m));
             Debug.Log("Has statmod!");
             // TODO if player has weapong equipt then dequip it.
-        }   
+        }
         if (typeof(IEquip).IsAssignableFrom(item.GetType()))
         {
             IEquip toEquip = item as IEquip;
@@ -144,13 +143,13 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
-    public void NewItem(InventoryHandler parHandler, InventoryItem parInvitem, int slot)
+    public void NewItem(InventoryHandler inventoryHandler, InventoryItem inventoryItem, int slot, Item item)
     {
-        invItem = parInvitem;
-        invHandler = parHandler;
-        player = invHandler.player;
+        invItem = inventoryItem;
+        invHandler = inventoryHandler;
         SlotId = slot;
         amountText.text = Amount.ToString();
+        this.item = item;
         //Invitem.item;
         if (item != null ? item.Sprite != null : false)
         {

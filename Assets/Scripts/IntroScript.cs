@@ -6,20 +6,16 @@ namespace Intro
 {
     public class IntroScript : MonoBehaviour
     {
-        [SerializeField]
-        private CanvasMain gameUI;
+        private PlayerMain Player => PlayerMain.GetPlayer;
 
         [SerializeField]
-        private PlayerMain player;
+        private Button firstAccept = null, secondAccept = null;
 
         [SerializeField]
-        private Button firstAccept, secondAccept;
+        private TMP_InputField firstName = null, lastName = null;
 
         [SerializeField]
-        private TMP_InputField firstName, lastName;
-
-        [SerializeField]
-        private GameObject charCreator, startSettings;
+        private GameObject charCreator = null, startSettings = null;
 
         public string FirstName => firstName.text;
         public string LastName => lastName.text;
@@ -39,13 +35,13 @@ namespace Intro
 
         private void NamePlayer()
         {
-            player.Identity.FirstName = FirstName;
-            player.Identity.LastName = LastName;
+            Player.Identity.FirstName = FirstName;
+            Player.Identity.LastName = LastName;
         }
 
         private void StartGame()
         {
-            gameUI.Resume();
+            CanvasMain.GetCanvasMain.Resume();
             Destroy(gameObject);
         }
     }

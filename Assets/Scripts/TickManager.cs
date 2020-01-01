@@ -18,6 +18,10 @@ public class TickManager : MonoBehaviour
 
     private void OnEnable()
     {
+        if (player == null)
+        {
+            player = PlayerMain.GetPlayer;
+        }
         InvokeRepeating("ReGain", 0f, 1f);
     }
 
@@ -44,13 +48,13 @@ public class TickManager : MonoBehaviour
         player.Body.Fat.LoseFlat(fatBurnRate);
         player.HP.Gain(hpGain);
         player.WP.Gain(wpGain);
+        player.Vore.Digest();
         ReGainFluids();
         if (minute++ > 60)
         {
             minute = 0;
             DateSystem.PassHour();
         }
-        EventLog.AddTo("Tick");
     }
 
     public void ReGainFluids()

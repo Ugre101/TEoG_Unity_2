@@ -31,7 +31,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     [SerializeField]
     private Image coolDownImg = null;
 
-    private PlayerMain Player => combatButtons.player;
+    private PlayerMain Player => PlayerMain.GetPlayer;
     private BasicChar Target => combatButtons.Target;
     private bool hovering;
     private bool hoverBlockActive = false;

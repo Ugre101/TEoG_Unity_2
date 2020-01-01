@@ -1,15 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
 public enum WorldMaps
 {
     StartMap,
     SecondMap,
     Home
 }
+
 public class WorldMap : MonoBehaviour
 {
-    public WorldMaps map;
-    public void Current()
+    private List<Map> maps = new List<Map>();
+
+    [field: SerializeField] public WorldMaps Map { get; private set; } = WorldMaps.StartMap;
+
+    public List<Map> Maps
     {
-        gameObject.SetActive(true);
+        get
+        {
+            if (maps.Count < 1)
+            {
+                maps = GetComponentsInChildren<Map>().ToList();
+            }
+            return maps;
+        }
     }
 }

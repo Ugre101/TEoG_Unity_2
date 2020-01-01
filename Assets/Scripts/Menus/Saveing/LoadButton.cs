@@ -5,19 +5,18 @@ using UnityEngine.UI;
 
 public class LoadButton : MonoBehaviour
 {
-    private SaveMananger saveMananger;
+    private SaveMananger saveMananger = SaveMananger.Instance;
     private FileInfo file;
 
     // Short commands
-    private CanvasMain GetGameUI => saveMananger.gameUI;
+    private CanvasMain GetGameUI => CanvasMain.GetCanvasMain;
 
     public TextMeshProUGUI title;
     public Button load, del;
     public SaveSrollListControl saveList;
 
-    public void Setup(SaveMananger parSaveMananger, FileInfo parFile, SaveSrollListControl parSaveList)
+    public void Setup(FileInfo parFile, SaveSrollListControl parSaveList)
     {
-        saveMananger = parSaveMananger;
         file = parFile;
         saveList = parSaveList;
         string cleanedTitleText = file.Name.Substring(0, file.Name.LastIndexOf("."))

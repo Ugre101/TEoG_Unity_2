@@ -38,11 +38,11 @@ namespace StartMenuStuff
                 }
                 // wait so everything is loaded
                 yield return new WaitForEndOfFrame();
-                SaveMananger saveMananger = GameObject.FindGameObjectWithTag("SaveMenu").GetComponent<SaveMananger>();
+                SaveMananger saveMananger = SaveMananger.Instance;
                 Save save = saveMananger.NewSave;
                 save.LoadData(json);
                 Debug.Log(json);
-                saveMananger.gameUI.Resume();
+                CanvasMain.GetCanvasMain.Resume();
                 Destroy(gameObject);
             }
             else

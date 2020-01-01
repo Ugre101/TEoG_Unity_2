@@ -4,45 +4,45 @@ using UnityEngine;
 
 public class CombatMain : MonoBehaviour
 {
-    // Public
-    [SerializeField]
-    private CanvasMain gameUI = null;
+    /// <summary>Can only be used by children of this as it isn't defined before first enable</summary>
+    public static CombatMain GetCombatMain { get; private set; }
+
+    private CanvasMain CanvasMain => CanvasMain.GetCanvasMain;
+    private PlayerMain Player => PlayerMain.GetPlayer;
 
     [SerializeField]
     private TextMeshProUGUI _textbox = null;
 
-    [field: SerializeField] public PlayerMain player { get; private set; } = null;
+    [SerializeField]
+    private GameObject skillButtonsContainer = null;
 
     [SerializeField]
-    private GameObject skillButtonsContainer;
+    private List<CombatButton> skillButtons = null;
 
     [SerializeField]
-    private List<CombatButton> skillButtons;
-
-    [SerializeField]
-    private SkillBook skillBook;
+    private SkillBook skillBook = null;
 
     public BasicChar CurrentEnemy
     {
         get
         {
-            if (enemyTeamChars.Count < 1) { gameUI.Resume(); }
+            if (enemyTeamChars.Count < 1) { CanvasMain.Resume(); }
             return enemyTeamChars[indexCurrentEnemy];
         }
     }
 
     private int indexCurrentEnemy = 0;
-    private List<BasicChar> playerTeamChars = new List<BasicChar>();
-    private List<EnemyPrefab> enemyTeamChars = new List<EnemyPrefab>();
+    private readonly List<BasicChar> playerTeamChars = new List<BasicChar>();
+    private readonly List<EnemyPrefab> enemyTeamChars = new List<EnemyPrefab>();
 
     [SerializeField]
-    private CombatTeam playerTeam;
+    private CombatTeam playerTeam = null;
 
     [SerializeField]
-    private CombatTeam enemyTeam;
+    private CombatTeam enemyTeam = null;
 
     public BasicChar Target => newTarget != null ? newTarget : CurrentEnemy;
-    private BasicChar newTarget;
+    private BasicChar newTarget = null;
 
     [SerializeField]
     [Header("Win")]
@@ -58,16 +58,27 @@ public class CombatMain : MonoBehaviour
     private string _PlayerTeamAttacks, _EnemyTeamAttacks;
     private int _turn;
 
+    private void Awake()
+    {
+        if (GetCombatMain == null)
+        {
+            GetCombatMain = this;
+        }
+        else if (GetCombatMain != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
     {
-        if (player == null) { player = PlayerMain.GetPlayer; }
         skillButtons = new List<CombatButton>(skillButtonsContainer.GetComponentsInChildren<CombatButton>());
         // every time someone dies check if a team losses
         if (!skillButtons.Exists(s => s.Skill != null))
         {
-            for (int i = 0; i < player.Skills.Count; i++)
+            for (int i = 0; i < Player.Skills.Count; i++)
             {
-                skillButtons[i].Setup(skillBook.Dict.Match(player.Skills[i].Id));
+                skillButtons[i].Setup(skillBook.Dict.Match(Player.Skills[i].Id));
             }
         }
     }
@@ -93,7 +104,7 @@ public class CombatMain : MonoBehaviour
 
         if (playerTeamChars.Count < 1)
         {
-            playerTeamChars.Add(player);
+            playerTeamChars.Add(Player);
         }
 
         enemyTeamChars.Clear();
@@ -139,14 +150,14 @@ public class CombatMain : MonoBehaviour
         // Simple after player actions
         if (charm < str)
         {
-            if (player.HP.TakeDmg(dmg))
+            if (Player.HP.TakeDmg(dmg))
             {
                 // lose battle
             }
         }
         else
         {
-            if (player.WP.TakeDmg(dmg))
+            if (Player.WP.TakeDmg(dmg))
             {
                 // lose battle
             }
@@ -218,8 +229,8 @@ public class CombatMain : MonoBehaviour
     {
         foreach (EnemyPrefab e in enemyTeamChars)
         {
-            player.ExpSystem.Exp += e.reward.ExpReward;
-            player.Currency.Gold += e.reward.GoldReward;
+            Player.ExpSystem.Exp += e.reward.ExpReward;
+            Player.Currency.Gold += e.reward.GoldReward;
         }
         afterBattle.Setup(enemyTeamChars);
         gameObject.SetActive(false);
