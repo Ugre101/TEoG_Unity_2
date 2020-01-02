@@ -4,16 +4,25 @@ using UnityEngine;
 
 public class LoseMain : MonoBehaviour
 {
-    public PlayerMain player;
-    public List<EnemyPrefab> enemies;
-    public TextMeshProUGUI _textBox;
+    [SerializeField]
+    private PlayerMain player = null;
 
-    public GameObject Leave;
-    public SexChar playerChar, enemyChar;
+    [SerializeField]
+    private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
+
+    [SerializeField]
+    private TextMeshProUGUI _textBox = null;
+
+    [SerializeField]
+    private GameObject Leave = null;
+
+    [SerializeField]
+    private SexChar playerChar = null, enemyChar = null;
+
     private EnemyPrefab newTarget = null;
     public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
-
-    public void Setup(List<EnemyPrefab> parEnemies) 
+    private bool canLeave = false;
+    public void Setup(List<EnemyPrefab> parEnemies)
     {
         gameObject.SetActive(true);
         enemies = parEnemies;
@@ -21,7 +30,7 @@ public class LoseMain : MonoBehaviour
 
         playerChar.Setup(player);
         enemyChar.Setup(Target);
-
+        newTarget = null;
     }
 
     public void AddToTextBox(string text)

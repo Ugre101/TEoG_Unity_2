@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Sex scene", menuName = ("Sex/Test"))]
-public class SexScenes : ScriptableObject
+public abstract class SexScenes : ScriptableObject
 {
     [Header("Player needs")]
     public bool PlayerDick;
@@ -115,7 +115,22 @@ public class SexScenes : ScriptableObject
     public string BiggestDick(BasicChar whom) => Settings.MorInch(whom.SexualOrgans.Dicks.Biggest());
 }
 
-public class EssScene : SexScenes
+public abstract class LoseScene : SexScenes
+{
+    public virtual string StartScene(BasicChar other, PlayerMain player)
+    {
+        ArousalGain(player, other);
+        return $"";
+    }
+
+    public virtual string ContinueScene(BasicChar other, PlayerMain player)
+    {
+        ArousalGain(player, other);
+        return $"";
+    }
+}
+
+public abstract class EssScene : SexScenes
 {
     [SerializeField]
     protected PerkInfo essFlow = null;
@@ -136,7 +151,7 @@ public class EssScene : SexScenes
     }
 }
 
-public class VoreScene : SexScenes
+public abstract class VoreScene : SexScenes
 {
     public virtual bool CanDo(BasicChar player, Vore.ThePrey Other)
     {
