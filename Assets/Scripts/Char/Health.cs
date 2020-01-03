@@ -29,7 +29,6 @@ public class Health
 
                 IsDirty = false;
                 UpdateSliderEvent?.Invoke();
-                Debug.Log(CalcFinalMax());
             }
             return lastTotal;
         }

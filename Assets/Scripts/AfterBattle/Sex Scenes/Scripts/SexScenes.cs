@@ -117,17 +117,7 @@ public abstract class SexScenes : ScriptableObject
 
 public abstract class LoseScene : SexScenes
 {
-    public virtual string StartScene(BasicChar other, PlayerMain player)
-    {
-        ArousalGain(player, other);
-        return $"";
-    }
 
-    public virtual string ContinueScene(BasicChar other, PlayerMain player)
-    {
-        ArousalGain(player, other);
-        return $"";
-    }
 }
 
 public abstract class EssScene : SexScenes

@@ -20,7 +20,6 @@ public class PlayerMain : BasicChar
             Destroy(gameObject);
         }
         base.Awake();
-        GetImages.SetupFolders();
     }
 
     // Start is called before the first frame update
