@@ -21,41 +21,63 @@ public enum FluidType
 public class SexualFluid
 {
     [SerializeField]
-    protected float current;
+    private float current = 0;
+
+    public float Current => current;
 
     [SerializeField]
     private FluidType type;
 
-    protected float maxAmount;
-    public virtual float Current => current;
-    public virtual float Max => maxAmount;
     public FluidType Type => type;
-    protected float baseRate;
 
-    // protected bool _dirtyRate = true;
-    private float ReFillRate => baseRate;
+    public float MaxAmount { get; private set; }
+    public float ReFillRate { get; private set; }
 
-    public SexualFluid(FluidType parType, float parSize = 1f)
+    public SexualFluid(FluidType parType, float parSize)
     {
-        current = 0;
-        FluidCalc(parSize);
         type = parType;
+        FluidCalc(parSize);
     }
 
     public void FluidCalc(float size)
     {
         // Volume of sphere 4/3 * pi * r^3
-        maxAmount = 4f / 3f * Mathf.PI * Mathf.Pow(size, 3);
-        baseRate = maxAmount / 500;
+        MaxAmount = 4f / 3f * Mathf.PI * Mathf.Pow(size, 3);
+        ReFillRate = MaxAmount / 500;
     }
 
-    public void ReFill(float bonus = 0)
+    public void ReFill()
     {
-        if (Current < Max)
+        if (Current < MaxAmount)
         {
-            current += Mathf.Min(ReFillRate + bonus, Max - Current);
+            float reFilled = current + ReFillRate;
+            current = Mathf.Clamp(reFilled, 0, MaxAmount);
             FluidSlider?.Invoke();
         }
+    }
+
+    public void ReFill(float bonus)
+    {
+        if (Current < MaxAmount)
+        {
+            float reFilled = current + ReFillRate + bonus;
+            current = Mathf.Clamp(reFilled, 0, MaxAmount);
+            FluidSlider?.Invoke();
+        }
+    }
+
+    public float DisCharge()
+    {
+        float disCharge = Current * 0.7f;
+        current -= disCharge;
+        return Mathf.Round(disCharge);
+    }
+
+    public float DisCharge(float percentage)
+    {
+        float disCharge = Current * Mathf.Clamp(percentage, 0f, 1f);
+        current -= disCharge;
+        return Mathf.Round(disCharge);
     }
 
     public void ManualSlider() => FluidSlider?.Invoke();
@@ -74,12 +96,10 @@ public abstract class SexualOrgan
     protected int lastBase;
     protected float currSize;
 
+    [SerializeField]
     protected Races race = Races.Humanoid;
-    public Races Race => race;
 
-    protected float baseCost = 30;
-    protected float cost;
-    protected float lastCost;
+    public Races Race => race;
 
     public virtual float Size
     {
@@ -95,6 +115,9 @@ public abstract class SexualOrgan
             return currSize;
         }
     }
+
+    protected float baseCost = 30;
+    protected float cost;
 
     public virtual float Cost
     {
@@ -144,90 +167,95 @@ public static class SexOrganExtension
 
     public static void RefreshOrgans(this BasicChar bc, bool autoEss = false)
     {
-        bc.SexualOrgans.Dicks.RemoveAll(d => d.Size <= 0);
-        bc.SexualOrgans.Balls.RemoveAll(b => b.Size <= 0);
-        bc.SexualOrgans.Vaginas.RemoveAll(v => v.Size <= 0);
-        bc.SexualOrgans.Boobs.RemoveAll(b => b.Size <= 0);
+        Organs so = bc.SexualOrgans;
+        List<Dick> dicks = so.Dicks;
+        List<Balls> balls = so.Balls;
+        List<Vagina> vaginas = so.Vaginas;
+        List<Boobs> boobs = so.Boobs;
+        dicks.RemoveAll(d => d.Size <= 0);
+        balls.RemoveAll(b => b.Size <= 0);
+        vaginas.RemoveAll(v => v.Size <= 0);
+        boobs.RemoveAll(b => b.Size <= 0);
         if (autoEss)
         {
-            if (bc.Masc.Amount > 0)
+            Essence masc = bc.Masc;
+            if (masc.Amount > 0)
             {
-                if (bc.SexualOrgans.Dicks.Total()
-                    <= bc.SexualOrgans.Balls.Total() * 2f + 1f)
+                if (dicks.Total() <= balls.Total() * 2f + 1f)
                 {
-                    if (bc.SexualOrgans.Dicks.Exists(d
-                        => bc.Masc.Amount >= d.Cost))
+                    if (dicks.Exists(d
+                        => masc.Amount >= d.Cost))
                     {
-                        foreach (Dick d in bc.SexualOrgans.Dicks)
+                        foreach (Dick d in dicks)
                         {
-                            if (bc.Masc.Amount >= d.Cost)
+                            if (masc.Amount >= d.Cost)
                             {
-                                bc.Masc.Lose(d.Grow());
+                                masc.Lose(d.Grow());
                             }
                         }
                     }
-                    else if (bc.Masc.Amount >= bc.SexualOrgans.Dicks.Cost())
+                    else if (masc.Amount >= dicks.Cost())
                     {
-                        bc.Masc.Lose(bc.SexualOrgans.Dicks.Cost());
-                        bc.SexualOrgans.Dicks.AddDick();
+                        masc.Lose(dicks.Cost());
+                        dicks.AddDick();
                     }
                 }
                 else
                 {
-                    if (bc.SexualOrgans.Balls.Exists(b => bc.Masc.Amount >= b.Cost))
+                    if (balls.Exists(b => masc.Amount >= b.Cost))
                     {
-                        foreach (Balls b in bc.SexualOrgans.Balls)
+                        foreach (Balls b in balls)
                         {
-                            if (bc.Masc.Amount >= b.Cost)
+                            if (masc.Amount >= b.Cost)
                             {
-                                bc.Masc.Lose(b.Grow());
+                                masc.Lose(b.Grow());
                             }
                         }
                     }
-                    else if (bc.Masc.Amount >= bc.SexualOrgans.Balls.Cost())
+                    else if (masc.Amount >= balls.Cost())
                     {
-                        bc.Masc.Lose(bc.SexualOrgans.Balls.Cost());
-                        bc.SexualOrgans.Balls.AddBalls();
+                        masc.Lose(balls.Cost());
+                        balls.AddBalls();
                     }
                 }
             }
-            if (bc.Femi.Amount > 0)
+            Essence femi = bc.Femi;
+            if (femi.Amount > 0)
             {
-                if (bc.SexualOrgans.Boobs.Total()
-                    <= bc.SexualOrgans.Vaginas.Total() * 1.5f + 1f)
+                if (boobs.Total() <= vaginas.Total() * 1.5f + 1f)
                 {
-                    if (bc.SexualOrgans.Boobs.Exists(b => bc.Femi.Amount >= b.Cost))
+                    if (boobs.Exists(b => femi.Amount >= b.Cost))
                     {
-                        foreach (Boobs b in bc.SexualOrgans.Boobs)
+                        foreach (Boobs b in boobs)
                         {
-                            if (bc.Femi.Amount >= b.Cost)
+                            if (femi.Amount >= b.Cost)
                             {
-                                bc.Femi.Lose(b.Grow());
+                                femi.Lose(b.Grow());
                             }
                         }
                     }
-                    else if (bc.Femi.Amount >= bc.SexualOrgans.Boobs.Cost())
+                    else if (femi.Amount >= boobs.Cost())
                     {
-                        bc.Femi.Lose(bc.SexualOrgans.Boobs.Cost());
-                        bc.SexualOrgans.Boobs.AddBoobs();
+                        femi.Lose(boobs.Cost());
+                        boobs.AddBoobs();
                     }
                 }
                 else
                 {
-                    if (bc.SexualOrgans.Vaginas.Exists(v => bc.Femi.Amount >= v.Cost))
+                    if (vaginas.Exists(v => femi.Amount >= v.Cost))
                     {
-                        foreach (Vagina v in bc.SexualOrgans.Vaginas)
+                        foreach (Vagina v in vaginas)
                         {
-                            if (bc.Femi.Amount >= v.Cost)
+                            if (femi.Amount >= v.Cost)
                             {
-                                bc.Femi.Lose(v.Grow());
+                                femi.Lose(v.Grow());
                             }
                         }
                     }
-                    else if (bc.Femi.Amount >= bc.SexualOrgans.Vaginas.Cost())
+                    else if (femi.Amount >= vaginas.Cost())
                     {
-                        bc.Femi.Lose(bc.SexualOrgans.Vaginas.Cost());
-                        bc.SexualOrgans.Vaginas.AddVag();
+                        femi.Lose(vaginas.Cost());
+                        vaginas.AddVag();
                     }
                 }
             }

@@ -7,7 +7,7 @@ public class DoggyStyle : SexScenes
     {
         ArousalGain(player, other);
         return $"Commanding {other.Identity.FirstName} to get down on their all fours you fuck HisHer from behind.\n " +
-        $"Their {other.SexualOrgans.Vaginas[0].Race} pussy Tightness(player, enemies[EnemyIndex],) + to your +{BiggestDick(player)}" +
+        $"Their {other.SexualOrgans.Vaginas[0].Race} pussy Tightness(player, enemies[EnemyIndex],) + to your +{player.SexualOrgans.Dicks.Biggest()}" +
         $" {player.SexualOrgans.Dicks[0].Race} dick.";
     }
 

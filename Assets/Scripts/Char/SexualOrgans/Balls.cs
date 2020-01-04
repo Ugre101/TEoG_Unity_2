@@ -8,14 +8,16 @@ public class Balls : SexualOrgan
 {
     public Balls() : base()
     {
+        _fluid = new SexualFluid(FluidType.Cum, Size);
     }
 
     public Balls(int size) : base(size)
     {
+        _fluid = new SexualFluid(FluidType.Cum, Size);
     }
 
     [SerializeField]
-    private SexualFluid _fluid = new SexualFluid(FluidType.Cum);
+    private SexualFluid _fluid;
 
     public virtual SexualFluid Fluid
     {
@@ -49,14 +51,17 @@ public static class BallsExtensions
         return toShrink.Cost;
     }
 
+    public static float Cumming(this List<Balls> balls) => balls.Sum(b => b.Fluid.DisCharge());
+
+    public static float Cumming(this List<Balls> balls, float dischargePrecentage) => balls.Sum(b => b.Fluid.DisCharge(dischargePrecentage));
+
     public static float CumTotal(this List<Balls> balls) => balls.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
     public static float CumMax(this List<Balls> balls) => balls.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
     public static string Looks(this Balls parBalls, bool capital = true)
     {
-        return $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls"
-            + $", with {Settings.LorGal(parBalls.Fluid.Current)}";
+        return $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls, with {Settings.LorGal(parBalls.Fluid.Current)}";
     }
 
     public static string Looks(this List<Balls> parBalls)

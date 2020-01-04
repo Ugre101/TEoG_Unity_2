@@ -24,4 +24,25 @@ public class ShowImgPack : MonoBehaviour
             Debug.Log(fi.File + " " + fi.Race + " " + fi.Type);
         });
     }
+
+    [SerializeField]
+    private bool testing = false;
+
+    [SerializeField]
+    private int testIndex = 0;
+    /*
+    public void Update()
+    {
+        if (testing)
+        {
+            if (texture2Ds.Count > 0)
+            {
+                Texture2D test = texture2Ds[testIndex < texture2Ds.Count - 1 ? testIndex : 0];
+                float ratio = (float)test.width / (float)test.height;
+                Debug.Log(ratio);
+                raw.rectTransform.sizeDelta = new Vector2(100 * ratio, 100);
+            }
+        }
+    }
+    */
 }

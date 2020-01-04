@@ -38,6 +38,8 @@ public static class VaginaExtensions
         return toShrink.Cost;
     }
 
+    public static bool EmptyWomb(this List<Vagina> vaginas) => vaginas.Exists(v => !v.Womb.HasFetus);
+
     public static string Looks(this Vagina vag, bool capital = true)
     {
         return $"{(capital ? "A" : "a")} {vag.Race}";

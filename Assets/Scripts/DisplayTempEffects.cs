@@ -21,10 +21,7 @@ public class DisplayTempEffects : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
-        }
+        player = player != null ? player : PlayerMain.GetPlayer;
         AddedEffectEvent += DisplayEffects;
         SaveMananger.GameLoaded += DisplayEffects;
         DisplayEffects();

@@ -7,14 +7,16 @@ public class Boobs : SexualOrgan
 {
     public Boobs() : base()
     {
+        _fluid = new SexualFluid(FluidType.Milk, Size);
     }
 
     public Boobs(int size) : base(size)
     {
+        _fluid = new SexualFluid(FluidType.Milk, Size);
     }
 
     [SerializeField]
-    private SexualFluid _fluid = new SexualFluid(FluidType.Milk);
+    private SexualFluid _fluid;
 
     public virtual SexualFluid Fluid
     {
@@ -54,6 +56,10 @@ public static class BoobExtensions
         }
         return toShrink.Cost;
     }
+
+    public static float Milking(this List<Boobs> boobs) => boobs.Sum(b => b.Fluid.DisCharge());
+
+    public static float Milking(this List<Boobs> boobs, float dischargePrecentage) => boobs.Sum(b => b.Fluid.DisCharge(dischargePrecentage));
 
     public static float MilkTotal(this List<Boobs> boobs) => boobs.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
