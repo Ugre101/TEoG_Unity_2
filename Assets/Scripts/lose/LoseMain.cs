@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -26,12 +27,15 @@ public class LoseMain : MonoBehaviour
     [SerializeField]
     private List<LoseScene> forced = new List<LoseScene>();
 
-    private List<LoseScene> canForced = new List<LoseScene>();
-
     [SerializeField]
     private List<LoseScene> submit = new List<LoseScene>();
 
-    private List<LoseScene> canSubmit = new List<LoseScene>();
+    private List<LoseScene> CanDo(List<LoseScene> scenes) => scenes.Where(s => s.CanDo(player, Target)).Select(s => s).ToList();
+
+    private LoseScene GetAScene(List<LoseScene> scenes)
+    {
+        return scenes[0];
+    }
 
     public void Setup(List<EnemyPrefab> parEnemies)
     {
@@ -42,30 +46,11 @@ public class LoseMain : MonoBehaviour
         playerChar.Setup(player);
         enemyChar.Setup(Target);
         newTarget = null;
-        canForced.Clear();
-        canSubmit.Clear();
+        Debug.Log(CanDo(forced).Count);
     }
 
     public void AddToTextBox(string text)
     {
         _textBox.text = text;
-    }
-
-    private void PossibleScenes()
-    {
-        forced.ForEach(f =>
-        {
-            if (f.CanDo(player, Target))
-            {
-                canForced.Add(f);
-            }
-        });
-        submit.ForEach(s =>
-        {
-            if (s.CanDo(player, Target))
-            {
-                canSubmit.Add(s);
-            }
-        });
     }
 }

@@ -1,50 +1,63 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public PlayerMain player;
-    public CanvasMain gameUI;
-    public CombatMain combatButtons;
-    public Button btn;
-    public KeyCode quickKey;
-    public SkillButtons skillButtons;
+    [SerializeField]
+    private Button btn = null;
+
+    [SerializeField]
+    private TextMeshProUGUI quickText = null;
+
+    [SerializeField]
+    private KeyCode quickKey = KeyCode.Alpha0;
+
     private int Roll => Random.Range(0, 100);
 
     // Start is called before the first frame update
     private void Start()
     {
-        btn.onClick.AddListener(Flee);
-    }
+        btn = btn != null ? btn : GetComponent<Button>();
 
-    // Update is called once per frame
-    private void Update()
-    {
+        btn.onClick.AddListener(Flee);
+        if (quickText != null)
+        {
+            if (quickKey != KeyCode.None)
+            {
+                quickText.text = quickKey.ToString().Replace("Alpha", string.Empty).Replace(" ", string.Empty);
+            }
+            else
+            {
+                quickText.text = string.Empty;
+            }
+        }
     }
 
     public void Flee()
     {
+        // TODO add modifers to flee chance
         int myRoll = Roll; // + relevant player skills & perks
         int toBeat = 50; // Mod value dependent on enemies
         if (myRoll >= toBeat)
         {
-            gameUI.Resume();
+            CanvasMain.GetCanvasMain.Resume();
         }
         else
         {
-            combatButtons.PlayerAttack("You failed to escape");
+            CombatMain.GetCombatMain.PlayerAttack("You failed to escape");
             // Write to combat log and next turn.
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        skillButtons.EnableHoverText("Flee\n50% success chance");
+        SkillButtonsHoverText.HoverText("Flee\n50% success chance");
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        skillButtons.DisableHoverText();
+        SkillButtonsHoverText.StopHovering();
     }
 }

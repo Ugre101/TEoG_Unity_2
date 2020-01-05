@@ -7,18 +7,6 @@ public class SkillButtons : MonoBehaviour
     public TextMeshProUGUI hoverText;
     public ChooseSkillMain ChooseSkillMain;
 
-    public void EnableHoverText(string text)
-    {
-        hoverBlock.SetActive(true);
-        hoverText.text = text;
-    }
-
-    public void DisableHoverText()
-    {
-        hoverText.text = string.Empty;
-        hoverBlock.SetActive(false);
-    }
-
     public void ToogleChooseSkill(CombatButton target)
     {
         ChooseSkillMain.Toggle(target);

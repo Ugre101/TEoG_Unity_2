@@ -12,15 +12,6 @@ public static class UgreTools
         }
     }
 
-    /// <summary> Destroy the children of given gameobject </summary>
-    public static void KillChildren(this Transform parTransform, Transform parAlternative)
-    {
-        foreach (Transform child in parAlternative)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-    }
-
     /// <summary> Sets children of transform to inactive; (setActive(false)) </summary>
     public static void SleepChildren(this Transform parTransform)
     {
@@ -54,5 +45,4 @@ public static class UgreTools
                 return parInt + "th";
         }
     }
-    public static PlayerMain GetPlayer(this GameObject gameObject) => GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
 }

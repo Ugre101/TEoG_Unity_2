@@ -55,7 +55,7 @@ public class ChooseSkillMain : MonoBehaviour
         gameObject.SetActive(true);
         combatButton = parCombatBtn;
         // Clean container
-        transform.KillChildren(container.transform);
+        container.transform.KillChildren();
         Button noneBtn = Instantiate(chooseNone, container.transform);
         noneBtn.onClick.AddListener(() => { combatButton.Clean(); skillButtons.ToogleButtons(); });
         // Add all skills
@@ -69,7 +69,7 @@ public class ChooseSkillMain : MonoBehaviour
     private void SpawnTypeofSkills(SkillType skillType)
     {
         // Clean container
-        transform.KillChildren(container.transform);
+       container.transform.KillChildren();
         if (knowSkills.Exists(s => s.Type == skillType))
         {
             List<UserSkill> mySkills = skillBook.Dict.OwnedSkills(player.Skills);

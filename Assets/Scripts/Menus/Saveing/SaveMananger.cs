@@ -15,10 +15,7 @@ public class SaveMananger : MonoBehaviour
     [SerializeField]
     private Home home = null;
 
-    private string SaveFolder => SaveSettings.SaveFolder;
-
-    [SerializeField]
-    private SaveSrollListControl saveList = null;
+    private DirectoryInfo SaveFolder;
 
     private string newSavePath, lastSavePath;
 
@@ -32,20 +29,19 @@ public class SaveMananger : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (!Directory.Exists(SaveFolder))
-        {
-            _ = Directory.CreateDirectory(SaveFolder);
-        }
+        player = player != null ? player : PlayerMain.GetPlayer;
+
+        SaveFolder = Directory.Exists(SaveSettings.SaveFolder) ? new DirectoryInfo(SaveSettings.SaveFolder) : Directory.CreateDirectory(SaveSettings.SaveFolder);
         Settings.SetImperial = PlayerPrefs.HasKey("Imperial") ? PlayerPrefs.GetInt("Imperial") == 1 : false; ;
     }
 
     public void NewSaveGame()
     {
         SaveName saveName = new SaveName(player, DateTime.Now);
-        newSavePath = SaveFolder + saveName.CleanSave + ".json";
+        newSavePath = SaveFolder.FullName + saveName.CleanSave + ".json";
         Save save = NewSave;
         File.WriteAllText(newSavePath, save.SaveData());
-        saveList.RefreshSaveList();
+        SavedEvent?.Invoke();
         lastSavePath = newSavePath;
     }
 
@@ -63,15 +59,21 @@ public class SaveMananger : MonoBehaviour
         }
     }
 
-    public void Load(string filePath)
+    private void QuickSave() => NewSaveGame();
+
+    public void QuickLoad()
     {
         Save toLoad = NewSave;
-        string json = File.ReadAllText(filePath);
+        string json = File.ReadAllText(lastSavePath);
         toLoad.LoadData(json);
         GameLoaded?.Invoke();
     }
 
     public Save NewSave => new Save(player, dorm, home);
+
+    public delegate void SavedGame();
+
+    public static event SavedGame SavedEvent;
 
     public delegate void LoadedGame();
 

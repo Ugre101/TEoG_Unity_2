@@ -1092,6 +1092,8 @@ MonoBehaviour:
     type: 3}
   container: {fileID: 297203853}
   loader: {fileID: 1438414003}
+  timedPopup: {fileID: 6365968953908820579, guid: de76c8c3385bce044b33ea226a707685,
+    type: 3}
 --- !u!114 &690577740
 MonoBehaviour:
   m_ObjectHideFlags: 0

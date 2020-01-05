@@ -225,7 +225,7 @@ public class CombatMain : MonoBehaviour
         }
     }
 
-    private void WinBattle()
+    public void WinBattle()
     {
         foreach (EnemyPrefab e in enemyTeamChars)
         {
@@ -236,7 +236,7 @@ public class CombatMain : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void LoseBattle()
+    public void LoseBattle()
     {
         gameObject.SetActive(false);
         loseBattle.Setup(enemyTeamChars);

@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class SaveSrollListControl : MonoBehaviour
 {
-    public LoadButton exload;
-    public GameObject container;
+    [SerializeField]
+    private LoadButton exload = null;
+
+    [SerializeField]
+    private GameObject container = null;
+
+    [SerializeField]
+    private TimedPopupText timedPopup = null;
 
     private DirectoryInfo _dirInfo;
     private FileInfo[] _fileInfo;
@@ -15,6 +21,9 @@ public class SaveSrollListControl : MonoBehaviour
     {
         _dirInfo = new DirectoryInfo(Path);
         RefreshSaveList();
+        SaveMananger.SavedEvent += RefreshSaveList;
+        LoadButtonBase.SaveDeleted += RefreshSaveList;
+        LoadButtonBase.FailEvent += Failed;
     }
 
     public void RefreshSaveList()
@@ -24,13 +33,19 @@ public class SaveSrollListControl : MonoBehaviour
         // Destroy buttons
         if (transform.childCount > 0)
         {
-            transform.KillChildren(container.transform);
+            container.transform.KillChildren();
         }
         // Add buttons
         foreach (FileInfo f in _fileInfo)
         {
             LoadButton newButton = Instantiate(exload, container.transform);
-            newButton.Setup(f,this);
+            newButton.Setup(f);
         }
+    }
+
+    public void Failed()
+    {
+        TimedPopupText popupText = Instantiate(timedPopup, transform);
+        popupText.Setup("Failed to load...");
     }
 }

@@ -104,9 +104,6 @@ public class Movement : MonoBehaviour
                 Target = Camera.main.WorldToScreenPoint(t.position);
             }
         }
-        else
-        {
-        }
     }
 
     // FixedUpdate for movement

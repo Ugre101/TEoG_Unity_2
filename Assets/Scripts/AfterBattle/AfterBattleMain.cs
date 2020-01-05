@@ -154,7 +154,7 @@ public class AfterBattleMain : MonoBehaviour
         }
         else
         {
-            transform.KillChildren(buttons.transform);
+            buttons.transform.KillChildren();
         }
         if (Target.CanTake(Target.SexStats.SessionOrgasm))
         {
@@ -198,7 +198,7 @@ public class AfterBattleMain : MonoBehaviour
 
     private void SceneChecker(List<SexScenes> scenes, bool showVore = false)
     {
-        buttons.transform.KillChildren(buttons.transform);
+        buttons.transform.KillChildren();
         foreach (SexScenes scene in scenes.FindAll(s => s.CanDo(player, Target)))
         {
             SexButton button = Instantiate(sexButton, buttons.transform);
@@ -216,7 +216,7 @@ public class AfterBattleMain : MonoBehaviour
 
     private void SceneChecker(bool showVore)
     {
-        buttons.transform.KillChildren(buttons.transform);
+        buttons.transform.KillChildren();
         if (showVore)
         {
             foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))

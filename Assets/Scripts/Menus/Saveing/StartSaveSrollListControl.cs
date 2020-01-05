@@ -10,6 +10,9 @@ namespace StartMenuStuff
         public Transform container;
         public StartLoader loader;
 
+        [SerializeField]
+        private TimedPopupText timedPopup = null;
+
         private DirectoryInfo _dirInfo;
         private FileInfo[] _fileInfo;
         private string SaveFolder => SaveSettings.SaveFolder;
@@ -23,6 +26,8 @@ namespace StartMenuStuff
             }
             _dirInfo = new DirectoryInfo(SaveFolder);
             RefreshSaveList();
+            LoadButtonBase.SaveDeleted += RefreshSaveList;
+            LoadButtonBase.FailEvent += Failed;
         }
 
         public void RefreshSaveList()
@@ -32,15 +37,21 @@ namespace StartMenuStuff
             // Destroy buttons
             if (transform.childCount > 0)
             {
-                transform.KillChildren(container);
+                container.transform.KillChildren();
             }
             // Add buttons
             foreach (FileInfo f in _fileInfo)
             {
                 LoadButtonStart newButton = Instantiate(loadButton, container);
-                newButton.Setup(f, this, loader);
+                newButton.Setup(f, loader);
                 newButton.transform.SetAsFirstSibling();
             }
+        }
+
+        public void Failed()
+        {
+            TimedPopupText popupText = Instantiate(timedPopup, transform);
+            popupText.Setup("Failed to load...");
         }
     }
 }

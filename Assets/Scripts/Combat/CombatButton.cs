@@ -14,9 +14,6 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     private TextMeshProUGUI title = null, keycode = null;
 
     [SerializeField]
-    private CombatMain combatButtons = null;
-
-    [SerializeField]
     private Button btn = null;
 
     [SerializeField]
@@ -32,7 +29,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     private Image coolDownImg = null;
 
     private PlayerMain Player => PlayerMain.GetPlayer;
-    private BasicChar Target => combatButtons.Target;
+    private BasicChar Target => CombatMain.GetCombatMain.Target;
     private bool hovering;
     private bool hoverBlockActive = false;
     private float timeStarted;
@@ -63,7 +60,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             {
                 if (userSkill.Ready)
                 {
-                    combatButtons.PlayerAttack(Skill.Action(Player, Target));
+                    CombatMain.GetCombatMain.PlayerAttack(Skill.Action(Player, Target));
                     userSkill.StartCoolDown();
                     CoolDownHandler();
                     // code to put dim on skill to show it's on cooldown
@@ -71,7 +68,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             }
             else
             {
-                combatButtons.PlayerAttack(Skill.Action(Player, Target));
+                CombatMain.GetCombatMain.PlayerAttack(Skill.Action(Player, Target));
             }
         }
         else
@@ -93,17 +90,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             {
                 if (!hoverBlockActive && Skill != null)
                 {
-                    string toSend = $"{Skill.Title}\n{Skill.Type}\nAvg dmg: {Skill.AvgValue}";
-                    if (Skill.HasCoolDown)
-                    {
-                        toSend += $"\nCooldown: {Skill.CoolDown} turns";
-                        if (!userSkill.Ready)
-                        {
-                            toSend += $"\n{userSkill.TurnsLeft} turns left";
-                        }
-                    }
-                    skillButtons.EnableHoverText(toSend);
-                    hoverBlockActive = true;
+                    StartHovering();
                 }
             }
         }
@@ -145,15 +132,27 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerExit(PointerEventData eventData) => StopHoverText();
 
+    private void StartHovering()
+    {
+        string toSend = $"{Skill.Title}\n{Skill.Type}\nAvg dmg: {Skill.AvgValue}";
+        if (Skill.HasCoolDown)
+        {
+            toSend += $"\nCooldown: {Skill.CoolDown} turns";
+            if (!userSkill.Ready)
+            {
+                toSend += $"\n{userSkill.TurnsLeft} turns left";
+            }
+        }
+        SkillButtonsHoverText.HoverText(toSend);
+        hoverBlockActive = true;
+    }
+
     private void StopHoverText()
     {
         hovering = false;
         hoverBlockActive = false;
-        skillButtons.DisableHoverText();
+        SkillButtonsHoverText.StopHovering();
     }
 
-    public void CoolDownHandler()
-    {
-        coolDownImg.fillAmount = Skill.HasCoolDown ? userSkill.CoolDownPercent : 0;
-    }
+    public void CoolDownHandler() => coolDownImg.fillAmount = Skill.HasCoolDown ? userSkill.CoolDownPercent : 0;
 }

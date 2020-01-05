@@ -1,30 +1,18 @@
-﻿using System.Collections;
-using System.IO;
-using TMPro;
+﻿using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace StartMenuStuff
 {
-    public class LoadButtonStart : MonoBehaviour
+    public class LoadButtonStart : LoadButtonBase
     {
-        [SerializeField]
-        private TextMeshProUGUI title = null;
-
-        [SerializeField]
-        private Button load = null, del = null;
-
-        private static FileInfo file;
-        private StartSaveSrollListControl saveList;
         private StartLoader loader;
 
-        public void Setup(FileInfo parFile, StartSaveSrollListControl parSaveList, StartLoader parLoader)
+        public void Setup(FileInfo parFile, StartLoader parLoader)
         {
             file = parFile;
-            saveList = parSaveList;
             loader = parLoader;
-            load.onClick.AddListener(() => loader.StartLoading(file));
+            load.onClick.AddListener(Load);
             del.onClick.AddListener(DeleteSave);
 
             //SceneManager.sceneLoaded += OnSceneLoaded;
@@ -33,27 +21,27 @@ namespace StartMenuStuff
             title.text = cleanedTitleText;
         }
 
-        // public void LoadGame() => SceneManager.LoadScene("MainGame");
-
-        public void DeleteSave()
+        private void Load()
         {
-            string path = file.FullName;
-            if (File.Exists(path))
+            if (File.Exists(file.FullName))
             {
-                File.Delete(path);
+                loader.StartLoading(file);
             }
-            saveList.RefreshSaveList();
+            else
+            {
+                SaveFailed();
+            }
         }
+
+        // public void LoadGame() => SceneManager.LoadScene("MainGame");
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            SaveMananger saveMananger = SaveMananger.Instance;
             string path = file.FullName;
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
-                Save save = saveMananger.NewSave;
-                save.LoadData(json);
+                SaveMananger.Instance.NewSave.LoadData(json);
                 CanvasMain.GetCanvasMain.Resume();
                 SceneManager.sceneLoaded -= OnSceneLoaded;
             }
@@ -62,6 +50,5 @@ namespace StartMenuStuff
                 Debug.LogError("Load failed...");
             }
         }
-
     }
 }
