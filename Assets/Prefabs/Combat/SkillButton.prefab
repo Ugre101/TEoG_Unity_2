@@ -323,7 +323,6 @@ MonoBehaviour:
     skill: {fileID: 0}
   title: {fileID: 4901062227330565620}
   keycode: {fileID: 4901062227149557648}
-  combatButtons: {fileID: 0}
   btn: {fileID: 4901062227253060302}
   img: {fileID: 4901062225951841210}
   quickKey: 0
@@ -592,7 +591,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 0d68144945d943f4da28cdeaa07b645a, type: 3}
   m_Type: 3
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1

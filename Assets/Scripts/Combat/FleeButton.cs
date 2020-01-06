@@ -15,6 +15,9 @@ public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private KeyCode quickKey = KeyCode.Alpha0;
 
     private int Roll => Random.Range(0, 100);
+    private bool hovering = false;
+    private bool hoverBlockActive = false;
+    private float timeStartedHovering;
 
     // Start is called before the first frame update
     private void Start()
@@ -31,6 +34,18 @@ public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             else
             {
                 quickText.text = string.Empty;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (hovering)
+        {
+            if (!hoverBlockActive && timeStartedHovering + 0.8f <= Time.unscaledTime)
+            {
+                SkillButtonsHoverText.HoverText("Flee\n50% success chance");
+                hoverBlockActive = true;
             }
         }
     }
@@ -53,11 +68,14 @@ public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        SkillButtonsHoverText.HoverText("Flee\n50% success chance");
+        hovering = true;
+        timeStartedHovering = Time.unscaledTime;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        hovering = false;
+        hoverBlockActive = false;
         SkillButtonsHoverText.StopHovering();
     }
 }

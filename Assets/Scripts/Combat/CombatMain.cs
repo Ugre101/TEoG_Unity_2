@@ -26,7 +26,7 @@ public class CombatMain : MonoBehaviour
     {
         get
         {
-            if (enemyTeamChars.Count < 1) { CanvasMain.Resume(); }
+            if (enemyTeamChars.Count < 1) { CanvasMain.Resume(); return null; }
             return enemyTeamChars[indexCurrentEnemy];
         }
     }

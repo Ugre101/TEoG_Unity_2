@@ -9,9 +9,6 @@ public class LoseMain : MonoBehaviour
     private PlayerMain player = null;
 
     [SerializeField]
-    private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
-
-    [SerializeField]
     private TextMeshProUGUI _textBox = null;
 
     [SerializeField]
@@ -20,9 +17,11 @@ public class LoseMain : MonoBehaviour
     [SerializeField]
     private SexChar playerChar = null, enemyChar = null;
 
-    private EnemyPrefab newTarget = null;
-    public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
-    private bool canLeave = false;
+    [SerializeField]
+    private Transform sexButtonsContainer = null;
+
+    [SerializeField]
+    private LoseSexButton sexButton = null;
 
     [SerializeField]
     private List<LoseScene> forced = new List<LoseScene>();
@@ -30,11 +29,20 @@ public class LoseMain : MonoBehaviour
     [SerializeField]
     private List<LoseScene> submit = new List<LoseScene>();
 
+    private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
+
+    private EnemyPrefab newTarget = null;
+    public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
+
     private List<LoseScene> CanDo(List<LoseScene> scenes) => scenes.Where(s => s.CanDo(player, Target)).Select(s => s).ToList();
 
-    private LoseScene GetAScene(List<LoseScene> scenes)
+    private readonly System.Random rnd = new System.Random();
+
+    private LoseScene GetAScene(List<LoseScene> scenes) => scenes[rnd.Next(scenes.Count)];
+
+    private void Start()
     {
-        return scenes[0];
+        player = player != null ? player : PlayerMain.GetPlayer;
     }
 
     public void Setup(List<EnemyPrefab> parEnemies)
@@ -46,11 +54,41 @@ public class LoseMain : MonoBehaviour
         playerChar.Setup(player);
         enemyChar.Setup(Target);
         newTarget = null;
-        Debug.Log(CanDo(forced).Count);
+        Leave.SetActive(false);
+
+        sexButtonsContainer.KillChildren();
+        GetScenesForTarget();
     }
 
-    public void AddToTextBox(string text)
+    public void AddToTextBox(string text) => _textBox.text = text;
+
+    public void CanLeave()
     {
-        _textBox.text = text;
+        Leave.SetActive(true);
+        sexButtonsContainer.KillChildren();
+    }
+
+    private int SceneOptionsAmount = 1;
+
+    private void GetScenesForTarget()
+    {
+        List<LoseScene> forcedCanDo = CanDo(forced);
+        if (forcedCanDo.Count > 0)
+        {
+            for (int i = 0; i < SceneOptionsAmount; i++)
+            {
+                LoseSexButton btn = Instantiate(sexButton, sexButtonsContainer);
+                btn.Setup(player, Target, this, GetAScene(forcedCanDo));
+            }
+        }
+        List<LoseScene> submitCanDo = CanDo(submit);
+        if (submitCanDo.Count > 0)
+        {
+            for (int i = 0; i < SceneOptionsAmount; i++)
+            {
+                LoseSexButton btn = Instantiate(sexButton, sexButtonsContainer);
+                btn.Setup(player, Target, this, GetAScene(submitCanDo));
+            }
+        }
     }
 }

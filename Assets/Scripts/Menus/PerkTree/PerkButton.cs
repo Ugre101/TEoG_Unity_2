@@ -23,7 +23,7 @@ public class PerkButton : PerkTreeBasicBtn
     {
         if (player != null)
         {
-            taken = player.Perks.HasPerk(perk);
+            Taken = player.Perks.HasPerk(perk);
         }
         base.OnEnable();
     }
@@ -34,7 +34,7 @@ public class PerkButton : PerkTreeBasicBtn
         {
             if (player.ExpSystem.PerkBool(perkCost))
             {
-                taken = true;
+                Taken = true;
                 player.Perks.GainPerk(perk);
                 RuneOpacity();
             }

@@ -18,7 +18,7 @@ public class BasicStatButton : PerkTreeBasicBtn
     {
         if (player.ExpSystem.PerkBool())
         {
-            taken = true;
+            Taken = true;
             player.Stats.GetStat(stat).BaseValue += statAmount;
             amount.text = player.Stats.GetStat(stat).BaseValue.ToString();
         }

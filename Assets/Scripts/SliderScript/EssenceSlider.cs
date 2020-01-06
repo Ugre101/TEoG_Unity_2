@@ -13,6 +13,14 @@ public class EssenceSlider : MonoBehaviour
     [SerializeField]
     protected Image _image = null;
 
+    private void Start()
+    {
+        if (basicChar != null)
+        {
+            Init(basicChar);
+        }
+    }
+
     public virtual void Init(BasicChar who)
     {
         basicChar = who;

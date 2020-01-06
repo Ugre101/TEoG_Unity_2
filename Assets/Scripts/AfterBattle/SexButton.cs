@@ -1,31 +1,9 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class SexButton : MonoBehaviour
+public class SexButton : SexButtonBase
 {
     [SerializeField]
     private AfterBattleMain afterBattle = null;
-
-    [SerializeField]
-    private SexScenes scene = null;
-
-    [SerializeField]
-    private Button btn = null;
-
-    [SerializeField]
-    private TextMeshProUGUI title = null;
-
-    private PlayerMain player;
-    private BasicChar other;
-
-    public void Start()
-    {
-        if (btn == null)
-        {
-            btn = GetComponent<Button>();
-        }
-    }
 
     private void Func()
     {
@@ -33,7 +11,7 @@ public class SexButton : MonoBehaviour
         afterBattle.LastScene = scene;
     }
 
-    public void Setup(PlayerMain parPlayer, BasicChar parPartner, AfterBattleMain parAfterBattle, SexScenes parScene)
+    public void Setup(PlayerMain parPlayer, EnemyPrefab parPartner, AfterBattleMain parAfterBattle, SexScenes parScene)
     {
         player = parPlayer;
         other = parPartner;

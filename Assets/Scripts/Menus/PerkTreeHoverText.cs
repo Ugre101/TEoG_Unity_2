@@ -1,35 +1,40 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
-public class PerkTreeHoverText : BasicMenuHoverText
+public class PerkTreeHoverText : MonoBehaviour
 {
-    public override void Start()
+    public static PerkTreeHoverText GetPerkTreeHoverText { get; private set; } = null;
+    private static TextMeshProUGUI textBox = null;
+
+    [SerializeField]
+    private TextMeshProUGUI setTextBox = null;
+
+    private void Start()
     {
-        base.Start();
+        if (GetPerkTreeHoverText == null)
+        {
+            GetPerkTreeHoverText = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        if (textBox == null && setTextBox != null)
+        {
+            textBox = setTextBox;
+        }
+        else
+        {
+            textBox = GetComponentInChildren<TextMeshProUGUI>();
+        }
+        gameObject.SetActive(false);
     }
 
-    public override void Hovering(GameObject hoverOver, Vector2 mosPos)
+    public static void Hovering(string text)
     {
-        PerkInfo info = hoverOver.GetComponent<PerkTreeBasicBtn>().perkInfo;
-        if (info != null)
-        {
-            hovertext.text = info.Info;
-        }else
-        {
-            hovertext.text = string.Empty;
-        }
-        base.Hovering(hoverOver,mosPos);
-        /*
-            hoverblock.SetActive(true);
-            RectTransform rt = (RectTransform)hoverOver.transform;
-            RectTransform hrt = (RectTransform)hoverblock.transform;
-            Vector3 finalPos = rt.localPosition;
-            Debug.Log("rt pos: " + rt.position);
-            Debug.Log("rt localpos: " + rt.localPosition);
-            Debug.Log("rt width: " + rt.rect.width);
-            Debug.Log("hrt width: " + hrt.rect.width);
-            finalPos.x += rt.rect.width / 2;
-            finalPos.x += hrt.rect.width / 2;
-            hrt.localPosition = finalPos;
-        */
+        GetPerkTreeHoverText.gameObject.SetActive(true);
+        textBox.text = text;
     }
+
+    public static void StopHovering() => GetPerkTreeHoverText.gameObject.SetActive(false);
 }

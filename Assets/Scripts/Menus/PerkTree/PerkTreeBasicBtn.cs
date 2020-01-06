@@ -5,12 +5,23 @@ using UnityEngine.UI;
 
 public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public bool taken = false;
-    public PlayerMain player;
-    public TextMeshProUGUI amount;
-    public PerkInfo perkInfo;
-    public Button btn;
-    public PerkTreeHoverText hoverText;
+    public bool Taken { get; protected set; } = false;
+
+    [SerializeField]
+    protected PlayerMain player = null;
+
+    [SerializeField]
+    protected TextMeshProUGUI amount = null;
+
+    [SerializeField]
+    protected PerkInfo perkInfo = null;
+
+    [SerializeField]
+    protected Button btn = null;
+
+    [SerializeField]
+    protected PerkTreeHoverText hoverText = null;
+
     public Image rune;
     protected Color color;
 
@@ -41,7 +52,7 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void RuneOpacity()
     {
         color = rune.color;
-        color.a = taken ? 1f : 0.5f;
+        color.a = Taken ? 1f : 0.5f;
         rune.color = color;
     }
 
@@ -49,15 +60,16 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
     {
     }
 
-
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hoverText.Hovering(gameObject, eventData.position);
+        if (perkInfo != null)
+        {
+            PerkTreeHoverText.Hovering(perkInfo.Info);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        hoverText.StopHovering();
+        PerkTreeHoverText.StopHovering();
     }
-    
 }

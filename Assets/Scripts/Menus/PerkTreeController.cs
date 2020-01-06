@@ -7,8 +7,6 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
     public KeyBindings keyBindings;
     public GameObject toZoom;
     public RectTransform zoomRect;
-    public PerkButton[] perkButtons;
-    public BasicStatButton[] statButtons;
     public GameObject vorePerksTree;
     public RectTransform perkRect;
 
@@ -40,26 +38,6 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
         }
 
         perkRect.localPosition = new Vector3(0, 0, 0);
-    }
-
-    private void Start()
-    {
-        statButtons = GetComponentsInChildren<BasicStatButton>();
-        perkButtons = GetComponentsInChildren<PerkButton>();
-        foreach (BasicStatButton bsb in statButtons)
-        {
-            if (bsb.player == null)
-            {
-                bsb.player = player;
-            }
-        }
-        foreach (PerkButton pb in perkButtons)
-        {
-            if (pb.player == null)
-            {
-                pb.player = player;
-            }
-        }
     }
 
     // Update is called once per frame

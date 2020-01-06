@@ -55,7 +55,7 @@ public class LoadButton : LoadButtonBase
     public void LoadGame()
     {
         string path = file.FullName;
-        if (File.Exists(path + "fail"))
+        if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
             SaveMananger.Instance.NewSave.LoadData(json);

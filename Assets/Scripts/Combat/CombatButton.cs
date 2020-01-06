@@ -30,7 +30,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     private PlayerMain Player => PlayerMain.GetPlayer;
     private BasicChar Target => CombatMain.GetCombatMain.Target;
-    private bool hovering;
+    private bool hovering = false;
     private bool hoverBlockActive = false;
     private float timeStarted;
     // CoolDown

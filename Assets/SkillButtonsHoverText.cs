@@ -12,8 +12,10 @@ public class SkillButtonsHoverText : MonoBehaviour
         GetSkillButtonsHoverText.gameObject.SetActive(true);
     }
 
-    public static void StopHovering() => GetSkillButtonsHoverText.gameObject.SetActive(false);
-
+    public static void StopHovering()
+    {
+        GetSkillButtonsHoverText.gameObject.SetActive(false);
+    }
     [SerializeField]
     private TextMeshProUGUI textbox = null;
 
