@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2164260733351930708}
   - component: {fileID: 29320730513368346}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Delete
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,11 +33,11 @@ RectTransform:
   m_Father: {fileID: 4565971353114341085}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -282.4, y: 0}
-  m_SizeDelta: {x: 47.7, y: 39}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 2, y: 0}
+  m_SizeDelta: {x: 35, y: 35}
+  m_Pivot: {x: 0, y: 0.5}
 --- !u!222 &5470741508472968702
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 941f6888ec126dd47ae4669881ff19ea, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -324,8 +324,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47a9b93491a280441aeafbe2941f2538, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  home: {fileID: 11400000, guid: b82dfba6e98807a45a5718c4215a8627, type: 2}
-  eventLog: {fileID: 11400000, guid: afafec6ffb983614b80c3fc20d9a8849, type: 2}
   title: {fileID: 4565971353875555109}
   load: {fileID: 4565971352917659520}
   del: {fileID: 29320730513368346}
@@ -361,10 +359,10 @@ RectTransform:
   m_Father: {fileID: 4565971353114341085}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -34.5, y: 0}
-  m_SizeDelta: {x: 448.1, y: 50}
+  m_SizeDelta: {x: 448.1, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4565971353875555108
 CanvasRenderer:
@@ -575,8 +573,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
