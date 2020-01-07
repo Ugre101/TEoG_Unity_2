@@ -28,6 +28,7 @@
 
     public void Reset()
     {
+        Arousal = 0;
         SessionOrgasm = 0;
         currOrgasm = 0;
     }
