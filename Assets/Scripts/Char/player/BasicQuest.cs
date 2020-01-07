@@ -66,7 +66,7 @@ public class BanditQuest : BasicQuest
 
 public class ElfQuest : TieredQuest
 {
-    public ElfQuest() : base(Quests.Elfs, 3, 3)
+    public ElfQuest() : base(Quests.ElfsHunt, 3, 3)
     {
     }
 }

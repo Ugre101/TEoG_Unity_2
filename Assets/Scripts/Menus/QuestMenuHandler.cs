@@ -4,10 +4,8 @@ using UnityEngine;
 public class QuestMenuHandler : MonoBehaviour
 {
     [Header("Quest prefab")]
-    public QuestMiniBtn Prefab = null;
-
     [SerializeField]
-    private PlayerMain player = null;
+    private QuestMiniBtn Prefab = null;
 
     [SerializeField]
     private TextMeshProUGUI bigQuestText;
@@ -19,7 +17,6 @@ public class QuestMenuHandler : MonoBehaviour
     private void OnEnable()
     {
         miniQuestContainer.KillChildren();
-
         foreach (BasicQuest q in QuestsSystem.List)
         {
             QuestPrefab(q);

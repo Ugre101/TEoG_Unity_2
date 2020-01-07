@@ -8,7 +8,7 @@ public class TownHallButtons : MonoBehaviour
     private void OnEnable()
     {
         banditQuest.SetActive(QuestsSystem.List.Exists(q => q.Type == Quests.Bandit));
-        elfQuest.SetActive(QuestsSystem.List.Exists(q => q.Type == Quests.Elfs));
+        elfQuest.SetActive(QuestsSystem.List.Exists(q => q.Type == Quests.ElfsHunt));
         buyHouse.SetActive(player.PlayerFlags.BeatBanditLord.Cleared);
     }
 }

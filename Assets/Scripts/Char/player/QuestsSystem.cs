@@ -3,7 +3,7 @@
 public enum Quests
 {
     Bandit,
-    Elfs
+    ElfsHunt
 }
 
 public static class QuestsSystem
@@ -29,8 +29,8 @@ public static class QuestsSystem
                 }
                 break;
 
-            case Quests.Elfs:
-                if (!HasQuest(Quests.Elfs))
+            case Quests.ElfsHunt:
+                if (!HasQuest(Quests.ElfsHunt))
                 {
                     List.Add(new ElfQuest());
                 }
@@ -66,7 +66,7 @@ public static class QuestDesc
             case Quests.Bandit:
                 return "Bandit";
 
-            case Quests.Elfs:
+            case Quests.ElfsHunt:
                 return "Elf hunt";
 
             default:

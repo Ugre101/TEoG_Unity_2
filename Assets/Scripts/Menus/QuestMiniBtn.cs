@@ -4,17 +4,25 @@ using UnityEngine.UI;
 
 public class QuestMiniBtn : MonoBehaviour
 {
-    public Image icon;
-    public TextMeshProUGUI title;
-    public TextMeshProUGUI desc;
+    [SerializeField]
+    private Image icon = null;
+
+    [SerializeField]
+    private TextMeshProUGUI title = null;
+
+    [SerializeField]
+    private TextMeshProUGUI desc = null;
+
+    [SerializeField]
     private Button btn;
+
     private BasicQuest quest;
     private TextMeshProUGUI bigText;
 
     // Start is called before the first frame update
     private void Start()
     {
-        btn = GetComponent<Button>();
+        btn = btn != null ? btn : GetComponent<Button>();
         btn.onClick.AddListener(ToBigText);
     }
 
@@ -22,13 +30,22 @@ public class QuestMiniBtn : MonoBehaviour
     {
         quest = toAdd;
         bigText = big;
-      //  title.text = quest.Title;
+        string str = quest.Type.ToString();
+        for (int i = 1; i < str.Length; i++)
+        {
+            char c = str[i];
+            if (char.IsUpper(c))
+            {
+                str = str.Insert(str.IndexOf(c), " ");
+            }
+        }
+        title.text = str;
         desc.text = $"Completed: {quest.Completed}";
         icon.sprite = null;
     }
 
     public void ToBigText()
     {
-       // bigText.text = quest.Title;
+        // bigText.text = quest.Title;
     }
 }
