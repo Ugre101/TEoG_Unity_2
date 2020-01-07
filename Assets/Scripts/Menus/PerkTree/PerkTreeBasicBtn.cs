@@ -20,10 +20,19 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
     protected Button btn = null;
 
     [SerializeField]
-    protected PerkTreeHoverText hoverText = null;
+    protected Image rune = null;
 
-    public Image rune;
     protected Color color;
+
+    protected float RuneColor
+    {
+        set
+        {
+            color = rune.color;
+            color.a = value;
+            rune.color = color;
+        }
+    }
 
     // Start is called before the first frame update
     public virtual void Start()
@@ -34,27 +43,12 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
             btn = GetComponent<Button>();
         }
         btn.onClick.AddListener(Use);
-        if (hoverText == null)
-        {
-            hoverText = GetComponentInParent<PerkTreeHoverText>();
-        }
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
-        }
+        player = player != null ? player : PlayerMain.GetPlayer;
     }
 
-    public virtual void OnEnable()
-    {
-        RuneOpacity();
-    }
+    public virtual void OnEnable() => RuneOpacity();
 
-    public void RuneOpacity()
-    {
-        color = rune.color;
-        color.a = Taken ? 1f : 0.5f;
-        rune.color = color;
-    }
+    public void RuneOpacity() => RuneColor = Taken ? 1f : 0.5f;
 
     public virtual void Use()
     {
@@ -68,8 +62,5 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        PerkTreeHoverText.StopHovering();
-    }
+    public void OnPointerExit(PointerEventData eventData) => PerkTreeHoverText.StopHovering();
 }

@@ -1,20 +1,26 @@
-﻿using UnityEngine;
-
-public class MilkBar : FluidSliders
+﻿public class MilkBar : FluidSliders
 {
     private void OnEnable()
     {
-
-        SexualFluid.FluidSlider += MilkChange;
-        if (player.SexualOrgans.Lactating && player.SexualOrgans.Boobs.Count > 0)
+        if (player != null)
         {
-            player.SexualOrgans.Boobs[0].Fluid.ManualSlider();
+            Setup();
         }
     }
 
     private void OnDisable()
     {
         SexualFluid.FluidSlider -= MilkChange;
+    }
+
+    public override void Setup()
+    {
+        SexualFluid.FluidSlider += MilkChange;
+        if (player.SexualOrgans.Lactating && player.SexualOrgans.Boobs.Count > 0)
+        {
+            slider.value = player.SexualOrgans.MilkSlider;
+            player.SexualOrgans.Boobs[0].Fluid.ManualSlider();
+        }
     }
 
     private void MilkChange()

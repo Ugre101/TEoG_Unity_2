@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class GiveMasc : SexScenes
+﻿public class GiveMasc : SexScenes
 {
     public override string StartScene(PlayerMain player, BasicChar other)
     {
-        float toGive = player.EssGive;
+        float toGive = player.EssGive();
         player.LoseMasc(toGive);
         other.Masc.Gain(toGive);
         return "Give masc";

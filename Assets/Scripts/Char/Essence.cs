@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class Essence
 {
     [SerializeField]
-    protected float _amount;
+    private float _amount;
 
     public float Amount => Mathf.Floor(_amount);
     public string StringAmount => _amount > 999 ? Mathf.Round(_amount / 1000) + "k" : _amount.ToString();
@@ -33,8 +34,32 @@ public class Essence
 
     public event EssenceSlider EssenceSliderEvent;
 }
+
 public static class EssenceExtension
 {
+    public static float EssGive(this BasicChar basicChar) => 0;
+
+    private static float EssDrain(this BasicChar basicChar) => 5f + PerkEffects.EssenceFlow.ExtraDrain(basicChar.Perks);
+
+    public static float EssenceDrain(this BasicChar drainer, BasicChar toDrain)
+    {
+        float returnVal = drainer.EssDrain();
+        if (toDrain.Perks.HasPerk(PerksTypes.EssenceFlow))
+        {
+            returnVal += PerkEffects.EssenceFlow.GetExtraDrained(toDrain.Perks);
+        }
+        return returnVal;
+    }
+
+    public static bool CanDrainMasc(this BasicChar who)
+    {
+        return who.Masc.Amount > 0 || who.SexualOrgans.Balls.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
+    }
+
+    public static bool CanDrainFemi(this BasicChar who)
+    {
+        return who.Femi.Amount > 0 || who.SexualOrgans.Boobs.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
+    }
 
     public static float LoseMasc(this BasicChar who, float mascToLose)
     {
@@ -43,26 +68,28 @@ public static class EssenceExtension
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            while (missing > fromOrgans && (who.SexualOrgans.Dicks.Count > 0 || who.SexualOrgans.Balls.Count > 0))// have needed organs
+            List<Dick> dicks = who.SexualOrgans.Dicks;
+            List<Balls> balls = who.SexualOrgans.Balls;
+            while (missing > fromOrgans && (dicks.Count > 0 || balls.Count > 0))// have needed organs
             {
-                if (who.SexualOrgans.Balls.Count > 0 && who.SexualOrgans.Dicks.Count > 0)
+                if (balls.Count > 0 && dicks.Count > 0)
                 {
-                    if (who.SexualOrgans.Dicks.Total() >= who.SexualOrgans.Balls.Total() * 2f + 1f)
+                    if (dicks.Total() >= balls.Total() * 2f + 1f)
                     {
-                        fromOrgans += who.SexualOrgans.Dicks.ReCycle();
+                        fromOrgans += dicks.ReCycle();
                     }
                     else
                     {
-                        fromOrgans += who.SexualOrgans.Balls.ReCycle();
+                        fromOrgans += balls.ReCycle();
                     }
                 }
-                else if (who.SexualOrgans.Balls.Count > 0)
+                else if (balls.Count > 0)
                 {
-                    fromOrgans += who.SexualOrgans.Balls.ReCycle();
+                    fromOrgans += balls.ReCycle();
                 }
                 else
                 {
-                    fromOrgans += who.SexualOrgans.Dicks.ReCycle();
+                    fromOrgans += dicks.ReCycle();
                 }
             }
             have += Mathf.Min(fromOrgans, missing);
@@ -82,26 +109,28 @@ public static class EssenceExtension
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            while (missing > fromOrgans && (who.SexualOrgans.Vaginas.Count > 0 || who.SexualOrgans.Boobs.Count > 0))// have needed organs
+            List<Vagina> vaginas = who.SexualOrgans.Vaginas;
+            List<Boobs> boobs = who.SexualOrgans.Boobs;
+            while (missing > fromOrgans && (vaginas.Count > 0 || boobs.Count > 0))// have needed organs
             {
-                if (who.SexualOrgans.Boobs.Count > 0 && who.SexualOrgans.Vaginas.Count > 0)
+                if (boobs.Count > 0 && vaginas.Count > 0)
                 {
-                    if (who.SexualOrgans.Boobs.Total() >= who.SexualOrgans.Vaginas.Total() * 2f + 1f)
+                    if (boobs.Total() >= vaginas.Total() * 2f + 1f)
                     {
-                        fromOrgans += who.SexualOrgans.Boobs.ReCycle();
+                        fromOrgans += boobs.ReCycle();
                     }
                     else
                     {
-                        fromOrgans += who.SexualOrgans.Vaginas.ReCycle();
+                        fromOrgans += vaginas.ReCycle();
                     }
                 }
-                else if (who.SexualOrgans.Vaginas.Count > 0)
+                else if (vaginas.Count > 0)
                 {
-                    fromOrgans += who.SexualOrgans.Vaginas.ReCycle();
+                    fromOrgans += vaginas.ReCycle();
                 }
                 else
                 {
-                    fromOrgans += who.SexualOrgans.Boobs.ReCycle();
+                    fromOrgans += boobs.ReCycle();
                 }
             }
             have += Mathf.Min(fromOrgans, missing);

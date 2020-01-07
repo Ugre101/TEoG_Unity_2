@@ -9,6 +9,7 @@ public abstract class BasicChar : MonoBehaviour
     {
         vore = new VoreEngine(this);
     }
+
     [SerializeField]
     protected Identity identity;
 
@@ -107,6 +108,7 @@ public abstract class BasicChar : MonoBehaviour
         hp = new Health(maxhp);
         wp = new Health(maxwp);
         expSystem = new ExpSystem(lvl);
+        StartCoroutine(BasicCharExtensions.TickEverySecond(this));
     }
 
     [Header("Essence")]
@@ -124,11 +126,7 @@ public abstract class BasicChar : MonoBehaviour
     public EssenceSystem Essence => essence;
     public Essence Masc => essence.Masc;
     public Essence Femi => essence.Femi;
-    public float EssDrain => 3 + Perks.PerkBonus(PerksTypes.GainEss);
-    public float EssGive => 3 + Perks.PerkBonus(PerksTypes.GiveEss);
-    public float RestRate => 1f + Perks.PerkBonus(PerksTypes.FasterRest);
-    public bool CanDrainMasc => Masc.Amount > 0 || SexualOrgans.Balls.Count > 0 || SexualOrgans.Dicks.Count > 0;
-    public bool CanDrainFemi => Femi.Amount > 0 || SexualOrgans.Boobs.Count > 0 || SexualOrgans.Dicks.Count > 0;
+    public float RestRate => 1f + Perks.GetPerkLevel(PerksTypes.FasterRest);
 
     [Space]
     [SerializeField]

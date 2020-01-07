@@ -30,19 +30,17 @@ public class ShowImgPack : MonoBehaviour
 
     [SerializeField]
     private int testIndex = 0;
-    /*
+
     public void Update()
     {
         if (testing)
         {
             if (texture2Ds.Count > 0)
             {
-                Texture2D test = texture2Ds[testIndex < texture2Ds.Count - 1 ? testIndex : 0];
-                float ratio = (float)test.width / (float)test.height;
-                Debug.Log(ratio);
+                Texture2D test = texture2Ds[Mathf.Clamp(testIndex, 0, texture2Ds.Count - 1)];
+                float ratio = (float)test.width / test.height;
                 raw.rectTransform.sizeDelta = new Vector2(100 * ratio, 100);
             }
         }
     }
-    */
 }

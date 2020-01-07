@@ -15,18 +15,54 @@ public class PerkInfo : ScriptableObject
 
     public string Effects => perkEffects;
 
-    [Tooltip(" ")]
     [SerializeField]
-    private float posValue = 0;
-    [Tooltip(" ")]
-    [SerializeField]
-    private float negValue = 0;
-    [Tooltip(" ")]
-    [SerializeField]
-    private int maxLevel = 0;
-    public float PosetiveValue => posValue;
-    public float NegativeValue => negValue;
+    private int maxLevel = 1;
+
     public int MaxLevel => maxLevel;
+}
+
+public static class PerkEffects
+{
+    public static class Gluttony
+    {
+        public static float ExtraFatBurn(Perks perks) => perks.HasPerk(PerksTypes.Gluttony)
+            ? 0.1f * perks.GetPerkLevel(PerksTypes.Gluttony)
+            : 0;
+
+        public static float ExtraRecovery(Perks perks) => perks.HasPerk(PerksTypes.Gluttony)
+            ? 0.2f * perks.GetPerkLevel(PerksTypes.Gluttony)
+            : 0;
+
+        public static float ExtraStarvationPenalty(Perks perks) => perks.HasPerk(PerksTypes.Gluttony)
+            ? 0.1f * perks.GetPerkLevel(PerksTypes.Gluttony)
+            : 0;
+    }
+
+    public static class EssenceFlow
+    {
+        public static float ExtraDrain(Perks perks) => perks.HasPerk(PerksTypes.EssenceFlow)
+            ? 5f * perks.GetPerkLevel(PerksTypes.EssenceFlow)
+            : 0;
+
+        public static float GetExtraDrained(Perks perks) => perks.HasPerk(PerksTypes.EssenceFlow)
+            ? 3f * perks.GetPerkLevel(PerksTypes.EssenceFlow)
+            : 0;
+    }
+
+    public static class LowMetabolism
+    {
+        public static float LowerBurn(Perks perks)
+        {
+            return perks.HasPerk(PerksTypes.LowMetabolism)
+                ? 0.5f * perks.GetPerkLevel(PerksTypes.LowMetabolism)
+                : 0;
+        }
+    }
+
+    public static class Seductress
+    {
+        public static StatMod CharmMod => new StatMod(5f, StatTypes.Charm, typeof(Seductress).Name, ModTypes.Flat);
+    }
 }
 
 /*

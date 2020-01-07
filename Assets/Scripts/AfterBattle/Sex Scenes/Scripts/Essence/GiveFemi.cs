@@ -6,7 +6,7 @@ public class GiveFemi : SexScenes
 {
     public override string StartScene(PlayerMain player, BasicChar other)
     {
-        float toGive = player.EssGive;
+        float toGive = player.EssGive();
         player.LoseFemi(toGive);
         other.Femi.Gain(toGive);
         return "Give femi";

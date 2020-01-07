@@ -3,16 +3,22 @@ using UnityEngine.EventSystems;
 
 public class PerkTreeController : MonoBehaviour, IScrollHandler
 {
-    public PlayerMain player;
-    public KeyBindings keyBindings;
-    public GameObject toZoom;
-    public RectTransform zoomRect;
-    public GameObject vorePerksTree;
-    public RectTransform perkRect;
-
-    [Range(1f, 5f)]
     [SerializeField]
-    private float zoom = 1f;
+    private PlayerMain player = null;
+
+    [SerializeField]
+    private KeyBindings keyBindings = null;
+
+    [SerializeField]
+    private RectTransform zoomRect = null;
+
+    [SerializeField]
+    private GameObject vorePerksTree = null;
+
+    [SerializeField]
+    private RectTransform perkRect = null;
+
+    private float zoom = 2f;
 
     [SerializeField]
     private float touchpadZoomSen = 0.05f;
@@ -55,7 +61,7 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
 
     public void OnScroll(PointerEventData eventData)
     {
-        Debug.Log("scroll");
+        //  Debug.Log("scroll");
     }
 
     public void OnGUI()
@@ -63,28 +69,15 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
         if (Event.current.type == EventType.ScrollWheel)
         {
             float y = Event.current.delta.y;
-            float abY = Mathf.Abs(y);
+            float scrollValue = Mathf.Abs(y) * touchpadZoomSen;
             if (y < 0)
             {
-                SetZoom -= abY * touchpadZoomSen;
+                SetZoom -= scrollValue;
             }
             else if (y > 0)
             {
-                SetZoom += abY * touchpadZoomSen;
+                SetZoom += scrollValue;
             }
         }
-    }
-
-    public void Save()
-    {
-        // put arrays into save class and return
-        // if and what is taken is what need to be saved
-        // problem; how to id the perks
-        // not necesarry; A way for future perk nerfs to be applied to player
-    }
-
-    public void Load()
-    {
-        // taken perks to be marked as taken
     }
 }

@@ -4,33 +4,40 @@ using UnityEngine;
 public enum PerksTypes
 {
     FasterRest,
-    GiveEss,
-    GainEss,
     Gluttony,
+    Delicate,
+    EnhancedSenses,
     EssenceFlow,
+    Thug,
+    Greedy,
     EssenceThief,
     EssenceHoarder,
+    EssenceShaper,
     HealthyBody,
     StrongMind,
-    LowMetabolism
+    LowMetabolism,
+    Seductress
 }
 
 [System.Serializable]
 public class Perk
 {
     [SerializeField]
-    private int _baseValue;
+    private int lvl;
+
+    public int Level => lvl;
+
+    public void LevelUp() => lvl++;
 
     [SerializeField]
-    private PerksTypes _type;
+    private PerksTypes type;
 
-    public int Value { get => _baseValue; set => _baseValue = value; }
-    public PerksTypes Type => _type;
+    public PerksTypes Type => type;
 
     public Perk(PerksTypes type)
     {
-        _baseValue = 1;
-        _type = type;
+        this.lvl = 1;
+        this.type = type;
     }
 }
 
@@ -46,24 +53,44 @@ public class Perks
     {
         if (perkList.Exists(p => p.Type == type))
         {
-            perkList.Find(p => p.Type == type).Value++; ;
+            perkList.Find(p => p.Type == type).LevelUp(); ;
         }
         else
         {
+            switch (type)
+            {
+                case PerksTypes.FasterRest:
+                    break;
+                case PerksTypes.Gluttony:
+                    break;
+                case PerksTypes.EssenceFlow:
+                    break;
+                case PerksTypes.EssenceThief:
+                    break;
+                case PerksTypes.EssenceHoarder:
+                    break;
+                case PerksTypes.HealthyBody:
+                    break;
+                case PerksTypes.StrongMind:
+                    break;
+                case PerksTypes.LowMetabolism:
+                    break;
+            }
             perkList.Add(new Perk(type));
         }
     }
 
-    public bool HasPerk(PerksTypes type)
-    {
-        return perkList.Exists(p => p.Type == type);
-    }
+    public bool HasPerk(PerksTypes type) => perkList.Exists(p => p.Type == type);
+
+    public Perk GetPerk(PerksTypes type) => perkList.Find(p => p.Type == type);
+
+    public int GetPerkLevel(PerksTypes type) => HasPerk(type) ? perkList.Find(p => p.Type == type).Level : 0;
 
     public bool NotMaxLevel(PerksTypes type, int maxLevel)
     {
         if (perkList.Exists(p => p.Type == type))
         {
-            return perkList.Find(p => p.Type == type).Value < maxLevel;
+            return perkList.Find(p => p.Type == type).Level < maxLevel;
         }
         return false;
     }
@@ -73,27 +100,10 @@ public class Perks
         switch (type)
         {
             case PerksTypes.FasterRest:
-                return perkList.Exists(p => p.Type == type) ? $"Faster rest: {perkList.Find(p => p.Type == type).Value}" : "Faster rest";
-
-            case PerksTypes.GainEss:
-                return perkList.Exists(p => p.Type == type) ? $"Drain essence: {perkList.Find(p => p.Type == type).Value}" : "Drain essence";
-
-            case PerksTypes.GiveEss:
-                return perkList.Exists(p => p.Type == type) ? $"Give essence: {perkList.Find(p => p.Type == type).Value}" : "Give essence";
+                return perkList.Exists(p => p.Type == type) ? $"Faster rest: {perkList.Find(p => p.Type == type).Level}" : "Faster rest";
 
             default:
                 return "";
         }
-    }
-
-    /// <summary>
-    /// First check if player has said perk and then if it does then return the value of said
-    /// perk.
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    public int PerkBonus(PerksTypes type)
-    {
-        return HasPerk(type) ? perkList.Find(p => p.Type == type).Value : 0;
     }
 }

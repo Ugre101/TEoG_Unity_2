@@ -7,10 +7,11 @@ public class EssenceSystem
     [SerializeField]
     private Essence masc = new Essence();
 
+    public Essence Masc => masc;
+
     [SerializeField]
     private Essence femi = new Essence();
 
-    public Essence Masc => masc;
     public Essence Femi => femi;
 
     [SerializeField]
@@ -18,17 +19,4 @@ public class EssenceSystem
 
     public bool AutoEss => autoEss;
     public bool SetAutoEss { set => autoEss = value; }
-    public float bonusDrain = 0;
-
-    /// <summary>
-    /// Base value drain, add perk bonuses after localy.
-    /// </summary>
-    public float BaseEssDrain => 3 + bonusDrain;
-
-    public float bonusGive = 0;
-
-    /// <summary>
-    /// Base value give, add perk bonuses after localy
-    /// </summary>
-    public float BaseEssGive => 3 + bonusGive;
 }

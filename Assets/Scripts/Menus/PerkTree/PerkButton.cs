@@ -3,9 +3,11 @@
 public class PerkButton : PerkTreeBasicBtn
 {
     [Space]
-    public PerksTypes perk;
+    [SerializeField]
+    private PerksTypes perk = PerksTypes.EssenceFlow;
 
-    public Sprite icon;
+    [SerializeField]
+    private Sprite icon = null;
 
     [SerializeField]
     private int perkCost = 1;
@@ -13,6 +15,7 @@ public class PerkButton : PerkTreeBasicBtn
     public override void Start()
     {
         base.Start();
+        Taken = true;
         if (icon != null)
         {
             rune.sprite = icon;

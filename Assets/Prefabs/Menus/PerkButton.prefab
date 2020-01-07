@@ -287,15 +287,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f87f5e5f8fe15a45bfb5873e592b0a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  taken: 0
   player: {fileID: 0}
   amount: {fileID: 4408740413397252745}
   perkInfo: {fileID: 0}
   btn: {fileID: 4408740414268554261}
-  hoverText: {fileID: 0}
   rune: {fileID: 4408740414268554262}
   perk: 0
   icon: {fileID: 0}
+  perkCost: 1
 --- !u!1 &6700276193781874788
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,13 +353,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.97647065, g: 0.8588236, b: 0.6784314, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9ec34a1debbaf584593308f5451041bf, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 1
   m_FillCenter: 0
   m_FillMethod: 4
@@ -368,4 +367,4 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 4

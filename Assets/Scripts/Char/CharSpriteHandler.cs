@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class BasicCharGame : MonoBehaviour
+public class CharSpriteHandler : MonoBehaviour
 {
     [SerializeField]
     private CharSprites sprites = null;

@@ -51,6 +51,7 @@ public class Health
         }
     }
 
+    public bool IsMax => current >= MaxFinal;
     [field: SerializeField] public List<HealthMod> HealthMods { get; private set; } = new List<HealthMod>();
     [field: SerializeField] public List<TempHealthMod> TempHealthMods { get; private set; } = new List<TempHealthMod>();
 

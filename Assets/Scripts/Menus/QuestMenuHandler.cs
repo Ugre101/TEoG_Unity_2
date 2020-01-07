@@ -1,50 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class QuestMenuHandler : MonoBehaviour
 {
     [Header("Quest prefab")]
-    public GameObject Prefab;
-    public PlayerMain player;
-    public TextMeshProUGUI bigQuestText;
-    private string nl = Environment.NewLine;
+    public QuestMiniBtn Prefab = null;
+
+    [SerializeField]
+    private PlayerMain player = null;
+
+    [SerializeField]
+    private TextMeshProUGUI bigQuestText;
+
+    [SerializeField]
+    private Transform miniQuestContainer = null;
 
     //  private Quest last;
     private void OnEnable()
     {
-        foreach(Transform child in this.transform)
-        {
-           GameObject.Destroy(child.gameObject);
-        }
-        foreach(BasicQuest q in QuestsSystem.List)
+        miniQuestContainer.KillChildren();
+
+        foreach (BasicQuest q in QuestsSystem.List)
         {
             QuestPrefab(q);
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void QuestPrefab(BasicQuest q)
     {
-        GameObject AQuest = Instantiate(Prefab, this.transform);
-        QuestMiniBtn miniQuest = AQuest.GetComponent<QuestMiniBtn>();
+        QuestMiniBtn miniQuest = Instantiate(Prefab, miniQuestContainer);
         miniQuest.Init(q, bigQuestText);
-     /*   TextMeshProUGUI[] texts = AQuest.GetComponentsInChildren<TextMeshProUGUI>();
-        TextMeshProUGUI title = texts[0];
-        TextMeshProUGUI info = texts[1];
-        title.text = $"{q.Title}";
-        info.text = $"Completed: {q.Completed}{nl}Count: {q.Count}{nl}"; 
-        if (q.HasTiers)
-        {
-         //   q.HasTiers ? $"Tier: {q.Tier}" : "";
-        }
-        Image icon = AQuest.gameObject.transform.GetChild(3).GetComponent<Image>();
-        icon.sprite = null; */
+        /*   TextMeshProUGUI[] texts = AQuest.GetComponentsInChildren<TextMeshProUGUI>();
+           TextMeshProUGUI title = texts[0];
+           TextMeshProUGUI info = texts[1];
+           title.text = $"{q.Title}";
+           info.text = $"Completed: {q.Completed}{nl}Count: {q.Count}{nl}";
+           if (q.HasTiers)
+           {
+            //   q.HasTiers ? $"Tier: {q.Tier}" : "";
+           }
+           Image icon = AQuest.gameObject.transform.GetChild(3).GetComponent<Image>();
+           icon.sprite = null; */
     }
 }

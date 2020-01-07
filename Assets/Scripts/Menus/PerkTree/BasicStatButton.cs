@@ -2,6 +2,11 @@
 
 public class BasicStatButton : PerkTreeBasicBtn
 {
+    public BasicStatButton()
+    {
+        Taken = true;
+    }
+
     [Space]
     public StatTypes stat;
 

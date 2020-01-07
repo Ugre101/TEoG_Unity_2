@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29817c9a79a47744996aee4fe9a1777b, type: 3}
-  m_Name: Ess giver
+  m_Name: Endurance
   m_EditorClassIdentifier: 
-  perkInfo: 
-  perkEffects: '+ You can give more essence.
+  perkInfo: 'Endurance
 
-    + Higher essence capacity'
-  posValue: 0
-  negValue: 0
-  maxLevel: 0
+    Increases health.'
+  perkEffects: 
+  maxLevel: 1

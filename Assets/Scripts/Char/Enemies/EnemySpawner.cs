@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField]
-    private PlayerMain Player => PlayerMain.GetPlayer;
+    private PlayerMain Player;
 
     [SerializeField]
     private List<Tilemap> dontSpawnOn = new List<Tilemap>();
@@ -17,7 +17,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField]
     private int enemyToAdd = 6;
 
-    [Range(1, 15)]
+    [Range(5, 25)]
     [SerializeField]
     private int distFromPlayer = 5;
 
@@ -30,9 +30,11 @@ public class EnemySpawner : MonoBehaviour
 
     private readonly List<EnemyPrefab> _CurrEnemies = new List<EnemyPrefab>();
     private Tilemap _currMap;
+    private System.Random rnd = new System.Random();
 
     private void Start()
     {
+        Player = Player != null ? Player : PlayerMain.GetPlayer;
         _currMap = MapEvents.CurrentMap;
         MapEvents.WorldMapChange += DoorChanged;
         CurrentEnemies();
@@ -54,13 +56,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void AvailblePos()
     {
-        List<Vector3> aroundPlayer = AroundPlayer();
         for (int n = _currMap.cellBounds.xMin + distFromBorder; n < _currMap.cellBounds.xMax - distFromBorder; n++)
         {
             for (int p = _currMap.cellBounds.yMin + distFromBorder; p < _currMap.cellBounds.yMax - distFromBorder; p++)
             {
                 Vector3Int localPlace = new Vector3Int(n, p, (int)_currMap.transform.position.z);
-                if (_currMap.HasTile(localPlace) && !dontSpawnOn.Exists(t => t.HasTile(localPlace)) && !aroundPlayer.Contains(localPlace))
+                if (_currMap.HasTile(localPlace) && !dontSpawnOn.Exists(t => t.HasTile(localPlace)) && AroundPlayer(localPlace))
                 {
                     Vector3 place = _currMap.CellToWorld(localPlace);
                     _empty.Add(place);
@@ -69,23 +70,24 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public List<Vector3> AroundPlayer()
+    public bool AroundPlayer(Vector3 vector3)
     {
-        List<Vector3> around = new List<Vector3>();
-        Vector3 playPos = Player.transform.position;
-        for (int x = -distFromPlayer; x < distFromPlayer; x++)
-        {
-            for (int y = -distFromPlayer; y < distFromPlayer; y++)
-            {
-                around.Add(new Vector3(playPos.x + x, playPos.y + y, playPos.z));
-            }
-        }
-        return around;
+        return Vector3.Distance(Player.transform.position, vector3) > distFromPlayer;
     }
 
     public void RePosistion(GameObject toRePos)
     {
-        int index = Random.Range(0, _empty.Count);
+        int index = rnd.Next(_empty.Count);
+        int tries = 0;
+        while (!AroundPlayer(_empty[index]))
+        {
+            index = rnd.Next(_empty.Count);
+            tries++;
+            if (tries > 100)
+            {
+                break;
+            }
+        }
         toRePos.transform.position = _empty[index];
         _empty.RemoveAt(index);
     }

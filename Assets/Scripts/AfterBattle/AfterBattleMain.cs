@@ -180,7 +180,7 @@ public class AfterBattleMain : MonoBehaviour
         {
             if (Target.Impregnate(Caster))
             {
-                AddToTextBox($"{Target.Identity.FirstName} got pregnant!");
+                AddToTextBox($" {Target.Identity.FirstName} got pregnant!");
             }
         }
     }
@@ -191,7 +191,7 @@ public class AfterBattleMain : MonoBehaviour
         {
             if (Caster.Impregnate(Target))
             {
-                AddToTextBox($"You got pregnant!");
+                AddToTextBox($" You got pregnant!");
             }
         }
     }

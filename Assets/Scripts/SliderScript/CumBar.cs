@@ -1,19 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
-public class CumBar : FluidSliders
+﻿public class CumBar : FluidSliders
 {
     private void OnEnable()
+    {
+        Setup();
+    }
+
+    public override void Setup()
     {
         SexualFluid.FluidSlider += CumChange;
         if (player.SexualOrgans.Balls.Count > 0)
         {
-           player.SexualOrgans.Balls[0].Fluid.ManualSlider();
+            player.SexualOrgans.Balls[0].Fluid.ManualSlider();
         }
     }
-   
+
     private void OnDisable()
     {
         SexualFluid.FluidSlider -= CumChange;
@@ -24,7 +24,7 @@ public class CumBar : FluidSliders
         slider.value = player.SexualOrgans.CumSlider;
         if (statusText != null)
         {
-            statusText.text = Settings.LorGal(player.SexualOrgans.Balls.CumTotal()/1000);
+            statusText.text = Settings.LorGal(player.SexualOrgans.Balls.CumTotal() / 1000);
         }
     }
 }

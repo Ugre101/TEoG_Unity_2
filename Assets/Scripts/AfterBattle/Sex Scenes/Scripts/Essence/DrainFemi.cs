@@ -3,19 +3,14 @@
 [CreateAssetMenu(fileName = "Drain femi", menuName = ("Sex/Essence/Drain femi"))]
 public class DrainFemi : EssScene
 {
+    public override bool CanDo(EnemyPrefab target) => target.CanDrainFemi();
+
     public override string StartScene(PlayerMain player, BasicChar other)
     {
-        float have = other.LoseFemi(ToDrain(player));
+        float have = other.LoseFemi(player.EssenceDrain(other));
         player.Femi.Gain(have);
         return "Drain femi";
     }
-    public override bool CanDo(BasicChar target)
-    {
-        return target.CanDrainFemi;
-    }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
-    {
-        return StartScene(player, other);
-    }
+    public override string ContinueScene(PlayerMain player, BasicChar other) => StartScene(player, other);
 }
