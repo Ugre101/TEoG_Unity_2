@@ -10,11 +10,7 @@ public static class QuestsSystem
 {
     public static List<BasicQuest> List { get; private set; } = new List<BasicQuest>();
 
-    public static bool HasQuest(Quests parQuest)
-    {
-        UnityEngine.Debug.Log(List);
-        return List.Exists(q => q.Type == parQuest);
-    }
+    public static bool HasQuest(Quests parQuest) => List.Exists(q => q.Type == parQuest);
 
     public static BasicQuest GetQuest(Quests parQuest) => List.Find(q => q.Type == parQuest);
 
@@ -64,13 +60,22 @@ public static class QuestDesc
         switch (which)
         {
             case Quests.Bandit:
-                return "Bandit";
+                return "The bandit gang up north are getting bolder every day, and it's affecting our trade. We would in your debt if you could teach them a lesson.";
 
             case Quests.ElfsHunt:
-                return "Elf hunt";
+                return "The elfs down south,";
 
-            default:
-                return string.Empty;
+            default: return string.Empty;
+        }
+    }
+
+    public static string QuestReturnTo(Quests quests)
+    {
+        switch (quests)
+        {
+            case Quests.Bandit: return "Townhall";
+            case Quests.ElfsHunt: return "Townhall";
+            default: return string.Empty;
         }
     }
 }

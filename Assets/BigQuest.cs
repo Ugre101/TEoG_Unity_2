@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Text;
+using TMPro;
 using UnityEngine;
 
 public class BigQuest : MonoBehaviour
@@ -8,22 +9,36 @@ public class BigQuest : MonoBehaviour
 
     public void Setup(BasicQuest basicQuest)
     {
-        string str = basicQuest.Type.ToString();
-        for (int i = 1; i < str.Length; i++)
-        {
-            char c = str[i];
-            if (char.IsUpper(c))
-            {
-                str = str.Insert(str.IndexOf(c), " ");
-            }
-        }
+        string str = SpaceAtUpper(basicQuest.Type.ToString());
+
         title.text = str;
         desc.text = QuestDesc.GetDesc(basicQuest.Type);
-        string completed = $" {basicQuest.Completed}";
-        if (false)
+        string isCompleted = $"Completed: {basicQuest.Completed}";
+        if (basicQuest is TieredQuest tiered)
         {
-            completed += $"";
+            isCompleted += $"\nTier: {tiered.Tier}";
         }
-        string re = $"Return to:\n{1}";
+        completed.text = isCompleted;
+        returnTo.text = $"Return to:\n{QuestDesc.QuestReturnTo(basicQuest.Type)}";
+    }
+
+    private string SpaceAtUpper(string text)
+    {
+        if (!string.IsNullOrEmpty(text))
+        {
+            StringBuilder stringBuilder = new StringBuilder(text.Length * 2);
+            stringBuilder.Append(text[0]);
+            for (int i = 1; i < text.Length; i++)
+            {
+                char c = text[i];
+                if (char.IsUpper(c) && c != ' ')
+                {
+                    stringBuilder.Append(' ');
+                }
+                stringBuilder.Append(c);
+            }
+            return stringBuilder.ToString();
+        }
+        return string.Empty;
     }
 }

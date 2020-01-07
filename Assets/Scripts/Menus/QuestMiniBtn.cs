@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System.Text;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,7 @@ public class QuestMiniBtn : MonoBehaviour
     private Button btn;
 
     private BasicQuest quest;
-    private TextMeshProUGUI bigText;
+    private BigQuest bigQuest;
 
     // Start is called before the first frame update
     private void Start()
@@ -26,26 +27,39 @@ public class QuestMiniBtn : MonoBehaviour
         btn.onClick.AddListener(ToBigText);
     }
 
-    public void Init(BasicQuest toAdd, TextMeshProUGUI big)
+    public void Init(BasicQuest toAdd, BigQuest big)
     {
         quest = toAdd;
-        bigText = big;
-        string str = quest.Type.ToString();
-        for (int i = 1; i < str.Length; i++)
-        {
-            char c = str[i];
-            if (char.IsUpper(c))
-            {
-                str = str.Insert(str.IndexOf(c), " ");
-            }
-        }
+        bigQuest = big;
+        string str = SpaceAtUpper(quest.Type.ToString());
         title.text = str;
         desc.text = $"Completed: {quest.Completed}";
+        if (quest is TieredQuest tiered)
+        {
+            desc.text += $"Tier: {tiered.Tier}";
+        }
         icon.sprite = null;
     }
 
-    public void ToBigText()
+    private string SpaceAtUpper(string text)
     {
-        // bigText.text = quest.Title;
+        if (!string.IsNullOrEmpty(text))
+        {
+            StringBuilder stringBuilder = new StringBuilder(text.Length * 2);
+            stringBuilder.Append(text[0]);
+            for (int i = 1; i < text.Length; i++)
+            {
+                char c = text[i];
+                if (char.IsUpper(c) && c != ' ')
+                {
+                    stringBuilder.Append(' ');
+                }
+                stringBuilder.Append(c);
+            }
+            return stringBuilder.ToString();
+        }
+        return string.Empty;
     }
+
+    public void ToBigText() => bigQuest.Setup(quest);
 }

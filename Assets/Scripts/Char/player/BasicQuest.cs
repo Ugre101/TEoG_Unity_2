@@ -9,16 +9,10 @@ public class BasicQuest
     [SerializeField]
     protected bool completed = false;
 
-    [SerializeField]
-    protected int count = 0;
-
     public BasicQuest(Quests parQuest) => type = parQuest;
 
     public Quests Type => type;
     public virtual bool Completed => completed;
-    public virtual int Count { get => count; set => count = value; }
-    public virtual int Tier { get; set; }
-    public virtual int TierStep { get; set; }
 
     public void SetCompleted() => completed = true;
 }
@@ -26,6 +20,9 @@ public class BasicQuest
 [System.Serializable]
 public abstract class CountQuest : BasicQuest
 {
+    [SerializeField]
+    protected int count = 0;
+
     public int CountGoal { get; private set; }
 
     public CountQuest(Quests parQuest, int parCountGoal) : base(parQuest)
@@ -33,13 +30,17 @@ public abstract class CountQuest : BasicQuest
         CountGoal = parCountGoal;
     }
 
-    public override int Count
+    public int Count
     {
         get => count;
         set
         {
             count = value;
-            if (count >= CountGoal) { SetCompleted(); }
+            if
+                (count >= CountGoal)
+            {
+                SetCompleted();
+            }
         }
     }
 }
@@ -53,8 +54,8 @@ public abstract class TieredQuest : CountQuest
     }
 
     private readonly int tierStep;
-    public override int TierStep => tierStep;
-    public override int Tier => Mathf.FloorToInt(Count / TierStep);
+    public int TierStep => tierStep;
+    public int Tier => Mathf.FloorToInt(Count / TierStep);
 }
 
 public class BanditQuest : BasicQuest
