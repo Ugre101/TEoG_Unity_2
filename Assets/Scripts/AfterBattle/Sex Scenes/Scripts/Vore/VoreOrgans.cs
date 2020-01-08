@@ -8,6 +8,9 @@ namespace Vore
     [Serializable]
     public abstract class VoreBasic
     {
+        protected VoreContainers voreContainers;
+        public VoreContainers VoreContainers => voreContainers;
+
         public VoreBasic(BasicChar parPred) => pred = parPred;
 
         protected readonly BasicChar pred;
@@ -46,6 +49,13 @@ namespace Vore
             return false;
         }
 
+        [SerializeField]
+        private bool digestion = true;
+
+        public bool Digestion => digestion;
+
+        public bool ToggleDigestion() => digestion = !digestion;
+
         public List<ThePrey> Digest(float toDigest = 1f)
         {
             List<ThePrey> Digested = new List<ThePrey>();
@@ -68,6 +78,7 @@ namespace Vore
     {
         public VoreBalls(BasicChar parPred) : base(parPred)
         {
+            voreContainers = VoreContainers.Balls;
         }
 
         public override float MaxCapacity()
@@ -82,6 +93,7 @@ namespace Vore
     {
         public VoreBoobs(BasicChar pred) : base(pred)
         {
+            voreContainers = VoreContainers.Boobs;
         }
 
         public override float MaxCapacity()
@@ -96,6 +108,7 @@ namespace Vore
     {
         public VoreStomach(BasicChar pred) : base(pred)
         {
+            voreContainers = VoreContainers.Stomach;
         }
 
         public override float MaxCapacity()
@@ -110,6 +123,7 @@ namespace Vore
     {
         public VoreAnal(BasicChar pred) : base(pred)
         {
+            voreContainers = VoreContainers.Anal;
         }
 
         public override float MaxCapacity()
@@ -124,6 +138,7 @@ namespace Vore
     {
         public VoreVagina(BasicChar Pred) : base(Pred)
         {
+            voreContainers = VoreContainers.Vagina;
         }
 
         [SerializeField]
