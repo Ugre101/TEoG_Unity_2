@@ -4,20 +4,21 @@ using UnityEngine.EventSystems;
 
 public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public TextMeshProUGUI _hoverText;
-    public void OnPointerEnter(PointerEventData eventData)
+    [SerializeField]
+    private TextMeshProUGUI hoverText = null;
+
+    private bool HoverEnabled { set => hoverText.gameObject.SetActive(value); }
+
+    private void OnEnable()
     {
-        if (_hoverText != null)
+        if (hoverText == null)
         {
-            _hoverText.enabled = true;
+            enabled = false;
         }
+        HoverEnabled = false; 
     }
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (_hoverText != null)
-        {
-            _hoverText.enabled = false;
-        }
-    }
+    public void OnPointerEnter(PointerEventData eventData) => HoverEnabled = true;
+
+    public void OnPointerExit(PointerEventData eventData) => HoverEnabled = false;
 }

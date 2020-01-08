@@ -59,7 +59,7 @@ public static class BallsExtensions
 
     public static float CumMax(this List<Balls> balls) => balls.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
-    public static string Looks(this Balls parBalls, bool capital = true)
+    public static string Look(this Balls parBalls, bool capital = true)
     {
         return $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls, with {Settings.LorGal(parBalls.Fluid.Current)}";
     }
@@ -67,9 +67,29 @@ public static class BallsExtensions
     public static string Looks(this List<Balls> parBalls)
     {
         StringBuilder builder = new StringBuilder();
-        foreach (Balls balls in parBalls)
+        for (int i = 0; i < parBalls.Count; i++)
         {
-            builder.Append(balls.Looks() + "\n");
+            Balls balls = parBalls[i];
+            if (i == 0)
+            {
+                builder.Append(balls.Look());
+            }
+            else
+            {
+                builder.Append(balls.Look(false));
+            }
+            if (i == parBalls.Count - 2)
+            {
+                builder.Append(" and ");
+            }
+            else if (i == parBalls.Count - 1)
+            {
+                builder.Append(".");
+            }
+            else
+            {
+                builder.Append(", ");
+            }
         }
         return builder.ToString();
     }

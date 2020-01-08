@@ -5,7 +5,7 @@ public class InventoryHoverText : BasicMenuHoverText
     public override void Hovering(GameObject hoverOver, Vector2 mousePos)
     {
         base.Hovering(hoverOver, mousePos);
-        Item item = hoverOver.GetComponentInChildren<DragInventory>().item;
+        Item item = hoverOver.GetComponentInChildren<DragInventory>().Item;
         if (item != null)
         {
             string desc = $"{item.Title}\n\n{item.Desc}";

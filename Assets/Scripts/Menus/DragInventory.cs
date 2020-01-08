@@ -10,9 +10,9 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField]
     private TextMeshProUGUI amountText = null;
 
-    public Item item { get; private set; }
+    public Item Item { get; private set; }
     private int SlotId;
-    private PlayerMain player => PlayerMain.GetPlayer;
+    private PlayerMain Player => PlayerMain.GetPlayer;
 
     private InventoryHandler invHandler;
     private InventoryHoverText hoverText;
@@ -21,11 +21,11 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private int Amount
     {
-        get => invItem != null ? player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount : 0;
+        get => invItem != null ? Player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount : 0;
         set
         {
             amountText.text = value.ToString();
-            player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount = value;
+            Player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount = value;
         }
     }
 
@@ -120,20 +120,20 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void UseItem()
     {
-        Debug.Log("Using item" + item.name);
-        if (typeof(IHaveStatMods).IsAssignableFrom(item.GetType()))
+        Debug.Log("Using item" + Item.name);
+        if (typeof(IHaveStatMods).IsAssignableFrom(Item.GetType()))
         {
-            IHaveStatMods haveMods = item as IHaveStatMods;
-            haveMods.Mods.ForEach(m => player.Stats.GetStat(m.StatType).AddMods(m));
+            IHaveStatMods haveMods = Item as IHaveStatMods;
+            haveMods.Mods.ForEach(m => Player.Stats.GetStat(m.StatType).AddMods(m));
             Debug.Log("Has statmod!");
             // TODO if player has weapong equipt then dequip it.
         }
-        if (typeof(IEquip).IsAssignableFrom(item.GetType()))
+        if (typeof(IEquip).IsAssignableFrom(Item.GetType()))
         {
-            IEquip toEquip = item as IEquip;
+            IEquip toEquip = Item as IEquip;
             Debug.Log("Equipable!");
         }
-        item.Use(player);
+        Item.Use(Player);
         //amount.text = Item.Amount.ToString();
         Amount--;
         if (Amount < 1)
@@ -149,7 +149,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         invHandler = inventoryHandler;
         SlotId = slot;
         amountText.text = Amount.ToString();
-        this.item = item;
+        this.Item = item;
         //Invitem.item;
         if (item != null ? item.Sprite != null : false)
         {

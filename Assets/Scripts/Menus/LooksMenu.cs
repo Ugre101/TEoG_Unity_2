@@ -1,54 +1,94 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LooksMenu : MonoBehaviour
 {
-    public TextMeshProUGUI _looksIntro;
-    public PlayerMain player;
+    [SerializeField]
+    private TextMeshProUGUI looksText = null;
+
+    [SerializeField]
+    private PlayerMain player = null;
+
     private bool exactDetails = false;
+
+    [SerializeField]
+    private Button sortAllBtn = null, sortBodyBtn = null, sortOrgansBtn = null, sortPregBtn = null;
+
+    private void Start()
+    {
+        player = player != null ? player : PlayerMain.GetPlayer;
+        sortAllBtn.onClick.AddListener(() => looksText.text = Summary);
+        sortBodyBtn.onClick.AddListener(() => looksText.text = BodyLook());
+        sortOrgansBtn.onClick.AddListener(() => looksText.text = SexOrgans());
+        sortPregBtn.onClick.AddListener(() => looksText.text = PregnancyLook());
+    }
 
     private void OnEnable()
     {
-        // if missing disable script
-        if (player == null)
+        if (looksText != null && player != null)
         {
-            GetComponent<LooksMenu>().enabled = false;
-        }
-        if (_looksIntro != null)
-        {
-            _looksIntro.text = player.Summary();
+            looksText.text = Summary;
         }
     }
 
-    public void BodyLook()
+    private string Summary => player.Summary() + "\n\n" + BodyLook() + "\n\n" + SexOrgans() + "\n\n" + PregnancyLook();
+
+    private string BodyLook()
     {
-        string body = $"Age: {player.Age.AgeYears}years old\nHeight: {Settings.MorInch(player.Body.Height.Value)}\nWeight: {Settings.KgorP(player.Body.Weight)}";
+        string body = $"";
+        return body;
     }
 
-    public void StatsDetails()
+    private string StatsDetails()
     {
         string stats = $"Strength: {player.Stats.Str}\nCharm: {player.Stats.Cha}\nEndurance: {player.Stats.End}";
+        return stats;
     }
 
-    public void OrgansLook()
+    private string SexOrgans()
     {
-        string organs = player.SexualOrgans.Dicks.Looks();
-        _looksIntro.text = organs;
+        string toReturn = " ";
+        Organs so = player.SexualOrgans;
+        if (so.HaveBoobs())
+        {
+            toReturn += so.Boobs.Looks() + "\n\n";
+        }
+        if (so.HaveVagina())
+        {
+            toReturn += so.Vaginas.Looks() + "\n\n";
+        }
+        if (so.HaveDick())
+        {
+            toReturn += so.Dicks.Looks() + "\n\n";
+        }
+        if (so.HaveBalls())
+        {
+            toReturn += so.Balls.Looks() + "\n\n";
+        }
+        return toReturn;
     }
 
-    public void PregnancyLook()
+    private string PregnancyLook()
     {
-        string pregLook = $"Virility: {player.PregnancySystem.Virility.Value}\n" +
-            $"Fertility: {player.PregnancySystem.Fertility.Value}\n\n";
+        PregnancySystem pregnancySystem = player.PregnancySystem;
+        string pregLook = $"Virility: {pregnancySystem.Virility.Value}\n" +
+            $"Fertility: {pregnancySystem.Fertility.Value}\n\n";
         if (player.Pregnant)
         {
-            List<Vagina> pregVags = player.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus);
-            foreach (Vagina vag in pregVags)
+            player.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus).ForEach(vag =>
             {
                 pregLook += FetusDesc(vag) + "\n";
-            }
+            });
         }
+        List<Child> children = pregnancySystem.Children;
+        if (children.Count > 0)
+        {
+            pregLook += $"\n You have {children.Count} children.";
+            //TODO make a more advanced menu
+        }
+        return pregLook;
     }
 
     private string FetusDesc(Vagina pregVag)

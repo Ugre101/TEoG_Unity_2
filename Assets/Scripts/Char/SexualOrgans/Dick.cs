@@ -36,17 +36,37 @@ public static class DickExtensions
         }
     }
 
-    public static string Looks(this Dick parDick, bool capital = true)
+    public static string Look(this Dick parDick, bool capital = true)
     {
-        return $"{(capital ? "A" : "a")} {Settings.MorInch(parDick.Size)} long {parDick.Race} dick.";
+        return $"{(capital ? "A" : "a")} {Settings.MorInch(parDick.Size)} long {parDick.Race} dick";
     }
 
     public static string Looks(this List<Dick> parDicks)
     {
         StringBuilder builder = new StringBuilder();
-        foreach (Dick dick in parDicks)
+        for (int i = 0; i < parDicks.Count; i++)
         {
-            builder.Append(dick.Looks() + "\n");
+            Dick dick = parDicks[i];
+            if (i == 0)
+            {
+                builder.Append(dick.Look());
+            }
+            else
+            {
+                builder.Append(dick.Look(false));
+            }
+            if (i == parDicks.Count - 2)
+            {
+                builder.Append(" and ");
+            }
+            else if (i == parDicks.Count - 1)
+            {
+                builder.Append(".");
+            }
+            else
+            {
+                builder.Append(", ");
+            }
         }
         return builder.ToString();
     }

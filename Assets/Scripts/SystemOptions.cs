@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SystemOptions : MonoBehaviour
 {
-    private FullScreenMode curMode => Screen.fullScreenMode;
+    private FullScreenMode CurMode => Screen.fullScreenMode;
     public TMP_Dropdown dropDown, screenMode;
     private Resolution[] resolutions;
     private Array screenModes;
@@ -39,14 +39,14 @@ public class SystemOptions : MonoBehaviour
             options.Add(new TMP_Dropdown.OptionData(e.ToString()));
         }
         screenMode.AddOptions(options);
-        screenMode.value = Array.IndexOf(screenModes, curMode);
+        screenMode.value = Array.IndexOf(screenModes, CurMode);
     }
 
     public void SetResolution(TMP_Dropdown parDrop)
     {
         int i = Mathf.Clamp(parDrop.value, 0, resolutions.Length - 1);
         Resolution rs = resolutions[i];
-        Screen.SetResolution(rs.width, rs.height, curMode);
+        Screen.SetResolution(rs.width, rs.height, CurMode);
     }
 
     private void GetResolutions()

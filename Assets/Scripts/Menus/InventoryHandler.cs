@@ -11,7 +11,7 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField]
     private InventorySlot SlotPrefab = null;
 
-    [field: SerializeField] public EquiptItems equiptItems { get; private set; } = null;
+    [field: SerializeField] public EquiptItems EquiptItems { get; private set; } = null;
 
     public PlayerMain player;
 

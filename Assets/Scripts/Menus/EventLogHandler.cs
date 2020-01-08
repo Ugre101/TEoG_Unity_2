@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class EventLogHandler : MonoBehaviour, IPointerClickHandler
 {
-    // Public
-    public CanvasMain gameui;
+    [SerializeField]
+    private CanvasMain canvasMain = null;
+
     // Private
     [SerializeField]
     private TextMeshProUGUI logText = null;
@@ -22,17 +23,15 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
 
     private Vector2 defaultSize = new Vector2(180f, 190f), lastSize = new Vector2(180f, 190f), minSize = new Vector2(180f, 20f);
 
-    private Vector2 curSize { get => rect.sizeDelta; set => rect.sizeDelta = value; }
+    private Vector2 CurSize { get => rect.sizeDelta; set => rect.sizeDelta = value; }
 
     [SerializeField]
     private Sprite upArrow = null, downArrow = null;
 
     private void Start()
     {
-        if (rect == null)
-        {
-            rect = GetComponent<RectTransform>();
-        }
+        canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
+        rect = rect != null ? rect : GetComponent<RectTransform>();
     }
 
     private void OnEnable()
@@ -58,7 +57,7 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
             else
             {
                 oneClick = false;
-                _ = gameui.BigEventLog();
+                _ = canvasMain.BigEventLog();
             }
         }
         else
@@ -75,15 +74,15 @@ public class EventLogHandler : MonoBehaviour, IPointerClickHandler
 
     public void ToggleSize()
     {
-        if (curSize.y > minSize.y)
+        if (CurSize.y > minSize.y)
         {
-            lastSize = curSize;
-            curSize = minSize;
+            lastSize = CurSize;
+            CurSize = minSize;
             btnImg.sprite = upArrow;
         }
         else
         {
-            curSize = lastSize;
+            CurSize = lastSize;
             btnImg.sprite = downArrow;
         }
     }

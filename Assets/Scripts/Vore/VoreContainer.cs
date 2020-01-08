@@ -5,7 +5,7 @@ namespace Vore
 {
     public class VoreContainer : MonoBehaviour
     {
-        private BasicChar[] preyArray => GetComponentsInChildren<BasicChar>();
+        private BasicChar[] PreyArray => GetComponentsInChildren<BasicChar>();
         private List<BasicChar> lastPreys = new List<BasicChar>();
         private bool preysDirty = true;
 
@@ -13,7 +13,7 @@ namespace Vore
         {
             if (preysDirty)
             {
-                lastPreys = transform.childCount > 0 ? new List<BasicChar>(preyArray) : new List<BasicChar>();
+                lastPreys = transform.childCount > 0 ? new List<BasicChar>(PreyArray) : new List<BasicChar>();
                 preysDirty = false;
             }
             return lastPreys;

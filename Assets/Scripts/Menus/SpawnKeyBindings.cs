@@ -8,7 +8,7 @@ public class SpawnKeyBindings : MonoBehaviour
     private KeyBindingButton prefab = null;
 
     [SerializeField]
-    private KeyBindings keyBindings  = null;
+    private KeyBindings keyBindings = null;
 
     [SerializeField]
     private Transform spawnLocation = null;
@@ -18,7 +18,7 @@ public class SpawnKeyBindings : MonoBehaviour
     private KeyCode newKey;
     private bool waitingForKey;
     private bool AltKey = false;
-    private List<KeyBindingButton> bindingButtons = new List<KeyBindingButton>();
+    private readonly List<KeyBindingButton> bindingButtons = new List<KeyBindingButton>();
 
     // Start is called before the first frame update
     private void Start()

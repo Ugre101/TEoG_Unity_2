@@ -34,7 +34,8 @@ public class PlayerMain : BasicChar
         {
             Inventory.AddItem(ItemId.Stick);
         }
-        Masc.Gain(1999);
+        Masc.Gain(19999);
+        Femi.Gain(9999);
         Currency.Gold += 100;
     }
 

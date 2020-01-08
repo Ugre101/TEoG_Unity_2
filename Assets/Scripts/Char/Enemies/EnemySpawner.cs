@@ -30,7 +30,7 @@ public class EnemySpawner : MonoBehaviour
 
     private readonly List<EnemyPrefab> _CurrEnemies = new List<EnemyPrefab>();
     private Tilemap _currMap;
-    private System.Random rnd = new System.Random();
+    private readonly System.Random rnd = new System.Random();
 
     private void Start()
     {

@@ -40,17 +40,50 @@ public static class VaginaExtensions
 
     public static bool EmptyWomb(this List<Vagina> vaginas) => vaginas.Exists(v => !v.Womb.HasFetus);
 
-    public static string Looks(this Vagina vag, bool capital = true)
+    public static string VagSizeConventor(this Vagina vag)
     {
-        return $"{(capital ? "A" : "a")} {vag.Race}";
+        List<string> deepth = new List<string>()
+        {
+        };
+        if (deepth.Count > 0)
+        {
+            int i = Mathf.Clamp(Mathf.FloorToInt(vag.Size / 2), 0, deepth.Count - 1);
+            return deepth[i];
+        }
+        return vag.Size.ToString();
+    }
+
+    public static string Look(this Vagina vag, bool capital = true)
+    {
+        return $"{(capital ? "A" : "a")} {vag.VagSizeConventor()} {vag.Race}";
     }
 
     public static string Looks(this List<Vagina> parVags)
     {
         StringBuilder builder = new StringBuilder();
-        foreach (Vagina vag in parVags)
+        for (int i = 0; i < parVags.Count; i++)
         {
-            builder.Append(vag.Looks() + "\n");
+            Vagina vag = parVags[i];
+            if (i == 0)
+            {
+                builder.Append(vag.Look());
+            }
+            else
+            {
+                builder.Append(vag.Look(false));
+            }
+            if (i == parVags.Count - 2)
+            {
+                builder.Append(" and ");
+            }
+            else if (i == parVags.Count - 1)
+            {
+                builder.Append(".");
+            }
+            else
+            {
+                builder.Append(", ");
+            }
         }
         return builder.ToString();
     }

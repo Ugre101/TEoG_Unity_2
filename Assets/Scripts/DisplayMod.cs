@@ -14,7 +14,7 @@ public class DisplayMod
     }
 
     public List<Mod> Mods { get; private set; }
-    private IDuration iDur;
+    private readonly IDuration iDur;
     public int Duration => iDur != null ? iDur.Duration : 0;
 
     public string Source { get; private set; }

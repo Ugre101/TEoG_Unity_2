@@ -35,6 +35,18 @@ public class SaveMananger : MonoBehaviour
         Settings.SetImperial = PlayerPrefs.HasKey("Imperial") ? PlayerPrefs.GetInt("Imperial") == 1 : false; ;
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            NewSaveGame();
+        }
+        else if (Input.GetKeyDown(KeyCode.F9))
+        {
+            QuickLoad();
+        }
+    }
+
     public void NewSaveGame()
     {
         SaveName saveName = new SaveName(player, DateTime.Now);
@@ -58,8 +70,6 @@ public class SaveMananger : MonoBehaviour
             Debug.LogError("Save failed...");
         }
     }
-
-    private void QuickSave() => NewSaveGame();
 
     public void QuickLoad()
     {

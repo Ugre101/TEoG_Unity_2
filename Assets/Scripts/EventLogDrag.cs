@@ -3,9 +3,14 @@ using UnityEngine.EventSystems;
 
 public class EventLogDrag : MonoBehaviour, IBeginDragHandler, IDragHandler
 {
-    public RectTransform canvas;
-    public RectTransform rectT;
+    [SerializeField]
+    private RectTransform canvas = null;
+
+    [SerializeField]
+    private RectTransform rectT = null;
+
     private Vector2 RectSizeDelta { get => rectT.sizeDelta; set => rectT.sizeDelta = value; }
+
     [Header("Settings")]
     [Range(0, 50)]
     [SerializeField]

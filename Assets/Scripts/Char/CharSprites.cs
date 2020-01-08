@@ -40,7 +40,7 @@ public class CharSprites : ScriptableObject
 
 public static class AssingGender
 {
-    private static Genders[] allGenders = (Genders[])Enum.GetValues(typeof(Genders));
+    private static readonly Genders[] allGenders = (Genders[])Enum.GetValues(typeof(Genders));
 
     public static void GetEssense(BasicChar who, float amount)
     {
