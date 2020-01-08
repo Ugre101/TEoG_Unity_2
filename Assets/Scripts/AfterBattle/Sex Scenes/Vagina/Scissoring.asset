@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b45048885e12374e96216b105a029e9, type: 3}
   m_Name: Scissoring
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
   PlayerDick: 0
   PlayerBalls: 0
   PlayerBoobs: 0
@@ -21,8 +20,10 @@ MonoBehaviour:
   Balls: 0
   Boobs: 0
   Vagina: 1
-  CasterGain: 0
-  ReciverGain: 0
+  CasterGain: 33
+  ReciverGain: 33
   EnduranceMultiplier: 1
   CharmMultiplier: 1
   StrengthMultiplier: 1
+  <IImpregnate>k__BackingField: 0
+  <IGetImpregnated>k__BackingField: 0

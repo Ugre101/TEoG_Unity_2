@@ -129,12 +129,16 @@ public class AfterBattleMain : MonoBehaviour
         // in future make it so several statuses spawn if team har more than one member.
         // if enemies more than one, make selector view next to status
         playerChar.Setup(player);
+        enemyChar.Setup(Target);
+
+        player.SexStats.OrgasmedEvent += PlayerOrgasmed;
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent += OtherOrgasmed);
+
         player.SexStats.OrgasmedEvent += RefreshScenes;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += RefreshScenes);
+
         player.SexStats.OrgasmedEvent += Impreg;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += GetImpreg);
-
-        enemyChar.Setup(Target);
 
         player.SexStats.Reset();
         RefreshScenes();
@@ -180,7 +184,7 @@ public class AfterBattleMain : MonoBehaviour
         {
             if (Target.Impregnate(Caster))
             {
-                AddToTextBox($" {Target.Identity.FirstName} got pregnant!");
+                InsertToTextBox($" {Target.Identity.FirstName} got pregnant!");
             }
         }
     }
@@ -191,10 +195,14 @@ public class AfterBattleMain : MonoBehaviour
         {
             if (Caster.Impregnate(Target))
             {
-                AddToTextBox($" You got pregnant!");
+                InsertToTextBox($" You got pregnant!");
             }
         }
     }
+
+    private void PlayerOrgasmed() => InsertToTextBox(LastScene.PlayerOrgasmed(player, Target));
+
+    private void OtherOrgasmed() => InsertToTextBox(LastScene.OtherOrgasmed(player, Target));
 
     private void SceneChecker(List<SexScenes> scenes, bool showVore = false)
     {
@@ -228,4 +236,6 @@ public class AfterBattleMain : MonoBehaviour
     }
 
     public void AddToTextBox(string text) => textBox.text = text;
+    // TODO fix to extra info comes after
+    public void InsertToTextBox(string text) => textBox.text += text;
 }

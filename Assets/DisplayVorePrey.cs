@@ -24,12 +24,14 @@ namespace Vore
         {
             this.prey = prey;
             this.voreContainers = voreContainers;
+            DisplayPrey();
         }
 
         private void DisplayPrey()
         {
             title.text = voreContainers.ToString();
             string preyDesc = $"{prey.Prey.Identity.FullName}\n\nWeight: {prey.Prey.Weight}";
+            desc.text = preyDesc;
         }
     }
 }

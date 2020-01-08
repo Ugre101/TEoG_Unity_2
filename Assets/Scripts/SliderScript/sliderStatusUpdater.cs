@@ -23,7 +23,7 @@ public class BasicSlider : MonoBehaviour
     {
         if (slider == null) { slider = GetComponent<Slider>(); }
         if (TextMesh == null) { TextMesh = GetComponentInChildren<TextMeshProUGUI>(); }
-        if (basicChar == null) { enabled = false; }
+        if (basicChar == null) { basicChar = PlayerMain.GetPlayer; }
     }
 
     public virtual void Setup(BasicChar who)

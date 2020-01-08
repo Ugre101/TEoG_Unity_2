@@ -103,6 +103,16 @@ public abstract class SexScenes : ScriptableObject
         return $"";
     }
 
+    public virtual string PlayerOrgasmed(PlayerMain player, BasicChar other)
+    {
+        return "You orgasmed";
+    }
+
+    public virtual string OtherOrgasmed(PlayerMain player, BasicChar other)
+    {
+        return "They orgasmed";
+    }
+
     public virtual void ArousalGain(PlayerMain player, BasicChar other)
     {
         float PlayerGain = CasterGain * Mathf.Pow(EnduranceMultiplier, player.Stats.End);
