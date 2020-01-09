@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Vore
@@ -9,10 +10,19 @@ namespace Vore
         private PlayerMain player = null;
 
         [SerializeField]
+        private TextMeshProUGUI organText = null;
+
+        [SerializeField]
         private DisplayVorePrey vorePrey = null;
 
         [SerializeField]
         private Transform preyContainer = null;
+
+        [SerializeField]
+        private Button digestionBtn = null;
+
+        [SerializeField]
+        private TextMeshProUGUI digestionBtnText = null;
 
         [SerializeField]
         private Button sortAll = null, sortStomach = null, sortAnal = null
@@ -22,7 +32,7 @@ namespace Vore
         {
             player = player != null ? player : PlayerMain.GetPlayer;
             VoreEngine vore = player.Vore;
-            sortAll.onClick.AddListener(OnEnable);
+            sortAll.onClick.AddListener(ShowAll);
             sortStomach.onClick.AddListener(() => SortPrey(vore.Stomach));
             sortAnal.onClick.AddListener(() => SortPrey(vore.Anal));
             sortBalls.onClick.AddListener(() => SortPrey(vore.Balls));
@@ -30,7 +40,9 @@ namespace Vore
             sortVagina.onClick.AddListener(() => SortPrey(vore.Vagina));
         }
 
-        private void OnEnable()
+        private void OnEnable() => sortAll.onClick.Invoke();
+
+        private void ShowAll()
         {
             preyContainer.KillChildren();
             if (player != null)
@@ -45,21 +57,33 @@ namespace Vore
                     SetupPrey(vore.Vagina);
                 }
             }
+            organText.text = "All";
+            digestionBtn.onClick.RemoveAllListeners();
+            digestionBtn.gameObject.SetActive(false);
         }
 
         private void SortPrey(VoreBasic voreOrgan)
         {
             preyContainer.KillChildren();
+            organText.text = voreOrgan.VoreContainers.ToString();
+            digestionBtn.gameObject.SetActive(true);
+            digestionBtn.onClick.RemoveAllListeners();
+            digestionBtn.onClick.AddListener(() => { digestionBtnText.text = $"Digestion:\n{voreOrgan.ToggleDigestion()}"; });
+            digestionBtnText.text = $"Digestion:\n{voreOrgan.Digestion}";
             SetupPrey(voreOrgan);
         }
 
-        private void SetupPrey(VoreBasic voreOrgan)
+        private void SetupPrey(VoreBasic voreOrgan) => voreOrgan.Preys.ForEach(p =>
+             {
+                 DisplayVorePrey dv = Instantiate(vorePrey, preyContainer);
+                 Button preyBtn = dv.Setup(p, voreOrgan.VoreContainers);
+                 preyBtn.onClick.AddListener(() => ClickPrey(p));
+             });
+
+        private void ClickPrey(ThePrey prey)
         {
-            voreOrgan.Preys.ForEach(p =>
-            {
-                DisplayVorePrey dv = Instantiate(vorePrey, preyContainer);
-                dv.Setup(p, voreOrgan.VoreContainers);
-            });
+            Debug.Log(prey.Prey.Identity.FullName);
+            // TODO something
         }
     }
 }
