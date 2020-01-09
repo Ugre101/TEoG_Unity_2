@@ -103,14 +103,6 @@ public abstract class BasicChar : MonoBehaviour
 
     public StatsContainer Stats => stats;
 
-    public virtual void Init(int lvl, int maxhp, int maxwp)
-    {
-        hp = new Health(maxhp);
-        wp = new Health(maxwp);
-        expSystem = new ExpSystem(lvl);
-        StartCoroutine(BasicCharExtensions.TickEverySecond(this));
-    }
-
     [Header("Essence")]
     [SerializeField]
     private bool autoEss = true;
@@ -161,6 +153,10 @@ public abstract class BasicChar : MonoBehaviour
         identity = new Identity();
         Essence.Masc.EssenceSliderEvent += DidGenderChange;
         essence.Femi.EssenceSliderEvent += DidGenderChange;
+        hp = new Health(100, Stats.Endurance);
+        wp = new Health(100, Stats.Willpower);
+        expSystem = new ExpSystem(1);
+        StartCoroutine(BasicCharExtensions.TickEverySecond(this));
     }
 
     public virtual void OnDestroy()

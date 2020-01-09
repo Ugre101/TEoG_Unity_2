@@ -52,6 +52,8 @@ public class Health
     }
 
     public bool IsMax => current >= MaxFinal;
+    private List<CharStats> affectedBy = new List<CharStats>();
+    public List<CharStats> AffectedBy => affectedBy;
     [field: SerializeField] public List<HealthMod> HealthMods { get; private set; } = new List<HealthMod>();
     [field: SerializeField] public List<TempHealthMod> TempHealthMods { get; private set; } = new List<TempHealthMod>();
 
@@ -61,7 +63,8 @@ public class Health
     {
         float flatValue = baseMax +
             HealthMods.FindAll(hm => hm.ModType == ModTypes.Flat).Sum(hm => hm.Value) +
-            TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Flat).Sum(thm => thm.Value);
+            TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Flat).Sum(thm => thm.Value) +
+            AffectedBy.Sum(ab => ab.Value);
         float perValue = 1 +
             HealthMods.FindAll(hm => hm.ModType == ModTypes.Precent).Sum(hm => hm.Value) +
             TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Precent).Sum(thm => thm.Value);
@@ -72,6 +75,31 @@ public class Health
     {
         baseMax = parMax;
         current = parMax;
+        DateSystem.NewHourEvent += TickTempMods;
+    }
+
+    public Health(int parMax, CharStats affectedBy)
+    {
+        baseMax = parMax;
+        current = parMax;
+        this.affectedBy = new List<CharStats>() { affectedBy };
+        this.affectedBy.ForEach(ab =>
+        {
+            ab.ValueChanged += () => IsDirty = true;
+        });
+        DateSystem.NewHourEvent += TickTempMods;
+    }
+
+    public Health(int parMax, List<CharStats> affectedBy)
+    {
+        baseMax = parMax;
+        current = parMax;
+        this.affectedBy = affectedBy;
+        this.affectedBy.ForEach(ab =>
+        {
+            ab.ValueChanged += () => IsDirty = true;
+        });
+
         DateSystem.NewHourEvent += TickTempMods;
     }
 

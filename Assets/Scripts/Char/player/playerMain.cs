@@ -26,7 +26,6 @@ public class PlayerMain : BasicChar
     public override void Start()
     {
         base.Start();
-        Init(1, 100, 100);
         RaceSystem.AddRace(Races.Human, 100);
         body = new Body(160, 10, 20);
         Inventory.AddItem(ItemId.Pouch);

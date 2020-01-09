@@ -78,8 +78,7 @@ public class EnemyPrefab : BasicChar
         base.Start();
         stats = new StatsContainer(FinalStat(assingStr), FinalStat(assingCharm),
             FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt));
-        Init(1, assingHP, assingWP);
-    //    Femi.Gain(200f);
+        //    Femi.Gain(200f);
         Masc.Gain(300f);
         body = new Body(FinalHeight, FinalFat, FinalMuscle);
         RaceSystem.AddRace(assingRace.GetRace(), 100);
@@ -96,9 +95,10 @@ public class EnemyPrefab : BasicChar
         }
         if (NeedLastName)
         {
-           Identity.LastName = RandomName.LastName;
+            Identity.LastName = RandomName.LastName;
         }
     }
+
     public override void Update()
     {
         base.Update();

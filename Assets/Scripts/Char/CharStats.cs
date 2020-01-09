@@ -17,7 +17,18 @@ public class CharStats
     [SerializeField]
     private List<TempStatMod> tempMods = new List<TempStatMod>();
 
-    private bool IsDirty { get; set; } = true;
+    private bool isDirty = true;
+
+    private bool IsDirty
+    {
+        get => isDirty;
+        set
+        {
+            isDirty = value;
+            _ = Value;
+            ValueChanged?.Invoke();
+        }
+    }
 
     public float Value
     {
@@ -60,7 +71,7 @@ public class CharStats
         if (TempMods.Exists(tm => tm.Source.Equals(mod.Source)))
         {
             TempStatMod toChange = TempMods.Find(tm => tm.Source.Equals(mod.Source));
-            float diminishingReturn = (float)toChange.Duration / (float)mod.Duration;
+            float diminishingReturn = (float)toChange.Duration / mod.Duration;
             int toIncrease = Mathf.Max(0, Mathf.FloorToInt(mod.Duration / Mathf.Max(1, 2 * diminishingReturn)));
             toChange.IncreaseDuration(toIncrease);
         }
@@ -131,4 +142,8 @@ public class CharStats
     }
 
     public void TickTempMods() => TempMods.RemoveAll(tm => tm.Duration < 1);
+
+    public delegate void ValueChange();
+
+    public event ValueChange ValueChanged;
 }
