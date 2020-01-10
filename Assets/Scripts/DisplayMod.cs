@@ -5,7 +5,7 @@ public class DisplayMod
 {
     public DisplayMod(Mod parMod)
     {
-        Mods = new List<Mod>() { parMod };
+        this.Mods = new List<Mod>() { parMod };
         Source = parMod.Source;
         if (parMod is IDuration parDur)
         {
@@ -13,11 +13,11 @@ public class DisplayMod
         }
     }
 
-    public List<Mod> Mods { get; private set; }
+    public List<Mod> Mods { get; }
     private readonly IDuration iDur;
     public int Duration => iDur != null ? iDur.Duration : 0;
 
-    public string Source { get; private set; }
+    public string Source { get; }
 
     public string Desc()
     {
@@ -30,9 +30,9 @@ public class DisplayMod
             }
             else if (m is TempStatMod tsm)
             {
+                builder.Append(string.Format("{0} {1} {2} {3}", tsm.StatType, tsm.Value, tsm.ModType, tsm.Source));
             }
         });
-        string desc = $"";
-        return desc;
+        return builder.ToString();
     }
 }

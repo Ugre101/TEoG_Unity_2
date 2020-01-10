@@ -5,11 +5,10 @@ using UnityEngine.UI;
 
 public class LooksMenu : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI looksText = null;
+    [SerializeField] private TextMeshProUGUI looksText = null;
 
-    [SerializeField]
-    private PlayerMain player = null;
+    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private Button toggleExact = null;
 
     private bool exactDetails = false;
 
@@ -19,6 +18,7 @@ public class LooksMenu : MonoBehaviour
     private void Start()
     {
         player = player != null ? player : PlayerMain.GetPlayer;
+        toggleExact.onClick.AddListener(() => exactDetails = !exactDetails);
         sortAllBtn.onClick.AddListener(() => looksText.text = Summary);
         sortBodyBtn.onClick.AddListener(() => looksText.text = BodyLook());
         sortOrgansBtn.onClick.AddListener(() => looksText.text = SexOrgans());

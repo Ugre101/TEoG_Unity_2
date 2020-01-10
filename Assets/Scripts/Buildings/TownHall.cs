@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-public class TownHall : Building
+public class TownHall : Building, IGiveQuest
 {
     [SerializeField]
     private TextMeshProUGUI changeNameText = null;

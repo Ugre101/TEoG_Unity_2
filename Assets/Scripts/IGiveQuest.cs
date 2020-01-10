@@ -5,8 +5,6 @@ public interface IGiveQuest
 {
     List<QuestButton> QuestToGive { get; }
     TakeQuest QuestPanelPrefab { get; }
-
-    bool PlayerHasQuest(Quests quest);
 }
 
 [System.Serializable]

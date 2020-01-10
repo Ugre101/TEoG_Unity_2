@@ -3,17 +3,22 @@
 [System.Serializable]
 public abstract class Mod
 {
+    [SerializeField] private float value;
+    [SerializeField] private ModTypes modType;
+    [SerializeField] private string source;
+
     public Mod(float parValue, ModTypes parType, string parSource)
     {
-        Value = parValue;
-        ModType = parType;
-        Source = parSource;
+        this.value = parValue;
+        this.modType = parType;
+        this.source = parSource;
     }
 
-    [field: SerializeField] public float Value { get; protected set; }
-    [field: SerializeField] public ModTypes ModType { get; protected set; }
-    [field: SerializeField] public string Source { get; protected set; }
+    public float Value => value;
+    public ModTypes ModType => modType;
+    public string Source => source;
 }
+
 /*
 public abstract class TempMod : Mod
 {

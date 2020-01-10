@@ -11,11 +11,9 @@ public enum HealthTypes
 [System.Serializable]
 public class Health
 {
-    [SerializeField]
-    private float current;
+    [SerializeField] private float current;
 
-    [SerializeField]
-    private int baseMax;
+    [SerializeField] private int baseMax;
 
     private int lastTotal;
 
@@ -26,15 +24,12 @@ public class Health
             if (IsDirty)
             {
                 lastTotal = CalcFinalMax();
-
                 IsDirty = false;
                 UpdateSliderEvent?.Invoke();
             }
             return lastTotal;
         }
     }
-
-    public int SetMax { set { baseMax = value; IsDirty = true; } }
 
     private bool dirty = true;
 
@@ -52,10 +47,16 @@ public class Health
     }
 
     public bool IsMax => current >= MaxFinal;
-    private List<CharStats> affectedBy = new List<CharStats>();
-    public List<CharStats> AffectedBy => affectedBy;
-    [field: SerializeField] public List<HealthMod> HealthMods { get; private set; } = new List<HealthMod>();
-    [field: SerializeField] public List<TempHealthMod> TempHealthMods { get; private set; } = new List<TempHealthMod>();
+
+    public List<AffectedByStat> AffectedBy { get; } = new List<AffectedByStat>();
+
+    [SerializeField] private List<HealthMod> healthMods = new List<HealthMod>();
+
+    public List<HealthMod> HealthMods => healthMods;
+
+    [SerializeField] private List<TempHealthMod> tempHealthMods = new List<TempHealthMod>();
+
+    public List<TempHealthMod> TempHealthMods => tempHealthMods;
 
     public void TickTempMods() => TempHealthMods.RemoveAll(tm => tm.Duration < 1);
 
@@ -64,7 +65,7 @@ public class Health
         float flatValue = baseMax +
             HealthMods.FindAll(hm => hm.ModType == ModTypes.Flat).Sum(hm => hm.Value) +
             TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Flat).Sum(thm => thm.Value) +
-            AffectedBy.Sum(ab => ab.Value);
+            AffectedBy.Sum(ab => ab.CharStats.Value * ab.Multiplier);
         float perValue = 1 +
             HealthMods.FindAll(hm => hm.ModType == ModTypes.Precent).Sum(hm => hm.Value) +
             TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Precent).Sum(thm => thm.Value);
@@ -78,26 +79,22 @@ public class Health
         DateSystem.NewHourEvent += TickTempMods;
     }
 
-    public Health(int parMax, CharStats affectedBy)
+    public Health(int parMax, AffectedByStat affectedBy) : this(parMax)
     {
-        baseMax = parMax;
-        current = parMax;
-        this.affectedBy = new List<CharStats>() { affectedBy };
-        this.affectedBy.ForEach(ab =>
+        this.AffectedBy = new List<AffectedByStat>() { affectedBy };
+        this.AffectedBy.ForEach(ab =>
         {
-            ab.ValueChanged += () => IsDirty = true;
+            ab.CharStats.ValueChanged += () => IsDirty = true;
         });
         DateSystem.NewHourEvent += TickTempMods;
     }
 
-    public Health(int parMax, List<CharStats> affectedBy)
+    public Health(int parMax, List<AffectedByStat> affectedBy) : this(parMax)
     {
-        baseMax = parMax;
-        current = parMax;
-        this.affectedBy = affectedBy;
-        this.affectedBy.ForEach(ab =>
+        this.AffectedBy = affectedBy;
+        this.AffectedBy.ForEach(ab =>
         {
-            ab.ValueChanged += () => IsDirty = true;
+            ab.CharStats.ValueChanged += () => IsDirty = true;
         });
 
         DateSystem.NewHourEvent += TickTempMods;
@@ -125,7 +122,7 @@ public class Health
 
     public float SliderValue => current / MaxFinal;
 
-    public string Status => $"{current} / {MaxFinal}";
+    public string Status => $"{Mathf.FloorToInt(current)} / {MaxFinal}";
 
     public delegate void UpdateSlider();
 
@@ -211,4 +208,16 @@ public class Health
     }
 
     #endregion AddAndRemoveMods
+}
+
+public class AffectedByStat
+{
+    public AffectedByStat(CharStats charStats, float multiplier)
+    {
+        this.CharStats = charStats;
+        this.Multiplier = multiplier;
+    }
+
+    public CharStats CharStats { get; }
+    public float Multiplier { get; }
 }

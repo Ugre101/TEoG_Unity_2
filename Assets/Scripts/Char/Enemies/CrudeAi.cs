@@ -32,55 +32,51 @@ public class CrudeAi : MonoBehaviour
 
     private void Start()
     {
-        if (target == null)
-        {
-            target = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
-        }
-        if (playerRigid == null)
-        {
-            playerRigid = target.GetComponent<Rigidbody2D>();
-        }
-        if (rb2d == null)
-        {
-            rb2d = GetComponent<Rigidbody2D>();
-        }
+        target = target != null ? target : PlayerMain.GetPlayer;
+        playerRigid = playerRigid != null ? playerRigid : target.GetComponent<Rigidbody2D>();
+        rb2d = rb2d != null ? rb2d : GetComponent<Rigidbody2D>();
         currentState = State.Idle;
     }
 
     private void Update()
     {
-        if (currentState == State.Idle)
+        switch (currentState)
         {
-            if (Vector2.Distance(CurPos, Target) < chaseDist)
-            {
-                currentState = State.Chase;
-            }
-        }
-        else if (currentState == State.Chase)
-        {
-            if (Vector2.Distance(CurPos, Target) > chaseDist)
-            {
-                // stop
-                CurPos = Vector2.MoveTowards(CurPos, CurPos, movementSpeed * Time.deltaTime);
-                currentState = State.Idle;
-            }
-            else
-            {
-                if (Physics.Linecast(CurPos, Target))
+            case State.Idle:
+                if (WithinChaseDist)
                 {
-                    Debug.Log("Blocked");
+                    currentState = State.Chase;
+                    // If player much stronger maybe flee?
                 }
-                CurPos = Vector2.MoveTowards(CurPos, Target, movementSpeed * Time.deltaTime);
-            }
-        }
-        else if (currentState == State.Flee)
-        {
-            currentState = State.Idle;
-            // if player much stronger flee?
-        }
-        else
-        {
-            currentState = State.Idle;
+                break;
+
+            case State.Chase:
+                if (!WithinChaseDist)
+                {
+                    CurPos = CurPos;
+                    currentState = State.Idle;
+                }
+                else
+                {
+                    if (Physics.Linecast(CurPos, Target))
+                    {
+                        // doesn't work
+                        // Debug.Log("Blocked");
+                    }
+                    CurPos = Vector2.MoveTowards(CurPos, Target, movementSpeed * Time.deltaTime);
+                }
+
+                break;
+
+            case State.Flee:
+                currentState = State.Idle;
+                break;
+
+            default:
+                currentState = State.Idle;
+                break;
         }
     }
+
+    private bool WithinChaseDist => Vector2.Distance(CurPos, Target) < chaseDist;
 }

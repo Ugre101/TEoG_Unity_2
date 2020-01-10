@@ -8,6 +8,17 @@ public class EnemyPrefabEditor : BasicCharEditor
     private bool StartRace = true;
     private bool healthStats = true;
 
+    private SerializedProperty NeedFirstName;
+    private SerializedProperty NeedLastName;
+    private SerializedProperty RaceList;
+
+    private void OnEnable()
+    {
+        NeedFirstName = serializedObject.FindProperty("NeedFirstName");
+        NeedLastName = serializedObject.FindProperty("NeedLastName");
+        RaceList = serializedObject.FindProperty("assingRace.Options");
+    }
+
     public override void OnInspectorGUI()
     {
         //GUILayout.Label("test");
@@ -21,15 +32,18 @@ public class EnemyPrefabEditor : BasicCharEditor
             GUILayout.Label("Last name");
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
-            myTarget.Identity.FirstName = EditorGUILayout.TextArea(myTarget.Identity.FirstName);
-            myTarget.Identity.LastName = EditorGUILayout.TextArea(myTarget.Identity.LastName);
+            Identity identity = myTarget.Identity;
+            identity.FirstName = EditorGUILayout.TextArea(identity.FirstName);
+            identity.LastName = EditorGUILayout.TextArea(identity.LastName);
             GUILayout.EndHorizontal();
             GUILayout.BeginVertical("Box");
             GUILayout.BeginHorizontal();
             GUILayout.Label("Give first name");
-            myTarget.NeedFirstName = EditorGUILayout.Toggle(myTarget.NeedFirstName);
+            serializedObject.Update();
+            NeedFirstName.boolValue = EditorGUILayout.Toggle(NeedFirstName.boolValue);
             GUILayout.Label("Give last name");
-            myTarget.NeedLastName = EditorGUILayout.Toggle(myTarget.NeedLastName);
+            NeedLastName.boolValue = EditorGUILayout.Toggle(NeedLastName.boolValue);
+            serializedObject.ApplyModifiedProperties();
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
             GUILayout.EndVertical();
@@ -47,7 +61,6 @@ public class EnemyPrefabEditor : BasicCharEditor
             GUILayout.Label("Race", EditorStyles.boldLabel);
             GUILayout.Label("Probability", EditorStyles.boldLabel);
             GUILayout.EndHorizontal();
-            SerializedProperty RaceList = serializedObject.FindProperty("assingRace.Options");
             for (int i = 0; i < RaceList.arraySize; i++)
             {
                 EditorGUILayout.PropertyField(RaceList.GetArrayElementAtIndex(i));

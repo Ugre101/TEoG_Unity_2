@@ -5,11 +5,15 @@ using UnityEngine.Tilemaps;
 public class Movement : MonoBehaviour
 {
     // Public
+    [SerializeField]
     [Range(1f, 20f)]
-    public float movementSpeed = 7.0f;
+    private float movementSpeed = 7.0f;
 
-    public CanvasMain canvas;
-    public EnemySpawner spawner;
+    [SerializeField]
+    private CanvasMain canvas = null;
+
+    [SerializeField]
+    private EnemySpawner spawner = null;
 
     // Private
     private Tilemap _map;
@@ -26,7 +30,7 @@ public class Movement : MonoBehaviour
     private Rigidbody2D _rb2d = null;
 
     private Vector2 CurPos { get => _rb2d.position; set => _rb2d.position = value; }
-    private bool first = false;
+    private bool clickedOnce = false;
     private Vector2 target;
 
     private Vector2 Target
@@ -34,7 +38,7 @@ public class Movement : MonoBehaviour
         get => target;
         set
         {
-            first = true;
+            clickedOnce = true;
             target = value;
         }
     }
@@ -46,19 +50,15 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        canvas = canvas != null ? canvas : CanvasMain.GetCanvasMain;
+        _rb2d = _rb2d != null ? _rb2d : GetComponent<Rigidbody2D>();
+        _coll = _coll != null ? _coll : GetComponent<BoxCollider2D>();
+
         mobilePlatform = Application.isMobilePlatform;
         touchSupport = Input.touchSupported;
         mousePresent = Input.mousePresent;
         _map = MapEvents.CurrentMap;
         MapEvents.WorldMapChange += DoorChanged;
-        if (_rb2d == null)
-        {
-            _rb2d = GetComponent<Rigidbody2D>();
-        }
-        if (_coll == null)
-        {
-            _coll = GetComponent<BoxCollider2D>();
-        }
     }
 
     // Update for player input
@@ -84,16 +84,11 @@ public class Movement : MonoBehaviour
             }
         }
         // WASD and Arrow keys
-        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        float v = Input.GetAxis("Vertical"), h = Input.GetAxis("Horizontal");
+        if (v != 0 || h != 0)
         {
-            // Current
-            Vector2 _pos = CurPos;
-
-            float movVert = Input.GetAxis("Vertical");
-            float movHori = Input.GetAxis("Horizontal");
-            _pos.x += movHori;
-            _pos.y += movVert;
-            Target = _pos;
+            Vector2 newPos = new Vector2(CurPos.x + v, CurPos.y + h);
+            Target = newPos;
         }
         if (touchSupport || mobilePlatform)
         {
@@ -114,7 +109,7 @@ public class Movement : MonoBehaviour
         {
             TilemapLimits();
         }
-        if (CurPos != Target && first)
+        if (CurPos != Target && clickedOnce)
         {
             transform.eulerAngles = Target.x - CurPos.x > 0 ? lookRight : lookLeft;
             Target = new Vector2(Mathf.Clamp(Target.x, _xMin, _xMax), Mathf.Clamp(Target.y, _yMin, _yMax));

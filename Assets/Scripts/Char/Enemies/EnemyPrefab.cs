@@ -4,7 +4,8 @@
 public class EnemyPrefab : BasicChar
 {
     [HideInInspector]
-    public bool NeedFirstName = true, NeedLastName = true;
+    [SerializeField]
+    private bool NeedFirstName = true, NeedLastName = true;
 
     public AssingRace assingRace = new AssingRace();
 

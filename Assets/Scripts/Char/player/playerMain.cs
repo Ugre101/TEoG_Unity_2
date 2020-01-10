@@ -52,6 +52,7 @@ public class PlayerMain : BasicChar
         {
             if (thisPlayer == null)
             {
+                Debug.Log("Getplayer was null");
                 thisPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
             }
             if (Debug.isDebugBuild)

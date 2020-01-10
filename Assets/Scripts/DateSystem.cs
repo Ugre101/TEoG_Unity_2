@@ -17,6 +17,7 @@
                 month -= 12;
                 Year++;
             }
+            NewMonthEvent?.Invoke();
         }
     }
 
@@ -30,6 +31,7 @@
                 day -= 29;
                 Month++;
             }
+            NewDayEvent?.Invoke();
         }
     }
 
@@ -68,4 +70,16 @@
     public delegate void NewHour();
 
     public static event NewHour NewHourEvent;
+
+    public delegate void NewDay();
+
+    public static event NewDay NewDayEvent;
+
+    public delegate void NewWeek();
+
+    public static event NewWeek NewWeekEvent;
+
+    public delegate void NewMonth();
+
+    public static event NewMonth NewMonthEvent;
 }

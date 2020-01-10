@@ -8,7 +8,8 @@ public class BasicStatButton : PerkTreeBasicBtn
     }
 
     [Space]
-    public StatTypes stat;
+    [SerializeField]
+    private StatTypes stat;
 
     [SerializeField]
     private int statAmount = 1;
@@ -16,7 +17,8 @@ public class BasicStatButton : PerkTreeBasicBtn
     public override void OnEnable()
     {
         base.OnEnable();
-        amount.text = player.Stats.GetStat(stat).BaseValue > 0 ? player.Stats.GetStat(stat).BaseValue.ToString() : string.Empty;
+        int baseValue = player.Stats.GetStat(stat).BaseValue;
+        amount.text = baseValue > 0 ? baseValue.ToString() : string.Empty;
     }
 
     public override void Use()

@@ -80,10 +80,11 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField]
     private Health hp;
 
+    public Health HP => hp;
+
     [SerializeField]
     private Health wp;
 
-    public Health HP => hp;
     public Health WP => wp;
 
     [Header("Level,exp, stats & perks")]
@@ -118,7 +119,7 @@ public abstract class BasicChar : MonoBehaviour
     public EssenceSystem Essence => essence;
     public Essence Masc => essence.Masc;
     public Essence Femi => essence.Femi;
-    public float RestRate => 1f + Perks.GetPerkLevel(PerksTypes.FasterRest);
+    public float RestRate => 3.44f + Perks.GetPerkLevel(PerksTypes.FasterRest);
 
     [Space]
     [SerializeField]
@@ -153,8 +154,8 @@ public abstract class BasicChar : MonoBehaviour
         identity = new Identity();
         Essence.Masc.EssenceSliderEvent += DidGenderChange;
         essence.Femi.EssenceSliderEvent += DidGenderChange;
-        hp = new Health(100, Stats.Endurance);
-        wp = new Health(100, Stats.Willpower);
+        hp = new Health(100, new AffectedByStat(Stats.Endurance, 5));
+        wp = new Health(100, new AffectedByStat(Stats.Willpower, 5));
         expSystem = new ExpSystem(1);
         StartCoroutine(BasicCharExtensions.TickEverySecond(this));
     }
@@ -165,10 +166,7 @@ public abstract class BasicChar : MonoBehaviour
         essence.Femi.EssenceSliderEvent -= DidGenderChange;
     }
 
-    public virtual void Update()
-    {
-        this.RefreshOrgans(AutoEss);
-    }
+    public virtual void Update() => this.RefreshOrgans(AutoEss);
 
     [SerializeField]
     private List<Skill> skills = new List<Skill>();

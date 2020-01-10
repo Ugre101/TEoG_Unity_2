@@ -9,10 +9,12 @@ public enum ModTypes
 [System.Serializable]
 public class StatMod : Mod
 {
-    [field: SerializeField] public StatTypes StatType { get; private set; }
+    [SerializeField] private StatTypes statType;
 
     public StatMod(float parValue, StatTypes parStatTypes, string parSource, ModTypes parType) : base(parValue, parType, parSource)
     {
-        StatType = parStatTypes;
+        this.statType = parStatTypes;
     }
+
+    public StatTypes StatType => statType;
 }
