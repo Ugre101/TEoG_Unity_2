@@ -122,7 +122,7 @@ public abstract class SexScenes : ScriptableObject
         other.SexStats.GainArousal(OtherGain);
     }
 
-    public string BiggestDick(BasicChar whom) => Settings.MorInch(whom.SexualOrgans.Dicks.Biggest());
+    public string BiggestDick(BasicChar whom) => Settings.MorInch(whom.SexualOrgans.Dicks.BiggestSize());
 }
 
 public abstract class LoseScene : SexScenes

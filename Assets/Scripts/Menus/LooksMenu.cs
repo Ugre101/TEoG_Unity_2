@@ -10,7 +10,7 @@ public class LooksMenu : MonoBehaviour
     [SerializeField] private PlayerMain player = null;
     [SerializeField] private Button toggleExact = null;
 
-    private bool exactDetails = false;
+    //    private bool exactDetails = false;
 
     [SerializeField]
     private Button sortAllBtn = null, sortBodyBtn = null, sortOrgansBtn = null, sortPregBtn = null;
@@ -18,7 +18,7 @@ public class LooksMenu : MonoBehaviour
     private void Start()
     {
         player = player != null ? player : PlayerMain.GetPlayer;
-        toggleExact.onClick.AddListener(() => exactDetails = !exactDetails);
+        // toggleExact.onClick.AddListener(() => exactDetails = !exactDetails);
         sortAllBtn.onClick.AddListener(() => looksText.text = Summary);
         sortBodyBtn.onClick.AddListener(() => looksText.text = BodyLook());
         sortOrgansBtn.onClick.AddListener(() => looksText.text = SexOrgans());

@@ -9,6 +9,7 @@ public class SexButton : SexButtonBase
     {
         afterBattle.AddToTextBox(afterBattle.LastScene == scene ? scene.ContinueScene(player, other) : scene.StartScene(player, other));
         afterBattle.LastScene = scene;
+        scene.ArousalGain(player, other);
     }
 
     public void Setup(PlayerMain parPlayer, EnemyPrefab parPartner, AfterBattleMain parAfterBattle, SexScenes parScene)

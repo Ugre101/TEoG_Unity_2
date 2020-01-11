@@ -7,7 +7,7 @@ public class GiveCunnilingus : SexScenes
     {
         Organs sexualOrgans = other.SexualOrgans;
         Identity identity = other.Identity;
-        return $"Your foe lays on their back, chest heaving with exhaustion from the recent fight. You make your way up to {identity.FirstName}'s body and crouch between their legs, spreading them apart. In-between lies their {sexualOrgans.Vaginas[0].Race} pussy, engorged and dripping slightly, their clit twitching lewdly with each breath of your foe. You lick your lips in anticipation as you lower your head to your prize, spreading their lower lips with your fingers, and start eating them out.";
+        return $"{identity.FirstName} lays on their back, chest heaving with exhaustion from the recent fight. You make your way up to {identity.FirstName}'s body and crouch between their legs, spreading them apart. In-between lies their {sexualOrgans.Vaginas[0].Race} pussy, engorged and dripping slightly, their clit twitching lewdly with each breath of your foe. You lick your lips in anticipation as you lower your head to your prize, spreading their lower lips with your fingers, and start eating them out.";
     }
 
     public override string ContinueScene(PlayerMain player, BasicChar other)

@@ -5,7 +5,7 @@ public class ForcedGetRidden : LoseScene
 {
     public override string StartScene(PlayerMain player, BasicChar other)
     {
-        string returnText = "Pushing you over, your enemy fondles your balls, quickly giving you an erection. Straddling your groin, they quickly thrust down, riding your dick. ";
+        string returnText = $"Pushing you over, {other.Identity.FirstName} fondles your balls, quickly giving you an erection. Straddling your groin, they quickly thrust down, riding your dick. ";
 
         if (player.SexualOrgans.HaveBoobs() && other.SexualOrgans.HaveBoobs())
         {

@@ -11,7 +11,8 @@
 public enum GenderTypes
 {
     Feminine,
-    Masculine
+    Masculine,
+    Neutral
 }
 
 public static class GenderExtensions
@@ -49,15 +50,74 @@ public static class GenderExtensions
         switch (parWho.Gender())
         {
             case Genders.Cuntboy:
-            case Genders.Doll:
             case Genders.Male:
                 return GenderTypes.Masculine;
 
             case Genders.Dickgirl:
             case Genders.Female:
             case Genders.Herm:
-            default:
                 return GenderTypes.Feminine;
+
+            case Genders.Doll:
+            default:
+                return GenderTypes.Neutral;
+        }
+    }
+
+    public static string HisHer(this BasicChar basicChar, bool capital = false)
+    {
+        switch (basicChar.Gender)
+        {
+            case Genders.Male:
+            case Genders.Cuntboy:
+                return capital ? "His" : "his";
+
+            case Genders.Female:
+            case Genders.Herm:
+            case Genders.Dickgirl:
+                return capital ? "Her" : "her";
+
+            case Genders.Doll:
+            default:
+                return capital ? "Theirs" : "theirs";
+        }
+    }
+
+    public static string HimHer(this BasicChar basicChar, bool capital = false)
+    {
+        switch (basicChar.Gender)
+        {
+            case Genders.Male:
+            case Genders.Cuntboy:
+                return capital ? "Him" : "him";
+
+            case Genders.Female:
+            case Genders.Herm:
+            case Genders.Dickgirl:
+                return capital ? "Her" : "her";
+
+            case Genders.Doll:
+            default:
+                return capital ? "Them" : "them";
+        }
+    }
+
+    public static string HeShe(this BasicChar basicChar, bool capital = false)
+    {
+        switch (basicChar.Gender)
+        {
+            case Genders.Male:
+            case Genders.Cuntboy:
+                return capital ? "He" : "he";
+
+            case Genders.Female:
+            case Genders.Herm:
+            case Genders.Dickgirl:
+                return capital ? "She" : "she";
+
+            case Genders.Doll:
+            default:
+                return capital ? "They" : "they";
         }
     }
 }

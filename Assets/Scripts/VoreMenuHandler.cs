@@ -38,6 +38,7 @@ namespace Vore
             sortBalls.onClick.AddListener(() => SortPrey(vore.Balls));
             sortBoobs.onClick.AddListener(() => SortPrey(vore.Boobs));
             sortVagina.onClick.AddListener(() => SortPrey(vore.Vagina));
+            sortAll.onClick.Invoke();
         }
 
         private void OnEnable() => sortAll.onClick.Invoke();

@@ -13,10 +13,9 @@ public class AfterBattleMain : MonoBehaviour
     private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
 
     [SerializeField]
-    private CanvasMain canvasMain = null;
-
-    [SerializeField]
     private TextMeshProUGUI textBox = null;
+
+    #region Button prefabs
 
     [SerializeField]
     private SexButton sexButton = null;
@@ -26,6 +25,14 @@ public class AfterBattleMain : MonoBehaviour
 
     [SerializeField]
     private EssSexButton essSexButton = null;
+
+    [SerializeField]
+    private GameObject Leave = null;
+
+    [SerializeField]
+    private GameObject TakeHome = null;
+
+    #endregion Button prefabs
 
     #region Button containers
 
@@ -40,7 +47,7 @@ public class AfterBattleMain : MonoBehaviour
 
     #endregion Button containers
 
-    #region Scene lists
+    #region Scenes
 
     [Header("ScriptableObject Scenes")]
     [SerializeField]
@@ -55,19 +62,11 @@ public class AfterBattleMain : MonoBehaviour
     [SerializeField]
     private List<VoreScene> voreScenes = new List<VoreScene>();
 
-    #endregion Scene lists
+    #endregion Scenes
 
-    [Header("Other")]
-    public SexScenes LastScene;
+    public SexScenes LastScene { get; set; }
 
-    [SerializeField]
-    private List<SexScenes> allSexScenes;
-
-    [SerializeField]
-    private GameObject Leave = null;
-
-    [SerializeField]
-    private GameObject TakeHome = null;
+    private List<SexScenes> allSexScenes = new List<SexScenes>();
 
     [SerializeField]
     private Dorm dorm = null;
@@ -89,7 +88,6 @@ public class AfterBattleMain : MonoBehaviour
 
     private void Start()
     {
-        if (canvasMain == null) { canvasMain = CanvasMain.GetCanvasMain; }
         sortAll.onClick.AddListener(() => SceneChecker(allSexScenes, player.Vore.Active));
         sortMouth.onClick.AddListener(() => SceneChecker(mouthScenes));
         sortVore.onClick.AddListener(() => SceneChecker(player.Vore.Active));
@@ -102,10 +100,13 @@ public class AfterBattleMain : MonoBehaviour
         {
             newTarget = null;
         }
+        Target.SexStats.OrgasmedEvent -= RefreshScenes;
+        Target.SexStats.OrgasmedEvent -= GetImpreg;
         enemies.Remove(Target);
         if (enemies.Count < 1)
         {
             buttons.transform.KillChildren();
+            DrainActions.transform.KillChildren();
         }
     }
 
@@ -121,6 +122,7 @@ public class AfterBattleMain : MonoBehaviour
     public void Setup(List<EnemyPrefab> chars)
     {
         sortVore.gameObject.SetActive(player.Vore.Active);
+        TakeHome.SetActive(false);
         gameObject.SetActive(true);
         enemies = chars;
         textBox.text = null;
@@ -225,17 +227,15 @@ public class AfterBattleMain : MonoBehaviour
     private void SceneChecker(bool showVore)
     {
         buttons.transform.KillChildren();
-        if (showVore)
+        foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
         {
-            foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
-            {
-                VoreButton btn = Instantiate(voreButton, buttons.transform);
-                btn.Setup(player, Target, this, vore);
-            }
+            VoreButton btn = Instantiate(voreButton, buttons.transform);
+            btn.Setup(player, Target, this, vore);
         }
     }
 
     public void AddToTextBox(string text) => textBox.text = text;
+
     // TODO fix to extra info comes after
     public void InsertToTextBox(string text) => textBox.text += text;
 }

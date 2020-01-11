@@ -161,7 +161,9 @@ public static class SexOrganExtension
 {
     public static float Total(this IEnumerable<SexualOrgan> list) => list.Select(so => so.Size).DefaultIfEmpty(0).Sum();
 
-    public static float Biggest(this IEnumerable<SexualOrgan> list) => list.Select(so => so.Size).DefaultIfEmpty(0).Max();
+    public static float BiggestSize(this IEnumerable<SexualOrgan> list) => list.Select(so => so.Size).DefaultIfEmpty(0).Max();
+
+    public static SexualOrgan Biggest(this IEnumerable<SexualOrgan> list) => (SexualOrgan)list.Where(so => so.Size == list.BiggestSize()).Select(so => so);
 
     public static float Smallest(this IEnumerable<SexualOrgan> list) => list.Select(so => so.Size).DefaultIfEmpty(0).Min();
 

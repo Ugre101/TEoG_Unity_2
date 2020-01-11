@@ -7,12 +7,14 @@ public class ForcedGetFucked : LoseScene
     {
         string returnText = "Forcing you on your back, your enemy fondles your clit just enough for your body to betray you and your pussy to get wet. ";
 
-        returnText += player.SexualOrgans.HaveBalls()
+        Organs sexualOrgans = player.SexualOrgans;
+        returnText += sexualOrgans.HaveBalls()
             ? "Moving your balls to the side, they thrust in to you."
             : "Spreading your lips with one hand, they thrust into you.";
 
-        returnText += $"\n\nKnowing how to handle someone with as little experience as you, they pin your arms above your head and quickly bring you to orgasm, your shuddering walls causing them to cum{Settings.LorGal(other.SexualOrgans.Balls.Cumming())} into you. ";
-        if (player.SexualOrgans.Vaginas.EmptyWomb())
+        System.Collections.Generic.List<Balls> Oballs = other.SexualOrgans.Balls;
+        returnText += $"\n\nKnowing how to handle someone with as little experience as you, they pin your arms above your head and quickly bring you to orgasm, your shuddering walls causing them to cum{Settings.LorGal(Oballs.Cumming())} into you. ";
+        if (sexualOrgans.Vaginas.EmptyWomb())
         {
             if (player.Impregnate(other))
             {
