@@ -10,6 +10,12 @@ public static class QuestsSystem
 {
     public static List<BasicQuest> List { get; private set; } = new List<BasicQuest>();
 
+    private static void AddQuest(BasicQuest basicQuest)
+    {
+        List.Add(basicQuest);
+        GotQuestEvent?.Invoke();
+    }
+
     public static bool HasQuest(Quests parQuest) => List.Exists(q => q.Type == parQuest);
 
     public static BasicQuest GetQuest(Quests parQuest) => List.Find(q => q.Type == parQuest);
@@ -21,22 +27,34 @@ public static class QuestsSystem
             case Quests.Bandit:
                 if (!HasQuest(Quests.Bandit))
                 {
-                    List.Add(new BanditQuest());
+                    AddQuest(new BanditQuest());
+                    PlayerFlags.BanditMap.Know = true;
                 }
                 break;
 
             case Quests.ElfsHunt:
                 if (!HasQuest(Quests.ElfsHunt))
                 {
-                    List.Add(new ElfQuest());
+                    AddQuest(new ElfQuest());
                 }
+                break;
+
+            default:
                 break;
         }
     }
 
     public static QuestSave Save() => new QuestSave(List);
 
-    public static void Load(QuestSave toLoad) => List = new List<BasicQuest>(toLoad.BasicQuests);
+    public static void Load(QuestSave toLoad)
+    {
+        List = new List<BasicQuest>(toLoad.BasicQuests);
+        GotQuestEvent?.Invoke();
+    }
+
+    public delegate void GotQuest();
+
+    public static event GotQuest GotQuestEvent;
 }
 
 [System.Serializable]

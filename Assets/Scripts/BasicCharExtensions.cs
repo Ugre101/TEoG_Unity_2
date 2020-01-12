@@ -9,10 +9,15 @@ public static class BasicCharExtensions
 
     public static string Summary(this BasicChar who)
     {
-        string title = who.Identity.FullName;
+        // string title = who.Identity.FullName;
         string desc = $"A {who.Height()} tall {who.Race} {who.Gender.ToString()}.";
-        string stats = $"{who.Age.AgeYears}years old\nWeight: {Weight(who)}\nHeight: {Height(who)}";
-        return $"{title}\n{desc}\n{stats}";
+        // string stats = $"{who.Age.AgeYears}years old\nWeight: {Weight(who)}\nHeight: {Height(who)}";
+        return desc;
+    }
+
+    public static string BodyStats(this BasicChar who)
+    {
+        return $"{who.Age.AgeYears}years old\nHeight: {who.Height()}\nWeight: {who.Weight()}\nMuscle: {Settings.KgorP(who.Body.Muscle.Value)}\nFat: {Settings.KgorP(who.Body.Fat.Value)}";
     }
 
     public static IEnumerator TickEverySecond(BasicChar basicChar)

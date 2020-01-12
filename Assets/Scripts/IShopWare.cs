@@ -12,8 +12,7 @@ public interface IShopWare
 
 public abstract class ShopWare : MonoBehaviour, IShopWare
 {
-    [SerializeField]
-    protected TextMeshProUGUI title, desc, displayCost;
+    [SerializeField] protected TextMeshProUGUI title, desc, displayCost;
 
     [SerializeField] protected Image frame;
 

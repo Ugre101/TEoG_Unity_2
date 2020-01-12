@@ -30,6 +30,10 @@ public class Movement : MonoBehaviour
     private Rigidbody2D _rb2d = null;
 
     private Vector2 CurPos { get => _rb2d.position; set => _rb2d.position = value; }
+    private float Vertical => Input.GetAxis("Vertical");
+    private float Horizontal => Input.GetAxis("Horizontal");
+    private Vector3 MousePos => Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
     private bool clickedOnce = false;
     private Vector2 target;
 
@@ -69,7 +73,7 @@ public class Movement : MonoBehaviour
             // Mouse left hold
             if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                Target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Target = MousePos;
             }
             // Cancel mouse left hold
             else if (Input.GetMouseButtonUp(0))
@@ -79,16 +83,14 @@ public class Movement : MonoBehaviour
             // Mouse right click
             else if (Input.GetMouseButtonDown(1))
             {
-                Target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Target = MousePos;
                 Instantiate(pointer, Target, Quaternion.identity);
             }
         }
         // WASD and Arrow keys
-        float v = Input.GetAxis("Vertical"), h = Input.GetAxis("Horizontal");
-        if (v != 0 || h != 0)
+        if (Vertical != 0 || Horizontal != 0)
         {
-            Vector2 newPos = new Vector2(CurPos.x + v, CurPos.y + h);
-            Target = newPos;
+            Target = new Vector2(CurPos.x + Horizontal, CurPos.y + Vertical);
         }
         if (touchSupport || mobilePlatform)
         {
@@ -111,7 +113,9 @@ public class Movement : MonoBehaviour
         }
         if (CurPos != Target && clickedOnce)
         {
+            // look at right direction
             transform.eulerAngles = Target.x - CurPos.x > 0 ? lookRight : lookLeft;
+            // clamp player inside map
             Target = new Vector2(Mathf.Clamp(Target.x, _xMin, _xMax), Mathf.Clamp(Target.y, _yMin, _yMax));
             CurPos = Vector2.MoveTowards(CurPos, Target, movementSpeed * Time.fixedDeltaTime);
         }

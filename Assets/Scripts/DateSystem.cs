@@ -61,10 +61,10 @@
 
     public static void Load(DateSave toLoad)
     {
-        Year = toLoad.year;
-        Month = toLoad.month;
-        Day = toLoad.day;
-        Hour = toLoad.hour;
+        Year = toLoad.Year;
+        Month = toLoad.Month;
+        Day = toLoad.Day;
+        Hour = toLoad.Hour;
     }
 
     public delegate void NewHour();

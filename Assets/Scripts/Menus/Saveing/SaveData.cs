@@ -11,7 +11,6 @@ public class Save
     private readonly Dorm dorm;
     private readonly Home home;
     private readonly VoreChar voreChar;
-    private PlayerSave save;
 
     public Save(PlayerMain player, Dorm theDorm, Home parHome)
     {
@@ -24,12 +23,12 @@ public class Save
 
     public string SaveData()
     {
-        save = new PlayerSave(Player);
-        List<DormSave> temp = dorm.Save();
-        PosSave pos = new PosSave(Pos.position, MapEvents.ActiveMap, MapEvents.CurrentMap.transform.name);
+        PlayerSave playerSave = new PlayerSave(Player);
+        List<DormSave> dormSaves = dorm.Save();
+        PosSave playerPos = new PosSave(Pos.position, MapEvents.ActiveMap, MapEvents.CurrentMap.transform.name);
         HomeSave homeSave = home.Stats.Save();
         VoreSaves voreSaves = voreChar.Save();
-        FullSave fullSave = new FullSave(save, pos, temp, homeSave, voreSaves);
+        FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, voreSaves);
         Debug.Log(JsonUtility.ToJson(fullSave));
 
         return JsonUtility.ToJson(fullSave);
@@ -38,13 +37,17 @@ public class Save
     public void LoadData(string json)
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
-        MapEvents.GetMapEvents.Load(fullSave.posPart);
-        JsonUtility.FromJsonOverwrite(fullSave.playerPart.Who, Player);
-        home.Stats.Load(fullSave.homePart);
-        dorm.Load(fullSave.dormPart);
-        voreChar.Load(fullSave.voreSaves, Player);
-        DateSystem.Load(fullSave.datePart);
-        QuestsSystem.Load(fullSave.questSave);
+        // Singleton static
+        MapEvents.GetMapEvents.Load(fullSave.PosPart);
+        // Reference
+        JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
+        home.Stats.Load(fullSave.HomePart);
+        dorm.Load(fullSave.DormPart);
+        voreChar.Load(fullSave.VoreSaves, Player);
+        // Pure static
+        DateSystem.Load(fullSave.DatePart);
+        QuestsSystem.Load(fullSave.QuestSave);
+        PlayerFlags.Load(fullSave.PlayerFlagsSave);
         EventLog.ClearLog();
     }
 }
@@ -52,31 +55,40 @@ public class Save
 [Serializable]
 public class FullSave
 {
-    public PlayerSave playerPart;
-    public PosSave posPart;
-    public List<DormSave> dormPart;
-    public DateSave datePart;
-    public HomeSave homePart;
-    public VoreSaves voreSaves;
-    public QuestSave questSave;
+    [SerializeField] private PlayerSave playerPart;
+    [SerializeField] private PosSave posPart;
+    [SerializeField] private List<DormSave> dormPart;
+    [SerializeField] private DateSave datePart;
+    [SerializeField] private HomeSave homePart;
+    [SerializeField] private VoreSaves voreSaves;
+    [SerializeField] private QuestSave questSave;
+    [SerializeField] private PlayerFlagsSave playerFlags;
+    public PlayerSave PlayerPart => playerPart;
+    public PosSave PosPart => posPart;
+    public List<DormSave> DormPart => dormPart;
+    public DateSave DatePart => datePart;
+    public HomeSave HomePart => homePart;
+    public VoreSaves VoreSaves => voreSaves;
+    public QuestSave QuestSave => questSave;
+    public PlayerFlagsSave PlayerFlagsSave => playerFlags;
 
     public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, HomeSave parHome, VoreSaves vore)
     {
-        playerPart = player;
-        posPart = pos;
-        dormPart = dorm;
-        datePart = DateSystem.Save;
-        homePart = parHome;
-        voreSaves = vore;
-        questSave = QuestsSystem.Save();
+        this.playerPart = player;
+        this.posPart = pos;
+        this.dormPart = dorm;
+        this.datePart = DateSystem.Save;
+        this.homePart = parHome;
+        this.voreSaves = vore;
+        this.questSave = QuestsSystem.Save();
+        this.playerFlags = PlayerFlags.Save();
     }
 }
 
 [Serializable]
 public struct PlayerSave
 {
-    [SerializeField]
-    private string who;
+    [SerializeField] private string who;
 
     public PlayerSave(BasicChar whom) => who = JsonUtility.ToJson(whom);
 
@@ -86,14 +98,11 @@ public struct PlayerSave
 [Serializable]
 public struct PosSave
 {
-    [SerializeField]
-    private Vector3 pos;
+    [SerializeField] private Vector3 pos;
 
-    [SerializeField]
-    private WorldMaps world;
+    [SerializeField] private WorldMaps world;
 
-    [SerializeField]
-    private string map;
+    [SerializeField] private string map;
 
     public Vector3 Pos => pos;
     public WorldMaps World => world;
@@ -110,26 +119,40 @@ public struct PosSave
 [Serializable]
 public struct DateSave
 {
-    public int year, month, day, hour;
+    [SerializeField] private int hour;
+    [SerializeField] private int year;
+    [SerializeField] private int month;
+    [SerializeField] private int day;
+
+    public int Year => year;
+    public int Month => month;
+    public int Day => day;
+    public int Hour => hour;
 
     public DateSave(int Year, int Month, int Day, int Hour)
     {
-        year = Year;
-        month = Month;
-        day = Day;
-        hour = Hour;
+        this.year = Year;
+        this.month = Month;
+        this.day = Day;
+        this.hour = Hour;
     }
 }
 
 [Serializable]
 public struct HomeSave
 {
-    public int dormLevel, dormGymLevel, dormKitchenLevel;
+    [SerializeField] private int dormKitchenLevel;
+    [SerializeField] private int dormLevel;
+    [SerializeField] private int dormGymLevel;
+
+    public int DormLevel => dormLevel;
+    public int DormGymLevel => dormGymLevel;
+    public int DormKitchenLevel => dormKitchenLevel;
 
     public HomeSave(int parDormLevel, int parDormGymLevel, int parDormKitchenLevel)
     {
-        dormLevel = parDormLevel;
-        dormGymLevel = parDormGymLevel;
-        dormKitchenLevel = parDormKitchenLevel;
+        this.dormLevel = parDormLevel;
+        this.dormGymLevel = parDormGymLevel;
+        this.dormKitchenLevel = parDormKitchenLevel;
     }
 }

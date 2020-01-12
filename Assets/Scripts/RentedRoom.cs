@@ -14,10 +14,18 @@
 
         public override void Setup(Ware item)
         {
-            room = item as RentRoomBasic;
-            title.text = room.Title;
-            desc.text = room.Desc;
-            Cost = room.Cost;
+            if (item is RentRoomBasic room)
+            {
+                this.room = room;
+                Cost = room.Cost;
+                title.text = room.Title;
+                desc.text = room.Desc;
+                displayCost.text = Cost.ToString();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

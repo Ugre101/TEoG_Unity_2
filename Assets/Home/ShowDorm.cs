@@ -3,12 +3,12 @@ using UnityEngine.UI;
 
 public class ShowDorm : MonoBehaviour
 {
-    public Dorm dorm;
-    public GameObject container;
-    public GameObject ServantListPrefab;
-    public GameObject upgrades, servantList;
-    public GameObject ifEmpty;
-    public Button upgradesBtn, back;
+    [SerializeField] private Dorm dorm = null;
+    [SerializeField] private Transform container = null;
+    [SerializeField] private ShowServant ServantListPrefab = null;
+    [SerializeField] private GameObject upgrades = null, servantList = null;
+    [SerializeField] private GameObject ifEmpty = null;
+    [SerializeField] private Button upgradesBtn = null, back = null;
 
     // Start is called before the first frame update
     private void Start()
@@ -41,23 +41,16 @@ public class ShowDorm : MonoBehaviour
 
     private void ListServants()
     {
-        if (dorm.Servants.Count > 0)
+        bool hasSevants = dorm.Servants.Count > 0;
+        ifEmpty.SetActive(hasSevants);
+        container.KillChildren();
+        if (hasSevants)
         {
-            ifEmpty.SetActive(false);
-            foreach (Transform child in container.transform)
+            dorm.Servants.ForEach(s =>
             {
-                Destroy(child.gameObject);
-            }
-            foreach (BasicChar Serv in dorm.Servants)
-            {
-                GameObject test = Instantiate(ServantListPrefab, container.transform);
-                ShowServant showServant = test.GetComponent<ShowServant>();
-                showServant.Init(Serv);
-            }
-        }
-        else
-        {
-            ifEmpty.SetActive(true);
+                ShowServant showServant = Instantiate(ServantListPrefab, container);
+                showServant.Init(s);
+            });
         }
     }
 }

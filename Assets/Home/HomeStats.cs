@@ -7,10 +7,13 @@ public class HomeStats
     [Header("Dorm")]
     [SerializeField]
     private HomeUpgrade dorm = new HomeUpgrade();
+
     [SerializeField]
     private HomeUpgrade dormGym = new HomeUpgrade();
+
     [SerializeField]
     private HomeUpgrade dormKitchen = new HomeUpgrade();
+
     public HomeUpgrade Dorm => dorm;
     public HomeUpgrade DormGym => dormGym;
     public HomeUpgrade DormKitchen => dormKitchen;
@@ -19,13 +22,13 @@ public class HomeStats
     {
         return new HomeSave(Dorm.Level, DormGym.Level, DormKitchen.Level);
     }
+
     public void Load(HomeSave toLoad)
     {
-        dorm.Load(toLoad.dormLevel);
-        dormGym.Load(toLoad.dormGymLevel);
-        dormKitchen.Load(toLoad.dormKitchenLevel);
+        dorm.Load(toLoad.DormLevel);
+        dormGym.Load(toLoad.DormGymLevel);
+        dormKitchen.Load(toLoad.DormKitchenLevel);
     }
-
 }
 
 [Serializable]
@@ -69,6 +72,7 @@ public class HomeUpgrade
         }
         return canAfford;
     }
+
     public void Load(int parLevel)
     {
         level = parLevel;

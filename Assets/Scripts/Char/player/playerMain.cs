@@ -3,12 +3,6 @@
 public class PlayerMain : BasicChar
 {
     // public Settings sett;
-    [Space]
-    [SerializeField]
-    private PlayerFlags playerFlags = new PlayerFlags();
-
-    public PlayerFlags PlayerFlags => playerFlags;
-
     public override void Awake()
     {
         if (thisPlayer == null)

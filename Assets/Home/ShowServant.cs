@@ -3,22 +3,20 @@ using UnityEngine;
 
 public class ShowServant : MonoBehaviour
 {
-    [SerializeField]
-    private BasicChar who;
+    private BasicChar basicChar;
 
-    public TextMeshProUGUI Title;
-    public TextMeshProUGUI Desc;
+    [SerializeField] private TextMeshProUGUI title = null, desc = null;
 
-    public void Init(BasicChar whom)
+    public void Init(BasicChar basicChar)
     {
-        who = whom;
-        Title.text = who.Identity.FullName;
-        Desc.text = CharDesc();
+        this.basicChar = basicChar;
+        title.text = basicChar.Identity.FullName;
+        desc.text = basicChar.Summary();
     }
 
     private string CharDesc()
     {
-        string desc = $"{who.Gender} {who.Race}";
+        string desc = $"{basicChar.Gender} {basicChar.Race}";
         return desc;
     }
 }

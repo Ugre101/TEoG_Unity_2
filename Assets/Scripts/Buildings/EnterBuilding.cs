@@ -10,20 +10,16 @@ public class EnterBuilding : MonoBehaviour
 
     public GameObject BuildingToEnter => building.gameObject;
 
-    private void Start()
-    {
-        // incase of forgetting to assing gameui for new building
-        if (gameUI == null)
-        {
-            gameUI = CanvasMain.GetCanvasMain;
-        }
-    }
+    private void Start() => gameUI = gameUI != null ? gameUI : CanvasMain.GetCanvasMain;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.CompareTag(PlayerMain.GetPlayer.tag))
         {
-            gameUI.EnterBuilding(BuildingToEnter);
+            if (building != null)
+            {
+                gameUI.EnterBuilding(BuildingToEnter);
+            }
         }
     }
 }

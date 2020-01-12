@@ -3,8 +3,7 @@
 [System.Serializable]
 public class FlagInt
 {
-    [SerializeField]
-    private int value = 0;
+    [SerializeField] private int value = 0;
 
     public int Value => value;
 
@@ -14,8 +13,7 @@ public class FlagInt
 [System.Serializable]
 public class FlagBool
 {
-    [SerializeField]
-    private bool cleared = false;
+    [SerializeField] private bool cleared = false;
 
     public bool Cleared => cleared;
 
@@ -24,20 +22,65 @@ public class FlagBool
 
     /// <summary>Marks flag as uncompleted</summary>
     public void UnClear() => cleared = false;
+
+    public void Load(bool setTo) => cleared = setTo;
 }
 
 [System.Serializable]
 public class Flags
 {
-    public FlagInt Pregnant;
-    public FlagInt ImPregnated;
+    [SerializeField] private FlagInt pregnant;
+    [SerializeField] private FlagInt imPregnated;
+
+    public FlagInt Pregnant => pregnant;
+    public FlagInt ImPregnated => imPregnated;
+}
+
+public class KnowMap
+{
+    private bool know = false;
+
+    public bool Know
+    {
+        get => know;
+        set
+        {
+            know = value;
+            KnowThisMap?.Invoke();
+        }
+    }
+
+    public delegate void KnowThis();
+
+    public event KnowThis KnowThisMap;
+}
+
+public static class PlayerFlags
+{
+    public static FlagBool BeatBanditLord { get; private set; } = new FlagBool();
+    public static KnowMap BanditMap { get; private set; } = new KnowMap();
+
+    public static PlayerFlagsSave Save() => new PlayerFlagsSave(BeatBanditLord.Cleared, BanditMap.Know);
+
+    public static void Load(PlayerFlagsSave playerFlagsSave)
+    {
+        BeatBanditLord.Load(playerFlagsSave.BeatBanditLord);
+        BanditMap.Know = playerFlagsSave.BanditMap;
+    }
 }
 
 [System.Serializable]
-public class PlayerFlags
+public struct PlayerFlagsSave
 {
-    [SerializeField]
-    private FlagBool beatenBanditLord = new FlagBool();
+    [SerializeField] private bool beatBanditLord;
+    [SerializeField] private bool banditMap;
 
-    public FlagBool BeatBanditLord => beatenBanditLord;
+    public PlayerFlagsSave(bool beatBandit, bool knowBanditMap)
+    {
+        beatBanditLord = beatBandit;
+        banditMap = knowBanditMap;
+    }
+
+    public bool BeatBanditLord => beatBanditLord;
+    public bool BanditMap => banditMap;
 }
