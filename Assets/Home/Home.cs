@@ -1,10 +1,4 @@
-﻿using UnityEngine;
-
-[CreateAssetMenu(fileName = "Home", menuName = ("Home"))]
-public class Home : ScriptableObject
+﻿public static class Home
 {
-    [SerializeField]
-    private HomeStats stats = new HomeStats();
-
-    public HomeStats Stats => stats;
+    public static HomeStats Stats { get; } = new HomeStats();
 }

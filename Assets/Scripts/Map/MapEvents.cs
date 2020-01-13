@@ -119,6 +119,7 @@ public class MapEvents : MonoBehaviour
     public void Teleport(WorldMaps toWorld, Tilemap toMap, Tilemap teleportPlatform)
     {
         WorldChange(toWorld, toMap);
+        Debug.Log(teleportPlatform.cellBounds.center);
         Player.transform.position = teleportPlatform == null ? toMap.cellBounds.center : teleportPlatform.cellBounds.center;
     }
 

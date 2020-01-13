@@ -40,7 +40,7 @@ namespace Bar
     [System.Serializable]
     public class BuyMeal : Ware
     {
-        public BuyMeal(Meal parMeal, int parCost, string parTitle)
+        public BuyMeal(Meal parMeal, int parCost, string parTitle) : base(parCost, parTitle, "")
         {
             Meal = parMeal;
             Cost = parCost;
@@ -53,11 +53,8 @@ namespace Bar
 
     public class RentRoomBasic : Ware
     {
-        public RentRoomBasic()
+        public RentRoomBasic() : base(8, "Basic room", "Sleep for 8hours and wake up fully restored.")
         {
-            Title = "Basic room";
-            Desc = "Sleep for 8hours and wake up fully restored.";
-            Cost = 8;
         }
 
         public virtual void Sleep(BasicChar basicChar)

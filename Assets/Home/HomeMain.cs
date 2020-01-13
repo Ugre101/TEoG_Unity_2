@@ -1,17 +1,39 @@
 ﻿using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEngine.UI;
 
 public class HomeMain : MonoBehaviour
 {
-    public CanvasMain gameUI;
-    public GameObject HouseStart;
-    public Home home;
+    [SerializeField] private CanvasMain canvasMain = null;
+    [SerializeField] private GameObject HouseStart = null;
+    [SerializeField] private MapEvents mapEvents = null;
+    [SerializeField] private Button leaveBtn = null;
+    [SerializeField] private Tilemap toMap = null;
+    [SerializeField] private Tilemap toPlatform = null;
+    private WorldMaps worldMaps = WorldMaps.StartMap;
+
+    private void Start()
+    {
+        mapEvents = mapEvents != null ? mapEvents : MapEvents.GetMapEvents;
+        leaveBtn.onClick.AddListener(LeaveHome);
+    }
 
     public void ToStart()
     {
-        foreach (Transform child in transform)
+        canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
+        transform.SleepChildren(HouseStart.transform);
+    }
+
+    private void LeaveHome()
+    {
+        if (toPlatform == null)
         {
-            child.gameObject.SetActive(false);
+            mapEvents.Teleport(worldMaps, toMap);
         }
-        HouseStart.SetActive(true);
+        else
+        {
+            mapEvents.Teleport(worldMaps, toMap, toPlatform);
+        }
+        canvasMain.Resume();
     }
 }

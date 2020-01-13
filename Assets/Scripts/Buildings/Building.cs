@@ -8,9 +8,6 @@ public class Building : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
-        }
+        player = player != null ? player : PlayerMain.GetPlayer;
     }
 }
