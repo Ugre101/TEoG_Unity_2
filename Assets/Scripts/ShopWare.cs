@@ -22,6 +22,7 @@ public abstract class ShopWare : MonoBehaviour
 
     public virtual void Setup(Ware item)
     {
+        
     }
 
     public virtual void FrameCanAfford(BasicChar buyer)
@@ -30,11 +31,14 @@ public abstract class ShopWare : MonoBehaviour
     }
 }
 
+[System.Serializable]
 public abstract class Ware
 {
-    public int Cost { get; protected set; }
-    public string Title { get; protected set; }
-    public string Desc { get; protected set; }
+    [field: SerializeField] public int Cost { get; protected set; }
+    [field: SerializeField] public string Title { get; protected set; }
+
+    [field: TextArea]
+    [field: SerializeField] public string Desc { get; protected set; }
 
     public Ware(int cost, string title, string desc)
     {
@@ -42,14 +46,24 @@ public abstract class Ware
         this.Title = title;
         this.Desc = desc;
     }
+
+    public virtual void OnBuy(BasicChar basicChar)
+    {
+    }
 }
 
+[System.Serializable]
 public class ItemWare : Ware
 {
-    public ItemId ItemId { get; protected set; }
+    [field: SerializeField] public ItemId ItemId { get; protected set; }
 
     public ItemWare(int cost, string title, string desc, ItemId itemId) : base(cost, title, desc)
     {
         this.ItemId = itemId;
+    }
+
+    public override void OnBuy(BasicChar basicChar)
+    {
+        basicChar.Inventory.AddItem(ItemId);
     }
 }

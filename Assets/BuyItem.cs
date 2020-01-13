@@ -1,20 +1,24 @@
 ﻿public class BuyItem : ShopWare
 {
-    private ItemWare itemWare;
+    private Ware itemWare;
 
-    public override void Setup(Ware item)
+    public void Setup(Ware item, BasicChar buyer)
     {
-        if (item is ItemWare ware)
-        {
-            itemWare = ware;
-        }
+        itemWare = item;
+        title.text = item.Title;
+        desc.text = item.Desc;
+        Cost = item.Cost;
+        displayCost.text = item.Cost.ToString();
+        FrameCanAfford(buyer);
+        buyer.Currency.GoldChanged += delegate { FrameCanAfford(buyer); };
+        BuyBtn.onClick.AddListener(() => Buy(buyer));
     }
 
     public override void Buy(BasicChar buyer)
     {
         if (buyer.Currency.TryToBuy(Cost))
         {
-            buyer.Inventory.AddItem(itemWare.ItemId);
+            itemWare.OnBuy(buyer);
         }
     }
 }

@@ -1,18 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class FertilityShop : MonoBehaviour
+public class FertilityShop : Shop
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private List<ItemWare> itemWares = new List<ItemWare>();
+
+    private void OnEnable()
     {
-        
+        ShowWares();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ShowWares()
     {
-        
+        container.KillChildren();
+        itemWares.ForEach(w =>
+        {
+            Instantiate(buyItem, container).Setup(w, player);
+        });
     }
 }
