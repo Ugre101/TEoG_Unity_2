@@ -5,29 +5,26 @@ using UnityEngine.Tilemaps;
 public class Movement : MonoBehaviour
 {
     // Public
-    [SerializeField]
     [Range(1f, 20f)]
-    private float movementSpeed = 7.0f;
+    [SerializeField] private float movementSpeed = 7.0f;
 
-    [SerializeField]
-    private CanvasMain canvas = null;
+    [Range(0.1f, 2f)]
+    [SerializeField] private float bottomOffset = 1f;
 
-    [SerializeField]
-    private EnemySpawner spawner = null;
+    [SerializeField] private CanvasMain canvas = null;
+
+    [SerializeField] private EnemySpawner spawner = null;
 
     // Private
     private Tilemap _map;
 
     private Tilemap lastMap;
 
-    [SerializeField]
-    private GameObject pointer = null;
+    [SerializeField] private GameObject pointer = null;
 
-    [SerializeField]
-    private BoxCollider2D _coll = null;
+    [SerializeField] private BoxCollider2D _coll = null;
 
-    [SerializeField]
-    private Rigidbody2D _rb2d = null;
+    [SerializeField] private Rigidbody2D _rb2d = null;
 
     private Vector2 CurPos { get => _rb2d.position; set => _rb2d.position = value; }
     private float Vertical => Input.GetAxis("Vertical");
@@ -128,7 +125,7 @@ public class Movement : MonoBehaviour
         _xMin = minTile.x;
         _xMax = maxTile.x;
 
-        _yMin = minTile.y;
+        _yMin = minTile.y + bottomOffset;
         _yMax = maxTile.y;
 
         lastMap = _map;

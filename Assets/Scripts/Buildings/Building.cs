@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Building : MonoBehaviour
 {
@@ -8,9 +9,21 @@ public class Building : MonoBehaviour
     // Start is called before the first frame update
     public virtual void Start()
     {
-        if (player == null)
+        player = player != null ? player : PlayerMain.GetPlayer;
+    }
+}
+
+public class Shop : Building
+{
+    [SerializeField] protected Transform container = null;
+    [SerializeField] protected BuyItem buyItem = null;
+
+    public virtual void ShowWares(List<Ware> wares)
+    {
+        container.KillChildren();
+        wares.ForEach(w =>
         {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
-        }
+            Instantiate(buyItem, container).Setup(w);
+        });
     }
 }

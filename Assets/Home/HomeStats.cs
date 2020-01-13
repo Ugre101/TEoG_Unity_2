@@ -1,22 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-[Serializable]
 public class HomeStats
 {
-    [Header("Dorm")]
-    [SerializeField]
-    private HomeUpgrade dorm = new HomeUpgrade();
-
-    [SerializeField]
-    private HomeUpgrade dormGym = new HomeUpgrade();
-
-    [SerializeField]
-    private HomeUpgrade dormKitchen = new HomeUpgrade();
-
-    public HomeUpgrade Dorm => dorm;
-    public HomeUpgrade DormGym => dormGym;
-    public HomeUpgrade DormKitchen => dormKitchen;
+    public DormUpgrade Dorm { get; } = new DormUpgrade();
+    public DormGymUpgrage DormGym { get; } = new DormGymUpgrage();
+    public DormKitchenUpgrade DormKitchen { get; } = new DormKitchenUpgrade();
 
     public HomeSave Save()
     {
@@ -25,56 +13,64 @@ public class HomeStats
 
     public void Load(HomeSave toLoad)
     {
-        dorm.Load(toLoad.DormLevel);
-        dormGym.Load(toLoad.DormGymLevel);
-        dormKitchen.Load(toLoad.DormKitchenLevel);
+        Dorm.Load(toLoad.DormLevel);
+        DormGym.Load(toLoad.DormGymLevel);
+        DormKitchen.Load(toLoad.DormKitchenLevel);
     }
 }
 
-[Serializable]
 public class HomeUpgrade
 {
-    public HomeUpgrade()
-    {
-    }
+    protected int baseCost = 20;
 
-    public HomeUpgrade(int startLevel) => level = startLevel;
+    protected float costExpo = 1f;
 
-    [SerializeField]
-    private int level = 0;
+    public int Level { get; protected set; } = 0;
+    public int Cost => Mathf.CeilToInt(Mathf.Pow(baseCost + Level, costExpo));
 
-    [SerializeField]
-    private int baseCost = 0;
+    public bool CanAfford(BasicChar buyer) => buyer.Currency.Gold >= Cost;
 
-    [SerializeField]
-    private float costExpo = 0f;
-
-    public int Level => level;
-    public int Cost => Mathf.CeilToInt(Mathf.Pow(baseCost, costExpo));
-
-    public bool CanAfford(BasicChar buyer)
-    {
-        return buyer.Currency.Gold >= Cost;
-    }
-
-    /// <summary>
-    /// If you have the gold it will take the gold and upgrade building.
-    /// </summary>
-    /// <param name="buyer"></param>
-    /// <returns>If building level up was succesful</returns>
+    /// <summary> If you have the gold it will take the gold and upgrade building. </summary>
+    /// <returns> If building level up was succesful</returns>
     public bool Upgrade(BasicChar buyer)
     {
-        bool canAfford = CanAfford(buyer);
-        if (canAfford)
+        if (buyer.Currency.TryToBuy(Cost))
         {
-            buyer.Currency.Gold -= Cost;
-            level++;
+            Level++;
+            return true;
         }
-        return canAfford;
+        return false;
     }
 
-    public void Load(int parLevel)
+    public void Load(int parLevel) => Level = parLevel;
+}
+
+public class DormUpgrade : HomeUpgrade
+{
+    public DormUpgrade()
     {
-        level = parLevel;
+        baseCost = 50;
+        costExpo = 1f;
+        Level = 0;
+    }
+}
+
+public class DormGymUpgrage : HomeUpgrade
+{
+    public DormGymUpgrage()
+    {
+        baseCost = 30;
+        costExpo = 1f;
+        Level = 1;
+    }
+}
+
+public class DormKitchenUpgrade : HomeUpgrade
+{
+    public DormKitchenUpgrade()
+    {
+        baseCost = 30;
+        costExpo = 1f;
+        Level = 0;
     }
 }

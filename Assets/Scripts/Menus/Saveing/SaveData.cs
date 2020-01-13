@@ -9,15 +9,13 @@ public class Save
     private readonly PlayerMain Player;
     private readonly Transform Pos;
     private readonly Dorm dorm;
-    private readonly Home home;
     private readonly VoreChar voreChar;
 
-    public Save(PlayerMain player, Dorm theDorm, Home parHome)
+    public Save(PlayerMain player, Dorm theDorm)
     {
         Player = player;
         Pos = player.transform;
         dorm = theDorm;
-        home = parHome;
         voreChar = player.VoreChar;
     }
 
@@ -26,7 +24,7 @@ public class Save
         PlayerSave playerSave = new PlayerSave(Player);
         List<DormSave> dormSaves = dorm.Save();
         PosSave playerPos = new PosSave(Pos.position, MapEvents.ActiveMap, MapEvents.CurrentMap.transform.name);
-        HomeSave homeSave = home.Stats.Save();
+        HomeSave homeSave = Home.Stats.Save();
         VoreSaves voreSaves = voreChar.Save();
         FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, voreSaves);
         Debug.Log(JsonUtility.ToJson(fullSave));
@@ -41,7 +39,7 @@ public class Save
         MapEvents.GetMapEvents.Load(fullSave.PosPart);
         // Reference
         JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
-        home.Stats.Load(fullSave.HomePart);
+        Home.Stats.Load(fullSave.HomePart);
         dorm.Load(fullSave.DormPart);
         voreChar.Load(fullSave.VoreSaves, Player);
         // Pure static

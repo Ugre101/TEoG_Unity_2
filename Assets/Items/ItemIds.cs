@@ -10,6 +10,8 @@ public enum ItemId
 {
     Pouch,
     Potion,
-    Stick
+    Stick,
+    VirilityBooster,
+    FertilityBooster
 }
 

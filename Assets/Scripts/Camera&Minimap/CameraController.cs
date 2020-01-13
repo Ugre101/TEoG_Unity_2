@@ -4,30 +4,23 @@ using UnityEngine.Tilemaps;
 public class CameraController : MonoBehaviour
 {
     // Public
-    [SerializeField]
-    private Transform _player = null;
+    [SerializeField] private Transform _player = null;
 
-    [SerializeField]
-    private KeyBindings keyBindings = null;
+    [SerializeField] private KeyBindings keyBindings = null;
 
     [Header("Settings")]
-    [SerializeField]
-    private float _smoothing = 1f;
+    [SerializeField] private float _smoothing = 1f;
 
-    [SerializeField]
-    private float _maxCam = 20f;
+    [SerializeField] private float _maxCam = 20f;
 
     [Range(0.01f, 0.5f)]
-    [SerializeField]
-    private float zoomSpeed = 0.1f;
+    [SerializeField] private float zoomSpeed = 0.1f;
 
     [Tooltip("Less is more, changes how much out of map camera can see")]
     [Range(0.1f, 0.6f)]
-    [SerializeField]
-    private float viewLimit = 1f;
+    [SerializeField] private float viewLimit = 0.4f;
 
-    [SerializeField]
-    private Vector3 _offset = new Vector3(1f, 0, -10);
+    [SerializeField] private Vector3 _offset = new Vector3(1f, 0, -10);
 
     // Private
     private Tilemap _map;
@@ -35,8 +28,7 @@ public class CameraController : MonoBehaviour
     private Camera cam;
     private float _xMax, _xMin, _yMin, _yMax;
 
-    [SerializeField]
-    private float _orthSize = 8f;
+    [SerializeField] private float _orthSize = 8f;
 
     private float _lastOrthSize;
     private Vector3 minTile, maxTile;

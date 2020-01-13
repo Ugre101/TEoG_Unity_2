@@ -14,7 +14,7 @@ public class TakeHome : MonoBehaviour
 
     public void DoScene()
     {
-        dorm.AddTo(afterBattle.Target.transform.gameObject);
+        dorm.AddTo(afterBattle.Target);
         Destroy(afterBattle.Target.transform.gameObject);
         gameUI.Resume();
         // Needs testing

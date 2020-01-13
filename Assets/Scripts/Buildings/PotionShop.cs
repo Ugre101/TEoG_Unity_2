@@ -13,10 +13,7 @@ public class PotionShop : Building
 
 public class Potion : Ware
 {
-    public Potion(int parCost, string parTitle, string parDesc)
+    public Potion(int parCost, string parTitle, string parDesc) : base(parCost, parTitle, parDesc)
     {
-        Cost = parCost;
-        Title = parTitle;
-        Desc = parDesc;
     }
 }

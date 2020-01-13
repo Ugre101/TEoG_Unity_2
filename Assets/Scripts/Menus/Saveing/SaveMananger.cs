@@ -6,14 +6,9 @@ public class SaveMananger : MonoBehaviour
 {
     public static SaveMananger Instance { get; private set; }
 
-    [SerializeField]
-    private PlayerMain player = null;
+    [SerializeField] private PlayerMain player = null;
 
-    [SerializeField]
-    private Dorm dorm = null;
-
-    [SerializeField]
-    private Home home = null;
+    [SerializeField] private Dorm dorm = null;
 
     private DirectoryInfo SaveFolder;
 
@@ -79,7 +74,7 @@ public class SaveMananger : MonoBehaviour
         GameLoaded?.Invoke();
     }
 
-    public Save NewSave => new Save(player, dorm, home);
+    public Save NewSave => new Save(player, dorm);
 
     public delegate void SavedGame();
 
