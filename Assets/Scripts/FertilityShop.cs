@@ -10,7 +10,7 @@ public class FertilityShop : Shop
         ShowWares();
     }
 
-    public void ShowWares()
+    private void ShowWares()
     {
         container.KillChildren();
         itemWares.ForEach(w =>
