@@ -45,19 +45,20 @@ public static class AssingGender
     public static void GetEssense(BasicChar who, float amount)
     {
         Genders gender = allGenders[UnityEngine.Random.Range(0, allGenders.Length - 1)];
+        Essence Masc = who.Essence.Masc, Femi = who.Essence.Femi;
         switch (gender)
         {
             case Genders.Male:
-                who.Masc.Gain(amount);
+                Masc.Gain(amount);
                 break;
 
             case Genders.Female:
-                who.Femi.Gain(amount);
+                Femi.Gain(amount);
                 break;
 
             case Genders.Herm:
-                who.Masc.Gain(amount / 2);
-                who.Femi.Gain(amount / 2);
+                Masc.Gain(amount / 2);
+                Femi.Gain(amount / 2);
                 break;
 
             case Genders.Dickgirl:

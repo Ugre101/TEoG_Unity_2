@@ -1,25 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[Serializable]
-public class CharStats
+[System.Serializable]
+public class CharStats : Stat
 {
-    [SerializeField]
-    private int baseValue;
+    [SerializeField] private List<StatMod> statMods = new List<StatMod>();
 
-    private float _currValue;
+    [SerializeField] private List<TempStatMod> tempMods = new List<TempStatMod>();
 
-    [SerializeField]
-    private List<StatMod> statMods = new List<StatMod>();
-
-    [SerializeField]
-    private List<TempStatMod> tempMods = new List<TempStatMod>();
-
-    private bool isDirty = true;
-
-    private bool IsDirty
+    protected override bool IsDirty
     {
         get => isDirty;
         set
@@ -30,34 +20,22 @@ public class CharStats
         }
     }
 
-    public float Value
-    {
-        get
-        {
-            if (IsDirty)
-            {
-                _currValue = CalcFinalValue();
-                IsDirty = false;
-            }
-            return _currValue;
-        }
-    }
-
+    public override int Value => base.Value;
     public List<StatMod> StatMods => statMods;
     public List<TempStatMod> TempMods => tempMods;
-    public int BaseValue { get => baseValue; set { baseValue = value; IsDirty = true; } }
-
-    public CharStats()
-    {
-        BaseValue = 10;
-        DateSystem.NewHourEvent += TickTempMods;
-    }
 
     public CharStats(int parBaseValue)
     {
         BaseValue = parBaseValue;
         DateSystem.NewHourEvent += TickTempMods;
+        Save.LoadEvent += delegate { IsDirty = true; _ = Value; };
     }
+
+    public CharStats() : this(10)
+    {
+    }
+
+    #region AddAndRemoveMods
 
     public void AddMods(StatMod mod)
     {
@@ -130,15 +108,20 @@ public class CharStats
         return false;
     }
 
-    private float CalcFinalValue()
+    #endregion AddAndRemoveMods
+
+    protected override int CalcValue
     {
-        float finalValue = BaseValue +
-            StatMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(sm => sm.Value) +
-            TempMods.FindAll(tm => tm.ModType == ModTypes.Flat).Sum(tm => tm.Value);
-        float perMulti = 1 +
-            StatMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(sm => sm.Value) +
-            TempMods.FindAll(tm => tm.ModType == ModTypes.Precent).Sum(tm => tm.Value);
-        return Mathf.Round(finalValue * perMulti);
+        get
+        {
+            float finalValue = BaseValue +
+                StatMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(sm => sm.Value) +
+                TempMods.FindAll(tm => tm.ModType == ModTypes.Flat).Sum(tm => tm.Value);
+            float perMulti = 1 +
+                StatMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(sm => sm.Value) +
+                TempMods.FindAll(tm => tm.ModType == ModTypes.Precent).Sum(tm => tm.Value);
+            return Mathf.FloorToInt(finalValue * perMulti);
+        }
     }
 
     public void TickTempMods() => TempMods.RemoveAll(tm => tm.Duration < 1);

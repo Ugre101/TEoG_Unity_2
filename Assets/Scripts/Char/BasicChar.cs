@@ -10,18 +10,15 @@ public abstract class BasicChar : MonoBehaviour
         vore = new VoreEngine(this);
     }
 
-    [SerializeField]
-    protected Identity identity;
+    [SerializeField] protected Identity identity;
 
     public Identity Identity => identity;
 
-    [SerializeField]
-    private Inventory inventory = new Inventory();
+    [SerializeField] private Inventory inventory = new Inventory();
 
     public Inventory Inventory => inventory;
 
-    [SerializeField]
-    private RaceSystem raceSystem = new RaceSystem();
+    [SerializeField] private RaceSystem raceSystem = new RaceSystem();
 
     public RaceSystem RaceSystem => raceSystem;
     public string Race => RaceSystem.CurrentRace().ToString();
@@ -43,8 +40,7 @@ public abstract class BasicChar : MonoBehaviour
     public Genders Gender => this.Gender();
     public GenderTypes GenderType => this.GenderType();
 
-    [SerializeField]
-    private VoreEngine vore;
+    [SerializeField] private VoreEngine vore;
 
     public VoreEngine Vore => vore;
 
@@ -62,13 +58,11 @@ public abstract class BasicChar : MonoBehaviour
         }
     }
 
-    [SerializeField]
-    private Age age = new Age();
+    [SerializeField] private Age age = new Age();
 
     public Age Age => age;
 
-    [SerializeField]
-    protected Body body;
+    [SerializeField] protected Body body;
 
     public Body Body => body;
     public float Weight => Body.Weight;
@@ -77,48 +71,39 @@ public abstract class BasicChar : MonoBehaviour
     {
     }
 
-    [SerializeField]
-    private Health hp;
+    [SerializeField] private Health hp;
 
     public Health HP => hp;
 
-    [SerializeField]
-    private Health wp;
+    [SerializeField] private Health wp;
 
     public Health WP => wp;
 
     [Header("Level,exp, stats & perks")]
-    [SerializeField]
-    private ExpSystem expSystem = new ExpSystem();
+    [SerializeField] private ExpSystem expSystem = new ExpSystem();
 
     public ExpSystem ExpSystem => expSystem;
 
-    [SerializeField]
-    public Perks perk = new Perks();
+    [SerializeField] public Perks perk = new Perks();
 
     public Perks Perks => perk;
 
     [Header("Stats")]
-    [SerializeField]
-    protected StatsContainer stats = new StatsContainer();
+    [SerializeField] protected StatsContainer stats = new StatsContainer();
 
     public StatsContainer Stats => stats;
 
     [Header("Essence")]
-    [SerializeField]
-    private bool autoEss = true;
+    [SerializeField] private bool autoEss = true;
 
     public bool AutoEss => autoEss;
 
     // Maybe a bit overkill but I want to make sure autoEss isn't toggled by mistake
     public void ToggleAutoEssence() => autoEss = !autoEss;
 
-    [SerializeField]
-    private EssenceSystem essence = new EssenceSystem();
+    [SerializeField] private EssenceSystem essence = new EssenceSystem();
 
     public EssenceSystem Essence => essence;
-    public Essence Masc => essence.Masc;
-    public Essence Femi => essence.Femi;
     public float RestRate => 3.44f + Perks.GetPerkLevel(PerksTypes.FasterRest);
 
     [Space]

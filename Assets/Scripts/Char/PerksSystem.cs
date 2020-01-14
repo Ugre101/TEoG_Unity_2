@@ -49,37 +49,6 @@ public class Perks
 
     public List<Perk> List => perkList;
 
-    public void GainPerk(PerksTypes type)
-    {
-        if (perkList.Exists(p => p.Type == type))
-        {
-            perkList.Find(p => p.Type == type).LevelUp(); ;
-        }
-        else
-        {
-            switch (type)
-            {
-                case PerksTypes.FasterRest:
-                    break;
-                case PerksTypes.Gluttony:
-                    break;
-                case PerksTypes.EssenceFlow:
-                    break;
-                case PerksTypes.EssenceThief:
-                    break;
-                case PerksTypes.EssenceHoarder:
-                    break;
-                case PerksTypes.HealthyBody:
-                    break;
-                case PerksTypes.StrongMind:
-                    break;
-                case PerksTypes.LowMetabolism:
-                    break;
-            }
-            perkList.Add(new Perk(type));
-        }
-    }
-
     public bool HasPerk(PerksTypes type) => perkList.Exists(p => p.Type == type);
 
     public Perk GetPerk(PerksTypes type) => perkList.Find(p => p.Type == type);
@@ -104,6 +73,70 @@ public class Perks
 
             default:
                 return "";
+        }
+    }
+}
+
+public static class PerkExtensions
+{
+    public static void GainPerk(this BasicChar basicChar, PerksTypes type)
+    {
+        List<Perk> perkList = basicChar.Perks.List;
+
+        switch (type)
+        {
+            case PerksTypes.FasterRest:
+                break;
+
+            case PerksTypes.Gluttony:
+                basicChar.HP.Recovery.AddMods(PerkEffects.Gluttony.ExtraRecovery(HealthTypes.Health));
+                basicChar.WP.Recovery.AddMods(PerkEffects.Gluttony.ExtraRecovery(HealthTypes.WillPower));
+                break;
+
+            case PerksTypes.EssenceFlow:
+                break;
+
+            case PerksTypes.EssenceThief:
+                break;
+
+            case PerksTypes.EssenceHoarder:
+                break;
+
+            case PerksTypes.HealthyBody:
+                break;
+
+            case PerksTypes.StrongMind:
+                break;
+
+            case PerksTypes.LowMetabolism:
+                break;
+
+            case PerksTypes.Delicate:
+                break;
+
+            case PerksTypes.EnhancedSenses:
+                break;
+
+            case PerksTypes.Thug:
+                break;
+
+            case PerksTypes.Greedy:
+                break;
+
+            case PerksTypes.EssenceShaper:
+                break;
+
+            case PerksTypes.Seductress:
+                basicChar.Stats.Charm.AddMods(PerkEffects.Seductress.CharmMod);
+                break;
+        }
+        if (perkList.Exists(p => p.Type == type))
+        {
+            perkList.Find(p => p.Type == type).LevelUp(); ;
+        }
+        else
+        {
+            perkList.Add(new Perk(type));
         }
     }
 }

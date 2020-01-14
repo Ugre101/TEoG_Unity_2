@@ -38,7 +38,7 @@ public class PerkButton : PerkTreeBasicBtn
             if (player.ExpSystem.PerkBool(perkCost))
             {
                 Taken = true;
-                player.Perks.GainPerk(perk);
+                player.GainPerk(perk);
                 RuneOpacity();
             }
         }

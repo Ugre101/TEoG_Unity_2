@@ -6,7 +6,7 @@ public class MascSlider : EssenceSlider
     {
         base.Init(who);
         who.Essence.Masc.EssenceSliderEvent += ChangeMasc;
-        basicChar.Masc.ManualUpdate();
+        basicChar.Essence.Masc.ManualUpdate();
     }
 
     private void OnDisable()
@@ -19,6 +19,6 @@ public class MascSlider : EssenceSlider
         Color temp = _image.color;
         temp.a = 0.5f;
         _image.color = temp;
-        essValue.text = basicChar.Masc.StringAmount;
+        essValue.text = basicChar.Essence.Masc.StringAmount;
     }
 }

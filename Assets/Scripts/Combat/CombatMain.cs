@@ -10,17 +10,13 @@ public class CombatMain : MonoBehaviour
     private CanvasMain CanvasMain => CanvasMain.GetCanvasMain;
     private PlayerMain Player => PlayerMain.GetPlayer;
 
-    [SerializeField]
-    private TextMeshProUGUI _textbox = null;
+    [SerializeField] private TextMeshProUGUI _textbox = null;
 
-    [SerializeField]
-    private GameObject skillButtonsContainer = null;
+    [SerializeField] private GameObject skillButtonsContainer = null;
 
-    [SerializeField]
-    private List<CombatButton> skillButtons = null;
+    [SerializeField] private List<CombatButton> skillButtons = null;
 
-    [SerializeField]
-    private SkillBook skillBook = null;
+    [SerializeField] private SkillBook skillBook = null;
 
     public BasicChar CurrentEnemy
     {
@@ -35,22 +31,18 @@ public class CombatMain : MonoBehaviour
     private readonly List<BasicChar> playerTeamChars = new List<BasicChar>();
     private readonly List<EnemyPrefab> enemyTeamChars = new List<EnemyPrefab>();
 
-    [SerializeField]
-    private CombatTeam playerTeam = null;
+    [SerializeField] private CombatTeam playerTeam = null;
 
-    [SerializeField]
-    private CombatTeam enemyTeam = null;
+    [SerializeField] private CombatTeam enemyTeam = null;
 
     public BasicChar Target => newTarget != null ? newTarget : CurrentEnemy;
     private BasicChar newTarget = null;
 
-    [SerializeField]
     [Header("Win")]
-    private AfterBattleMain afterBattle = null;
+    [SerializeField] private AfterBattleMain afterBattle = null;
 
-    [SerializeField]
     [Header("Lose")]
-    private LoseMain loseBattle = null;
+    [SerializeField] private LoseMain loseBattle = null;
 
     // Private
     private readonly List<string> _battleLog = new List<string>();
@@ -230,7 +222,9 @@ public class CombatMain : MonoBehaviour
         foreach (EnemyPrefab e in enemyTeamChars)
         {
             Player.ExpSystem.Exp += e.reward.ExpReward;
-            Player.Currency.Gold += e.reward.GoldReward;
+            Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
+                ? e.reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
+                : e.reward.GoldReward;
         }
         afterBattle.Setup(enemyTeamChars);
         gameObject.SetActive(false);

@@ -6,7 +6,7 @@ public class FemiSlider : EssenceSlider
     {
         base.Init(who);
         who.Essence.Femi.EssenceSliderEvent += ChangeFemi;
-        basicChar.Femi.ManualUpdate();
+        basicChar.Essence.Femi.ManualUpdate();
     }
 
     private void OnDisable()
@@ -19,6 +19,6 @@ public class FemiSlider : EssenceSlider
         Color temp = _image.color;
         temp.a = 0.5f;
         _image.color = temp;
-        essValue.text = basicChar.Femi.StringAmount;
+        essValue.text = basicChar.Essence.Femi.StringAmount;
     }
 }

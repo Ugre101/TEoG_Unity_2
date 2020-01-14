@@ -10,7 +10,7 @@ public class ShowOneServant : MonoBehaviour
     [SerializeField] private Button backBtn = null, kickOutBtn = null;
     [SerializeField] private TextMeshProUGUI textBox = null;
 
-    [SerializeField] private PromptYesNo prompt;
+    [SerializeField] private PromptYesNo prompt = null;
 
     // Start is called before the first frame update
     private void Start()

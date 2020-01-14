@@ -4,7 +4,7 @@
     {
         float toGive = player.EssGive();
         player.LoseMasc(toGive);
-        other.Masc.Gain(toGive);
+        other.Essence.Masc.Gain(toGive);
         return "Give masc";
     }
 }

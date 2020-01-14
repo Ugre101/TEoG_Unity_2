@@ -9,7 +9,7 @@ public class BasicStatButton : PerkTreeBasicBtn
 
     [Space]
     [SerializeField]
-    private StatTypes stat;
+    private StatTypes stat = StatTypes.Charm;
 
     [SerializeField]
     private int statAmount = 1;

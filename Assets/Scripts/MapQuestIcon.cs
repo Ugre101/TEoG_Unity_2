@@ -2,8 +2,8 @@
 
 public class MapQuestIcon : MonoBehaviour
 {
-    [SerializeField] private Quests Quest;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    [SerializeField] private Quests Quest = Quests.Bandit;
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
 
     private void OnEnable()
     {

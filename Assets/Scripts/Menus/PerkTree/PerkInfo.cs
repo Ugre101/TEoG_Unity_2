@@ -29,9 +29,7 @@ public static class PerkEffects
             ? 0.1f * perks.GetPerkLevel(PerksTypes.Gluttony)
             : 0;
 
-        public static float ExtraRecovery(Perks perks) => perks.HasPerk(PerksTypes.Gluttony)
-            ? 0.2f * perks.GetPerkLevel(PerksTypes.Gluttony)
-            : 0;
+        public static HealthMod ExtraRecovery(HealthTypes type) => new HealthMod(3, ModTypes.Flat, typeof(Gluttony).Name, type);
 
         public static float ExtraStarvationPenalty(Perks perks) => perks.HasPerk(PerksTypes.Gluttony)
             ? 0.1f * perks.GetPerkLevel(PerksTypes.Gluttony)
@@ -62,6 +60,48 @@ public static class PerkEffects
     public static class Seductress
     {
         public static StatMod CharmMod => new StatMod(5f, StatTypes.Charm, typeof(Seductress).Name, ModTypes.Flat);
+    }
+
+    public static class StoneSkin
+    {
+    }
+
+    public static class Delicate
+    {
+        public static StatMod CharmModFlat = new StatMod(5, StatTypes.Charm, typeof(Delicate).Name, ModTypes.Flat);
+        public static StatMod CharmModPre = new StatMod(0.1f, StatTypes.Charm, typeof(Delicate).Name, ModTypes.Precent);
+
+        public static float ExtraSensitive(Perks perks) => perks.HasPerk(PerksTypes.Delicate)
+            ? 0.2f * perks.GetPerkLevel(PerksTypes.Delicate)
+            : 0;
+    }
+
+    public static class HealtyBody
+    {
+        public static HealthMod HealthFlat => new HealthMod(20, ModTypes.Flat, typeof(HealtyBody).Name, HealthTypes.Health);
+        public static HealthMod HealthPre => new HealthMod(0.1f, ModTypes.Precent, typeof(HealtyBody).Name, HealthTypes.Health);
+        public static HealthMod RecoveryFlat => new HealthMod(3, ModTypes.Flat, typeof(HealtyBody).Name, HealthTypes.Health);
+        public static HealthMod RecoveryPre => new HealthMod(0.1f, ModTypes.Precent, typeof(HealtyBody).Name, HealthTypes.Health);
+    }
+
+    public static class Thug
+    {
+        public static StatMod StrFlat => new StatMod(5, StatTypes.Str, typeof(Thug).Name, ModTypes.Flat);
+
+        public static float AfterbattleHealPenalty(Perks perks) => perks.HasPerk(PerksTypes.Thug)
+            ? 0.1f * perks.GetPerkLevel(PerksTypes.Thug)
+            : 0;
+    }
+
+    public static class Greedy
+    {
+        public static float ExtraGold(Perks perks) => perks.HasPerk(PerksTypes.Greedy)
+            ? 0.05f * perks.GetPerkLevel(PerksTypes.Greedy)
+            : 0f;
+
+        public static float Discount(Perks perks) => perks.HasPerk(PerksTypes.Greedy)
+            ? 0.02f * perks.GetPerkLevel(PerksTypes.Greedy)
+            : 0f;
     }
 }
 

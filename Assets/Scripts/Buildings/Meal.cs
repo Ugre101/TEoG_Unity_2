@@ -1,58 +1,65 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
+[System.Serializable]
 public class Meal
 {
-    public Meal(float all)
-    {
-        HpGain = all;
-        WpGain = all;
-        FatGain = all;
-    }
-
-    public Meal(float hpwp, float fat)
-    {
-        HpGain = hpwp;
-        WpGain = hpwp;
-        FatGain = fat;
-    }
+    [SerializeField] private float hpGain;
+    [SerializeField] private float wpGain;
+    [SerializeField] private float fatGain;
 
     public Meal(float wp, float hp, float fat)
     {
-        HpGain = hp;
-        WpGain = wp;
-        FatGain = fat;
+        hpGain = hp;
+        wpGain = wp;
+        fatGain = fat;
     }
 
-    public float HpGain { get; private set; }
-    public float WpGain { get; private set; }
-    public float FatGain { get; private set; }
+    public Meal(float hpwp, float fat) : this(hpwp, hpwp, fat)
+    {
+    }
+
+    public Meal(float all) : this(all, all, all)
+    {
+    }
+
+    public float HpGain => hpGain;
+    public float WpGain => wpGain;
+    public float FatGain => fatGain;
 }
 
+[System.Serializable]
 public class MealWithBuffs : Meal
 {
+    [SerializeField] private List<TempStatMod> tempMods = new List<TempStatMod>();
+    [SerializeField] private List<TempHealthMod> tempHealthMods = new List<TempHealthMod>();
+
     public MealWithBuffs(float all, List<TempStatMod> mods) : base(all)
     {
-        TempMods = mods;
+        tempMods = mods;
     }
+
     public MealWithBuffs(float all, List<TempHealthMod> mods) : base(all)
     {
-        TempHealthMods = mods;
+        tempHealthMods = mods;
     }
-    public MealWithBuffs(float all, List<TempStatMod> statMods,List<TempHealthMod> healthMods) : base(all)
+
+    public MealWithBuffs(float all, List<TempStatMod> statMods, List<TempHealthMod> healthMods) : base(all)
     {
-        TempMods = statMods;
-        TempHealthMods = healthMods;
+        tempMods = statMods;
+        tempHealthMods = healthMods;
     }
+
     public MealWithBuffs(float hpwp, float fat, List<TempStatMod> mods) : base(hpwp, fat)
     {
-        TempMods = mods;
+        tempMods = mods;
     }
 
     public MealWithBuffs(float wp, float hp, float fat, List<TempStatMod> mods) : base(wp, hp, fat)
     {
-        TempMods = mods;
+        tempMods = mods;
     }
 
-    public List<TempStatMod> TempMods { get; private set; } = new List<TempStatMod>();
-    public List<TempHealthMod> TempHealthMods { get; private set; } = new List<TempHealthMod>();
+    public List<TempStatMod> TempMods => tempMods;
+    public List<TempHealthMod> TempHealthMods => tempHealthMods;
 }

@@ -18,12 +18,12 @@ public class Shop : Building
     [SerializeField] protected Transform container = null;
     [SerializeField] protected BuyItem buyItem = null;
 
-    public virtual void ShowWares(List<Ware> wares)
+    public virtual void ShowWares(List<Ware> wares, BasicChar buyer)
     {
         container.KillChildren();
         wares.ForEach(w =>
         {
-            Instantiate(buyItem, container).Setup(w);
+            Instantiate(buyItem, container).Setup(w, buyer);
         });
     }
 }

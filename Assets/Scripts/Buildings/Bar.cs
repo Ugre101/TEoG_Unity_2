@@ -5,16 +5,13 @@ namespace Bar
 {
     public class Bar : Building
     {
-        [SerializeField]
-        private Transform container = null;
+        [SerializeField] private Transform container = null;
 
-        [SerializeField]
-        private BarMeal barMealPrefab = null;
+        [SerializeField] private BarMeal barMealPrefab = null;
 
-        [SerializeField]
-        private RentedRoom roomPrefab = null;
+        [SerializeField] private RentedRoom roomPrefab = null;
 
-        private readonly List<BuyMeal> meals = new List<BuyMeal>() { new BuyMeal(new Meal(3), 3, "Small meal"), new BuyMeal(new Meal(5), 5, "Medium meal"), new BuyMeal(new MealWithBuffs(8, new List<TempStatMod>() { new TempStatMod(1, StatTypes.Str, ModTypes.Flat, "Large meal", 12) }, new List<TempHealthMod>() { new TempHealthMod(10, ModTypes.Flat, HealthTypes.Health, "Large meal", 12) }), 8, "Large meal") };
+        [SerializeField] private List<BuyMeal> mealsWithBuffs = new List<BuyMeal>();
         private readonly List<RentRoomBasic> rooms = new List<RentRoomBasic>() { new RentRoomBasic() };
 
         // Start is called before the first frame update
@@ -22,17 +19,13 @@ namespace Bar
         {
             base.Start();
             container.KillChildren();
-            meals.ForEach(m =>
+            mealsWithBuffs.ForEach(m =>
             {
-                BarMeal temp = Instantiate(barMealPrefab, container);
-                temp.Setup(m);
-                temp.BuyBtn.onClick.AddListener(() => temp.Buy(player));
+                Instantiate(barMealPrefab, container).Setup(m, player);
             });
             rooms.ForEach(r =>
             {
-                RentedRoom temp = Instantiate(roomPrefab, container);
-                temp.Setup(r);
-                temp.BuyBtn.onClick.AddListener(() => temp.Buy(player));
+                Instantiate(roomPrefab, container).Setup(r, player);
             });
         }
     }
@@ -40,17 +33,19 @@ namespace Bar
     [System.Serializable]
     public class BuyMeal : Ware
     {
-        public BuyMeal(Meal parMeal, int parCost, string parTitle) : base(parCost, parTitle, "")
+        [SerializeField] private MealWithBuffs meal;
+        [SerializeField] private Sprite img;
+
+        public BuyMeal(MealWithBuffs parMeal, int parCost, string parTitle) : base(parCost, parTitle, "")
         {
-            Meal = parMeal;
-            Cost = parCost;
-            Title = parTitle;
+            meal = parMeal;
         }
 
-        public Meal Meal { get; private set; }
-        [field: SerializeField] public Sprite Img { get; private set; }
+        public Meal Meal => meal;
+        public Sprite Img => img;
     }
 
+    [System.Serializable]
     public class RentRoomBasic : Ware
     {
         public RentRoomBasic() : base(8, "Basic room", "Sleep for 8hours and wake up fully restored.")

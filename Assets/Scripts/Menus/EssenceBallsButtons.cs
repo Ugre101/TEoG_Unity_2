@@ -6,6 +6,7 @@ public class EssenceBallsButtons : MonoBehaviour
 {
     public GameObject prefab;
     public PlayerMain player;
+    private Essence Masc => player.Essence.Masc;
     private int lastAmount;
     private TextMeshProUGUI AddText;
 
@@ -48,7 +49,7 @@ public class EssenceBallsButtons : MonoBehaviour
 
     private void GrowBalls(Balls b, TextMeshProUGUI t)
     {
-        if (player.Masc.Amount >= b.Cost)
+        if (Masc.Amount >= b.Cost)
         {
             b.Grow();
             t.text = $"{Settings.MorInch(b.Size)} {b.Cost}Masc";
@@ -57,9 +58,9 @@ public class EssenceBallsButtons : MonoBehaviour
 
     private void AddFunc()
     {
-        if (player.Masc.Amount > player.SexualOrgans.Balls.Cost())
+        if (Masc.Amount > player.SexualOrgans.Balls.Cost())
         {
-            player.Masc.Lose(player.SexualOrgans.Balls.Cost());
+            Masc.Lose(player.SexualOrgans.Balls.Cost());
             player.SexualOrgans.Balls.AddBalls();
             AddText.text = $"Add balls: {player.SexualOrgans.Balls.Cost()}Masc";
         }

@@ -8,7 +8,7 @@ public class DrainFemi : EssScene
     public override string StartScene(PlayerMain player, BasicChar other)
     {
         float have = other.LoseFemi(player.EssenceDrain(other));
-        player.Femi.Gain(have);
+        player.Essence.Femi.Gain(have);
         return "Drain femi";
     }
 

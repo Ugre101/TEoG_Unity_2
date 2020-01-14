@@ -8,9 +8,10 @@ public abstract class ShopWare : MonoBehaviour
 
     [SerializeField] protected Image frame;
 
-    [field: SerializeField] public Button BuyBtn { get; protected set; }
+    public Button BuyBtn => buyBtn;
 
     [SerializeField] protected int Cost;
+    [SerializeField] private Button buyBtn;
 
     public virtual void Buy(BasicChar buyer)
     {
@@ -20,9 +21,9 @@ public abstract class ShopWare : MonoBehaviour
         }
     }
 
-    public virtual void Setup(Ware item)
+    public virtual void Setup(Ware item, BasicChar buyer)
     {
-        
+        BuyBtn.onClick.AddListener(() => Buy(buyer));
     }
 
     public virtual void FrameCanAfford(BasicChar buyer)
@@ -34,17 +35,21 @@ public abstract class ShopWare : MonoBehaviour
 [System.Serializable]
 public abstract class Ware
 {
-    [field: SerializeField] public int Cost { get; protected set; }
-    [field: SerializeField] public string Title { get; protected set; }
+    [SerializeField] private int cost;
+    [SerializeField] private string title;
 
-    [field: TextArea]
-    [field: SerializeField] public string Desc { get; protected set; }
+    [TextArea]
+    [SerializeField] private string desc;
+
+    public int Cost => cost;
+    public string Title => title;
+    public string Desc => desc;
 
     public Ware(int cost, string title, string desc)
     {
-        this.Cost = cost;
-        this.Title = title;
-        this.Desc = desc;
+        this.cost = cost;
+        this.title = title;
+        this.desc = desc;
     }
 
     public virtual void OnBuy(BasicChar basicChar)

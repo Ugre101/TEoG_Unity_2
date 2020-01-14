@@ -2,7 +2,7 @@
 {
     private Ware itemWare;
 
-    public void Setup(Ware item, BasicChar buyer)
+    public override void Setup(Ware item, BasicChar buyer)
     {
         itemWare = item;
         title.text = item.Title;

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Vore;
 
-[Serializable]
+[System.Serializable]
 public class Save
 {
     private readonly PlayerMain Player;
@@ -47,10 +46,15 @@ public class Save
         QuestsSystem.Load(fullSave.QuestSave);
         PlayerFlags.Load(fullSave.PlayerFlagsSave);
         EventLog.ClearLog();
+        LoadEvent?.Invoke();
     }
+
+    public delegate void DelegateLoad();
+
+    public static event DelegateLoad LoadEvent;
 }
 
-[Serializable]
+[System.Serializable]
 public class FullSave
 {
     [SerializeField] private PlayerSave playerPart;
@@ -83,7 +87,7 @@ public class FullSave
     }
 }
 
-[Serializable]
+[System.Serializable]
 public struct PlayerSave
 {
     [SerializeField] private string who;
@@ -93,7 +97,7 @@ public struct PlayerSave
     public string Who => who;
 }
 
-[Serializable]
+[System.Serializable]
 public struct PosSave
 {
     [SerializeField] private Vector3 pos;
@@ -114,29 +118,7 @@ public struct PosSave
     }
 }
 
-[Serializable]
-public struct DateSave
-{
-    [SerializeField] private int hour;
-    [SerializeField] private int year;
-    [SerializeField] private int month;
-    [SerializeField] private int day;
-
-    public int Year => year;
-    public int Month => month;
-    public int Day => day;
-    public int Hour => hour;
-
-    public DateSave(int Year, int Month, int Day, int Hour)
-    {
-        this.year = Year;
-        this.month = Month;
-        this.day = Day;
-        this.hour = Hour;
-    }
-}
-
-[Serializable]
+[System.Serializable]
 public struct HomeSave
 {
     [SerializeField] private int dormKitchenLevel;

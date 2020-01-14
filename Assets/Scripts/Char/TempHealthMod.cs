@@ -3,16 +3,17 @@
 [System.Serializable]
 public class TempHealthMod : HealthMod, IDuration
 {
-    [field: SerializeField] public int Duration { get; private set; }
+    [SerializeField] private int duration;
+    public int Duration => duration;
 
     public TempHealthMod(float parVal, ModTypes parModType, HealthTypes parHealthType, string parSource, int parDuration)
         : base(parVal, parModType, parSource, parHealthType)
     {
-        Duration = parDuration;
+        duration = parDuration;
         DateSystem.NewHourEvent += TickDown;
     }
 
-    public void TickDown() => Duration--;
+    public void TickDown() => duration--;
 
-    public void IncreaseDuration(int toIncrease) => Duration += toIncrease;
+    public void IncreaseDuration(int toIncrease) => duration += toIncrease;
 }

@@ -95,7 +95,8 @@ MonoBehaviour:
   desc: {fileID: 4392587376783828510}
   displayCost: {fileID: 2144942326876652571}
   frame: {fileID: 1638400110341590489}
-  <BuyBtn>k__BackingField: {fileID: 4392587376959731505}
+  Cost: 0
+  buyBtn: {fileID: 4392587376959731505}
 --- !u!1 &498768672905291998
 GameObject:
   m_ObjectHideFlags: 0

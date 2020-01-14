@@ -8,7 +8,7 @@ public class DrainMasc : EssScene
     public override string StartScene(PlayerMain player, BasicChar other)
     {
         float have = other.LoseMasc(player.EssenceDrain(other));
-        player.Masc.Gain(have);
+        player.Essence.Masc.Gain(have);
         return "Drain masc";
     }
 

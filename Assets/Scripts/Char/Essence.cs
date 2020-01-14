@@ -53,17 +53,17 @@ public static class EssenceExtension
 
     public static bool CanDrainMasc(this BasicChar who)
     {
-        return who.Masc.Amount > 0 || who.SexualOrgans.Balls.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
+        return who.Essence.Masc.Amount > 0 || who.SexualOrgans.Balls.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
     }
 
     public static bool CanDrainFemi(this BasicChar who)
     {
-        return who.Femi.Amount > 0 || who.SexualOrgans.Boobs.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
+        return who.Essence.Femi.Amount > 0 || who.SexualOrgans.Boobs.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
     }
 
     public static float LoseMasc(this BasicChar who, float mascToLose)
     {
-        float have = who.Masc.Lose(mascToLose);
+        float have = who.Essence.Masc.Lose(mascToLose);
         float missing = mascToLose - have;
         if (missing > 0)
         {
@@ -96,7 +96,7 @@ public static class EssenceExtension
             float left = fromOrgans - missing;
             if (left > 0)
             {
-                who.Masc.Gain(left);
+                who.Essence.Masc.Gain(left);
             }
         }
         return have;
@@ -104,7 +104,7 @@ public static class EssenceExtension
 
     public static float LoseFemi(this BasicChar who, float femiToLose)
     {
-        float have = who.Femi.Lose(femiToLose);
+        float have = who.Essence.Femi.Lose(femiToLose);
         float missing = femiToLose - have;
         if (missing > 0)
         {
@@ -137,7 +137,7 @@ public static class EssenceExtension
             float left = fromOrgans - missing;
             if (left > 0)
             {
-                who.Femi.Gain(left);
+                who.Essence.Femi.Gain(left);
             }
         }
         return have;

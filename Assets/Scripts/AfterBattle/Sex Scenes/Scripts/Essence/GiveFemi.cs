@@ -8,7 +8,7 @@ public class GiveFemi : SexScenes
     {
         float toGive = player.EssGive();
         player.LoseFemi(toGive);
-        other.Femi.Gain(toGive);
+        other.Essence.Femi.Gain(toGive);
         return "Give femi";
     }
 }

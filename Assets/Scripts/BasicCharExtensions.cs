@@ -38,8 +38,8 @@ public static class BasicCharExtensions
     /// <summary> Handles hp/wp recovery, fat burn, vore </summary>
     private static void OverTimeTick(BasicChar basicChar)
     {
-        Gain(basicChar.HP);
-        Gain(basicChar.WP);
+        basicChar.HP.TickRecovery();
+        basicChar.WP.TickRecovery();
         if (basicChar.Vore.Active)
         {
             basicChar.Vore.Digest();
@@ -56,18 +56,6 @@ public static class BasicCharExtensions
         basicChar.Body.Fat.LoseFlat(fatBurnRate);
         ReGainFluidsTick(basicChar);
 
-        void Gain(Health health)
-        {
-            if (!health.IsMax)
-            {
-                float gain = basicChar.RestRate;
-                if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
-                {
-                    gain += PerkEffects.Gluttony.ExtraRecovery(basicChar.Perks);
-                }
-                health.Gain(gain);
-            }
-        }
     }
 
     private static void ReGainFluidsTick(BasicChar basicChar)

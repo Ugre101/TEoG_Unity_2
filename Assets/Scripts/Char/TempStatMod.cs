@@ -3,16 +3,17 @@
 [System.Serializable]
 public class TempStatMod : StatMod, IDuration
 {
-    [field: SerializeField] public int Duration { get; private set; }
+    [SerializeField] private int duration;
+    public int Duration => duration;
 
     public TempStatMod(float parValue, StatTypes parStatTypes, ModTypes parType, string parSource, int parHours) :
         base(parValue, parStatTypes, parSource, parType)
     {
-        Duration = parHours;
+        duration = parHours;
         DateSystem.NewHourEvent += TickDown;
     }
 
-    public void TickDown() => Duration--;
+    public void TickDown() => duration--;
 
-    public void IncreaseDuration(int toIncrease) => Duration += toIncrease;
+    public void IncreaseDuration(int toIncrease) => duration += toIncrease;
 }

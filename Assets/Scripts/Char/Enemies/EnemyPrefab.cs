@@ -80,7 +80,7 @@ public class EnemyPrefab : BasicChar
         stats = new StatsContainer(FinalStat(assingStr), FinalStat(assingCharm),
             FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt));
         //    Femi.Gain(200f);
-        Masc.Gain(300f);
+        Essence.Masc.Gain(300f);
         body = new Body(FinalHeight, FinalFat, FinalMuscle);
         RaceSystem.AddRace(assingRace.GetRace(), 100);
         if (NeedFirstName)

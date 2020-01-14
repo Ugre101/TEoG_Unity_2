@@ -12,7 +12,7 @@
             }
         }
 
-        public override void Setup(Ware item)
+        public override void Setup(Ware item, BasicChar buyer)
         {
             if (item is RentRoomBasic room)
             {
@@ -21,6 +21,8 @@
                 title.text = room.Title;
                 desc.text = room.Desc;
                 displayCost.text = Cost.ToString();
+                BuyBtn.onClick.AddListener(() => Buy(buyer));
+                buyer.Currency.GoldChanged += delegate { FrameCanAfford(buyer); };
             }
             else
             {

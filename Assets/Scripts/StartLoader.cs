@@ -9,11 +9,9 @@ namespace StartMenuStuff
     {
         private FileInfo file;
 
-        [SerializeField]
-        private GameObject canvas = null;
+        [SerializeField] private GameObject canvas = null;
 
-        [SerializeField]
-        private LoadingScreen loadingScreen = null;
+        [SerializeField] private LoadingScreen loadingScreen = null;
 
         private void Start()
         {

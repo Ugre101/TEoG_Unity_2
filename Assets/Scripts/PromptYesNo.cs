@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class PromptYesNo : MonoBehaviour
 {
-    [SerializeField] private Button YesBtn;
-    [SerializeField] private Button NoBtn;
+    [SerializeField] private Button YesBtn = null, NoBtn = null;
 
     /// <summary> No = destroy itself </summary>
     public void Setup(UnityAction yesFunc)
