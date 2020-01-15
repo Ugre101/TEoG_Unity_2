@@ -31,12 +31,6 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private float firstClick;
 
-    private void Awake()
-    {
-        hoverText = GetComponentInParent<InventoryHoverText>();
-        //   spriteRenderer = GetComponent<SpriteRenderer>();
-    }
-
     private void OnEnable()
     {
         Parent = transform.parent;
@@ -77,9 +71,11 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
 
+    private void Hovering() => hoverText.Hovering(Item.Title, Item.Desc);
+
     public void OnPointerClick(PointerEventData pointerEvent)
     {
-        hoverText.Hovering(gameObject, pointerEvent.position);
+        Hovering();
         if (Time.realtimeSinceStartup <= firstClick + 1)
         {
             UseItem();
@@ -105,7 +101,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             if (timeStartedHovering + 0.8f < Time.realtimeSinceStartup)
             {
-                hoverText.Hovering(gameObject, Input.mousePosition);
+                Hovering();
                 hoverTextActive = true;
             }
         }
@@ -121,16 +117,14 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void UseItem()
     {
         Debug.Log("Using item" + Item.name);
-        if (typeof(IHaveStatMods).IsAssignableFrom(Item.GetType()))
+        if (Item is IHaveStatMods haveMods)
         {
-            IHaveStatMods haveMods = Item as IHaveStatMods;
             haveMods.Mods.ForEach(m => Player.Stats.GetStat(m.StatType).AddMods(m));
             Debug.Log("Has statmod!");
             // TODO if player has weapong equipt then dequip it.
         }
-        if (typeof(IEquip).IsAssignableFrom(Item.GetType()))
+        if (Item is IEquip toEquip)
         {
-            IEquip toEquip = Item as IEquip;
             Debug.Log("Equipable!");
         }
         Item.Use(Player);
@@ -143,13 +137,14 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
     }
 
-    public void NewItem(InventoryHandler inventoryHandler, InventoryItem inventoryItem, int slot, Item item)
+    public void NewItem(InventoryHandler inventoryHandler, InventoryItem inventoryItem, Item item, InventoryHoverText inventoryHoverText)
     {
+        this.hoverText = inventoryHoverText;
         invItem = inventoryItem;
         invHandler = inventoryHandler;
-        SlotId = slot;
-        amountText.text = Amount.ToString();
+        SlotId = inventoryItem.InvPos;
         this.Item = item;
+        _ = Amount;
         //Invitem.item;
         if (item != null ? item.Sprite != null : false)
         {

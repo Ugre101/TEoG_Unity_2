@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 public class InventoryHandler : MonoBehaviour
 {
-    [SerializeField]
-    private DragInventory ItemPrefab = null;
+    [SerializeField] private DragInventory ItemPrefab = null;
 
-    [SerializeField]
-    private InventorySlot SlotPrefab = null;
-
+    [SerializeField] private InventorySlot SlotPrefab = null;
+    [SerializeField] private InventoryHoverText inventoryHoverText = null;
     [field: SerializeField] public EquiptItems EquiptItems { get; private set; } = null;
 
     public PlayerMain player;
@@ -51,22 +49,22 @@ public class InventoryHandler : MonoBehaviour
 
     public void UpdateInventory()
     {
-        foreach (InventorySlot slot in Slots)
-        {
-            if (!slot.Empty)
-            {
-                slot.Clean();
-            }
-        }
         player.Inventory.Items.RemoveAll(i => i.Amount < 1);
-        foreach (InventoryItem item in player.Inventory.Items)
-        {
-            DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.InvPos].transform);
-            dragInv.NewItem(this, item, item.InvPos, items.ItemsDict.Find(i => i.ItemId == item.Id));
-        }
+        ShowInventory(player.Inventory.Items);
     }
 
     public void UpdateInventory(ItemTypes parType)
+    {
+        player.Inventory.Items.RemoveAll(i => i.Amount < 1);
+        List<InventoryItem> sorted = (from item in items.ItemsDict
+                                      join invItem in player.Inventory.Items
+                                      on item.ItemId equals invItem.Id
+                                      where item.Type == parType
+                                      select invItem).ToList();
+        ShowInventory(sorted);
+    }
+
+    private void ShowInventory(List<InventoryItem> inventoryItems)
     {
         foreach (InventorySlot slot in Slots)
         {
@@ -75,17 +73,7 @@ public class InventoryHandler : MonoBehaviour
                 slot.Clean();
             }
         }
-        player.Inventory.Items.RemoveAll(i => i.Amount < 1);
-        List<InventoryItem> test = (from item in items.ItemsDict
-                                    join invItem in player.Inventory.Items
-                                    on item.ItemId equals invItem.Id
-                                    where item.Type == parType
-                                    select invItem).ToList();
-        foreach (InventoryItem item in test)
-        {
-            DragInventory dragInv = Instantiate(ItemPrefab, Slots[item.InvPos].transform);
-            dragInv.NewItem(this, item, item.InvPos, items.ItemsDict.Find(i => i.ItemId == item.Id));
-        }
+        inventoryItems.ForEach(i => Instantiate(ItemPrefab, Slots[i.InvPos].transform).NewItem(this, i, items.GetById(i.Id), inventoryHoverText));
     }
 
     public void ToggleButtons(Button selectedBtn)

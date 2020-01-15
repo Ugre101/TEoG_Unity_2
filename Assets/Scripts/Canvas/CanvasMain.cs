@@ -13,11 +13,9 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] private GameObject PauseMenu = null;
     [SerializeField] private HomeMain Home = null;
 
-    [SerializeField]
-    private MenuPanels menuPanels = new MenuPanels();
+    [SerializeField] private MenuPanels menuPanels = new MenuPanels();
 
-    [SerializeField]
-    private CombatMain combatMain = null;
+    [SerializeField] private CombatMain combatMain = null;
 
     #endregion Properties
 
@@ -78,20 +76,13 @@ public class CanvasMain : MonoBehaviour
 
     public void Intro()
     {
-        foreach (Transform child in transform)
-        {
-            child.gameObject.SetActive(false);
-        }
-        transform.GetChild(0).gameObject.SetActive(true);
+        transform.SleepChildren(transform.GetChild(0).transform);
         GameManager.CurState = GameState.Intro;
     }
 
     public void Resume()
     {
-        foreach (Transform child in Menus.transform)
-        {
-            child.gameObject.SetActive(false);
-        }
+        Menus.transform.SleepChildren();
         ToggleBigPanel(Gameui.gameObject);
         GameManager.CurState = GameState.Free;
     }
@@ -99,17 +90,11 @@ public class CanvasMain : MonoBehaviour
     public void Pause()
     {
         ToggleBigPanel(Menus.gameObject);
-        foreach (Transform child in Menus.transform)
-        {
-            child.gameObject.SetActive(false);
-        }
+        Menus.transform.SleepChildren();
         GameManager.CurState = GameState.Menu;
     }
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
+    public void QuitGame() => Application.Quit();
 
     public bool BigEventLog()
     {
@@ -126,23 +111,13 @@ public class CanvasMain : MonoBehaviour
     public void StartCombat(EnemyPrefab enemy)
     {
         GameManager.CurState = GameState.Battle;
-        foreach (Transform p in Battle.transform)
-        {
-            p.gameObject.SetActive(false);
-        }
+        Battle.transform.SleepChildren();
         ToggleBigPanel(Battle.gameObject);
         List<EnemyPrefab> toAdd = new List<EnemyPrefab> { enemy };
         combatMain.SetUpCombat(toAdd);
     }
 
-    private void ToggleBigPanel(GameObject toActivate)
-    {
-        foreach (Transform bigPanel in transform)
-        {
-            bigPanel.gameObject.SetActive(false);
-        }
-        toActivate.SetActive(true);
-    }
+    private void ToggleBigPanel(GameObject toActivate) => transform.SleepChildren(toActivate.transform);
 
     public void ResumePause(GameObject toBeActivated)
     {
@@ -186,6 +161,10 @@ public class CanvasMain : MonoBehaviour
         {
             GameManager.CurState = GameState.PauseMenu;
             PauseMenu.SetActive(true);
+            if (Gameui.gameObject.activeSelf)
+            {
+                Gameui.gameObject.SetActive(false);
+            }
         }
     }
 

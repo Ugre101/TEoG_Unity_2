@@ -5,38 +5,27 @@ namespace StartMenuStuff
 {
     public class EnlargeOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField]
-        private RectTransform rectTrans;
+        [SerializeField] private RectTransform rectTrans;
+        private Vector2 SetRect { set { if (rectTrans != null) { rectTrans.sizeDelta = value; }; } }
+        private Vector2 normal;
+        [SerializeField] private Vector2 enlarged = new Vector2();
 
-        [SerializeField]
-        private float normalWidth = 250f, normalHeight = 55f;
+        public void OnPointerEnter(PointerEventData eventData) => SetRect = enlarged;
 
-        [SerializeField]
-        private float enlargedWidth = 280f, enlargedHeigth = 60f;
-
-        private Vector2 normal, enlarged;
-
-        [SerializeField]
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            rectTrans.sizeDelta = enlarged;
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            rectTrans.sizeDelta = normal;
-        }
+        public void OnPointerExit(PointerEventData eventData) => SetRect = normal;
 
         // Start is called before the first frame update
         private void Start()
         {
-            if (rectTrans == null)
+            rectTrans = rectTrans != null ? rectTrans : GetComponent<RectTransform>();
+            normal = rectTrans.sizeDelta;
+            if (enlarged.x == 0 || enlarged.y == 0)
             {
-                rectTrans = GetComponent<RectTransform>();
+                enlarged = normal;
             }
-            normal = new Vector2(normalWidth, normalHeight);
-            enlarged = new Vector2(enlargedWidth, enlargedHeigth);
-            rectTrans.sizeDelta = normal;
+            //enlarged = new Vector2(enlargedWidth, enlargedHeigth);
         }
+
+        private void OnDisable() => SetRect = normal;
     }
 }

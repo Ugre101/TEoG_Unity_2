@@ -3,33 +3,19 @@ using UnityEngine;
 
 public class BasicMenuHoverText : MonoBehaviour
 {
-    public GameObject hoverblock;
-    public TextMeshProUGUI hovertext;
+    [SerializeField] protected TextMeshProUGUI titleText = null, descText = null;
 
     // Start is called before the first frame update
-    public virtual void Start()
+    protected virtual void Start() => StopHovering();
+
+    protected virtual void OnDisable() => StopHovering();
+
+    public virtual void Hovering(string title, string desc)
     {
-        StopHovering();
+        gameObject.SetActive(true);
+        titleText.text = title;
+        descText.text = desc;
     }
 
-    private void OnDisable()
-    {
-        StopHovering();
-    }
-
-    public virtual void Hovering(GameObject hoverOver, Vector2 mousePos)
-    {
-        hoverblock.SetActive(true);
-        /*
-        Vector2 vector2 = mousePos;
-        vector2.x += xDistance;
-        vector2.y += yDistance;
-        hoverRect.position = vector2;
-        */
-    }
-
-    public virtual void StopHovering()
-    {
-        hoverblock.SetActive(false);
-    }
+    public virtual void StopHovering() => gameObject.SetActive(false);
 }
