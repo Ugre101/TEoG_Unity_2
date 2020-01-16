@@ -1,139 +1,128 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class DisplayTempEffects : MonoBehaviour
+namespace UI
 {
-    [SerializeField]
-    private PlayerMain player = null;
-
-    [SerializeField]
-    private TempEffect tempEffectPrefab = null;
-
-    [SerializeField]
-    private TempVore tempVorePrefab = null;
-
-    [SerializeField]
-    private Transform container = null;
-
-    private readonly List<DisplayMod> displayMods = new List<DisplayMod>();
-    private readonly List<DisplayVore> displayVores = new List<DisplayVore>();
-
-    // Start is called before the first frame update
-    private void Start()
+    public class DisplayTempEffects : MonoBehaviour
     {
-        player = player != null ? player : PlayerMain.GetPlayer;
-        AddedEffectEvent += DisplayEffects;
-        SaveMananger.GameLoaded += DisplayEffects;
-        DisplayEffects();
-    }
+        [SerializeField] private PlayerMain player = null;
 
-    private int ModsICareAbout()
-    {
-        int Icare = 0;
-        player.Stats.GetAll.ForEach(m => { Icare += m.TempMods.Count; });
-        Icare += player.WP.TempHealthMods.Count;
-        Icare += player.HP.TempHealthMods.Count;
-        return Icare;
-    }
+        [SerializeField] private TempEffect tempEffectPrefab = null;
 
-    private int lastCount = 0;
-    private int lastPreyCount = 0;
+        [SerializeField] private TempVore tempVorePrefab = null;
 
-    private void Update()
-    {
-        if (lastCount != ModsICareAbout())
+        [SerializeField] private Transform container = null;
+
+        private readonly List<DisplayMod> displayMods = new List<DisplayMod>();
+        private readonly List<DisplayVore> displayVores = new List<DisplayVore>();
+
+        // Start is called before the first frame update
+        private void Start()
         {
+            player = player != null ? player : PlayerMain.GetPlayer;
+            AddedEffectEvent += DisplayEffects;
+            Save.LoadEvent += DisplayEffects;
+            player.Stats.GetAll.ForEach(s => { s.AddedTempEvent += DisplayEffects; });
+            player.HP.AddedTempEvent += DisplayEffects;
+            player.WP.AddedTempEvent += DisplayEffects;
             DisplayEffects();
-            lastCount = ModsICareAbout();
         }
-        if (player.Vore.Active)
-        {
-            if (lastPreyCount != player.Vore.TotalPreyCount)
-            {
-                DisplayEffects();
-                lastPreyCount = player.Vore.TotalPreyCount;
-            }
-        }
-    }
 
-    private void DisplayEffects()
-    {
-        container.KillChildren();
-        TempMods();
-        VorePreys();
-        // The rest
-    }
+        private int lastPreyCount = 0;
 
-    private void TempMods()
-    {
-        displayMods.Clear();
-        foreach (CharStats stat in player.Stats.GetAll)
+        private void Update()
         {
-            if (stat.TempMods.Count > 0)
+            if (player.Vore.Active)
             {
-                stat.TempMods.ForEach(m =>
+                if (lastPreyCount != player.Vore.TotalPreyCount)
                 {
-                    if (!displayMods.Exists(dp => dp.Source == m.Source))
-                    {
-                        displayMods.Add(new DisplayMod(m));
-                    }
-                    else
-                    {
-                    }
-                });
+                    DisplayEffects();
+                    lastPreyCount = player.Vore.TotalPreyCount;
+                }
             }
         }
-        List<Health> healths = new List<Health>() { player.HP, player.WP };
-        foreach (Health h in healths)
+
+        private void DisplayEffects()
         {
-            if (h.TempHealthMods.Count > 0)
+            container.KillChildren();
+            TempMods();
+            VorePreys();
+            // The rest
+        }
+
+        private void TempMods()
+        {
+            displayMods.Clear();
+            foreach (CharStats stat in player.Stats.GetAll)
             {
-                h.TempHealthMods.ForEach(m =>
+                List<TempStatMod> tempMods = stat.TempMods;
+                if (tempMods.Count > 0)
                 {
-                    if (!displayMods.Exists(dp => dp.Source == m.Source))
+                    tempMods.ForEach(m =>
                     {
-                        displayMods.Add(new DisplayMod(m));
-                    }
-                });
+                        if (!displayMods.Exists(dp => dp.Source == m.Source))
+                        {
+                            displayMods.Add(new DisplayMod(m));
+                        }
+                        else
+                        {
+                        }
+                    });
+                }
             }
-        }
-        PrintDisplayMods();
-    }
-
-    private void VorePreys()
-    {
-        displayVores.Clear();
-        player.Vore.VoreOrgans.ForEach(vo =>
-        {
-            if (vo.Preys.Count > 0)
+            List<Health> healths = new List<Health>() { player.HP, player.WP };
+            foreach (Health health in healths)
             {
-                displayVores.Add(new DisplayVore(vo));
+                List<TempHealthMod> tempMods = health.TempHealthMods;
+                if (tempMods.Count > 0)
+                {
+                    tempMods.ForEach(m =>
+                    {
+                        if (!displayMods.Exists(dp => dp.Source == m.Source))
+                        {
+                            displayMods.Add(new DisplayMod(m));
+                        }
+                    });
+                }
             }
-        });
-        PrintDisplayVores();
-    }
-
-    private void PrintDisplayMods()
-    {
-        foreach (DisplayMod dm in displayMods)
-        {
-            TempEffect te = Instantiate(tempEffectPrefab, container);
-            te.Setup(dm);
+            PrintDisplayMods();
         }
-    }
 
-    private void PrintDisplayVores()
-    {
-        displayVores.ForEach(dv =>
+        private void VorePreys()
         {
-            TempVore tv = Instantiate(tempVorePrefab, container);
-            tv.Setup(dv);
-        });
+            displayVores.Clear();
+            player.Vore.VoreOrgans.ForEach(vo =>
+            {
+                if (vo.Preys.Count > 0)
+                {
+                    displayVores.Add(new DisplayVore(vo));
+                }
+            });
+            PrintDisplayVores();
+        }
+
+        private void PrintDisplayMods()
+        {
+            foreach (DisplayMod dm in displayMods)
+            {
+                TempEffect te = Instantiate(tempEffectPrefab, container);
+                te.Setup(dm);
+            }
+        }
+
+        private void PrintDisplayVores()
+        {
+            displayVores.ForEach(dv =>
+            {
+                TempVore tv = Instantiate(tempVorePrefab, container);
+                tv.Setup(dv);
+            });
+        }
+
+        public delegate void AddedATempEffect();
+
+        private static event AddedATempEffect AddedEffectEvent;
+
+        public static void AddedEffect() => AddedEffectEvent?.Invoke();
     }
-
-    public delegate void AddedATempEffect();
-
-    private static event AddedATempEffect AddedEffectEvent;
-
-    public static void AddedEffect() => AddedEffectEvent?.Invoke();
 }

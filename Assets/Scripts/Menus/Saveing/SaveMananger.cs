@@ -71,7 +71,6 @@ public class SaveMananger : MonoBehaviour
         Save toLoad = NewSave;
         string json = File.ReadAllText(lastSavePath);
         toLoad.LoadData(json);
-        GameLoaded?.Invoke();
     }
 
     public Save NewSave => new Save(player, dorm);
@@ -79,10 +78,6 @@ public class SaveMananger : MonoBehaviour
     public delegate void SavedGame();
 
     public static event SavedGame SavedEvent;
-
-    public delegate void LoadedGame();
-
-    public static event LoadedGame GameLoaded;
 }
 
 [Serializable]

@@ -82,7 +82,7 @@ public class FullSave
         this.datePart = DateSystem.Save;
         this.homePart = parHome;
         this.voreSaves = vore;
-        this.questSave = QuestsSystem.Save();
+        this.questSave = QuestsSystem.Save;
         this.playerFlags = PlayerFlags.Save();
     }
 }

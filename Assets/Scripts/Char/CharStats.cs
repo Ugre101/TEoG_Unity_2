@@ -58,7 +58,12 @@ public class CharStats : Stat
             // Clone otherwise diminishingReturn doesn't work as duration increase on both.
             TempMods.Add(new TempStatMod(mod.Value, mod.StatType, mod.ModType, mod.Source, mod.Duration));
         }
+        AddedTempEvent?.Invoke();
     }
+
+    public delegate void DelegateAddedTemp();
+
+    public event DelegateAddedTemp AddedTempEvent;
 
     public void RemoveMods(StatMod mod)
     {
@@ -124,7 +129,14 @@ public class CharStats : Stat
         }
     }
 
-    public void TickTempMods() => TempMods.RemoveAll(tm => tm.Duration < 1);
+    public void TickTempMods()
+    {
+        if (TempMods.RemoveAll(tm => tm.Duration < 1) > 0)
+        {
+            AddedTempEvent?.Invoke();
+            IsDirty = true;
+        }
+    }
 
     public delegate void ValueChange();
 

@@ -69,7 +69,7 @@ namespace Vore
             organText.text = voreOrgan.VoreContainers.ToString();
             digestionBtn.gameObject.SetActive(true);
             digestionBtn.onClick.RemoveAllListeners();
-            digestionBtn.onClick.AddListener(() => { digestionBtnText.text = $"Digestion:\n{voreOrgan.ToggleDigestion()}"; });
+            digestionBtn.onClick.AddListener(() => { digestionBtnText.text = $"Digestion:\n{voreOrgan.ToggleDigestion}"; });
             digestionBtnText.text = $"Digestion:\n{voreOrgan.Digestion}";
             SetupPrey(voreOrgan);
         }

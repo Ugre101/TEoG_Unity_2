@@ -6,11 +6,9 @@ public class ShowImgPack : MonoBehaviour
 {
     private RawImage raw;
 
-    [SerializeField]
-    private List<SceneInfo> fileInfos = new List<SceneInfo>();
+    [SerializeField] private List<SceneInfo> fileInfos = new List<SceneInfo>();
 
-    [SerializeField]
-    private List<Texture2D> texture2Ds = new List<Texture2D>();
+    [SerializeField] private List<Texture2D> texture2Ds = new List<Texture2D>();
 
     // Start is called before the first frame update
     private void Start()

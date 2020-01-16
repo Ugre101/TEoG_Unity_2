@@ -12,7 +12,7 @@ public class DisplayVore
         float donest = 0;
         Preys.ForEach(p =>
         {
-            float f = p.Progress();
+            float f = p.Progress;
             if (f > donest)
             {
                 donest = f;

@@ -8,20 +8,17 @@ namespace Vore
     [Serializable]
     public abstract class VoreBasic
     {
-        protected VoreContainers voreContainers;
-        public VoreContainers VoreContainers => voreContainers;
+        public VoreContainers VoreContainers { get; protected set; }
 
         public VoreBasic(BasicChar parPred) => pred = parPred;
 
         protected readonly BasicChar pred;
 
-        [SerializeField]
-        protected List<ThePrey> preys = new List<ThePrey>();
+        [SerializeField] protected List<ThePrey> preys = new List<ThePrey>();
 
         public List<ThePrey> Preys => preys;
 
-        [SerializeField]
-        protected int voreExp = 0;
+        [SerializeField] protected int voreExp = 0;
 
         protected float VoreExpCapBonus => 1f + (voreExp / 100);
 
@@ -49,27 +46,25 @@ namespace Vore
             return false;
         }
 
-        [SerializeField]
-        private bool digestion = true;
+        [SerializeField] protected bool digestion = true;
 
         public bool Digestion => digestion;
 
-        public bool ToggleDigestion() => digestion = !digestion;
+        public virtual bool ToggleDigestion => digestion = !digestion;
 
-        public List<ThePrey> Digest(float toDigest = 1f)
+        public void Digest(Action<ThePrey> digested, float toDigest = 1f)
         {
-            List<ThePrey> Digested = new List<ThePrey>();
-            foreach (ThePrey prey in Preys)
+            for (int i = Preys.Count - 1; i >= 0; i--)
             {
+                ThePrey prey = Preys[i];
                 pred.Body.Fat.GainFlat(prey.Digest(toDigest));
-                if (prey.Prey.Weight <= 0)
+                if (prey.Prey.Weight <= 1)
                 {
-                    Digested.Add(prey);
+                    digested?.Invoke(prey);
+                    Preys.Remove(prey);
                 }
                 voreExp += Mathf.FloorToInt(toDigest);
             }
-            Digested.ForEach(d => Preys.Remove(d));
-            return Digested;
         }
     }
 
@@ -78,7 +73,7 @@ namespace Vore
     {
         public VoreBalls(BasicChar parPred) : base(parPred)
         {
-            voreContainers = VoreContainers.Balls;
+            VoreContainers = VoreContainers.Balls;
         }
 
         public override float MaxCapacity()
@@ -93,7 +88,7 @@ namespace Vore
     {
         public VoreBoobs(BasicChar pred) : base(pred)
         {
-            voreContainers = VoreContainers.Boobs;
+            VoreContainers = VoreContainers.Boobs;
         }
 
         public override float MaxCapacity()
@@ -108,7 +103,18 @@ namespace Vore
     {
         public VoreStomach(BasicChar pred) : base(pred)
         {
-            voreContainers = VoreContainers.Stomach;
+            VoreContainers = VoreContainers.Stomach;
+        }
+
+        public override bool Vore(ThePrey parPrey)
+        {
+            if (CanVore(parPrey))
+            {
+                pred.VoreChar.Stomach.AddPrey(parPrey);
+                preys.Add(parPrey);
+                return true;
+            }
+            return false;
         }
 
         public override float MaxCapacity()
@@ -123,7 +129,7 @@ namespace Vore
     {
         public VoreAnal(BasicChar pred) : base(pred)
         {
-            voreContainers = VoreContainers.Anal;
+            VoreContainers = VoreContainers.Anal;
         }
 
         public override float MaxCapacity()
@@ -138,15 +144,27 @@ namespace Vore
     {
         public VoreVagina(BasicChar Pred) : base(Pred)
         {
-            voreContainers = VoreContainers.Vagina;
+            VoreContainers = VoreContainers.Vagina;
         }
 
-        [SerializeField]
-        private bool childTf = false;
+        [SerializeField] private bool childTf = false;
 
         public bool ChildTf => childTf;
 
-        public void ToggleChildTf() => childTf = !childTf;
+        public bool ToggleChildTf()
+        {
+            if (Digestion) { digestion = false; }
+            return childTf = !childTf;
+        }
+
+        public override bool ToggleDigestion
+        {
+            get
+            {
+                if (ChildTf) { childTf = false; }
+                return base.ToggleDigestion;
+            }
+        }
 
         public override float MaxCapacity()
         {
@@ -154,11 +172,16 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        public void TransformToChild()
+        public void TransformToChild(Action<ThePrey> tfChild)
         {
             foreach (ThePrey prey in Preys)
             {
-                prey.Prey.Age.AgeDown();
+                Age age = prey.Prey.Age;
+                age.AgeDown();
+                if (age.AgeYears < 1)
+                {
+                    tfChild?.Invoke(prey);
+                }
                 // TODO make them shrink once they start aging under adult age.
             }
         }
@@ -173,30 +196,29 @@ namespace Vore
                 lastAge = startAge;
             }
 
-            [SerializeField]
-            private ThePrey prey;
+            [SerializeField] private ThePrey prey;
 
             public ThePrey Prey => prey;
 
-            [SerializeField]
-            private int startAge;
+            [SerializeField] private int startAge;
 
-            [SerializeField]
-            private int lastAge;
+            [SerializeField] private int lastAge;
 
             public int CurAge => prey.Prey.Age.AgeYears;
             public int StartAge => startAge;
 
             public bool AgeDown()
             {
-                prey.Prey.Age.AgeDown();
+                BasicChar bChar = prey.Prey;
+                bChar.Age.AgeDown();
                 if (lastAge != CurAge)
                 {
                     float shrinkFactor = lastAge / CurAge;
                     lastAge = CurAge;
-                    prey.Prey.Body.Height.LosePrecent(shrinkFactor);
-                    prey.Prey.Body.Fat.LosePrecent(shrinkFactor);
-                    prey.Prey.Body.Muscle.LosePrecent(shrinkFactor);
+                    Body body = bChar.Body;
+                    body.Height.LosePrecent(shrinkFactor);
+                    body.Fat.LosePrecent(shrinkFactor);
+                    body.Muscle.LosePrecent(shrinkFactor);
                     // TODO shrink prey maybe eventlog it?
                     // prey shall shrink very little while over 25, but once under 18 they shrink steadely.
                     return true;

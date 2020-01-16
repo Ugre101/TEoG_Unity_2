@@ -51,7 +51,7 @@ public class PlayerMain : BasicChar
             }
             if (Debug.isDebugBuild)
             {
-                Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed playermain");
+                //  Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed playermain");
             }
             return thisPlayer;
         }

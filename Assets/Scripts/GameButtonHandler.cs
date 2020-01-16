@@ -5,17 +5,13 @@ namespace UI
 {
     public class GameButtonHandler : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject Vore = null;
+        [SerializeField] private GameObject Vore = null;
 
-        [SerializeField]
-        private PlayerMain player = null;
+        [SerializeField] private PlayerMain player = null;
 
-        [SerializeField]
-        private Image levelBtnImg = null;
+        [SerializeField] private Image levelBtnImg = null;
 
-        [SerializeField]
-        private Sprite levelImg = null, noLevelImg = null;
+        [SerializeField] private Sprite levelImg = null, noLevelImg = null;
 
         private bool hasLeveld = false;
 

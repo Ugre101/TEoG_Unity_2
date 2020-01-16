@@ -53,7 +53,14 @@ public class Health : Stat
 
     public void TickRecovery() => Gain(Recovery.Value);
 
-    public void TickTempMods() => TempHealthMods.RemoveAll(tm => tm.Duration < 1);
+    public void TickTempMods()
+    {
+        if (TempHealthMods.RemoveAll(tm => tm.Duration < 1) > 0)
+        {
+            AddedTempEvent?.Invoke();
+            IsDirty = true;
+        }
+    }
 
     protected override int CalcValue
     {
@@ -147,7 +154,12 @@ public class Health : Stat
             TempHealthMods.Add(new TempHealthMod(mod.Value, mod.ModType, mod.HealthType, mod.Source, mod.Duration));
         }
         IsDirty = true;
+        AddedTempEvent?.Invoke();
     }
+
+    public delegate void DelegateAddedTemp();
+
+    public event DelegateAddedTemp AddedTempEvent;
 
     public void RemoveMods(HealthMod mod)
     {
@@ -159,6 +171,7 @@ public class Health : Stat
     {
         TempHealthMods.Remove(mod);
         IsDirty = true;
+        AddedTempEvent?.Invoke();
     }
 
     public bool RemoveFromSource(string Source)
@@ -192,6 +205,7 @@ public class Health : Stat
                 TempHealthMods.Remove(sm);
             }
             IsDirty = true;
+            AddedTempEvent?.Invoke();
             return true;
         }
         return false;

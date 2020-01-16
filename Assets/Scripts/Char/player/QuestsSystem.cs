@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum Quests
 {
@@ -8,17 +9,24 @@ public enum Quests
 
 public static class QuestsSystem
 {
-    public static List<BasicQuest> List { get; private set; } = new List<BasicQuest>();
+    private static List<BasicQuest> basicQuest = new List<BasicQuest>();
+    private static List<CountQuest> countQuests = new List<CountQuest>();
+    private static List<TieredQuest> tieredQuests = new List<TieredQuest>();
+    public static List<BasicQuest> BasicQuests => basicQuest;
 
-    private static void AddQuest(BasicQuest basicQuest)
-    {
-        List.Add(basicQuest);
-        GotQuestEvent?.Invoke();
-    }
+    public static BasicQuest GetBasicQuest(Quests quests) => BasicQuests.Find(q => q.Type == quests);
 
-    public static bool HasQuest(Quests parQuest) => List.Exists(q => q.Type == parQuest);
+    public static List<CountQuest> CountQuests => countQuests;
 
-    public static BasicQuest GetQuest(Quests parQuest) => List.Find(q => q.Type == parQuest);
+    public static CountQuest GetCountQuest(Quests quests) => CountQuests.Find(q => q.Type == quests);
+
+    public static List<TieredQuest> TieredQuests => tieredQuests;
+
+    public static TieredQuest GetTieredQuest(Quests quests) => TieredQuests.Find(q => q.Type == quests);
+
+    public static bool HasQuest(Quests parQuest) => basicQuest.Exists(q => q.Type == parQuest)
+        || countQuests.Exists(q => q.Type == parQuest)
+        || tieredQuests.Exists(q => q.Type == parQuest);
 
     public static void AddQuest(Quests which)
     {
@@ -27,7 +35,7 @@ public static class QuestsSystem
             case Quests.Bandit:
                 if (!HasQuest(Quests.Bandit))
                 {
-                    AddQuest(new BanditQuest());
+                    basicQuest.Add(new BanditQuest());
                     PlayerFlags.BanditMap.Know = true;
                 }
                 break;
@@ -35,40 +43,59 @@ public static class QuestsSystem
             case Quests.ElfsHunt:
                 if (!HasQuest(Quests.ElfsHunt))
                 {
-                    AddQuest(new ElfQuest());
+                    tieredQuests.Add(new ElfQuest());
                 }
                 break;
 
             default:
                 break;
         }
+        GotQuestEvent?.Invoke();
     }
 
-    public static QuestSave Save() => new QuestSave(List);
+    public static QuestSave Save => new QuestSave(BasicQuests, CountQuests, TieredQuests);
 
     public static void Load(QuestSave toLoad)
     {
-        List = new List<BasicQuest>(toLoad.BasicQuests);
+        basicQuest = toLoad.BasicQuests;
+        countQuests = toLoad.CountQuests;
+        tieredQuests = toLoad.TieredQuests;
         GotQuestEvent?.Invoke();
     }
 
     public delegate void GotQuest();
 
     public static event GotQuest GotQuestEvent;
+
+    public static void WinBattleCheck(BasicChar basicChar)
+    {
+        if (HasQuest(Quests.ElfsHunt))
+        {
+            if (basicChar.RaceSystem.CurrentRace() == Races.Elf)
+            {
+                GetTieredQuest(Quests.ElfsHunt).Count++;
+            }
+        }
+    }
 }
 
 [System.Serializable]
 public struct QuestSave
 {
-    [UnityEngine.SerializeField]
-    private List<BasicQuest> basicQuests;
+    [SerializeField] private List<BasicQuest> basicQuests;
+    [SerializeField] private List<CountQuest> countQuests;
+    [SerializeField] private List<TieredQuest> tieredQuests;
 
-    public QuestSave(List<BasicQuest> parQuests)
+    public QuestSave(List<BasicQuest> basicQuests, List<CountQuest> countQuests, List<TieredQuest> tieredQuests)
     {
-        basicQuests = parQuests;
+        this.basicQuests = basicQuests;
+        this.countQuests = countQuests;
+        this.tieredQuests = tieredQuests;
     }
 
     public List<BasicQuest> BasicQuests => basicQuests;
+    public List<CountQuest> CountQuests => countQuests;
+    public List<TieredQuest> TieredQuests => tieredQuests;
 }
 
 public static class QuestDesc

@@ -3,11 +3,9 @@
 [System.Serializable]
 public class BasicQuest
 {
-    [SerializeField]
-    protected Quests type;
+    [SerializeField] private Quests type;
 
-    [SerializeField]
-    protected bool completed = false;
+    [SerializeField] protected bool completed = false;
 
     public BasicQuest(Quests parQuest) => type = parQuest;
 
@@ -18,10 +16,9 @@ public class BasicQuest
 }
 
 [System.Serializable]
-public abstract class CountQuest : BasicQuest
+public class CountQuest : BasicQuest
 {
-    [SerializeField]
-    protected int count = 0;
+    [SerializeField] private int count = 0;
 
     public int CountGoal { get; private set; }
 
@@ -46,14 +43,14 @@ public abstract class CountQuest : BasicQuest
 }
 
 [System.Serializable]
-public abstract class TieredQuest : CountQuest
+public class TieredQuest : CountQuest
 {
     public TieredQuest(Quests parQuest, int parCountGoal, int parTierStep) : base(parQuest, parCountGoal)
     {
         tierStep = parTierStep;
     }
 
-    private readonly int tierStep;
+    [SerializeField] private int tierStep;
     public int TierStep => tierStep;
     public int Tier => Mathf.FloorToInt(Count / TierStep);
 }

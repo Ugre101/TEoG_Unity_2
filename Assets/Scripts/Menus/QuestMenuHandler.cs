@@ -16,10 +16,18 @@ public class QuestMenuHandler : MonoBehaviour
     private void OnEnable()
     {
         miniQuestContainer.KillChildren();
-        foreach (BasicQuest q in QuestsSystem.List)
+        QuestsSystem.BasicQuests.ForEach(bq =>
         {
-            QuestPrefab(q);
-        }
+            QuestPrefab(bq);
+        });
+        QuestsSystem.CountQuests.ForEach(cq =>
+        {
+            QuestPrefab(cq);
+        });
+        QuestsSystem.TieredQuests.ForEach(tq =>
+        {
+            QuestPrefab(tq);
+        });
     }
 
     private void QuestPrefab(BasicQuest q)
