@@ -17,6 +17,7 @@ namespace Vore
         [SerializeField] protected List<ThePrey> preys = new List<ThePrey>();
 
         public List<ThePrey> Preys => preys;
+        public int PreyCount => Preys.Count;
 
         [SerializeField] protected int voreExp = 0;
 
@@ -41,6 +42,7 @@ namespace Vore
             if (CanVore(parPrey))
             {
                 preys.Add(parPrey);
+                pred.VoreChar.Stomach.AddPrey(parPrey);
                 return true;
             }
             return false;
@@ -76,6 +78,17 @@ namespace Vore
             VoreContainers = VoreContainers.Balls;
         }
 
+        public override bool Vore(ThePrey parPrey)
+        {
+            if (CanVore(parPrey))
+            {
+                preys.Add(parPrey);
+                pred.VoreChar.Balls.AddPrey(parPrey);
+                return true;
+            }
+            return false;
+        }
+
         public override float MaxCapacity()
         {
             float cap = pred.SexualOrgans.Balls.Sum(b => b.Size);
@@ -89,6 +102,17 @@ namespace Vore
         public VoreBoobs(BasicChar pred) : base(pred)
         {
             VoreContainers = VoreContainers.Boobs;
+        }
+
+        public override bool Vore(ThePrey parPrey)
+        {
+            if (CanVore(parPrey))
+            {
+                preys.Add(parPrey);
+                pred.VoreChar.Boobs.AddPrey(parPrey);
+                return true;
+            }
+            return false;
         }
 
         public override float MaxCapacity()
@@ -132,6 +156,17 @@ namespace Vore
             VoreContainers = VoreContainers.Anal;
         }
 
+        public override bool Vore(ThePrey parPrey)
+        {
+            if (CanVore(parPrey))
+            {
+                preys.Add(parPrey);
+                pred.VoreChar.Anal.AddPrey(parPrey);
+                return true;
+            }
+            return false;
+        }
+
         public override float MaxCapacity()
         {
             float cap = pred.Body.Height.Value / 4;
@@ -145,6 +180,17 @@ namespace Vore
         public VoreVagina(BasicChar Pred) : base(Pred)
         {
             VoreContainers = VoreContainers.Vagina;
+        }
+
+        public override bool Vore(ThePrey parPrey)
+        {
+            if (CanVore(parPrey))
+            {
+                preys.Add(parPrey);
+                pred.VoreChar.Vagina.AddPrey(parPrey);
+                return true;
+            }
+            return false;
         }
 
         [SerializeField] private bool childTf = false;
@@ -182,7 +228,6 @@ namespace Vore
                 {
                     tfChild?.Invoke(prey);
                 }
-                // TODO make them shrink once they start aging under adult age.
             }
         }
 

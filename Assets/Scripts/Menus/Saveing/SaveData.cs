@@ -24,7 +24,7 @@ public class Save
         List<DormSave> dormSaves = dorm.Save();
         PosSave playerPos = new PosSave(Pos.position, MapEvents.ActiveMap, MapEvents.CurrentMap.transform.name);
         HomeSave homeSave = Home.Stats.Save();
-        VoreSaves voreSaves = voreChar.Save();
+        VoreSaves voreSaves = voreChar.Save;
         FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, voreSaves);
         Debug.Log(JsonUtility.ToJson(fullSave));
 

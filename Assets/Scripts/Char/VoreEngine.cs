@@ -8,7 +8,9 @@ namespace Vore
     public class VoreEngine
     {
         private readonly BasicChar pred;
-        public bool Active = false;
+        [SerializeField] private bool active = false;
+        public bool Active => active;
+        public bool ToogleVore => active = !active;
 
         #region voreOrgans
 
@@ -38,7 +40,7 @@ namespace Vore
 
         #endregion voreOrgans
 
-        public int TotalPreyCount => VoreOrgans.Sum(vo => vo.Preys.Count);
+        public int TotalPreyCount => VoreOrgans.Sum(vo => vo.PreyCount);
 
         public VoreEngine(BasicChar parPred)
         {
@@ -78,12 +80,13 @@ namespace Vore
             {
                 Vagina.Digest(p => VaginaDigested(p));
             }
-            void TfToChild(ThePrey thePrey) => PlayerPredEventLog($"{thePrey.Prey.Identity.FullName} has shrunk");
-            void VaginaDigested(ThePrey thePrey) => PlayerPredEventLog($"{thePrey.Prey.Identity.FullName}");
-            void BallsDigested(ThePrey thePrey) => PlayerPredEventLog($"{thePrey.Prey.Identity.FullName} has been fully transfomed into cum.");
-            void BoobsDigested(ThePrey thePrey) => PlayerPredEventLog($"{thePrey.Prey.Identity.FullName} is now nothing but milk.");
-            void StomachDigested(ThePrey thePrey) => PlayerPredEventLog($"{thePrey.Prey.Identity.FullName} has been digested.");
-            void AnalDigested(ThePrey thePrey) => PlayerPredEventLog($"{thePrey.Prey.Identity.FullName} has been reduced to nothing in your bowels.");
+            string FullName(ThePrey thePrey) => thePrey.Prey.Identity.FullName;
+            void TfToChild(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has shrunk");
+            void VaginaDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)}");
+            void BallsDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been fully transfomed into cum.");
+            void BoobsDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} is now nothing but milk.");
+            void StomachDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been digested.");
+            void AnalDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been reduced to nothing in your bowels.");
         }
 
         private void PlayerPredEventLog(string text)

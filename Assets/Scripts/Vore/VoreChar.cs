@@ -7,52 +7,43 @@ namespace Vore
     {
         #region Containers
 
-        [SerializeField]
-        private VoreStomachContainer stomach = null;
+        [SerializeField] private VoreStomachContainer stomach = null;
 
         public VoreStomachContainer Stomach => stomach;
 
-        [SerializeField]
-        private VoreAnalContainer anal = null;
+        [SerializeField] private VoreAnalContainer anal = null;
 
         public VoreAnalContainer Anal => anal;
 
-        [SerializeField]
-        private VoreVaginaContainer vagina = null;
+        [SerializeField] private VoreVaginaContainer vagina = null;
 
         public VoreVaginaContainer Vagina => vagina;
 
-        [SerializeField]
-        private VoreBoobsContainer boobs = null;
+        [SerializeField] private VoreBoobsContainer boobs = null;
 
         public VoreBoobsContainer Boobs => boobs;
 
-        [SerializeField]
-        private VoreBallsContainer balls = null;
+        [SerializeField] private VoreBallsContainer balls = null;
 
         public VoreBallsContainer Balls => balls;
 
         #endregion Containers
 
-        public VoreSaves Save()
-        {
-            return new VoreSaves(Balls.GetPreys(), Anal.GetPreys(), Boobs.GetPreys(), Stomach.GetPreys(), Vagina.GetPreys());
-        }
+        public VoreSaves Save => new VoreSaves(Balls.GetPreys(), Anal.GetPreys(), Boobs.GetPreys(), Stomach.GetPreys(), Vagina.GetPreys());
 
         public void Load(VoreSaves parSaves, BasicChar pred)
         {
-            LoadPreys(Stomach, parSaves.stomach, pred.Vore.Stomach.Preys);
-            LoadPreys(Anal, parSaves.anal, pred.Vore.Anal.Preys);
-            LoadPreys(Vagina, parSaves.vagina, pred.Vore.Vagina.Preys);
-            LoadPreys(Boobs, parSaves.boobs, pred.Vore.Boobs.Preys);
-            LoadPreys(Balls, parSaves.balls, pred.Vore.Balls.Preys);
+            VoreEngine vore = pred.Vore;
+            LoadPreys(Stomach, parSaves.Stomach, vore.Stomach.Preys);
+            LoadPreys(Anal, parSaves.Anal, vore.Anal.Preys);
+            LoadPreys(Vagina, parSaves.Vagina, vore.Vagina.Preys);
+            LoadPreys(Boobs, parSaves.Boobs, vore.Boobs.Preys);
+            LoadPreys(Balls, parSaves.Balls, vore.Balls.Preys);
         }
 
-        [SerializeField]
-        private List<BasicChar> preyPrefabs = new List<BasicChar>();
+        [SerializeField] private List<BasicChar> preyPrefabs = new List<BasicChar>();
 
-        [SerializeField]
-        private BasicChar defaultPrefab = null;
+        [SerializeField] private BasicChar defaultPrefab = null;
 
         private void LoadPreys(VoreContainer container, List<VoreSave> saves, List<ThePrey> preys)
         {
@@ -60,29 +51,30 @@ namespace Vore
             for (int i = 0; i < saves.Count; i++)
             {
                 VoreSave vs = saves[i];
-                BasicChar loaded;
-                if (preyPrefabs.Exists(n => n.name == vs.name))
-                {
-                    loaded = Instantiate(preyPrefabs.Find(n => n.name == vs.name), container.transform);
-                    loaded.name = vs.name;
-                    JsonUtility.FromJsonOverwrite(vs.prey, loaded);
-                }
-                else
-                {
-                    loaded = Instantiate(defaultPrefab, container.transform);
-                    loaded.name = vs.name;
-                    JsonUtility.FromJsonOverwrite(vs.prey, loaded);
-                }
+                BasicChar loaded = preyPrefabs.Exists(n => n.name == vs.Name)
+                    ? InstantiateVoreChar(container, vs, preyPrefabs.Find(n => n.name == vs.Name))
+                    : InstantiateVoreChar(container, vs, defaultPrefab);
                 preys[i].SetPrey(loaded);
             }
+        }
+
+        private BasicChar InstantiateVoreChar(VoreContainer container, VoreSave vs, BasicChar basicChar)
+        {
+            BasicChar loaded = Instantiate(basicChar, container.transform);
+            loaded.name = vs.Name;
+            JsonUtility.FromJsonOverwrite(vs.Prey, loaded);
+            return loaded;
         }
     }
 
     [System.Serializable]
     public class VoreSave
     {
-        public string name;
-        public string prey;
+        [SerializeField] private string name;
+        [SerializeField] private string prey;
+
+        public string Name => name;
+        public string Prey => prey;
 
         public VoreSave(string parName, BasicChar parPrey)
         {
@@ -94,34 +86,42 @@ namespace Vore
     [System.Serializable]
     public class VoreSaves
     {
-        public List<VoreSave> balls = new List<VoreSave>();
-        public List<VoreSave> anal = new List<VoreSave>();
-        public List<VoreSave> boobs = new List<VoreSave>();
-        public List<VoreSave> stomach = new List<VoreSave>();
-        public List<VoreSave> vagina = new List<VoreSave>();
+        [SerializeField] private List<VoreSave> balls = new List<VoreSave>();
+        [SerializeField] private List<VoreSave> anal = new List<VoreSave>();
+        [SerializeField] private List<VoreSave> boobs = new List<VoreSave>();
+        [SerializeField] private List<VoreSave> stomach = new List<VoreSave>();
+        [SerializeField] private List<VoreSave> vagina = new List<VoreSave>();
+
+        public List<VoreSave> Balls => balls;
+        public List<VoreSave> Anal => anal;
+        public List<VoreSave> Boobs => boobs;
+        public List<VoreSave> Stomach => stomach;
+        public List<VoreSave> Vagina => vagina;
 
         public VoreSaves(List<BasicChar> ballPreys, List<BasicChar> analPreys, List<BasicChar> boobsPreys, List<BasicChar> stomachPreys, List<BasicChar> vaginaPreys)
         {
             foreach (BasicChar prey in ballPreys)
             {
-                balls.Add(new VoreSave(prey.name, prey));
+                balls.Add(SaveName(prey));
             }
             foreach (BasicChar prey in analPreys)
             {
-                anal.Add(new VoreSave(prey.name, prey));
+                anal.Add(SaveName(prey));
             }
             foreach (BasicChar prey in boobsPreys)
             {
-                boobs.Add(new VoreSave(prey.name, prey));
+                boobs.Add(SaveName(prey));
             }
             foreach (BasicChar prey in stomachPreys)
             {
-                stomach.Add(new VoreSave(prey.name, prey));
+                stomach.Add(SaveName(prey));
             }
             foreach (BasicChar prey in vaginaPreys)
             {
-                vagina.Add(new VoreSave(prey.name, prey));
+                vagina.Add(SaveName(prey));
             }
         }
+
+        private VoreSave SaveName(BasicChar prey) => new VoreSave(prey.name, prey);
     }
 }

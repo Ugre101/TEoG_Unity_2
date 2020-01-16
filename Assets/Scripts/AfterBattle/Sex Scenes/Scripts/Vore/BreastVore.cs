@@ -16,7 +16,6 @@ public class BreastVore : VoreScene
     {
         if (player.Vore.Boobs.Vore(other))
         {
-            player.VoreChar.Boobs.AddPrey(other);
             return $"";
         }
         return $"";

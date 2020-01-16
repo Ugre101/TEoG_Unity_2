@@ -17,7 +17,6 @@ public class Unbirth : VoreScene
     {
         if (player.Vore.Vagina.Vore(other))
         {
-            player.VoreChar.Vagina.AddPrey(other);
             return $"Grabbing {other.Prey.Identity.FirstName}, you shove {other.Prey.HimHer()} into your pussy!";
         }
         else
