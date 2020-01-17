@@ -12,6 +12,8 @@ public enum ItemId
     Potion,
     Stick,
     VirilityBooster,
-    FertilityBooster
+    VirilityTempBooster,
+    FertilityBooster,
+    FertilityTempBooster
 }
 

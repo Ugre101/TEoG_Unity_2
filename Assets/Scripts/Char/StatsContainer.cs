@@ -37,33 +37,27 @@ public class StatsContainer
         GetAll = new List<CharStats>() { strength, charm, dexterity, endurance, intelligence, willpower };
     }
 
-    [SerializeField]
-    private CharStats strength;
+    [SerializeField] private CharStats strength;
 
     public float Str => Strength.Value;
 
-    [SerializeField]
-    private CharStats charm;
+    [SerializeField] private CharStats charm;
 
     public float Cha => Charm.Value;
 
-    [SerializeField]
-    private CharStats endurance;
+    [SerializeField] private CharStats endurance;
 
     public float End => Endurance.Value;
 
-    [SerializeField]
-    private CharStats dexterity;
+    [SerializeField] private CharStats dexterity;
 
     public float Dex => Dexterity.Value;
 
-    [SerializeField]
-    private CharStats intelligence;
+    [SerializeField] private CharStats intelligence;
 
     public float Int => Intelligence.Value;
 
-    [SerializeField]
-    private CharStats willpower;
+    [SerializeField] private CharStats willpower;
 
     public float Will => willpower.Value;
     public CharStats Strength => strength;
@@ -72,7 +66,7 @@ public class StatsContainer
     public CharStats Dexterity => dexterity;
     public CharStats Intelligence => intelligence;
     public CharStats Willpower => willpower;
-    public List<CharStats> GetAll { get; private set; }
+    public List<CharStats> GetAll { get; }
 
     public CharStats GetStat(StatTypes stat)
     {
@@ -88,13 +82,13 @@ public class StatsContainer
         }
     }
 
-    public void AddMods(List<StatMod> mods)
+    public void AddMods(List<AssingStatmod> mods)
     {
-        mods.ForEach(m => GetStat(m.StatType).AddMods(m));
+        mods.ForEach(m => GetStat(m.StatTypes).AddMods(m.StatMod));
     }
 
-    public void AddTempMods(List<TempStatMod> mods)
+    public void AddTempMods(List<AssingTempStatMod> mods)
     {
-        mods.ForEach(m => GetStat(m.StatType).AddTempMod(m));
+        mods.ForEach(m => GetStat(m.StatTypes).AddTempMod(m.TempStatMod));
     }
 }

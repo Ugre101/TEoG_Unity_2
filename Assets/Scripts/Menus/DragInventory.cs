@@ -119,7 +119,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         Debug.Log("Using item" + Item.name);
         if (Item is IHaveStatMods haveMods)
         {
-            haveMods.Mods.ForEach(m => Player.Stats.GetStat(m.StatType).AddMods(m));
+            haveMods.Mods.ForEach(m => Player.Stats.GetStat(m.StatTypes).AddMods(m.StatMod));
             Debug.Log("Has statmod!");
             // TODO if player has weapong equipt then dequip it.
         }

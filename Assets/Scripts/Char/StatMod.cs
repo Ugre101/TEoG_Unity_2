@@ -9,12 +9,23 @@ public enum ModTypes
 [System.Serializable]
 public class StatMod : Mod
 {
-    [SerializeField] private StatTypes statType;
-
-    public StatMod(float parValue, StatTypes parStatTypes, string parSource, ModTypes parType) : base(parValue, parType, parSource)
+    public StatMod(float parValue, string parSource, ModTypes parType) : base(parValue, parType, parSource)
     {
-        this.statType = parStatTypes;
+    }
+}
+
+[System.Serializable]
+public class AssingStatmod
+{
+    [SerializeField] private StatMod statMod;
+    [SerializeField] private StatTypes statTypes;
+
+    public AssingStatmod(StatMod statMod, StatTypes statTypes)
+    {
+        this.statMod = statMod;
+        this.statTypes = statTypes;
     }
 
-    public StatTypes StatType => statType;
+    public StatMod StatMod => statMod;
+    public StatTypes StatTypes => statTypes;
 }

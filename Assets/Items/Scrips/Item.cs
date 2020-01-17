@@ -66,7 +66,7 @@ public class Weapon : Item, IHaveStatMods, IEquip
         Type = ItemTypes.Weapon;
     }
 
-    [field: SerializeField] public List<StatMod> Mods { get; protected set; } = new List<StatMod>();
+    [field: SerializeField] public List<AssingStatmod> Mods { get; protected set; } = new List<AssingStatmod>();
 
     [field: SerializeField] public EquipSlot Slot { get; private set; }
 }

@@ -31,10 +31,10 @@ public class Meal
 [System.Serializable]
 public class MealWithBuffs : Meal
 {
-    [SerializeField] private List<TempStatMod> tempMods = new List<TempStatMod>();
+    [SerializeField] private List<AssingTempStatMod> tempMods = new List<AssingTempStatMod>();
     [SerializeField] private List<TempHealthMod> tempHealthMods = new List<TempHealthMod>();
 
-    public MealWithBuffs(float all, List<TempStatMod> mods) : base(all)
+    public MealWithBuffs(float all, List<AssingTempStatMod> mods) : base(all)
     {
         tempMods = mods;
     }
@@ -44,22 +44,22 @@ public class MealWithBuffs : Meal
         tempHealthMods = mods;
     }
 
-    public MealWithBuffs(float all, List<TempStatMod> statMods, List<TempHealthMod> healthMods) : base(all)
+    public MealWithBuffs(float all, List<AssingTempStatMod> statMods, List<TempHealthMod> healthMods) : base(all)
     {
         tempMods = statMods;
         tempHealthMods = healthMods;
     }
 
-    public MealWithBuffs(float hpwp, float fat, List<TempStatMod> mods) : base(hpwp, fat)
+    public MealWithBuffs(float hpwp, float fat, List<AssingTempStatMod> mods) : base(hpwp, fat)
     {
         tempMods = mods;
     }
 
-    public MealWithBuffs(float wp, float hp, float fat, List<TempStatMod> mods) : base(wp, hp, fat)
+    public MealWithBuffs(float wp, float hp, float fat, List<AssingTempStatMod> mods) : base(wp, hp, fat)
     {
         tempMods = mods;
     }
 
-    public List<TempStatMod> TempMods => tempMods;
+    public List<AssingTempStatMod> TempMods => tempMods;
     public List<TempHealthMod> TempHealthMods => tempHealthMods;
 }

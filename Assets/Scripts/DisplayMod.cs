@@ -30,7 +30,7 @@ public class DisplayMod
             }
             else if (m is TempStatMod tsm)
             {
-                builder.Append(string.Format("{0} {1} {2} {3}", tsm.StatType, tsm.Value, tsm.ModType, tsm.Source));
+                builder.Append(string.Format("{0} {1} {2}", tsm.Value, tsm.ModType, tsm.Source));
             }
         });
         return builder.ToString();

@@ -56,7 +56,7 @@ public class CharStats : Stat
         else
         {
             // Clone otherwise diminishingReturn doesn't work as duration increase on both.
-            TempMods.Add(new TempStatMod(mod.Value, mod.StatType, mod.ModType, mod.Source, mod.Duration));
+            TempMods.Add(new TempStatMod(mod.Value, mod.ModType, mod.Source, mod.Duration));
         }
         AddedTempEvent?.Invoke();
     }

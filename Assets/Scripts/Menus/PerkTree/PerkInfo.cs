@@ -59,7 +59,7 @@ public static class PerkEffects
 
     public static class Seductress
     {
-        public static StatMod CharmMod => new StatMod(5f, StatTypes.Charm, typeof(Seductress).Name, ModTypes.Flat);
+        public static StatMod CharmMod => new StatMod(5f, typeof(Seductress).Name, ModTypes.Flat);
     }
 
     public static class StoneSkin
@@ -68,8 +68,8 @@ public static class PerkEffects
 
     public static class Delicate
     {
-        public static StatMod CharmModFlat = new StatMod(5, StatTypes.Charm, typeof(Delicate).Name, ModTypes.Flat);
-        public static StatMod CharmModPre = new StatMod(0.1f, StatTypes.Charm, typeof(Delicate).Name, ModTypes.Precent);
+        public static StatMod CharmModFlat = new StatMod(5, typeof(Delicate).Name, ModTypes.Flat);
+        public static StatMod CharmModPre = new StatMod(0.1f, typeof(Delicate).Name, ModTypes.Precent);
 
         public static float ExtraSensitive(Perks perks) => perks.HasPerk(PerksTypes.Delicate)
             ? 0.2f * perks.GetPerkLevel(PerksTypes.Delicate)
@@ -86,7 +86,7 @@ public static class PerkEffects
 
     public static class Thug
     {
-        public static StatMod StrFlat => new StatMod(5, StatTypes.Str, typeof(Thug).Name, ModTypes.Flat);
+        public static StatMod StrFlat => new StatMod(5, typeof(Thug).Name, ModTypes.Flat);
 
         public static float AfterbattleHealPenalty(Perks perks) => perks.HasPerk(PerksTypes.Thug)
             ? 0.1f * perks.GetPerkLevel(PerksTypes.Thug)
