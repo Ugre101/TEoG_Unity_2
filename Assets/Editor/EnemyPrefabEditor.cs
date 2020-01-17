@@ -8,15 +8,20 @@ public class EnemyPrefabEditor : BasicCharEditor
     private bool StartRace = true;
     private bool healthStats = true;
 
-    private SerializedProperty NeedFirstName;
-    private SerializedProperty NeedLastName;
-    private SerializedProperty RaceList;
+    private SerializedProperty NeedFirstName, NeedLastName, RaceList, assingStr,
+        assingCharm, assingEnd, assingDex, assingInt, statRngFactor;
 
     private void OnEnable()
     {
         NeedFirstName = serializedObject.FindProperty("NeedFirstName");
         NeedLastName = serializedObject.FindProperty("NeedLastName");
         RaceList = serializedObject.FindProperty("assingRace.Options");
+        assingStr = serializedObject.FindProperty("assingStr");
+        assingCharm = serializedObject.FindProperty("assingCharm");
+        assingEnd = serializedObject.FindProperty("assingEnd");
+        assingDex = serializedObject.FindProperty("assingDex");
+        assingInt = serializedObject.FindProperty("assingInt");
+        statRngFactor = serializedObject.FindProperty("statRngFactor");
     }
 
     public override void OnInspectorGUI()
@@ -27,10 +32,7 @@ public class EnemyPrefabEditor : BasicCharEditor
         if (nameFold)
         {
             GUILayout.BeginVertical("Box");
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("First name");
-            GUILayout.Label("Last name");
-            GUILayout.EndHorizontal();
+            TwoBoldLabels("First name", "Last name");
             GUILayout.BeginHorizontal();
             Identity identity = myTarget.Identity;
             identity.FirstName = EditorGUILayout.TextArea(identity.FirstName);
@@ -57,10 +59,7 @@ public class EnemyPrefabEditor : BasicCharEditor
                 myTarget.assingRace.AddOption();
             }
             serializedObject.Update();
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Race", EditorStyles.boldLabel);
-            GUILayout.Label("Probability", EditorStyles.boldLabel);
-            GUILayout.EndHorizontal();
+            TwoBoldLabels("Race", "Probability");
             for (int i = 0; i < RaceList.arraySize; i++)
             {
                 EditorGUILayout.PropertyField(RaceList.GetArrayElementAtIndex(i));
@@ -72,47 +71,19 @@ public class EnemyPrefabEditor : BasicCharEditor
         if (healthStats)
         {
             EditorGUILayout.BeginVertical("Box");
+            TwoBoldLabels("Assing str", "Assing charm");
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("HP", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("WP", EditorStyles.boldLabel);
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            serializedObject.Update();
-            var hp = serializedObject.FindProperty("assingHP");
-            var wp = serializedObject.FindProperty("assingWP");
-            hp.intValue = EditorGUILayout.IntSlider(hp.intValue, 1, 9999);
-            wp.intValue = EditorGUILayout.IntSlider(wp.intValue, 1, 9999);
-            serializedObject.ApplyModifiedProperties();
-            EditorGUILayout.EndHorizontal();
-            serializedObject.Update();
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Assing str", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("Assing charm", EditorStyles.boldLabel);
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            var assingStr = serializedObject.FindProperty("assingStr");
             assingStr.intValue = EditorGUILayout.IntSlider(assingStr.intValue, 0, 99);
-            var assingCharm = serializedObject.FindProperty("assingCharm");
             assingCharm.intValue = EditorGUILayout.IntSlider(assingCharm.intValue, 0, 99);
             EditorGUILayout.EndHorizontal();
+            TwoBoldLabels("Assing end", "Assing dex");
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Assing end", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("Assing dex", EditorStyles.boldLabel);
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            var assingEnd = serializedObject.FindProperty("assingEnd");
             assingEnd.intValue = EditorGUILayout.IntSlider(assingEnd.intValue, 0, 99);
-            var assingDex = serializedObject.FindProperty("assingDex");
             assingDex.intValue = EditorGUILayout.IntSlider(assingDex.intValue, 0, 99);
             EditorGUILayout.EndHorizontal();
+            TwoBoldLabels("Assing int", "Stats rng factor");
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("Assing int", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("Stats rng factor", EditorStyles.boldLabel);
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            var assingInt = serializedObject.FindProperty("assingInt");
             assingInt.intValue = EditorGUILayout.IntSlider(assingInt.intValue, 0, 99);
-            var statRngFactor = serializedObject.FindProperty("statRngFactor");
             statRngFactor.floatValue = EditorGUILayout.Slider(statRngFactor.floatValue, 0, 1f);
             // var  = serializedObject.FindProperty("");
             EditorGUILayout.EndHorizontal();
@@ -122,5 +93,13 @@ public class EnemyPrefabEditor : BasicCharEditor
         GUILayout.Label("Standard editor and end of custom editor", EditorStyles.boldLabel);
         GUILayout.Space(20);
         base.OnInspectorGUI();
+    }
+
+    private void TwoBoldLabels(string firstLabel, string secondLabel)
+    {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField(firstLabel, EditorStyles.boldLabel);
+        EditorGUILayout.LabelField(secondLabel, EditorStyles.boldLabel);
+        EditorGUILayout.EndHorizontal();
     }
 }

@@ -48,8 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d524558d4031c9f4ab3a25d8d3a9559c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstName: 
-  lastName: 
+  identity:
+    firstName: 
+    lastName: 
+    id: 202001172202221
   inventory:
     bonusAmount: 0
     items: []
@@ -57,22 +59,27 @@ MonoBehaviour:
     raceList: []
     dirty: 1
   vore:
-    Active: 0
+    active: 0
     balls:
       preys: []
       voreExp: 0
+      digestion: 1
     boobs:
       preys: []
       voreExp: 0
+      digestion: 1
     stomach:
       preys: []
       voreExp: 0
+      digestion: 1
     anal:
       preys: []
       voreExp: 0
+      digestion: 1
     vagina:
       preys: []
       voreExp: 0
+      digestion: 1
       childTf: 0
   age:
     ageYears: 18
@@ -85,9 +92,23 @@ MonoBehaviour:
     muscle:
       value: 0
   hp:
-    _current: 0
+    baseValue: 0
+    current: 0
+    healthMods: []
+    tempHealthMods: []
+    recovery:
+      baseValue: 2
+      healthMods: []
+      tempHealthMods: []
   wp:
-    _current: 0
+    baseValue: 0
+    current: 0
+    healthMods: []
+    tempHealthMods: []
+    recovery:
+      baseValue: 2
+      healthMods: []
+      tempHealthMods: []
   expSystem:
     level: 0
     exp: 0
@@ -97,23 +118,27 @@ MonoBehaviour:
   stats:
     strength:
       baseValue: 10
-      _statMods: []
+      statMods: []
       tempMods: []
     charm:
       baseValue: 10
-      _statMods: []
+      statMods: []
       tempMods: []
     endurance:
       baseValue: 10
-      _statMods: []
+      statMods: []
       tempMods: []
     dexterity:
       baseValue: 10
-      _statMods: []
+      statMods: []
       tempMods: []
     intelligence:
       baseValue: 10
-      _statMods: []
+      statMods: []
+      tempMods: []
+    willpower:
+      baseValue: 10
+      statMods: []
       tempMods: []
   autoEss: 1
   essence:
@@ -121,19 +146,24 @@ MonoBehaviour:
       _amount: 0
     femi:
       _amount: 0
-    bonusDrain: 0
-    bonusGive: 0
+    autoEss: 1
   currency:
     gold: 0
   flags:
-    Pregnant:
+    pregnant:
       value: 0
-    ImPregnated:
+    imPregnated:
       value: 0
   pregnancySystem:
     children: []
-    virility: 1
-    fertility: 1
+    virility:
+      baseValue: 1
+      statMods: []
+      tempMods: []
+    fertility:
+      baseValue: 1
+      statMods: []
+      tempMods: []
     bonusFetusGrowth: 0
   sexualOrgans:
     dicks: []
@@ -144,7 +174,6 @@ MonoBehaviour:
   skills: []
   NeedFirstName: 1
   NeedLastName: 1
-  randomName: {fileID: 11400000, guid: 0f369db329ad0a5408daee8e97de42fb, type: 2}
   assingRace:
     Options:
     - Race: 1
@@ -154,9 +183,7 @@ MonoBehaviour:
   reward:
     expReward: 212
     goldReward: 332
-  assingHP: 220
-  assingWP: 220
-  assingStr: 10
+  assingStr: 8
   assingCharm: 10
   assingEnd: 10
   assingDex: 10

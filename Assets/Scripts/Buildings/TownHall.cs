@@ -26,7 +26,7 @@ public class TownHall : Building, IGiveQuest
     public override void OnEnable()
     {
         base.OnEnable();
-        QuestToGive.ForEach(qg => qg.Btn.gameObject.SetActive(QuestsSystem.HasQuest(qg.Quest)));
+        QuestToGive.ForEach(qg => qg.Btn.gameObject.SetActive(!QuestsSystem.HasQuest(qg.Quest)));
     }
 
     public void ToggleNameChange()
