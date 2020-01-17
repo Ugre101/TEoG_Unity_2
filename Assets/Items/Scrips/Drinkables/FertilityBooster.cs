@@ -15,3 +15,20 @@ public class FertilityBooster : Drinkable
         return base.Use(user);
     }
 }
+
+[CreateAssetMenu(fileName = "FertilityTempBooster", menuName = "Item/FertilityBooster")]
+public class FertilityTempBooster : Drinkable
+{
+    public FertilityTempBooster()
+    {
+        ItemId = ItemId.FertilityTempBooster;
+        Title = "Fertility week booster";
+    }
+
+    public override string Use(BasicChar user)
+    {
+        TempStatMod tempMod = new TempStatMod(10, ModTypes.Flat, typeof(FertilityTempBooster).Name, 168);
+        user.PregnancySystem.Fertility.AddTempMod(tempMod);
+        return base.Use(user);
+    }
+}

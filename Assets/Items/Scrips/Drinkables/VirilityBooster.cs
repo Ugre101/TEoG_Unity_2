@@ -22,7 +22,7 @@ public class VirilityTempBooster : Drinkable
     public VirilityTempBooster()
     {
         ItemId = ItemId.VirilityBooster;
-        Title = "Virility booster";
+        Title = "Virility week booster";
     }
 
     public override string Use(BasicChar user)
