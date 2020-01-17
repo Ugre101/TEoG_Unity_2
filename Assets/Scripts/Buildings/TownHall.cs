@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class TownHall : Building, IGiveQuest
 {
-    [SerializeField]
-    private TextMeshProUGUI changeNameText = null;
+    [SerializeField] private TextMeshProUGUI changeNameText = null;
 
-    [SerializeField]
-    private GameObject nameBox = null;
+    [SerializeField] private GameObject nameBox = null;
 
-    [SerializeField]
-    private TextMeshProUGUI textBox = null;
+    [SerializeField] private TextMeshProUGUI textBox = null;
 
     private string SetChangeNameBtnText { set => changeNameText.text = value; }
     private string SetTextBox { set { textBox.text = value; } }
@@ -21,30 +18,15 @@ public class TownHall : Building, IGiveQuest
     [field: SerializeField] public TakeQuest QuestPanelPrefab { get; private set; }
 
     // Start is called before the first frame update
-    public override void Start()
+    public void Start()
     {
-        base.Start();
-        QuestToGive.ForEach(q => q.Btn.onClick.AddListener(() =>
-        {
-            TakeQuest temp = Instantiate(QuestPanelPrefab, transform);
-            temp.Setup(q.Quest, player, q.Btn);
-        }));
+        QuestToGive.ForEach(q => q.Btn.onClick.AddListener(() => Instantiate(QuestPanelPrefab, transform).Setup(q.Quest, player, q.Btn)));
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
-        foreach (QuestButton qb in QuestToGive)
-        {
-            if (QuestsSystem.HasQuest(qb.Quest))
-            {
-                qb.Btn.gameObject.SetActive(false);
-                // is quest finished?
-            }
-            else
-            {
-                qb.Btn.gameObject.SetActive(true);
-            }
-        }
+        base.OnEnable();
+        QuestToGive.ForEach(qg => qg.Btn.gameObject.SetActive(QuestsSystem.HasQuest(qg.Quest)));
     }
 
     public void ToggleNameChange()

@@ -20,7 +20,6 @@ namespace UI
         private void Start()
         {
             player = player != null ? player : PlayerMain.GetPlayer;
-            AddedEffectEvent += DisplayEffects;
             Save.LoadEvent += DisplayEffects;
             player.Stats.GetAll.ForEach(s => { s.AddedTempEvent += DisplayEffects; });
             player.HP.AddedTempEvent += DisplayEffects;
@@ -29,6 +28,15 @@ namespace UI
         }
 
         private int lastPreyCount = 0;
+
+        private void OnEnable()
+        {
+            if (player != null)
+            {
+                DisplayEffects();
+                lastPreyCount = player.Vore.TotalPreyCount;
+            }
+        }
 
         private void Update()
         {
@@ -93,7 +101,7 @@ namespace UI
             displayVores.Clear();
             player.Vore.VoreOrgans.ForEach(vo =>
             {
-                if (vo.Preys.Count > 0)
+                if (vo.PreyCount > 0)
                 {
                     displayVores.Add(new DisplayVore(vo));
                 }
@@ -101,28 +109,8 @@ namespace UI
             PrintDisplayVores();
         }
 
-        private void PrintDisplayMods()
-        {
-            foreach (DisplayMod dm in displayMods)
-            {
-                TempEffect te = Instantiate(tempEffectPrefab, container);
-                te.Setup(dm);
-            }
-        }
+        private void PrintDisplayMods() => displayMods.ForEach(dm => Instantiate(tempEffectPrefab, container).Setup(dm));
 
-        private void PrintDisplayVores()
-        {
-            displayVores.ForEach(dv =>
-            {
-                TempVore tv = Instantiate(tempVorePrefab, container);
-                tv.Setup(dv);
-            });
-        }
-
-        public delegate void AddedATempEffect();
-
-        private static event AddedATempEffect AddedEffectEvent;
-
-        public static void AddedEffect() => AddedEffectEvent?.Invoke();
+        private void PrintDisplayVores() => displayVores.ForEach(dv => Instantiate(tempVorePrefab, container).Setup(dv));
     }
 }

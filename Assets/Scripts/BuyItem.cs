@@ -2,13 +2,13 @@
 {
     private Ware itemWare;
 
-    public override void Setup(Ware item, BasicChar buyer)
+    public void Setup(Ware ware, BasicChar buyer, Item item)
     {
-        itemWare = item;
+        itemWare = ware;
         title.text = item.Title;
         desc.text = item.Desc;
-        Cost = item.Cost;
-        displayCost.text = item.Cost.ToString();
+        Cost = ware.Cost;
+        displayCost.text = ware.Cost.ToString();
         FrameCanAfford(buyer);
         buyer.Currency.GoldChanged += delegate { FrameCanAfford(buyer); };
         BuyBtn.onClick.AddListener(() => Buy(buyer));

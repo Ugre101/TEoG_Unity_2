@@ -14,19 +14,17 @@ namespace Bar
         [SerializeField] private List<BuyMeal> mealsWithBuffs = new List<BuyMeal>();
         private readonly List<RentRoomBasic> rooms = new List<RentRoomBasic>() { new RentRoomBasic() };
 
-        // Start is called before the first frame update
-        public override void Start()
+        public override void OnEnable()
         {
-            base.Start();
+            base.OnEnable();
+        }
+
+        // Start is called before the first frame update
+        public void Start()
+        {
             container.KillChildren();
-            mealsWithBuffs.ForEach(m =>
-            {
-                Instantiate(barMealPrefab, container).Setup(m, player);
-            });
-            rooms.ForEach(r =>
-            {
-                Instantiate(roomPrefab, container).Setup(r, player);
-            });
+            mealsWithBuffs.ForEach(m => Instantiate(barMealPrefab, container).Setup(m, player));
+            rooms.ForEach(r => Instantiate(roomPrefab, container).Setup(r, player));
         }
     }
 

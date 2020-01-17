@@ -7,10 +7,7 @@ public class TempVore : BaseEffect
 
     public void Setup(DisplayVore parVore) => DisplayVore = parVore;
 
-    private void Update()
-    {
-        icon.fillAmount = 1f - DisplayVore.Progress();
-    }
+    private void Update() => icon.fillAmount = 1f - DisplayVore.Progress();
 
     public override void OnPointerEnter(PointerEventData eventData)
     {

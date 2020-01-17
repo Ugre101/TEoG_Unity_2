@@ -95,10 +95,10 @@ MonoBehaviour:
   desc: {fileID: 608723761307495909}
   displayCost: {fileID: 5529826217108868205}
   frame: {fileID: 608723760791689125}
-  <BuyBtn>k__BackingField: {fileID: 608723761562212229}
   Cost: 0
-  itemId: 1
-  cost: 10
+  buyBtn: {fileID: 608723761562212229}
+  affordColor: {r: 0.02628031, g: 0.735849, b: 0, a: 1}
+  cantAffordColor: {r: 0.8207547, g: 0, b: 0, a: 1}
 --- !u!1 &608723760791689127
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,12 +418,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 16
+  m_fontSize: 20
   m_fontSizeBase: 16
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 8
+  m_fontSizeMax: 20
   m_fontStyle: 0
   m_textAlignment: 257
   m_characterSpacing: 0

@@ -2,6 +2,11 @@
 
 public class PlayerMain : BasicChar
 {
+    public PlayerMain() : base()
+    {
+        thisPlayer = this;
+    }
+
     // public Settings sett;
     public override void Awake()
     {
@@ -46,6 +51,7 @@ public class PlayerMain : BasicChar
         {
             if (thisPlayer == null)
             {
+                // Something called Getplayer before player could awake
                 Debug.Log("Getplayer was null");
                 thisPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
             }

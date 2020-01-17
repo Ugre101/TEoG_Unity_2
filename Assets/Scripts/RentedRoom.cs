@@ -18,10 +18,9 @@
             {
                 this.room = room;
                 Cost = room.Cost;
-                title.text = room.Title;
-                desc.text = room.Desc;
-                displayCost.text = Cost.ToString();
+                SetTexts(room.Title, room.Desc, Cost.ToString());
                 BuyBtn.onClick.AddListener(() => Buy(buyer));
+                FrameCanAfford(buyer);
                 buyer.Currency.GoldChanged += delegate { FrameCanAfford(buyer); };
             }
             else

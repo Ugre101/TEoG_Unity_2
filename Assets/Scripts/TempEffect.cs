@@ -5,11 +5,9 @@ using UnityEngine.UI;
 
 public class BaseEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    [SerializeField]
-    protected TextMeshProUGUI text = null;
+    [SerializeField] protected TextMeshProUGUI text = null;
 
-    [SerializeField]
-    protected Image icon = null;
+    [SerializeField] protected Image icon = null;
 
     public virtual void OnPointerClick(PointerEventData eventData)
     {
@@ -53,8 +51,5 @@ public class TempEffect : BaseEffect
         DateSystem.NewHourEvent -= DisplayTimeLeft;
     }
 
-    private void DisplayTimeLeft()
-    {
-        text.text = $"{mod.Duration}";
-    }
+    private void DisplayTimeLeft() => text.text = $"{mod.Duration}";
 }

@@ -18,6 +18,8 @@ MonoBehaviour:
   frame: {fileID: 2399185403499888047}
   Cost: 0
   buyBtn: {fileID: 2399185402528071055}
+  affordColor: {r: 0.02628031, g: 0.735849, b: 0, a: 1}
+  cantAffordColor: {r: 0.8207547, g: 0, b: 0, a: 1}
 --- !u!1001 &2970406944105146890
 PrefabInstance:
   m_ObjectHideFlags: 0

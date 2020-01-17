@@ -1,4 +1,6 @@
-﻿namespace Bar
+﻿using UnityEngine;
+
+namespace Bar
 {
     public class BarMeal : ShopWare
     {
@@ -6,13 +8,16 @@
 
         public override void Setup(Ware ware, BasicChar buyer)
         {
-            meal = ware as BuyMeal;
-            title.text = meal.Title;
-            Cost = meal.Cost;
-            displayCost.text = meal.Cost.ToString();
-            desc.text = $"+hp: {meal.Meal.HpGain}, +wp: {meal.Meal.WpGain}, +fat: {meal.Meal.FatGain}";
-            BuyBtn.onClick.AddListener(() => Buy(buyer));
-            buyer.Currency.GoldChanged += delegate { FrameCanAfford(buyer); };
+            if (ware is BuyMeal meal)
+            {
+                this.meal = meal;
+                Cost = meal.Cost;
+                SetTexts(meal.Title, meal.Desc, meal.Cost.ToString());
+                BuyBtn.onClick.AddListener(() => Buy(buyer));
+                FrameCanAfford(buyer);
+                buyer.Currency.GoldChanged += delegate { FrameCanAfford(buyer); };
+            }
+            else { Destroy(gameObject); }
         }
 
         public override void Buy(BasicChar buyer)

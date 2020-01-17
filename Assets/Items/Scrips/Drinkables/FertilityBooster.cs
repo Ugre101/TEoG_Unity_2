@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class FertilityBooster : MonoBehaviour
+[CreateAssetMenu(fileName = "FertilityBooster", menuName = "Item/FertilityBooster")]
+public class FertilityBooster : Drinkable
 {
-    // Start is called before the first frame update
-    void Start()
+    public FertilityBooster()
     {
-        
+        ItemId = ItemId.FertilityBooster;
+        Title = "Fertility booster";
     }
 
-    // Update is called once per frame
-    void Update()
+    public override string Use(BasicChar user)
     {
-        
+        user.PregnancySystem.Fertility.BaseValue++;
+        return base.Use(user);
     }
 }

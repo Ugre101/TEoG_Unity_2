@@ -3,12 +3,6 @@
 public class PotionShop : Building
 {
     public TextMeshProUGUI textbox;
-
-    // Start is called before the first frame update
-    public override void Start()
-    {
-        base.Start();
-    }
 }
 
 public class Potion : Ware

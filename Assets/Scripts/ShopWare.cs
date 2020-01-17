@@ -6,12 +6,18 @@ public abstract class ShopWare : MonoBehaviour
 {
     [SerializeField] protected TextMeshProUGUI title, desc, displayCost;
 
-    [SerializeField] protected Image frame;
+    protected void SetTexts(string title, string desc, string cost)
+    {
+        this.title.text = title;
+        this.desc.text = desc;
+        this.displayCost.text = cost;
+    }
 
-    public Button BuyBtn => buyBtn;
+    [SerializeField] protected Image frame;
 
     [SerializeField] protected int Cost;
     [SerializeField] private Button buyBtn;
+    public Button BuyBtn => buyBtn;
 
     public virtual void Buy(BasicChar buyer)
     {
@@ -26,9 +32,11 @@ public abstract class ShopWare : MonoBehaviour
         BuyBtn.onClick.AddListener(() => Buy(buyer));
     }
 
+    [SerializeField] protected Color affordColor = Color.green, cantAffordColor = Color.red;
+
     public virtual void FrameCanAfford(BasicChar buyer)
     {
-        frame.color = buyer.Currency.CanAfford(Cost) ? Color.green : Color.red;
+        frame.color = buyer.Currency.CanAfford(Cost) ? affordColor : cantAffordColor;
     }
 }
 
@@ -60,11 +68,12 @@ public abstract class Ware
 [System.Serializable]
 public class ItemWare : Ware
 {
-    [field: SerializeField] public ItemId ItemId { get; protected set; }
+    [SerializeField] private ItemId itemId;
+    public ItemId ItemId => itemId;
 
     public ItemWare(int cost, string title, string desc, ItemId itemId) : base(cost, title, desc)
     {
-        this.ItemId = itemId;
+        this.itemId = itemId;
     }
 
     public override void OnBuy(BasicChar basicChar)

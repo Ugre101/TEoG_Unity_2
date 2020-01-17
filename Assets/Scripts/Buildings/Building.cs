@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    [SerializeField]
-    protected PlayerMain player;
+    [SerializeField] protected PlayerMain player;
 
-    // Start is called before the first frame update
-    public virtual void Start()
+    public virtual void OnEnable()
     {
         player = player != null ? player : PlayerMain.GetPlayer;
     }
@@ -17,6 +15,16 @@ public class Shop : Building
 {
     [SerializeField] protected Transform container = null;
     [SerializeField] protected BuyItem buyItem = null;
+    [SerializeField] protected Items ItemsRef = null;
+
+    public new virtual void OnEnable()
+    {
+        player = player != null ? player : PlayerMain.GetPlayer;
+        if (ItemsRef == null)
+        {
+            Debug.Log("You forgot to assing itemsHolder at " + new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType);
+        }
+    }
 
     public virtual void ShowWares(List<Ware> wares, BasicChar buyer)
     {
