@@ -3,10 +3,8 @@
 [CreateAssetMenu(fileName = "FertilityBooster", menuName = "Item/FertilityBooster")]
 public class FertilityBooster : Drinkable
 {
-    public FertilityBooster()
+    public FertilityBooster() : base(ItemId.FertilityBooster, "Fertility booster")
     {
-        ItemId = ItemId.FertilityBooster;
-        Title = "Fertility booster";
     }
 
     public override string Use(BasicChar user)
@@ -19,10 +17,8 @@ public class FertilityBooster : Drinkable
 [CreateAssetMenu(fileName = "FertilityTempBooster", menuName = "Item/FertilityBooster")]
 public class FertilityTempBooster : Drinkable
 {
-    public FertilityTempBooster()
+    public FertilityTempBooster() : base(ItemId.FertilityTempBooster, "Fertility week booster")
     {
-        ItemId = ItemId.FertilityTempBooster;
-        Title = "Fertility week booster";
     }
 
     public override string Use(BasicChar user)

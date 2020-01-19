@@ -9,11 +9,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Template", menuName = "Item/SmallRation")]
 public class ItemSmallRation : Item
 {
-    public ItemSmallRation()
+    public ItemSmallRation():base(ItemId.Potion,"Template")
     {
-        ItemId = ItemId.Potion;
         Type = ItemTypes.Misc;
-        Title = "Template";
         UseName = "Use";
         Desc = "template for items, desc itself is where you say what the item does. This item happens to do nothing.";
     }

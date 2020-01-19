@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 691449db68ae9174a9dde73b7b06207f, type: 3}
   m_Name: FertilityBooster
   m_EditorClassIdentifier: 
-  <Sprite>k__BackingField: {fileID: 0}
-  <ItemId>k__BackingField: 4
+  itemId: 5
+  title: Fertility booster
+  <Sprite>k__BackingField: {fileID: 21300000, guid: dad62aee0da24ea4c90352c7735e7519,
+    type: 3}
   <Type>k__BackingField: 0
-  <Title>k__BackingField: Fertility booster
   <Desc>k__BackingField: 
   <UseName>k__BackingField: Drink

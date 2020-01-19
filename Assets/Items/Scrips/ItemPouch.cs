@@ -3,11 +3,9 @@
 [CreateAssetMenu(fileName = "Pouch", menuName = "Item/Pouch")]
 public class ItemPouch : Item
 {
-    public ItemPouch()
+    public ItemPouch() : base(ItemId.Pouch, "Pouch")
     {
-        ItemId = ItemId.Pouch;
         Type = ItemTypes.Misc;
-        Title = "Pouch";
     }
 
     public override string Use(BasicChar user)

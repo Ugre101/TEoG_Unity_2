@@ -3,10 +3,8 @@
 [CreateAssetMenu(fileName = "VirilityBooster", menuName = "Item/VirilityBooster")]
 public class VirilityBooster : Drinkable
 {
-    public VirilityBooster()
+    public VirilityBooster() : base(ItemId.VirilityBooster, "Virility booster")
     {
-        ItemId = ItemId.VirilityBooster;
-        Title = "Virility booster";
     }
 
     public override string Use(BasicChar user)
@@ -19,10 +17,8 @@ public class VirilityBooster : Drinkable
 [CreateAssetMenu(fileName = "VirilityTempBooster", menuName = "Item/VirilityTempBooster")]
 public class VirilityTempBooster : Drinkable
 {
-    public VirilityTempBooster()
+    public VirilityTempBooster() : base(ItemId.VirilityBooster, "Virility week booster")
     {
-        ItemId = ItemId.VirilityBooster;
-        Title = "Virility week booster";
     }
 
     public override string Use(BasicChar user)

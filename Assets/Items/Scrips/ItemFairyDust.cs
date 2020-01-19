@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class ItemFairyDust : Item
 {
-    public ItemFairyDust()
+    public ItemFairyDust() : base(ItemId.Potion,"Fairy dust")
     {
-        ItemId = ItemId.Potion;
         Type = ItemTypes.Consumables;
-        Title = "Fairy dust";
         UseName = "Lick";
         Desc = "";
     }
