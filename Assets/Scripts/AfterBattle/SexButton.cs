@@ -12,7 +12,7 @@ public class SexButton : SexButtonBase
         scene.ArousalGain(player, other);
     }
 
-    public void Setup(PlayerMain parPlayer, EnemyPrefab parPartner, AfterBattleMain parAfterBattle, SexScenes parScene)
+    public void Setup(PlayerMain parPlayer, BasicChar parPartner, AfterBattleMain parAfterBattle, SexScenes parScene)
     {
         player = parPlayer;
         other = parPartner;

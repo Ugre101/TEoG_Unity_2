@@ -8,7 +8,7 @@
         loseMain.CanLeave();
     }
 
-    public void Setup(PlayerMain playerMain, EnemyPrefab basicChar, LoseMain loseMain, LoseScene loseScene)
+    public void Setup(PlayerMain playerMain, BasicChar basicChar, LoseMain loseMain, LoseScene loseScene)
     {
         this.player = playerMain;
         this.other = basicChar;

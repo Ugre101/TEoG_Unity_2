@@ -4,26 +4,20 @@ using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerMain Player;
+    [SerializeField] private PlayerMain Player;
 
-    [SerializeField]
-    private List<Tilemap> dontSpawnOn = new List<Tilemap>();
+    [SerializeField] private List<Tilemap> dontSpawnOn = new List<Tilemap>();
 
-    [SerializeField]
-    private MapEvents MapEvents => MapEvents.GetMapEvents;
+    [SerializeField] private MapEvents MapEvents => MapEvents.GetMapEvents;
 
     [Header("Settings")]
-    [SerializeField]
-    private int enemyToAdd = 6;
+    [SerializeField] private int enemyToAdd = 6;
 
     [Range(5, 25)]
-    [SerializeField]
-    private int distFromPlayer = 5;
+    [SerializeField] private int distFromPlayer = 5;
 
     [Range(0, 10)]
-    [SerializeField]
-    private int distFromBorder = 2;
+    [SerializeField] private int distFromBorder = 2;
 
     // Private
     private readonly List<Vector3> _empty = new List<Vector3>();
@@ -46,8 +40,8 @@ public class EnemySpawner : MonoBehaviour
         if (_empty.Count < 1) { AvailblePos(); }
         else if (transform.childCount < enemyToAdd && _CurrEnemies.Count > 0)
         {
-            int index = Random.Range(0, _empty.Count);
-            int enemyIndex = Random.Range(0, _CurrEnemies.Count);
+            int index = rnd.Next(_empty.Count);
+            int enemyIndex = rnd.Next(_CurrEnemies.Count);
             EnemyPrefab enemu = Instantiate(_CurrEnemies[enemyIndex], _empty[index], Quaternion.identity, transform);
             enemu.name = _CurrEnemies[enemyIndex].name;
             _empty.RemoveAt(index);
@@ -97,10 +91,7 @@ public class EnemySpawner : MonoBehaviour
         _currMap = MapEvents.CurrentMap;
         AvailblePos();
         CurrentEnemies();
-        foreach (Transform e in transform)
-        {
-            Destroy(e.gameObject);
-        }
+        transform.KillChildren();
         _empty.Clear();
     }
 

@@ -14,14 +14,12 @@ public class MapEvents : MonoBehaviour
 
     public static Tilemap CurrentMap { get; private set; }
 
-    [SerializeField]
-    private Tilemap startMap = null;
+    [SerializeField] private Tilemap startMap = null;
 
     public static WorldMaps ActiveMap { get; private set; }
     private WorldMap CurrentWorld => worldMaps.Find(m => m.Map == ActiveMap);
 
-    [SerializeField]
-    private List<WorldMap> worldMaps = new List<WorldMap>();
+    [SerializeField] private List<WorldMap> worldMaps = new List<WorldMap>();
 
     private List<Transform> lastChildren = new List<Transform>();
 
@@ -119,7 +117,6 @@ public class MapEvents : MonoBehaviour
     public void Teleport(WorldMaps toWorld, Tilemap toMap, Tilemap teleportPlatform)
     {
         WorldChange(toWorld, toMap);
-        Debug.Log(teleportPlatform.cellBounds.center);
         Player.transform.position = teleportPlatform == null ? toMap.cellBounds.center : teleportPlatform.cellBounds.center;
     }
 

@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Drain femi", menuName = ("Sex/Essence/Drain femi"))]
 public class DrainFemi : EssScene
 {
-    public override bool CanDo(EnemyPrefab target) => target.CanDrainFemi();
+    public override bool CanDo(BasicChar target) => target.CanDrainFemi();
 
     public override string StartScene(PlayerMain player, BasicChar other)
     {

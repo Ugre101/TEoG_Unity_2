@@ -3,28 +3,21 @@ using UnityEngine.EventSystems;
 
 public class PerkTreeController : MonoBehaviour, IScrollHandler
 {
-    [SerializeField]
-    private PlayerMain player = null;
+    [SerializeField] private PlayerMain player = null;
 
-    [SerializeField]
-    private KeyBindings keyBindings = null;
+    [SerializeField] private KeyBindings keyBindings = null;
 
-    [SerializeField]
-    private RectTransform zoomRect = null;
+    [SerializeField] private RectTransform zoomRect = null;
 
-    [SerializeField]
-    private GameObject vorePerksTree = null;
+    [SerializeField] private GameObject vorePerksTree = null;
 
-    [SerializeField]
-    private RectTransform perkRect = null;
+    [SerializeField] private RectTransform perkRect = null;
 
     private float zoom = 2f;
 
-    [SerializeField]
-    private float touchpadZoomSen = 0.05f;
+    [SerializeField] private float touchpadZoomSen = 0.05f;
 
-    [SerializeField]
-    private float keyZooomSen = 0.05f;
+    [SerializeField] private float keyZooomSen = 0.05f;
 
     public float SetZoom
     {
@@ -42,7 +35,6 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
         {
             vorePerksTree.SetActive(player.Vore.Active);
         }
-
         perkRect.localPosition = new Vector3(0, 0, 0);
     }
 

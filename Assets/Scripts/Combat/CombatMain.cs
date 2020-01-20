@@ -8,7 +8,9 @@ public class CombatMain : MonoBehaviour
     public static CombatMain GetCombatMain { get; private set; }
 
     private CanvasMain CanvasMain => CanvasMain.GetCanvasMain;
-    private PlayerMain Player => PlayerMain.GetPlayer;
+    private PlayerMain player;
+
+    private PlayerMain Player => player = player != null ? player : PlayerMain.GetPlayer;
 
     [SerializeField] private TextMeshProUGUI _textbox = null;
 
@@ -29,7 +31,7 @@ public class CombatMain : MonoBehaviour
 
     private int indexCurrentEnemy = 0;
     private readonly List<BasicChar> playerTeamChars = new List<BasicChar>();
-    private readonly List<EnemyPrefab> enemyTeamChars = new List<EnemyPrefab>();
+    private readonly List<BasicChar> enemyTeamChars = new List<BasicChar>();
 
     [SerializeField] private CombatTeam playerTeam = null;
 
@@ -68,7 +70,7 @@ public class CombatMain : MonoBehaviour
         // every time someone dies check if a team losses
         if (!skillButtons.Exists(s => s.Skill != null))
         {
-            for (int i = 0; i < Player.Skills.Count; i++)
+            for (int i = 0; i < Mathf.Min(Player.Skills.Count, skillButtons.Count - 1); i++)
             {
                 skillButtons[i].Setup(skillBook.Dict.Match(Player.Skills[i].Id));
             }
@@ -86,7 +88,7 @@ public class CombatMain : MonoBehaviour
         }
     }
 
-    public void SetUpCombat(List<EnemyPrefab> enemies)
+    public void SetUpCombat(List<BasicChar> enemies)
     {
         gameObject.SetActive(true);
         // Clear battle log
@@ -101,26 +103,10 @@ public class CombatMain : MonoBehaviour
 
         enemyTeamChars.Clear();
         enemyTeamChars.AddRange(enemies);
-        _ = enemyTeam.StartCoroutine(enemyTeam.StartFight(new List<BasicChar>(enemies)));
+        _ = enemyTeam.StartCoroutine(enemyTeam.StartFight(enemies));
         _ = playerTeam.StartCoroutine(playerTeam.StartFight(playerTeamChars));
         ResetSkills(playerTeamChars);
-        ResetSkills(new List<BasicChar>(enemyTeamChars));
-    }
-
-    public void FleeButton()
-    {
-        float toBeat = 7;
-        float fleeRoll = Random.Range(0, 10);
-        if (toBeat < fleeRoll)
-        {
-            // Success
-        }
-        else
-        {
-            _PlayerTeamAttacks += $"You failed to flee" + "\n";
-            TurnManager();
-            // Enemy turn
-        }
+        ResetSkills(enemyTeamChars);
     }
 
     public void PlayerAttack(string attack)
@@ -133,8 +119,7 @@ public class CombatMain : MonoBehaviour
     {
         float str = Enemy.Stats.Str, charm = Enemy.Stats.Cha;
         float dmg = AttackMulti(charm < str ? str : charm);
-        List<string> strAttack = new List<string> { "Hits you", "Kicks you",
-        "Grapples you down to the ground"};
+        List<string> strAttack = new List<string> { "Hits you", "Kicks you", "Grapples you down to the ground" };
         List<string> charmAttack = new List<string> { $"Teases you" };
         string randomStr = strAttack[Random.Range(0, strAttack.Count)] + $", causing {dmg} dmg.";
         string randomCharm = charmAttack[Random.Range(0, charmAttack.Count)] + $", weakening your will by {dmg}.";
@@ -191,13 +176,10 @@ public class CombatMain : MonoBehaviour
         _EnemyTeamAttacks = null;
         // Reset cooldoowns
         RefreshCooldown(playerTeamChars);
-        RefreshCooldown(new List<BasicChar>(enemyTeamChars));
-        foreach (CombatButton cb in skillButtons)
+        RefreshCooldown(enemyTeamChars);
+        foreach (CombatButton cb in skillButtons.FindAll(sb => sb.Skill != null))
         {
-            if (cb.Skill != null)
-            {
-                cb.CoolDownHandler();
-            }
+            cb.CoolDownHandler();
         }
         // Reset newTarget
         SelectNewTarget(null);
@@ -219,13 +201,18 @@ public class CombatMain : MonoBehaviour
 
     public void WinBattle()
     {
-        foreach (EnemyPrefab e in enemyTeamChars)
+        enemyTeamChars.ForEach(etc =>
         {
-            Player.ExpSystem.Exp += e.reward.ExpReward;
-            Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
-                ? e.reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
-                : e.reward.GoldReward;
-        }
+            if (etc is EnemyPrefab e)
+            {
+                Player.ExpSystem.Exp += e.reward.ExpReward;
+                Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
+                    ? e.reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
+                    : e.reward.GoldReward;
+            }
+            // if something else
+        });
+
         afterBattle.Setup(enemyTeamChars);
         gameObject.SetActive(false);
     }

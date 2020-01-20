@@ -14,7 +14,7 @@ public abstract class SexButtonBase : MonoBehaviour
     protected TextMeshProUGUI title = null;
 
     protected PlayerMain player;
-    protected EnemyPrefab other;
+    protected BasicChar other;
 
     public virtual void Start()
     {

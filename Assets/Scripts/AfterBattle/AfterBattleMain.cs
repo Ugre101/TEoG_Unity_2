@@ -6,14 +6,11 @@ using UnityEngine.UI;
 
 public class AfterBattleMain : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerMain player = null;
+    [SerializeField] private PlayerMain player = null;
 
-    [SerializeField]
-    private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
+    [SerializeField] private List<BasicChar> enemies = new List<BasicChar>();
 
-    [SerializeField]
-    private TextMeshProUGUI textBox = null;
+    [SerializeField] private TextMeshProUGUI textBox = null;
 
     #region Button prefabs
 
@@ -68,17 +65,14 @@ public class AfterBattleMain : MonoBehaviour
 
     private List<SexScenes> allSexScenes = new List<SexScenes>();
 
-    [SerializeField]
-    private Dorm dorm = null;
+    [SerializeField] private Dorm dorm = null;
 
-    [SerializeField]
-    private SexChar playerChar = null, enemyChar = null;
+    [SerializeField] private SexChar playerChar = null, enemyChar = null;
 
-    [SerializeField]
-    private Button sortAll = null, sortMouth = null, sortVore = null;
+    [SerializeField] private Button sortAll = null, sortMouth = null, sortVore = null;
 
-    private EnemyPrefab newTarget;
-    public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
+    private BasicChar newTarget;
+    public BasicChar Target => newTarget != null ? newTarget : enemies[0];
 
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
     public PlayerMain Caster => player;
@@ -119,7 +113,7 @@ public class AfterBattleMain : MonoBehaviour
         enemies.ForEach(e => e.SexStats.OrgasmedEvent -= GetImpreg);
     }
 
-    public void Setup(List<EnemyPrefab> chars)
+    public void Setup(List<BasicChar> chars)
     {
         sortVore.gameObject.SetActive(player.Vore.Active);
         TakeHome.SetActive(false);
@@ -162,20 +156,19 @@ public class AfterBattleMain : MonoBehaviour
         {
             buttons.transform.KillChildren();
         }
-        if (Target.CanTake(Target.SexStats.SessionOrgasm))
+        if (Target is EnemyPrefab ep)
         {
-            TakeHome.SetActive(dorm.HasSpace);
+            if (ep.CanTake(Target.SexStats.SessionOrgasm))
+            {
+                TakeHome.SetActive(dorm.HasSpace);
+            }
         }
         DrainActions.KillChildren();
         if (Target.SexStats.CanDrain)
         {
-            essScenes.ForEach(ess =>
+            essScenes.FindAll(ess => ess.CanDo(Target)).ForEach(ess =>
             {
-                if (ess.CanDo(Target))
-                {
-                    EssSexButton essBtn = Instantiate(essSexButton, DrainActions);
-                    essBtn.Setup(this, ess);
-                }
+                Instantiate(essSexButton, DrainActions).Setup(this, ess);
             });
         }
     }
@@ -211,15 +204,13 @@ public class AfterBattleMain : MonoBehaviour
         buttons.transform.KillChildren();
         foreach (SexScenes scene in scenes.FindAll(s => s.CanDo(player, Target)))
         {
-            SexButton button = Instantiate(sexButton, buttons.transform);
-            button.Setup(player, Target, this, scene);
+            Instantiate(sexButton, buttons.transform).Setup(player, Target, this, scene);
         }
         if (showVore)
         {
             foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
             {
-                VoreButton btn = Instantiate(voreButton, buttons.transform);
-                btn.Setup(player, Target, this, vore);
+                Instantiate(voreButton, buttons.transform).Setup(player, Target, this, vore);
             }
         }
     }
@@ -229,8 +220,7 @@ public class AfterBattleMain : MonoBehaviour
         buttons.transform.KillChildren();
         foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
         {
-            VoreButton btn = Instantiate(voreButton, buttons.transform);
-            btn.Setup(player, Target, this, vore);
+            Instantiate(voreButton, buttons.transform).Setup(player, Target, this, vore);
         }
     }
 

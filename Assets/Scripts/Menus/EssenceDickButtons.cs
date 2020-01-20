@@ -4,17 +4,13 @@ using UnityEngine.UI;
 
 public class EssenceDickButtons : MonoBehaviour
 {
-    public GameObject prefab;
-    public PlayerMain player;
+    [SerializeField] private GameObject prefab = null;
+    [SerializeField] private PlayerMain player = null;
     private Essence Masc => player.Essence.Masc;
     private int lastAmount;
     private TextMeshProUGUI AddText;
 
-    // Start is called before the first frame update
-    private void OnEnable()
-    {
-        UpdateButtons();
-    }
+    private void OnEnable() => UpdateButtons();
 
     // Update is called once per frame
     private void Update()
@@ -27,10 +23,8 @@ public class EssenceDickButtons : MonoBehaviour
 
     private void UpdateButtons()
     {
-        foreach (Transform child in this.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
+        transform.KillChildren();
+
         GameObject AddDick = Instantiate(prefab, this.transform);
         Button AddBtn = AddDick.GetComponent<Button>();
         AddBtn.onClick.AddListener(AddFunc);

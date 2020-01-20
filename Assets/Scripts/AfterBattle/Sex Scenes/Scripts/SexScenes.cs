@@ -131,7 +131,7 @@ public abstract class LoseScene : SexScenes
 
 public abstract class EssScene : SexScenes
 {
-    public virtual bool CanDo(EnemyPrefab enemyPrefab) => false;
+    public virtual bool CanDo(BasicChar enemyPrefab) => false;
 }
 
 public abstract class VoreScene : SexScenes

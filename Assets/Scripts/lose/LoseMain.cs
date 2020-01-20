@@ -5,34 +5,26 @@ using UnityEngine;
 
 public class LoseMain : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerMain player = null;
+    [SerializeField] private PlayerMain player = null;
 
-    [SerializeField]
-    private TextMeshProUGUI _textBox = null;
+    [SerializeField] private TextMeshProUGUI _textBox = null;
 
-    [SerializeField]
-    private GameObject Leave = null;
+    [SerializeField] private GameObject Leave = null;
 
-    [SerializeField]
-    private SexChar playerChar = null, enemyChar = null;
+    [SerializeField] private SexChar playerChar = null, enemyChar = null;
 
-    [SerializeField]
-    private Transform sexButtonsContainer = null;
+    [SerializeField] private Transform sexButtonsContainer = null;
 
-    [SerializeField]
-    private LoseSexButton sexButton = null;
+    [SerializeField] private LoseSexButton sexButton = null;
 
-    [SerializeField]
-    private List<LoseScene> forced = new List<LoseScene>();
+    [SerializeField] private List<LoseScene> forced = new List<LoseScene>();
 
-    [SerializeField]
-    private List<LoseScene> submit = new List<LoseScene>();
+    [SerializeField] private List<LoseScene> submit = new List<LoseScene>();
 
-    private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
+    private List<BasicChar> enemies = new List<BasicChar>();
 
-    private EnemyPrefab newTarget = null;
-    public EnemyPrefab Target => newTarget != null ? newTarget : enemies[0];
+    private BasicChar newTarget = null;
+    public BasicChar Target => newTarget != null ? newTarget : enemies[0];
 
     private List<LoseScene> CanDo(List<LoseScene> scenes) => scenes.Where(s => s.CanDo(player, Target)).Select(s => s).ToList();
 
@@ -45,7 +37,7 @@ public class LoseMain : MonoBehaviour
         player = player != null ? player : PlayerMain.GetPlayer;
     }
 
-    public void Setup(List<EnemyPrefab> parEnemies)
+    public void Setup(List<BasicChar> parEnemies)
     {
         gameObject.SetActive(true);
         enemies = parEnemies;
@@ -77,8 +69,7 @@ public class LoseMain : MonoBehaviour
         {
             for (int i = 0; i < SceneOptionsAmount; i++)
             {
-                LoseSexButton btn = Instantiate(sexButton, sexButtonsContainer);
-                btn.Setup(player, Target, this, GetAScene(forcedCanDo));
+                Instantiate(sexButton, sexButtonsContainer).Setup(player, Target, this, GetAScene(forcedCanDo));
             }
         }
         List<LoseScene> submitCanDo = CanDo(submit);
@@ -86,8 +77,7 @@ public class LoseMain : MonoBehaviour
         {
             for (int i = 0; i < SceneOptionsAmount; i++)
             {
-                LoseSexButton btn = Instantiate(sexButton, sexButtonsContainer);
-                btn.Setup(player, Target, this, GetAScene(submitCanDo));
+                Instantiate(sexButton, sexButtonsContainer).Setup(player, Target, this, GetAScene(submitCanDo));
             }
         }
     }

@@ -26,7 +26,9 @@ public class SaveMananger : MonoBehaviour
         }
         player = player != null ? player : PlayerMain.GetPlayer;
 
-        SaveFolder = Directory.Exists(SaveSettings.SaveFolder) ? new DirectoryInfo(SaveSettings.SaveFolder) : Directory.CreateDirectory(SaveSettings.SaveFolder);
+        SaveFolder = Directory.Exists(SaveSettings.SaveFolder)
+            ? new DirectoryInfo(SaveSettings.SaveFolder)
+            : Directory.CreateDirectory(SaveSettings.SaveFolder);
         Settings.SetImperial = PlayerPrefs.HasKey("Imperial") ? PlayerPrefs.GetInt("Imperial") == 1 : false; ;
     }
 
@@ -46,8 +48,7 @@ public class SaveMananger : MonoBehaviour
     {
         SaveName saveName = new SaveName(player, DateTime.Now);
         newSavePath = SaveFolder.FullName + saveName.CleanSave + ".json";
-        Save save = NewSave;
-        File.WriteAllText(newSavePath, save.SaveData());
+        File.WriteAllText(newSavePath, NewSave.SaveData());
         SavedEvent?.Invoke();
         lastSavePath = newSavePath;
     }
@@ -68,9 +69,8 @@ public class SaveMananger : MonoBehaviour
 
     public void QuickLoad()
     {
-        Save toLoad = NewSave;
         string json = File.ReadAllText(lastSavePath);
-        toLoad.LoadData(json);
+        NewSave.LoadData(json);
     }
 
     public Save NewSave => new Save(player, dorm);
@@ -80,7 +80,6 @@ public class SaveMananger : MonoBehaviour
     public static event SavedGame SavedEvent;
 }
 
-[Serializable]
 public class SaveName
 {
     public SaveName(PlayerMain player, DateTime parDate)
@@ -90,7 +89,9 @@ public class SaveName
         Date = parDate.ToString();
     }
 
-    public string Name, Lvl, Date;
+    private readonly string Name;
+    private readonly string Lvl;
+    private readonly string Date;
 
     public string CleanSave
     {
@@ -98,7 +99,7 @@ public class SaveName
         {
             string cleanNow = Date; //.Remove(Date.Length - 3, 3);
             //    .Replace(":", "-").Replace(" ", "-");
-            string cleanPath = Name + "-Lvl" + Lvl + "-" + cleanNow;
+            string cleanPath = $"{Name}-Lvl{Lvl}-{cleanNow}";
             char[] illegal = Path.GetInvalidFileNameChars();
             // if file contain illegal chars replave them
             if (illegal.Length > 0 && cleanPath.IndexOfAny(illegal) != -1)

@@ -108,12 +108,12 @@ public class CanvasMain : MonoBehaviour
         return false;
     }
 
-    public void StartCombat(EnemyPrefab enemy)
+    public void StartCombat(BasicChar enemy)
     {
         GameManager.CurState = GameState.Battle;
         Battle.transform.SleepChildren();
         ToggleBigPanel(Battle.gameObject);
-        List<EnemyPrefab> toAdd = new List<EnemyPrefab> { enemy };
+        List<BasicChar> toAdd = new List<BasicChar> { enemy };
         combatMain.SetUpCombat(toAdd);
     }
 

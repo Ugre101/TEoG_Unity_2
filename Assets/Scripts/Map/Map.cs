@@ -15,15 +15,18 @@ public enum Maps
 
 public class Map : MonoBehaviour
 {
-    [field: SerializeField]
-    public Maps MapName { get; private set; } = Maps.Start;
+    [SerializeField] private Maps mapName = Maps.Start;
 
-    [field: Header("Map enemies")]
-    [field: Tooltip("Types of enemies that can spawn on this map.")]
-    [field: SerializeField]
-    public List<EnemyPrefab> Enemies { get; private set; } = new List<EnemyPrefab>();
+    [Tooltip("Amount of ememies to spawn.")]
+    [SerializeField] private int enemyCount = 6;
 
-    [field: Tooltip("Amount of ememies to spawn.")]
-    [field: SerializeField]
-    public int EnemyCount { get; private set; } = 6;
+    [Header("Map enemies")]
+    [Tooltip("Types of enemies that can spawn on this map.")]
+    [SerializeField] private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
+
+    public Maps MapName => mapName;
+
+    public List<EnemyPrefab> Enemies => enemies;
+
+    public int EnemyCount => enemyCount;
 }

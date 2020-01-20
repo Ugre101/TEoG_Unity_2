@@ -12,8 +12,7 @@ public class LooksMenu : MonoBehaviour
 
     //    private bool exactDetails = false;
 
-    [SerializeField]
-    private Button sortAllBtn = null, sortBodyBtn = null, sortOrgansBtn = null, sortPregBtn = null;
+    [SerializeField] private Button sortAllBtn = null, sortBodyBtn = null, sortOrgansBtn = null, sortPregBtn = null;
 
     private void Start()
     {

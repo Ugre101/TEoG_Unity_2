@@ -12,4 +12,6 @@ public class Items : ScriptableObject
     public void Add(Item toAdd) => items.Add(toAdd);
 
     public Item GetById(ItemId parId) => ItemsDict.Find(i => i.ItemId == parId);
+
+    public bool HasItem(ItemId id) => ItemsDict.Exists(i => i.ItemId == id);
 }
