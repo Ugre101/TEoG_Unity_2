@@ -17,10 +17,4 @@ public class ShowServant : MonoBehaviour
         title.text = basicChar.Identity.FullName;
         desc.text = basicChar.Summary();
     }
-
-    private string CharDesc()
-    {
-        string desc = $"{basicChar.Gender} {basicChar.Race}";
-        return desc;
-    }
 }

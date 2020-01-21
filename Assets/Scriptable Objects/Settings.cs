@@ -6,10 +6,7 @@ public static class Settings
     public static bool Imperial { get; private set; } = false;
     public static bool SetImperial { set => Imperial = value; }
 
-    public static bool ToogleImp()
-    {
-        return Imperial = !Imperial;
-    }
+    public static bool ToogleImp() => Imperial = !Imperial;
 
     public static string LorGal(float L)
     {
@@ -82,24 +79,20 @@ public static class Settings
     {
         switch (who.Gender)
         {
-            case Genders.Herm:
-                return capital ? char.ToUpper(Herm[0]) + Herm.Substring(1) : Herm.ToLower();
+            case Genders.Herm: return CapOrLower(Herm);
 
-            case Genders.Male:
-                return capital ? char.ToUpper(Male[0]) + Male.Substring(1) : Male.ToLower();
+            case Genders.Male: return CapOrLower(Male);
 
-            case Genders.Female:
-                return capital ? char.ToUpper(Female[0]) + Female.Substring(1) : Female.ToLower();
+            case Genders.Female: return CapOrLower(Female);
 
-            case Genders.Dickgirl:
-                return capital ? char.ToUpper(Dickgirl[0]) + Dickgirl.Substring(1) : Dickgirl.ToLower();
+            case Genders.Dickgirl: return CapOrLower(Dickgirl);
 
-            case Genders.Cuntboy:
-                return capital ? char.ToUpper(Cuntboy[0]) + Cuntboy.Substring(1) : Cuntboy.ToLower();
+            case Genders.Cuntboy: return CapOrLower(Cuntboy);
 
             case Genders.Doll:
             default:
-                return capital ? char.ToUpper(Doll[0]) + Doll.Substring(1) : Doll.ToLower();
+                return CapOrLower(Doll);
         }
+        string CapOrLower(string gender) => capital ? char.ToUpper(gender[0]) + gender.Substring(1) : gender.ToLower();
     }
 }

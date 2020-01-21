@@ -1,31 +1,26 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class ExpStatusUpdater : MonoBehaviour
 {
-    // Public
-    public PlayerMain player;
-    public TextMeshProUGUI _statusExp, _statusLevel;
-    // Private
-    private Slider slider;
-    // Start is called before the first frame update
+    [SerializeField] private PlayerMain player = null;
+
+    [SerializeField] private TextMeshProUGUI _statusExp, _statusLevel;
+
+    [SerializeField] private Slider slider = null;
 
     private void OnEnable()
     {
-        slider = GetComponent<Slider>();
+        player = player != null ? player : PlayerMain.GetPlayer;
+        slider = slider != null ? slider : GetComponent<Slider>();
         ExpSystem.ExpChangeEvent += ExpStatus;
-        player.ExpSystem.ManualExpUpdate();
-    }
-    private void OnDisable()
-    {
-        ExpSystem.ExpChangeEvent -= ExpStatus;
+        ExpStatus();
     }
 
+    private void OnDisable() => ExpSystem.ExpChangeEvent -= ExpStatus;
 
-    // Update is called once per frame
-
-    public void ExpStatus()
+    private void ExpStatus()
     {
         if (slider != null)
         {

@@ -1,68 +1,21 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class EssenceVagButtons : MonoBehaviour
+namespace EssenceMenu
 {
-    public GameObject prefab;
-    public PlayerMain player;
-    private Essence Femi => player.Essence.Femi;
-    private int lastAmount;
-    private TextMeshProUGUI AddText;
-
-    // Start is called before the first frame update
-    private void OnEnable()
+    public class EssenceVagButtons : EssenceOrganButtons
     {
-        UpdateButtons();
-    }
+        [SerializeField] private AddVagina addVaginaPrefab = null;
+        [SerializeField] private GrowVagina growVaginaPrefab = null;
 
-    // Update is called once per frame
-    private void Update()
-    {
-        if (lastAmount != player.SexualOrgans.Vaginas.Count)
+        protected override void UpdateButtons()
         {
-            UpdateButtons();
-        }
-    }
-
-    private void UpdateButtons()
-    {
-        foreach (Transform child in this.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-        GameObject AddVag = Instantiate(prefab, this.transform);
-        Button AddBtn = AddVag.GetComponent<Button>();
-        AddBtn.onClick.AddListener(AddFunc);
-        AddText = AddVag.GetComponentInChildren<TextMeshProUGUI>();
-        AddText.text = $"Add vagina: {player.SexualOrgans.Vaginas.Cost()}Femi";
-        foreach (Vagina b in player.SexualOrgans.Vaginas)
-        {
-            GameObject pre = Instantiate(prefab, this.transform);
-            Button btn = pre.GetComponent<Button>();
-            TextMeshProUGUI t = pre.GetComponentInChildren<TextMeshProUGUI>();
-            t.text = $"{Settings.MorInch(b.Size)} {b.Cost}Femi";
-            btn.onClick.AddListener(() => GrowVag(b, t));
-        }
-        lastAmount = player.SexualOrgans.Vaginas.Count;
-    }
-
-    private void GrowVag(Vagina b, TextMeshProUGUI t)
-    {
-        if (Femi.Amount >= b.Cost)
-        {
-            b.Grow();
-            t.text = $"{Settings.MorInch(b.Size)} {b.Cost}Femi";
-        }
-    }
-
-    private void AddFunc()
-    {
-        if (Femi.Amount > player.SexualOrgans.Vaginas.Cost())
-        {
-            Femi.Lose(player.SexualOrgans.Vaginas.Cost());
-            player.SexualOrgans.Vaginas.AddVag();
-            AddText.text = $"Add vagina: {player.SexualOrgans.Vaginas.Cost()}Femi";
+            transform.KillChildren();
+            Instantiate(addVaginaPrefab, transform).Setup(player);
+            foreach (Vagina v in player.SexualOrgans.Vaginas)
+            {
+                Instantiate(growVaginaPrefab, transform).Setup(player, v);
+            }
+            lastAmount = player.SexualOrgans.Vaginas.Count;
         }
     }
 }

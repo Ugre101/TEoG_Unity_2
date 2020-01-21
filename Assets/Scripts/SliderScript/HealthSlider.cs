@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-public class HealthSlider : BasicSlider
+﻿public class HealthSlider : BasicSlider
 {
     private void ChangeHealth()
     {
@@ -20,30 +17,29 @@ public class HealthSlider : BasicSlider
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        basicChar.HP.ManualSliderUpdate();
-    }
-
-    private IEnumerator LetTheGameStart()
-    {
-        yield return new WaitForEndOfFrame();
         if (basicChar != null)
         {
             basicChar.HP.UpdateSliderEvent += ChangeHealth;
-            basicChar.HP.ManualSliderUpdate();
+            ChangeHealth();
         }
     }
 
-    private void OnEnable()
+    protected override void Start()
     {
-        _ = StartCoroutine(LetTheGameStart());
+        base.Start();
+        if (basicChar != null)
+        {
+            basicChar.HP.UpdateSliderEvent += ChangeHealth;
+            ChangeHealth();
+        }
     }
 
     public override void Setup(BasicChar who)
     {
         base.Setup(who);
-        basicChar.HP.ManualSliderUpdate();
+        ChangeHealth();
         // Remove first to ensure no duplicate subs
         basicChar.HP.UpdateSliderEvent -= ChangeHealth;
         basicChar.HP.UpdateSliderEvent += ChangeHealth;

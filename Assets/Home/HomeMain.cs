@@ -10,7 +10,7 @@ public class HomeMain : MonoBehaviour
     [SerializeField] private Button leaveBtn = null;
     [SerializeField] private Tilemap toMap = null;
     [SerializeField] private Tilemap toPlatform = null;
-    private WorldMaps worldMaps = WorldMaps.StartMap;
+    private readonly WorldMaps worldMaps = WorldMaps.StartMap;
 
     private void Start()
     {

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-public class WillSlider : BasicSlider
+﻿public class WillSlider : BasicSlider
 {
     private void ChangeWill()
     {
@@ -20,25 +17,29 @@ public class WillSlider : BasicSlider
         }
     }
 
-    private IEnumerator LetTheGameStart()
+    private void OnEnable()
     {
-        yield return new WaitForEndOfFrame();
         if (basicChar != null)
         {
             basicChar.WP.UpdateSliderEvent += ChangeWill;
-            basicChar.WP.ManualSliderUpdate();
+            ChangeWill();
         }
     }
 
-    private void OnEnable()
+    protected override void Start()
     {
-        StartCoroutine(LetTheGameStart());
+        base.Start();
+        if (basicChar != null)
+        {
+            basicChar.WP.UpdateSliderEvent += ChangeWill;
+            ChangeWill();
+        }
     }
 
     public override void Setup(BasicChar who)
     {
         base.Setup(who);
-        basicChar.WP.ManualSliderUpdate();
+        ChangeWill();
         // unsub first to ensure no duplicate subs
         basicChar.WP.UpdateSliderEvent -= ChangeWill;
         basicChar.WP.UpdateSliderEvent += ChangeWill;

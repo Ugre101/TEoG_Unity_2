@@ -6,23 +6,17 @@ namespace Vore
 {
     public class VoreMenuHandler : MonoBehaviour
     {
-        [SerializeField]
-        private PlayerMain player = null;
+        [SerializeField] private PlayerMain player = null;
 
-        [SerializeField]
-        private TextMeshProUGUI organText = null;
+        [SerializeField] private TextMeshProUGUI organText = null;
 
-        [SerializeField]
-        private DisplayVorePrey vorePrey = null;
+        [SerializeField] private DisplayVorePrey vorePrey = null;
 
-        [SerializeField]
-        private Transform preyContainer = null;
+        [SerializeField] private Transform preyContainer = null;
 
-        [SerializeField]
-        private Button digestionBtn = null;
+        [SerializeField] private Button digestionBtn = null;
 
-        [SerializeField]
-        private TextMeshProUGUI digestionBtnText = null;
+        [SerializeField] private TextMeshProUGUI digestionBtnText = null;
 
         [SerializeField]
         private Button sortAll = null, sortStomach = null, sortAnal = null

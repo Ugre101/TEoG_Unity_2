@@ -11,16 +11,17 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] private InventoryHoverText inventoryHoverText = null;
     [field: SerializeField] public EquiptItems EquiptItems { get; private set; } = null;
 
-    public PlayerMain player;
+    [SerializeField] private PlayerMain player = null;
+    private List<InventoryItem> Items => player.Inventory.Items;
 
     //  public List<Item> Items;
-    public Items items;
+    [SerializeField] private Items items = null;
 
-    public GameObject SlotsHolder;
+    [SerializeField] private GameObject SlotsHolder = null;
 
-    public int AmountOfSlots = 40;
+    [SerializeField] private int AmountOfSlots = 40;
     private InventorySlot[] Slots;
-    public Button sortAll, sortEatDrink, sortMisc;
+    [SerializeField] private Button sortAll, sortEatDrink, sortMisc;
     private Color selected = new Color(0.5f, 0.5f, 0.5f, 1f), notSelected = new Color(0, 0, 0, 1);
 
     private void Awake() => DragInventory.UsedEvent += UpdateInventory;
@@ -28,12 +29,12 @@ public class InventoryHandler : MonoBehaviour
     private void OnEnable()
     {
         ToggleButtons(sortAll);
-        if (SlotsHolder.transform.childCount < AmountOfSlots)
+        int SlotCount = SlotsHolder.transform.childCount;
+        if (SlotCount < AmountOfSlots)
         {
-            for (int i = SlotsHolder.transform.childCount; i < AmountOfSlots; i++)
+            for (int i = SlotCount; i < AmountOfSlots; i++)
             {
-                InventorySlot slot = Instantiate(SlotPrefab, SlotsHolder.transform);
-                slot.SetId(i);
+                Instantiate(SlotPrefab, SlotsHolder.transform).SetId(i);
             }
             Slots = SlotsHolder.GetComponentsInChildren<InventorySlot>();
         }
@@ -49,15 +50,15 @@ public class InventoryHandler : MonoBehaviour
 
     public void UpdateInventory()
     {
-        player.Inventory.Items.RemoveAll(i => i.Amount < 1);
-        ShowInventory(player.Inventory.Items);
+        Items.RemoveAll(i => i.Amount < 1);
+        ShowInventory(Items);
     }
 
     public void UpdateInventory(ItemTypes parType)
     {
-        player.Inventory.Items.RemoveAll(i => i.Amount < 1);
+        Items.RemoveAll(i => i.Amount < 1);
         List<InventoryItem> sorted = (from item in items.ItemsDict
-                                      join invItem in player.Inventory.Items
+                                      join invItem in Items
                                       on item.ItemId equals invItem.Id
                                       where item.Type == parType
                                       select invItem).ToList();
@@ -73,7 +74,8 @@ public class InventoryHandler : MonoBehaviour
                 slot.Clean();
             }
         }
-        inventoryItems.ForEach(i => Instantiate(ItemPrefab, Slots[i.InvPos].transform).NewItem(this, i, items.GetById(i.Id), inventoryHoverText));
+        inventoryItems.ForEach(i =>
+            Instantiate(ItemPrefab, Slots[i.InvPos].transform).NewItem(this, i, items.GetById(i.Id), inventoryHoverText));
     }
 
     public void ToggleButtons(Button selectedBtn)
@@ -85,19 +87,18 @@ public class InventoryHandler : MonoBehaviour
 
     public void Move(int startSlot, int EndSlot)
     {
-        Debug.Log(startSlot + " " + EndSlot);
-        if (Slots[EndSlot].Empty && !player.Inventory.Items.ExistByPos(EndSlot))
+        if (Slots[EndSlot].Empty && !Items.ExistByPos(EndSlot))
         {
-            player.Inventory.Items.FindByPos(startSlot).InvPos = EndSlot;
+            Items.FindByPos(startSlot).InvPos = EndSlot;
             //UpdateInventory();
         }
     }
 
     public void Move(int startSlot)
     {
-        if (player.Inventory.Items.ExistByPos(startSlot))
+        if (Items.ExistByPos(startSlot))
         {
-            InventoryItem inv = player.Inventory.Items.FindByPos(startSlot);
+            InventoryItem inv = Items.FindByPos(startSlot);
             Debug.Log("Remove item: " + inv.Id);
         }
     }

@@ -7,9 +7,11 @@ public class EnemyPrefabEditor : BasicCharEditor
     private bool nameFold = true;
     private bool StartRace = true;
     private bool healthStats = true;
+    private bool bodyStats = true;
 
     private SerializedProperty NeedFirstName, NeedLastName, RaceList, assingStr,
-        assingCharm, assingEnd, assingDex, assingInt, statRngFactor;
+        assingCharm, assingEnd, assingDex, assingInt, statRngFactor, assingHeight,
+        assingFat, assingMuscle;
 
     private void OnEnable()
     {
@@ -22,6 +24,10 @@ public class EnemyPrefabEditor : BasicCharEditor
         assingDex = serializedObject.FindProperty("assingDex");
         assingInt = serializedObject.FindProperty("assingInt");
         statRngFactor = serializedObject.FindProperty("statRngFactor");
+
+        assingHeight = serializedObject.FindProperty("assingHeight");
+        assingFat = serializedObject.FindProperty("assingFat");
+        assingMuscle = serializedObject.FindProperty("assingMuscle");
     }
 
     public override void OnInspectorGUI()
@@ -89,6 +95,17 @@ public class EnemyPrefabEditor : BasicCharEditor
             EditorGUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
             EditorGUILayout.EndVertical();
+        }
+        bodyStats = EditorGUILayout.Foldout(bodyStats, "Stats", true, EditorStyles.foldout);
+        if (bodyStats)
+        {
+            EditorGUILayout.BeginVertical("Box");
+            TwoBoldLabels("Height", "Fat");
+            EditorGUILayout.BeginHorizontal();
+            assingHeight.intValue = EditorGUILayout.IntSlider(assingHeight.intValue, 0, 500);
+            assingFat.intValue = EditorGUILayout.IntSlider(assingFat.intValue, 0, 200);
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.EndHorizontal();
         }
         GUILayout.Label("Standard editor and end of custom editor", EditorStyles.boldLabel);
         GUILayout.Space(20);

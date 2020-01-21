@@ -1,38 +1,21 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EssenceBallsButtons : MonoBehaviour
+namespace EssenceMenu
 {
-    [SerializeField] private AddBalls addBallsPrefab = null;
-    [SerializeField] private GrowBalls growBallsPrefab = null;
-    [SerializeField] private PlayerMain player;
-    private Essence Masc => player.Essence.Masc;
-    private int lastAmount;
-    private TextMeshProUGUI AddText;
-
-    // Start is called before the first frame update
-    private void OnEnable()
+    public class EssenceBallsButtons : EssenceOrganButtons
     {
-        UpdateButtons();
-    }
+        [SerializeField] private AddBalls addBallsPrefab = null;
+        [SerializeField] private GrowBalls growBallsPrefab = null;
 
-    // Update is called once per frame
-    private void Update()
-    {
-        if (lastAmount != player.SexualOrgans.Balls.Count)
+        protected override void UpdateButtons()
         {
-            UpdateButtons();
+            transform.KillChildren();
+            Instantiate(addBallsPrefab, transform).Setup(player);
+            foreach (Balls b in player.SexualOrgans.Balls)
+            {
+                Instantiate(growBallsPrefab, transform).Setup(player, b);
+            }
+            lastAmount = player.SexualOrgans.Balls.Count;
         }
-    }
-
-    private void UpdateButtons()
-    {
-        transform.KillChildren();
-        Instantiate(addBallsPrefab, transform).Setup(player);
-        foreach (Balls b in player.SexualOrgans.Balls)
-        {
-            Instantiate(growBallsPrefab, transform).Setup(player, b);
-        }
-        lastAmount = player.SexualOrgans.Balls.Count;
     }
 }

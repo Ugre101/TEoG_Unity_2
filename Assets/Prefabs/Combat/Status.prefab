@@ -633,6 +633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicChar: {fileID: 0}
   TextMesh: {fileID: 6354736373336717554}
+  slider: {fileID: 6354736373874061388}
   endSuffix: 1
   suffix: hp
 --- !u!1 &6354736374004864888
@@ -884,6 +885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   basicChar: {fileID: 0}
   TextMesh: {fileID: 6354736373790058386}
+  slider: {fileID: 6354736374753014597}
   endSuffix: 1
   suffix: wp
 --- !u!1 &6354736374780095246

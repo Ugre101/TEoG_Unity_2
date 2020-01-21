@@ -4,22 +4,17 @@ using UnityEngine.UI;
 
 public class BasicSlider : MonoBehaviour
 {
-    [SerializeField]
-    protected BasicChar basicChar;
+    [SerializeField] protected BasicChar basicChar;
 
-    [SerializeField]
-    protected TextMeshProUGUI TextMesh;
+    [SerializeField] protected TextMeshProUGUI TextMesh;
 
-    [SerializeField]
-    protected Slider slider;
+    [SerializeField] protected Slider slider;
 
-    [SerializeField]
-    protected bool endSuffix = false;
+    [SerializeField] protected bool endSuffix = false;
 
-    [SerializeField]
-    protected string suffix = "";
+    [SerializeField] protected string suffix = "";
 
-    private void Awake()
+    protected virtual void Start()
     {
         if (slider == null) { slider = GetComponent<Slider>(); }
         if (TextMesh == null) { TextMesh = GetComponentInChildren<TextMeshProUGUI>(); }
@@ -28,7 +23,7 @@ public class BasicSlider : MonoBehaviour
 
     public virtual void Setup(BasicChar who)
     {
-        enabled = true;
         basicChar = who;
+        enabled = true;
     }
 }

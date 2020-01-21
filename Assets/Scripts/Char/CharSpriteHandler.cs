@@ -2,25 +2,16 @@
 
 public class CharSpriteHandler : MonoBehaviour
 {
-    [SerializeField]
-    private CharSprites sprites = null;
+    [SerializeField] private CharSprites sprites = null;
 
-    [SerializeField]
-    private SpriteRenderer spriteRenderer = null;
-
-    [SerializeField]
-    private BasicChar whom;
+    [SerializeField] private SpriteRenderer spriteRenderer = null;
+    [SerializeField] private BasicChar whom;
 
     private void Start()
     {
-        if (spriteRenderer == null)
-        {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-        }
-        if (whom == null)
-        {
-            whom = GetComponent<BasicChar>();
-        }
+        spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
+        whom = whom != null ? whom : GetComponent<BasicChar>();
+
         spriteRenderer.sprite = sprites.GetSprite(whom);
         whom.RaceSystem.RaceChangeEvent += RaceChange;
         whom.GenderChangeEvent += GenderChange;
@@ -36,5 +27,12 @@ public class CharSpriteHandler : MonoBehaviour
     {
         whom.RaceSystem.RaceChangeEvent -= RaceChange;
         whom.GenderChangeEvent -= GenderChange;
+    }
+
+    private void Height()
+    {
+        float heightRatio = whom.Body.Height.Value / 160f;
+        float newSize = 0.1f * heightRatio;
+        transform.localScale = new Vector3(newSize, newSize);
     }
 }

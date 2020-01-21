@@ -2,30 +2,30 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EssenceMenu : MonoBehaviour
+namespace EssenceMenu
 {
-    [SerializeField] private PlayerMain _player;
-
-    [SerializeField] private Button _autoEssBtn = null;
-
-    [SerializeField] private TextMeshProUGUI autoEssText = null;
-
-    // Start is called before the first frame update
-    private void Start()
+    public class EssenceMenu : MonoBehaviour
     {
-        _player = _player != null ? _player : PlayerMain.GetPlayer;
-        EssenceText();
-        _autoEssBtn.onClick.AddListener(AutoEssToggle);
-    }
+        [SerializeField] private PlayerMain _player;
 
-    public void AutoEssToggle()
-    {
-        _player.ToggleAutoEssence();
-        EssenceText();
-    }
+        [SerializeField] private Button _autoEssBtn = null;
 
-    private void EssenceText()
-    {
-        autoEssText.text = $"Auto essence: {_player.AutoEss}";
+        [SerializeField] private TextMeshProUGUI autoEssText = null;
+
+        // Start is called before the first frame update
+        private void Start()
+        {
+            _player = _player != null ? _player : PlayerMain.GetPlayer;
+            EssenceText();
+            _autoEssBtn.onClick.AddListener(AutoEssToggle);
+        }
+
+        public void AutoEssToggle()
+        {
+            _player.ToggleAutoEssence();
+            EssenceText();
+        }
+
+        private void EssenceText() => autoEssText.text = $"Auto essence: {_player.AutoEss}";
     }
 }

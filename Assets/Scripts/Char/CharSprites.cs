@@ -7,11 +7,10 @@ public class CharSprites : ScriptableObject
 {
     public Sprite GetSprite(BasicChar who) => BestMatch(who).Sprite;
 
-    [SerializeField]
-    private CharSprite defaultSprite = null;
+    [SerializeField] private CharSprite defaultSprite = null;
 
-    [SerializeField]
-    private List<CharSprite> charSprites = new List<CharSprite>();
+    [SerializeField] private List<CharSprite> charSprites = new List<CharSprite>();
+    private System.Random rnd = new System.Random();
 
     private CharSprite BestMatch(BasicChar who)
     {
@@ -21,14 +20,14 @@ public class CharSprites : ScriptableObject
             List<CharSprite> genderMatch = matches.FindAll(c => c.Gender == who.Gender);
             if (genderMatch.Count > 0)
             {
-                return genderMatch[0];
+                return genderMatch[rnd.Next(matches.Count)];
             }
             List<CharSprite> genderTypeMatch = matches.FindAll(c => c.GenderType == who.GenderType);
             if (genderTypeMatch.Count > 0)
             {
-                return genderTypeMatch[0];
+                return genderTypeMatch[rnd.Next(matches.Count)];
             }
-            return matches[0];
+            return matches[rnd.Next(matches.Count)];
         }
         else
         {

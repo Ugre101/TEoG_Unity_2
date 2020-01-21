@@ -8,22 +8,16 @@ namespace Intro
     {
         private PlayerMain Player => PlayerMain.GetPlayer;
 
-        [SerializeField]
-        private Button firstAccept = null, secondAccept = null;
+        [SerializeField] private Button firstAccept = null, secondAccept = null;
 
-        [SerializeField]
-        private TMP_InputField firstName = null, lastName = null;
+        [SerializeField] private TMP_InputField firstName = null, lastName = null;
 
-        [SerializeField]
-        private GameObject charCreator = null, startSettings = null;
+        [SerializeField] private GameObject charCreator = null, startSettings = null;
 
-        public string FirstName => firstName.text;
-        public string LastName => lastName.text;
+        private string FirstName => firstName.text;
+        private string LastName => lastName.text;
 
-        private void OnEnable()
-        {
-            GameManager.CurState = GameState.Intro;
-        }
+        private void OnEnable() => GameManager.CurState = GameState.Intro;
 
         private void Start()
         {
