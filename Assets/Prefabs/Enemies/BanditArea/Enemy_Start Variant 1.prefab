@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: startRaces.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 486675599930588498, guid: dbfaa8a439087dd498cfa9b84d384c3b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 486675599930588502, guid: dbfaa8a439087dd498cfa9b84d384c3b,
         type: 3}
       propertyPath: m_Name
-      value: Enemy_Start
+      value: Enemy_Start Variant 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dbfaa8a439087dd498cfa9b84d384c3b, type: 3}

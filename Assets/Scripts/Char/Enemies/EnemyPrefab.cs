@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [System.Serializable]
 public class EnemyPrefab : BasicChar
@@ -7,6 +8,7 @@ public class EnemyPrefab : BasicChar
     [SerializeField] private bool NeedFirstName = true, NeedLastName = true;
 
     public AssingRace assingRace = new AssingRace();
+    [SerializeField] private List<Races> startRaces = new List<Races>();
 
     [Tooltip("Chosen values get mulitled by random range 0.5f to 1.5f")]
     public Reward reward = new Reward();
