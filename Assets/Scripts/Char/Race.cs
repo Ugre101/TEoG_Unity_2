@@ -6,6 +6,7 @@ public enum Races
     Human,
     Elf,
     Orc,
+    Troll,
     Dwarf,
     Halfling,
     Fairy,

@@ -13,9 +13,7 @@ public class EnemyPrefabProp : PropertyDrawer
         if (GUI.Button(btnRect, "X"))
         {
             property.DeleteCommand();
-            property.DeleteCommand();
         }
         EditorGUI.EndProperty();
-        //   base.OnGUI(position, property, label);
     }
 }

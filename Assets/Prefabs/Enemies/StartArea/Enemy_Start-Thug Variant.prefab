@@ -12,6 +12,71 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy_Start-Thug Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startRaces.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingStr
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[0].Weight
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[0].Race
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[1].Race
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingRace.Options.Array.data[1].Weight
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].races
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].amount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingHeight
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingMuscle
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442159, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -66,47 +131,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: b01ec8e1e54e39644b6a3fa1ef1b5980,
-        type: 3}
-    - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
-        type: 3}
-      propertyPath: assingRace.Options.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
-        type: 3}
-      propertyPath: assingStr
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
-        type: 3}
-      propertyPath: assingRace.Options.Array.data[0].Weight
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
-        type: 3}
-      propertyPath: assingRace.Options.Array.data[0].Race
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
-        type: 3}
-      propertyPath: assingRace.Options.Array.data[1].Race
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
-        type: 3}
-      propertyPath: assingRace.Options.Array.data[1].Weight
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ff97384ec7103546830b3b3d7bc14bb, type: 3}

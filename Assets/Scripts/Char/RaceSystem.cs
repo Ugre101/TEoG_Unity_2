@@ -4,11 +4,9 @@ using UnityEngine;
 [System.Serializable]
 public class RaceSystem
 {
-    [SerializeField]
-    private List<Race> raceList = new List<Race>();
+    [SerializeField] private List<Race> raceList = new List<Race>();
 
-    [SerializeField]
-    private bool dirty = true;
+    [SerializeField] private bool dirty = true;
 
     public bool Dirty
     {
@@ -91,6 +89,7 @@ public class RaceSystem
 
     private void CleanRaces()
     {
+        RaceList.RemoveAll(r => r.Name == Races.Humanoid); // Humanoid is absentnce of race, not a race.
         raceList.RemoveAll(r => r.Amount <= 0);
         raceList.Sort((r1, r2) => r1.Amount.CompareTo(r2.Amount));
         Dirty = false;

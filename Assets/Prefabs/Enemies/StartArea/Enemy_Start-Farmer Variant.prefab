@@ -19,23 +19,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
+      propertyPath: startRaces.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
       propertyPath: assingStr
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: assingCharm
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
-        type: 3}
-      propertyPath: assingEnd
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
+      propertyPath: assingEnd
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
       propertyPath: assingDex
-      value: 5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
@@ -101,6 +106,21 @@ PrefabInstance:
         type: 3}
       propertyPath: assingRace.Options.Array.data[5].Weight
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].races
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].amount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingInt
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}

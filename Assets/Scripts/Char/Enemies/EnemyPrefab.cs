@@ -2,13 +2,25 @@
 using UnityEngine;
 
 [System.Serializable]
+public class StartRace
+{
+    [SerializeField] private Races races;
+    public Races Races => races;
+    [SerializeField] private int amount = 100;
+    public int Amount => amount;
+    public StartRace()
+    {
+        amount = 100;
+    }
+}
+
+[System.Serializable]
 public class EnemyPrefab : BasicChar
 {
     [HideInInspector]
     [SerializeField] private bool NeedFirstName = true, NeedLastName = true;
 
-    public AssingRace assingRace = new AssingRace();
-    [SerializeField] private List<Races> startRaces = new List<Races>();
+    [SerializeField] private List<StartRace> startRaces = new List<StartRace>();
 
     [Tooltip("Chosen values get mulitled by random range 0.5f to 1.5f")]
     public Reward reward = new Reward();
@@ -70,7 +82,7 @@ public class EnemyPrefab : BasicChar
         //    Femi.Gain(200f);
         Essence.Masc.Gain(300f);
         body = new Body(FinalHeight, FinalFat, FinalMuscle);
-        RaceSystem.AddRace(assingRace.GetRace(), 100);
+        startRaces.ForEach(r => RaceSystem.AddRace(r.Races, r.Amount));
         if (NeedFirstName)
         {
             if (GenderType == GenderTypes.Masculine)

@@ -10,7 +10,57 @@ PrefabInstance:
     - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
         type: 3}
       propertyPath: startRaces.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].races
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].amount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: assingStr
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: assingCharm
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: assingDex
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: assingEnd
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: assingInt
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: assingHeight
+      value: 190
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: assingMuscle
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
+        type: 3}
+      propertyPath: assingFat
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 486675599930588498, guid: dbfaa8a439087dd498cfa9b84d384c3b,
         type: 3}
