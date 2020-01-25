@@ -20,12 +20,12 @@ public class CharSprites : ScriptableObject
             List<CharSprite> genderMatch = matches.FindAll(c => c.Gender == who.Gender);
             if (genderMatch.Count > 0)
             {
-                return genderMatch[rnd.Next(matches.Count)];
+                return genderMatch[rnd.Next(genderMatch.Count)];
             }
             List<CharSprite> genderTypeMatch = matches.FindAll(c => c.GenderType == who.GenderType);
             if (genderTypeMatch.Count > 0)
             {
-                return genderTypeMatch[rnd.Next(matches.Count)];
+                return genderTypeMatch[rnd.Next(genderTypeMatch.Count)];
             }
             return matches[rnd.Next(matches.Count)];
         }

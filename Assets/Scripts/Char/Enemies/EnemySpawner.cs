@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private List<Tilemap> dontSpawnOn = new List<Tilemap>();
 
-    [SerializeField] private MapEvents MapEvents => MapEvents.GetMapEvents;
+    private MapEvents MapEvents => MapEvents.GetMapEvents;
 
     [Header("Settings")]
     [SerializeField] private int enemyToAdd = 6;
@@ -32,6 +32,7 @@ public class EnemySpawner : MonoBehaviour
         _currMap = MapEvents.CurrentMap;
         MapEvents.WorldMapChange += DoorChanged;
         CurrentEnemies();
+        Movement.TriggerEnemy += RePosistion;
     }
 
     // Update is called once per frame
@@ -41,9 +42,8 @@ public class EnemySpawner : MonoBehaviour
         else if (transform.childCount < enemyToAdd && _CurrEnemies.Count > 0)
         {
             int index = rnd.Next(_empty.Count);
-            int enemyIndex = rnd.Next(_CurrEnemies.Count);
-            EnemyPrefab enemu = Instantiate(_CurrEnemies[enemyIndex], _empty[index], Quaternion.identity, transform);
-            enemu.name = _CurrEnemies[enemyIndex].name;
+            EnemyPrefab prefab = _CurrEnemies[rnd.Next(_CurrEnemies.Count)];
+            Instantiate(prefab, _empty[index], Quaternion.identity, transform).name = prefab.name;
             _empty.RemoveAt(index);
         }
     }
@@ -64,12 +64,9 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public bool AroundPlayer(Vector3 vector3)
-    {
-        return Vector3.Distance(Player.transform.position, vector3) > distFromPlayer;
-    }
+    public bool AroundPlayer(Vector3 vector3) => Vector3.Distance(Player.transform.position, vector3) > distFromPlayer;
 
-    public void RePosistion(GameObject toRePos)
+    public void RePosistion(BasicChar toRePos)
     {
         int index = rnd.Next(_empty.Count);
         int tries = 0;
@@ -86,9 +83,9 @@ public class EnemySpawner : MonoBehaviour
         _empty.RemoveAt(index);
     }
 
-    private void DoorChanged()
+    private void DoorChanged(Tilemap _currMap)
     {
-        _currMap = MapEvents.CurrentMap;
+        this._currMap = _currMap;
         AvailblePos();
         CurrentEnemies();
         transform.KillChildren();

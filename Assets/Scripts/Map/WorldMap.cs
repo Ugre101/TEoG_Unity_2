@@ -12,8 +12,8 @@ public enum WorldMaps
 public class WorldMap : MonoBehaviour
 {
     private List<Map> maps = new List<Map>();
-
-    [field: SerializeField] public WorldMaps Map { get; private set; } = WorldMaps.StartMap;
+    [SerializeField] private WorldMaps worldMap;
+    public WorldMaps World => worldMap;
 
     public List<Map> Maps
     {

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -6,9 +7,7 @@ public class MapEvents : MonoBehaviour
 {
     public static MapEvents GetMapEvents { get; private set; }
 
-    public delegate void worldMapChange();
-
-    public static event worldMapChange WorldMapChange;
+    public static event Action<Tilemap> WorldMapChange;
 
     private PlayerMain Player => PlayerMain.GetPlayer;
 
@@ -17,7 +16,7 @@ public class MapEvents : MonoBehaviour
     [SerializeField] private Tilemap startMap = null;
 
     public static WorldMaps ActiveMap { get; private set; }
-    private WorldMap CurrentWorld => worldMaps.Find(m => m.Map == ActiveMap);
+    private WorldMap CurrentWorld => worldMaps.Find(m => m.World == ActiveMap);
 
     [SerializeField] private List<WorldMap> worldMaps = new List<WorldMap>();
 
@@ -97,7 +96,7 @@ public class MapEvents : MonoBehaviour
     {
         mapDirty = true;
         CurrentMap = newMap;
-        WorldMapChange?.Invoke();
+        WorldMapChange?.Invoke(CurrentMap);
     }
 
     public void WorldChange(WorldMaps newWorld, Tilemap newMap)

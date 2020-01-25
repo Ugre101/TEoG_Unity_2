@@ -15,6 +15,7 @@ public class CharSpriteHandler : MonoBehaviour
         spriteRenderer.sprite = sprites.GetSprite(whom);
         whom.RaceSystem.RaceChangeEvent += RaceChange;
         whom.GenderChangeEvent += GenderChange;
+        Height();
     }
 
     private void RaceChange() => ChangeSprite();

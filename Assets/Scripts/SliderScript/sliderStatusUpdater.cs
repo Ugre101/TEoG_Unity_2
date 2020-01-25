@@ -16,9 +16,9 @@ public class BasicSlider : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (slider == null) { slider = GetComponent<Slider>(); }
-        if (TextMesh == null) { TextMesh = GetComponentInChildren<TextMeshProUGUI>(); }
-        if (basicChar == null) { basicChar = PlayerMain.GetPlayer; }
+        slider = slider != null ? slider : GetComponent<Slider>();
+        TextMesh = TextMesh != null ? TextMesh : GetComponentInChildren<TextMeshProUGUI>();
+        basicChar = basicChar != null ? basicChar : PlayerMain.GetPlayer;
     }
 
     public virtual void Setup(BasicChar who)

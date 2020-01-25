@@ -3,6 +3,25 @@ using UnityEngine;
 
 public class CanvasMain : MonoBehaviour
 {
+    private static CanvasMain thisCanvasMain;
+
+    public static CanvasMain GetCanvasMain
+    {
+        get
+        {
+            if (thisCanvasMain == null)
+            {
+                thisCanvasMain = GameObject.FindGameObjectWithTag("GameUI").GetComponent<CanvasMain>();
+            }
+            // might seem over kill but it's good to know if something calls getcanvas hundreds of times.
+            if (Debug.isDebugBuild)
+            {
+                Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed canvasMain");
+            }
+            return thisCanvasMain;
+        }
+    }
+
     #region Properties
 
     [SerializeField] private KeyBindings Keys = null;
@@ -18,6 +37,23 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] private CombatMain combatMain = null;
 
     #endregion Properties
+
+    private void Awake()
+    {
+        if (thisCanvasMain == null)
+        {
+            thisCanvasMain = this;
+        }
+        else if (thisCanvasMain != this)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void Start()
+    {
+        Movement.TriggerEnemy += StartCombat;
+    }
 
     private void Update()
     {
@@ -76,7 +112,7 @@ public class CanvasMain : MonoBehaviour
 
     public void Intro()
     {
-        transform.SleepChildren(transform.GetChild(0).transform);
+        transform.SleepChildren(transform.GetChild(0));
         GameManager.CurState = GameState.Intro;
     }
 
@@ -173,41 +209,6 @@ public class CanvasMain : MonoBehaviour
         GameManager.CurState = GameState.Home;
         ToggleBigPanel(Buildings.gameObject);
         // Disable all buildings
-        foreach (Transform building in Buildings.transform)
-        {
-            building.gameObject.SetActive(false);
-        }
-        buildingToEnter.SetActive(true);
-    }
-
-    private void Awake()
-    {
-        if (thisCanvasMain == null)
-        {
-            thisCanvasMain = this;
-        }
-        else if (thisCanvasMain != this)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    private static CanvasMain thisCanvasMain;
-
-    public static CanvasMain GetCanvasMain
-    {
-        get
-        {
-            if (thisCanvasMain == null)
-            {
-                thisCanvasMain = GameObject.FindGameObjectWithTag("GameUI").GetComponent<CanvasMain>();
-            }
-            // might seem over kill but it's good to know if something calls getcanvas hundreds of times.
-            if (Debug.isDebugBuild)
-            {
-                Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed canvasMain");
-            }
-            return thisCanvasMain;
-        }
+        Buildings.transform.SleepChildren(buildingToEnter.transform);
     }
 }

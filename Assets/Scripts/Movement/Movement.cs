@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
@@ -11,15 +12,8 @@ public class Movement : MonoBehaviour
     [Range(0.1f, 2f)]
     [SerializeField] private float bottomOffset = 1f;
 
-    [SerializeField] private CanvasMain canvas = null;
-
-    [SerializeField] private EnemySpawner spawner = null;
-
     // Private
     private Tilemap _map;
-
-    private Tilemap lastMap;
-
     [SerializeField] private GameObject pointer = null;
 
     [SerializeField] private BoxCollider2D _coll = null;
@@ -51,7 +45,6 @@ public class Movement : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        canvas = canvas != null ? canvas : CanvasMain.GetCanvasMain;
         _rb2d = _rb2d != null ? _rb2d : GetComponent<Rigidbody2D>();
         _coll = _coll != null ? _coll : GetComponent<BoxCollider2D>();
 
@@ -59,7 +52,8 @@ public class Movement : MonoBehaviour
         touchSupport = Input.touchSupported;
         mousePresent = Input.mousePresent;
         _map = MapEvents.CurrentMap;
-        MapEvents.WorldMapChange += DoorChanged;
+        MapEvents.WorldMapChange += TilemapLimits;
+        TilemapLimits(MapEvents.CurrentMap);
     }
 
     // Update for player input
@@ -103,11 +97,6 @@ public class Movement : MonoBehaviour
     // FixedUpdate for movement
     private void FixedUpdate()
     {
-        // Clamp player inside tilemap & handle all player movement in one place to ease clamping
-        if (_map != lastMap)
-        {
-            TilemapLimits();
-        }
         if (CurPos != Target && clickedOnce)
         {
             // look at right direction
@@ -118,7 +107,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void TilemapLimits()
+    private void TilemapLimits(Tilemap _map)
     {
         Vector3 minTile = _map.CellToWorld(_map.cellBounds.min);
         Vector3 maxTile = _map.CellToWorld(_map.cellBounds.max);
@@ -127,8 +116,6 @@ public class Movement : MonoBehaviour
 
         _yMin = minTile.y + bottomOffset;
         _yMax = maxTile.y;
-
-        lastMap = _map;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -136,13 +123,9 @@ public class Movement : MonoBehaviour
         if (collision.CompareTag("Enemy"))
         {
             EnemyPrefab _colEnemy = collision.gameObject.GetComponent<EnemyPrefab>();
-            canvas.StartCombat(_colEnemy);
-            if (spawner != null)
-            {
-                spawner.RePosistion(collision.gameObject);
-            }
+            TriggerEnemy?.Invoke(_colEnemy);
         }
     }
 
-    private void DoorChanged() => _map = MapEvents.CurrentMap;
+    public static event Action<BasicChar> TriggerEnemy;
 }
