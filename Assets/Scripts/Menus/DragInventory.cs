@@ -7,8 +7,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 {
     private InventoryItem invItem;
 
-    [SerializeField]
-    private TextMeshProUGUI amountText = null;
+    [SerializeField] private TextMeshProUGUI amountText = null;
 
     public Item Item { get; private set; }
     private int SlotId;
@@ -19,9 +18,20 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Transform Parent;
     private Image GetImage => GetComponent<Image>();
 
+    private bool CanvasBlockRaycast
+    {
+        set => GetComponent<CanvasGroup>().blocksRaycasts = value;
+    }
+
     private int Amount
     {
-        get => invItem != null ? Player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount : 0;
+        get
+        {
+            int amount = Player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount;
+            amountText.text = amount.ToString();
+            return amount;
+        }
+
         set
         {
             amountText.text = value.ToString();
@@ -34,13 +44,13 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private void OnEnable()
     {
         Parent = transform.parent;
-        transform.position = transform.parent.position;
+        transform.position = Parent.position;
     }
 
     public void OnBeginDrag(PointerEventData pointerEvent)
     {
         hoverText.StopHovering();
-        GetComponent<CanvasGroup>().blocksRaycasts = false;
+        CanvasBlockRaycast = false;
         transform.SetParent(Parent.parent);
     }
 
@@ -68,7 +78,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 invHandler.Move(SlotId);
             }
         }
-        GetComponent<CanvasGroup>().blocksRaycasts = true;
+        CanvasBlockRaycast = true;
     }
 
     private void Hovering() => hoverText.Hovering(Item.Title, Item.Desc);

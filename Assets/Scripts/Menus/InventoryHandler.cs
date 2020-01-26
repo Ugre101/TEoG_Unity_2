@@ -100,6 +100,7 @@ public class InventoryHandler : MonoBehaviour
         {
             InventoryItem inv = Items.FindByPos(startSlot);
             Debug.Log("Remove item: " + inv.Id);
+            // trigger accepted destoy
         }
     }
 }
