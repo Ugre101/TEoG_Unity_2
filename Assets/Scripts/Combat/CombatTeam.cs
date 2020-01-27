@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CombatTeam : MonoBehaviour
 {
-    public CanvasMain gameUI;
-    public List<BasicChar> Team;
-    public GameObject TeamContainer;
-    public CombatStatus CombatStatusPrefab;
-    public CombatMain combatMain;
+    [SerializeField] private CanvasMain gameUI = null;
+    private List<BasicChar> Team = new List<BasicChar>();
+    [SerializeField] private GameObject TeamContainer;
+    [SerializeField] private CombatStatus CombatStatusPrefab;
+    [SerializeField] private CombatMain combatMain;
     private List<CombatStatus> combatStatuses = new List<CombatStatus>();
 
     // if nobody is alive return true else false
@@ -28,8 +28,7 @@ public class CombatTeam : MonoBehaviour
         {
             foreach (BasicChar combatant in Team)
             {
-                CombatStatus StatusToAdd = Instantiate(CombatStatusPrefab, TeamContainer.transform);
-                StatusToAdd.Setup(combatant, this, combatMain);
+                Instantiate(CombatStatusPrefab, TeamContainer.transform).Setup(combatant, this, combatMain);
             }
             combatStatuses = new List<CombatStatus>(TeamContainer.GetComponentsInChildren<CombatStatus>());
         }

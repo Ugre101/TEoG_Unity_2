@@ -16,7 +16,7 @@ public class CombatMain : MonoBehaviour
 
     [SerializeField] private GameObject skillButtonsContainer = null;
 
-    [SerializeField] private List<CombatButton> skillButtons = null;
+    private List<CombatButton> skillButtons = new List<CombatButton>();
 
     [SerializeField] private SkillBook skillBook = null;
 
@@ -67,7 +67,6 @@ public class CombatMain : MonoBehaviour
     private void Start()
     {
         skillButtons = new List<CombatButton>(skillButtonsContainer.GetComponentsInChildren<CombatButton>());
-        // every time someone dies check if a team losses
         if (!skillButtons.Exists(s => s.Skill != null))
         {
             for (int i = 0; i < Mathf.Min(Player.Skills.Count, skillButtons.Count - 1); i++)
@@ -77,16 +76,8 @@ public class CombatMain : MonoBehaviour
         }
     }
 
-    private void ResetSkills(List<BasicChar> basicChars)
-    {
-        foreach (BasicChar bc in basicChars)
-        {
-            foreach (UserSkill us in skillBook.Dict.OwnedSkills(bc.Skills))
-            {
-                us.ResetCoolDown();
-            }
-        }
-    }
+    private void ResetSkills(List<BasicChar> basicChars) =>
+        basicChars.ForEach(bc => skillBook.Dict.OwnedSkills(bc.Skills).ForEach(us => us.ResetCoolDown()));
 
     public void SetUpCombat(List<BasicChar> enemies)
     {
@@ -118,28 +109,16 @@ public class CombatMain : MonoBehaviour
     public void EnemyAI(BasicChar Enemy)
     {
         float str = Enemy.Stats.Str, charm = Enemy.Stats.Cha;
-        float dmg = AttackMulti(charm < str ? str : charm);
         List<string> strAttack = new List<string> { "Hits you", "Kicks you", "Grapples you down to the ground" };
         List<string> charmAttack = new List<string> { $"Teases you" };
-        string randomStr = strAttack[Random.Range(0, strAttack.Count)] + $", causing {dmg} dmg.";
-        string randomCharm = charmAttack[Random.Range(0, charmAttack.Count)] + $", weakening your will by {dmg}.";
-        string text = charm < str ? randomStr : randomCharm;
-        // Simple after player actions
         if (charm < str)
         {
-            if (Player.HP.TakeDmg(dmg))
-            {
-                // lose battle
-            }
+            _EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicAttack).skill.Action(Enemy, player);
         }
         else
         {
-            if (Player.WP.TakeDmg(dmg))
-            {
-                // lose battle
-            }
+            _EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicTease).skill.Action(Enemy, player);
         }
-        _EnemyTeamAttacks += text + "\n";
     }
 
     public void AddToCombatLog(string addText)
@@ -148,28 +127,18 @@ public class CombatMain : MonoBehaviour
         if (_textbox != null)
         {
             _textbox.text = null;
-            foreach (string t in _battleLog)
-            {
-                _textbox.text += t;
-            }
+            _battleLog.ForEach(s => _textbox.text += s);
         }
-    }
-
-    private float AttackMulti(float dmg)
-    {
-        float finalDMG = dmg;
-        finalDMG *= Random.Range(1f, 3f);
-        return Mathf.Round(finalDMG);
     }
 
     private void TurnManager()
     {
         // PlayerTeam
-        foreach (BasicChar e in enemyTeamChars)
-        {
-            EnemyAI(e);
-        }
-        string textToAdd = $"Turn: {_turn}\n" + _PlayerTeamAttacks + _EnemyTeamAttacks + "\n";
+
+        // EnemyTeam
+        enemyTeamChars.ForEach(e => EnemyAI(e));
+        // Formay textlog
+        string textToAdd = $"Turn: {_turn}\nPlayer team\n" + _PlayerTeamAttacks + "\nEnemy team\n" + _EnemyTeamAttacks + "\n";
         AddToCombatLog(textToAdd);
         _turn++;
         _PlayerTeamAttacks = null;
@@ -177,27 +146,12 @@ public class CombatMain : MonoBehaviour
         // Reset cooldoowns
         RefreshCooldown(playerTeamChars);
         RefreshCooldown(enemyTeamChars);
-        foreach (CombatButton cb in skillButtons.FindAll(sb => sb.Skill != null))
-        {
-            cb.CoolDownHandler();
-        }
+        skillButtons.FindAll(sb => sb.Skill != null).ForEach(cb => cb.CoolDownHandler());
         // Reset newTarget
         SelectNewTarget(null);
     }
 
-    private void RefreshCooldown(List<BasicChar> basicChars)
-    {
-        foreach (BasicChar c in basicChars)
-        {
-            foreach (UserSkill s in skillBook.Dict.OwnedSkills(c.Skills))
-            {
-                if (s.skill.HasCoolDown ? !s.Ready : false)
-                {
-                    s.RefreshCoolDown();
-                }
-            }
-        }
-    }
+    private void RefreshCooldown(List<BasicChar> basicChars) => basicChars.ForEach(c => skillBook.Dict.OwnedSkills(c.Skills).FindAll(s => s.skill.HasCoolDown).FindAll(s => !s.Ready).ForEach(s => s.RefreshCoolDown()));
 
     public void WinBattle()
     {

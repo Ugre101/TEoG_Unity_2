@@ -13,17 +13,19 @@ public class BasicSlider : MonoBehaviour
     [SerializeField] protected bool endSuffix = false;
 
     [SerializeField] protected string suffix = "";
+    protected virtual Health health { get; }
 
     protected virtual void Start()
     {
         slider = slider != null ? slider : GetComponent<Slider>();
         TextMesh = TextMesh != null ? TextMesh : GetComponentInChildren<TextMeshProUGUI>();
-        basicChar = basicChar != null ? basicChar : PlayerMain.GetPlayer;
     }
 
-    public virtual void Setup(BasicChar who)
+    public virtual void Setup(BasicChar who) => basicChar = who;
+
+    protected virtual void ChangeHealth()
     {
-        basicChar = who;
-        enabled = true;
+        slider.value = health.SliderValue;
+        TextMesh.text = health.Status + (endSuffix ? suffix : "");
     }
 }

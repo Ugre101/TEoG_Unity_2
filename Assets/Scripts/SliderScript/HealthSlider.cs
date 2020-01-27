@@ -1,47 +1,27 @@
 ﻿public class HealthSlider : BasicSlider
 {
-    private void ChangeHealth()
-    {
-        slider.value = basicChar.HP.SliderValue;
-        if (TextMesh != null)
-        {
-            TextMesh.text = basicChar.HP.Status + (endSuffix ? suffix : "");
-        }
-    }
+    protected override Health health => basicChar.HP;
 
     private void OnDisable()
     {
         if (basicChar != null)
         {
-            basicChar.HP.UpdateSliderEvent -= ChangeHealth;
+            health.UpdateSliderEvent -= ChangeHealth;
         }
     }
 
-    private void OnEnable()
+    private void OnDestroy()
     {
         if (basicChar != null)
         {
-            basicChar.HP.UpdateSliderEvent += ChangeHealth;
-            ChangeHealth();
-        }
-    }
-
-    protected override void Start()
-    {
-        base.Start();
-        if (basicChar != null)
-        {
-            basicChar.HP.UpdateSliderEvent += ChangeHealth;
-            ChangeHealth();
+            health.UpdateSliderEvent -= ChangeHealth;
         }
     }
 
     public override void Setup(BasicChar who)
     {
         base.Setup(who);
+        health.UpdateSliderEvent += ChangeHealth;
         ChangeHealth();
-        // Remove first to ensure no duplicate subs
-        basicChar.HP.UpdateSliderEvent -= ChangeHealth;
-        basicChar.HP.UpdateSliderEvent += ChangeHealth;
     }
 }

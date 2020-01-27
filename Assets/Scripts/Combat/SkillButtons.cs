@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class SkillButtons : MonoBehaviour
 {
-    public GameObject hoverBlock, buttons;
-    public TextMeshProUGUI hoverText;
-    public ChooseSkillMain ChooseSkillMain;
+    [SerializeField] private GameObject hoverBlock, buttons;
+    [SerializeField] private TextMeshProUGUI hoverText;
+    [SerializeField] private ChooseSkillMain ChooseSkillMain;
 
     public void ToogleChooseSkill(CombatButton target)
     {

@@ -13,8 +13,7 @@ public enum SkillId
 [System.Serializable]
 public class SkillDict
 {
-    [SerializeField]
-    private List<BasicSkill> skills = new List<BasicSkill>();
+    [SerializeField] private List<BasicSkill> skills = new List<BasicSkill>();
 
     public List<BasicSkill> BasicSkills => skills;
 
@@ -27,11 +26,8 @@ public class SkillDict
         return new UserSkill(BasicSkills.Find(s => s.Id == parId));
     }
 
-    public List<UserSkill> OwnedSkills(List<Skill> skills)
-    {
-        return (from basicSkill in BasicSkills
-                join skill in skills
-                on basicSkill.Id equals skill.Id
-                select new UserSkill(basicSkill)).ToList();
-    }
+    public List<UserSkill> OwnedSkills(List<Skill> skills) => (from basicSkill in BasicSkills
+                                                               from skill in skills
+                                                               where Equals(basicSkill.Id, skill.Id)
+                                                               select new UserSkill(basicSkill)).ToList();
 }

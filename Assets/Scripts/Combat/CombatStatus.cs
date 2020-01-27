@@ -4,27 +4,21 @@ using UnityEngine.UI;
 
 public class CombatStatus : MonoBehaviour
 {
-    public BasicChar whom;
+    private BasicChar whom;
     public bool Dead { get; private set; } = false;
 
-    [SerializeField]
-    private TextMeshProUGUI title = null;
+    [SerializeField] private TextMeshProUGUI title = null;
 
-    [SerializeField]
-    private HealthSlider healthSlider = null;
+    [SerializeField] private HealthSlider healthSlider = null;
 
-    [SerializeField]
-    private WillSlider willSlider = null;
+    [SerializeField] private WillSlider willSlider = null;
 
-    [SerializeField]
-    private Button btn = null;
+    [SerializeField] private Button btn = null;
 
-    [SerializeField]
-    private GameObject frame = null;
+    [SerializeField] private GameObject frame = null;
 
     private CombatTeam team = null;
 
-    [SerializeField]
     private CombatMain combatMain = null;
 
     public void Setup(BasicChar who, CombatTeam combatTeam, CombatMain main)
