@@ -5,17 +5,13 @@ using UnityEngine.UI;
 
 public class QuestMiniBtn : MonoBehaviour
 {
-    [SerializeField]
-    private Image icon = null;
+    [SerializeField] private Image icon = null;
 
-    [SerializeField]
-    private TextMeshProUGUI title = null;
+    [SerializeField] private TextMeshProUGUI title = null;
 
-    [SerializeField]
-    private TextMeshProUGUI desc = null;
+    [SerializeField] private TextMeshProUGUI desc = null;
 
-    [SerializeField]
-    private Button btn;
+    [SerializeField] private Button btn;
 
     private BasicQuest quest;
     private BigQuest bigQuest;

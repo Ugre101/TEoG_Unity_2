@@ -9,8 +9,5 @@ public class InventorySlot : MonoBehaviour
 
     public int Id { get; private set; }
 
-    public void Clean()
-    {
-        transform.KillChildren();
-    }
+    public void Clean() => transform.KillChildren();
 }

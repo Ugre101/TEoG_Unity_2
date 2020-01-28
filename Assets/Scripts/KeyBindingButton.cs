@@ -25,17 +25,29 @@ public class KeyBindingButton : MonoBehaviour
         SpawnKeyBindings.Affected += IsAffected;
     }
 
+    public void SetKeyText(KeyCode keyCode, bool alt)
+    {
+        if (alt)
+        {
+            curAltKey.text = keyCode.ToString();
+        }
+        else
+        {
+            curKey.text = keyCode.ToString();
+        }
+    }
+
     private void IsAffected(KeyBind btn)
     {
         if (btn == keyBind)
         {
             if (keyBind.AltKey == KeyCode.None)
             {
-                curAltKey.text = string.Empty;
+                curAltKey.text = KeyCode.None.ToString();
             }
             else if (keyBind.Key == KeyCode.None)
             {
-                curKey.text = string.Empty;
+                curKey.text = KeyCode.None.ToString();
             }
         }
     }

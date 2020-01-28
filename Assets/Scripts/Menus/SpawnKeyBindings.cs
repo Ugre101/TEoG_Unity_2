@@ -63,6 +63,7 @@ public class SpawnKeyBindings : MonoBehaviour
             yield return null;
         }
         KeyBind effected = AltKey ? keyBindings.AltReBind(selectedKey, newKey) : keyBindings.ReBind(selectedKey, newKey); ;
+        selectedBtn.SetKeyText(newKey, AltKey);
         if (effected != null)
         {
             Affected?.Invoke(effected);

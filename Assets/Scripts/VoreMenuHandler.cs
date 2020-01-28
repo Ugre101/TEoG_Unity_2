@@ -69,11 +69,7 @@ namespace Vore
         }
 
         private void SetupPrey(VoreBasic voreOrgan) => voreOrgan.Preys.ForEach(p =>
-             {
-                 DisplayVorePrey dv = Instantiate(vorePrey, preyContainer);
-                 Button preyBtn = dv.Setup(p, voreOrgan.VoreContainers);
-                 preyBtn.onClick.AddListener(() => ClickPrey(p));
-             });
+        Instantiate(vorePrey, preyContainer).Setup(p, voreOrgan.VoreContainers).onClick.AddListener(() => ClickPrey(p)));
 
         private void ClickPrey(ThePrey prey)
         {
