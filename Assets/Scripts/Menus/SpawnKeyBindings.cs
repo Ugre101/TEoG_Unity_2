@@ -1,17 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnKeyBindings : MonoBehaviour
 {
-    [SerializeField]
-    private KeyBindingButton prefab = null;
+    [SerializeField] private KeyBindingButton prefab = null;
 
-    [SerializeField]
-    private KeyBindings keyBindings = null;
+    [SerializeField] private KeyBindings keyBindings = null;
 
-    [SerializeField]
-    private Transform spawnLocation = null;
+    [SerializeField] private Transform spawnLocation = null;
 
     private KeyBindingButton selectedBtn;
     private KeyBind selectedKey;
@@ -21,24 +19,14 @@ public class SpawnKeyBindings : MonoBehaviour
     private readonly List<KeyBindingButton> bindingButtons = new List<KeyBindingButton>();
 
     // Start is called before the first frame update
-    private void Start()
-    {
-        keyBindings.Keys.ForEach(k => SpawnButton(k));
-    }
+    private void Start() => keyBindings.Keys.ForEach(k => SpawnButton(k));
 
-    private void OnEnable()
-    {
-        waitingForKey = false;
-    }
+    private void OnEnable() => waitingForKey = false;
 
     private void SpawnButton(KeyBind parBind)
     {
         KeyBindingButton btn = Instantiate(prefab, spawnLocation);
-        btn.Title.text = parBind.Title;
-        btn.CurKey.text = parBind.Key.ToString();
-        btn.CurAltKey.text = parBind.AltKey.ToString();
-        btn.KeyBtn.onClick.AddListener(() => WaitFor(parBind, false, btn));
-        btn.AltKeyBtn.onClick.AddListener(() => WaitFor(parBind, true, btn));
+        btn.Setup(parBind, delegate { WaitFor(parBind, false, btn); }, delegate { WaitFor(parBind, true, btn); });
         bindingButtons.Add(btn);
     }
 
@@ -65,6 +53,8 @@ public class SpawnKeyBindings : MonoBehaviour
         }
     }
 
+    public static Action<KeyBind> Affected;
+
     private IEnumerator GetKey()
     {
         GameManager.KeyBindsActive = false;
@@ -72,24 +62,12 @@ public class SpawnKeyBindings : MonoBehaviour
         {
             yield return null;
         }
-        if (AltKey)
+        KeyBind effected = AltKey ? keyBindings.AltReBind(selectedKey, newKey) : keyBindings.ReBind(selectedKey, newKey); ;
+        if (effected != null)
         {
-            KeyBind effected = keyBindings.AltReBind(selectedKey, newKey);
-            if (effected != null)
-            {
-                bindingButtons.Find(bb => bb.Title.text.Equals(effected.Title)).CurAltKey.text = KeyCode.None.ToString();
-            }
-            selectedBtn.CurAltKey.text = newKey.ToString();
+            Affected?.Invoke(effected);
         }
-        else
-        {
-            KeyBind effected = keyBindings.ReBind(selectedKey, newKey);
-            if (effected != null)
-            {
-                bindingButtons.Find(bb => bb.Title.text.Equals(effected.Title)).CurKey.text = KeyCode.None.ToString();
-            }
-            selectedBtn.CurKey.text = newKey.ToString();
-        }
+
         GameManager.KeyBindsActive = true;
     }
 }

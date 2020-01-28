@@ -4,21 +4,20 @@ using UnityEngine.UI;
 
 public class VoreToggleBtn : MonoBehaviour
 {
-    public PlayerMain player;
-    private Button btn;
-    private TextMeshProUGUI text;
+    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private Button btn = null;
+    [SerializeField] private TextMeshProUGUI text = null;
+
+    private void BtnText(bool active) => text.text = $"Vore: {active}";
 
     // Start is called before the first frame update
     private void Start()
     {
-        btn = GetComponent<Button>();
+        btn = btn != null ? btn : GetComponent<Button>();
         btn.onClick.AddListener(ToggleVore);
-        text = GetComponentInChildren<TextMeshProUGUI>();
-        text.text = $"Vore: {player.Vore.Active}";
+        text = text != null ? text : GetComponentInChildren<TextMeshProUGUI>();
+        BtnText(player.Vore.Active);
     }
 
-    private void ToggleVore()
-    {
-        text.text = $"Vore: {player.Vore.ToogleVore}";
-    }
+    private void ToggleVore() => BtnText(player.Vore.ToogleVore);
 }

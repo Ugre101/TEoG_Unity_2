@@ -4,14 +4,11 @@ using UnityEngine;
 
 public class SaveSrollListControl : MonoBehaviour
 {
-    [SerializeField]
-    private LoadButton exload = null;
+    [SerializeField] private LoadButton exload = null;
 
-    [SerializeField]
-    private GameObject container = null;
+    [SerializeField] private GameObject container = null;
 
-    [SerializeField]
-    private TimedPopupText timedPopup = null;
+    [SerializeField] private TimedPopupText timedPopup = null;
 
     private DirectoryInfo _dirInfo;
     private FileInfo[] _fileInfo;
@@ -28,24 +25,18 @@ public class SaveSrollListControl : MonoBehaviour
 
     public void RefreshSaveList()
     {
-        _fileInfo = _dirInfo.GetFiles("*.json").
-            OrderByDescending(f => f.LastWriteTime).ToArray();
+        _fileInfo = _dirInfo.GetFiles("*.json").OrderByDescending(f => f.LastWriteTime).ToArray();
         // Destroy buttons
-        if (transform.childCount > 0)
-        {
-            container.transform.KillChildren();
-        }
+        container.transform.KillChildren();
         // Add buttons
         foreach (FileInfo f in _fileInfo)
         {
-            LoadButton newButton = Instantiate(exload, container.transform);
-            newButton.Setup(f);
+            Instantiate(exload, container.transform).Setup(f);
         }
     }
 
     public void Failed()
     {
-        TimedPopupText popupText = Instantiate(timedPopup, transform);
-        popupText.Setup("Failed to load...");
+        Instantiate(timedPopup, transform).Setup("Failed to load...");
     }
 }

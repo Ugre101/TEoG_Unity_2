@@ -4,13 +4,11 @@ using UnityEngine;
 [System.Serializable]
 public class Organs
 {
-    [SerializeField]
-    private List<Dick> dicks = new List<Dick>();
+    [SerializeField] private List<Dick> dicks = new List<Dick>();
 
     public List<Dick> Dicks => dicks;
 
-    [SerializeField]
-    private List<Balls> balls = new List<Balls>();
+    [SerializeField] private List<Balls> balls = new List<Balls>();
 
     public List<Balls> Balls => balls;
 
@@ -18,13 +16,11 @@ public class Organs
 
     public string CumStatus => $"{Mathf.Round(Balls.CumTotal())}";
 
-    [SerializeField]
-    private List<Boobs> boobs = new List<Boobs>();
+    [SerializeField] private List<Boobs> boobs = new List<Boobs>();
 
     public List<Boobs> Boobs => boobs;
 
-    [SerializeField]
-    private bool lactating = false;
+    [SerializeField] private bool lactating = false;
 
     public bool Lactating => lactating;
 
@@ -32,8 +28,7 @@ public class Organs
 
     public string MilkStatus => $"{Mathf.Round(Boobs.MilkTotal() / 1000)}";
 
-    [SerializeField]
-    private List<Vagina> vaginas = new List<Vagina>();
+    [SerializeField] private List<Vagina> vaginas = new List<Vagina>();
 
     public List<Vagina> Vaginas => vaginas;
 }

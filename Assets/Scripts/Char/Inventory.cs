@@ -7,15 +7,13 @@ public class Inventory
     // Base amount
     private readonly int baseAmount = 40;
 
-    [SerializeField]
-    private int bonusAmount = 0;
+    [SerializeField] private int bonusAmount = 0;
 
     public void SetBonusAmount(int amount) => bonusAmount = amount;
 
     public int SlotsAmount => baseAmount + bonusAmount;
 
-    [SerializeField]
-    private List<InventoryItem> items = new List<InventoryItem>();
+    [SerializeField] private List<InventoryItem> items = new List<InventoryItem>();
 
     public List<InventoryItem> Items => items;
 
@@ -27,8 +25,7 @@ public class Inventory
         }
         else if (items.Count <= SlotsAmount)
         {
-            InventoryItem newItem = new InventoryItem(theitem, FirstEmpty());
-            Items.Add(newItem);
+            Items.Add(new InventoryItem(theitem, FirstEmpty()));
         }
         else
         {

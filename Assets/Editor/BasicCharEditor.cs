@@ -14,7 +14,7 @@ public class BasicCharEditor : Editor
         GUILayout.Label(basicChar.Identity.FullName);
         GUILayout.BeginHorizontal();
         GUILayout.Label(basicChar.Gender.ToString());
-        GUILayout.Label(basicChar.Race);
+        GUILayout.Label(basicChar.Race(true));
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
         GUILayout.BeginHorizontal();

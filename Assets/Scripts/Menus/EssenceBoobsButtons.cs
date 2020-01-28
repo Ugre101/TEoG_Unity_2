@@ -15,7 +15,6 @@ namespace EssenceMenu
             {
                 Instantiate(growBoobsPrefab, transform).Setup(player, b);
             }
-            lastAmount = player.SexualOrgans.Boobs.Count;
         }
     }
 }

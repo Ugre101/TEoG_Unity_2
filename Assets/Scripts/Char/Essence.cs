@@ -1,14 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class Essence
 {
-    [SerializeField]
-    private float _amount;
+    [SerializeField] private float _amount;
 
     public float Amount => Mathf.Floor(_amount);
-    public string StringAmount => _amount > 999 ? Mathf.Round(_amount / 1000) + "k" : _amount.ToString();
+    public string StringAmount => _amount > 999 ? Math.Round(_amount / 1000,1) + "k" : _amount.ToString();
 
     public Essence() => _amount = 0;
 
@@ -27,8 +27,6 @@ public class Essence
         EssenceSliderEvent?.Invoke();
         return lose;
     }
-
-    public void ManualUpdate() => EssenceSliderEvent?.Invoke();
 
     public delegate void EssenceSlider();
 
@@ -51,15 +49,9 @@ public static class EssenceExtension
         return returnVal;
     }
 
-    public static bool CanDrainMasc(this BasicChar who)
-    {
-        return who.Essence.Masc.Amount > 0 || who.SexualOrgans.Balls.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
-    }
+    public static bool CanDrainMasc(this BasicChar who) => who.Essence.Masc.Amount > 0 || who.SexualOrgans.Balls.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
 
-    public static bool CanDrainFemi(this BasicChar who)
-    {
-        return who.Essence.Femi.Amount > 0 || who.SexualOrgans.Boobs.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
-    }
+    public static bool CanDrainFemi(this BasicChar who) => who.Essence.Femi.Amount > 0 || who.SexualOrgans.Boobs.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
 
     public static float LoseMasc(this BasicChar who, float mascToLose)
     {

@@ -7,8 +7,8 @@
 
         public void Setup(PlayerMain player, Boobs boobs)
         {
-            BaseSetup(player);
             this.boobs = boobs;
+            BaseSetup(player);
         }
 
         protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(boobs.Size)} {boobs.Cost}Femi";

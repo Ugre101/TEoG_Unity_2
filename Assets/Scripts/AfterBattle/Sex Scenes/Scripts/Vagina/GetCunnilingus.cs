@@ -5,7 +5,7 @@ public class GetCunnilingus : SexScenes
 {
     public override string StartScene(PlayerMain player, BasicChar other)
     {
-        return $"Your foe lays on their back, chest heaving with exhaustion from the recent fight. You make your way up {other.Identity.FirstName}'s body, licking your lips in anticipation. Squatting above their head, you line your crotch up with their mouth. Grabbing their head, you grind their face against your {player.SexualOrgans.Vaginas.Biggest().Race} pussy, until they start eating you out with {other.HisHer()} {other.Race.ToLower()} tounge.";
+        return $"Your foe lays on their back, chest heaving with exhaustion from the recent fight. You make your way up {other.Identity.FirstName}'s body, licking your lips in anticipation. Squatting above their head, you line your crotch up with their mouth. Grabbing their head, you grind their face against your {player.SexualOrgans.Vaginas.Biggest().Race} pussy, until they start eating you out with {other.HisHer()} {other.Race(true)} tounge.";
     }
 
     public override string ContinueScene(PlayerMain player, BasicChar other)

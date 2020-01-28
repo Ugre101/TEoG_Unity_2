@@ -7,8 +7,8 @@
 
         public void Setup(PlayerMain player, Dick dick)
         {
-            BaseSetup(player);
             this.dick = dick;
+            BaseSetup(player);
         }
 
         protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(dick.Size)} {dick.Cost}Masc";

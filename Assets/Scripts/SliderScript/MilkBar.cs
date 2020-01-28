@@ -16,10 +16,10 @@
     public override void Setup()
     {
         SexualFluid.FluidSlider += MilkChange;
-        if (player.SexualOrgans.Lactating && player.SexualOrgans.Boobs.Count > 0)
+        if (player.SexualOrgans.Lactating && player.SexualOrgans.HaveBoobs())
         {
             slider.value = player.SexualOrgans.MilkSlider;
-            player.SexualOrgans.Boobs[0].Fluid.ManualSlider();
+            MilkChange();
         }
     }
 

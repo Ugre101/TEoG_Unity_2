@@ -854,11 +854,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93775c956f9a554469c38e8e6d584466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Title>k__BackingField: {fileID: 9098137614804926794}
-  <CurKey>k__BackingField: {fileID: 2716146893834538286}
-  <CurAltKey>k__BackingField: {fileID: 1442834436689591504}
-  <KeyBtn>k__BackingField: {fileID: 9035449105157834931}
-  <AltKeyBtn>k__BackingField: {fileID: 2394778440007193253}
+  title: {fileID: 9098137614804926794}
+  curKey: {fileID: 2716146893834538286}
+  curAltKey: {fileID: 1442834436689591504}
+  keyBtn: {fileID: 9035449105157834931}
+  altKeyBtn: {fileID: 2394778440007193253}
 --- !u!114 &1502337152541510340
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -119,7 +120,9 @@ public class Health : Stat
 
     public float SliderValue => current / Value;
 
-    public string Status => $"{Mathf.FloorToInt(current)} / {Value}";
+    public string Status => current < 999 ?
+        $"{Mathf.FloorToInt(current)} / {Value}"
+        : $"{Math.Round(current / 1000, 1)}k / {Math.Round((float)Value / 1000, 1)}k";
 
     public delegate void UpdateSlider();
 

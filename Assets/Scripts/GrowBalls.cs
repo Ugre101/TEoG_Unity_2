@@ -7,8 +7,8 @@
 
         public void Setup(PlayerMain player, Balls balls)
         {
-            BaseSetup(player);
             this.balls = balls;
+            BaseSetup(player);
         }
 
         protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(balls.Size)} {balls.Cost}Masc";

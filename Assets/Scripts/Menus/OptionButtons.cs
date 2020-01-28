@@ -6,18 +6,17 @@ using UnityEngine.UI;
 public class OptionButtons : MonoBehaviour
 {
     [Header("Pixel perfect")]
-    public PixelPerfectCamera pixelPerfectCamera;
+    [SerializeField] private PixelPerfectCamera pixelPerfectCamera = null;
 
-    public Button pixelCameraButton;
+    [SerializeField] private Button pixelCameraButton = null;
     private bool pixelToggle = false;
 
-    [SerializeField]
-    private TextMeshProUGUI pixelText;
+    [SerializeField] private TextMeshProUGUI pixelText;
 
     [Header("Imperial")]
-    public Button impButton;
+    [SerializeField] private Button impButton = null;
 
-    private TextMeshProUGUI impText;
+    [SerializeField] private TextMeshProUGUI impText = null;
 
     // Start is called before the first frame update
     private void Start()
@@ -30,20 +29,14 @@ public class OptionButtons : MonoBehaviour
         if (pixelCameraButton != null && pixelPerfectCamera != null)
         {
             pixelCameraButton.onClick.AddListener(TogglePixelCamera);
-            if (pixelText == null)
-            {
-                pixelText = pixelCameraButton.GetComponentInChildren<TextMeshProUGUI>();
-            }
+            pixelText = pixelText != null ? pixelText : pixelCameraButton.GetComponentInChildren<TextMeshProUGUI>();
             pixelText.text = $"Pixelperfect: {pixelToggle}";
         }
         if (impButton != null)
         {
             impButton.onClick.AddListener(ToggleImp);
-            impText = impButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (impText != null)
-            {
-                impText.text = $"Imperial: {Settings.Imperial}";
-            }
+            impText = impText != null ? impText : impButton.GetComponentInChildren<TextMeshProUGUI>();
+            impText.text = $"Imperial: {Settings.Imperial}";
         }
     }
 
@@ -52,19 +45,13 @@ public class OptionButtons : MonoBehaviour
         pixelToggle = pixelToggle ? false : true;
         PlayerPrefs.SetInt("pixelToggle", pixelToggle ? 1 : 0);
         pixelPerfectCamera.enabled = pixelToggle;
-        if (pixelText != null)
-        {
-            pixelText.text = $"Pixelperfect: {pixelToggle}";
-        }
+        pixelText.text = $"Pixelperfect: {pixelToggle}";
     }
 
     private void ToggleImp()
     {
         Settings.ToogleImp();
         PlayerPrefs.SetInt("Imperial", Settings.Imperial ? 1 : 0);
-        if (impText != null)
-        {
-            impText.text = $"Imperial: {Settings.Imperial}";
-        }
+        impText.text = $"Imperial: {Settings.Imperial}";
     }
 }

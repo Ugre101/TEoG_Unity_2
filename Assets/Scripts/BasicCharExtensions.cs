@@ -3,6 +3,10 @@ using UnityEngine;
 
 public static class BasicCharExtensions
 {
+    public static string Race(this BasicChar who, bool capital = false) => capital
+        ? who.RaceSystem.CurrentRace().ToString()
+        : who.RaceSystem.CurrentRace().ToString().ToLower();
+
     public static string Height(this BasicChar who) => Settings.MorInch(who.Body.Height.Value);
 
     public static string Weight(this BasicChar who) => Settings.KgorP(who.Body.Weight);
@@ -10,7 +14,7 @@ public static class BasicCharExtensions
     public static string Summary(this BasicChar who)
     {
         // string title = who.Identity.FullName;
-        string desc = $"A {who.Height()} tall {who.Race} {who.Gender.ToString()}.";
+        string desc = $"A {who.Height()} tall {who.Race()} {who.Gender.ToString()}.";
         // string stats = $"{who.Age.AgeYears}years old\nWeight: {Weight(who)}\nHeight: {Height(who)}";
         return desc;
     }
@@ -55,7 +59,6 @@ public static class BasicCharExtensions
         }
         basicChar.Body.Fat.LoseFlat(fatBurnRate);
         ReGainFluidsTick(basicChar);
-
     }
 
     private static void ReGainFluidsTick(BasicChar basicChar)
@@ -63,17 +66,11 @@ public static class BasicCharExtensions
         Organs so = basicChar.SexualOrgans;
         if (so.Balls.Count > 0)
         {
-            foreach (Balls ball in so.Balls)
-            {
-                ball.Fluid.ReFill();
-            }
+            so.Balls.ForEach(b => b.Fluid.ReFill());
         }
         if (so.Lactating)
         {
-            foreach (Boobs boob in so.Boobs)
-            {
-                boob.Fluid.ReFill();
-            }
+            so.Boobs.ForEach(b => b.Fluid.ReFill());
         }
     }
 }

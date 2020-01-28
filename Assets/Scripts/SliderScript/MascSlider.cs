@@ -8,7 +8,7 @@ public class MascSlider : EssenceSlider
     {
         base.Init(who);
         Masc.EssenceSliderEvent += ChangeMasc;
-        Masc.ManualUpdate();
+        ChangeMasc();
     }
 
     private void OnDisable() => Masc.EssenceSliderEvent -= ChangeMasc;

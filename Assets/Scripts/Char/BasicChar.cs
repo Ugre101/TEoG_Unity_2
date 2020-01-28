@@ -21,7 +21,6 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private RaceSystem raceSystem = new RaceSystem();
 
     public RaceSystem RaceSystem => raceSystem;
-    public string Race => RaceSystem.CurrentRace().ToString();
     private Genders lastGender;
 
     private void DidGenderChange()
@@ -46,17 +45,7 @@ public abstract class BasicChar : MonoBehaviour
 
     private VoreChar voreChar;
 
-    public VoreChar VoreChar
-    {
-        get
-        {
-            if (voreChar == null)
-            {
-                voreChar = GetComponentInChildren<VoreChar>();
-            }
-            return voreChar;
-        }
-    }
+    public VoreChar VoreChar => voreChar = voreChar != null ? voreChar : GetComponentInChildren<VoreChar>();
 
     [SerializeField] private Age age = new Age();
 
@@ -107,30 +96,25 @@ public abstract class BasicChar : MonoBehaviour
     public float RestRate => 3.44f + Perks.GetPerkLevel(PerksTypes.FasterRest);
 
     [Space]
-    [SerializeField]
-    private Currency currency = new Currency();
+    [SerializeField] private Currency currency = new Currency();
 
     public Currency Currency => currency;
 
-    [SerializeField]
-    private Flags flags = new Flags();
+    [SerializeField] private Flags flags = new Flags();
 
     public Flags Flags => flags;
 
-    [SerializeField]
-    private PregnancySystem pregnancySystem = new PregnancySystem();
+    [SerializeField] private PregnancySystem pregnancySystem = new PregnancySystem();
 
     public PregnancySystem PregnancySystem => pregnancySystem;
     public bool Pregnant => SexualOrgans.Vaginas.Exists(v => v.Womb.HasFetus);
 
     [Header("Organs")]
-    [SerializeField]
-    private Organs sexualOrgans = new Organs();
+    [SerializeField] private Organs sexualOrgans = new Organs();
 
     public Organs SexualOrgans => sexualOrgans;
 
-    [SerializeField]
-    private SexStats sexStats = new SexStats();
+    [SerializeField] private SexStats sexStats = new SexStats();
 
     public SexStats SexStats => sexStats;
 
@@ -153,8 +137,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void Update() => this.RefreshOrgans(AutoEss);
 
-    [SerializeField]
-    private List<Skill> skills = new List<Skill>();
+    [SerializeField] private List<Skill> skills = new List<Skill>();
 
     public List<Skill> Skills => skills;
 }

@@ -8,7 +8,7 @@ public class FemiSlider : EssenceSlider
     {
         base.Init(who);
         Femi.EssenceSliderEvent += ChangeFemi;
-        Femi.ManualUpdate();
+        ChangeFemi();
     }
 
     private void OnDisable() => Femi.EssenceSliderEvent -= ChangeFemi;

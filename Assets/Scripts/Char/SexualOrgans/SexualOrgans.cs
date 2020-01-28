@@ -20,13 +20,19 @@ public enum FluidType
 [Serializable]
 public class SexualFluid
 {
-    [SerializeField]
-    private float current = 0;
+    [SerializeField] private float current = 0;
 
-    public float Current => current;
+    public float Current
+    {
+        get => current;
+        private set
+        {
+            current = value;
+            FluidSlider?.Invoke();
+        }
+    }
 
-    [SerializeField]
-    private FluidType type;
+    [SerializeField] private FluidType type;
 
     public FluidType Type => type;
 
@@ -51,8 +57,7 @@ public class SexualFluid
         if (Current < MaxAmount)
         {
             float reFilled = current + ReFillRate;
-            current = Mathf.Clamp(reFilled, 0, MaxAmount);
-            FluidSlider?.Invoke();
+            Current = Mathf.Clamp(reFilled, 0, MaxAmount);
         }
     }
 
@@ -61,26 +66,23 @@ public class SexualFluid
         if (Current < MaxAmount)
         {
             float reFilled = current + ReFillRate + bonus;
-            current = Mathf.Clamp(reFilled, 0, MaxAmount);
-            FluidSlider?.Invoke();
+            Current = Mathf.Clamp(reFilled, 0, MaxAmount);
         }
     }
 
     public float DisCharge()
     {
         float disCharge = Current * 0.7f;
-        current -= disCharge;
+        Current -= disCharge;
         return Mathf.Round(disCharge);
     }
 
     public float DisCharge(float percentage)
     {
         float disCharge = Current * Mathf.Clamp(percentage, 0f, 1f);
-        current -= disCharge;
+        Current -= disCharge;
         return Mathf.Round(disCharge);
     }
-
-    public void ManualSlider() => FluidSlider?.Invoke();
 
     public delegate void fluidSlider();
 
@@ -90,14 +92,22 @@ public class SexualFluid
 [System.Serializable]
 public abstract class SexualOrgan
 {
-    [SerializeField]
-    protected int baseSize;
+    [SerializeField] protected int baseSize;
+
+    public int BaseSize
+    {
+        get => baseSize;
+        private set
+        {
+            baseSize = value;
+            SomethingChanged?.Invoke();
+        }
+    }
 
     protected int lastBase;
     protected float currSize;
 
-    [SerializeField]
-    protected Races race = Races.Humanoid;
+    [SerializeField] protected Races race = Races.Humanoid;
 
     public Races Race => race;
 
@@ -105,12 +115,12 @@ public abstract class SexualOrgan
     {
         get
         {
-            if (baseSize != lastBase)
+            if (BaseSize != lastBase)
             {
                 // Calc
-                lastBase = baseSize;
-                currSize = baseSize;
-                cost = Mathf.Ceil(Mathf.Min(2000, baseCost * Mathf.Pow(1.05f, baseSize)));
+                lastBase = BaseSize;
+                currSize = BaseSize;
+                cost = Mathf.Ceil(Mathf.Min(2000, baseCost * Mathf.Pow(1.05f, BaseSize)));
             }
             return currSize;
         }
@@ -123,31 +133,34 @@ public abstract class SexualOrgan
     {
         get
         {
-            if (baseSize != lastBase)
+            if (BaseSize != lastBase)
             {
-                cost = Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, baseSize)));
+                cost = Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, BaseSize)));
             }
             return cost;
         }
     }
 
-    public SexualOrgan() => baseSize = 2;
+    public SexualOrgan(int parBase)
+    {
+        BaseSize = parBase;
+    }
 
-    public SexualOrgan(int parBase) => baseSize = parBase;
+    public SexualOrgan() : this(2)
+    {
+    }
 
     public float Grow(int toGrow = 1)
     {
         float growCost = Cost;
-        baseSize += toGrow;
-        SomethingChanged?.Invoke();
+        BaseSize += toGrow;
         return growCost;
     }
 
     public bool Shrink(int toShrink = 1)
     {
-        baseSize -= toShrink;
-        SomethingChanged?.Invoke();
-        return baseSize <= 0;
+        BaseSize -= toShrink;
+        return BaseSize <= 0;
     }
 
     public void ChangeRace(Races changeTo) => race = changeTo;
@@ -185,14 +198,14 @@ public static class SexOrganExtension
             {
                 if (dicks.Total() <= balls.Total() * 2f + 1f)
                 {
-                    if (dicks.Exists(d
-                        => masc.Amount >= d.Cost))
+                    if (dicks.Exists(d => masc.Amount >= d.Cost))
                     {
                         foreach (Dick d in dicks)
                         {
                             if (masc.Amount >= d.Cost)
                             {
                                 masc.Lose(d.Grow());
+                                break;
                             }
                         }
                     }
@@ -211,6 +224,7 @@ public static class SexOrganExtension
                             if (masc.Amount >= b.Cost)
                             {
                                 masc.Lose(b.Grow());
+                                break;
                             }
                         }
                     }
@@ -233,6 +247,7 @@ public static class SexOrganExtension
                             if (femi.Amount >= b.Cost)
                             {
                                 femi.Lose(b.Grow());
+                                break;
                             }
                         }
                     }
@@ -251,6 +266,7 @@ public static class SexOrganExtension
                             if (femi.Amount >= v.Cost)
                             {
                                 femi.Lose(v.Grow());
+                                break;
                             }
                         }
                     }

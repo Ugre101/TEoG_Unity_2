@@ -7,8 +7,8 @@
 
         public void Setup(PlayerMain player, Vagina vagina)
         {
-            BaseSetup(player);
             this.vagina = vagina;
+            BaseSetup(player);
         }
 
         protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(vagina.Size)} {vagina.Cost}Femi";

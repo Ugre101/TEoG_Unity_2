@@ -8,9 +8,9 @@
     public override void Setup()
     {
         SexualFluid.FluidSlider += CumChange;
-        if (player.SexualOrgans.Balls.Count > 0)
+        if (player.SexualOrgans.HaveBalls())
         {
-            player.SexualOrgans.Balls[0].Fluid.ManualSlider();
+            CumChange();
         }
     }
 

@@ -15,7 +15,6 @@ namespace EssenceMenu
             {
                 Instantiate(growDickPrefab, transform).Setup(player, d);
             }
-            lastAmount = player.SexualOrgans.Dicks.Count;
         }
     }
 }

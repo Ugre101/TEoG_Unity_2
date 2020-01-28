@@ -5,18 +5,15 @@ namespace EssenceMenu
     public abstract class EssenceOrganButtons : MonoBehaviour
     {
         [SerializeField] protected PlayerMain player = null;
-        protected int lastAmount;
 
         // Start is called before the first frame update
-        protected virtual void OnEnable() => UpdateButtons();
-
-        protected virtual void Update()
+        protected virtual void OnEnable()
         {
-            if (lastAmount != player.SexualOrgans.Vaginas.Count)
-            {
-                UpdateButtons();
-            }
+            UpdateButtons();
+            SexualOrgan.SomethingChanged += UpdateButtons;
         }
+
+        protected virtual void OnDisable() => SexualOrgan.SomethingChanged -= UpdateButtons;
 
         protected abstract void UpdateButtons();
     }
