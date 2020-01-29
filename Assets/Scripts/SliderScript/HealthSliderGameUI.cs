@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class HealthSliderGameUI : BasicSlider
 {
-    protected override Health health => basicChar.HP;
+    protected override Health Health => basicChar.HP;
     private bool started = false;
 
     private void OnEnable()
     {
         if (started)
         {
-            health.UpdateSliderEvent += ChangeHealth;
+            Health.UpdateSliderEvent += ChangeHealth;
             ChangeHealth();
         }
     }
@@ -19,7 +19,7 @@ public class HealthSliderGameUI : BasicSlider
     {
         if (started)
         {
-            health.UpdateSliderEvent -= ChangeHealth;
+            Health.UpdateSliderEvent -= ChangeHealth;
         }
     }
 
@@ -34,7 +34,7 @@ public class HealthSliderGameUI : BasicSlider
     private IEnumerator WaitToStart()
     {
         yield return new WaitForEndOfFrame();
-        health.UpdateSliderEvent += ChangeHealth;
+        Health.UpdateSliderEvent += ChangeHealth;
         ChangeHealth();
     }
 }

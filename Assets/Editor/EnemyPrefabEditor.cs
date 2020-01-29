@@ -11,8 +11,7 @@ public class EnemyPrefabEditor : BasicCharEditor
 
     private SerializedProperty NeedFirstName, NeedLastName;
     private SerializedProperty startRaces;
-    private SerializedProperty RaceList, assingStr;
-    private SerializedProperty assingCharm, assingEnd, assingDex, assingInt, statRngFactor;
+    private SerializedProperty assingStr, assingCharm, assingEnd, assingDex, assingInt, statRngFactor;
     private SerializedProperty assingHeight, heightRng, assingFat, fatRng, assingMuscle, muscleRng;
 
     private void OnEnable()
@@ -21,7 +20,7 @@ public class EnemyPrefabEditor : BasicCharEditor
         NeedLastName = serializedObject.FindProperty("NeedLastName");
 
         startRaces = serializedObject.FindProperty("startRaces");
-        RaceList = serializedObject.FindProperty("assingRace.Options");
+        //   RaceList = serializedObject.FindProperty("assingRace.Options");
 
         assingStr = serializedObject.FindProperty("assingStr");
         assingCharm = serializedObject.FindProperty("assingCharm");

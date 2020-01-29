@@ -13,7 +13,6 @@ public class Movement : MonoBehaviour
     [SerializeField] private float bottomOffset = 1f;
 
     // Private
-    private Tilemap _map;
     [SerializeField] private GameObject pointer = null;
 
     [SerializeField] private BoxCollider2D _coll = null;
@@ -51,7 +50,6 @@ public class Movement : MonoBehaviour
         mobilePlatform = Application.isMobilePlatform;
         touchSupport = Input.touchSupported;
         mousePresent = Input.mousePresent;
-        _map = MapEvents.CurrentMap;
         MapEvents.WorldMapChange += TilemapLimits;
         TilemapLimits(MapEvents.CurrentMap);
     }

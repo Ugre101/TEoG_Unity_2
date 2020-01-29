@@ -812,6 +812,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wares
       objectReference: {fileID: 0}
+    - target: {fileID: 2576311825282326837, guid: b07ce95621d38d54dbaf48d265c6dc2f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2576311825306138261, guid: b07ce95621d38d54dbaf48d265c6dc2f,
         type: 3}
       propertyPath: m_AnchorMin.y

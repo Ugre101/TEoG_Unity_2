@@ -12,91 +12,71 @@ public enum ItemTypes
 [System.Serializable]
 public class Item : ScriptableObject
 {
-    [SerializeField] private ItemId itemId;
-    [SerializeField] private string title = "Item";
+    [SerializeField] protected ItemId itemId;
+    [SerializeField] protected string title = "Item";
+    [SerializeField] protected Sprite sprite;
+    [SerializeField] protected ItemTypes type;
+
+    [TextArea]
+    [SerializeField] protected string desc = string.Empty;
+
+    [SerializeField] protected string useName = "Use";
     public string Title => title;
 
     public ItemId ItemId => itemId;
 
-    [field: SerializeField] public Sprite Sprite { get; protected set; }
+    public Sprite Sprite => sprite;
 
-    [field: SerializeField] public ItemTypes Type { get; protected set; }
+    public ItemTypes Type => type;
 
-    [field: TextArea]
-    [field: SerializeField] public string Desc { get; protected set; } = "";
+    public string Desc => desc;
 
-    [field: SerializeField] public string UseName { get; protected set; } = "Use";
+    public string UseName => useName;
 
-    public virtual string Use(BasicChar user)
-    {
-        return "used";
-    }
+    public virtual string Use(BasicChar user) => "used";
 
-    public Item()
-    {
-    }
-
-    public Item(ItemId itemId, string title)
+    public Item(ItemId itemId, string title, ItemTypes itemTypes)
     {
         this.itemId = itemId;
         this.title = title;
+        this.type = itemTypes;
     }
 }
 
 public class Drinkable : Item
 {
-    public Drinkable()
+    public Drinkable(ItemId itemId, string title) : base(itemId, title, ItemTypes.Consumables)
     {
-        UseName = "Drink";
-        Type = ItemTypes.Consumables;
-    }
-
-    public Drinkable(ItemId itemId, string title) : base(itemId, title)
-    {
-        UseName = "Drink";
-        Type = ItemTypes.Consumables;
+        useName = "Drink";
     }
 }
 
 public class Edibles : Item
 {
-    public Edibles()
+    public Edibles(ItemId itemId, string title) : base(itemId, title, ItemTypes.Consumables)
     {
-        UseName = "Eat";
-        Type = ItemTypes.Consumables;
-    }
-
-    public Edibles(ItemId itemId, string title) : base(itemId, title)
-    {
-        UseName = "Eat";
-        Type = ItemTypes.Consumables;
+        useName = "Eat";
     }
 }
 
 public class Misc : Item
 {
-    public Misc()
+    public Misc(ItemId itemId, string title) : base(itemId, title, ItemTypes.Misc)
     {
-        UseName = "Use";
-        Type = ItemTypes.Misc;
+        useName = "Use";
     }
 }
 
 public class Weapon : Item, IHaveStatMods, IEquip
 {
-    public Weapon()
+    [SerializeField] protected List<AssingStatmod> mods = new List<AssingStatmod>();
+    [SerializeField] protected EquipSlot slot;
+
+    public Weapon(ItemId itemId, string title) : base(itemId, title, ItemTypes.Weapon)
     {
-        UseName = "Equip";
-        Type = ItemTypes.Weapon;
+        useName = "Equip";
     }
 
-    public Weapon(ItemId itemId, string title) : base(itemId, title)
-    {
-        UseName = "Equip";
-        Type = ItemTypes.Weapon;
-    }
-
-    [field: SerializeField] public List<AssingStatmod> Mods { get; protected set; } = new List<AssingStatmod>();
-
-    [field: SerializeField] public EquipSlot Slot { get; private set; }
+    public List<AssingStatmod> Mods => mods;
+    public EquipSlot Slot => slot;
 }

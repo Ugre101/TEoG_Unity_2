@@ -1,12 +1,12 @@
 ﻿public class HealthSlider : BasicSlider
 {
-    protected override Health health => basicChar.HP;
+    protected override Health Health => basicChar.HP;
 
     private void OnDisable()
     {
         if (basicChar != null)
         {
-            health.UpdateSliderEvent -= ChangeHealth;
+            Health.UpdateSliderEvent -= ChangeHealth;
         }
     }
 
@@ -14,14 +14,14 @@
     {
         if (basicChar != null)
         {
-            health.UpdateSliderEvent -= ChangeHealth;
+            Health.UpdateSliderEvent -= ChangeHealth;
         }
     }
 
     public override void Setup(BasicChar who)
     {
         base.Setup(who);
-        health.UpdateSliderEvent += ChangeHealth;
+        Health.UpdateSliderEvent += ChangeHealth;
         ChangeHealth();
     }
 }

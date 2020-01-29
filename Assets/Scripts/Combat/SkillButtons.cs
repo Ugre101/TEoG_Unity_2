@@ -1,10 +1,8 @@
-﻿using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SkillButtons : MonoBehaviour
 {
-    [SerializeField] private GameObject hoverBlock, buttons;
-    [SerializeField] private TextMeshProUGUI hoverText;
+    [SerializeField] private GameObject buttons;
     [SerializeField] private ChooseSkillMain ChooseSkillMain;
 
     public void ToogleChooseSkill(CombatButton target)

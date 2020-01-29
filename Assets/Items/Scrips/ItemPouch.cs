@@ -1,16 +1,19 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "Pouch", menuName = "Item/Pouch")]
-public class ItemPouch : Item
+namespace ItemScripts
 {
-    public ItemPouch() : base(ItemId.Pouch, "Pouch")
+    [CreateAssetMenu(fileName = "Pouch", menuName = "Item/Pouch")]
+    public class ItemPouch : Item
     {
-        Type = ItemTypes.Misc;
-    }
+        public ItemPouch() : base(ItemId.Pouch, "Pouch", ItemTypes.Misc)
+        {
+        }
 
-    public override string Use(BasicChar user)
-    {
-        user.Currency.Gold += Random.Range(10, 30);
-        return "You gain some gold.";
+        public override string Use(BasicChar user)
+        {
+            int gain = Random.Range(10, 50);
+            user.Currency.Gold += gain;
+            return $"What's in the bag? It's {gain} coins!";
+        }
     }
 }

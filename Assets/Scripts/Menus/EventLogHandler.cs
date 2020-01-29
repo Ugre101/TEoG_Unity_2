@@ -7,7 +7,7 @@ public class EventLogHandler : EventLogHandlerBase
 
     [SerializeField] private Image btnImg = null;
 
-    private Vector2 defaultSize = new Vector2(180f, 190f), lastSize = new Vector2(180f, 190f), minSize = new Vector2(180f, 20f);
+    private Vector2 lastSize = new Vector2(180f, 190f), minSize = new Vector2(180f, 20f);
 
     private Vector2 CurSize { get => rect.sizeDelta; set => rect.sizeDelta = value; }
 

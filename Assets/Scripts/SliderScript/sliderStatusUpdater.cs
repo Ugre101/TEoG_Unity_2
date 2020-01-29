@@ -13,7 +13,7 @@ public class BasicSlider : MonoBehaviour
     [SerializeField] protected bool endSuffix = false;
 
     [SerializeField] protected string suffix = "";
-    protected virtual Health health { get; }
+    protected virtual Health Health { get; }
 
     protected virtual void Start()
     {
@@ -25,7 +25,7 @@ public class BasicSlider : MonoBehaviour
 
     protected virtual void ChangeHealth()
     {
-        slider.value = health.SliderValue;
-        TextMesh.text = health.Status + (endSuffix ? suffix : "");
+        slider.value = Health.SliderValue;
+        TextMesh.text = Health.Status + (endSuffix ? suffix : "");
     }
 }

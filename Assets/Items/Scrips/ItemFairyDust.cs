@@ -1,17 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ItemFairyDust : Item
+namespace ItemScripts
 {
-    public ItemFairyDust() : base(ItemId.Potion,"Fairy dust")
+    public class ItemFairyDust : Edibles
     {
-        Type = ItemTypes.Consumables;
-        UseName = "Lick";
-        Desc = "";
-    }
-    public override string Use(BasicChar user)
-    {
-        return base.Use(user);
+        public ItemFairyDust() : base(ItemId.Potion, "Fairy dust")
+        {
+            useName = "Lick";
+        }
+
+        public override string Use(BasicChar user)
+        {
+            user.RaceSystem.AddRace(Races.Fairy, 5);
+            BodyStat height = user.Body.Height;
+            if (height.Value > 100)
+            {
+                height.LosePrecent(0.05f);
+            }
+            else
+            {
+                float toLose = Mathf.Clamp(5, 0, height.Value - 20);
+                height.LoseFlat(toLose);
+            }
+            return "Inhaling the fairy dust you see the world grow before you, or maybe it's you who became shorter?";
+        }
     }
 }

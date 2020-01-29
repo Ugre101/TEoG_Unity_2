@@ -2,7 +2,7 @@
 
 public class EquiptItems : MonoBehaviour
 {
-    private PlayerMain player => PlayerMain.GetPlayer;
+    private PlayerMain Player => PlayerMain.GetPlayer;
 
     public Items items;
     [field: SerializeField] public EquipmentSlot Head { get; private set; }

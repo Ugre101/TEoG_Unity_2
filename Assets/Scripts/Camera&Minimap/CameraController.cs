@@ -81,20 +81,20 @@ public class CameraController : MonoBehaviour
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             // ... change the orthographic size based on the change in distance between the touches.
-            OrthSize = OrthSize + deltaMagnitudeDiff * zoomSpeed;
+            OrthSize += deltaMagnitudeDiff * zoomSpeed;
         }
         float scrollValue = Input.GetAxis("Mouse ScrollWheel");
         if (keyBindings.zoomInKey.GetKey())
         {
-            OrthSize = OrthSize - zoomSpeed;
+            OrthSize -= zoomSpeed;
         }
         else if (keyBindings.zoomOutKey.GetKey())
         {
-            OrthSize = OrthSize + zoomSpeed;
+            OrthSize += zoomSpeed;
         }
         else if (scrollValue != 0)
         {
-            OrthSize = OrthSize - scrollValue; // times zoom speed
+            OrthSize -= scrollValue; // times zoom speed
         }
         transform.position = Vector3.Lerp(transform.position, _target, _smoothing);
     }

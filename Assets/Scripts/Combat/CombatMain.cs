@@ -109,8 +109,8 @@ public class CombatMain : MonoBehaviour
     public void EnemyAI(BasicChar Enemy)
     {
         float str = Enemy.Stats.Str, charm = Enemy.Stats.Cha;
-        List<string> strAttack = new List<string> { "Hits you", "Kicks you", "Grapples you down to the ground" };
-        List<string> charmAttack = new List<string> { $"Teases you" };
+        //  List<string> strAttack = new List<string> { "Hits you", "Kicks you", "Grapples you down to the ground" };
+        //  List<string> charmAttack = new List<string> { $"Teases you" };
         if (charm < str)
         {
             _EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicAttack).skill.Action(Enemy, player);

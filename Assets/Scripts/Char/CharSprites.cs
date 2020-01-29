@@ -10,7 +10,7 @@ public class CharSprites : ScriptableObject
     [SerializeField] private CharSprite defaultSprite = null;
 
     [SerializeField] private List<CharSprite> charSprites = new List<CharSprite>();
-    private System.Random rnd = new System.Random();
+    private readonly System.Random rnd = new System.Random();
 
     private CharSprite BestMatch(BasicChar who)
     {

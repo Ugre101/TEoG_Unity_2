@@ -68,7 +68,6 @@ public static class Settings
     }
 
     public static string Male = "male";
-
     public static string Female = "female";
     public static string Herm = "herm";
     public static string Cuntboy = "cuntboy";

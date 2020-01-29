@@ -84,7 +84,7 @@ public class AfterBattleMain : MonoBehaviour
     {
         sortAll.onClick.AddListener(() => SceneChecker(allSexScenes, player.Vore.Active));
         sortMouth.onClick.AddListener(() => SceneChecker(mouthScenes));
-        sortVore.onClick.AddListener(() => SceneChecker(player.Vore.Active));
+        sortVore.onClick.AddListener(ShowVore);
         VoreButton.VoredEvent += Vored;
     }
 
@@ -215,7 +215,7 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
-    private void SceneChecker(bool showVore)
+    private void ShowVore()
     {
         buttons.transform.KillChildren();
         foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))

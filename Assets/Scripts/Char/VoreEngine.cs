@@ -80,7 +80,6 @@ namespace Vore
             {
                 Vagina.Digest(p => VaginaDigested(p));
             }
-            string FullName(ThePrey thePrey) => thePrey.Prey.Identity.FullName;
             void TfToChild(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has shrunk");
             void VaginaDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)}");
             void BallsDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been fully transfomed into cum.");
@@ -88,6 +87,8 @@ namespace Vore
             void StomachDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been digested.");
             void AnalDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been reduced to nothing in your bowels.");
         }
+
+        private string FullName(ThePrey thePrey) => thePrey.Prey.Identity.FullName;
 
         private void PlayerPredEventLog(string text)
         {
