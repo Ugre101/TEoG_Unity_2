@@ -16,4 +16,5 @@ public class FertilityShop : Shop
         container.KillChildren();
         itemWares.ForEach(w => Instantiate(buyItem, container).Setup(w, player, ItemsRef.GetById(w.ItemId)));
     }
-}   
+
+}

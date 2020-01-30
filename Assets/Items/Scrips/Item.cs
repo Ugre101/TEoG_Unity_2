@@ -13,25 +13,21 @@ public enum ItemTypes
 public class Item : ScriptableObject
 {
     [SerializeField] protected ItemId itemId;
-    [SerializeField] protected string title = "Item";
+    [SerializeField] protected string title = "Item", useName = "Use";
     [SerializeField] protected Sprite sprite;
     [SerializeField] protected ItemTypes type;
+    [SerializeField] protected int sellValue = 0;
 
     [TextArea]
     [SerializeField] protected string desc = string.Empty;
 
-    [SerializeField] protected string useName = "Use";
     public string Title => title;
-
-    public ItemId ItemId => itemId;
-
-    public Sprite Sprite => sprite;
-
-    public ItemTypes Type => type;
-
-    public string Desc => desc;
-
     public string UseName => useName;
+    public ItemId ItemId => itemId;
+    public Sprite Sprite => sprite;
+    public ItemTypes Type => type;
+    public int SellValue => sellValue;
+    public string Desc => desc;
 
     public virtual string Use(BasicChar user) => "used";
 

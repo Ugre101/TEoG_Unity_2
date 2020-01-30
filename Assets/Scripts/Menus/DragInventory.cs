@@ -27,7 +27,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         get
         {
-            int amount = Player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount;
+            int amount = invItem.Amount;
             amountText.text = amount.ToString();
             return amount;
         }
@@ -35,7 +35,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         set
         {
             amountText.text = value.ToString();
-            Player.Inventory.Items.Find(i => i.InvPos == invItem.InvPos).Amount = value;
+            invItem.Amount = value;
         }
     }
 
@@ -139,7 +139,10 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
         Item.Use(Player);
         //amount.text = Item.Amount.ToString();
-        Amount--;
+        if (!invItem.Reusable)
+        {
+            Amount--;
+        }
         if (Amount < 1)
         {
             UsedEvent?.Invoke();

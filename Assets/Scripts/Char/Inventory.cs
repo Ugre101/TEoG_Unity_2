@@ -48,38 +48,38 @@ public class Inventory
 [System.Serializable]
 public class InventoryItem
 {
-    public InventoryItem(ItemId toAdd, int parInvPos, int num = 1)
+    public InventoryItem(ItemId toAdd, int parInvPos)
     {
         id = toAdd;
-        amount = num;
+        amount = 1;
         invPos = parInvPos;
     }
 
-    [SerializeField]
-    private ItemId id;
+    public InventoryItem(ItemId toAdd, int parInvPos, int num) : this(toAdd, parInvPos) => amount = num;
 
-    [SerializeField]
-    private int amount;
+    public InventoryItem(ItemId toAdd, int parInvPos, int num, bool reusable) : this(toAdd, parInvPos, num) => this.reusable = reusable;
 
-    [SerializeField]
-    private int invPos = -1;
+    public InventoryItem(ItemId toAdd, int parInvPos, bool reusable) : this(toAdd, parInvPos) => this.reusable = reusable;
 
+    [SerializeField] private ItemId id;
+
+    [SerializeField] private int amount;
+
+    [SerializeField] private int invPos = -1;
+    [SerializeField] private bool reusable = false;
     public ItemId Id => id;
     public int Amount { get => amount; set => amount = value; }
     public int InvPos { get => invPos; set => invPos = value; }
+    public bool Reusable => reusable;
 }
 
 public static class InventoryExtensions
 {
     /// <summary>Find a item by it's invPos </summary>
-    public static InventoryItem FindByPos(this List<InventoryItem> inventory, int invPos)
-    {
-        return inventory.Find(i => i.InvPos == invPos);
-    }
+    public static InventoryItem FindByPos(this List<InventoryItem> inventory, int invPos) => inventory.Find(i => i.InvPos == invPos);
 
     /// <summary>Return if item exist by it's invPos </summary>
-    public static bool ExistByPos(this List<InventoryItem> inventory, int invPos)
-    {
-        return inventory.Exists(i => i.InvPos == invPos);
-    }
+    public static bool ExistByPos(this List<InventoryItem> inventory, int invPos) => inventory.Exists(i => i.InvPos == invPos);
+
+    public static void Clean(this Inventory inv) => inv.Items.RemoveAll(i => i.Amount < 1);
 }
