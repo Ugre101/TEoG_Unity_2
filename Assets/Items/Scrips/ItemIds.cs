@@ -9,18 +9,36 @@
 public enum ItemId
 {
     // Remember to always add new ones last so old enums doesn't brake in saves, they are saved as int's; pouch = 0 etc...
-    Pouch,
+    Pouch, // Done
 
     Potion,
-    Stick,
-    VirilityBooster,
-    VirilityTempBooster,
-    FertilityBooster,
-    FertilityTempBooster,
-    OrcCum,
+    Stick, // Done
+    VirilityBooster, // Done
+    VirilityTempBooster, // Done
+    FertilityBooster, // Done
+    FertilityTempBooster, // Done
+    OrcCum, // Done
     SmallStrPotion,
-    PotionOfHumanity,
-    OrcBrew,
-    TrollMilk,
-    ElvenHair
+    PotionOfHumanity, // Done
+    OrcBrew, // Done
+    TrollMilk, // Done
+    ElvenHair,
+    SmallPouch, // Done
+    LargePouch, // Done 
+    FairyDust, // Done
+    BovineMilk,
+    MilkJug,
+    FertilityIdol,
+    phallusRock,
+    SuccubusMilk,
+    IncubusSemen,
+    InfernalMilk,
+    Milker500,
+    SmallMilkBottle, // Done
+    MilkBottle,
+    LargeMilkBottle,
+    PocketPortal,
+    SmallMealRation, // Done
+    MealRation,
+    LargeMealRation
 }

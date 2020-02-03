@@ -159,10 +159,10 @@ public class CombatMain : MonoBehaviour
         {
             if (etc is EnemyPrefab e)
             {
-                Player.ExpSystem.Exp += e.reward.ExpReward;
+                Player.ExpSystem.Exp += e.Reward.ExpReward;
                 Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
-                    ? e.reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
-                    : e.reward.GoldReward;
+                    ? e.Reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
+                    : e.Reward.GoldReward;
             }
             // if something else
         });

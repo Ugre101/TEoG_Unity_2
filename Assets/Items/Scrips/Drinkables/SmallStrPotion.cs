@@ -1,11 +1,14 @@
-﻿public class SmallStrPotion : Drinkable
+﻿namespace ItemScripts
 {
-    public SmallStrPotion() : base(ItemId.SmallStrPotion, "Small strength potion")
+    public class SmallStrPotion : Drinkable
     {
-    }
+        public SmallStrPotion() : base(ItemId.SmallStrPotion, "Small strength potion")
+        {
+        }
 
-    public override string Use(BasicChar user)
-    {
-        return base.Use(user);
+        public override string Use(BasicChar user)
+        {
+            return base.Use(user);
+        }
     }
 }

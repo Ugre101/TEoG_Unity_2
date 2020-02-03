@@ -14,11 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 2
   title: Stick
-  <Sprite>k__BackingField: {fileID: 21300000, guid: cb7558fa340779747a8b1de92629e4e9,
-    type: 3}
-  <Type>k__BackingField: 2
-  <Desc>k__BackingField: Stick for items, desc itself is where you say what the item
-    does. This item happens to do nothing.
-  <UseName>k__BackingField: Equip
-  <Mods>k__BackingField: []
-  <Slot>k__BackingField: 0
+  useName: Equip
+  sprite: {fileID: 21300000, guid: cb7558fa340779747a8b1de92629e4e9, type: 3}
+  type: 2
+  sellValue: 0
+  desc: Stick for items, desc itself is where you say what the item does. This item
+    happens to do nothing.
+  mods:
+  - statMod:
+      value: 2
+      modType: 100
+      source: WeaponStick
+    statTypes: 0
+  slot: 0

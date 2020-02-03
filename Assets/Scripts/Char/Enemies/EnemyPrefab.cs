@@ -8,6 +8,7 @@ public class StartRace
     public Races Races => races;
     [SerializeField] private int amount = 100;
     public int Amount => amount;
+
     public StartRace()
     {
         amount = 100;
@@ -20,10 +21,12 @@ public class EnemyPrefab : BasicChar
     [HideInInspector]
     [SerializeField] private bool NeedFirstName = true, NeedLastName = true;
 
+    [HideInInspector]
     [SerializeField] private List<StartRace> startRaces = new List<StartRace>();
 
-    [Tooltip("Chosen values get mulitled by random range 0.5f to 1.5f")]
-    public Reward reward = new Reward();
+    [SerializeField] private Reward reward = new Reward();
+
+    public Reward Reward => reward;
 
     #region Stats
 
@@ -33,8 +36,7 @@ public class EnemyPrefab : BasicChar
     [HideInInspector]
     [SerializeField] private int assingCharm = 0, assingEnd = 0, assingDex = 0, assingInt = 0;
 
-    [Tooltip("RNG factor; range(1 - rng,1 + rng), so 1 rng can either double the value or make it zero. 0.4f is standard.")]
-    [Range(0, 1f)]
+    [HideInInspector]
     [SerializeField] private float statRngFactor = 0.4f;
 
     public int FinalStat(int v) => Mathf.FloorToInt(v * Random.Range(1 - statRngFactor, 1 + statRngFactor));
@@ -43,24 +45,26 @@ public class EnemyPrefab : BasicChar
 
     #region Body stats
 
-    [Tooltip("Multiplied by 0.9f to 1.1f")]
-    [Header("Body")]
-    [Range(0, 300)]
+    [HideInInspector]
     [SerializeField] private int assingHeight = 160;
 
+    [HideInInspector]
     [SerializeField] private float heightRng = 0.1f;
 
     private int FinalHeight => Mathf.FloorToInt(assingHeight * Random.Range(1 - heightRng, 1 + heightRng));
 
-    [Range(0, 100)] public int assingFat = 20;
+    [HideInInspector]
+    [SerializeField] public int assingFat = 20;
 
+    [HideInInspector]
     [SerializeField] private float fatRng = 0.1f;
 
     private int FinalFat => Mathf.RoundToInt(assingFat * Random.Range(1 - fatRng, 1 + fatRng));
 
-    [Range(0, 100)]
+    [HideInInspector]
     [SerializeField] private int assingMuscle = 30;
 
+    [HideInInspector]
     [SerializeField] private float muscleRng = 0.1f;
 
     private int FinalMuscle => Mathf.FloorToInt(assingMuscle * Random.Range(1 - muscleRng, 1 + muscleRng));

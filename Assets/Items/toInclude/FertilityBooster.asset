@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 5
   title: Fertility booster
-  <Sprite>k__BackingField: {fileID: 21300000, guid: dad62aee0da24ea4c90352c7735e7519,
-    type: 3}
-  <Type>k__BackingField: 0
-  <Desc>k__BackingField: 
-  <UseName>k__BackingField: Drink
+  useName: Drink
+  sprite: {fileID: 21300000, guid: dad62aee0da24ea4c90352c7735e7519, type: 3}
+  type: 0
+  sellValue: 50
+  desc: 
