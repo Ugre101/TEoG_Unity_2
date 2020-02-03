@@ -1,30 +1,33 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "FertilityBooster", menuName = "Item/FertilityBooster")]
-public class FertilityBooster : Drinkable
+namespace ItemScripts
 {
-    public FertilityBooster() : base(ItemId.FertilityBooster, "Fertility booster")
+    [CreateAssetMenu(fileName = "FertilityBooster", menuName = "Item/Drinkable/FertilityBooster")]
+    public class FertilityBooster : Drinkable
     {
+        public FertilityBooster() : base(ItemId.FertilityBooster, "Fertility booster")
+        {
+        }
+
+        public override string Use(BasicChar user)
+        {
+            user.PregnancySystem.Fertility.BaseValue++;
+            return base.Use(user);
+        }
     }
 
-    public override string Use(BasicChar user)
+    [CreateAssetMenu(fileName = "FertilityTempBooster", menuName = "Item/Drinkable/FertilityTempBooster")]
+    public class FertilityTempBooster : Drinkable
     {
-        user.PregnancySystem.Fertility.BaseValue++;
-        return base.Use(user);
-    }
-}
+        public FertilityTempBooster() : base(ItemId.FertilityTempBooster, "Fertility week booster")
+        {
+        }
 
-[CreateAssetMenu(fileName = "FertilityTempBooster", menuName = "Item/FertilityBooster")]
-public class FertilityTempBooster : Drinkable
-{
-    public FertilityTempBooster() : base(ItemId.FertilityTempBooster, "Fertility week booster")
-    {
-    }
-
-    public override string Use(BasicChar user)
-    {
-        TempStatMod tempMod = new TempStatMod(10, ModTypes.Flat, typeof(FertilityTempBooster).Name, 168);
-        user.PregnancySystem.Fertility.AddTempMod(tempMod);
-        return base.Use(user);
+        public override string Use(BasicChar user)
+        {
+            TempStatMod tempMod = new TempStatMod(10, ModTypes.Flat, typeof(FertilityTempBooster).Name, 168);
+            user.PregnancySystem.Fertility.AddTempMod(tempMod);
+            return base.Use(user);
+        }
     }
 }

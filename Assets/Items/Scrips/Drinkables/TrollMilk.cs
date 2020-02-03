@@ -2,7 +2,7 @@
 
 namespace ItemScripts
 {
-    [CreateAssetMenu(fileName = "TrollMilk", menuName = "Item/TrollMilk")]
+    [CreateAssetMenu(fileName = "TrollMilk", menuName = "Item/Drinkable/TrollMilk")]
     public class TrollMilk : Drinkable
     {
         public TrollMilk() : base(ItemId.TrollMilk, "Troll milk")

@@ -17,10 +17,7 @@ public class BasicCharEditor : Editor
         GUILayout.Label(basicChar.Race(true));
         GUILayout.EndHorizontal();
         GUILayout.EndVertical();
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("First name");
-        GUILayout.Label("Last name");
-        GUILayout.EndHorizontal();
+        UgreEditorTools.TwoBoldLabels("First name", "Last name");
         GUILayout.BeginHorizontal();
         basicChar.Identity.FirstName = EditorGUILayout.TextField(basicChar.Identity.FirstName);
         basicChar.Identity.LastName = EditorGUILayout.TextField(basicChar.Identity.LastName);

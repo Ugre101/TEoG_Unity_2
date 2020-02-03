@@ -2,7 +2,7 @@
 
 namespace ItemScripts
 {
-    [CreateAssetMenu(fileName = "OrcBrew", menuName = "Item/OrcBrew")]
+    [CreateAssetMenu(fileName = "OrcBrew", menuName = "Item/Drinkable/OrcBrew")]
     public class OrcBrew : Drinkable
     {
         public OrcBrew() : base(ItemId.OrcBrew, "Orc brew")
@@ -20,7 +20,7 @@ namespace ItemScripts
         }
     }
 
-    [CreateAssetMenu(fileName = "ElvenHair", menuName = "Item/ElvenHair")]
+    [CreateAssetMenu(fileName = "ElvenHair", menuName = "Item/Drinkable/ElvenHair")]
     public class ElvenHair : Misc
     {
         public ElvenHair() : base(ItemId.ElvenHair, "Elven hair")

@@ -174,15 +174,14 @@ MonoBehaviour:
   skills: []
   NeedFirstName: 1
   NeedLastName: 1
-  assingRace:
-    Options:
-    - Race: 1
-      Weight: 3
-    - Race: 2
-      Weight: 5
+  startRaces: []
   reward:
-    expReward: 212
-    goldReward: 332
+    expReward: 50
+    goldReward: 50
+    rng: 0.3
+    drops:
+    - item: 0
+      dropChance: 0
   assingStr: 8
   assingCharm: 10
   assingEnd: 10

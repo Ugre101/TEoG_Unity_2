@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f4fe3d3ca73bc43bb91c741996ac96, type: 3}
+  m_Name: PotionOfHumanity
+  m_EditorClassIdentifier: 
+  itemId: 9
+  title: Potion of humanity
+  useName: Drink
+  sprite: {fileID: 21300000, guid: da92f866ecf267f4f9c94753978f5e38, type: 3}
+  type: 0
+  sellValue: 3
+  desc: 

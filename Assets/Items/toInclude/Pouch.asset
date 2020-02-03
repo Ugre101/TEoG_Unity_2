@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: 0
   title: Pouch
-  <Sprite>k__BackingField: {fileID: 21300000, guid: a7b56c734cfc1a941b27aab33d0a78ea,
-    type: 3}
-  <Type>k__BackingField: 1
-  <Desc>k__BackingField: 
-  <UseName>k__BackingField: Use
+  useName: Open
+  sprite: {fileID: 21300000, guid: a7b56c734cfc1a941b27aab33d0a78ea, type: 3}
+  type: 1
+  sellValue: 20
+  desc: 
