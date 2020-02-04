@@ -123,12 +123,17 @@ public abstract class BasicChar : MonoBehaviour
         identity = new Identity();
         Essence.Masc.EssenceSliderEvent += DidGenderChange;
         essence.Femi.EssenceSliderEvent += DidGenderChange;
-        hp = new Health(100, new AffectedByStat(Stats.Endurance, 5));
-        wp = new Health(100, new AffectedByStat(Stats.Willpower, 5));
         expSystem = new ExpSystem(1);
         StartCoroutine(BasicCharExtensions.TickEverySecond(this));
     }
+    protected void InitHealth()
+    {
+        hp = new Health(new AffectedByStat(Stats.Endurance, 5));
+        wp = new Health(new AffectedByStat(Stats.Willpower, 5));
+        HP.FullGain();
+        WP.FullGain();
 
+    }
     public virtual void OnDestroy()
     {
         Essence.Masc.EssenceSliderEvent -= DidGenderChange;

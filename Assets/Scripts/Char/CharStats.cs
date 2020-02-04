@@ -29,6 +29,8 @@ public class CharStats : Stat
         BaseValue = parBaseValue;
         DateSystem.NewHourEvent += TickTempMods;
         Save.LoadEvent += delegate { IsDirty = true; _ = Value; };
+        _ = Value;
+        ValueChanged?.Invoke();
     }
 
     public CharStats() : this(10)

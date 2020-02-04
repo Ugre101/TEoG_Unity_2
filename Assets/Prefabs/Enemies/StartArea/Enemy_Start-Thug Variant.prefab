@@ -67,6 +67,46 @@ PrefabInstance:
       propertyPath: assingMuscle
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingCharm
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingEnd
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingDex
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingInt
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.expReward
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.goldReward
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingWill
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.drops.Array.data[0].dropChance
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: m_Sprite

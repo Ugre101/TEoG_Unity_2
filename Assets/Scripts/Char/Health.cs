@@ -78,14 +78,13 @@ public class Health : Stat
         }
     }
 
-    public Health(int parMax)
+    public Health()
     {
-        baseValue = parMax;
-        current = parMax;
+        baseValue = 100;
         DateSystem.NewHourEvent += TickTempMods;
     }
 
-    public Health(int parMax, List<AffectedByStat> affectedBy) : this(parMax)
+    public Health(List<AffectedByStat> affectedBy) : this()
     {
         this.AffectedBy = affectedBy;
         this.AffectedBy.ForEach(ab =>
@@ -94,7 +93,7 @@ public class Health : Stat
         });
     }
 
-    public Health(int parMax, AffectedByStat affectedBy) : this(parMax, new List<AffectedByStat>() { affectedBy })
+    public Health(AffectedByStat affectedBy) : this(new List<AffectedByStat>() { affectedBy })
     {
     }
 

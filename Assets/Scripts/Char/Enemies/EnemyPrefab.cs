@@ -31,10 +31,7 @@ public class EnemyPrefab : BasicChar
     #region Stats
 
     [HideInInspector]
-    [SerializeField] private int assingStr = 0;
-
-    [HideInInspector]
-    [SerializeField] private int assingCharm = 0, assingEnd = 0, assingDex = 0, assingInt = 0;
+    [SerializeField] private int assingStr = 0, assingCharm = 0, assingEnd = 0, assingDex = 0, assingInt = 0, assingWill;
 
     [HideInInspector]
     [SerializeField] private float statRngFactor = 0.4f;
@@ -46,26 +43,14 @@ public class EnemyPrefab : BasicChar
     #region Body stats
 
     [HideInInspector]
-    [SerializeField] private int assingHeight = 160;
+    [SerializeField] private int assingHeight = 160, assingFat = 20, assingMuscle = 30;
 
     [HideInInspector]
-    [SerializeField] private float heightRng = 0.1f;
+    [SerializeField] private float heightRng = 0.1f, fatRng = 0.1f, muscleRng = 0.1f;
 
     private int FinalHeight => Mathf.FloorToInt(assingHeight * Random.Range(1 - heightRng, 1 + heightRng));
 
-    [HideInInspector]
-    [SerializeField] public int assingFat = 20;
-
-    [HideInInspector]
-    [SerializeField] private float fatRng = 0.1f;
-
     private int FinalFat => Mathf.RoundToInt(assingFat * Random.Range(1 - fatRng, 1 + fatRng));
-
-    [HideInInspector]
-    [SerializeField] private int assingMuscle = 30;
-
-    [HideInInspector]
-    [SerializeField] private float muscleRng = 0.1f;
 
     private int FinalMuscle => Mathf.FloorToInt(assingMuscle * Random.Range(1 - muscleRng, 1 + muscleRng));
 
@@ -82,7 +67,7 @@ public class EnemyPrefab : BasicChar
     {
         base.Start();
         stats = new StatsContainer(FinalStat(assingStr), FinalStat(assingCharm),
-            FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt));
+            FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt), assingWill);
         //    Femi.Gain(200f);
         Essence.Masc.Gain(300f);
         body = new Body(FinalHeight, FinalFat, FinalMuscle);
@@ -102,10 +87,8 @@ public class EnemyPrefab : BasicChar
         {
             Identity.LastName = RandomName.LastName;
         }
+        InitHealth();
     }
 
-    public override void Update()
-    {
-        base.Update();
-    }
+    public override void Update() => base.Update();
 }

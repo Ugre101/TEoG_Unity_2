@@ -7,7 +7,7 @@ public class Recovery : Stat
 {
     public Recovery()
     {
-        baseValue = 2;
+        baseValue = 3;
     }
 
     [SerializeField] private List<HealthMod> healthMods = new List<HealthMod>();

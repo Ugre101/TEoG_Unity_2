@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
+      propertyPath: reward.drops.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
       propertyPath: assingStr
       value: 6
       objectReference: {fileID: 0}
@@ -115,7 +120,42 @@ PrefabInstance:
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: assingInt
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.expReward
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.goldReward
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingWill
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.drops.Array.data[0].item
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.drops.Array.data[1].item
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.drops.Array.data[0].dropChance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.drops.Array.data[1].dropChance
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}

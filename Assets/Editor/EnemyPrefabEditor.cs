@@ -6,15 +6,16 @@ public class EnemyPrefabEditor : BasicCharEditor
 {
     private bool nameFold = true;
     private bool StartRace = true;
-    private bool healthStats = true;
+    private bool stats = true;
     private bool bodyStats = true;
     private bool rewardFold = true;
 
     private SerializedProperty NeedFirstName, NeedLastName;
     private SerializedProperty startRaces;
-    private SerializedProperty assingStr, assingCharm, assingEnd, assingDex, assingInt, statRngFactor;
+    private SerializedProperty assingStr, assingCharm, assingEnd, assingDex, assingInt, assingWillpower, statRngFactor;
     private SerializedProperty assingHeight, heightRng, assingFat, fatRng, assingMuscle, muscleRng;
     private SerializedProperty reward, rewardExp, rewardGold, rewardRng, drops;
+    private int totalStats => assingStr.intValue + assingCharm.intValue + assingEnd.intValue + assingDex.intValue + assingInt.intValue + assingWillpower.intValue;
 
     private void OnEnable()
     {
@@ -29,6 +30,7 @@ public class EnemyPrefabEditor : BasicCharEditor
         assingEnd = serializedObject.FindProperty("assingEnd");
         assingDex = serializedObject.FindProperty("assingDex");
         assingInt = serializedObject.FindProperty("assingInt");
+        assingWillpower = serializedObject.FindProperty("assingWill");
         statRngFactor = serializedObject.FindProperty("statRngFactor");
 
         assingHeight = serializedObject.FindProperty("assingHeight");
@@ -76,7 +78,6 @@ public class EnemyPrefabEditor : BasicCharEditor
         {
             GUILayout.BeginVertical("Box");
             serializedObject.Update();
-            startRaces.arraySize = EditorGUILayout.IntField("Size", startRaces.arraySize);
             if (GUILayout.Button("Add start race"))
             {
                 startRaces.arraySize++;
@@ -90,17 +91,26 @@ public class EnemyPrefabEditor : BasicCharEditor
             serializedObject.ApplyModifiedProperties();
             GUILayout.EndVertical();
         }
-        healthStats = EditorGUILayout.Foldout(healthStats, "Stats", true, EditorStyles.foldout);
-        if (healthStats)
+        stats = EditorGUILayout.Foldout(stats, "Stats", true, EditorStyles.foldout);
+        if (stats)
         {
             EditorGUILayout.BeginVertical("Box");
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Total stat points: ");
+            EditorGUILayout.IntField(totalStats);
+            EditorGUILayout.LabelField("Level: " + (totalStats - 22) / 4);
+            EditorGUILayout.EndHorizontal();
             serializedObject.Update();
             UgreEditorTools.TwoBoldLabels("Assing str", "Assing charm");
             TwoIntSliders(assingStr, assingCharm);
             UgreEditorTools.TwoBoldLabels("Assing end", "Assing dex");
             TwoIntSliders(assingEnd, assingDex);
-            UgreEditorTools.TwoBoldLabels("Assing int", "Stats rng factor");
-            IntAndFloatSlider(assingInt, statRngFactor);
+            UgreEditorTools.TwoBoldLabels("Assing int", "Assing Willpower");
+            TwoIntSliders(assingInt, assingWillpower);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Stat rng: ", EditorStyles.boldLabel);
+            statRngFactor.floatValue = EditorGUILayout.Slider(statRngFactor.floatValue, 0, 0.99f);
+            EditorGUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
             EditorGUILayout.EndVertical();
         }
@@ -142,8 +152,6 @@ public class EnemyPrefabEditor : BasicCharEditor
             serializedObject.ApplyModifiedProperties();
             EditorGUILayout.EndVertical();
         }
-        EditorGUILayout.PropertyField(reward);
-
         GUILayout.Label("Standard editor and end of custom editor", EditorStyles.boldLabel);
         GUILayout.Space(20);
         base.OnInspectorGUI();
@@ -157,21 +165,9 @@ public class EnemyPrefabEditor : BasicCharEditor
         EditorGUILayout.EndHorizontal();
     }
 
-    private void TwoIntSliders(SerializedProperty one, SerializedProperty two)
-    {
-        EditorGUILayout.BeginHorizontal();
-        one.intValue = EditorGUILayout.IntSlider(one.intValue, 0, 99);
-        two.intValue = EditorGUILayout.IntSlider(two.intValue, 0, 99);
-        EditorGUILayout.EndHorizontal();
-    }
+    private void TwoIntSliders(SerializedProperty one, SerializedProperty two) => TwoIntSliders(one, two, 0, 99);
 
-    private void TwoIntSliders(SerializedProperty one, SerializedProperty two, int maxVal)
-    {
-        EditorGUILayout.BeginHorizontal();
-        one.intValue = EditorGUILayout.IntSlider(one.intValue, 0, maxVal);
-        two.intValue = EditorGUILayout.IntSlider(two.intValue, 0, maxVal);
-        EditorGUILayout.EndHorizontal();
-    }
+    private void TwoIntSliders(SerializedProperty one, SerializedProperty two, int maxVal) => TwoIntSliders(one, two, 0, maxVal);
 
     private void TwoIntSliders(SerializedProperty one, SerializedProperty two, int minVal, int maxVal)
     {

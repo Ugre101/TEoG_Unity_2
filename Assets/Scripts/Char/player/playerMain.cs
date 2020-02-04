@@ -35,6 +35,7 @@ public class PlayerMain : BasicChar
         Essence.Masc.Gain(19999);
         Essence.Femi.Gain(9999);
         Currency.Gold += 100;
+        InitHealth();
     }
 
     public void PlayerInit(string first, string last)

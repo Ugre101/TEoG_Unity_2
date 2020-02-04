@@ -23,7 +23,9 @@ public class Reward
     {
         drops.ForEach(d =>
         {
-            if (d.DropChance < Random.Range(0, 1f))
+            float minChance = 0, maxChance = 1f;
+            // if perks that helps drops chance add it here.
+            if (d.DropChance >= Random.Range(minChance, maxChance))
             {
                 basicChar.Inventory.AddItem(d.Item);
             }

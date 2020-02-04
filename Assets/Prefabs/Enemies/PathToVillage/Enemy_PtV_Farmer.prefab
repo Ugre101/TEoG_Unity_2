@@ -62,10 +62,60 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: reward.drops.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].races
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: assingStr
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: assingEnd
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: assingInt
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: assingCharm
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: assingDex
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: reward.expReward
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: reward.goldReward
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: reward.drops.Array.data[0].item
+      value: 24
+      objectReference: {fileID: 0}
     - target: {fileID: 7039296091227565532, guid: 8db33dd8f893950428140c08914b209b,
         type: 3}
       propertyPath: m_Name
-      value: Enemy_Start
+      value: Enemy_PtV_Farmer
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8db33dd8f893950428140c08914b209b, type: 3}
