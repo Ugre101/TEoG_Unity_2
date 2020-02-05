@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6c954d524eb824c86f979e70dd64c2, type: 3}
   m_Name: EMRogue
   m_EditorClassIdentifier: 
-  <Gender>k__BackingField: 0
-  <Race>k__BackingField: 2
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 74d9959936f50ca4380dff3581a13c1f,
-    type: 3}
-  <ClassType>k__BackingField: 3
-  <GenderType>k__BackingField: 1
+  gender: 0
+  race: 1
+  classType: 3
+  genderType: 1
+  sprite: {fileID: 21300000, guid: b01ec8e1e54e39644b6a3fa1ef1b5980, type: 3}

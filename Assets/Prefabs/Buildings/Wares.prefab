@@ -820,7 +820,7 @@ GameObject:
   - component: {fileID: 3204296568225643194}
   - component: {fileID: 3204296568225643193}
   m_Layer: 5
-  m_Name: Button
+  m_Name: SellToggleBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

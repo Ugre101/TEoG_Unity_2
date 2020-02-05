@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6c954d524eb824c86f979e70dd64c2, type: 3}
   m_Name: HMWarrior
   m_EditorClassIdentifier: 
-  <Gender>k__BackingField: 0
-  <Race>k__BackingField: 1
-  <Sprite>k__BackingField: {fileID: 21300000, guid: cab365cbf773834408f4a2494ba12fd5,
-    type: 3}
-  <ClassType>k__BackingField: 1
-  <GenderType>k__BackingField: 1
+  gender: 0
+  race: 1
+  classType: 1
+  genderType: 1
+  sprite: {fileID: 21300000, guid: cab365cbf773834408f4a2494ba12fd5, type: 3}

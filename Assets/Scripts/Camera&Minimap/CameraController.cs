@@ -30,15 +30,13 @@ public class CameraController : MonoBehaviour
 
     private float _orthSize = 8f;
 
-    private float OrthSize
+    private float OrthSize => _orthSize;
+
+    private void SetOrthSize(float value)
     {
-        get => _orthSize;
-        set
-        {
-            _orthSize = Mathf.Clamp(value, 4, _maxCam);
-            cam.orthographicSize = _orthSize;
-            TilemapLimits();
-        }
+        _orthSize = Mathf.Clamp(value, 4, _maxCam);
+        cam.orthographicSize = _orthSize;
+        TilemapLimits();
     }
 
     private Vector3 minTile, maxTile;
@@ -52,7 +50,7 @@ public class CameraController : MonoBehaviour
         cam = GetComponent<Camera>();
         minTile = _map.CellToWorld(_map.cellBounds.min);
         maxTile = _map.CellToWorld(_map.cellBounds.max);
-        OrthSize = 12f;
+        SetOrthSize(12f);
     }
 
     // Update is called once per frame
@@ -81,20 +79,20 @@ public class CameraController : MonoBehaviour
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             // ... change the orthographic size based on the change in distance between the touches.
-            OrthSize += deltaMagnitudeDiff * zoomSpeed;
+            SetOrthSize(OrthSize + deltaMagnitudeDiff * zoomSpeed);
         }
         float scrollValue = Input.GetAxis("Mouse ScrollWheel");
         if (keyBindings.zoomInKey.GetKey())
         {
-            OrthSize -= zoomSpeed;
+            SetOrthSize(OrthSize - zoomSpeed);
         }
         else if (keyBindings.zoomOutKey.GetKey())
         {
-            OrthSize += zoomSpeed;
+            SetOrthSize(OrthSize + zoomSpeed);
         }
         else if (scrollValue != 0)
         {
-            OrthSize -= scrollValue; // times zoom speed
+            SetOrthSize(OrthSize - scrollValue); // times zoom speed
         }
         transform.position = Vector3.Lerp(transform.position, _target, _smoothing);
     }

@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6c954d524eb824c86f979e70dd64c2, type: 3}
   m_Name: DFWarrior
   m_EditorClassIdentifier: 
-  <Gender>k__BackingField: 1
-  <Race>k__BackingField: 5
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 678b47e2ee5f7e742aba6e74e09750f2,
-    type: 3}
-  <ClassType>k__BackingField: 1
-  <GenderType>k__BackingField: 0
+  gender: 1
+  race: 5
+  classType: 1
+  genderType: 0
+  sprite: {fileID: 21300000, guid: 678b47e2ee5f7e742aba6e74e09750f2, type: 3}

@@ -24,7 +24,7 @@ public enum ItemId
     TrollMilk, // Done
     ElvenHair,
     SmallPouch, // Done
-    LargePouch, // Done 
+    LargePouch, // Done
     FairyDust, // Done
     BovineMilk,
     MilkJug,
@@ -40,5 +40,9 @@ public enum ItemId
     PocketPortal,
     SmallMealRation, // Done
     MealRation,
-    LargeMealRation
+    LargeMealRation,
+    Contraceptive, // Done
+    LiquidBarrenness, // Done
+    SeedDiluter, // Done
+    MaleContraceptive
 }

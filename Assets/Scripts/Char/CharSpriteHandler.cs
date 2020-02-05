@@ -12,28 +12,27 @@ public class CharSpriteHandler : MonoBehaviour
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
         whom = whom != null ? whom : GetComponent<BasicChar>();
 
-        spriteRenderer.sprite = sprites.GetSprite(whom);
-        whom.RaceSystem.RaceChangeEvent += RaceChange;
-        whom.GenderChangeEvent += GenderChange;
-       // Height();
+        whom.RaceSystem.RaceChangeEvent += ChangeSprite;
+        whom.GenderChangeEvent += ChangeSprite;
+        ChangeSprite();
     }
 
-    private void RaceChange() => ChangeSprite();
-
-    private void GenderChange() => ChangeSprite();
-
-    private void ChangeSprite() => spriteRenderer.sprite = sprites.GetSprite(whom);
+    private void ChangeSprite()
+    {
+        Height();
+        spriteRenderer.sprite = sprites.GetSprite(whom);
+    }
 
     private void OnDestroy()
     {
-        whom.RaceSystem.RaceChangeEvent -= RaceChange;
-        whom.GenderChangeEvent -= GenderChange;
+        whom.RaceSystem.RaceChangeEvent -= ChangeSprite;
+        whom.GenderChangeEvent -= ChangeSprite;
     }
 
     private void Height()
     {
         float heightRatio = whom.Body.Height.Value / 160f;
-        float newSize = 0.1f * heightRatio;
+        float newSize = Mathf.Clamp(0.1f * heightRatio, 0.05f, 0.5f);
         transform.localScale = new Vector3(newSize, newSize);
     }
 }

@@ -21,12 +21,10 @@ public class Shop : Building
     [SerializeField] protected Button sellBtn = null;
     [SerializeField] protected TextMeshProUGUI sellBtnText = null;
     [SerializeField] protected SellItem sellItemPrefab = null;
+    [SerializeField] protected List<ItemWare> itemWares = new List<ItemWare>();
     protected bool selling = false;
 
-    public virtual void Start()
-    {
-        sellBtn.onClick.AddListener(ToggleSelling);
-    }
+    public virtual void Start() => sellBtn.onClick.AddListener(ToggleSelling);
 
     public new virtual void OnEnable()
     {
@@ -35,6 +33,9 @@ public class Shop : Building
         {
             Debug.Log("You forgot to assing itemsHolder at " + new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType);
         }
+        ShowWares();
+        selling = false;
+        sellBtnText.text = "Sell";
     }
 
     protected virtual void ToggleSelling()
@@ -52,10 +53,10 @@ public class Shop : Building
         }
     }
 
-    public virtual void ShowWares(List<Ware> wares, BasicChar buyer)
+    public virtual void ShowWares()
     {
         container.KillChildren();
-        wares.ForEach(w => Instantiate(buyItem, container).Setup(w, buyer));
+        itemWares.ForEach(w => Instantiate(buyItem, container).Setup(w, player));
     }
 
     protected virtual void SellWares()
