@@ -72,14 +72,14 @@ public class SexualFluid
 
     public float DisCharge()
     {
-        float disCharge = Current * 0.7f;
+        float disCharge = Mathf.Clamp(MaxAmount * 0.33f, 0, current);
         Current -= disCharge;
         return Mathf.Round(disCharge);
     }
 
     public float DisCharge(float percentage)
     {
-        float disCharge = Current * Mathf.Clamp(percentage, 0f, 1f);
+        float disCharge = Mathf.Clamp(MaxAmount * percentage, 0, current);
         Current -= disCharge;
         return Mathf.Round(disCharge);
     }
@@ -120,24 +120,8 @@ public abstract class SexualOrgan
                 // Calc
                 lastBase = BaseSize;
                 currSize = BaseSize;
-                cost = Mathf.Ceil(Mathf.Min(2000, baseCost * Mathf.Pow(1.05f, BaseSize)));
             }
             return currSize;
-        }
-    }
-
-    protected float baseCost = 30;
-    protected float cost;
-
-    public virtual float Cost
-    {
-        get
-        {
-            if (BaseSize != lastBase)
-            {
-                cost = Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, BaseSize)));
-            }
-            return cost;
         }
     }
 
@@ -149,6 +133,9 @@ public abstract class SexualOrgan
     public SexualOrgan() : this(2)
     {
     }
+
+    protected float lastCost;
+    public abstract float Cost { get; }
 
     public float Grow(int toGrow = 1)
     {

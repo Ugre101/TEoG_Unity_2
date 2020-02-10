@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Bar
+﻿namespace Bar
 {
     public class BarMeal : ShopWare
     {
@@ -11,16 +9,17 @@ namespace Bar
             if (ware is BuyMeal meal)
             {
                 this.meal = meal;
+                this.buyer = buyer;
                 Cost = meal.Cost;
                 SetTexts(meal.Title, meal.Desc, meal.Cost.ToString());
-                BuyBtn.onClick.AddListener(() => Buy(buyer));
-                FrameCanAfford(buyer);
-                buyer.Currency.GoldChanged += delegate { FrameCanAfford(buyer); };
+                BuyBtn.onClick.AddListener(Buy);
+                FrameCanAfford();
+                buyer.Currency.GoldChanged += FrameCanAfford;
             }
             else { Destroy(gameObject); }
         }
 
-        public override void Buy(BasicChar buyer)
+        public override void Buy()
         {
             if (buyer.Currency.TryToBuy(Cost))
             {

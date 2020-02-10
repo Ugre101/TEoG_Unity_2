@@ -64,13 +64,13 @@ public static class BasicCharExtensions
     private static void ReGainFluidsTick(BasicChar basicChar)
     {
         Organs so = basicChar.SexualOrgans;
-        if (so.Balls.Count > 0)
+        if (so.HaveBalls())
         {
-            so.Balls.ForEach(b => b.Fluid.ReFill());
+            so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value));
         }
         if (so.Lactating)
         {
-            so.Boobs.ForEach(b => b.Fluid.ReFill());
+            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value));
         }
     }
 }

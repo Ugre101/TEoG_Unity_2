@@ -16,6 +16,8 @@ public class Balls : SexualOrgan
         _fluid = new SexualFluid(FluidType.Cum, Size);
     }
 
+    public override float Cost => this.GrowCost();
+
     [SerializeField]
     private SexualFluid _fluid;
 
@@ -34,6 +36,8 @@ public class Balls : SexualOrgan
 
 public static class BallsExtensions
 {
+    public static float GrowCost(this Balls balls) => Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, balls.BaseSize)));
+
     public static void AddBalls(this List<Balls> balls) => balls.Add(new Balls());
 
     public static void AddBalls(this List<Balls> balls, int parSize) => balls.Add(new Balls(parSize));
@@ -48,7 +52,7 @@ public static class BallsExtensions
             balls.Remove(toShrink);
             return 30f;
         }
-        return toShrink.Cost;
+        return toShrink.GrowCost();
     }
 
     public static float Cumming(this List<Balls> balls) => balls.Sum(b => b.Fluid.DisCharge());

@@ -17,5 +17,5 @@ MonoBehaviour:
   useName: Eat
   sprite: {fileID: 21300000, guid: 95a881625ecb2fd41b8def0832cd4215, type: 3}
   type: 0
-  sellValue: 5
+  value: 10
   desc: 

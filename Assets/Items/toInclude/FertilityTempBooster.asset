@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: c5f6b8ea46a223347a06e3bf7518a137, type: 3}
   m_Name: FertilityTempBooster
   m_EditorClassIdentifier: Assembly-CSharp:ItemScripts:FertilityTempBooster
   itemId: 6
@@ -17,5 +17,5 @@ MonoBehaviour:
   useName: Drink
   sprite: {fileID: 0}
   type: 0
-  sellValue: 10
-  desc: Boosts fertility for a week
+  value: 20
+  desc: Significantly increases your fertility for a week.

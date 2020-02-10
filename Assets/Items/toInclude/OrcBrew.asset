@@ -17,5 +17,5 @@ MonoBehaviour:
   useName: Drink
   sprite: {fileID: 21300000, guid: 00091fafbda91694db3b497bd2949d54, type: 3}
   type: 0
-  sellValue: 5
+  value: 20
   desc: 

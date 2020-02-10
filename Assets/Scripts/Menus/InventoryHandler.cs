@@ -15,7 +15,7 @@ public class InventoryHandler : MonoBehaviour
     private List<InventoryItem> Items => player.Inventory.Items;
 
     //  public List<Item> Items;
-    [SerializeField] private Items items = null;
+    [SerializeField] private ItemHolder items = null;
 
     [SerializeField] private GameObject SlotsHolder = null;
 

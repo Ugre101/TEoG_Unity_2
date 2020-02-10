@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: c36d5b1aea2656d4c94f1bc5f709936a, type: 3}
   m_Name: ElvenHair
   m_EditorClassIdentifier: Assembly-CSharp:ItemScripts:ElvenHair
   itemId: 12
   title: Elven hair
   useName: Sniff
-  sprite: {fileID: 21300000, guid: c2c5a7b08f48acf449ea3dcd0dc4abdf, type: 3}
+  sprite: {fileID: 0}
   type: 1
-  sellValue: 5
-  desc: 
+  value: 10
+  desc: A strand of elven hair, sniffing it will allow you to absorb some elven essence.

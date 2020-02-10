@@ -17,5 +17,7 @@ MonoBehaviour:
   useName: Lick
   sprite: {fileID: 21300000, guid: 559f4b322510e334ca74999d8ac104df, type: 3}
   type: 0
-  sellValue: 10
-  desc: 
+  value: 30
+  desc: A small bowl of carefully collected glimmering dust from the wings of fairies,
+    licking it will cause you to absorb some fairy essence and maybe even some of
+    their characteristics.

@@ -11,6 +11,8 @@ public class Organs
     [SerializeField] private List<Balls> balls = new List<Balls>();
 
     public List<Balls> Balls => balls;
+    [SerializeField] private CharStats ballsBunusRefillRate = new CharStats(0);
+    public CharStats BallsBunusRefillRate => ballsBunusRefillRate;
 
     public float CumSlider => Balls.CumTotal() / Balls.CumMax();
 
@@ -19,7 +21,8 @@ public class Organs
     [SerializeField] private List<Boobs> boobs = new List<Boobs>();
 
     public List<Boobs> Boobs => boobs;
-
+    [SerializeField] private CharStats boobsBonusRefillRate = new CharStats();
+    public CharStats BoobsBonusRefillRate => boobsBonusRefillRate;
     [SerializeField] private bool lactating = false;
 
     public bool Lactating => lactating;

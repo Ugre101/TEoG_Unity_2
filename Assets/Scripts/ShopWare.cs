@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public abstract class ShopWare : MonoBehaviour
 {
     [SerializeField] protected TextMeshProUGUI title, desc, displayCost;
+    protected BasicChar buyer;
 
     protected void SetTexts(string title, string desc, string cost)
     {
@@ -19,7 +20,7 @@ public abstract class ShopWare : MonoBehaviour
     [SerializeField] private Button buyBtn;
     public Button BuyBtn => buyBtn;
 
-    public virtual void Buy(BasicChar buyer)
+    public virtual void Buy()
     {
         if (!buyer.Currency.CanAfford(Cost))
         {
@@ -29,12 +30,12 @@ public abstract class ShopWare : MonoBehaviour
 
     public virtual void Setup(Ware item, BasicChar buyer)
     {
-        BuyBtn.onClick.AddListener(() => Buy(buyer));
+        BuyBtn.onClick.AddListener(Buy);
     }
 
     [SerializeField] protected Color affordColor = Color.green, cantAffordColor = Color.red;
 
-    public virtual void FrameCanAfford(BasicChar buyer)
+    public virtual void FrameCanAfford()
     {
         frame.color = buyer.Currency.CanAfford(Cost) ? affordColor : cantAffordColor;
     }

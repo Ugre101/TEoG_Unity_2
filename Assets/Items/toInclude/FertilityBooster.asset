@@ -17,5 +17,5 @@ MonoBehaviour:
   useName: Drink
   sprite: {fileID: 21300000, guid: dad62aee0da24ea4c90352c7735e7519, type: 3}
   type: 0
-  sellValue: 50
-  desc: 
+  value: 100
+  desc: Permanently increases your fertility.

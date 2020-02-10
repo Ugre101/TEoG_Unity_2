@@ -4,11 +4,11 @@
     {
         private RentRoomBasic room;
 
-        public override void Buy(BasicChar renter)
+        public override void Buy()
         {
-            if (renter.Currency.TryToBuy(Cost))
+            if (buyer.Currency.TryToBuy(Cost))
             {
-                room.Sleep(renter);
+                room.Sleep(buyer);
             }
         }
 
@@ -19,9 +19,9 @@
                 this.room = room;
                 Cost = room.Cost;
                 SetTexts(room.Title, room.Desc, Cost.ToString());
-                BuyBtn.onClick.AddListener(() => Buy(buyer));
-                FrameCanAfford(buyer);
-                buyer.Currency.GoldChanged += delegate { FrameCanAfford(buyer); };
+                BuyBtn.onClick.AddListener(Buy);
+                FrameCanAfford();
+                buyer.Currency.GoldChanged += FrameCanAfford;
             }
             else
             {

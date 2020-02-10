@@ -13,6 +13,8 @@ public class Vagina : SexualOrgan
     {
     }
 
+    public override float Cost => this.GrowCost();
+
     [SerializeField]
     private Womb womb = new Womb();
 
@@ -21,6 +23,8 @@ public class Vagina : SexualOrgan
 
 public static class VaginaExtensions
 {
+    public static float GrowCost(this Vagina vagina) => Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, vagina.BaseSize)));
+
     public static void AddVag(this List<Vagina> vaginas) => vaginas.Add(new Vagina());
 
     public static void AddVag(this List<Vagina> vaginas, int parSize) => vaginas.Add(new Vagina(parSize));
@@ -35,7 +39,7 @@ public static class VaginaExtensions
             vaginas.Remove(toShrink);
             return 30f;
         }
-        return toShrink.Cost;
+        return toShrink.GrowCost();
     }
 
     public static bool EmptyWomb(this List<Vagina> vaginas) => vaginas.Exists(v => !v.Womb.HasFetus);

@@ -17,5 +17,5 @@ MonoBehaviour:
   useName: Eat
   sprite: {fileID: 0}
   type: 0
-  sellValue: 5
-  desc: 
+  value: 10
+  desc: Significantly decreases your fertility for a week.

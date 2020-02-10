@@ -4,26 +4,22 @@ using UnityEngine;
 [System.Serializable]
 public class PregnancySystem
 {
-    [SerializeField]
-    private List<Child> children = new List<Child>();
+    [SerializeField] private List<Child> children = new List<Child>();
 
     public List<Child> Children => children;
 
-    [SerializeField]
-    private CharStats virility = new CharStats(1);
+    [SerializeField] private CharStats virility = new CharStats(1);
 
     public CharStats Virility => virility;
 
-    [SerializeField]
-    private CharStats fertility = new CharStats(1);
+    [SerializeField] private CharStats fertility = new CharStats(1);
 
     public CharStats Fertility => fertility;
 
     // growth in days
     private readonly float baseFetusGrowth = 1f;
 
-    [SerializeField]
-    private float bonusFetusGrowth = 0f;
+    [SerializeField] private float bonusFetusGrowth = 0f;
 
     private float FinalGrowthRate => baseFetusGrowth + bonusFetusGrowth;
 

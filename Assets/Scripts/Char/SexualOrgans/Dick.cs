@@ -12,10 +12,14 @@ public class Dick : SexualOrgan
     public Dick(int size) : base(size)
     {
     }
+
+    public override float Cost => this.GrowCost();
 }
 
 public static class DickExtensions
 {
+    public static float GrowCost(this Dick dick) => Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, dick.BaseSize)));
+
     public static void AddDick(this List<Dick> dicks) => dicks.Add(new Dick());
 
     public static void AddDick(this List<Dick> dicks, int parSize) => dicks.Add(new Dick(parSize));
@@ -32,7 +36,7 @@ public static class DickExtensions
         }
         else
         {
-            return toShrink.Cost;
+            return toShrink.GrowCost();
         }
     }
 

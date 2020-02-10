@@ -16,7 +16,7 @@ public class Item : ScriptableObject
     [SerializeField] protected string title = "Item", useName = "Use";
     [SerializeField] protected Sprite sprite;
     [SerializeField] protected ItemTypes type;
-    [SerializeField] protected int sellValue = 0;
+    [SerializeField] protected int value = 0;
 
     [TextArea]
     [SerializeField] protected string desc = string.Empty;
@@ -26,7 +26,8 @@ public class Item : ScriptableObject
     public ItemId ItemId => itemId;
     public Sprite Sprite => sprite;
     public ItemTypes Type => type;
-    public int SellValue => sellValue;
+    public int Value => value;
+    public int SellValue => Mathf.FloorToInt(value * 0.6f);
     public string Desc => desc;
 
     public virtual string Use(BasicChar user) => "used";

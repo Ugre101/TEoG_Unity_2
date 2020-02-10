@@ -2,16 +2,16 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Items))]
+[CustomEditor(typeof(ItemHolder))]
 public class ItemsEditor : Editor
 {
-    private Items items;
+    private ItemHolder items;
     private SerializedProperty list;
     private Rect dropArea;
 
     private void OnEnable()
     {
-        items = (Items)target;
+        items = (ItemHolder)target;
         list = serializedObject.FindProperty("items");
         FindItems();
     }

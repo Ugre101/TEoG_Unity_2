@@ -16,6 +16,8 @@ public class Boobs : SexualOrgan
         _fluid = new SexualFluid(FluidType.Milk, Size);
     }
 
+    public override float Cost => this.GrowCost();
+
     [SerializeField]
     private SexualFluid _fluid;
 
@@ -41,6 +43,8 @@ public class Boobs : SexualOrgan
 
 public static class BoobExtensions
 {
+    public static float GrowCost(this Boobs boobs) => Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, boobs.BaseSize)));
+
     public static void AddBoobs(this List<Boobs> boobs) => boobs.Add(new Boobs());
 
     public static void AddBoobs(this List<Boobs> boobs, int parSize) => boobs.Add(new Boobs(parSize));
@@ -55,7 +59,7 @@ public static class BoobExtensions
             boobs.Remove(toShrink);
             return 30f;
         }
-        return toShrink.Cost;
+        return toShrink.GrowCost();
     }
 
     public static float Milking(this List<Boobs> boobs) => boobs.Sum(b => b.Fluid.DisCharge());
@@ -85,7 +89,8 @@ public static class BoobExtensions
     public static string Looks(this List<Boobs> boobs)
     {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < boobs.Count; i++)
+        for (int i = 0; i < boobs
+            .Count; i++)
         {
             Boobs b = boobs[i];
             if (i == 0)

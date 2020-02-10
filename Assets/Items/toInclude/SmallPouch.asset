@@ -17,5 +17,5 @@ MonoBehaviour:
   useName: Open
   sprite: {fileID: 21300000, guid: 5df095ead922a204ab02d27744caa635, type: 3}
   type: 1
-  sellValue: 10
+  value: 15
   desc: 

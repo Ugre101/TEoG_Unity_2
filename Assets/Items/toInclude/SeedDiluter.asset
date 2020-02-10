@@ -17,5 +17,5 @@ MonoBehaviour:
   useName: Drink
   sprite: {fileID: 0}
   type: 0
-  sellValue: 30
-  desc: 
+  value: 60
+  desc: Permanently decreases your virility.

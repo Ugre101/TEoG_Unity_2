@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Building : MonoBehaviour
+public abstract class Building : MonoBehaviour
 {
     [SerializeField] protected PlayerMain player;
 
@@ -13,15 +13,15 @@ public class Building : MonoBehaviour
     }
 }
 
-public class Shop : Building
+public abstract class Shop : Building
 {
     [SerializeField] protected Transform container = null;
     [SerializeField] protected BuyItem buyItem = null;
-    [SerializeField] protected Items ItemsRef = null;
+    [SerializeField] protected ItemHolder ItemsRef = null;
     [SerializeField] protected Button sellBtn = null;
     [SerializeField] protected TextMeshProUGUI sellBtnText = null;
     [SerializeField] protected SellItem sellItemPrefab = null;
-    [SerializeField] protected List<ItemWare> itemWares = new List<ItemWare>();
+    [SerializeField] protected List<ItemId> buyItems = new List<ItemId>();
     protected bool selling = false;
 
     public virtual void Start() => sellBtn.onClick.AddListener(ToggleSelling);
@@ -56,7 +56,7 @@ public class Shop : Building
     public virtual void ShowWares()
     {
         container.KillChildren();
-        itemWares.ForEach(w => Instantiate(buyItem, container).Setup(w, player));
+        buyItems.ForEach(i => Instantiate(buyItem, container).Setup(player, ItemsRef.GetById(i)));
     }
 
     protected virtual void SellWares()
