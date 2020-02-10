@@ -2,11 +2,9 @@
 
 public class EnterBuilding : MonoBehaviour
 {
-    [SerializeField]
-    private CanvasMain gameUI = null;
+    [SerializeField] private CanvasMain gameUI = null;
 
-    [SerializeField]
-    private Building building = null;
+    [SerializeField] private Building building = null;
 
     public GameObject BuildingToEnter => building.gameObject;
 
