@@ -3,11 +3,9 @@ using UnityEngine.UI;
 
 public class DevResume : MonoBehaviour
 {
-    [SerializeField]
-    private CanvasMain canvasMain = null;
+    [SerializeField] private CanvasMain canvasMain = null;
 
-    [SerializeField]
-    private Button btn = null;
+    [SerializeField] private Button btn = null;
 
     // Start is called before the first frame update
     private void Start()

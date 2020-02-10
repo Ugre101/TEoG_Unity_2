@@ -19,9 +19,34 @@ public static class BasicCharExtensions
         return desc;
     }
 
-    public static string BodyStats(this BasicChar who)
+    public static string BodyStats(this BasicChar who) => $"{who.Age.AgeYears}years old\nHeight: {who.Height()}\nWeight: {who.Weight()}\nMuscle: {Settings.KgorP(who.Body.Muscle.Value)}\nFat: {Settings.KgorP(who.Body.Fat.Value)}";
+
+    public static void Eat(this BasicChar eater, Meal meal)
     {
-        return $"{who.Age.AgeYears}years old\nHeight: {who.Height()}\nWeight: {who.Weight()}\nMuscle: {Settings.KgorP(who.Body.Muscle.Value)}\nFat: {Settings.KgorP(who.Body.Fat.Value)}";
+        eater.HP.Gain(meal.HpGain);
+        eater.WP.Gain(meal.WpGain);
+        eater.Body.Fat.GainFlat(meal.FatGain);
+        if (meal is MealWithBuffs buffs)
+        {
+            if (buffs.TempMods.Count > 0)
+            {
+                eater.Stats.AddTempMods(buffs.TempMods);
+            }
+            if (buffs.TempHealthMods.Count > 0)
+            {
+                buffs.TempHealthMods.ForEach(m =>
+                {
+                    if (m.HealthType == HealthTypes.Health)
+                    {
+                        eater.HP.AddTempMod(m);
+                    }
+                    else if (m.HealthType == HealthTypes.WillPower)
+                    {
+                        eater.WP.AddTempMod(m);
+                    }
+                });
+            }
+        }
     }
 
     public static IEnumerator TickEverySecond(BasicChar basicChar)

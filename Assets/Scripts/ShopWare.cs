@@ -37,7 +37,10 @@ public abstract class ShopWare : MonoBehaviour
 
     public virtual void FrameCanAfford()
     {
-        frame.color = buyer.Currency.CanAfford(Cost) ? affordColor : cantAffordColor;
+        if (buyer != null)
+        {
+            frame.color = buyer.Currency.CanAfford(Cost) ? affordColor : cantAffordColor;
+        }
     }
 }
 
