@@ -11,11 +11,11 @@
             BaseSetup(player);
         }
 
-        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(boobs.Size)} {boobs.GrowCost()}Femi";
+        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(boobs.Size)} {boobs.Cost}Femi";
 
         protected override void Grow()
         {
-            if (Femi.Amount >= boobs.GrowCost())
+            if (Femi.Amount >= boobs.Cost)
             {
                 boobs.Grow();
                 DisplayCost();

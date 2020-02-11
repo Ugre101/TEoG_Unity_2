@@ -9,7 +9,16 @@ public class MapEvents : MonoBehaviour
 
     public static event Action<Tilemap> WorldMapChange;
 
-    private PlayerMain Player => PlayerMain.GetPlayer;
+    private PlayerMain gottenPlayer;
+
+    private PlayerMain Player
+    {
+        get
+        {
+            if (gottenPlayer == null) { gottenPlayer = PlayerMain.GetPlayer; }
+            return gottenPlayer;
+        }
+    }
 
     public static Tilemap CurrentMap { get; private set; }
 
@@ -84,7 +93,6 @@ public class MapEvents : MonoBehaviour
         }
         else
         {
-            // Yolo
             Debug.LogError("MapEvents had to pick random startmap, not good...");
             CurrentMap = GetComponent<Tilemap>();
         }

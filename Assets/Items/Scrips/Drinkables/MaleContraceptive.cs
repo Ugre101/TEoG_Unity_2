@@ -7,7 +7,7 @@ namespace ItemScripts
     [CreateAssetMenu(fileName = "MaleContraceptive", menuName = "Item/Edibles/MaleContraceptive")]
     public class MaleContraceptive : Edibles
     {
-        private readonly TempStatMod contraMod = new TempStatMod(10, ModTypes.Flat, "MaleContraceptive", 168);
+        private readonly TempStatMod contraMod = new TempStatMod(-10, ModTypes.Flat, "MaleContraceptive", 168);
 
         public MaleContraceptive() : base(ItemId.MaleContraceptive, "Male contraceptive")
         {

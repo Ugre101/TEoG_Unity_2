@@ -11,11 +11,11 @@
             BaseSetup(player);
         }
 
-        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(dick.Size)} {dick.GrowCost()}Masc";
+        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(dick.Size)} {dick.Cost}Masc";
 
         protected override void Grow()
         {
-            if (Masc.Amount >= dick.GrowCost())
+            if (Masc.Amount >= dick.Cost)
             {
                 dick.Grow();
                 DisplayCost();

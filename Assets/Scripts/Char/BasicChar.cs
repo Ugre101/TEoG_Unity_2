@@ -125,15 +125,18 @@ public abstract class BasicChar : MonoBehaviour
         essence.Femi.EssenceSliderEvent += DidGenderChange;
         expSystem = new ExpSystem(1);
         StartCoroutine(BasicCharExtensions.TickEverySecond(this));
+        DateSystem.NewDayEvent += this.GrowFetuses;
+        DateSystem.NewDayEvent += PregnancySystem.GrowChild;
     }
+
     protected void InitHealth()
     {
         hp = new Health(new AffectedByStat(Stats.Endurance, 5));
         wp = new Health(new AffectedByStat(Stats.Willpower, 5));
         HP.FullGain();
         WP.FullGain();
-
     }
+
     public virtual void OnDestroy()
     {
         Essence.Masc.EssenceSliderEvent -= DidGenderChange;

@@ -9,9 +9,14 @@ public class CharSprite : ScriptableObject
     [SerializeField] private GenderTypes genderType;
     [SerializeField] private Sprite sprite;
 
+    [Header("1 is standard")]
+    [Range(0.1f, 2f)]
+    [SerializeField] private float heightOfSprite = 1f;
+
     public Genders Gender => gender;
     public Races Race => race;
     public Sprite Sprite => sprite;
     public ClassTypes ClassType => classType;
     public GenderTypes GenderType => genderType;
+    public float HeightOfSprite => heightOfSprite;
 }

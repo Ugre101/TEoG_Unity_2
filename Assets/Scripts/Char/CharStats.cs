@@ -41,13 +41,12 @@ public class CharStats : Stat
 
     public void AddMods(StatMod mod)
     {
-        IsDirty = true;
         StatMods.Add(mod);
+        IsDirty = true;
     }
 
     public void AddTempMod(TempStatMod mod)
     {
-        IsDirty = true;
         if (TempMods.Exists(tm => tm.Source.Equals(mod.Source)))
         {
             TempStatMod toChange = TempMods.Find(tm => tm.Source.Equals(mod.Source));
@@ -60,6 +59,7 @@ public class CharStats : Stat
             // Clone otherwise diminishingReturn doesn't work as duration increase on both.
             TempMods.Add(new TempStatMod(mod.Value, mod.ModType, mod.Source, mod.Duration));
         }
+        IsDirty = true;
         AddedTempEvent?.Invoke();
     }
 
@@ -69,8 +69,8 @@ public class CharStats : Stat
 
     public void RemoveMods(StatMod mod)
     {
-        IsDirty = true;
         StatMods.Remove(mod);
+        IsDirty = true;
     }
 
     public void RemoveTempMods(TempStatMod mod)

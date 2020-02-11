@@ -17,3 +17,4 @@ MonoBehaviour:
   classType: 2
   genderType: 0
   sprite: {fileID: 21300000, guid: 0db1d8b37932fc942a0b396eacf3bb84, type: 3}
+  heightOfSprite: 1.2

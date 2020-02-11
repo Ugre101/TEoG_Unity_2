@@ -6,20 +6,13 @@ using UnityEngine;
 [System.Serializable]
 public class Boobs : SexualOrgan
 {
-    public Boobs() : base()
-    {
-        _fluid = new SexualFluid(FluidType.Milk, Size);
-    }
+    public Boobs() : base() => _fluid = new SexualFluid(FluidType.Milk, Size);
 
-    public Boobs(int size) : base(size)
-    {
-        _fluid = new SexualFluid(FluidType.Milk, Size);
-    }
+    public Boobs(int size) : base(size) => _fluid = new SexualFluid(FluidType.Milk, Size);
 
     public override float Cost => this.GrowCost();
 
-    [SerializeField]
-    private SexualFluid _fluid;
+    [SerializeField] private SexualFluid _fluid;
 
     public virtual SexualFluid Fluid
     {
@@ -59,7 +52,7 @@ public static class BoobExtensions
             boobs.Remove(toShrink);
             return 30f;
         }
-        return toShrink.GrowCost();
+        return toShrink.Cost;
     }
 
     public static float Milking(this List<Boobs> boobs) => boobs.Sum(b => b.Fluid.DisCharge());
@@ -81,10 +74,7 @@ public static class BoobExtensions
         return Bra[i] + ((i == Bra.Count - 1 || i < 2) ? "" : "-cup");
     }
 
-    public static string Look(this Boobs boob, bool capital = true)
-    {
-        return $"{(capital ? "An" : "an")} {boob.BoobSizeConvertor()} chest";
-    }
+    public static string Look(this Boobs boob, bool capital = true) => $"{(capital ? "An" : "an")} {boob.BoobSizeConvertor()} chest";
 
     public static string Looks(this List<Boobs> boobs)
     {

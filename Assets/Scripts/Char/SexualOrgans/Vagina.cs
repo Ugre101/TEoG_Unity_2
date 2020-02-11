@@ -15,8 +15,7 @@ public class Vagina : SexualOrgan
 
     public override float Cost => this.GrowCost();
 
-    [SerializeField]
-    private Womb womb = new Womb();
+    [SerializeField] private Womb womb = new Womb();
 
     public Womb Womb => womb;
 }
@@ -39,7 +38,7 @@ public static class VaginaExtensions
             vaginas.Remove(toShrink);
             return 30f;
         }
-        return toShrink.GrowCost();
+        return toShrink.Cost;
     }
 
     public static bool EmptyWomb(this List<Vagina> vaginas) => vaginas.Exists(v => !v.Womb.HasFetus);
@@ -57,10 +56,7 @@ public static class VaginaExtensions
         return vag.Size.ToString();
     }
 
-    public static string Look(this Vagina vag, bool capital = true)
-    {
-        return $"{(capital ? "A" : "a")} {vag.VagSizeConventor()} {vag.Race}";
-    }
+    public static string Look(this Vagina vag, bool capital = true) => $"{(capital ? "A" : "a")} {vag.VagSizeConventor()} {vag.Race}";
 
     public static string Looks(this List<Vagina> parVags)
     {

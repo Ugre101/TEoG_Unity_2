@@ -6,20 +6,13 @@ using UnityEngine;
 [System.Serializable]
 public class Balls : SexualOrgan
 {
-    public Balls() : base()
-    {
-        _fluid = new SexualFluid(FluidType.Cum, Size);
-    }
+    public Balls() : base() => _fluid = new SexualFluid(FluidType.Cum, Size);
 
-    public Balls(int size) : base(size)
-    {
-        _fluid = new SexualFluid(FluidType.Cum, Size);
-    }
+    public Balls(int size) : base(size) => _fluid = new SexualFluid(FluidType.Cum, Size);
 
     public override float Cost => this.GrowCost();
 
-    [SerializeField]
-    private SexualFluid _fluid;
+    [SerializeField] private SexualFluid _fluid;
 
     public virtual SexualFluid Fluid
     {
@@ -52,7 +45,7 @@ public static class BallsExtensions
             balls.Remove(toShrink);
             return 30f;
         }
-        return toShrink.GrowCost();
+        return toShrink.Cost;
     }
 
     public static float Cumming(this List<Balls> balls) => balls.Sum(b => b.Fluid.DisCharge());
@@ -64,9 +57,7 @@ public static class BallsExtensions
     public static float CumMax(this List<Balls> balls) => balls.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
     public static string Look(this Balls parBalls, bool capital = true)
-    {
-        return $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls, with {Settings.LorGal(parBalls.Fluid.Current)}";
-    }
+        => $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls, with {Settings.LorGal(parBalls.Fluid.Current)}";
 
     public static string Looks(this List<Balls> parBalls)
     {

@@ -36,14 +36,12 @@ public static class DickExtensions
         }
         else
         {
-            return toShrink.GrowCost();
+            return toShrink.Cost;
         }
     }
 
     public static string Look(this Dick parDick, bool capital = true)
-    {
-        return $"{(capital ? "A" : "a")} {Settings.MorInch(parDick.Size)} long {parDick.Race} dick";
-    }
+        => $"{(capital ? "A" : "a")} {Settings.MorInch(parDick.Size)} long {parDick.Race} dick";
 
     public static string Looks(this List<Dick> parDicks)
     {

@@ -5,27 +5,28 @@ using UnityEngine.EventSystems;
 
 public class PregEffect : BaseEffect
 {
-    [SerializeField]
-    private BasicChar mother = null;
-
-    public void Setup(BasicChar parMother)
+    [SerializeField] private BasicChar mother = null;
+    private void Hovering()
     {
+        hoverText.Hovering("Pregnant", "");
+    }
+
+    public void Setup(BasicChar parMother, GameUIHoverText hoverText)
+    {
+        this.hoverText = hoverText;
         mother = parMother;
     }
 
     public override void OnPointerClick(PointerEventData eventData)
     {
-        base.OnPointerClick(eventData);
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        base.OnPointerEnter(eventData);
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
-        base.OnPointerExit(eventData);
     }
 
     public void Status()

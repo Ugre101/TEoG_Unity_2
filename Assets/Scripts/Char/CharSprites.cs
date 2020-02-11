@@ -12,7 +12,7 @@ public class CharSprites : ScriptableObject
     public List<CharSprite> List => charSprites;
     private readonly System.Random rnd = new System.Random();
 
-    private CharSprite BestMatch(BasicChar who)
+    public CharSprite BestMatch(BasicChar who)
     {
         List<CharSprite> matches = charSprites.FindAll(c => c.Race == who.RaceSystem.CurrentRace());
         if (matches.Count > 0)

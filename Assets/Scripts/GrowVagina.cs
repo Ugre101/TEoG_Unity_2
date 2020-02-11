@@ -11,11 +11,11 @@
             BaseSetup(player);
         }
 
-        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(vagina.Size)} {vagina.GrowCost()}Femi";
+        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(vagina.Size)} {vagina.Cost}Femi";
 
         protected override void Grow()
         {
-            if (Femi.Amount >= vagina.GrowCost())
+            if (Femi.Amount >= vagina.Cost)
             {
                 vagina.Grow();
                 DisplayCost();

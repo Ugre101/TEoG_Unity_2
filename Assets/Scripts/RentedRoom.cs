@@ -14,6 +14,7 @@
 
         public override void Setup(Ware item, BasicChar buyer)
         {
+            this.buyer = buyer;
             if (item is RentRoomBasic room)
             {
                 this.room = room;

@@ -3,23 +3,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BaseEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public abstract class BaseEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     [SerializeField] protected TextMeshProUGUI text = null;
 
     [SerializeField] protected Image icon = null;
+    protected GameUIHoverText hoverText = null;
 
-    public virtual void OnPointerClick(PointerEventData eventData)
-    {
-    }
+    public abstract void OnPointerClick(PointerEventData eventData);
 
-    public virtual void OnPointerEnter(PointerEventData eventData)
-    {
-    }
+    public abstract void OnPointerEnter(PointerEventData eventData);
 
-    public virtual void OnPointerExit(PointerEventData eventData)
-    {
-    }
+    public abstract void OnPointerExit(PointerEventData eventData);
 }
 
 public class TempEffect : BaseEffect
@@ -28,19 +23,22 @@ public class TempEffect : BaseEffect
 
     public override void OnPointerClick(PointerEventData eventData)
     {
+        hoverText.Hovering(mod.Source, mod.Desc());
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log(mod.Duration);
+        hoverText.Hovering(mod.Source, mod.Desc());
     }
 
     public override void OnPointerExit(PointerEventData eventData)
     {
+        hoverText.StopHovering();
     }
 
-    public void Setup(DisplayMod parMod)
+    public void Setup(DisplayMod parMod, GameUIHoverText hoverText)
     {
+        this.hoverText = hoverText;
         mod = parMod;
         DisplayTimeLeft();
         DateSystem.NewHourEvent += DisplayTimeLeft;

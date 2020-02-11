@@ -12,7 +12,7 @@ namespace UI
         [SerializeField] private TempVore tempVorePrefab = null;
 
         [SerializeField] private Transform container = null;
-
+        [SerializeField] private GameUIHoverText hoverText = null;
         private readonly List<DisplayMod> displayMods = new List<DisplayMod>();
         private readonly List<DisplayVore> displayVores = new List<DisplayVore>();
 
@@ -109,8 +109,8 @@ namespace UI
             PrintDisplayVores();
         }
 
-        private void PrintDisplayMods() => displayMods.ForEach(dm => Instantiate(tempEffectPrefab, container).Setup(dm));
+        private void PrintDisplayMods() => displayMods.ForEach(dm => Instantiate(tempEffectPrefab, container).Setup(dm, hoverText));
 
-        private void PrintDisplayVores() => displayVores.ForEach(dv => Instantiate(tempVorePrefab, container).Setup(dv));
+        private void PrintDisplayVores() => displayVores.ForEach(dv => Instantiate(tempVorePrefab, container).Setup(dv, hoverText));
     }
 }

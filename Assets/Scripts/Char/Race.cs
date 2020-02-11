@@ -14,7 +14,8 @@ public enum Races
     Succubus,
     Equine,
     Dragon,
-    DragonKin
+    DragonKin, // Humaniod dragon
+    Amazon // Human sub-species
 }
 
 public enum HalfRaces
