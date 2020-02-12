@@ -6,12 +6,14 @@ public class EnemyPrefabEditor : BasicCharEditor
 {
     private bool nameFold = true;
     private bool StartRace = true;
+    private bool startGender = true;
     private bool stats = true;
     private bool bodyStats = true;
     private bool rewardFold = true;
 
     private SerializedProperty NeedFirstName, NeedLastName;
     private SerializedProperty startRaces;
+    private SerializedProperty raceAmount, raceGenderLockBool, raceGenderLocked, raceGenderTypeBool, raceGenderType;
     private SerializedProperty assingStr, assingCharm, assingEnd, assingDex, assingInt, assingWillpower, statRngFactor;
     private SerializedProperty assingHeight, heightRng, assingFat, fatRng, assingMuscle, muscleRng;
     private SerializedProperty reward, rewardExp, rewardGold, rewardRng, drops;
@@ -24,7 +26,11 @@ public class EnemyPrefabEditor : BasicCharEditor
 
         startRaces = serializedObject.FindProperty("startRaces");
         //   RaceList = serializedObject.FindProperty("assingRace.Options");
-
+        raceAmount = serializedObject.FindProperty("startGender.amount");
+        raceGenderLockBool = serializedObject.FindProperty("startGender.genderLock");
+        raceGenderLocked = serializedObject.FindProperty("startGender.lockedGender");
+        raceGenderTypeBool = serializedObject.FindProperty("startGender.favoured");
+        raceGenderType = serializedObject.FindProperty("startGender.favouredGenderType");
         assingStr = serializedObject.FindProperty("assingStr");
         assingCharm = serializedObject.FindProperty("assingCharm");
         assingEnd = serializedObject.FindProperty("assingEnd");
@@ -91,6 +97,40 @@ public class EnemyPrefabEditor : BasicCharEditor
             serializedObject.ApplyModifiedProperties();
             GUILayout.EndVertical();
         }
+        startGender = EditorGUILayout.Foldout(startGender, "Gender", true, EditorStyles.foldout);
+        if (startGender)
+        {
+            GUILayout.BeginVertical("Box");
+            serializedObject.Update();
+            GUILayout.BeginVertical();
+            raceAmount.floatValue = EditorGUILayout.FloatField("Essence amount", raceAmount.floatValue);
+            GUILayout.EndVertical();
+            GUILayout.BeginHorizontal();
+            raceGenderLockBool.boolValue = EditorGUILayout.Toggle("Gender lock", raceGenderLockBool.boolValue);
+            if (raceGenderLockBool.boolValue)
+            {
+                raceGenderTypeBool.boolValue = false;
+            }
+            raceGenderTypeBool.boolValue = EditorGUILayout.Toggle("Gender lock", raceGenderTypeBool.boolValue);
+            if (raceGenderTypeBool.boolValue)
+            {
+                raceGenderLockBool.boolValue = false;
+            }
+            GUILayout.EndHorizontal();
+            if (raceGenderLockBool.boolValue)
+            {
+                GUILayout.BeginVertical("Box");
+                // raceGenderLocked.enumValueIndex = EditorGUILayout.EnumFlagsField(raceGenderLocked.enumValueIndex);
+                GUILayout.EndVertical();
+            }
+            if (raceGenderTypeBool.boolValue)
+            {
+                GUILayout.BeginVertical("Box");
+                GUILayout.EndVertical();
+            }
+            serializedObject.ApplyModifiedProperties();
+            GUILayout.EndVertical();
+        }
         stats = EditorGUILayout.Foldout(stats, "Stats", true, EditorStyles.foldout);
         if (stats)
         {
@@ -114,7 +154,7 @@ public class EnemyPrefabEditor : BasicCharEditor
             serializedObject.ApplyModifiedProperties();
             EditorGUILayout.EndVertical();
         }
-        bodyStats = EditorGUILayout.Foldout(bodyStats, "Stats", true, EditorStyles.foldout);
+        bodyStats = EditorGUILayout.Foldout(bodyStats, "Body stats", true, EditorStyles.foldout);
         if (bodyStats)
         {
             EditorGUILayout.BeginVertical("Box");

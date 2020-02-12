@@ -417,6 +417,10 @@ MonoBehaviour:
     femi:
       _amount: 0
     autoEss: 1
+    stableEssence:
+      baseValue: 0
+      statMods: []
+      tempMods: []
   currency:
     gold: 0
   flags:
@@ -438,13 +442,27 @@ MonoBehaviour:
   sexualOrgans:
     dicks: []
     balls: []
+    ballsBunusRefillRate:
+      baseValue: 0
+      statMods: []
+      tempMods: []
     boobs: []
+    boobsBonusRefillRate:
+      baseValue: 10
+      statMods: []
+      tempMods: []
     lactating: 0
     vaginas: []
   skills: []
   NeedFirstName: 1
   NeedLastName: 1
   startRaces: []
+  startGender:
+    amount: 0
+    genderLock: 1
+    lockedGender: 0
+    favoured: 0
+    favouredGenderType: 0
   reward:
     expReward: 50
     goldReward: 50

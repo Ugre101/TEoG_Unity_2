@@ -1,30 +1,51 @@
-﻿using System.Collections.Generic;
+﻿using EnemyCreatorStuff;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class StartRace
+public class StartGender
 {
-    [SerializeField] private Races races;
-    public Races Races => races;
-    [SerializeField] private int amount = 100;
-    public int Amount => amount;
+    [SerializeField] private float amount = 100f;
+    [SerializeField] private bool genderLock = false;
+    [SerializeField] private Genders lockedGender = Genders.Female;
+    [SerializeField] private bool favoured = false;
+    [SerializeField] private GenderTypes favouredGenderType = GenderTypes.Feminine;
 
-    public StartRace()
+    public void Assing(BasicChar basicChar)
     {
-        amount = 100;
+        if (genderLock)
+        {
+            basicChar.GetEssense(amount, lockedGender);
+        }
+        else if (favoured)
+        {
+            basicChar.GetEssense(amount, favouredGenderType);
+        }
+        else
+        {
+            basicChar.GetEssense(amount);
+        }
     }
 }
 
 [System.Serializable]
 public class EnemyPrefab : BasicChar
 {
+    #region Assing stuff
+
     [HideInInspector]
     [SerializeField] private bool NeedFirstName = true, NeedLastName = true;
 
     [HideInInspector]
     [SerializeField] private List<StartRace> startRaces = new List<StartRace>();
 
+    [HideInInspector]
+    [SerializeField] private StartGender startGender = new StartGender();
+
+    [HideInInspector]
     [SerializeField] private Reward reward = new Reward();
+
+    #endregion Assing stuff
 
     public Reward Reward => reward;
 
@@ -68,10 +89,9 @@ public class EnemyPrefab : BasicChar
         base.Start();
         stats = new StatsContainer(FinalStat(assingStr), FinalStat(assingCharm),
             FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt), assingWill);
-        //    Femi.Gain(200f);
-        Essence.Masc.Gain(300f);
         body = new Body(FinalHeight, FinalFat, FinalMuscle);
         startRaces.ForEach(r => RaceSystem.AddRace(r.Races, r.Amount));
+        startGender.Assing(this);
         if (NeedFirstName)
         {
             if (GenderType == GenderTypes.Masculine)

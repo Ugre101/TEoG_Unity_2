@@ -181,7 +181,8 @@ public static class SexOrganExtension
         if (autoEss)
         {
             Essence masc = bc.Essence.Masc;
-            if (masc.Amount > 0)
+            int StableAmount = bc.Essence.StableEssence.Value;
+            if (masc.Amount > StableAmount)
             {
                 if (dicks.Total() <= balls.Total() * 2f + 1f)
                 {
@@ -223,7 +224,7 @@ public static class SexOrganExtension
                 }
             }
             Essence femi = bc.Essence.Femi;
-            if (femi.Amount > 0)
+            if (femi.Amount > StableAmount)
             {
                 if (boobs.Total() <= vaginas.Total() * 1.5f + 1f)
                 {

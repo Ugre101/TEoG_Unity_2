@@ -32,8 +32,9 @@ public class PlayerMain : BasicChar
         {
             Inventory.AddItem(ItemId.Stick);
         }
-        Essence.Masc.Gain(19999);
-        Essence.Femi.Gain(9999);
+        Essence.StableEssence.BaseValue += 100;
+        Essence.Masc.Gain(99);
+        Essence.Femi.Gain(99);
         Currency.Gold += 100;
         InitHealth();
     }
