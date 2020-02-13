@@ -4,12 +4,12 @@ using UnityEngine;
 [CustomEditor(typeof(EnemyPrefab))]
 public class EnemyPrefabEditor : BasicCharEditor
 {
-    private bool nameFold = true;
-    private bool StartRace = true;
-    private bool startGender = true;
-    private bool stats = true;
-    private bool bodyStats = true;
-    private bool rewardFold = true;
+    private bool nameFold = false;
+    private bool StartRace = false;
+    private bool startGender = false;
+    private bool stats = false;
+    private bool bodyStats = false;
+    private bool rewardFold = false;
 
     private SerializedProperty NeedFirstName, NeedLastName;
     private SerializedProperty startRaces;
@@ -111,7 +111,7 @@ public class EnemyPrefabEditor : BasicCharEditor
             {
                 raceGenderTypeBool.boolValue = false;
             }
-            raceGenderTypeBool.boolValue = EditorGUILayout.Toggle("Gender lock", raceGenderTypeBool.boolValue);
+            raceGenderTypeBool.boolValue = EditorGUILayout.Toggle("Favourd gender type", raceGenderTypeBool.boolValue);
             if (raceGenderTypeBool.boolValue)
             {
                 raceGenderLockBool.boolValue = false;
@@ -120,12 +120,13 @@ public class EnemyPrefabEditor : BasicCharEditor
             if (raceGenderLockBool.boolValue)
             {
                 GUILayout.BeginVertical("Box");
-                // raceGenderLocked.enumValueIndex = EditorGUILayout.EnumFlagsField(raceGenderLocked.enumValueIndex);
+                EditorGUILayout.PropertyField(raceGenderLocked);
                 GUILayout.EndVertical();
             }
             if (raceGenderTypeBool.boolValue)
             {
                 GUILayout.BeginVertical("Box");
+                EditorGUILayout.PropertyField(raceGenderType);
                 GUILayout.EndVertical();
             }
             serializedObject.ApplyModifiedProperties();

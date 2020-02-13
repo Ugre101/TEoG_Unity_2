@@ -1,11 +1,11 @@
 ﻿public enum Genders
 {
+    Doll,
     Male,
-    Female,
-    Herm,
-    Dickgirl,
     Cuntboy,
-    Doll
+    Dickgirl,
+    Herm,
+    Female
 }
 
 public enum GenderTypes

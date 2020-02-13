@@ -147,5 +147,10 @@ PrefabInstance:
       propertyPath: reward.drops.Array.data[1].dropChance
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 3556935013739517471, guid: b83e3eb13644d584dbf4124a93c47bf6,
+        type: 3}
+      propertyPath: startGender.amount
+      value: 140
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b83e3eb13644d584dbf4124a93c47bf6, type: 3}

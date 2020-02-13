@@ -13,6 +13,7 @@ public class StartGender
 
     public void Assing(BasicChar basicChar)
     {
+        Debug.Log("Gender lock: " + genderLock + "\nGender type: " + favoured);
         if (genderLock)
         {
             basicChar.GetEssense(amount, lockedGender);

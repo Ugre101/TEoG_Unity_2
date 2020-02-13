@@ -4,6 +4,15 @@ using UnityEngine;
 [System.Serializable]
 public class Organs
 {
+    // if genderpref auto ess will adapt to prefer certain organs over others. But it doesn't make tf impossible just harder.
+    [SerializeField] private bool genderPrefActive = false;
+
+    public bool GenderPrefActive => genderPrefActive;
+    public bool SetGenderPrefActive { set => genderPrefActive = value; }
+    public bool ToggleGenderPrefActive => genderPrefActive = !genderPrefActive;
+    [SerializeField] private Genders genderPref = Genders.Male;
+    public Genders GenderPref => genderPref;
+    public Genders SetGenderPref { set => genderPref = value; }
     [SerializeField] private List<Dick> dicks = new List<Dick>();
 
     public List<Dick> Dicks => dicks;

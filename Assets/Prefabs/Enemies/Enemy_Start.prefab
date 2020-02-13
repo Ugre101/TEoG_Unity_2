@@ -440,6 +440,8 @@ MonoBehaviour:
       tempMods: []
     bonusFetusGrowth: 0
   sexualOrgans:
+    genderPrefActive: 0
+    genderPref: 1
     dicks: []
     balls: []
     ballsBunusRefillRate:
@@ -458,8 +460,8 @@ MonoBehaviour:
   NeedLastName: 1
   startRaces: []
   startGender:
-    amount: 0
-    genderLock: 1
+    amount: 100
+    genderLock: 0
     lockedGender: 0
     favoured: 0
     favouredGenderType: 0
@@ -596,7 +598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites: {fileID: 11400000, guid: 30f7ea40fe5120b4f95bbc7c29587544, type: 2}
   spriteRenderer: {fileID: 8534239450746442158}
-  whom: {fileID: 0}
+  whom: {fileID: 8534239450746442156}
 --- !u!114 &3425824613038632838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -610,7 +612,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  playerRigid: {fileID: 0}
+  playerRigid: {fileID: 8534239450746442152}
   rb2d: {fileID: 8534239450746442152}
   chaseDist: 13
   movementSpeed: 2.5

@@ -12,7 +12,8 @@ public class EnemyPrefabProp : PropertyDrawer
         EditorGUI.PropertyField(itemRect, property, GUIContent.none);
         if (GUI.Button(btnRect, "X"))
         {
-            property.DeleteCommand();
+            property.DeleteCommand();   // Delete propery itself
+            property.DeleteCommand();   // Removes the now empty array index
         }
         EditorGUI.EndProperty();
     }

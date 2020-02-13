@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 8534239450746442155, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: m_Name
-      value: Enemy_Start Variant
+      value: Enemy_PtV_Halfing
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
@@ -66,6 +66,11 @@ PrefabInstance:
         type: 3}
       propertyPath: assingWill
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startGender.amount
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442159, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
