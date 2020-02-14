@@ -1,5 +1,4 @@
 ﻿using UnityEditor;
-using UnityEngine;
 
 [CustomEditor(typeof(Item), true)]
 public class ItemEditor : Editor
@@ -11,15 +10,9 @@ public class ItemEditor : Editor
         item = (Item)target;
         EditorGUILayout.LabelField("Summary");
         EditorGUILayout.BeginVertical("Box");
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Title: " + item.Title);
-        EditorGUILayout.LabelField("Id: " + item.ItemId);
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField("Type: " + item.Type);
-        EditorGUILayout.LabelField("Use: " + item.UseName);
-        EditorGUILayout.EndHorizontal();
-        EditorGUILayout.LabelField(item.Desc,EditorStyles.textArea);
+        UgreEditorTools.TwoLabels("Title: " + item.Title, "Id: " + item.ItemId);
+        UgreEditorTools.TwoLabels("Type: " + item.Type, "Use: " + item.UseName);
+        EditorGUILayout.LabelField(item.Desc, EditorStyles.textArea);
         EditorGUILayout.EndVertical();
         base.OnInspectorGUI();
     }

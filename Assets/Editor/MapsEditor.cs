@@ -6,13 +6,8 @@ public class MapsEditor : Editor
 {
     private Rect dropArea;
     private Map map;
-    private SerializedProperty enemies;
 
-    private void OnEnable()
-    {
-        map = (Map)target;
-        enemies = serializedObject.FindProperty("enemies");
-    }
+    private void OnEnable() => map = (Map)target;
 
     public override void OnInspectorGUI()
     {

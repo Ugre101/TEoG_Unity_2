@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
         type: 3}
       propertyPath: startRaces.Array.data[0].amount
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 486675599930588497, guid: dbfaa8a439087dd498cfa9b84d384c3b,
         type: 3}

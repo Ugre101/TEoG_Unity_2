@@ -72,6 +72,16 @@ PrefabInstance:
       propertyPath: reward.drops.Array.data[0].dropChance
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 3264022989627219816, guid: cf208a8cca5cf4943847ba00075651ff,
+        type: 3}
+      propertyPath: startGender.amount
+      value: 400
+      objectReference: {fileID: 0}
+    - target: {fileID: 3264022989627219816, guid: cf208a8cca5cf4943847ba00075651ff,
+        type: 3}
+      propertyPath: startGender.favoured
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3264022989627219819, guid: cf208a8cca5cf4943847ba00075651ff,
         type: 3}
       propertyPath: m_LocalPosition.x

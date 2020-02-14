@@ -1,23 +1,33 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+// Static container so foldouts doesn't close dureing refresh
+public static class EnemyPrefabEditorFoldouts
+{
+    public static bool NameFold { get; set; } = false;
+    public static bool RaceFold { get; set; } = false;
+    public static bool GenderFold { get; set; } = false;
+    public static bool StatsFold { get; set; } = false;
+    public static bool BodyFold { get; set; } = false;
+    public static bool RewardFold { get; set; } = false;
+}
+
 [CustomEditor(typeof(EnemyPrefab))]
 public class EnemyPrefabEditor : BasicCharEditor
 {
-    private bool nameFold = false;
-    private bool StartRace = false;
-    private bool startGender = false;
-    private bool stats = false;
-    private bool bodyStats = false;
-    private bool rewardFold = false;
-
+    private bool NameFold { get => EnemyPrefabEditorFoldouts.NameFold; set => EnemyPrefabEditorFoldouts.NameFold = value; }
+    private bool RaceFold { get => EnemyPrefabEditorFoldouts.RaceFold; set => EnemyPrefabEditorFoldouts.RaceFold = value; }
+    private bool GenderFold { get => EnemyPrefabEditorFoldouts.GenderFold; set => EnemyPrefabEditorFoldouts.GenderFold = value; }
+    private bool StatsFold { get => EnemyPrefabEditorFoldouts.StatsFold; set => EnemyPrefabEditorFoldouts.StatsFold = value; }
+    private bool BodyFold { get => EnemyPrefabEditorFoldouts.BodyFold; set => EnemyPrefabEditorFoldouts.BodyFold = value; }
+    private bool RewardFold { get => EnemyPrefabEditorFoldouts.RewardFold; set => EnemyPrefabEditorFoldouts.RewardFold = value; }
     private SerializedProperty NeedFirstName, NeedLastName;
     private SerializedProperty startRaces;
-    private SerializedProperty raceAmount, raceGenderLockBool, raceGenderLocked, raceGenderTypeBool, raceGenderType;
+    private SerializedProperty genderAmount, genderLockBool, genderLocked, genderTypeBool, genderType;
     private SerializedProperty assingStr, assingCharm, assingEnd, assingDex, assingInt, assingWillpower, statRngFactor;
     private SerializedProperty assingHeight, heightRng, assingFat, fatRng, assingMuscle, muscleRng;
-    private SerializedProperty reward, rewardExp, rewardGold, rewardRng, drops;
-    private int totalStats => assingStr.intValue + assingCharm.intValue + assingEnd.intValue + assingDex.intValue + assingInt.intValue + assingWillpower.intValue;
+    private SerializedProperty rewardExp, rewardGold, rewardRng, drops;
+    private int TotalStats => assingStr.intValue + assingCharm.intValue + assingEnd.intValue + assingDex.intValue + assingInt.intValue + assingWillpower.intValue;
 
     private void OnEnable()
     {
@@ -26,11 +36,11 @@ public class EnemyPrefabEditor : BasicCharEditor
 
         startRaces = serializedObject.FindProperty("startRaces");
         //   RaceList = serializedObject.FindProperty("assingRace.Options");
-        raceAmount = serializedObject.FindProperty("startGender.amount");
-        raceGenderLockBool = serializedObject.FindProperty("startGender.genderLock");
-        raceGenderLocked = serializedObject.FindProperty("startGender.lockedGender");
-        raceGenderTypeBool = serializedObject.FindProperty("startGender.favoured");
-        raceGenderType = serializedObject.FindProperty("startGender.favouredGenderType");
+        genderAmount = serializedObject.FindProperty("startGender.amount");
+        genderLockBool = serializedObject.FindProperty("startGender.genderLock");
+        genderLocked = serializedObject.FindProperty("startGender.lockedGender");
+        genderTypeBool = serializedObject.FindProperty("startGender.favoured");
+        genderType = serializedObject.FindProperty("startGender.favouredGenderType");
         assingStr = serializedObject.FindProperty("assingStr");
         assingCharm = serializedObject.FindProperty("assingCharm");
         assingEnd = serializedObject.FindProperty("assingEnd");
@@ -46,7 +56,6 @@ public class EnemyPrefabEditor : BasicCharEditor
         assingMuscle = serializedObject.FindProperty("assingMuscle");
         muscleRng = serializedObject.FindProperty("muscleRng");
 
-        reward = serializedObject.FindProperty("reward");
         rewardExp = serializedObject.FindProperty("reward.expReward");
         rewardGold = serializedObject.FindProperty("reward.goldReward");
         rewardRng = serializedObject.FindProperty("reward.rng");
@@ -57,8 +66,8 @@ public class EnemyPrefabEditor : BasicCharEditor
     {
         //GUILayout.Label("test");
         EnemyPrefab myTarget = (EnemyPrefab)target;
-        nameFold = EditorGUILayout.Foldout(nameFold, "Name", true, EditorStyles.foldout);
-        if (nameFold)
+        NameFold = EditorGUILayout.Foldout(NameFold, "Name", true, EditorStyles.foldout);
+        if (NameFold)
         {
             GUILayout.BeginVertical("Box");
             UgreEditorTools.TwoBoldLabels("First name", "Last name");
@@ -79,8 +88,8 @@ public class EnemyPrefabEditor : BasicCharEditor
             GUILayout.EndVertical();
             GUILayout.EndVertical();
         }
-        StartRace = EditorGUILayout.Foldout(StartRace, "Assing race", true, EditorStyles.foldout);
-        if (StartRace)
+        RaceFold = EditorGUILayout.Foldout(RaceFold, "Assing race", true, EditorStyles.foldout);
+        if (RaceFold)
         {
             GUILayout.BeginVertical("Box");
             serializedObject.Update();
@@ -97,49 +106,49 @@ public class EnemyPrefabEditor : BasicCharEditor
             serializedObject.ApplyModifiedProperties();
             GUILayout.EndVertical();
         }
-        startGender = EditorGUILayout.Foldout(startGender, "Gender", true, EditorStyles.foldout);
-        if (startGender)
+        GenderFold = EditorGUILayout.Foldout(GenderFold, "Gender", true, EditorStyles.foldout);
+        if (GenderFold)
         {
             GUILayout.BeginVertical("Box");
             serializedObject.Update();
             GUILayout.BeginVertical();
-            raceAmount.floatValue = EditorGUILayout.FloatField("Essence amount", raceAmount.floatValue);
+            genderAmount.floatValue = EditorGUILayout.FloatField("Essence amount", genderAmount.floatValue);
             GUILayout.EndVertical();
             GUILayout.BeginHorizontal();
-            raceGenderLockBool.boolValue = EditorGUILayout.Toggle("Gender lock", raceGenderLockBool.boolValue);
-            if (raceGenderLockBool.boolValue)
+            genderLockBool.boolValue = EditorGUILayout.Toggle("Gender lock", genderLockBool.boolValue);
+            if (genderLockBool.boolValue)
             {
-                raceGenderTypeBool.boolValue = false;
+                genderTypeBool.boolValue = false;
             }
-            raceGenderTypeBool.boolValue = EditorGUILayout.Toggle("Favourd gender type", raceGenderTypeBool.boolValue);
-            if (raceGenderTypeBool.boolValue)
+            genderTypeBool.boolValue = EditorGUILayout.Toggle("Favourd gender type", genderTypeBool.boolValue);
+            if (genderTypeBool.boolValue)
             {
-                raceGenderLockBool.boolValue = false;
+                genderLockBool.boolValue = false;
             }
             GUILayout.EndHorizontal();
-            if (raceGenderLockBool.boolValue)
+            if (genderLockBool.boolValue)
             {
                 GUILayout.BeginVertical("Box");
-                EditorGUILayout.PropertyField(raceGenderLocked);
+                EditorGUILayout.PropertyField(genderLocked);
                 GUILayout.EndVertical();
             }
-            if (raceGenderTypeBool.boolValue)
+            if (genderTypeBool.boolValue)
             {
                 GUILayout.BeginVertical("Box");
-                EditorGUILayout.PropertyField(raceGenderType);
+                EditorGUILayout.PropertyField(genderType);
                 GUILayout.EndVertical();
             }
             serializedObject.ApplyModifiedProperties();
             GUILayout.EndVertical();
         }
-        stats = EditorGUILayout.Foldout(stats, "Stats", true, EditorStyles.foldout);
-        if (stats)
+        StatsFold = EditorGUILayout.Foldout(StatsFold, "Stats", true, EditorStyles.foldout);
+        if (StatsFold)
         {
             EditorGUILayout.BeginVertical("Box");
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Total stat points: ");
-            EditorGUILayout.IntField(totalStats);
-            EditorGUILayout.LabelField("Level: " + (totalStats - 22) / 4);
+            EditorGUILayout.IntField(TotalStats);
+            EditorGUILayout.LabelField("Level: " + (TotalStats - 22) / 4);
             EditorGUILayout.EndHorizontal();
             serializedObject.Update();
             UgreEditorTools.TwoBoldLabels("Assing str", "Assing charm");
@@ -155,8 +164,8 @@ public class EnemyPrefabEditor : BasicCharEditor
             serializedObject.ApplyModifiedProperties();
             EditorGUILayout.EndVertical();
         }
-        bodyStats = EditorGUILayout.Foldout(bodyStats, "Body stats", true, EditorStyles.foldout);
-        if (bodyStats)
+        BodyFold = EditorGUILayout.Foldout(BodyFold, "Body stats", true, EditorStyles.foldout);
+        if (BodyFold)
         {
             EditorGUILayout.BeginVertical("Box");
             serializedObject.Update();
@@ -169,8 +178,8 @@ public class EnemyPrefabEditor : BasicCharEditor
             serializedObject.ApplyModifiedProperties();
             EditorGUILayout.EndVertical();
         }
-        rewardFold = EditorGUILayout.Foldout(rewardFold, "Rewards", true, EditorStyles.foldout);
-        if (rewardFold)
+        RewardFold = EditorGUILayout.Foldout(RewardFold, "Rewards", true, EditorStyles.foldout);
+        if (RewardFold)
         {
             EditorGUILayout.BeginVertical("Box");
             UgreEditorTools.TwoBoldLabels("Exp reward", "Gold reward");
@@ -221,6 +230,14 @@ public class EnemyPrefabEditor : BasicCharEditor
 
 public static class UgreEditorTools
 {
+    public static void TwoLabels(string firstLabel, string secondLabel)
+    {
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField(firstLabel);
+        EditorGUILayout.LabelField(secondLabel);
+        EditorGUILayout.EndHorizontal();
+    }
+
     public static void TwoBoldLabels(string firstLabel, string secondLabel)
     {
         EditorGUILayout.BeginHorizontal();

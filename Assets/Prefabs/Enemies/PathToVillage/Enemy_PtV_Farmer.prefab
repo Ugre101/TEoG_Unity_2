@@ -112,6 +112,11 @@ PrefabInstance:
       propertyPath: reward.drops.Array.data[0].item
       value: 24
       objectReference: {fileID: 0}
+    - target: {fileID: 7039296091227565531, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].amount
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 7039296091227565532, guid: 8db33dd8f893950428140c08914b209b,
         type: 3}
       propertyPath: m_Name
