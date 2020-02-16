@@ -9,24 +9,21 @@ public enum Quests
 
 public static class QuestsSystem
 {
-    private static List<BasicQuest> basicQuest = new List<BasicQuest>();
-    private static List<CountQuest> countQuests = new List<CountQuest>();
-    private static List<TieredQuest> tieredQuests = new List<TieredQuest>();
-    public static List<BasicQuest> BasicQuests => basicQuest;
+    public static List<BasicQuest> BasicQuests { get; private set; } = new List<BasicQuest>();
 
     public static BasicQuest GetBasicQuest(Quests quests) => BasicQuests.Find(q => q.Type == quests);
 
-    public static List<CountQuest> CountQuests => countQuests;
+    public static List<CountQuest> CountQuests { get; private set; } = new List<CountQuest>();
 
     public static CountQuest GetCountQuest(Quests quests) => CountQuests.Find(q => q.Type == quests);
 
-    public static List<TieredQuest> TieredQuests => tieredQuests;
+    public static List<TieredQuest> TieredQuests { get; private set; } = new List<TieredQuest>();
 
     public static TieredQuest GetTieredQuest(Quests quests) => TieredQuests.Find(q => q.Type == quests);
 
-    public static bool HasQuest(Quests parQuest) => basicQuest.Exists(q => q.Type == parQuest)
-        || countQuests.Exists(q => q.Type == parQuest)
-        || tieredQuests.Exists(q => q.Type == parQuest);
+    public static bool HasQuest(Quests parQuest) => BasicQuests.Exists(q => q.Type == parQuest)
+        || CountQuests.Exists(q => q.Type == parQuest)
+        || TieredQuests.Exists(q => q.Type == parQuest);
 
     public static void AddQuest(Quests which)
     {
@@ -35,7 +32,7 @@ public static class QuestsSystem
             case Quests.Bandit:
                 if (!HasQuest(Quests.Bandit))
                 {
-                    basicQuest.Add(new BanditQuest());
+                    BasicQuests.Add(new BanditQuest());
                     PlayerFlags.BanditMap.Know = true;
                 }
                 break;
@@ -43,7 +40,7 @@ public static class QuestsSystem
             case Quests.ElfsHunt:
                 if (!HasQuest(Quests.ElfsHunt))
                 {
-                    tieredQuests.Add(new ElfQuest());
+                    TieredQuests.Add(new ElfQuest());
                 }
                 break;
 
@@ -57,9 +54,9 @@ public static class QuestsSystem
 
     public static void Load(QuestSave toLoad)
     {
-        basicQuest = toLoad.BasicQuests;
-        countQuests = toLoad.CountQuests;
-        tieredQuests = toLoad.TieredQuests;
+        BasicQuests = toLoad.BasicQuests;
+        CountQuests = toLoad.CountQuests;
+        TieredQuests = toLoad.TieredQuests;
         GotQuestEvent?.Invoke();
     }
 
@@ -75,6 +72,26 @@ public static class QuestsSystem
             {
                 GetTieredQuest(Quests.ElfsHunt).Count++;
             }
+        }
+    }
+
+    public static void ProgressQuests(Quests quest, int count = 1)
+    {
+        switch (quest)
+        {
+            case Quests.Bandit:
+                if (HasQuest(quest))
+                {
+                    GetBasicQuest(quest).SetCompleted();
+                }
+                break;
+
+            case Quests.ElfsHunt:
+                if (HasQuest(quest))
+                {
+                    GetTieredQuest(quest).Count += count;
+                }
+                break;
         }
     }
 }

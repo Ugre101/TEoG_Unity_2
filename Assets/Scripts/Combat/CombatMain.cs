@@ -157,12 +157,23 @@ public class CombatMain : MonoBehaviour
     {
         enemyTeamChars.ForEach(etc =>
         {
-            if (etc is EnemyPrefab e)
+            if (etc is Boss b)
+            {
+                Debug.Log("Boss");
+                // add bonus scenes and stuff
+                Player.ExpSystem.Exp += b.Reward.ExpReward;
+                Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
+                    ? b.Reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
+                    : b.Reward.GoldReward;
+                b.IsQuest.CheckQuest();
+            }
+            else if (etc is EnemyPrefab e)
             {
                 Player.ExpSystem.Exp += e.Reward.ExpReward;
                 Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
                     ? e.Reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
                     : e.Reward.GoldReward;
+                e.IsQuest.CheckQuest();
             }
             // if something else
         });

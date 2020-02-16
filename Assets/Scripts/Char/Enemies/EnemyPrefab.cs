@@ -46,9 +46,12 @@ public class EnemyPrefab : BasicChar
     [HideInInspector]
     [SerializeField] private Reward reward = new Reward();
 
+    [SerializeField] private IsQuest isQuest = new IsQuest();
+
     #endregion Assing stuff
 
     public Reward Reward => reward;
+    public IsQuest IsQuest => isQuest;
 
     #region Stats
 
