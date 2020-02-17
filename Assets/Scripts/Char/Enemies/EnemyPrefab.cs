@@ -1,33 +1,5 @@
-﻿using EnemyCreatorStuff;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-
-[System.Serializable]
-public class StartGender
-{
-    [SerializeField] private float amount = 100f;
-    [SerializeField] private bool genderLock = false;
-    [SerializeField] private Genders lockedGender = Genders.Female;
-    [SerializeField] private bool favoured = false;
-    [SerializeField] private GenderTypes favouredGenderType = GenderTypes.Feminine;
-
-    public void Assing(BasicChar basicChar)
-    {
-        Debug.Log("Gender lock: " + genderLock + "\nGender type: " + favoured);
-        if (genderLock)
-        {
-            basicChar.GetEssense(amount, lockedGender);
-        }
-        else if (favoured)
-        {
-            basicChar.GetEssense(amount, favouredGenderType);
-        }
-        else
-        {
-            basicChar.GetEssense(amount);
-        }
-    }
-}
 
 [System.Serializable]
 public class EnemyPrefab : BasicChar
@@ -46,6 +18,7 @@ public class EnemyPrefab : BasicChar
     [HideInInspector]
     [SerializeField] private Reward reward = new Reward();
 
+    [HideInInspector]
     [SerializeField] private IsQuest isQuest = new IsQuest();
 
     #endregion Assing stuff

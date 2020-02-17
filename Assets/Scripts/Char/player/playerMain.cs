@@ -46,22 +46,19 @@ public class PlayerMain : BasicChar
     }
 
     private static PlayerMain thisPlayer;
+    private static string thisTag;
+
+    public static string GetTag => thisTag = thisTag ?? GetPlayer.tag;
 
     public static PlayerMain GetPlayer
     {
         get
         {
-            if (thisPlayer == null)
-            {
-                // Something called Getplayer before player could awake
-                Debug.Log("Getplayer was null");
-                thisPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
-            }
             if (Debug.isDebugBuild)
             {
                 Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed playermain");
             }
-            return thisPlayer;
+            return thisPlayer = thisPlayer != null ? thisPlayer : GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
         }
     }
 }

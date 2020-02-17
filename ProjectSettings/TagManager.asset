@@ -8,6 +8,8 @@ TagManager:
   - Ignore
   - SaveMenu
   - GameUI
+  - Boss
+  - Npc
   layers:
   - Default
   - TransparentFX
