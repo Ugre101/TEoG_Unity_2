@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class CharSpriteHandler : MonoBehaviour
 {
@@ -9,6 +10,13 @@ public class CharSpriteHandler : MonoBehaviour
 
     private void Start()
     {
+        // Let char be fully built first
+        StartCoroutine("WaitAFrame");
+    }
+
+    private IEnumerator WaitAFrame()
+    {
+        yield return new WaitForEndOfFrame();
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
         whom = whom != null ? whom : GetComponent<BasicChar>();
 
@@ -32,7 +40,7 @@ public class CharSpriteHandler : MonoBehaviour
 
     private void Height()
     {
-        float heightRatio = whom.Body.Height.Value / 160f;
+        float heightRatio = 0.5f + ((whom.Body.Height.Value / 160f) / 2);
         float newSize = Mathf.Clamp(0.1f * heightRatio * currentSprite.HeightOfSprite, 0.05f, 0.5f);
         transform.localScale = new Vector3(newSize, newSize);
     }

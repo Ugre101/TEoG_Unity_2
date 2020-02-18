@@ -24,9 +24,12 @@ public class Map : MonoBehaviour
     [Tooltip("Types of enemies that can spawn on this map.")]
     [SerializeField] private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
 
+    [Header("Bosses")]
+    [SerializeField] private List<Boss> bosses = new List<Boss>();
+
     public Maps MapName => mapName;
 
     public List<EnemyPrefab> Enemies => enemies;
-
+    public List<Boss> Bosses => bosses;
     public int EnemyCount => amountOfEnemies;
 }

@@ -52,4 +52,12 @@ public class DialogHandler : MonoBehaviour
             // TODO add leave
         }
     }
+    private void Fight()
+    {
+
+    }
+    private void Leave()
+    {
+
+    }
 }

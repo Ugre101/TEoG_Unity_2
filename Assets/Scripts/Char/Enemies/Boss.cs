@@ -13,8 +13,12 @@ public class Boss : EnemyPrefab
     [SerializeField] private bool hasPostBattleDialog = false;
 
     public bool PostBattleDialog => hasPreBattleDialog;
-    [SerializeField] private bool hasCustomScene = false;
-    public bool CustomScene => hasCustomScene;
+    [SerializeField] private HasCustomScenes hasCustomScene = new HasCustomScenes();
+    public HasCustomScenes CustomScenes => hasCustomScene;
+    [SerializeField] private bool lockedPosistion = false;
+    public bool LockedPosistion => lockedPosistion;
+    [SerializeField] private Vector3 pos = new Vector3();
+    public Vector3 Pos => pos;
 }
 
 [System.Serializable]

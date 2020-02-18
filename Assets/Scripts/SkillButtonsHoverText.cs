@@ -32,6 +32,7 @@ public class SkillButtonsHoverText : MonoBehaviour
         }
         textbox = textbox != null ? textbox : GetComponentInChildren<TextMeshProUGUI>();
         TextBox = textbox;
+        StopHovering();
     }
 
     // Update is called once per frame

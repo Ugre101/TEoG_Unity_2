@@ -472,6 +472,9 @@ MonoBehaviour:
     drops:
     - item: 0
       dropChance: 0
+  isQuest:
+    isQuest: 0
+    quest: 0
   assingStr: 5
   assingCharm: 5
   assingEnd: 5

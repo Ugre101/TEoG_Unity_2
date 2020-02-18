@@ -11,8 +11,6 @@ public class EnemySpawner : MonoBehaviour
     private MapEvents MapEvents => MapEvents.GetMapEvents;
 
     [Header("Settings")]
-    [SerializeField] private int enemyToAdd = 6;
-
     [Range(5, 25)]
     [SerializeField] private int distFromPlayer = 5;
 
@@ -20,10 +18,13 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private int distFromBorder = 2;
 
     // Private
-    private readonly List<Vector3> _empty = new List<Vector3>();
+    private int enemyToAdd = 6;
 
-    private readonly List<EnemyPrefab> _CurrEnemies = new List<EnemyPrefab>();
     private Tilemap _currMap;
+
+    private readonly List<Vector3> _empty = new List<Vector3>();
+    private readonly List<EnemyPrefab> currEnemies = new List<EnemyPrefab>();
+    private readonly List<Boss> currBosses = new List<Boss>();
     private readonly System.Random rnd = new System.Random();
 
     private void Start()
@@ -39,10 +40,10 @@ public class EnemySpawner : MonoBehaviour
     private void Update()
     {
         if (_empty.Count < 1) { AvailblePos(); }
-        else if (transform.childCount < enemyToAdd && _CurrEnemies.Count > 0)
+        else if (transform.childCount < enemyToAdd && currEnemies.Count > 0)
         {
             int index = rnd.Next(_empty.Count);
-            EnemyPrefab prefab = _CurrEnemies[rnd.Next(_CurrEnemies.Count)];
+            EnemyPrefab prefab = currEnemies[rnd.Next(currEnemies.Count)];
             Instantiate(prefab, _empty[index], Quaternion.identity, transform).name = prefab.name;
             _empty.RemoveAt(index);
         }
@@ -55,7 +56,10 @@ public class EnemySpawner : MonoBehaviour
             for (int p = _currMap.cellBounds.yMin + distFromBorder; p < _currMap.cellBounds.yMax - distFromBorder; p++)
             {
                 Vector3Int localPlace = new Vector3Int(n, p, (int)_currMap.transform.position.z);
-                if (_currMap.HasTile(localPlace) && !dontSpawnOn.Exists(t => t.HasTile(localPlace)) && AroundPlayer(localPlace))
+                if (_currMap.HasTile(localPlace)
+                    && !dontSpawnOn.Exists(t => t.HasTile(localPlace))
+                    && NotAroundPlayer(localPlace)
+                    && NotAroundBoss(localPlace))
                 {
                     Vector3 place = _currMap.CellToWorld(localPlace);
                     _empty.Add(place);
@@ -64,13 +68,26 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public bool AroundPlayer(Vector3 vector3) => Vector3.Distance(Player.transform.position, vector3) > distFromPlayer;
+    public bool NotAroundPlayer(Vector3 vector3) => Vector3.Distance(Player.transform.position, vector3) > distFromPlayer;
+
+    public bool NotAroundBoss(Vector3 vector3)
+    {
+        if (currBosses.Count < 1) { return true; }
+        foreach (Boss b in currBosses)
+        {
+            if (Vector3.Distance(b.transform.position, vector3) > 10)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public void RePosistion(BasicChar toRePos)
     {
         int index = rnd.Next(_empty.Count);
         int tries = 0;
-        while (!AroundPlayer(_empty[index]))
+        while (!NotAroundPlayer(_empty[index]))
         {
             index = rnd.Next(_empty.Count);
             tries++;
@@ -94,13 +111,18 @@ public class EnemySpawner : MonoBehaviour
 
     private void CurrentEnemies()
     {
-        _CurrEnemies.Clear();
+        currEnemies.Clear();
+        currBosses.Clear();
         if (MapEvents.CurMapScript != null)
         {
             if (MapEvents.CurMapScript.Enemies.Count > 0)
             {
-                _CurrEnemies.AddRange(MapEvents.CurMapScript.Enemies);
+                currEnemies.AddRange(MapEvents.CurMapScript.Enemies);
                 enemyToAdd = MapEvents.CurMapScript.EnemyCount;
+            }
+            if (MapEvents.CurMapScript.Bosses.Count > 0)
+            {
+                currBosses.AddRange(MapEvents.CurMapScript.Bosses);
             }
         }
 
@@ -123,5 +145,28 @@ public class EnemySpawner : MonoBehaviour
         */
 
         #endregion old code
+    }
+
+    private void SpawnEnemies()
+    {
+        transform.KillChildren();
+        for (int i = 0; i < enemyToAdd; i++)
+        {
+            int index = rnd.Next(_empty.Count);
+            EnemyPrefab prefab = currEnemies[rnd.Next(currEnemies.Count)];
+            Instantiate(prefab, _empty[index], Quaternion.identity, transform).name = prefab.name;
+            _empty.RemoveAt(index);
+        }
+    }
+
+    private void SpawnBosses()
+    {
+        currBosses.ForEach(b =>
+        {
+            if (b.LockedPosistion)
+            {
+                Instantiate(b, b.Pos, Quaternion.identity, transform).name = b.name;
+            }
+        });
     }
 }

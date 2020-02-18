@@ -16,6 +16,8 @@ public static class EnemyPrefabEditorFoldouts
 [CustomEditor(typeof(EnemyPrefab))]
 public class EnemyPrefabEditor : BasicCharEditor
 {
+    #region FoldsShortcut
+
     private bool NameFold { get => EnemyPrefabEditorFoldouts.NameFold; set => EnemyPrefabEditorFoldouts.NameFold = value; }
     private bool RaceFold { get => EnemyPrefabEditorFoldouts.RaceFold; set => EnemyPrefabEditorFoldouts.RaceFold = value; }
     private bool GenderFold { get => EnemyPrefabEditorFoldouts.GenderFold; set => EnemyPrefabEditorFoldouts.GenderFold = value; }
@@ -23,6 +25,11 @@ public class EnemyPrefabEditor : BasicCharEditor
     private bool BodyFold { get => EnemyPrefabEditorFoldouts.BodyFold; set => EnemyPrefabEditorFoldouts.BodyFold = value; }
     private bool RewardFold { get => EnemyPrefabEditorFoldouts.RewardFold; set => EnemyPrefabEditorFoldouts.RewardFold = value; }
     private bool IsQuestFold { get => EnemyPrefabEditorFoldouts.IsQuestFold; set => EnemyPrefabEditorFoldouts.IsQuestFold = value; }
+
+    #endregion FoldsShortcut
+
+    #region SerializedProperties
+
     private SerializedProperty NeedFirstName, NeedLastName;
     private SerializedProperty startRaces;
     private SerializedProperty genderAmount, genderLockBool, genderLocked, genderTypeBool, genderType;
@@ -30,9 +37,14 @@ public class EnemyPrefabEditor : BasicCharEditor
     private SerializedProperty assingHeight, heightRng, assingFat, fatRng, assingMuscle, muscleRng;
     private SerializedProperty rewardExp, rewardGold, rewardRng, drops;
     private SerializedProperty isQuestBool, isQuestEnum;
+
+    #endregion SerializedProperties
+
     private int TotalStats => assingStr.intValue + assingCharm.intValue + assingEnd.intValue + assingDex.intValue + assingInt.intValue + assingWillpower.intValue;
 
-    private void OnEnable()
+    private void OnEnable() => GetSerializedObjectsForEnemyPrefab();
+
+    protected void GetSerializedObjectsForEnemyPrefab()
     {
         NeedFirstName = serializedObject.FindProperty("NeedFirstName");
         NeedLastName = serializedObject.FindProperty("NeedLastName");
@@ -158,11 +170,11 @@ public class EnemyPrefabEditor : BasicCharEditor
             EditorGUILayout.EndHorizontal();
             serializedObject.Update();
             UgreEditorTools.TwoBoldLabels("Assing str", "Assing charm");
-            TwoIntSliders(assingStr, assingCharm);
+            UgreEditorTools.TwoIntSliders(assingStr, assingCharm);
             UgreEditorTools.TwoBoldLabels("Assing end", "Assing dex");
-            TwoIntSliders(assingEnd, assingDex);
+            UgreEditorTools.TwoIntSliders(assingEnd, assingDex);
             UgreEditorTools.TwoBoldLabels("Assing int", "Assing Willpower");
-            TwoIntSliders(assingInt, assingWillpower);
+            UgreEditorTools.TwoIntSliders(assingInt, assingWillpower);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Stat rng: ", EditorStyles.boldLabel);
             statRngFactor.floatValue = EditorGUILayout.Slider(statRngFactor.floatValue, 0, 0.99f);
@@ -176,11 +188,11 @@ public class EnemyPrefabEditor : BasicCharEditor
             EditorGUILayout.BeginVertical("Box");
             serializedObject.Update();
             UgreEditorTools.TwoBoldLabels("Height", "Height rng");
-            IntAndFloatSlider(assingHeight, heightRng);
+            UgreEditorTools.IntAndFloatSlider(assingHeight, heightRng);
             UgreEditorTools.TwoBoldLabels("Fat", "Fat rng");
-            IntAndFloatSlider(assingFat, fatRng);
+            UgreEditorTools.IntAndFloatSlider(assingFat, fatRng);
             UgreEditorTools.TwoBoldLabels("Muscle", "Muscle rng");
-            IntAndFloatSlider(assingMuscle, muscleRng);
+            UgreEditorTools.IntAndFloatSlider(assingMuscle, muscleRng);
             serializedObject.ApplyModifiedProperties();
             EditorGUILayout.EndVertical();
         }
@@ -226,62 +238,5 @@ public class EnemyPrefabEditor : BasicCharEditor
         GUILayout.Label("Standard editor and end of custom editor", EditorStyles.boldLabel);
         GUILayout.Space(20);
         base.OnInspectorGUI();
-    }
-
-    private void IntAndFloatSlider(SerializedProperty intSlider, SerializedProperty floatSlider)
-    {
-        EditorGUILayout.BeginHorizontal();
-        intSlider.intValue = EditorGUILayout.IntSlider(intSlider.intValue, 0, 500);
-        floatSlider.floatValue = EditorGUILayout.Slider(floatSlider.floatValue, 0f, 1f);
-        EditorGUILayout.EndHorizontal();
-    }
-
-    private void TwoIntSliders(SerializedProperty one, SerializedProperty two) => TwoIntSliders(one, two, 0, 99);
-
-    private void TwoIntSliders(SerializedProperty one, SerializedProperty two, int minVal, int maxVal)
-    {
-        EditorGUILayout.BeginHorizontal();
-        one.intValue = EditorGUILayout.IntSlider(one.intValue, minVal, maxVal);
-        two.intValue = EditorGUILayout.IntSlider(two.intValue, minVal, maxVal);
-        EditorGUILayout.EndHorizontal();
-    }
-}
-
-public static class UgreEditorTools
-{
-    public static void TwoLabels(string firstLabel, string secondLabel)
-    {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField(firstLabel);
-        EditorGUILayout.LabelField(secondLabel);
-        EditorGUILayout.EndHorizontal();
-    }
-
-    public static void TwoBoldLabels(string firstLabel, string secondLabel)
-    {
-        EditorGUILayout.BeginHorizontal();
-        EditorGUILayout.LabelField(firstLabel, EditorStyles.boldLabel);
-        EditorGUILayout.LabelField(secondLabel, EditorStyles.boldLabel);
-        EditorGUILayout.EndHorizontal();
-    }
-
-    public static void IntAndFloatSlider(SerializedProperty intSlider, SerializedProperty floatSlider)
-    {
-        EditorGUILayout.BeginHorizontal();
-        intSlider.intValue = EditorGUILayout.IntSlider(intSlider.intValue, 0, 500);
-        floatSlider.floatValue = EditorGUILayout.Slider(floatSlider.floatValue, 0f, 1f);
-        EditorGUILayout.EndHorizontal();
-    }
-
-    public static void TwoIntSliders(SerializedProperty one, SerializedProperty two) => TwoIntSliders(one, two, 0, 99);
-
-    public static void TwoIntSliders(SerializedProperty one, SerializedProperty two, int maxVal) => TwoIntSliders(one, two, 0, maxVal);
-
-    public static void TwoIntSliders(SerializedProperty one, SerializedProperty two, int minVal, int maxVal)
-    {
-        EditorGUILayout.BeginHorizontal();
-        one.intValue = EditorGUILayout.IntSlider(one.intValue, minVal, maxVal);
-        two.intValue = EditorGUILayout.IntSlider(two.intValue, minVal, maxVal);
-        EditorGUILayout.EndHorizontal();
     }
 }

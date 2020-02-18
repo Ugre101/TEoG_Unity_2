@@ -18,43 +18,22 @@ public class ItemsEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        GUILayout.Space(5);
-        dropArea = GUILayoutUtility.GetRect(0.0f, 50.0f, GUILayout.ExpandWidth(true));
+        dropArea = GUILayoutUtility.GetRect(0.0f, 70.0f, GUILayout.ExpandWidth(true));
         serializedObject.Update();
         for (int i = 0; i < list.arraySize; i++)
         {
             EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i));
         }
+        UgreEditorTools.DropAreaGUI(dropArea, "Drop new item", HandleItem);
         serializedObject.ApplyModifiedProperties();
-        DropAreaGUI();
         // base.OnInspectorGUI();
     }
 
-    public void DropAreaGUI()
+    private void HandleItem(Object obj)
     {
-        Event evt = Event.current;
-        GUI.Box(dropArea, "Drop new item");
-        switch (evt.type)
+        if (obj is Item item)
         {
-            case EventType.DragUpdated:
-            case EventType.DragPerform:
-                if (!dropArea.Contains(evt.mousePosition))
-                {
-                    return;
-                }
-                DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-                if (evt.type == EventType.DragPerform)
-                {
-                    DragAndDrop.AcceptDrag();
-                    foreach (Object dragged in DragAndDrop.objectReferences)
-                    {
-                        if (dragged is Item item)
-                        {
-                            items.Add(item);
-                        }
-                    }
-                }
-                break;
+            items.Add(item);
         }
     }
 

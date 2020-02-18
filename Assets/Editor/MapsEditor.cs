@@ -1,50 +1,80 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(Map))]
-public class MapsEditor : Editor
+namespace EditorStuff
 {
-    private Rect dropArea;
-    private Map map;
-
-    private void OnEnable() => map = (Map)target;
-
-    public override void OnInspectorGUI()
+    public static class MapsEditorFoldouts
     {
-        base.OnInspectorGUI();
-        GUILayout.Space(10);
-        dropArea = GUILayoutUtility.GetRect(0.0f, 50f, GUILayout.ExpandWidth(true));
-        DropAreaGUI();
+        public static bool EnemiesFoldout { get; set; } = false;
+        public static bool BossesFoldout { get; set; } = false;
     }
 
-    public void DropAreaGUI()
+    [CustomEditor(typeof(Map))]
+    public class MapsEditor : Editor
     {
-        Event evt = Event.current;
-        GUI.Box(dropArea, "Drop enemyprefab");
-        switch (evt.type)
+        private Rect dropEnemies, dropBosses;
+        private Map map;
+        private SerializedProperty mapName, amountOfEnemies, enemies, bosses;
+        private bool EFold { get => MapsEditorFoldouts.EnemiesFoldout; set => MapsEditorFoldouts.EnemiesFoldout = value; }
+        private bool BFold { get => MapsEditorFoldouts.BossesFoldout; set => MapsEditorFoldouts.BossesFoldout = value; }
+
+        private void OnEnable()
         {
-            case EventType.DragUpdated:
-            case EventType.DragPerform:
-                if (!dropArea.Contains(evt.mousePosition))
+            map = (Map)target;
+            mapName = serializedObject.FindProperty("mapName");
+            amountOfEnemies = serializedObject.FindProperty("amountOfEnemies");
+            enemies = serializedObject.FindProperty("enemies");
+            bosses = serializedObject.FindProperty("bosses");
+        }
+
+        public override void OnInspectorGUI()
+        {
+            //  base.OnInspectorGUI();
+            serializedObject.UpdateIfRequiredOrScript();
+            EditorGUILayout.PropertyField(mapName);
+            EditorGUILayout.PropertyField(amountOfEnemies);
+            // EditorGUILayout.PropertyField(enemies);
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField("Enemies", EditorStyles.boldLabel);
+            for (int i = 0; i < enemies.arraySize; i++)
+            {
+                EditorGUILayout.PropertyField(enemies.GetArrayElementAtIndex(i));
+            }
+            dropEnemies = GUILayoutUtility.GetRect(0.0f, 40f, GUILayout.ExpandWidth(true));
+            //  DropAreaGUI();
+            UgreEditorTools.DropAreaGUI(dropEnemies, "Drop enemyprefab and normal enemies", HandleDroppedEnemies);
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField("Bosses", EditorStyles.boldLabel);
+            for (int i = 0; i < bosses.arraySize; i++)
+            {
+                EditorGUILayout.PropertyField(bosses.GetArrayElementAtIndex(i));
+            }
+            dropBosses = GUILayoutUtility.GetRect(0.0f, 40f, GUILayout.ExpandWidth(true));
+            UgreEditorTools.DropAreaGUI(dropBosses, "Drop bosses", HandleDroppedBosses);
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        private void HandleDroppedEnemies(Object obj)
+        {
+            if (obj is GameObject go)
+            {
+                // skipt gettype so stuff derived from prefab can be added.
+                if (go.GetComponent<EnemyPrefab>() is EnemyPrefab test) //  && test.GetType() == typeof(EnemyPrefab)
                 {
-                    return;
+                    map.Enemies.Add(test);
                 }
-                DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-                if (evt.type == EventType.DragPerform)
+            }
+        }
+
+        private void HandleDroppedBosses(Object obj)
+        {
+            if (obj is GameObject go)
+            {
+                if (go.GetComponent<Boss>() is Boss boss)
                 {
-                    DragAndDrop.AcceptDrag();
-                    foreach (Object dragged in DragAndDrop.objectReferences)
-                    {
-                        if (dragged is GameObject go)
-                        {
-                            if (go.GetComponent<EnemyPrefab>() is EnemyPrefab test)
-                            {
-                                map.Enemies.Add(test);
-                            }
-                        }
-                    }
+                    map.Bosses.Add(boss);
                 }
-                break;
+            }
         }
     }
 }
