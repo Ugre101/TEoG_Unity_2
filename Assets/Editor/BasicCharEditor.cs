@@ -6,9 +6,18 @@ public class BasicCharEditor : Editor
 {
     private BasicChar basicChar;
 
-    public override void OnInspectorGUI()
+    private void OnEnable()
+    {
+        BasicCharEnable();
+    }
+
+    protected void BasicCharEnable()
     {
         basicChar = (BasicChar)target;
+    }
+
+    public override void OnInspectorGUI()
+    {
         GUILayout.Label("Summary", EditorStyles.boldLabel);
         GUILayout.BeginVertical("Box");
         GUILayout.Label(basicChar.Identity.FullName);

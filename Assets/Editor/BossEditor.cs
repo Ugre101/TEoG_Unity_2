@@ -13,6 +13,7 @@ public class BossEditor : EnemyPrefabEditor
 
     private void OnEnable()
     {
+        BasicCharEnable();
         GetSerializedObjectsForEnemyPrefab();
         hasPreBattleDialog = serializedObject.FindProperty("hasPreBattleDialog");
         hasPostBattleDialog = serializedObject.FindProperty("hasPostBattleDialog");

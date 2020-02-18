@@ -2,10 +2,7 @@
 
 public class PlayerMain : BasicChar
 {
-    public PlayerMain() : base()
-    {
-        thisPlayer = this;
-    }
+    public PlayerMain() : base() => thisPlayer = this;
 
     // public Settings sett;
     public override void Awake()

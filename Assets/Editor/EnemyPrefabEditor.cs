@@ -42,7 +42,11 @@ public class EnemyPrefabEditor : BasicCharEditor
 
     private int TotalStats => assingStr.intValue + assingCharm.intValue + assingEnd.intValue + assingDex.intValue + assingInt.intValue + assingWillpower.intValue;
 
-    private void OnEnable() => GetSerializedObjectsForEnemyPrefab();
+    private void OnEnable()
+    {
+        BasicCharEnable();
+        GetSerializedObjectsForEnemyPrefab();
+    }
 
     protected void GetSerializedObjectsForEnemyPrefab()
     {
