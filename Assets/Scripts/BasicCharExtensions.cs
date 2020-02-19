@@ -98,4 +98,12 @@ public static class BasicCharExtensions
             so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value));
         }
     }
+
+    public static void GainMuscle(this BasicChar basicChar, float stimuli)
+    {
+        // TODO finish
+        float str = basicChar.Stats.Strength.BaseValue;
+        // basing on height is bad idea
+        float height = basicChar.Body.Height.Value;
+    }
 }

@@ -222,8 +222,8 @@ MonoBehaviour:
   assingDex: 12
   assingInt: 8
   assingWill: 20
-  statRngFactor: 0.4
-  assingHeight: 160
+  statRngFactor: 0.09
+  assingHeight: 220
   assingFat: 20
   assingMuscle: 30
   heightRng: 0.1
@@ -237,6 +237,8 @@ MonoBehaviour:
     haveCustomScenes: 0
     blockNormalScenes: 0
     customScenes: []
+  lockedPosistion: 0
+  pos: {x: 0, y: 0, z: 0}
 --- !u!212 &958300686172285181
 SpriteRenderer:
   m_ObjectHideFlags: 0

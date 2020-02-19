@@ -11,11 +11,8 @@ public class EnemySpawner : MonoBehaviour
     private MapEvents MapEvents => MapEvents.GetMapEvents;
 
     [Header("Settings")]
-    [Range(5, 25)]
-    [SerializeField] private int distFromPlayer = 5;
-
-    [Range(0, 10)]
-    [SerializeField] private int distFromBorder = 2;
+    [Range(0, 50)]
+    [SerializeField] private int distFromPlayer = 5, distFromBorder = 2, distFromBoss = 10;
 
     // Private
     private int enemyToAdd = 6;
@@ -25,41 +22,26 @@ public class EnemySpawner : MonoBehaviour
     private readonly List<Vector3> _empty = new List<Vector3>();
     private readonly List<EnemyPrefab> currEnemies = new List<EnemyPrefab>();
     private readonly List<Boss> currBosses = new List<Boss>();
+    private readonly List<Boss> addedBosses = new List<Boss>();
     private readonly System.Random rnd = new System.Random();
 
     private void Start()
     {
         Player = Player != null ? Player : PlayerMain.GetPlayer;
-        _currMap = MapEvents.CurrentMap;
         MapEvents.WorldMapChange += DoorChanged;
-        CurrentEnemies();
         Movement.TriggerEnemy += RePosistion;
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-        if (_empty.Count < 1) { AvailblePos(); }
-        else if (transform.childCount < enemyToAdd && currEnemies.Count > 0)
-        {
-            int index = rnd.Next(_empty.Count);
-            EnemyPrefab prefab = currEnemies[rnd.Next(currEnemies.Count)];
-            Instantiate(prefab, _empty[index], Quaternion.identity, transform).name = prefab.name;
-            _empty.RemoveAt(index);
-        }
+        DoorChanged(MapEvents.CurrentMap);
     }
 
     private void AvailblePos()
     {
+        _empty.Clear();
         for (int n = _currMap.cellBounds.xMin + distFromBorder; n < _currMap.cellBounds.xMax - distFromBorder; n++)
         {
             for (int p = _currMap.cellBounds.yMin + distFromBorder; p < _currMap.cellBounds.yMax - distFromBorder; p++)
             {
                 Vector3Int localPlace = new Vector3Int(n, p, (int)_currMap.transform.position.z);
-                if (_currMap.HasTile(localPlace)
-                    && !dontSpawnOn.Exists(t => t.HasTile(localPlace))
-                    && NotAroundPlayer(localPlace)
-                    && NotAroundBoss(localPlace))
+                if (_currMap.HasTile(localPlace) && !dontSpawnOn.Exists(t => t.HasTile(localPlace)))
                 {
                     Vector3 place = _currMap.CellToWorld(localPlace);
                     _empty.Add(place);
@@ -68,32 +50,37 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public bool NotAroundPlayer(Vector3 vector3) => Vector3.Distance(Player.transform.position, vector3) > distFromPlayer;
+    public bool AroundPlayer(Vector3 vector3) => Vector3.Distance(Player.transform.position, vector3) < distFromPlayer;
 
-    public bool NotAroundBoss(Vector3 vector3)
+    public bool AroundBoss(Vector3 vector3)
     {
-        if (currBosses.Count < 1) { return true; }
-        foreach (Boss b in currBosses)
+        if (addedBosses.Count < 1) { return false; }
+        foreach (Boss b in addedBosses)
         {
-            if (Vector3.Distance(b.transform.position, vector3) > 10)
+            if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void RePosistion(BasicChar toRePos)
     {
+        if (_empty.Count < 1)
+        {
+            AvailblePos();
+        }
         int index = rnd.Next(_empty.Count);
         int tries = 0;
-        while (!NotAroundPlayer(_empty[index]))
+        while (AroundPlayer(_empty[index]) || AroundBoss(_empty[index]))
         {
             index = rnd.Next(_empty.Count);
             tries++;
             if (tries > 100)
             {
                 break;
+                // Give up and just let is spawn whereever
             }
         }
         toRePos.transform.position = _empty[index];
@@ -105,14 +92,14 @@ public class EnemySpawner : MonoBehaviour
         this._currMap = _currMap;
         AvailblePos();
         CurrentEnemies();
-        transform.KillChildren();
-        _empty.Clear();
+        SetupEnemies();
     }
 
     private void CurrentEnemies()
     {
         currEnemies.Clear();
         currBosses.Clear();
+        addedBosses.Clear();
         if (MapEvents.CurMapScript != null)
         {
             if (MapEvents.CurMapScript.Enemies.Count > 0)
@@ -147,26 +134,46 @@ public class EnemySpawner : MonoBehaviour
         #endregion old code
     }
 
-    private void SpawnEnemies()
+    private void SetupEnemies()
     {
         transform.KillChildren();
-        for (int i = 0; i < enemyToAdd; i++)
+        SpawnBosses();
+        SpawnEnemies();
+    }
+
+    private void SpawnEnemies()
+    {
+        if (currEnemies.Count > 0)
         {
-            int index = rnd.Next(_empty.Count);
-            EnemyPrefab prefab = currEnemies[rnd.Next(currEnemies.Count)];
-            Instantiate(prefab, _empty[index], Quaternion.identity, transform).name = prefab.name;
-            _empty.RemoveAt(index);
+            for (int i = 0; i < enemyToAdd; i++)
+            {
+                EnemyPrefab prefab = currEnemies[rnd.Next(currEnemies.Count)];
+                Instantiate(prefab, transform, true).name = prefab.name;
+                RePosistion(prefab);
+            }
         }
     }
 
     private void SpawnBosses()
     {
-        currBosses.ForEach(b =>
+        if (currBosses.Count > 0)
         {
-            if (b.LockedPosistion)
+            foreach (Boss b in currBosses)
             {
-                Instantiate(b, b.Pos, Quaternion.identity, transform).name = b.name;
+                if (b.LockedPosistion)
+                {
+                    Boss boss = Instantiate(b, b.Pos, Quaternion.identity, transform);
+                    boss.name = b.name;
+                    addedBosses.Add(boss);
+                }
+                else
+                {
+                    Boss boss = Instantiate(b, transform, true);
+                    boss.name = b.name;
+                    RePosistion(boss);
+                    addedBosses.Add(boss);
+                }
             }
-        });
+        }
     }
 }
