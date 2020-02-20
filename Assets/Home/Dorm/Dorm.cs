@@ -7,7 +7,7 @@ public class Dorm : MonoBehaviour
     public static Dorm GetDrom { get; private set; }
     [SerializeField] private List<BasicChar> servantPrefabs = new List<BasicChar>();
     [SerializeField] private BasicChar defaultPrefab = null;
-    public bool HasSpace => Home.Stats.Dorm.Level * 3 > transform.childCount;
+    public bool HasSpace => StartHomeStats.Dorm.Level * 3 > transform.childCount;
 
     private BasicChar[] ArrayServants => GetComponentsInChildren<BasicChar>();
     private bool ServantsDirty = true;

@@ -25,7 +25,6 @@ public static class GameManager
             switch (value)
             {
                 case GameState.Intro:
-                case GameState.Home:
                 case GameState.Battle:
                     Time.timeScale = 0f;
                     KeyBindsActive = false;
@@ -37,6 +36,7 @@ public static class GameManager
                     Time.timeScale = 0f;
                     break;
 
+                case GameState.Home:
                 case GameState.Free:
                 default:
                     KeyBindsActive = true;

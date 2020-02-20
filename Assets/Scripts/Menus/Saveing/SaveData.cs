@@ -23,7 +23,7 @@ public class Save
         PlayerSave playerSave = new PlayerSave(Player);
         List<DormSave> dormSaves = dorm.Save();
         PosSave playerPos = new PosSave(Pos.position, MapEvents.ActiveMap, MapEvents.CurrentMap.transform.name);
-        HomeSave homeSave = Home.Stats.Save();
+        HomeSave homeSave = StartHomeStats.Save();
         VoreSaves voreSaves = voreChar.Save;
         FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, voreSaves);
         Debug.Log(JsonUtility.ToJson(fullSave));
@@ -38,7 +38,7 @@ public class Save
         MapEvents.GetMapEvents.Load(fullSave.PosPart);
         // Reference
         JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
-        Home.Stats.Load(fullSave.HomePart);
+        StartHomeStats.Load(fullSave.HomePart);
         dorm.Load(fullSave.DormPart);
         voreChar.Load(fullSave.VoreSaves, Player);
         // Pure static
@@ -118,21 +118,3 @@ public struct PosSave
     }
 }
 
-[System.Serializable]
-public struct HomeSave
-{
-    [SerializeField] private int dormKitchenLevel;
-    [SerializeField] private int dormLevel;
-    [SerializeField] private int dormGymLevel;
-
-    public int DormLevel => dormLevel;
-    public int DormGymLevel => dormGymLevel;
-    public int DormKitchenLevel => dormKitchenLevel;
-
-    public HomeSave(int parDormLevel, int parDormGymLevel, int parDormKitchenLevel)
-    {
-        this.dormLevel = parDormLevel;
-        this.dormGymLevel = parDormGymLevel;
-        this.dormKitchenLevel = parDormKitchenLevel;
-    }
-}
