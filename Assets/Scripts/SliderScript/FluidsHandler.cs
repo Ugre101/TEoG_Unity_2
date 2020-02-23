@@ -2,11 +2,9 @@
 
 public class FluidsHandler : MonoBehaviour
 {
-    [SerializeField]
-    private PlayerMain player = null;
+    [SerializeField] private PlayerMain player = null;
 
-    [SerializeField]
-    private GameObject cBar = null, mBar = null;
+    [SerializeField] private GameObject cBar = null, mBar = null;
 
     private void OnEnable()
     {

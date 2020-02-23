@@ -14,7 +14,8 @@ public enum OrganType
 public enum FluidType
 {
     Cum,
-    Milk
+    Milk,
+    Scat
 }
 
 [Serializable]
@@ -275,6 +276,42 @@ public static class SexOrganExtension
                     vaginas.AddVag();
                 }
             }
+        }
+    }
+}
+
+public abstract class SexualOrganWithFluid : SexualOrgan
+{
+    public SexualOrganWithFluid(FluidType fluidType) : base() => sexualFluid = new SexualFluid(fluidType, BaseSize);
+
+    public SexualOrganWithFluid(FluidType fluidType, int baseSize) : base(baseSize) => sexualFluid = new SexualFluid(fluidType, BaseSize);
+
+    public override float Size
+    {
+        get
+        {
+            if (BaseSize != lastBase)
+            {
+                // Calc
+                lastBase = BaseSize;
+                currSize = BaseSize;
+                sexualFluid.FluidCalc(BaseSize);
+            }
+            return currSize;
+        }
+    }
+
+    [SerializeField] private SexualFluid sexualFluid;
+
+    public virtual SexualFluid Fluid
+    {
+        get
+        {
+            if (baseSize != lastBase)
+            {
+                sexualFluid.FluidCalc(Size);
+            }
+            return sexualFluid;
         }
     }
 }
