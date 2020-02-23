@@ -28,7 +28,7 @@ public class CameraController : MonoBehaviour
     private Camera cam;
     private float _xMax, _xMin, _yMin, _yMax;
 
-    private float _orthSize = 8f;
+    private float _orthSize = 14f;
 
     private float OrthSize => _orthSize;
 
@@ -50,7 +50,7 @@ public class CameraController : MonoBehaviour
         cam = GetComponent<Camera>();
         minTile = _map.CellToWorld(_map.cellBounds.min);
         maxTile = _map.CellToWorld(_map.cellBounds.max);
-        SetOrthSize(12f);
+        SetOrthSize(14f);
     }
 
     // Update is called once per frame
