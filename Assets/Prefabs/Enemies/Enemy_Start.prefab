@@ -615,7 +615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  playerRigid: {fileID: 8534239450746442152}
+  playerRigid: {fileID: 0}
   rb2d: {fileID: 8534239450746442152}
   chaseDist: 13
   movementSpeed: 2.5

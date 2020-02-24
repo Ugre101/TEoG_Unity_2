@@ -4,27 +4,17 @@ using System.Text;
 using UnityEngine;
 
 [System.Serializable]
-public class Boobs : SexualOrgan
+public class Boobs : SexualOrganWithFluid
 {
-    public Boobs() : base() => _fluid = new SexualFluid(FluidType.Milk, Size);
+    public Boobs() : base(FluidType.Milk)
+    {
+    }
 
-    public Boobs(int size) : base(size) => _fluid = new SexualFluid(FluidType.Milk, Size);
+    public Boobs(int size) : base(FluidType.Milk, size)
+    {
+    }
 
     public override float Cost => this.GrowCost();
-
-    [SerializeField] private SexualFluid _fluid;
-
-    public virtual SexualFluid Fluid
-    {
-        get
-        {
-            if (baseSize != lastBase)
-            {
-                _fluid.FluidCalc(Size);
-            }
-            return _fluid;
-        }
-    }
 
     public string Looks()
     {
@@ -61,7 +51,7 @@ public static class BoobExtensions
 
     public static float MilkTotal(this List<Boobs> boobs) => boobs.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
-    public static float MilkMax(this List<Boobs> boobs) => boobs.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
+    public static float MilkMax(this List<Boobs> boobs) => boobs.Select(b => b.Fluid.MaxAmount).DefaultIfEmpty(0).Sum();
 
     public static string BoobSizeConvertor(this Boobs boob)
     {

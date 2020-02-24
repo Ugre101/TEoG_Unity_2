@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1720146288969252818, guid: 8db33dd8f893950428140c08914b209b,
+        type: 3}
+      propertyPath: m_Name
+      value: Enemy_PtV_Farmer
+      objectReference: {fileID: 0}
     - target: {fileID: 7039296091227565528, guid: 8db33dd8f893950428140c08914b209b,
         type: 3}
       propertyPath: m_LocalPosition.x

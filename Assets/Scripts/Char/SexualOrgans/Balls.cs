@@ -4,27 +4,17 @@ using System.Text;
 using UnityEngine;
 
 [System.Serializable]
-public class Balls : SexualOrgan
+public class Balls : SexualOrganWithFluid
 {
-    public Balls() : base() => _fluid = new SexualFluid(FluidType.Cum, Size);
+    public Balls() : base(FluidType.Cum)
+    {
+    }
 
-    public Balls(int size) : base(size) => _fluid = new SexualFluid(FluidType.Cum, Size);
+    public Balls(int size) : base(FluidType.Cum, size)
+    {
+    }
 
     public override float Cost => this.GrowCost();
-
-    [SerializeField] private SexualFluid _fluid;
-
-    public virtual SexualFluid Fluid
-    {
-        get
-        {
-            if (baseSize != lastBase)
-            {
-                _fluid.FluidCalc(Size);
-            }
-            return _fluid;
-        }
-    }
 }
 
 public static class BallsExtensions
@@ -54,7 +44,7 @@ public static class BallsExtensions
 
     public static float CumTotal(this List<Balls> balls) => balls.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
 
-    public static float CumMax(this List<Balls> balls) => balls.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
+    public static float CumMax(this List<Balls> balls) => balls.Select(b => b.Fluid.MaxAmount).DefaultIfEmpty(0).Sum();
 
     public static string Look(this Balls parBalls, bool capital = true)
         => $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls, with {Settings.LorGal(parBalls.Fluid.Current)}";

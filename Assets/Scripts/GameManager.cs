@@ -7,7 +7,8 @@ public enum GameState
     Menu,
     PauseMenu,
     Battle,
-    Home
+    Home,
+    InBuilding
 }
 
 public static class GameManager
@@ -26,6 +27,8 @@ public static class GameManager
             {
                 case GameState.Intro:
                 case GameState.Battle:
+                case GameState.InBuilding:
+                case GameState.Home:
                     Time.timeScale = 0f;
                     KeyBindsActive = false;
                     break;
@@ -36,7 +39,6 @@ public static class GameManager
                     Time.timeScale = 0f;
                     break;
 
-                case GameState.Home:
                 case GameState.Free:
                 default:
                     KeyBindsActive = true;

@@ -6,7 +6,7 @@ public class HomeMain : MonoBehaviour
 {
     [SerializeField] private BasicChar owner = null;
     [SerializeField] private CanvasMain canvasMain = null;
-    [SerializeField] private GameObject HouseStart = null;
+    [SerializeField] private GameObject dormGameobject = null;
     [SerializeField] private MapEvents mapEvents = null;
     [SerializeField] private Button leaveBtn = null;
     [SerializeField] private Tilemap toMap = null;
@@ -31,7 +31,7 @@ public class HomeMain : MonoBehaviour
     public void ToStart()
     {
         canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
-        transform.SleepChildren(HouseStart.transform);
+        transform.SleepChildren(transform.GetChild(0));
     }
 
     private void LeaveHome()
@@ -63,6 +63,19 @@ public class HomeMain : MonoBehaviour
 
     public void UpgradeMainHouse()
     {
+    }
+
+    // Enter & leave dorm a bit overkill for now but should make it easier in future
+    public void EnterDorm()
+    {
+        dormGameobject.SetActive(true);
+        GameManager.CurState = GameState.InBuilding;
+    }
+
+    public void LeaveDorm()
+    {
+        dormGameobject.SetActive(false);
+        GameManager.CurState = GameState.Free;
     }
 }
 
