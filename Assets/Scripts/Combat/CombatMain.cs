@@ -153,6 +153,12 @@ public class CombatMain : MonoBehaviour
 
     private void RefreshCooldown(List<BasicChar> basicChars) => basicChars.ForEach(c => skillBook.Dict.OwnedSkills(c.Skills).FindAll(s => s.skill.HasCoolDown).FindAll(s => !s.Ready).ForEach(s => s.RefreshCoolDown()));
 
+    public void LoseBattle()
+    {
+        gameObject.SetActive(false);
+        loseBattle.Setup(enemyTeamChars);
+    }
+
     public void WinBattle()
     {
         enemyTeamChars.ForEach(etc =>
@@ -179,18 +185,17 @@ public class CombatMain : MonoBehaviour
 
     private void PostBattleReward(EnemyPrefab b)
     {
+        // Player loses obedince towards losing enemy
+        player.RelationshipTracker.GetTempRelationshipWith(b).ObedienceStat.BaseValue--;
+        // Losing enemy gain obedince and loses affection towards player
+        b.RelationshipTracker.GetTempRelationshipWith(player).ObedienceStat.BaseValue++;
+        b.RelationshipTracker.GetTempRelationshipWith(player).AffectionStat.BaseValue--;
         Player.ExpSystem.Exp += b.Reward.ExpReward;
         b.Reward.HandleDrops(Player);
         Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
             ? b.Reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
             : b.Reward.GoldReward;
         b.IsQuest.CheckQuest();
-    }
-
-    public void LoseBattle()
-    {
-        gameObject.SetActive(false);
-        loseBattle.Setup(enemyTeamChars);
     }
 
     public void SomeOneDead()

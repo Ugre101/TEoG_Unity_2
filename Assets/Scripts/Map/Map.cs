@@ -1,21 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum Maps
-{
-    Start,
-    ToVillage,
-    Village,
-    ToWitch,
-    WitchWood,
-    WitchHut,
-    Forest,
-    DeepForest
-}
-
 public class Map : MonoBehaviour
 {
-    [SerializeField] private Maps mapName = Maps.Start;
+    [SerializeField] private string mapName = string.Empty;
 
     [Tooltip("Amount of ememies to spawn.")]
     [SerializeField] private int amountOfEnemies = 6;
@@ -27,7 +15,7 @@ public class Map : MonoBehaviour
     [Header("Bosses")]
     [SerializeField] private List<Boss> bosses = new List<Boss>();
 
-    public Maps MapName => mapName;
+    public string MapTitle => mapName;
 
     public List<EnemyPrefab> Enemies => enemies;
     public List<Boss> Bosses => bosses;

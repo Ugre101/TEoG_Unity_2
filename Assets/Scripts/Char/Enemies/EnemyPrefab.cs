@@ -59,7 +59,7 @@ public class EnemyPrefab : BasicChar
 
     [SerializeField] private int orgsNeeded = 3;
 
-    public bool CanTake(int sessOrg) => canTakeToDorm ? sessOrg >= orgsNeeded : false;
+    public bool CanTake => canTakeToDorm ? SexStats.SessionOrgasm >= orgsNeeded : false;
 
     public override void Start()
     {

@@ -2,43 +2,6 @@
 using UnityEngine;
 using Vore;
 
-public enum SubDom
-{
-    // TODO add more and improve
-    Submissive,
-    Neutral,
-    Dominant
-}
-
-[System.Serializable]
-public class Personality
-{
-    [SerializeField] private int value = 0;
-
-    public SubDom Current
-    {
-        get
-        {
-            if (value < -100)
-            {
-                return SubDom.Submissive;
-            }
-            else if (value > -100 && value < 100)
-            {
-                return SubDom.Neutral;
-            }
-            else
-            {
-                return SubDom.Dominant;
-            }
-        }
-    }
-
-    public void TurnSub(int gain = 1) => value -= gain;
-
-    public void TurnDom(int gain = 1) => value += gain;
-}
-
 [System.Serializable]
 public abstract class BasicChar : MonoBehaviour
 {
@@ -50,7 +13,8 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] protected Identity identity;
 
     public Identity Identity => identity;
-
+    [SerializeField] protected RelationshipTracker relationshipTracker = new RelationshipTracker();
+    public RelationshipTracker RelationshipTracker => relationshipTracker;
     [SerializeField] private Inventory inventory = new Inventory();
 
     public Inventory Inventory => inventory;

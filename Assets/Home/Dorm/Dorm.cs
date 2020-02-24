@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -46,6 +47,12 @@ public class Dorm : MonoBehaviour
         return sercv;
     }
 
+    public void MoveToDorm(BasicChar toMove)
+    {
+        toMove.transform.SetParent(this.transform);
+        toMove.transform.position = transform.position;
+    }
+
     public List<DormSave> Save()
     {
         List<DormSave> dormSaves = new List<DormSave>();
@@ -65,14 +72,22 @@ public class Dorm : MonoBehaviour
             if (servantPrefabs.Exists(n => n.name == ds.Name))
             {
                 BasicChar loaded = AddTo(servantPrefabs.Find(n => n.name == ds.Name));
-                JsonUtility.FromJsonOverwrite(ds.Who, loaded);
+                StartCoroutine(WaitAFrame(ds, loaded));
             }
             else
             {
                 BasicChar loaded = AddTo(defaultPrefab);
-                JsonUtility.FromJsonOverwrite(ds.Who, loaded);
+                StartCoroutine(WaitAFrame(ds, loaded));
             }
         }
+    }
+
+    private IEnumerator WaitAFrame(DormSave dormSave, BasicChar basicChar)
+    {
+        // wait a frame to let new basicchar to fully load before overwritting it
+        // todo maybe make it so a list of char so we don't have to wait a frame for every char; could take some time.
+        yield return new WaitForEndOfFrame();
+        JsonUtility.FromJsonOverwrite(dormSave.Who, basicChar);
     }
 }
 

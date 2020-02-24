@@ -148,8 +148,11 @@ public class EnemySpawner : MonoBehaviour
             for (int i = 0; i < enemyToAdd; i++)
             {
                 EnemyPrefab prefab = currEnemies[rnd.Next(currEnemies.Count)];
-                Instantiate(prefab, transform, true).name = prefab.name;
-                RePosistion(prefab);
+                if (prefab != null)
+                {
+                    Instantiate(prefab, transform, true).name = prefab.name;
+                    RePosistion(prefab);
+                }
             }
         }
     }
@@ -160,20 +163,27 @@ public class EnemySpawner : MonoBehaviour
         {
             foreach (Boss b in currBosses)
             {
-                if (b.LockedPosistion)
+                if (b != null)
                 {
-                    Boss boss = Instantiate(b, b.Pos, Quaternion.identity, transform);
-                    boss.name = b.name;
-                    addedBosses.Add(boss);
-                }
-                else
-                {
-                    Boss boss = Instantiate(b, transform, true);
-                    boss.name = b.name;
-                    RePosistion(boss);
-                    addedBosses.Add(boss);
+                    if (b.LockedPosistion)
+                    {
+                        Boss boss = Instantiate(b, b.Pos, Quaternion.identity, transform);
+                        NameAndADDBoss(b, boss);
+                    }
+                    else
+                    {
+                        Boss boss = Instantiate(b, transform, true);
+                        NameAndADDBoss(b, boss);
+                        RePosistion(boss);
+                    }
                 }
             }
         }
+    }
+
+    private void NameAndADDBoss(Boss b, Boss boss)
+    {
+        boss.name = b.name;
+        addedBosses.Add(boss);
     }
 }

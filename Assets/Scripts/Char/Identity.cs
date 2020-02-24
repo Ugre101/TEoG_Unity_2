@@ -3,20 +3,17 @@
 [System.Serializable]
 public class Identity
 {
-    [SerializeField]
-    private string firstName;
+    [SerializeField] private string firstName;
 
     public string FirstName { get => firstName; set => firstName = value; }
 
-    [SerializeField]
-    private string lastName;
+    [SerializeField] private string lastName;
 
     public string LastName { get => lastName; set => lastName = value; }
 
     public string FullName => $"{FirstName} {LastName}";
 
-    [SerializeField]
-    private string id;
+    [SerializeField] private string id;
 
     public string Id => id;
 

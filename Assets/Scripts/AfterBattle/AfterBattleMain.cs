@@ -14,20 +14,11 @@ public class AfterBattleMain : MonoBehaviour
 
     #region Button prefabs
 
-    [SerializeField]
-    private SexButton sexButton = null;
+    [SerializeField] private SexButton sexButton = null;
 
-    [SerializeField]
-    private VoreButton voreButton = null;
+    [SerializeField] private VoreButton voreButton = null;
 
-    [SerializeField]
-    private EssSexButton essSexButton = null;
-
-    [SerializeField]
-    private GameObject Leave = null;
-
-    [SerializeField]
-    private GameObject TakeHome = null;
+    [SerializeField] private EssSexButton essSexButton = null;
 
     #endregion Button prefabs
 
@@ -35,37 +26,27 @@ public class AfterBattleMain : MonoBehaviour
 
     [Header("Buttons containers")]
     [SerializeField]
-    private Transform buttons = null;
-
-    [SerializeField]
-    private Transform DrainActions = null;
-
-    //, MiscActions = null;
+    private Transform buttons = null, DrainActions = null, MiscActions = null;
 
     #endregion Button containers
 
     #region Scenes
 
     [Header("ScriptableObject Scenes")]
-    [SerializeField]
-    private List<SexScenes> dickScenes = new List<SexScenes>();
+    [SerializeField] private List<SexScenes> dickScenes = new List<SexScenes>();
 
-    [SerializeField]
-    private List<SexScenes> boobScenes = new List<SexScenes>(), mouthScenes = new List<SexScenes>(), vaginaScenes = new List<SexScenes>(), analScenes = new List<SexScenes>();
+    [SerializeField] private List<SexScenes> boobScenes = new List<SexScenes>(), mouthScenes = new List<SexScenes>(), vaginaScenes = new List<SexScenes>(), analScenes = new List<SexScenes>();
 
-    [SerializeField]
-    private List<EssScene> essScenes = new List<EssScene>();
+    [SerializeField] private List<EssScene> essScenes = new List<EssScene>();
 
-    [SerializeField]
-    private List<VoreScene> voreScenes = new List<VoreScene>();
+    [SerializeField] private List<VoreScene> voreScenes = new List<VoreScene>();
+    [SerializeField] private List<SexScenes> miscScenes = new List<SexScenes>();
 
     #endregion Scenes
 
     public SexScenes LastScene { get; set; }
 
     private List<SexScenes> allSexScenes = new List<SexScenes>();
-
-    [SerializeField] private Dorm dorm = null;
 
     [SerializeField] private SexChar playerChar = null, enemyChar = null;
 
@@ -85,10 +66,11 @@ public class AfterBattleMain : MonoBehaviour
         sortAll.onClick.AddListener(() => SceneChecker(allSexScenes, player.Vore.Active));
         sortMouth.onClick.AddListener(() => SceneChecker(mouthScenes));
         sortVore.onClick.AddListener(ShowVore);
-        VoreButton.VoredEvent += Vored;
+        VoreButton.VoredEvent += EnemyRemoved;
+        TakeToDorm.TakenToDorm += EnemyRemoved;
     }
 
-    private void Vored()
+    private void EnemyRemoved()
     {
         if (newTarget == Target)
         {
@@ -101,6 +83,10 @@ public class AfterBattleMain : MonoBehaviour
         {
             buttons.transform.KillChildren();
             DrainActions.transform.KillChildren();
+        }
+        else
+        {
+            RefreshScenes();
         }
     }
 
@@ -116,7 +102,6 @@ public class AfterBattleMain : MonoBehaviour
     public void Setup(List<BasicChar> chars)
     {
         sortVore.gameObject.SetActive(player.Vore.Active);
-        TakeHome.SetActive(false);
         gameObject.SetActive(true);
         enemies = chars;
         textBox.text = null;
@@ -150,18 +135,15 @@ public class AfterBattleMain : MonoBehaviour
                     .Concat(vaginaScenes).Concat(analScenes).ToList();
             }
             SceneChecker(allSexScenes, player.Vore.Active);
-            Leave.SetActive(true);
         }
         else
         {
             buttons.transform.KillChildren();
         }
-        if (Target is EnemyPrefab ep)
+        MiscActions.KillChildren();
+        foreach (SexScenes sexScenes in miscScenes.FindAll(ms => ms.CanDo(player, Target)))
         {
-            if (ep.CanTake(Target.SexStats.SessionOrgasm))
-            {
-                TakeHome.SetActive(dorm.HasSpace);
-            }
+            Instantiate(sexButton, MiscActions).Setup(player, Target, this, sexScenes);
         }
         DrainActions.KillChildren();
         if (Target.SexStats.CanDrain)
