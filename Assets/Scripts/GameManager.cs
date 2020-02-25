@@ -7,14 +7,20 @@ public enum GameState
     Menu,
     PauseMenu,
     Battle,
-    Home,
     InBuilding
+}
+
+public enum GlobalArea
+{
+    Map,
+    Home
 }
 
 public static class GameManager
 {
     private static GameState curState = GameState.Free;
     public static GameState LastState { get; private set; }
+    public static GlobalArea CurrentArea { get; set; }
     public static bool KeyBindsActive { get; set; } = true;
 
     public static GameState CurState
@@ -28,7 +34,6 @@ public static class GameManager
                 case GameState.Intro:
                 case GameState.Battle:
                 case GameState.InBuilding:
-                case GameState.Home:
                     Time.timeScale = 0f;
                     KeyBindsActive = false;
                     break;

@@ -125,7 +125,7 @@ public abstract class BasicChar : MonoBehaviour
         Essence.Masc.EssenceSliderEvent += DidGenderChange;
         essence.Femi.EssenceSliderEvent += DidGenderChange;
         expSystem = new ExpSystem(1);
-        StartCoroutine(BasicCharExtensions.TickEverySecond(this));
+        tickEverySecond = Time.time;
         DateSystem.NewDayEvent += this.GrowFetuses;
         DateSystem.NewDayEvent += PregnancySystem.GrowChild;
     }
@@ -144,7 +144,17 @@ public abstract class BasicChar : MonoBehaviour
         essence.Femi.EssenceSliderEvent -= DidGenderChange;
     }
 
-    public virtual void Update() => this.RefreshOrgans(AutoEss);
+    private float tickEverySecond;
+
+    public virtual void Update()
+    {
+        this.RefreshOrgans(AutoEss);
+        if (tickEverySecond + 2f < Time.time)
+        {
+            tickEverySecond = Time.time;
+            this.OverTimeTick();
+        }
+    }
 
     [SerializeField] private List<Skill> skills = new List<Skill>();
 

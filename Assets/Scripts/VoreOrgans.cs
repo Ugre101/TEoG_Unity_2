@@ -54,7 +54,7 @@ namespace Vore
 
         public virtual bool ToggleDigestion => digestion = !digestion;
 
-        public void Digest(Action<ThePrey> digested, float toDigest = 1f)
+        public void Digest(Action<ThePrey> digested, float toDigest = 2f)
         {
             for (int i = Preys.Count - 1; i >= 0; i--)
             {

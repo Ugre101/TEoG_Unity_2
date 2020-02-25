@@ -49,9 +49,9 @@ public class KeyBind
         }
     }
 
-    public bool GetKeyDown() => Input.GetKeyDown(Key) || Input.GetKeyDown(AltKey);
+    public bool KeyDown => Input.GetKeyDown(Key) || Input.GetKeyDown(AltKey);
 
-    public bool GetKeyUp() => Input.GetKeyUp(Key) || Input.GetKeyUp(AltKey);
+    public bool KeyUp => Input.GetKeyUp(Key) || Input.GetKeyUp(AltKey);
 
-    public bool GetKey() => Input.GetKey(Key) || Input.GetKey(AltKey);
+    public bool GetsKey => Input.GetKey(Key) || Input.GetKey(AltKey);
 }

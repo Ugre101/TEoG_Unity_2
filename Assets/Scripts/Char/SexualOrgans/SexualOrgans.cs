@@ -50,7 +50,7 @@ public class SexualFluid
     {
         // Volume of sphere 4/3 * pi * r^3
         MaxAmount = 4f / 3f * Mathf.PI * Mathf.Pow(size, 3);
-        ReFillRate = MaxAmount / 500;
+        ReFillRate = MaxAmount / 250;
     }
 
     public void ReFill()

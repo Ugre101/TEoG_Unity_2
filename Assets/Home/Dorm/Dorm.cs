@@ -64,30 +64,50 @@ public class Dorm : MonoBehaviour
         return dormSaves;
     }
 
+    private class LoadedChar
+    {
+        public LoadedChar(BasicChar basicChar, DormSave dormSave)
+        {
+            Loaded = basicChar;
+            Save = dormSave;
+        }
+
+        public BasicChar Loaded { get; }
+        public DormSave Save { get; }
+    }
+
+    private List<LoadedChar> loadedChars = new List<LoadedChar>();
+
     public void Load(List<DormSave> toLoad)
     {
         transform.KillChildren();
-        foreach (DormSave ds in toLoad)
+        if (toLoad.Count > 0)
         {
-            if (servantPrefabs.Exists(n => n.name == ds.Name))
+            foreach (DormSave ds in toLoad)
             {
-                BasicChar loaded = AddTo(servantPrefabs.Find(n => n.name == ds.Name));
-                StartCoroutine(WaitAFrame(ds, loaded));
+                if (servantPrefabs.Exists(n => n.name == ds.Name))
+                {
+                    BasicChar loaded = AddTo(servantPrefabs.Find(n => n.name == ds.Name));
+                    loadedChars.Add(new LoadedChar(loaded, ds));
+                }
+                else
+                {
+                    BasicChar loaded = AddTo(defaultPrefab);
+                    loadedChars.Add(new LoadedChar(loaded, ds));
+                }
             }
-            else
-            {
-                BasicChar loaded = AddTo(defaultPrefab);
-                StartCoroutine(WaitAFrame(ds, loaded));
-            }
+            StartCoroutine(WaitAFrame());
         }
     }
 
-    private IEnumerator WaitAFrame(DormSave dormSave, BasicChar basicChar)
+    private IEnumerator WaitAFrame()
     {
         // wait a frame to let new basicchar to fully load before overwritting it
-        // todo maybe make it so a list of char so we don't have to wait a frame for every char; could take some time.
         yield return new WaitForEndOfFrame();
-        JsonUtility.FromJsonOverwrite(dormSave.Who, basicChar);
+        foreach (LoadedChar loaded in loadedChars)
+        {
+            JsonUtility.FromJsonOverwrite(loaded.Save.Who, loaded.Loaded);
+        }
     }
 }
 

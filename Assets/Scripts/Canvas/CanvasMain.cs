@@ -12,6 +12,7 @@ public class CanvasMain : MonoBehaviour
             if (thisCanvasMain == null)
             {
                 thisCanvasMain = GameObject.FindGameObjectWithTag("GameUI").GetComponent<CanvasMain>();
+                Debug.LogError("Something tried to call canvasmain before it could awake");
             }
             // might seem over kill but it's good to know if something calls getcanvas hundreds of times.
             if (Debug.isDebugBuild)
@@ -57,11 +58,11 @@ public class CanvasMain : MonoBehaviour
 
     private void Update()
     {
-        if (Keys.escKey.GetKeyDown())
+        if (Keys.escKey.KeyDown)
         {
             EscapePause();
         }
-        else if (Keys.hideAllKey.GetKeyDown())
+        else if (Keys.hideAllKey.KeyDown)
         {
             if (GameManager.CurState.Equals(GameState.Free))
             {
@@ -71,43 +72,46 @@ public class CanvasMain : MonoBehaviour
         // if in menus or main game(not combat)
         if (GameManager.KeyBindsActive)
         {
-            if (Keys.saveKey.GetKeyDown())
+            if (KeyDown(Keys.saveKey, menuPanels.Savemenu))
             {
-                ResumePause(menuPanels.Savemenu);
             }
-            else if (Keys.optionsKey.GetKeyDown())
+            else if (KeyDown(Keys.optionsKey, menuPanels.Options))
             {
-                ResumePause(menuPanels.Options);
             }
-            else if (Keys.questKey.GetKeyDown())
+            else if (KeyDown(Keys.questKey, menuPanels.QuestMenu))
             {
-                ResumePause(menuPanels.QuestMenu);
             }
-            else if (Keys.inventoryKey.GetKeyDown())
+            else if (KeyDown(Keys.inventoryKey, menuPanels.Inventory))
             {
-                ResumePause(menuPanels.Inventory);
             }
-            else if (Keys.voreKey.GetKeyDown())
+            else if (KeyDown(Keys.voreKey, menuPanels.Vore))
             {
-                ResumePause(menuPanels.Vore);
             }
-            else if (Keys.essenceKey.GetKeyDown())
+            else if (KeyDown(Keys.essenceKey, menuPanels.Essence))
             {
-                ResumePause(menuPanels.Essence);
             }
-            else if (Keys.lvlKey.GetKeyDown())
+            else if (KeyDown(Keys.lvlKey, menuPanels.LevelUp))
             {
-                ResumePause(menuPanels.LevelUp);
             }
-            else if (Keys.lookKey.GetKeyDown())
+            else if (KeyDown(Keys.lookKey, menuPanels.Looks))
             {
-                ResumePause(menuPanels.Looks);
             }
-            if (Keys.eventKey.GetKeyDown())
+            if (Keys.eventKey.KeyDown)
             {
                 BigEventLog();
             }
         }
+    }
+
+    // DRY
+    private bool KeyDown(KeyBind key, GameObject panel)
+    {
+        bool keyDown = key.KeyDown;
+        if (keyDown)
+        {
+            ResumePause(panel);
+        }
+        return keyDown;
     }
 
     public void Intro()
@@ -118,9 +122,18 @@ public class CanvasMain : MonoBehaviour
 
     public void Resume()
     {
-        Menus.transform.SleepChildren();
-        ToggleBigPanel(Gameui.gameObject);
-        GameManager.CurState = GameState.Free;
+        if (GameManager.CurrentArea == GlobalArea.Home)
+        {
+            Menus.transform.SleepChildren();
+            ToggleBigPanel(new List<Transform>() { Home.transform, Gameui.transform });
+            GameManager.CurState = GameState.Free;
+        }
+        else
+        {
+            Menus.transform.SleepChildren();
+            ToggleBigPanel(Gameui.gameObject);
+            GameManager.CurState = GameState.Free;
+        }
     }
 
     public void Pause()
@@ -155,6 +168,8 @@ public class CanvasMain : MonoBehaviour
 
     private void ToggleBigPanel(GameObject toActivate) => transform.SleepChildren(toActivate.transform);
 
+    private void ToggleBigPanel(List<Transform> toActivate) => transform.SleepChildren(toActivate);
+
     public void ResumePause(GameObject toBeActivated)
     {
         if (GameManager.CurState.Equals(GameState.Menu))
@@ -170,8 +185,10 @@ public class CanvasMain : MonoBehaviour
 
     public void EnterHome()
     {
-        GameManager.CurState = GameState.Home;
-        ToggleBigPanel(Home.gameObject);
+        GameManager.CurState = GameState.Free;
+        GameManager.CurrentArea = GlobalArea.Home;
+
+        ToggleBigPanel(new List<Transform>() { Home.transform, Gameui.transform });
         Home.transform.SleepChildren(Home.transform.GetChild(0));
     }
 
@@ -206,7 +223,7 @@ public class CanvasMain : MonoBehaviour
 
     public void EnterBuilding(GameObject buildingToEnter)
     {
-        GameManager.CurState = GameState.Home;
+        GameManager.CurState = GameState.InBuilding;
         ToggleBigPanel(Buildings.gameObject);
         // Disable all buildings
         Buildings.transform.SleepChildren(buildingToEnter.transform);

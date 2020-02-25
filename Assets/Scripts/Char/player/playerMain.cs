@@ -55,7 +55,12 @@ public class PlayerMain : BasicChar
             {
                 Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed playermain");
             }
-            return thisPlayer = thisPlayer != null ? thisPlayer : GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
+            if (thisPlayer == null)
+            {
+                thisPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
+                Debug.LogError("Something tried to call getplayer before player could awake");
+            }
+            return thisPlayer;
         }
     }
 }

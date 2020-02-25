@@ -34,7 +34,7 @@ public class HomeMain : MonoBehaviour
         transform.SleepChildren(transform.GetChild(0));
     }
 
-    private void LeaveHome()
+    public void LeaveHome()
     {
         if (toPlatform == null)
         {
@@ -44,6 +44,7 @@ public class HomeMain : MonoBehaviour
         {
             mapEvents.Teleport(worldMaps, toMap, toPlatform);
         }
+        GameManager.CurrentArea = GlobalArea.Map;
         canvasMain.Resume();
     }
 

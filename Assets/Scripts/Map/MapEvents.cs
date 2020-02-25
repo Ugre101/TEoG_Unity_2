@@ -117,14 +117,14 @@ public class MapEvents : MonoBehaviour
 
     public void Teleport(WorldMaps toWorld, Tilemap toMap)
     {
-        WorldChange(toWorld, toMap);
         Player.transform.position = toMap.cellBounds.center;
+        WorldChange(toWorld, toMap);
     }
 
     public void Teleport(WorldMaps toWorld, Tilemap toMap, Tilemap teleportPlatform)
     {
-        WorldChange(toWorld, toMap);
         Player.transform.position = teleportPlatform == null ? toMap.cellBounds.center : teleportPlatform.cellBounds.center;
+        WorldChange(toWorld, toMap);
     }
 
     public void Load(PosSave save)

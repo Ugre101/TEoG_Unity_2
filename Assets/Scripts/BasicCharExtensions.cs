@@ -65,7 +65,7 @@ public static class BasicCharExtensions
     }
 
     /// <summary> Handles hp/wp recovery, fat burn, vore </summary>
-    private static void OverTimeTick(BasicChar basicChar)
+    public static void OverTimeTick(this BasicChar basicChar)
     {
         basicChar.HP.TickRecovery();
         basicChar.WP.TickRecovery();
@@ -73,7 +73,7 @@ public static class BasicCharExtensions
         {
             basicChar.Vore.Digest();
         }
-        float fatBurnRate = 0.01f;
+        float fatBurnRate = 0.02f;
         if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
         {
             fatBurnRate += PerkEffects.Gluttony.ExtraFatBurn(basicChar.Perks);

@@ -29,8 +29,14 @@ public class CameraController : MonoBehaviour
     private float _xMax, _xMin, _yMin, _yMax;
 
     private float _orthSize = 14f;
-
+    private float preferadSize;
     private float OrthSize => _orthSize;
+
+    private void YouSetOrthSize(float value)
+    {
+        SetOrthSize(value);
+        preferadSize = _orthSize; // after auto scaling reset to prefered.
+    }
 
     private void SetOrthSize(float value)
     {
@@ -50,7 +56,7 @@ public class CameraController : MonoBehaviour
         cam = GetComponent<Camera>();
         minTile = _map.CellToWorld(_map.cellBounds.min);
         maxTile = _map.CellToWorld(_map.cellBounds.max);
-        SetOrthSize(14f);
+        YouSetOrthSize(14f);
     }
 
     // Update is called once per frame
@@ -79,22 +85,85 @@ public class CameraController : MonoBehaviour
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
             // ... change the orthographic size based on the change in distance between the touches.
-            SetOrthSize(OrthSize + deltaMagnitudeDiff * zoomSpeed);
+            YouSetOrthSize(OrthSize + deltaMagnitudeDiff * zoomSpeed);
         }
         float scrollValue = Input.GetAxis("Mouse ScrollWheel");
-        if (keyBindings.zoomInKey.GetKey())
+        if (keyBindings.zoomInKey.GetsKey)
         {
-            SetOrthSize(OrthSize - zoomSpeed);
+            YouSetOrthSize(OrthSize - zoomSpeed);
         }
-        else if (keyBindings.zoomOutKey.GetKey())
+        else if (keyBindings.zoomOutKey.GetsKey)
         {
-            SetOrthSize(OrthSize + zoomSpeed);
+            YouSetOrthSize(OrthSize + zoomSpeed);
         }
         else if (scrollValue != 0)
         {
-            SetOrthSize(OrthSize - scrollValue); // times zoom speed
+            YouSetOrthSize(OrthSize - scrollValue); // times zoom speed
         }
         transform.position = Vector3.Lerp(transform.position, _target, _smoothing);
+        if (OutOfBorder(_target))
+        {
+            SetOrthSize(OrthSize - (zoomSpeed * 2));
+        }
+        else if (preferadSize != OrthSize && CanExpand(_target))
+        {
+            SmoothZoom(preferadSize);
+        }
+    }
+
+    private void SmoothZoom(float targetValue)
+    {
+        if (OrthSize < targetValue)
+        {
+            SetOrthSize(OrthSize + zoomSpeed);
+        }
+        else if (OrthSize > targetValue)
+        {
+            SetOrthSize(OrthSize - zoomSpeed);
+        }
+    }
+
+    private bool OutOfBorder(Vector3 vector3)
+    {
+        if (vector3.x < _xMin)
+        {
+            return true;
+        }
+        else if (vector3.x > _xMax)
+        {
+            return true;
+        }
+        else if (vector3.y < _yMin)
+        {
+            return true;
+        }
+        else if (vector3.y > _yMax)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private bool CanExpand(Vector3 vector3)
+    {
+        float margin = 2;
+        if (vector3.x - margin < _xMin)
+        {
+            return false;
+        }
+        else if (vector3.x + margin > _xMax)
+        {
+            return false;
+        }
+        else if (vector3.y - margin < _yMin)
+        {
+            return false;
+        }
+        else if (vector3.y + margin > _yMax)
+        {
+            return false;
+        }
+        return true;
     }
 
     private void TilemapLimits()

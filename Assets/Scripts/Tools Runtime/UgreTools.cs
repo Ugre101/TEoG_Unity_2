@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 // A space for me to build tools for methods I often use.
 public static class UgreTools
@@ -26,6 +27,15 @@ public static class UgreTools
     {
         parTransfrom.SleepChildren();
         except.gameObject.SetActive(true);
+    }
+
+    public static void SleepChildren(this Transform parTransfrom, List<Transform> exceptions)
+    {
+        parTransfrom.SleepChildren();
+        foreach (Transform transform in exceptions)
+        {
+            transform.gameObject.SetActive(true);
+        }
     }
 
     public static string FirstSecondEtc(this int parInt, bool capitalLetter = false)
