@@ -9,7 +9,7 @@ public class InventoryHandler : MonoBehaviour
 
     [SerializeField] private InventorySlot SlotPrefab = null;
     [SerializeField] private InventoryHoverText inventoryHoverText = null;
-    [field: SerializeField] public EquiptItems EquiptItems { get; private set; } = null;
+    [field: SerializeField] public ShowEquiptItems EquiptItems { get; private set; } = null;
 
     [SerializeField] private PlayerMain player = null;
     private List<InventoryItem> Items => player.Inventory.Items;

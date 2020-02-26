@@ -19,6 +19,9 @@ public abstract class BasicChar : MonoBehaviour
 
     public Inventory Inventory => inventory;
 
+    [SerializeField] private EquiptItems equiptItems = new EquiptItems();
+    public EquiptItems EquiptItems => equiptItems;
+
     [SerializeField] private RaceSystem raceSystem = new RaceSystem();
 
     public RaceSystem RaceSystem => raceSystem;

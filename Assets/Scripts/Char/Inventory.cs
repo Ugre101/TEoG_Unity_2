@@ -16,7 +16,7 @@ public class Inventory
     [SerializeField] private List<InventoryItem> items = new List<InventoryItem>();
 
     public List<InventoryItem> Items => items;
-
+    public bool HasSpace => items.Count <= SlotsAmount;
     public bool AddItem(ItemId theitem)
     {
         if (Items.Exists(i => i.Id == theitem))

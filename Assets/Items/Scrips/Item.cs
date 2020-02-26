@@ -66,14 +66,12 @@ public class Misc : Item
 
 public class Weapon : Item, IHaveStatMods, IEquip
 {
-    [SerializeField] protected List<AssingStatmod> mods = new List<AssingStatmod>();
-    [SerializeField] protected EquipSlot slot;
-
     public Weapon(ItemId itemId, string title) : base(itemId, title, ItemTypes.Weapon)
     {
         useName = "Equip";
+        Slots = new List<EquipSlot>() { EquipSlot.RightHand };
     }
 
-    public List<AssingStatmod> Mods => mods;
-    public EquipSlot Slot => slot;
+    public List<AssingStatmod> Mods { get; } = new List<AssingStatmod>();
+    public List<EquipSlot> Slots { get; } = new List<EquipSlot>();
 }

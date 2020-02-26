@@ -17,6 +17,8 @@ public abstract class Mod
     public float Value => value;
     public ModTypes ModType => modType;
     public string Source => source;
+
+    public void RenameSource(string newName) => source = newName;
 }
 
 /*

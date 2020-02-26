@@ -5,8 +5,8 @@ public class EnterHomeTrigger : MonoBehaviour
 {
     [SerializeField] private CanvasMain GameUI = null;
     [SerializeField] private MapEvents mapEvents = null;
-    [SerializeField] private Tilemap toMap = null;
-    [SerializeField] private Tilemap landPlatform = null;
+    [SerializeField] private HomeMapHandler homeMapHandler = null;
+    private Tilemap toMap, landPlatform;
     private readonly WorldMaps worldMaps = WorldMaps.Home;
 
     private void Start()
@@ -19,6 +19,7 @@ public class EnterHomeTrigger : MonoBehaviour
     {
         if (collision.CompareTag(PlayerMain.GetPlayer.tag))
         {
+            toMap = homeMapHandler.GetActiveLawn;
             GameUI.EnterHome();
             if (landPlatform == null)
             {

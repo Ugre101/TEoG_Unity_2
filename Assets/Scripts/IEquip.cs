@@ -1,4 +1,6 @@
-﻿public enum EquipSlot
+﻿using System.Collections.Generic;
+
+public enum EquipSlot
 {
     Head,
     Chest,
@@ -10,5 +12,5 @@
 
 public interface IEquip
 {
-    EquipSlot Slot { get; }
+    List<EquipSlot> Slots { get; }
 }

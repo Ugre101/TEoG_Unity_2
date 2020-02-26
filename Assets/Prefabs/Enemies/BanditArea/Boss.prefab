@@ -53,6 +53,8 @@ MonoBehaviour:
     firstName: 
     lastName: 
     id: 20200215223600
+  relationshipTracker:
+    relationshipWiths: []
   inventory:
     bonusAmount: 0
     items: []
@@ -237,8 +239,8 @@ MonoBehaviour:
     haveCustomScenes: 0
     blockNormalScenes: 0
     customScenes: []
-  lockedPosistion: 0
-  pos: {x: 0, y: 0, z: 0}
+  lockedPosistion: 1
+  pos: {x: 103, y: 54, z: 0}
 --- !u!212 &958300686172285181
 SpriteRenderer:
   m_ObjectHideFlags: 0

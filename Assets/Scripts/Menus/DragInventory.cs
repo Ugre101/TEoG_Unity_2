@@ -62,8 +62,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.position = Parent.position;
         if (pointerEvent.pointerCurrentRaycast.isValid)
         {
-            InventorySlot slot = pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>();
-            if (slot != null ? slot.Empty : false)
+            if (pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>() is InventorySlot slot && slot.Empty)
             {
                 invHandler.Move(SlotId, slot.Id);
                 transform.SetParent(pointerEvent.pointerCurrentRaycast.gameObject.transform);
@@ -71,6 +70,9 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 SlotId = slot.Id;
                 Parent = transform.parent;
                 UsedEvent?.Invoke();
+            }else if (pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<EquipmentSlot>() is EquipmentSlot equipSlot)
+            {
+                equipSlot.DragItem(Item);
             }
             else
             {
@@ -127,15 +129,16 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void UseItem()
     {
         Debug.Log("Using item" + Item.name);
-        if (Item is IHaveStatMods haveMods)
+        if (Item is IEquip toEquip)
+        {
+            Debug.Log("Equipable!");
+            Player.AutoEquipItem(Item);
+        }
+        else if (Item is IHaveStatMods haveMods)
         {
             haveMods.Mods.ForEach(m => Player.Stats.GetStat(m.StatTypes).AddMods(m.StatMod));
             Debug.Log("Has statmod!");
             // TODO if player has weapong equipt then dequip it.
-        }
-        if (Item is IEquip toEquip)
-        {
-            Debug.Log("Equipable!");
         }
         Item.Use(Player);
         //amount.text = Item.Amount.ToString();

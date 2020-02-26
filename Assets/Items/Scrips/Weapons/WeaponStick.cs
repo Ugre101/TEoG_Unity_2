@@ -10,6 +10,8 @@ public class WeaponStick : Weapon
         desc = "Stick for items, desc itself is where you say what the item does. This item happens to do nothing.";
         AssingStatmod mod1 = new AssingStatmod(new StatMod(2f, typeof(WeaponStick).Name, ModTypes.Flat), StatTypes.Str);
         Mods.Add(mod1);
+        Slots.Add(EquipSlot.LeftHand);
+        Slots.Add(EquipSlot.RightHand);
     }
 
     // use function aka what the item does, base.use() calls Use function of this class's base class (Item.Use) which does nothing.

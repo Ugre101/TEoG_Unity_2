@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class DisplayHome : MonoBehaviour
 {
-    [SerializeField] private Tilemap t1Home, t2home;
-    [SerializeField] private Tilemap t1Dorm, t2Dorm;
+    [SerializeField] private Tilemap t1Home = null, t2home = null;
+    [SerializeField] private List<Tilemap> homes = new List<Tilemap>();
+    [SerializeField] private Tilemap t1Dorm = null, t2Dorm = null;
 
     private void OnEnable()
     {
@@ -22,17 +24,9 @@ public class DisplayHome : MonoBehaviour
 
     private void DisplayMainHouse()
     {
-        int tier = StartHomeStats.MainHouse.Level;
-        if (tier < 3)
-        {
-            t1Home.gameObject.SetActive(true);
-            t2home.gameObject.SetActive(false);
-        }
-        else
-        {
-            t1Home.gameObject.SetActive(false);
-            t2home.gameObject.SetActive(true);
-        }
+        homes.ForEach(m => m.gameObject.SetActive(false));
+        int tier = Mathf.Min(homes.Count - 1, Mathf.FloorToInt(StartHomeStats.MainHouse.Level / 3));
+        homes[tier].gameObject.SetActive(true);
     }
 
     private void DisplayDorm()
