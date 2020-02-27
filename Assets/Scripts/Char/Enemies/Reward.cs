@@ -36,15 +36,15 @@ public class Reward
 [System.Serializable]
 public class ItemDrop
 {
-    [SerializeField] private ItemId item;
+    [SerializeField] private ItemIds item;
     [SerializeField] private float dropChance;
 
-    public ItemDrop(ItemId item, float dropChance = 0.3f)
+    public ItemDrop(ItemIds item, float dropChance = 0.3f)
     {
         this.item = item;
         this.dropChance = dropChance;
     }
 
-    public ItemId Item => item;
+    public ItemIds Item => item;
     public float DropChance => dropChance;
 }

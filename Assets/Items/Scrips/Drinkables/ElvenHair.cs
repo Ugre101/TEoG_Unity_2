@@ -5,7 +5,7 @@ namespace ItemScripts
     [CreateAssetMenu(fileName = "ElvenHair", menuName = "Item/Drinkable/ElvenHair")]
     public class ElvenHair : Misc
     {
-        public ElvenHair() : base(ItemId.ElvenHair, "Elven hair")
+        public ElvenHair() : base(ItemIds.ElvenHair, "Elven hair")
         {
             useName = "Sniff";
         }

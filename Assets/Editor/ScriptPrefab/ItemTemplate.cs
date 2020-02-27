@@ -7,7 +7,7 @@ namespace ItemScripts
     [CreateAssetMenu(fileName = "Template", menuName = "Item/Template")]
     public class ItemTemplate : Misc
     {
-        public ItemTemplate() : base(ItemId.Potion, "Template")
+        public ItemTemplate() : base(ItemIds.Potion, "Template")
         {
             desc = "template for items, desc itself is where you say what the item does. This item happens to do nothing.";
         }

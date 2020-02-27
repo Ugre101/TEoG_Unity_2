@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62b68ddae524c524fbabc83ef95f14f4, type: 3}
-  m_Name: Stick
+  m_Name: WoodenStick
   m_EditorClassIdentifier: 
   itemId: 2
   title: Stick
@@ -20,10 +20,3 @@ MonoBehaviour:
   value: 50
   desc: Stick for items, desc itself is where you say what the item does. This item
     happens to do nothing.
-  mods:
-  - statMod:
-      value: 2
-      modType: 100
-      source: WeaponStick
-    statTypes: 0
-  slot: 0

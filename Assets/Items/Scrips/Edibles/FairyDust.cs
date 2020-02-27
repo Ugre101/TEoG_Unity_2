@@ -6,7 +6,7 @@ namespace ItemScripts
 
     public class FairyDust : Edibles
     {
-        public FairyDust() : base(ItemId.FairyDust, "Fairy dust") => useName = "Lick";
+        public FairyDust() : base(ItemIds.FairyDust, "Fairy dust") => useName = "Lick";
 
         public override string Use(BasicChar user)
         {

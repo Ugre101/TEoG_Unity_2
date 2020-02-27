@@ -11,7 +11,7 @@ public class ItemHolder : ScriptableObject
 
     public void Add(Item toAdd) => items.Add(toAdd);
 
-    public Item GetById(ItemId parId)
+    public Item GetById(ItemIds parId)
     {
         try
         {
@@ -23,5 +23,5 @@ public class ItemHolder : ScriptableObject
         }
     }
 
-    public bool HasItem(ItemId id) => ItemsDict.Exists(i => i.ItemId == id);
+    public bool HasItem(ItemIds id) => ItemsDict.Exists(i => i.ItemId == id);
 }

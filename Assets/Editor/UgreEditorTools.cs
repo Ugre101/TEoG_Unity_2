@@ -1,9 +1,29 @@
 ﻿using System;
+using System.IO;
 using UnityEditor;
 using UnityEngine;
 
 public static class UgreEditorTools
 {
+    public static void SpawnCopyOfScript(string PathToTemplate, string fileName = "NewScript.cs")
+    {
+        if (Selection.activeObject != null)
+        {
+            string path = AssetDatabase.GetAssetPath(Selection.activeObject);
+            if (File.Exists(path))
+            {
+                path = Path.GetDirectoryName(path);
+            }
+            if (string.IsNullOrEmpty(path))
+            {
+                path = "Assets/";
+            }
+            string dest = Path.Combine(path, fileName);
+            File.Copy(PathToTemplate, dest);
+            AssetDatabase.Refresh();
+        }
+    }
+
     public static void TwoLabels(string firstLabel, string secondLabel)
     {
         EditorGUILayout.BeginHorizontal();

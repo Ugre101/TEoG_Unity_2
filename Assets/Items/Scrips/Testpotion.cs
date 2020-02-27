@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "TestPotion", menuName = "TestPotion")]
 public class TestPotion : Drinkable
 {
-    public TestPotion() : base(ItemId.Stick, "Test potion")
+    public TestPotion() : base(ItemIds.WoodenStick, "Test potion")
     {
     }
 

@@ -5,7 +5,7 @@ namespace ItemScripts
     [CreateAssetMenu(fileName = "OrcCum", menuName = "Item/Drinkable/OrcCum")]
     public class OrcCum : Drinkable
     {
-        public OrcCum() : base(ItemId.OrcCum, "Orc cum")
+        public OrcCum() : base(ItemIds.OrcCum, "Orc cum")
         {
         }
 

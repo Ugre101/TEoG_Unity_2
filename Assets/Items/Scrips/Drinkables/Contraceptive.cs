@@ -9,7 +9,7 @@ namespace ItemScripts
     {
         private readonly TempStatMod contraMod = new TempStatMod(-10, ModTypes.Flat, "Contraceptive", 168);
 
-        public Contraceptive() : base(ItemId.Contraceptive, "Contraceptive")
+        public Contraceptive() : base(ItemIds.Contraceptive, "Contraceptive")
         {
         }
 

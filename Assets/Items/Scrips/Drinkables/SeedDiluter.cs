@@ -7,7 +7,7 @@ namespace ItemScripts
     [CreateAssetMenu(fileName = "SeedDiluter", menuName = "Item/Drinkable/SeedDiluter")]
     public class SeedDiluter : Drinkable
     {
-        public SeedDiluter() : base(ItemId.SeedDiluter, "Seed diluter")
+        public SeedDiluter() : base(ItemIds.SeedDiluter, "Seed diluter")
         {
         }
 

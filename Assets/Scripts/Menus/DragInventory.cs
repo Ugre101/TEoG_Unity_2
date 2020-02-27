@@ -70,7 +70,8 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 SlotId = slot.Id;
                 Parent = transform.parent;
                 UsedEvent?.Invoke();
-            }else if (pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<EquipmentSlot>() is EquipmentSlot equipSlot)
+            }
+            else if (pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<EquipmentSlot>() is EquipmentSlot equipSlot)
             {
                 equipSlot.DragItem(Item);
             }
@@ -83,7 +84,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         CanvasBlockRaycast = true;
     }
 
-    private void Hovering() => hoverText.Hovering(Item.Title, Item.Desc);
+    private void Hovering() => hoverText.Hovering(Item.Title, Item.FullDesc());
 
     public void OnPointerClick(PointerEventData pointerEvent)
     {
@@ -136,7 +137,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
         else if (Item is IHaveStatMods haveMods)
         {
-            haveMods.Mods.ForEach(m => Player.Stats.GetStat(m.StatTypes).AddMods(m.StatMod));
+            haveMods.StatMods.ForEach(m => Player.Stats.GetStat(m.StatTypes).AddMods(m.StatMod));
             Debug.Log("Has statmod!");
             // TODO if player has weapong equipt then dequip it.
         }

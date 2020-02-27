@@ -2,7 +2,7 @@
 {
     public class SmallStrPotion : Drinkable
     {
-        public SmallStrPotion() : base(ItemId.SmallStrPotion, "Small strength potion")
+        public SmallStrPotion() : base(ItemIds.SmallStrPotion, "Small strength potion")
         {
         }
 

@@ -72,10 +72,10 @@ public abstract class Ware
 [System.Serializable]
 public class ItemWare : Ware
 {
-    [SerializeField] private ItemId itemId;
-    public ItemId ItemId => itemId;
+    [SerializeField] private ItemIds itemId;
+    public ItemIds ItemId => itemId;
 
-    public ItemWare(int cost, string title, string desc, ItemId itemId) : base(cost, title, desc)
+    public ItemWare(int cost, string title, string desc, ItemIds itemId) : base(cost, title, desc)
     {
         this.itemId = itemId;
     }

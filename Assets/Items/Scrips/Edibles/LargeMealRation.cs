@@ -5,7 +5,7 @@ namespace ItemScripts
     [CreateAssetMenu(fileName = "LargeMealRation", menuName = "Item/Edibles/LargeMealRation")]
     public class LargeMealRation : Edibles
     {
-        public LargeMealRation() : base(ItemId.LargeMealRation, "Large meal ration")
+        public LargeMealRation() : base(ItemIds.LargeMealRation, "Large meal ration")
         {
         }
 

@@ -17,7 +17,7 @@ public class Inventory
 
     public List<InventoryItem> Items => items;
     public bool HasSpace => items.Count <= SlotsAmount;
-    public bool AddItem(ItemId theitem)
+    public bool AddItem(ItemIds theitem)
     {
         if (Items.Exists(i => i.Id == theitem))
         {
@@ -48,26 +48,26 @@ public class Inventory
 [System.Serializable]
 public class InventoryItem
 {
-    public InventoryItem(ItemId toAdd, int parInvPos)
+    public InventoryItem(ItemIds toAdd, int parInvPos)
     {
         id = toAdd;
         amount = 1;
         invPos = parInvPos;
     }
 
-    public InventoryItem(ItemId toAdd, int parInvPos, int num) : this(toAdd, parInvPos) => amount = num;
+    public InventoryItem(ItemIds toAdd, int parInvPos, int num) : this(toAdd, parInvPos) => amount = num;
 
-    public InventoryItem(ItemId toAdd, int parInvPos, int num, bool reusable) : this(toAdd, parInvPos, num) => this.reusable = reusable;
+    public InventoryItem(ItemIds toAdd, int parInvPos, int num, bool reusable) : this(toAdd, parInvPos, num) => this.reusable = reusable;
 
-    public InventoryItem(ItemId toAdd, int parInvPos, bool reusable) : this(toAdd, parInvPos) => this.reusable = reusable;
+    public InventoryItem(ItemIds toAdd, int parInvPos, bool reusable) : this(toAdd, parInvPos) => this.reusable = reusable;
 
-    [SerializeField] private ItemId id;
+    [SerializeField] private ItemIds id;
 
     [SerializeField] private int amount;
 
     [SerializeField] private int invPos = -1;
     [SerializeField] private bool reusable = false;
-    public ItemId Id => id;
+    public ItemIds Id => id;
     public int Amount { get => amount; set => amount = value; }
     public int InvPos { get => invPos; set => invPos = value; }
     public bool Reusable => reusable;

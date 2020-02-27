@@ -2,14 +2,13 @@
 
 /// <summary> Template for items, replace all intances of template with prefered name.
 /// Also remember to add the item's id to Items.cs in "public enum ItemId". </summary>
-[CreateAssetMenu(fileName = "Stick", menuName = "Item/Weapon/Stick")]
-public class WeaponStick : Weapon
+[CreateAssetMenu(fileName = "Stick", menuName = "Item/Weapon/Wooden stick")]
+public class WoodenStick : Weapon
 {
-    public WeaponStick() : base(ItemId.Stick, "Stick")
+    public WoodenStick() : base(ItemIds.WoodenStick, "Wooden stick")
     {
         desc = "Stick for items, desc itself is where you say what the item does. This item happens to do nothing.";
-        AssingStatmod mod1 = new AssingStatmod(new StatMod(2f, typeof(WeaponStick).Name, ModTypes.Flat), StatTypes.Str);
-        Mods.Add(mod1);
+        StatMods.Add(AssingStatmod.Create(2f, TypeName, ModTypes.Flat, StatTypes.Str));
         Slots.Add(EquipSlot.LeftHand);
         Slots.Add(EquipSlot.RightHand);
     }

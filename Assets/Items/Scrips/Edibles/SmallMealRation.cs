@@ -7,7 +7,7 @@ namespace ItemScripts
     [CreateAssetMenu(fileName = "SmallMealRation", menuName = "Item/Edibles/SmallMealRation")]
     public class SmallMealRation : Edibles
     {
-        public SmallMealRation() : base(ItemId.SmallMealRation, "Small meal ration")
+        public SmallMealRation() : base(ItemIds.SmallMealRation, "Small meal ration")
         {
         }
 

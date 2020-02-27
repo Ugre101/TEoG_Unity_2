@@ -36,14 +36,14 @@ public class EquiptItem
 {
     public EquiptItem(EquipSlot slot) => this.slot = slot;
 
-    [SerializeField] private ItemId item;
+    [SerializeField] private ItemIds item;
     [SerializeField] private EquipSlot slot;
     [SerializeField] private bool hasItem = false;
-    public ItemId Item => item;
+    public ItemIds Item => item;
     public EquipSlot Slot => slot;
     public bool HasItem => hasItem;
 
-    public void AddItem(ItemId itemId)
+    public void AddItem(ItemIds itemId)
     {
         item = itemId;
         hasItem = true;
@@ -71,10 +71,7 @@ public static class EquiptItemsExtensions
                 if (basicChar.Inventory.HasSpace)
                 {
                     basicChar.Inventory.AddItem(equipTo.Item);
-                    basicChar.Stats.GetAll.ForEach(s =>
-                    {
-                        s.RemoveFromSource(equipTo.Slot.ToString());
-                    });
+                    CleanModsFromItem(basicChar, equipTo);
                     HandleItem(basicChar, item, equipTo);
                 }
                 else
@@ -113,16 +110,81 @@ public static class EquiptItemsExtensions
     {
         equipTo.AddItem(item.ItemId);
         HandleStatMods(basicChar, item, equipTo);
+        HandleHealthMods(basicChar, item, equipTo);
+        HandleFertViri(basicChar, item, equipTo);
+    }
+
+    private static void CleanModsFromItem(BasicChar basicChar, EquiptItem equipt)
+    {
+        basicChar.Stats.GetAll.ForEach(s => s.RemoveFromSource(equipt.Slot.ToString()));
+        basicChar.WP.RemoveFromSource(equipt.Slot.ToString());
+        basicChar.HP.RemoveFromSource(equipt.Slot.ToString());
+        basicChar.WP.Recovery.RemoveFromSource(equipt.Slot.ToString());
+        basicChar.HP.Recovery.RemoveFromSource(equipt.Slot.ToString());
+        basicChar.PregnancySystem.Fertility.RemoveFromSource(equipt.Slot.ToString());
+        basicChar.PregnancySystem.Virility.RemoveFromSource(equipt.Slot.ToString());
     }
 
     private static void HandleStatMods(BasicChar basicChar, Item item, EquiptItem equipTo)
     {
         if (item is IHaveStatMods mods)
         {
-            foreach (AssingStatmod sm in mods.Mods)
+            foreach (AssingStatmod sm in mods.StatMods)
             {
                 StatMod newMod = new StatMod(sm.StatMod.Value, equipTo.Slot.ToString(), sm.StatMod.ModType);
                 basicChar.Stats.GetStat(sm.StatTypes).AddMods(newMod);
+            }
+        }
+    }
+
+    private static void HandleHealthMods(BasicChar basicChar, Item item, EquiptItem equipt)
+    {
+        if (item is IHaveHealthMods mods)
+        {
+            foreach (HealthMod mod in mods.HealthMods)
+            {
+                HealthMod newMod = new HealthMod(mod.Value, mod.ModType, equipt.Slot.ToString(), mod.HealthType);
+                if (newMod.HealthType == HealthTypes.Health)
+                {
+                    basicChar.HP.AddMods(newMod);
+                }
+                else
+                {
+                    basicChar.WP.AddMods(newMod);
+                }
+            }
+        }
+        if (item is IHaveRecoveryMods recoveryMods)
+        {
+            foreach (HealthMod mod in recoveryMods.RecoveryMods)
+            {
+                HealthMod newMod = new HealthMod(mod.Value, mod.ModType, equipt.Slot.ToString(), mod.HealthType);
+                if (newMod.HealthType == HealthTypes.Health)
+                {
+                    basicChar.HP.Recovery.AddMods(mod);
+                }
+                else
+                {
+                    basicChar.WP.Recovery.AddMods(mod);
+                }
+            }
+        }
+    }
+
+    private static void HandleFertViri(BasicChar basicChar, Item item, EquiptItem equipt)
+    {
+        if (item is IHaveFertilityMods fertilityMods)
+        {
+            foreach (StatMod m in fertilityMods.FertMods)
+            {
+                basicChar.PregnancySystem.Fertility.AddMods(m);
+            }
+        }
+        if (item is IHaveVirilityMods virilityMods)
+        {
+            foreach (StatMod m in virilityMods.ViriMods)
+            {
+                basicChar.PregnancySystem.Virility.AddMods(m);
             }
         }
     }

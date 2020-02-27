@@ -5,7 +5,7 @@ namespace ItemScripts
     [CreateAssetMenu(fileName = "Pouch", menuName = "Item/Misc/Pouch")]
     public class Pouch : Misc
     {
-        public Pouch() : base(ItemId.Pouch, "Pouch") => useName = "Open";
+        public Pouch() : base(ItemIds.Pouch, "Pouch") => useName = "Open";
 
         public override string Use(BasicChar user)
         {

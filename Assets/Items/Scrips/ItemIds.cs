@@ -6,13 +6,16 @@
 /// <summary>
 /// Id of item
 /// </summary>
-public enum ItemId
+public enum ItemIds // Not sure about enum long term seems hard to struture, but I don't know what else to use
 {
     // Remember to always add new ones last so old enums doesn't brake in saves, they are saved as int's; pouch = 0 etc...
+
+    #region Don't touch unless necessary
+
     Pouch, // Done
 
     Potion,
-    Stick, // Done
+    WoodenStick, // Done
     VirilityBooster, // Done
     VirilityTempBooster, // Done
     FertilityBooster, // Done
@@ -44,5 +47,11 @@ public enum ItemId
     Contraceptive, // Done
     LiquidBarrenness, // Done
     SeedDiluter, // Done
-    MaleContraceptive
+    MaleContraceptive,
+    SpikedClub,
+
+    #endregion Don't touch unless necessary
+
+    WoodenWarHammer,
+    Hood,
 }

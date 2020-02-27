@@ -20,6 +20,9 @@ public class AssingStatmod
     [SerializeField] private StatMod statMod;
     [SerializeField] private StatTypes statTypes;
 
+    public static AssingStatmod Create(float value, string source, ModTypes modTypes, StatTypes statTypes)
+        => new AssingStatmod(new StatMod(value, source, modTypes), statTypes);
+
     public AssingStatmod(StatMod statMod, StatTypes statTypes)
     {
         this.statMod = statMod;

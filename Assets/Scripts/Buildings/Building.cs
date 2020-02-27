@@ -21,7 +21,7 @@ public abstract class Shop : Building
     [SerializeField] protected Button sellBtn = null;
     [SerializeField] protected TextMeshProUGUI sellBtnText = null;
     [SerializeField] protected SellItem sellItemPrefab = null;
-    [SerializeField] protected List<ItemId> buyItems = new List<ItemId>();
+    [SerializeField] protected List<ItemIds> buyItems = new List<ItemIds>();
     protected bool selling = false;
 
     public virtual void Start() => sellBtn.onClick.AddListener(ToggleSelling);

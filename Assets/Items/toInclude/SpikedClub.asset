@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 381358e62251de7409586d37f4f83a7b, type: 3}
+  m_Name: SpikedClub
+  m_EditorClassIdentifier: 
+  itemId: 35
+  title: Spiked club
+  useName: Equip
+  sprite: {fileID: 21300000, guid: 297e977efe355654e9288bb244ece00b, type: 3}
+  type: 2
+  value: 100
+  desc: template for items, desc itself is where you say what the item does. This
+    item happens to do nothing.
