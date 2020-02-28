@@ -29,7 +29,7 @@ public class EnemyPrefab : BasicChar
     #region Stats
 
     [HideInInspector]
-    [SerializeField] private int assingStr = 0, assingCharm = 0, assingEnd = 0, assingDex = 0, assingInt = 0, assingWill;
+    [SerializeField] private int assingStr = 0, assingCharm = 0, assingEnd = 0, assingDex = 0, assingInt = 0, assingWill = 0;
 
     [HideInInspector]
     [SerializeField] private float statRngFactor = 0.4f;
@@ -86,6 +86,4 @@ public class EnemyPrefab : BasicChar
         }
         InitHealth();
     }
-
-    public override void Update() => base.Update();
 }

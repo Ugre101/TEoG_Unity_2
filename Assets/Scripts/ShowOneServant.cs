@@ -33,13 +33,14 @@ public class ShowOneServant : MonoBehaviour
         if (dorm.Servants.Exists(b => b == basicChar))
         {
             BasicChar who = dorm.Servants.Find(b => b == basicChar);
-            Instantiate(prompt, transform).Setup(
-                () =>
-                {
-                    dorm.Servants.Remove(who);
-                    Destroy(who.gameObject);
-                    showDorm.ListServants();
-                });
+            Instantiate(prompt, transform).Setup(() => KickASevantOut(who));
         }
+    }
+
+    private void KickASevantOut(BasicChar basicChar)
+    {
+        dorm.Servants.Remove(basicChar);
+        Destroy(basicChar.gameObject);
+        showDorm.ListServants();
     }
 }

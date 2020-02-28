@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4ce36bb0d079c34d8bff458e30641bf, type: 3}
   m_Name: WoodenWarHammer
   m_EditorClassIdentifier: 
-  itemId: 2
+  itemId: 36
   title: Wooden war hammer
   useName: Equip
   sprite: {fileID: 21300000, guid: 01d8ac8915378b0428fe94cc2f895a20, type: 3}

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3106775462078360690}
+  - component: {fileID: 3236136428364579484}
   - component: {fileID: 3106775462078360692}
   - component: {fileID: 3106775462078360693}
   m_Layer: 5
@@ -34,9 +35,23 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -32.5, y: -49}
-  m_SizeDelta: {x: 65, y: 60}
+  m_AnchoredPosition: {x: -32.5, y: -67.49899}
+  m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &3236136428364579484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3106775462078360691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64eb6b0c39572ea4db14eac77b22aa22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 3106775462078360693}
+  whom: {fileID: 0}
 --- !u!222 &3106775462078360692
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -63,8 +78,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Vagina
 
 '
@@ -95,8 +108,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -111,7 +124,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
@@ -168,6 +181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3106775462082707591}
+  - component: {fileID: 8635894687922598466}
   - component: {fileID: 3106775462082707609}
   - component: {fileID: 3106775462082707590}
   m_Layer: 5
@@ -193,9 +207,23 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 32.5, y: 10.999992}
-  m_SizeDelta: {x: 65, y: 60}
+  m_AnchoredPosition: {x: 32.5, y: 7.501}
+  m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &8635894687922598466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3106775462082707588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a88aa5800b15c41a23f95bd0b9d309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 3106775462082707590}
+  whom: {fileID: 0}
 --- !u!222 &3106775462082707609
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -222,8 +250,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Dicks
 
 '
@@ -254,8 +280,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -270,7 +296,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
@@ -390,7 +416,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0000076293945, y: -64.49701}
+  m_AnchoredPosition: {x: -0.000015258789, y: -90.497}
   m_SizeDelta: {x: 100, y: 29.005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3106775462246229973
@@ -410,7 +436,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3106775462246229968}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -419,8 +445,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 0b7301995330a974eac47eb1fae9a936, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -430,6 +454,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3106775462433097975
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,8 +518,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Alexonds asfafae
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -641,7 +664,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3106775462441099234}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -650,8 +673,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: b61a835bfc216ba4094da0c1e3fd82a7, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -661,6 +682,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3106775462611174317
 GameObject:
   m_ObjectHideFlags: 0
@@ -670,6 +692,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3106775462611174316}
+  - component: {fileID: 4051935361618105330}
   - component: {fileID: 3106775462611174318}
   - component: {fileID: 3106775462611174319}
   m_Layer: 5
@@ -695,9 +718,23 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -32.499985, y: 10.999992}
-  m_SizeDelta: {x: 65, y: 60}
+  m_AnchoredPosition: {x: -32.5, y: 7.5}
+  m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4051935361618105330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3106775462611174317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e78cc54e751c2e2478feeb3e624ee140, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 3106775462611174319}
+  whom: {fileID: 0}
 --- !u!222 &3106775462611174318
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -724,8 +761,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Boobs
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -754,12 +789,12 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMin: 9
+  m_fontSizeMax: 16
   m_fontStyle: 0
   m_textAlignment: 514
   m_characterSpacing: 0
@@ -770,7 +805,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
@@ -827,6 +862,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3106775462700968845}
+  - component: {fileID: 302848302208857851}
   - component: {fileID: 3106775462700968847}
   - component: {fileID: 3106775462700968844}
   m_Layer: 5
@@ -852,9 +888,23 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 32.5, y: -49}
-  m_SizeDelta: {x: 65, y: 60}
+  m_AnchoredPosition: {x: 32.499985, y: -67.5}
+  m_SizeDelta: {x: 65, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &302848302208857851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3106775462700968842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eebd8a1e36dc1840b4b7a0af2cd1756, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 3106775462700968844}
+  whom: {fileID: 0}
 --- !u!222 &3106775462700968847
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -881,8 +931,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: Balls
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -911,8 +959,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -927,7 +975,7 @@ MonoBehaviour:
   m_charWidthMaxAdj: 0
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
+  m_overflowMode: 1
   m_firstOverflowCharacterIndex: -1
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
@@ -1010,7 +1058,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -89}
+  m_AnchoredPosition: {x: -0.000015258789, y: -115}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3106775463052621312
@@ -1022,7 +1070,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3106775463052621326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -1063,8 +1111,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &3106775463380182040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1119,7 +1165,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3106775463380182040}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1128,8 +1174,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -1139,6 +1183,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3106775463412341990
 GameObject:
   m_ObjectHideFlags: 0
@@ -1202,8 +1247,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1307,7 +1350,7 @@ GameObject:
   - component: {fileID: 3106775463519171216}
   - component: {fileID: 3106775463519171219}
   m_Layer: 5
-  m_Name: Player (1)
+  m_Name: SexChar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1340,7 +1383,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 230, y: 250}
+  m_SizeDelta: {x: 230, y: 270}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3106775463519171219
 MonoBehaviour:
@@ -1355,10 +1398,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   whom: {fileID: 0}
-  Dicks: {fileID: 3106775462082707590}
-  Balls: {fileID: 3106775462700968844}
-  Vagina: {fileID: 3106775462078360693}
-  Boobs: {fileID: 3106775462611174319}
+  dickInfo: {fileID: 8635894687922598466}
+  ballsInfo: {fileID: 302848302208857851}
+  boobsInfo: {fileID: 4051935361618105330}
+  vaginaInfo: {fileID: 3236136428364579484}
   mascSlider: {fileID: 3106775462465865218}
   femiSlider: {fileID: 3106775462153734824}
   ArousalSlider: {fileID: 3106775463052621312}
@@ -1398,8 +1441,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0.0000076293945, y: -125}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: -0.000015258789, y: -139.54}
+  m_SizeDelta: {x: 100, y: 125.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3106775463548391297
 CanvasRenderer:
@@ -1418,7 +1461,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3106775463548391308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1427,8 +1470,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: 367351725fefb1d439f64df9c1aba48e, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
@@ -1438,6 +1479,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3106775463629722565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1492,7 +1534,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3106775463629722565}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1501,8 +1543,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: b2edae032cec34445b982a72e8d41979, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -1512,6 +1552,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &3106775463810033320
 GameObject:
   m_ObjectHideFlags: 0
@@ -1546,7 +1587,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 86.725}
+  m_AnchoredPosition: {x: 0, y: 96.725}
   m_SizeDelta: {x: 100, y: 76.55}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3106775463810033325
@@ -1575,8 +1616,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_text: 'Race
 
     Gender'
@@ -1678,14 +1717,24 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3106775463519171216}
     m_Modifications:
-    - target: {fileID: 2774516984551589106, guid: 2aec7d402fb982240aa92bff89fa0b41,
-        type: 3}
-      propertyPath: m_Name
-      value: MascSlider
-      objectReference: {fileID: 0}
     - target: {fileID: 483506641, guid: 2aec7d402fb982240aa92bff89fa0b41, type: 3}
       propertyPath: basicChar
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774516983605300533, guid: 2aec7d402fb982240aa92bff89fa0b41,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4294910996
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774516983737861133, guid: 2aec7d402fb982240aa92bff89fa0b41,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774516983737861133, guid: 2aec7d402fb982240aa92bff89fa0b41,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2774516984551589105, guid: 2aec7d402fb982240aa92bff89fa0b41,
         type: 3}
@@ -1792,24 +1841,13 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 2774516983737861133, guid: 2aec7d402fb982240aa92bff89fa0b41,
+    - target: {fileID: 2774516984551589106, guid: 2aec7d402fb982240aa92bff89fa0b41,
         type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2774516983737861133, guid: 2aec7d402fb982240aa92bff89fa0b41,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
+      propertyPath: m_Name
+      value: MascSlider
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2aec7d402fb982240aa92bff89fa0b41, type: 3}
---- !u!224 &980777213232184098 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2774516984551589105, guid: 2aec7d402fb982240aa92bff89fa0b41,
-    type: 3}
-  m_PrefabInstance: {fileID: 3106775462009651155}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3106775462465865218 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 483506641, guid: 2aec7d402fb982240aa92bff89fa0b41,
@@ -1822,6 +1860,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4b390e1f746f4b4c864107af516091f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &980777213232184098 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2774516984551589105, guid: 2aec7d402fb982240aa92bff89fa0b41,
+    type: 3}
+  m_PrefabInstance: {fileID: 3106775462009651155}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3106775462762168860
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1829,11 +1873,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3106775463519171216}
     m_Modifications:
-    - target: {fileID: 2507609416782423945, guid: 349621f68676474418146aa599f56036,
-        type: 3}
-      propertyPath: m_Name
-      value: FemiSlider
-      objectReference: {fileID: 0}
     - target: {fileID: 2507609416782423944, guid: 349621f68676474418146aa599f56036,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1938,6 +1977,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507609416782423945, guid: 349621f68676474418146aa599f56036,
+        type: 3}
+      propertyPath: m_Name
+      value: FemiSlider
+      objectReference: {fileID: 0}
+    - target: {fileID: 2507609416831221796, guid: 349621f68676474418146aa599f56036,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4290974975
       objectReference: {fileID: 0}
     - target: {fileID: 2507609417128983387, guid: 349621f68676474418146aa599f56036,
         type: 3}

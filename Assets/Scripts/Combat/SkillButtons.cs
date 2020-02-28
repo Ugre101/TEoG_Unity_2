@@ -2,8 +2,8 @@
 
 public class SkillButtons : MonoBehaviour
 {
-    [SerializeField] private GameObject buttons;
-    [SerializeField] private ChooseSkillMain ChooseSkillMain;
+    [SerializeField] private GameObject buttons = null;
+    [SerializeField] private ChooseSkillMain ChooseSkillMain = null;
 
     public void ToogleChooseSkill(CombatButton target)
     {

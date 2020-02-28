@@ -1,35 +1,45 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class PromptYesNo : MonoBehaviour
 {
-    [SerializeField] private Button YesBtn = null, NoBtn = null;
+    [SerializeField] private TextMeshProUGUI title = null;
+    [SerializeField] private Button yesBtn = null, noBtn = null;
 
     /// <summary> No = destroy itself </summary>
     public void Setup(UnityAction yesFunc)
     {
         BindYes(yesFunc);
+        noBtn.onClick.RemoveAllListeners();
+        noBtn.onClick.AddListener(SelfDestroy);
+    }
 
-        NoBtn.onClick.RemoveAllListeners();
-        NoBtn.onClick.AddListener(SelfDestroy);
+    public void Setup(UnityAction yesFunc, string title)
+    {
+        Setup(yesFunc);
+        this.title.text = title;
     }
 
     public void Setup(UnityAction yesFunc, UnityAction noFunc)
     {
-        BindYes(yesFunc);
+        Setup(yesFunc);
+        noBtn.onClick.AddListener(noFunc);
+    }
 
-        NoBtn.onClick.RemoveAllListeners();
-        NoBtn.onClick.AddListener(noFunc);
-        NoBtn.onClick.AddListener(SelfDestroy);
+    public void Setup(UnityAction yesFunc, UnityAction noFunc, string title)
+    {
+        Setup(yesFunc, noFunc);
+        this.title.text = title;
     }
 
     public void SelfDestroy() => Destroy(gameObject);
 
     private void BindYes(UnityAction yesFunc)
     {
-        YesBtn.onClick.RemoveAllListeners();
-        YesBtn.onClick.AddListener(yesFunc);
-        YesBtn.onClick.AddListener(SelfDestroy);
+        yesBtn.onClick.RemoveAllListeners();
+        yesBtn.onClick.AddListener(yesFunc);
+        yesBtn.onClick.AddListener(SelfDestroy);
     }
 }

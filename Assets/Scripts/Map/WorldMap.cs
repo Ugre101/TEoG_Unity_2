@@ -12,7 +12,7 @@ public enum WorldMaps
 public class WorldMap : MonoBehaviour
 {
     private List<Map> maps = new List<Map>();
-    [SerializeField] private WorldMaps worldMap;
+    [SerializeField] private WorldMaps worldMap = WorldMaps.StartMap;
     public WorldMaps World => worldMap;
 
     public List<Map> Maps

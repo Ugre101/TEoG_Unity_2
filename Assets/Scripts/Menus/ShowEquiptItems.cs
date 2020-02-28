@@ -29,6 +29,8 @@ public class EquiptItems
                 return null;
         }
     }
+
+    public List<EquiptItem> GetAll => new List<EquiptItem>() { Head, Chest, LeftHand, RightHand, Pants, Boots };
 }
 
 [System.Serializable]
@@ -47,7 +49,12 @@ public class EquiptItem
     {
         item = itemId;
         hasItem = true;
+        GotItem?.Invoke();
     }
+
+    public delegate void AddedItem();
+
+    public event AddedItem GotItem;
 }
 
 public static class EquiptItemsExtensions
@@ -92,10 +99,7 @@ public static class EquiptItemsExtensions
                 if (equiptItem.HasItem)
                 {
                     basicChar.Inventory.AddItem(equiptItem.Item);
-                    basicChar.Stats.GetAll.ForEach(s =>
-                    {
-                        s.RemoveFromSource(equiptItem.Slot.ToString());
-                    });
+                    CleanModsFromItem(basicChar, equiptItem);
                     HandleItem(basicChar, item, equiptItem);
                 }
                 else
@@ -188,41 +192,4 @@ public static class EquiptItemsExtensions
             }
         }
     }
-}
-
-public class ShowEquiptItems : MonoBehaviour
-{
-    private PlayerMain Player => PlayerMain.GetPlayer;
-
-    public ItemHolder items;
-
-    [SerializeField] private EquipmentSlot head = null, chest = null, leftHand = null, rightHand = null, pants = null, boots = null;
-
-    public EquipmentSlot Head => head;
-    public EquipmentSlot Chest => chest;
-    public EquipmentSlot LeftHand => leftHand;
-    public EquipmentSlot RightHand => rightHand;
-    public EquipmentSlot Pants => pants;
-    public EquipmentSlot Boots => boots;
-
-    /* public Item EquipItem(Item toEquip)
-     {
-         if (toEquip is IEquip equip)
-         {
-             switch (equip.Slots)
-             {
-                 case EquipSlot.Head: return Head.AddTo(toEquip);
-                 case EquipSlot.Chest: return Chest.AddTo(toEquip);
-                 case EquipSlot.LeftHand: return LeftHand.AddTo(toEquip);
-                 case EquipSlot.RightHand: return RightHand.AddTo(toEquip);
-                 case EquipSlot.Pants: return Pants.AddTo(toEquip);
-                 case EquipSlot.Boots: return Boots.AddTo(toEquip);
-                 default:
-                     return null;
-             }
-         }
-         return null;
-     }
-     */
-    // Start is called before the first frame update
 }

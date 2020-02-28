@@ -6,22 +6,20 @@ using UnityEngine.UI;
 public class InventoryHandler : MonoBehaviour
 {
     [SerializeField] private DragInventory ItemPrefab = null;
-
     [SerializeField] private InventorySlot SlotPrefab = null;
     [SerializeField] private InventoryHoverText inventoryHoverText = null;
-    [field: SerializeField] public ShowEquiptItems EquiptItems { get; private set; } = null;
-
     [SerializeField] private PlayerMain player = null;
+    [SerializeField] private ItemHolder items = null;
+    [SerializeField] private GameObject SlotsHolder = null;
+    [SerializeField] private Button sortAll = null, sortEatDrink = null, sortMisc = null;
+    [SerializeField] private PromptYesNo yesNo = null;
+    [SerializeField] private int AmountOfSlots = 40;
+
     private List<InventoryItem> Items => player.Inventory.Items;
 
     //  public List<Item> Items;
-    [SerializeField] private ItemHolder items = null;
-
-    [SerializeField] private GameObject SlotsHolder = null;
-
-    [SerializeField] private int AmountOfSlots = 40;
     private InventorySlot[] Slots;
-    [SerializeField] private Button sortAll, sortEatDrink, sortMisc;
+
     private Color selected = new Color(0.5f, 0.5f, 0.5f, 1f), notSelected = new Color(0, 0, 0, 1);
 
     private void Awake() => DragInventory.UsedEvent += UpdateInventory;
@@ -99,8 +97,13 @@ public class InventoryHandler : MonoBehaviour
         if (Items.ExistByPos(startSlot))
         {
             InventoryItem inv = Items.FindByPos(startSlot);
-            Debug.Log("Remove item: " + inv.Id);
-            // trigger accepted destoy
+            Instantiate(yesNo, transform).Setup(() => RemoveItem(inv),"Do you want to delete item?");
         }
+    }
+
+    private void RemoveItem(InventoryItem itemToRemove)
+    {
+        player.Inventory.Items.Remove(itemToRemove);
+        UpdateInventory();
     }
 }

@@ -49,7 +49,10 @@ public static class BallsExtensions
     public static string Look(this Balls parBalls, bool capital = true)
         => $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls, with {Settings.LorGal(parBalls.Fluid.Current)}";
 
-    public static string Looks(this List<Balls> parBalls)
+    public static string LookWithOutFluid(this Balls parBalls, bool capital = true)
+        => $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls";
+
+    public static string Looks(this List<Balls> parBalls, bool fluid = true)
     {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < parBalls.Count; i++)
@@ -57,11 +60,11 @@ public static class BallsExtensions
             Balls balls = parBalls[i];
             if (i == 0)
             {
-                builder.Append(balls.Look());
+                builder.Append(fluid ? balls.Look() : balls.LookWithOutFluid());
             }
             else
             {
-                builder.Append(balls.Look(false));
+                builder.Append(fluid ? balls.Look(false) : balls.LookWithOutFluid(false));
             }
             if (i == parBalls.Count - 2)
             {

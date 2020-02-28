@@ -10,7 +10,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private TextMeshProUGUI amountText = null;
 
     public Item Item { get; private set; }
-    private int SlotId;
+    private int slotId;
     private PlayerMain Player => PlayerMain.GetPlayer;
 
     private InventoryHandler invHandler;
@@ -18,10 +18,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     private Transform Parent;
     private Image GetImage => GetComponent<Image>();
 
-    private bool CanvasBlockRaycast
-    {
-        set => GetComponent<CanvasGroup>().blocksRaycasts = value;
-    }
+    private void SetCanvasBlockRaycast(bool value) => GetComponent<CanvasGroup>().blocksRaycasts = value;
 
     private int Amount
     {
@@ -50,7 +47,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnBeginDrag(PointerEventData pointerEvent)
     {
         hoverText.StopHovering();
-        CanvasBlockRaycast = false;
+        SetCanvasBlockRaycast(false);
         transform.SetParent(Parent.parent);
     }
 
@@ -64,24 +61,24 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         {
             if (pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>() is InventorySlot slot && slot.Empty)
             {
-                invHandler.Move(SlotId, slot.Id);
+                invHandler.Move(slotId, slot.Id);
                 transform.SetParent(pointerEvent.pointerCurrentRaycast.gameObject.transform);
                 transform.position = transform.parent.position;
-                SlotId = slot.Id;
+                slotId = slot.Id;
                 Parent = transform.parent;
                 UsedEvent?.Invoke();
             }
             else if (pointerEvent.pointerCurrentRaycast.gameObject.GetComponent<EquipmentSlot>() is EquipmentSlot equipSlot)
             {
-                equipSlot.DragItem(Item);
+                UseItem();
             }
             else
             {
                 Debug.Log("Do you want to remove");
-                invHandler.Move(SlotId);
+                invHandler.Move(slotId);
             }
         }
-        CanvasBlockRaycast = true;
+        SetCanvasBlockRaycast(true);
     }
 
     private void Hovering() => hoverText.Hovering(Item.Title, Item.FullDesc());
@@ -129,10 +126,8 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void UseItem()
     {
-        Debug.Log("Using item" + Item.name);
         if (Item is IEquip toEquip)
         {
-            Debug.Log("Equipable!");
             Player.AutoEquipItem(Item);
         }
         else if (Item is IHaveStatMods haveMods)
@@ -159,7 +154,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         this.hoverText = inventoryHoverText;
         invItem = inventoryItem;
         invHandler = inventoryHandler;
-        SlotId = inventoryItem.InvPos;
+        slotId = inventoryItem.InvPos;
         this.Item = item;
         _ = Amount;
         //Invitem.item;

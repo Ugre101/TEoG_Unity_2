@@ -8,6 +8,14 @@ public abstract class BasicChar : MonoBehaviour
     public BasicChar()
     {
         vore = new VoreEngine(this);
+        DateSystem.NewMinuteEvent += DoEveryMin;
+    }
+
+    private void DoEveryMin()
+    {
+        // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
+        this.RefreshOrgans(AutoEss);
+        this.OverTimeTick();
     }
 
     [SerializeField] protected Identity identity;
@@ -128,7 +136,6 @@ public abstract class BasicChar : MonoBehaviour
         Essence.Masc.EssenceSliderEvent += DidGenderChange;
         essence.Femi.EssenceSliderEvent += DidGenderChange;
         expSystem = new ExpSystem(1);
-        tickEverySecond = Time.time;
         DateSystem.NewDayEvent += this.GrowFetuses;
         DateSystem.NewDayEvent += PregnancySystem.GrowChild;
     }
@@ -145,18 +152,7 @@ public abstract class BasicChar : MonoBehaviour
     {
         Essence.Masc.EssenceSliderEvent -= DidGenderChange;
         essence.Femi.EssenceSliderEvent -= DidGenderChange;
-    }
-
-    private float tickEverySecond;
-
-    public virtual void Update()
-    {
-        this.RefreshOrgans(AutoEss);
-        if (tickEverySecond + 2f < Time.time)
-        {
-            tickEverySecond = Time.time;
-            this.OverTimeTick();
-        }
+        DateSystem.NewMinuteEvent -= DoEveryMin;
     }
 
     [SerializeField] private List<Skill> skills = new List<Skill>();

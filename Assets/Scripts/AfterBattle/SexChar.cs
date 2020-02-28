@@ -1,31 +1,25 @@
-﻿using TMPro;
+﻿using SexCharStuff;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SexChar : MonoBehaviour
 {
-    [SerializeField]
-    private BasicChar whom;
+    [SerializeField] private BasicChar whom;
 
     [Header("Organ descs")]
-    [SerializeField]
-    private TextMeshProUGUI Dicks = null;
+    [SerializeField] private DickInfo dickInfo = null;
 
-    [SerializeField]
-    private TextMeshProUGUI Balls = null, Vagina = null, Boobs = null;
+    [SerializeField] private BallsInfo ballsInfo = null;
+    [SerializeField] private BoobsInfo boobsInfo = null;
+    [SerializeField] private VaginaInfo vaginaInfo = null;
 
     [Header("Sliders")]
-    [SerializeField]
-    private MascSlider mascSlider = null;
+    [SerializeField] private MascSlider mascSlider = null;
 
-    [SerializeField]
-    private FemiSlider femiSlider = null;
-
-    [SerializeField]
-    private Slider ArousalSlider = null;
-
-    [SerializeField]
-    private TextMeshProUGUI OrgasmCounter = null;
+    [SerializeField] private FemiSlider femiSlider = null;
+    [SerializeField] private Slider ArousalSlider = null;
+    [SerializeField] private TextMeshProUGUI OrgasmCounter = null;
 
     public void OnDisable()
     {
@@ -51,10 +45,9 @@ public class SexChar : MonoBehaviour
 
     private void Organs()
     {
-        Organs sexualOrgans = whom.SexualOrgans;
-        Dicks.text = sexualOrgans.Dicks.Looks();
-        Balls.text = sexualOrgans.Balls.Looks();
-        Boobs.text = sexualOrgans.Boobs.Looks();
-        Vagina.text = sexualOrgans.Vaginas.Looks();
+        dickInfo.Setup(whom);
+        ballsInfo.Setup(whom);
+        boobsInfo.Setup(whom);
+        vaginaInfo.Setup(whom);
     }
 }
