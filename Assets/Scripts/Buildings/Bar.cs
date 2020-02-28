@@ -50,11 +50,13 @@ namespace Bar
         {
         }
 
+        private string Source => this.GetType().Name;
+
         public virtual void Sleep(BasicChar basicChar)
         {
             DateSystem.PassHour(8);
-            basicChar.HP.FullGain();
-            basicChar.WP.FullGain();
+            basicChar.HP.AddTempMod(TempHealthMod.CreateFlatHealth(5, Source, 12));
+            basicChar.WP.AddTempMod(TempHealthMod.CreateFlatWill(5, Source, 12));
             // TODO temp bonus
         }
     }
