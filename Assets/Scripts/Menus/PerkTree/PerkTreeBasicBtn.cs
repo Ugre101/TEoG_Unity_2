@@ -5,50 +5,49 @@ using UnityEngine.UI;
 
 public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public bool Taken { get; protected set; } = false;
+    private bool taken = false;
 
-    [SerializeField]
-    protected PlayerMain player = null;
+    public bool Taken
+    {
+        get => taken;
+        protected set
+        {
+            taken = value;
+            RuneOpacity();
+        }
+    }
 
-    [SerializeField]
-    protected TextMeshProUGUI amount = null;
+    [SerializeField] protected PlayerMain player = null;
 
-    [SerializeField]
-    protected PerkInfo perkInfo = null;
+    [SerializeField] protected TextMeshProUGUI amount = null;
 
-    [SerializeField]
-    protected Button btn = null;
+    [SerializeField] protected PerkInfo perkInfo = null;
 
-    [SerializeField]
-    protected Image rune = null;
+    [SerializeField] protected Button btn = null;
+
+    [SerializeField] protected Image rune = null;
 
     protected Color color;
 
-    protected float RuneColor
+    protected void SetRuneColor(float value)
     {
-        set
-        {
-            color = rune.color;
-            color.a = value;
-            rune.color = color;
-        }
+        color = rune.color;
+        color.a = value;
+        rune.color = color;
     }
 
     // Start is called before the first frame update
     public virtual void Start()
     {
         // if not assing, then assing hover remember to not become to lazy as it can affect perfomance(I think).
-        if (btn == null)
-        {
-            btn = GetComponent<Button>();
-        }
+        btn = btn != null ? btn : GetComponent<Button>();
         btn.onClick.AddListener(Use);
         player = player != null ? player : PlayerMain.GetPlayer;
     }
 
     public virtual void OnEnable() => RuneOpacity();
 
-    public void RuneOpacity() => RuneColor = Taken ? 1f : 0.5f;
+    public void RuneOpacity() => SetRuneColor(Taken ? 1f : 0.5f);
 
     public virtual void Use()
     {

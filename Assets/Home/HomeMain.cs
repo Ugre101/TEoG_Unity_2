@@ -9,8 +9,7 @@ public class HomeMain : MonoBehaviour
     [SerializeField] private GameObject dormGameobject = null;
     [SerializeField] private MapEvents mapEvents = null;
     [SerializeField] private Button leaveBtn = null;
-    [SerializeField] private Tilemap toMap = null;
-    [SerializeField] private Tilemap toPlatform = null;
+    [SerializeField] private Tilemap toMap = null, toPlatform = null;
     private readonly WorldMaps worldMaps = WorldMaps.StartMap;
     [SerializeField] private BuildButton buildButtonPrefab = null;
     [SerializeField] private Transform buildContainer = null;
