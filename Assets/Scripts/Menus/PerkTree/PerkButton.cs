@@ -3,23 +3,14 @@
 public class PerkButton : PerkTreeBasicBtn
 {
     [Space]
-    [SerializeField]
-    private PerksTypes perk = PerksTypes.EssenceFlow;
+    [SerializeField] private PerksTypes perk = PerksTypes.EssenceFlow;
 
-    [SerializeField]
-    private Sprite icon = null;
-
-    [SerializeField]
-    private int perkCost = 1;
+    [SerializeField] private Sprite icon = null;
 
     public override void Start()
     {
         base.Start();
-        Taken = true;
-        if (icon != null)
-        {
-            rune.sprite = icon;
-        }
+        rune.sprite = icon != null ? icon : null;
     }
 
     public override void OnEnable()
@@ -35,11 +26,10 @@ public class PerkButton : PerkTreeBasicBtn
     {
         if (player.Perks.HasPerk(perk) ? player.Perks.NotMaxLevel(perk, perkInfo.MaxLevel) : true)
         {
-            if (player.ExpSystem.PerkBool(perkCost))
+            if (player.ExpSystem.PerkBool(perkInfo.PerkCost))
             {
                 Taken = true;
                 player.GainPerk(perk);
-                RuneOpacity();
             }
         }
     }

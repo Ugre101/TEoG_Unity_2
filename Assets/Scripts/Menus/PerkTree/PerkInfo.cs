@@ -1,25 +1,57 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "Perk info", menuName = "Perks/Perk info")]
 public class PerkInfo : ScriptableObject
 {
-    [SerializeField]
     [TextArea]
-    private string perkInfo = "";
+    [SerializeField] private string perkInfo = "";
 
     public string Info => perkInfo;
 
-    [SerializeField]
     [TextArea]
-    private string perkEffects = "";
+    [SerializeField] private string perkEffects = "";
 
     public string Effects => perkEffects;
 
-    [SerializeField]
-    private int maxLevel = 1;
+    [SerializeField] private int maxLevel = 1, perkCost = 1;
 
     public int MaxLevel => maxLevel;
+    public int PerkCost => perkCost;
+    [SerializeField] private bool needCharStat = false;
+    public bool NeedCharStat => needCharStat;
+    [SerializeField] private List<NeededCharStat> neededCharStats = new List<NeededCharStat>();
+    public List<NeededCharStat> NeededCharStats => neededCharStats;
+    [SerializeField] private bool needOtherPerks = false;
+    public bool NeedOtherPerks => needOtherPerks;
+    [SerializeField] private List<PerksTypes> neededPerks = new List<PerksTypes>();
+    private List<PerksTypes> NeededPerks => neededPerks;
+
+    public bool Unlocked(BasicChar basicChar)
+    {
+        if (NeedOtherPerks)
+        {
+            foreach (PerksTypes perks in NeededPerks)
+            {
+                if (!basicChar.Perks.List.Exists(p => p.Type == perks))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    [System.Serializable]
+    public class NeededCharStat
+    {
+        [SerializeField] private int amount = 0;
+        [SerializeField] private StatTypes stat = StatTypes.Charm;
+        public int Amount => amount;
+        public StatTypes Stat => stat;
+    }
 }
+
+
 
 public static class PerkEffects
 {
