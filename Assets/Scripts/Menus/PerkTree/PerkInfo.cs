@@ -39,6 +39,16 @@ public class PerkInfo : ScriptableObject
                 }
             }
         }
+        if (NeedCharStat)
+        {
+            foreach(NeededCharStat charStat in NeededCharStats)
+            {
+                if (basicChar.Stats.GetStat(charStat.Stat).BaseValue < charStat.Amount)
+                {
+                    return false;
+                }
+            }
+        }
         return true;
     }
     [System.Serializable]

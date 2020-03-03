@@ -17,9 +17,13 @@ MonoBehaviour:
 
     -+ Faster fat-burn.
 
-    - Higher penalty for starving
+    -
+    Higher penalty for starving
 
     * Not compatible with low-metabolism'
-  posValue: 0
-  negValue: 0
   maxLevel: 1
+  perkCost: 2
+  needCharStat: 0
+  neededCharStats: []
+  needOtherPerks: 0
+  neededPerks: 

@@ -2,32 +2,26 @@
 
 public class BasicStatButton : PerkTreeBasicBtn
 {
-    public BasicStatButton()
-    {
-        Taken = true;
-    }
-
     [Space]
-    [SerializeField]
-    private StatTypes stat = StatTypes.Charm;
+    [SerializeField] private StatTypes stat = StatTypes.Charm;
 
-    [SerializeField]
-    private int statAmount = 1;
+    [SerializeField] private int statGainAmount = 1;
+    private int BaseValue { get => player.Stats.GetStat(stat).BaseValue; set => player.Stats.GetStat(stat).BaseValue = value; }
 
-    public override void OnEnable()
+    protected override void OnEnable()
     {
         base.OnEnable();
-        int baseValue = player.Stats.GetStat(stat).BaseValue;
-        amount.text = baseValue > 0 ? baseValue.ToString() : string.Empty;
+        Taken = BaseValue > 0;
+        amount.text = BaseValue > 0 ? BaseValue.ToString() : string.Empty;
     }
 
-    public override void Use()
+    protected override void Use()
     {
         if (player.ExpSystem.PerkBool())
         {
             Taken = true;
-            player.Stats.GetStat(stat).BaseValue += statAmount;
-            amount.text = player.Stats.GetStat(stat).BaseValue.ToString();
+            BaseValue += statGainAmount;
+            amount.text = BaseValue.ToString();
         }
     }
 }

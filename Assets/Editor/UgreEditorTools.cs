@@ -24,6 +24,15 @@ public static class UgreEditorTools
         }
     }
 
+    public static void TextArea(SerializedProperty serializedProperty) =>
+        serializedProperty.stringValue = EditorGUILayout.TextArea(serializedProperty.stringValue, EditorStyles.textArea);
+
+    public static void TextAreaWithBoldLabel(SerializedProperty serializedProperty, string label)
+    {
+        EditorGUILayout.LabelField(label, EditorStyles.boldLabel);
+        TextArea(serializedProperty);
+    }
+
     public static void TwoLabels(string firstLabel, string secondLabel)
     {
         EditorGUILayout.BeginHorizontal();
