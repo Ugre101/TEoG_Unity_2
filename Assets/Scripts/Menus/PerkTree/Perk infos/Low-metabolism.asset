@@ -22,7 +22,11 @@ MonoBehaviour:
     compatible with gluttony.'
   maxLevel: 1
   perkCost: 2
-  needCharStat: 0
-  neededCharStats: []
+  needCharStat: 1
+  neededCharStats:
+  - amount: 0
+    stat: 0
+  - amount: 0
+    stat: 0
   needOtherPerks: 0
   neededPerks: 

@@ -23,6 +23,7 @@ public class PerkInfoEditor : Editor
     #endregion Assing SerProps
 
     private bool NeedStat { get => needCharStat.boolValue; set => needCharStat.boolValue = value; }
+    private bool NeedPerk { get => needOtherPerks.boolValue; set => needOtherPerks.boolValue = value; }
 
     public override void OnInspectorGUI()
     {
@@ -32,7 +33,7 @@ public class PerkInfoEditor : Editor
         UgreEditorTools.TextAreaWithBoldLabel(perkEffects, "Perk effects");
         UgreEditorTools.TwoBoldLabels("Max level", "Perk cost");
         UgreEditorTools.TwoIntSliders(maxLevel, perkCost);
-        NeedStat = EditorGUILayout.Toggle("Have stat req", NeedStat);
+        NeedStat = EditorGUILayout.Toggle("Have stat requirements", NeedStat);
         if (NeedStat)
         {
             EditorGUILayout.BeginVertical("box");
@@ -44,10 +45,10 @@ public class PerkInfoEditor : Editor
             for (int i = 0; i < neededCharStats.arraySize; i++)
             {
                 EditorGUILayout.BeginVertical("box");
-                var ele = neededCharStats.GetArrayElementAtIndex(i);
-                var amount = ele.FindPropertyRelative("amount");
-                var stat = ele.FindPropertyRelative("stat");
-                EditorGUILayout.IntField("Amount", amount.intValue);
+                SerializedProperty ele = neededCharStats.GetArrayElementAtIndex(i);
+                SerializedProperty amount = ele.FindPropertyRelative("amount");
+                SerializedProperty stat = ele.FindPropertyRelative("stat");
+                amount.intValue = EditorGUILayout.IntField("Amount", amount.intValue);
                 EditorGUILayout.PropertyField(stat);
                 if (GUILayout.Button("Remove"))
                 {
@@ -57,7 +58,28 @@ public class PerkInfoEditor : Editor
             }
             EditorGUILayout.EndVertical();
         }
-
+        NeedPerk = EditorGUILayout.Toggle("Have perk requirements", NeedPerk);
+        if (NeedPerk)
+        {
+            EditorGUILayout.BeginVertical("box");
+            EditorGUILayout.LabelField("Perk requirements", EditorStyles.boldLabel);
+            if (GUILayout.Button("Add"))
+            {
+                neededPerks.arraySize++;
+            }
+            for (int i = 0; i < neededPerks.arraySize; i++)
+            {
+                EditorGUILayout.BeginVertical("box");
+                SerializedProperty ele = neededPerks.GetArrayElementAtIndex(i);
+                EditorGUILayout.PropertyField(ele, GUIContent.none);
+                if (GUILayout.Button("Remove"))
+                {
+                    neededPerks.DeleteArrayElementAtIndex(i);
+                }
+                EditorGUILayout.EndVertical();
+            }
+            EditorGUILayout.EndVertical();
+        }
         serializedObject.ApplyModifiedProperties();
     }
 }
