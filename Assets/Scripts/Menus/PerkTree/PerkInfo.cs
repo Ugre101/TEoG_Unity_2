@@ -1,23 +1,41 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Perk info", menuName = "Perks/Perk info")]
-public class PerkInfo : ScriptableObject
+public abstract class BaseInfo : ScriptableObject
 {
+    [SerializeField] private Sprite icon = null;
+    public Sprite Icon => icon;
+
     [TextArea]
-    [SerializeField] private string perkInfo = "";
+    [SerializeField] protected string perkInfo = "";
 
     public string Info => perkInfo;
 
     [TextArea]
-    [SerializeField] private string perkEffects = "";
+    [SerializeField] protected string perkEffects = "";
 
     public string Effects => perkEffects;
 
-    [SerializeField] private int maxLevel = 1, perkCost = 1;
+    [SerializeField] protected int maxLevel = 1, perkCost = 1;
 
     public int MaxLevel => maxLevel;
     public int PerkCost => perkCost;
+}
+
+[CreateAssetMenu(fileName = "Stat info", menuName = "Perks/Stat info")]
+public class StatInfo : BaseInfo
+{
+    [SerializeField] private StatTypes stat = StatTypes.Charm;
+    public StatTypes Stat => stat;
+}
+
+[CreateAssetMenu(fileName = "Perk info", menuName = "Perks/Perk info")]
+public class PerkInfo : BaseInfo
+{
+    [SerializeField] private PerksTypes perk = PerksTypes.Delicate;
+    public PerksTypes Perk => perk;
     [SerializeField] private bool needCharStat = false;
     public bool NeedCharStat => needCharStat;
     [SerializeField] private List<NeededCharStat> neededCharStats = new List<NeededCharStat>();
@@ -41,7 +59,7 @@ public class PerkInfo : ScriptableObject
         }
         if (NeedCharStat)
         {
-            foreach(NeededCharStat charStat in NeededCharStats)
+            foreach (NeededCharStat charStat in NeededCharStats)
             {
                 if (basicChar.Stats.GetStat(charStat.Stat).BaseValue < charStat.Amount)
                 {
@@ -51,6 +69,27 @@ public class PerkInfo : ScriptableObject
         }
         return true;
     }
+
+    public string MissingReqs(BasicChar basicChar)
+    {
+        StringBuilder sb = new StringBuilder();
+        if (NeedOtherPerks)
+        {
+            foreach (PerksTypes perks in NeededPerks.Where(perks => !basicChar.Perks.List.Exists(p => p.Type == perks)).Select(perks => perks))
+            {
+                sb.Append("Need: " + perks.ToString());
+            }
+        }
+        if (NeedCharStat)
+        {
+            foreach (NeededCharStat charStat in NeededCharStats.Where(charStat => basicChar.Stats.GetStat(charStat.Stat).BaseValue < charStat.Amount).Select(charStat => charStat))
+            {
+                sb.Append("Need: " + charStat.Stat.ToString() + charStat.Amount);
+            }
+        }
+        return sb.ToString();
+    }
+
     [System.Serializable]
     public class NeededCharStat
     {
@@ -60,8 +99,6 @@ public class PerkInfo : ScriptableObject
         public StatTypes Stat => stat;
     }
 }
-
-
 
 public static class PerkEffects
 {

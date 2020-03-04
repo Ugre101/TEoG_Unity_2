@@ -1,16 +1,20 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class BasicStatButton : PerkTreeBasicBtn
 {
     [Space]
-    [SerializeField] private StatTypes stat = StatTypes.Charm;
+    [SerializeField] private StatInfo statInfo = null;
 
-    [SerializeField] private int statGainAmount = 1;
-    private int BaseValue { get => player.Stats.GetStat(stat).BaseValue; set => player.Stats.GetStat(stat).BaseValue = value; }
+    private int BaseValue { get => player.Stats.GetStat(statInfo.Stat).BaseValue; set => player.Stats.GetStat(statInfo.Stat).BaseValue = value; }
 
     protected override void OnEnable()
     {
         base.OnEnable();
+        if (statInfo == null)
+        {
+            gameObject.SetActive(false);
+        }
         Taken = BaseValue > 0;
         amount.text = BaseValue > 0 ? BaseValue.ToString() : string.Empty;
     }
@@ -20,8 +24,13 @@ public class BasicStatButton : PerkTreeBasicBtn
         if (player.ExpSystem.PerkBool())
         {
             Taken = true;
-            BaseValue += statGainAmount;
+            BaseValue++;
             amount.text = BaseValue.ToString();
         }
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        PerkTreeHoverText.Hovering(statInfo.Info);
     }
 }

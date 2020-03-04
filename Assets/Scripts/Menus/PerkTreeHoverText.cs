@@ -4,10 +4,11 @@ using UnityEngine;
 public class PerkTreeHoverText : MonoBehaviour
 {
     public static PerkTreeHoverText GetPerkTreeHoverText { get; private set; } = null;
-    private static TextMeshProUGUI textBox = null;
 
-    [SerializeField]
-    private TextMeshProUGUI setTextBox = null;
+    private static void SetActive(bool isActive) => GetPerkTreeHoverText.gameObject.SetActive(isActive);
+
+    private static TextMeshProUGUI staticInfoText = null, staticReqText = null;
+    [SerializeField] private TextMeshProUGUI infoText = null, reqText = null;
 
     private void Start()
     {
@@ -19,22 +20,24 @@ public class PerkTreeHoverText : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (textBox == null && setTextBox != null)
-        {
-            textBox = setTextBox;
-        }
-        else
-        {
-            textBox = GetComponentInChildren<TextMeshProUGUI>();
-        }
+        staticInfoText = infoText != null ? infoText : GetComponentsInChildren<TextMeshProUGUI>()[0];
+        staticReqText = reqText != null ? reqText : GetComponentsInChildren<TextMeshProUGUI>()[1];
         gameObject.SetActive(false);
     }
 
     public static void Hovering(string text)
     {
-        GetPerkTreeHoverText.gameObject.SetActive(true);
-        textBox.text = text;
+        staticInfoText.text = text;
+        staticReqText.text = string.Empty;
+        SetActive(true);
     }
 
-    public static void StopHovering() => GetPerkTreeHoverText.gameObject.SetActive(false);
+    public static void Hovering(string infoText, string reqText)
+    {
+        staticInfoText.text = infoText;
+        staticReqText.text = reqText;
+        SetActive(true);
+    }
+
+    public static void StopHovering() => SetActive(false);
 }

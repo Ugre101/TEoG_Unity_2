@@ -9,8 +9,6 @@ public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IP
 
     [SerializeField] protected TextMeshProUGUI amount = null;
 
-    [SerializeField] protected PerkInfo perkInfo = null;
-
     [SerializeField] protected Button btn = null;
 
     [SerializeField] protected Image rune = null;
@@ -52,13 +50,7 @@ public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IP
 
     protected abstract void Use();
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (perkInfo != null)
-        {
-            PerkTreeHoverText.Hovering(perkInfo.Info);
-        }
-    }
+    public abstract void OnPointerEnter(PointerEventData eventData);
 
     public void OnPointerExit(PointerEventData eventData) => PerkTreeHoverText.StopHovering();
 }
