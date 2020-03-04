@@ -12,11 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29817c9a79a47744996aee4fe9a1777b, type: 3}
   m_Name: Low-metabolism
   m_EditorClassIdentifier: 
-  perkInfo: Blessing for those whom doesn't want to eat everyday, curse for those
-    who desire to lose weight.
+  perkInfo: 'Blessing for those whom doesn''t want to eat everyday, curse for those
+    who desire to lose weight. '
   perkEffects: '+ Lower penalty for starving.
 
     +- Slower fat-burn.
 
-    * not compatible with gluttony.'
-  value: 0
+    * not
+    compatible with gluttony.'
+  maxLevel: 1
+  perkCost: 2
+  needCharStat: 1
+  neededCharStats:
+  - amount: 0
+    stat: 0
+  - amount: 0
+    stat: 0
+  needOtherPerks: 0
+  neededPerks: 

@@ -3,20 +3,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private bool taken = false;
-
-    public bool Taken
-    {
-        get => taken;
-        protected set
-        {
-            taken = value;
-            RuneOpacity();
-        }
-    }
-
     [SerializeField] protected PlayerMain player = null;
 
     [SerializeField] protected TextMeshProUGUI amount = null;
@@ -29,29 +17,40 @@ public class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExi
 
     protected Color color;
 
+    private bool taken = false;
+
+    public bool Taken
+    {
+        get => taken;
+        protected set
+        {
+            taken = value;
+            RuneOpacity();
+        }
+    }
+
     protected void SetRuneColor(float value)
     {
-        color = rune.color;
-        color.a = value;
-        rune.color = color;
+        if (rune != null)
+        {
+            color = rune.color;
+            color.a = value;
+            rune.color = color;
+        }
     }
 
-    // Start is called before the first frame update
-    public virtual void Start()
+    protected virtual void Start()
     {
-        // if not assing, then assing hover remember to not become to lazy as it can affect perfomance(I think).
         btn = btn != null ? btn : GetComponent<Button>();
-        btn.onClick.AddListener(Use);
         player = player != null ? player : PlayerMain.GetPlayer;
+        btn.onClick.AddListener(Use);
     }
 
-    public virtual void OnEnable() => RuneOpacity();
+    protected virtual void OnEnable() => RuneOpacity();
 
-    public void RuneOpacity() => SetRuneColor(Taken ? 1f : 0.5f);
+    protected void RuneOpacity() => SetRuneColor(Taken ? 1f : 0.5f);
 
-    public virtual void Use()
-    {
-    }
+    protected abstract void Use();
 
     public void OnPointerEnter(PointerEventData eventData)
     {

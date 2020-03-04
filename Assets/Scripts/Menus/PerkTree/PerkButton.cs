@@ -7,13 +7,13 @@ public class PerkButton : PerkTreeBasicBtn
 
     [SerializeField] private Sprite icon = null;
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
-        rune.sprite = icon != null ? icon : null;
+        rune.sprite = icon; 
     }
 
-    public override void OnEnable()
+    protected override void OnEnable()
     {
         if (player != null)
         {
@@ -22,7 +22,7 @@ public class PerkButton : PerkTreeBasicBtn
         base.OnEnable();
     }
 
-    public override void Use()
+    protected override void Use()
     {
         if (player.Perks.HasPerk(perk) ? player.Perks.NotMaxLevel(perk, perkInfo.MaxLevel) : true)
         {

@@ -16,4 +16,9 @@ MonoBehaviour:
 
     Increases seduction attacks.'
   perkEffects: 
-  maxLevel: 1
+  maxLevel: 99
+  perkCost: 1
+  needCharStat: 0
+  neededCharStats: []
+  needOtherPerks: 0
+  neededPerks: 
