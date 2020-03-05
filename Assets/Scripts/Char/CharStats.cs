@@ -67,16 +67,16 @@ public class CharStats : Stat
 
     public event DelegateAddedTemp AddedTempEvent;
 
-    public void RemoveMods(StatMod mod)
+    public void RemoveMod(StatMod mod)
     {
         StatMods.Remove(mod);
         IsDirty = true;
     }
 
-    public void RemoveTempMods(TempStatMod mod)
+    public void RemoveTempMod(TempStatMod mod)
     {
-        IsDirty = true;
         TempMods.Remove(mod);
+        IsDirty = true;
     }
 
     public bool RemoveFromSource(string Source)

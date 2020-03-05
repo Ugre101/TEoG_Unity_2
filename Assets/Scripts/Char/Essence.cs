@@ -8,7 +8,7 @@ public class Essence
     [SerializeField] private float _amount;
 
     public float Amount => Mathf.Floor(_amount);
-    public string StringAmount => _amount > 999 ? Math.Round(_amount / 1000,1) + "k" : _amount.ToString();
+    public string StringAmount => _amount > 999 ? Math.Round(_amount / 1000, 1) + "k" : _amount.ToString();
 
     public Essence() => _amount = 0;
 
@@ -37,14 +37,19 @@ public static class EssenceExtension
 {
     public static float EssGive(this BasicChar basicChar) => 0;
 
-    private static float EssDrain(this BasicChar basicChar) => 5f + PerkEffects.EssenceFlow.ExtraDrain(basicChar.Perks);
+    private static float EssDrain(this BasicChar basicChar)
+    {
+        float baseDrain = 5f;
+        baseDrain += PerkEffects.EssenecePerks.EssenceFlow.ExtraDrain(basicChar.Perks);
+        return baseDrain;
+    }
 
     public static float EssenceDrain(this BasicChar drainer, BasicChar toDrain)
     {
         float returnVal = drainer.EssDrain();
         if (toDrain.Perks.HasPerk(PerksTypes.EssenceFlow))
         {
-            returnVal += PerkEffects.EssenceFlow.GetExtraDrained(toDrain.Perks);
+            returnVal += PerkEffects.EssenecePerks.EssenceFlow.GetExtraDrained(toDrain.Perks);
         }
         return returnVal;
     }

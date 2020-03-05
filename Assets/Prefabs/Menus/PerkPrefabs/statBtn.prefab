@@ -164,12 +164,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6815581235404279395}
+  - component: {fileID: 6815581235404279406}
   - component: {fileID: 6815581235404279405}
   - component: {fileID: 6815581235404279404}
   - component: {fileID: 6815581235404279407}
-  - component: {fileID: 6815581235404279406}
   m_Layer: 5
-  m_Name: str
+  m_Name: statBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -195,6 +195,23 @@ RectTransform:
   m_AnchoredPosition: {x: -22.5, y: 13.8}
   m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6815581235404279406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6815581235404279394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11b87ae98e42f5448bd068ee55c19e6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  amount: {fileID: 6815581235125084498}
+  btn: {fileID: 6815581235404279407}
+  rune: {fileID: 6815581235404279404}
+  statInfo: {fileID: 0}
 --- !u!222 &6815581235404279405
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -274,22 +291,3 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6815581235404279406
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6815581235404279394}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11b87ae98e42f5448bd068ee55c19e6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  amount: {fileID: 6815581235125084498}
-  perkInfo: {fileID: 11400000, guid: 8330eaee5f75e6d49a1cd4b44a8867ab, type: 2}
-  btn: {fileID: 6815581235404279407}
-  rune: {fileID: 6815581235404279404}
-  stat: 0
-  statAmount: 1

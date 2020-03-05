@@ -12,6 +12,10 @@ public class StatMod : Mod
     public StatMod(float parValue, string parSource, ModTypes parType) : base(parValue, parType, parSource)
     {
     }
+
+    public static StatMod FlatMod(float val, string source) => new StatMod(val, source, ModTypes.Flat);
+
+    public static StatMod PrecentMod(float val, string source) => new StatMod(val, source, ModTypes.Precent);
 }
 
 [System.Serializable]

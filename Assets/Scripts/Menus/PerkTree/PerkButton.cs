@@ -8,45 +8,62 @@ public class PerkButton : PerkTreeBasicBtn
 
     private void SetRuntSprite()
     {
-        if (perkInfo != null && perkInfo.Icon != null)
+        if (perkInfo.Icon != null)
         {
             rune.sprite = perkInfo.Icon;
         }
     }
 
+    private bool started = false;
+
     protected override void Start()
     {
-        base.Start();
-        SetRuntSprite();
+        if (perkInfo != null)
+        {
+            base.Start();
+            SetRuntSprite();
+            started = true;
+            OnEnable();
+        }
+        else
+        {
+            gameObject.SetActive(false); // if null set inactive
+        }
     }
 
     protected override void OnEnable()
     {
-        if (perkInfo == null)
-        {
-            gameObject.SetActive(false);
-        }
-        if (player != null)
+        if (started)
         {
             Taken = player.Perks.HasPerk(perkInfo.Perk);
+            base.OnEnable();
         }
-        base.OnEnable();
     }
 
     protected override void Use()
     {
-        if (player.Perks.HasPerk(perkInfo.Perk) ? player.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
+        if (perkInfo.Unlocked(player))
         {
-            if (player.ExpSystem.PerkBool(perkInfo.PerkCost))
+            if (player.Perks.HasPerk(perkInfo.Perk) ? player.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
             {
-                Taken = true;
-                player.GainPerk(perkInfo.Perk);
+                if (player.ExpSystem.PerkBool(perkInfo.PerkCost))
+                {
+                    Taken = true;
+                    player.GainPerk(perkInfo.Perk);
+                }
             }
         }
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        PerkTreeHoverText.Hovering(perkInfo.Info);
+        if (perkInfo.Unlocked(player))
+        {
+            PerkTreeHoverText.Hovering(perkInfo.Info, perkInfo.Effects);
+        }
+        else
+        {
+            PerkTreeHoverText.Hovering(perkInfo.Info, perkInfo.Effects, perkInfo.MissingReqs(player));
+        }
     }
 }

@@ -6,7 +6,8 @@ public class BasicStatButton : PerkTreeBasicBtn
     [Space]
     [SerializeField] private StatInfo statInfo = null;
 
-    private int BaseValue { get => player.Stats.GetStat(statInfo.Stat).BaseValue; set => player.Stats.GetStat(statInfo.Stat).BaseValue = value; }
+    private CharStats GetStat => player.Stats.GetStat(statInfo.Stat);
+    private int BaseValue { get => GetStat.BaseValue; set => GetStat.BaseValue = value; }
 
     protected override void OnEnable()
     {
@@ -31,6 +32,6 @@ public class BasicStatButton : PerkTreeBasicBtn
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
-        PerkTreeHoverText.Hovering(statInfo.Info);
+        PerkTreeHoverText.Hovering(statInfo.Info, statInfo.Effects);
     }
 }

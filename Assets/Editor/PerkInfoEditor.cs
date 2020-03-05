@@ -2,18 +2,15 @@
 using UnityEngine;
 
 [CustomEditor(typeof(PerkInfo))]
-public class PerkInfoEditor : Editor
+public class PerkInfoEditor : BaseInfoEditor
 {
-    private SerializedProperty perkInfo, perkEffects, maxLevel, perkCost, needCharStat, neededCharStats, needOtherPerks, neededPerks;
-
     #region Assing SerProps
+
+    private SerializedProperty needCharStat, neededCharStats, needOtherPerks, neededPerks;
 
     private void OnEnable()
     {
-        perkInfo = serializedObject.FindProperty("perkInfo");
-        perkEffects = serializedObject.FindProperty("perkEffects");
-        maxLevel = serializedObject.FindProperty("maxLevel");
-        perkCost = serializedObject.FindProperty("perkCost");
+        BaseEnable();
         needCharStat = serializedObject.FindProperty("needCharStat");
         neededCharStats = serializedObject.FindProperty("neededCharStats");
         needOtherPerks = serializedObject.FindProperty("needOtherPerks");
@@ -27,12 +24,8 @@ public class PerkInfoEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        // base.OnInspectorGUI();
+        BaseDraw();
         serializedObject.Update();
-        UgreEditorTools.TextAreaWithBoldLabel(perkInfo, "Perk info");
-        UgreEditorTools.TextAreaWithBoldLabel(perkEffects, "Perk effects");
-        UgreEditorTools.TwoBoldLabels("Max level", "Perk cost");
-        UgreEditorTools.TwoIntSliders(maxLevel, perkCost);
         NeedStat = EditorGUILayout.Toggle("Have stat requirements", NeedStat);
         if (NeedStat)
         {

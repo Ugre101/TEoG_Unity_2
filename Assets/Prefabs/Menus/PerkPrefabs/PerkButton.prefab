@@ -164,10 +164,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4408740414268554259}
+  - component: {fileID: 4408740414268554260}
   - component: {fileID: 4408740414268554263}
   - component: {fileID: 4408740414268554262}
   - component: {fileID: 4408740414268554261}
-  - component: {fileID: 4408740414268554260}
   m_Layer: 5
   m_Name: PerkButton
   m_TagString: Untagged
@@ -196,6 +196,23 @@ RectTransform:
   m_AnchoredPosition: {x: -82.149994, y: -75}
   m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4408740414268554260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4408740414268554258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f87f5e5f8fe15a45bfb5873e592b0a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  amount: {fileID: 4408740413397252745}
+  btn: {fileID: 4408740414268554261}
+  rune: {fileID: 4408740414268554262}
+  perkInfo: {fileID: 0}
 --- !u!222 &4408740414268554263
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -275,26 +292,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4408740414268554260
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4408740414268554258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f87f5e5f8fe15a45bfb5873e592b0a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  amount: {fileID: 4408740413397252745}
-  perkInfo: {fileID: 0}
-  btn: {fileID: 4408740414268554261}
-  rune: {fileID: 4408740414268554262}
-  perk: 0
-  icon: {fileID: 0}
-  perkCost: 1
 --- !u!1 &6700276193781874788
 GameObject:
   m_ObjectHideFlags: 0

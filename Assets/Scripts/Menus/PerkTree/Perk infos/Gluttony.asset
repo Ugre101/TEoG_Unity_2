@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29817c9a79a47744996aee4fe9a1777b, type: 3}
   m_Name: Gluttony
   m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 77dc861cb8549c346a1a961757b099c6, type: 3}
   perkInfo: 'Curse of gluttony, '
   perkEffects: '+ Faster recovery while not in combat.
 
@@ -23,6 +24,7 @@ MonoBehaviour:
     * Not compatible with low-metabolism'
   maxLevel: 1
   perkCost: 2
+  perk: 2
   needCharStat: 1
   neededCharStats:
   - amount: 15

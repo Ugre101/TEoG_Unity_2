@@ -7,8 +7,8 @@ public class PerkTreeHoverText : MonoBehaviour
 
     private static void SetActive(bool isActive) => GetPerkTreeHoverText.gameObject.SetActive(isActive);
 
-    private static TextMeshProUGUI staticInfoText = null, staticReqText = null;
-    [SerializeField] private TextMeshProUGUI infoText = null, reqText = null;
+    private static TextMeshProUGUI staticInfoText, staticEffectText, staticReqText;
+    [SerializeField] private TextMeshProUGUI infoText = null, effectText = null, reqText = null;
 
     private void Start()
     {
@@ -21,20 +21,23 @@ public class PerkTreeHoverText : MonoBehaviour
             Destroy(gameObject);
         }
         staticInfoText = infoText != null ? infoText : GetComponentsInChildren<TextMeshProUGUI>()[0];
-        staticReqText = reqText != null ? reqText : GetComponentsInChildren<TextMeshProUGUI>()[1];
+        staticEffectText = effectText != null ? effectText : GetComponentsInChildren<TextMeshProUGUI>()[1];
+        staticReqText = reqText != null ? reqText : GetComponentsInChildren<TextMeshProUGUI>()[2];
         gameObject.SetActive(false);
     }
 
-    public static void Hovering(string text)
+    public static void Hovering(string text, string effects)
     {
         staticInfoText.text = text;
+        staticEffectText.text = effects;
         staticReqText.text = string.Empty;
         SetActive(true);
     }
 
-    public static void Hovering(string infoText, string reqText)
+    public static void Hovering(string infoText, string effects, string reqText)
     {
         staticInfoText.text = infoText;
+        staticEffectText.text = effects;
         staticReqText.text = reqText;
         SetActive(true);
     }
