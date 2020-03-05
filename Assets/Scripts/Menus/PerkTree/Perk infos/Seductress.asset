@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29817c9a79a47744996aee4fe9a1777b, type: 3}
   m_Name: Seductress
   m_EditorClassIdentifier: 
+  icon: {fileID: 0}
   perkInfo: 
   perkEffects: 
   maxLevel: 1
+  perkCost: 1
+  perk: 13
+  needCharStat: 0
+  neededCharStats: []
+  needOtherPerks: 0
+  neededPerks: 

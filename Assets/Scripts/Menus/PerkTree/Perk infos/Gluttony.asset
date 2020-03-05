@@ -24,7 +24,7 @@ MonoBehaviour:
     * Not compatible with low-metabolism'
   maxLevel: 1
   perkCost: 2
-  perk: 2
+  perk: 1
   needCharStat: 1
   neededCharStats:
   - amount: 15

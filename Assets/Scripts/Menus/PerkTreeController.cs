@@ -15,9 +15,9 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
 
     private float zoom = 2f;
 
-    [SerializeField] private float touchpadZoomSen = 0.05f;
+    [SerializeField] private float touchpadZoomSen = 0.05f, keyZooomSen = 0.05f;
 
-    [SerializeField] private float keyZooomSen = 0.05f;
+    private bool hasTouch = false;
 
     public float SetZoom
     {
@@ -36,6 +36,7 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
             vorePerksTree.SetActive(player.Vore.Active);
         }
         perkRect.localPosition = new Vector3(0, 0, 0);
+        hasTouch = Input.touchSupported;
     }
 
     // Update is called once per frame
@@ -48,6 +49,29 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
         else if (keyBindings.zoomOutKey.GetsKey)
         {
             SetZoom -= keyZooomSen;
+        }
+        if (hasTouch)
+        {
+            if (Input.touchCount == 2)
+            {
+                Touch touchZero = Input.GetTouch(0);
+                Touch touchOne = Input.GetTouch(1);
+
+                // Find the position in the previous frame of each touch.
+                Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+                Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+                // Find the magnitude of the vector (the distance) between the touches in each frame.
+                float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+                float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+
+                // Find the difference in the distances between each frame.
+                float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+
+                // ... change the orthographic size based on the change in distance between the touches.
+                //  TODO Test is works
+                SetZoom += deltaMagnitudeDiff * touchpadZoomSen;
+            }
         }
     }
 

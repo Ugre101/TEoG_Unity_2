@@ -6,11 +6,12 @@ public class PerkInfoEditor : BaseInfoEditor
 {
     #region Assing SerProps
 
-    private SerializedProperty needCharStat, neededCharStats, needOtherPerks, neededPerks;
+    private SerializedProperty perk, needCharStat, neededCharStats, needOtherPerks, neededPerks;
 
     private void OnEnable()
     {
         BaseEnable();
+        perk = serializedObject.FindProperty("perk");
         needCharStat = serializedObject.FindProperty("needCharStat");
         neededCharStats = serializedObject.FindProperty("neededCharStats");
         needOtherPerks = serializedObject.FindProperty("needOtherPerks");
@@ -26,7 +27,11 @@ public class PerkInfoEditor : BaseInfoEditor
     {
         BaseDraw();
         serializedObject.Update();
+        EditorGUILayout.PropertyField(perk);
+        EditorGUILayout.BeginHorizontal();
         NeedStat = EditorGUILayout.Toggle("Have stat requirements", NeedStat);
+        NeedPerk = EditorGUILayout.Toggle("Have perk requirements", NeedPerk);
+        EditorGUILayout.EndHorizontal();
         if (NeedStat)
         {
             EditorGUILayout.BeginVertical("box");
@@ -51,7 +56,6 @@ public class PerkInfoEditor : BaseInfoEditor
             }
             EditorGUILayout.EndVertical();
         }
-        NeedPerk = EditorGUILayout.Toggle("Have perk requirements", NeedPerk);
         if (NeedPerk)
         {
             EditorGUILayout.BeginVertical("box");

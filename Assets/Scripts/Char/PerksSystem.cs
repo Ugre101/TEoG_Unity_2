@@ -16,7 +16,9 @@ public enum PerksTypes
     HealthyBody,
     StrongMind,
     LowMetabolism,
-    Seductress
+    Seductress,
+    EssenceBandit,
+    EssenceTransformer,
 }
 
 [System.Serializable]

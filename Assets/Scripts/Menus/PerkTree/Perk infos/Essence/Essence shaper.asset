@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29817c9a79a47744996aee4fe9a1777b, type: 3}
   m_Name: Essence shaper
   m_EditorClassIdentifier: 
+  icon: {fileID: 0}
   perkInfo: 'Essence shaper
 
     Allows you to shape the essence within others, either
@@ -23,3 +24,9 @@ MonoBehaviour:
 
     + Higher essence capacity'
   maxLevel: 0
+  perkCost: 1
+  perk: 9
+  needCharStat: 0
+  neededCharStats: []
+  needOtherPerks: 0
+  neededPerks: 
