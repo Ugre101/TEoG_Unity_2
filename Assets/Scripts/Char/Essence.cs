@@ -40,7 +40,7 @@ public static class EssenceExtension
     private static float EssDrain(this BasicChar basicChar)
     {
         float baseDrain = 5f;
-        baseDrain += PerkEffects.EssenecePerks.EssenceFlow.ExtraDrain(basicChar.Perks);
+        baseDrain += PerkEffects.EssenecePerks.EssFlow.ExtraDrain(basicChar.Perks);
         return baseDrain;
     }
 
@@ -49,7 +49,7 @@ public static class EssenceExtension
         float returnVal = drainer.EssDrain();
         if (toDrain.Perks.HasPerk(PerksTypes.EssenceFlow))
         {
-            returnVal += PerkEffects.EssenecePerks.EssenceFlow.GetExtraDrained(toDrain.Perks);
+            returnVal += PerkEffects.EssenecePerks.EssFlow.GetExtraDrained(toDrain.Perks);
         }
         return returnVal;
     }
