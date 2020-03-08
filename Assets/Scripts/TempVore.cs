@@ -4,6 +4,9 @@ public class TempVore : BaseEffect
 {
     public DisplayVore DisplayVore { get; private set; }
 
+    private string Title => $"{DisplayVore.VoreOrgan.VoreContainers}";
+    private string Desc => $"{DisplayVore.Progress()}% digested";
+
     public void Setup(DisplayVore parVore, GameUIHoverText hoverText)
     {
         this.hoverText = hoverText;
@@ -12,20 +15,11 @@ public class TempVore : BaseEffect
 
     private void Update() => icon.fillAmount = 1f - DisplayVore.Progress();
 
-    private void Hovering() => hoverText.Hovering(DisplayVore.VoreOrgan.ToString(), DisplayVore.Progress().ToString());
+    private void Hovering() => hoverText.Hovering(Title, Desc);
 
-    public override void OnPointerEnter(PointerEventData eventData)
-    {
-        Hovering();
-    }
+    public override void OnPointerEnter(PointerEventData eventData) => Hovering();
 
-    public override void OnPointerClick(PointerEventData eventData)
-    {
-        Hovering();
-    }
+    public override void OnPointerClick(PointerEventData eventData) => Hovering();
 
-    public override void OnPointerExit(PointerEventData eventData)
-    {
-        hoverText.StopHovering();
-    }
+    public override void OnPointerExit(PointerEventData eventData) => hoverText.StopHovering();
 }

@@ -58,11 +58,40 @@ MonoBehaviour:
   inventory:
     bonusAmount: 0
     items: []
+  equiptItems:
+    head:
+      item: 0
+      slot: 0
+      hasItem: 0
+    chest:
+      item: 0
+      slot: 1
+      hasItem: 0
+    leftHand:
+      item: 0
+      slot: 2
+      hasItem: 0
+    rightHand:
+      item: 0
+      slot: 3
+      hasItem: 0
+    pants:
+      item: 0
+      slot: 4
+      hasItem: 0
+    boots:
+      item: 0
+      slot: 5
+      hasItem: 0
   raceSystem:
     raceList: []
     dirty: 1
   vore:
     active: 0
+    voreExp:
+      level: 0
+      exp: 0
+      perkPoints: 0
     balls:
       preys: []
       voreExp: 0
@@ -89,14 +118,20 @@ MonoBehaviour:
     ageDays: 0
   body:
     height:
-      value: 160
+      baseValue: 160
+      statMods: []
+      tempStatMods: []
     fat:
-      value: 20
+      baseValue: 0
+      statMods: []
+      tempStatMods: []
     muscle:
-      value: 20
+      baseValue: 20
+      statMods: []
+      tempStatMods: []
   hp:
     baseValue: 100
-    current: 0
+    current: 100
     healthMods: []
     tempHealthMods: []
     recovery:
@@ -105,7 +140,7 @@ MonoBehaviour:
       tempHealthMods: []
   wp:
     baseValue: 100
-    current: 0
+    current: 100
     healthMods: []
     tempHealthMods: []
     recovery:
@@ -216,7 +251,7 @@ MonoBehaviour:
     - item: 14
       dropChance: 50
   isQuest:
-    isQuest: 0
+    isQuest: 1
     quest: 0
   assingStr: 22
   assingCharm: 2

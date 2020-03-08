@@ -80,6 +80,7 @@ public class AfterBattleMain : MonoBehaviour
         }
         Target.SexStats.OrgasmedEvent -= RefreshScenes;
         Target.SexStats.OrgasmedEvent -= GetImpreg;
+        Target.SexStats.OrgasmedEvent -= OtherOrgasmed;
         enemies.Remove(Target);
         if (enemies.Count < 1)
         {
@@ -94,11 +95,15 @@ public class AfterBattleMain : MonoBehaviour
 
     private void OnDisable()
     {
-        enemies.Clear();
         player.SexStats.OrgasmedEvent -= RefreshScenes;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent -= RefreshScenes);
+
         player.SexStats.OrgasmedEvent -= Impreg;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent -= GetImpreg);
+
+        player.SexStats.OrgasmedEvent -= PlayerOrgasmed;
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent -= OtherOrgasmed);
+        enemies.Clear();
     }
 
     public void Setup(List<BasicChar> chars)

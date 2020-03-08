@@ -7,7 +7,39 @@ public class BigQuest : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI title = null, desc = null, completed = null, returnTo = null;
 
+    private BasicQuest basicQuest;
+
     public void Setup(BasicQuest basicQuest)
+    {
+        this.basicQuest = basicQuest;
+        PrintQuest(basicQuest);
+    }
+
+    private void OnEnable()
+    {
+        if (basicQuest != null)
+        {
+            if (QuestsSystem.HasQuest(basicQuest.Type))
+            {
+                PrintQuest(basicQuest);
+            }
+            else
+            {
+                basicQuest = null;
+                ClearQuest();
+            }
+        }
+    }
+
+    private void ClearQuest()
+    {
+        title.text = string.Empty;
+        desc.text = string.Empty;
+        completed.text = string.Empty;
+        returnTo.text = string.Empty;
+    }
+
+    private void PrintQuest(BasicQuest basicQuest)
     {
         string str = SpaceAtUpper(basicQuest.Type.ToString());
 

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
+using Vore;
 
 public class DisplayVore
 {
-    public DisplayVore(Vore.VoreBasic organ) => VoreOrgan = organ;
+    public DisplayVore(VoreBasic organ) => VoreOrgan = organ;
 
-    public List<Vore.ThePrey> Preys => VoreOrgan.Preys;
-    public Vore.VoreBasic VoreOrgan { get; private set; }
+    public List<ThePrey> Preys => VoreOrgan.Preys;
+    public VoreBasic VoreOrgan { get; private set; }
 
     public float Progress()
     {
@@ -18,6 +20,6 @@ public class DisplayVore
                 donest = f;
             }
         });
-        return donest;
+        return Mathf.Round(donest * 100) / 100;
     }
 }

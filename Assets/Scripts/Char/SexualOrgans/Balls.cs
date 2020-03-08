@@ -19,6 +19,8 @@ public class Balls : SexualOrganWithFluid
 
 public static class BallsExtensions
 {
+    public static Balls Biggest(this List<Balls> list) => list.Find(so => so.Size == list.BiggestSize());
+
     public static float GrowCost(this Balls balls) => Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, balls.BaseSize)));
 
     public static void AddBalls(this List<Balls> balls) => balls.Add(new Balls());

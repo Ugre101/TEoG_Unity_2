@@ -3,34 +3,27 @@ using UnityEngine;
 
 public class PerkPointsLeft : MonoBehaviour
 {
-    public PlayerMain player;
-    public TextMeshProUGUI textUGUI;
+    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private TextMeshProUGUI textUGUI = null;
     private int lastLeft;
 
     // Start is called before the first frame update
     private void Start()
     {
-        if (textUGUI == null)
-        {
-            if (GetComponent<TextMeshProUGUI>() != null)
-            {
-                textUGUI = GetComponent<TextMeshProUGUI>();
-            }
-        }
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
-        }
-        lastLeft = player.ExpSystem.PerkPoints;
-        textUGUI.text = $"Perkpoints: {lastLeft}";
+        textUGUI = textUGUI != null ? textUGUI : GetComponent<TextMeshProUGUI>();
+        player = player != null ? player : PlayerMain.GetPlayer;
+        ShowPoints();
     }
 
     // Update is called once per frame
-    private void Update()
+    private void Update() => ShowPoints();
+
+    private void ShowPoints()
     {
-        if (lastLeft != player.ExpSystem.PerkPoints)
+        int perkPoints = player.ExpSystem.PerkPoints;
+        if (lastLeft != perkPoints)
         {
-            lastLeft = player.ExpSystem.PerkPoints;
+            lastLeft = perkPoints;
             textUGUI.text = $"Perkpoints: {lastLeft}";
         }
     }

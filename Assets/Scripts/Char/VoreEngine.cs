@@ -7,10 +7,12 @@ namespace Vore
     [System.Serializable]
     public class VoreEngine
     {
-        private readonly BasicChar pred;
+        private readonly BasicChar pred; // TODO try to get rid of this dependence
         [SerializeField] private bool active = false;
         public bool Active => active;
         public bool ToogleVore => active = !active;
+        [SerializeField] private ExpSystem voreExp = new ExpSystem();
+        public ExpSystem VoreExp => voreExp;
 
         #region voreOrgans
 
@@ -24,19 +26,9 @@ namespace Vore
         public VoreAnal Anal => anal;
         [SerializeField] private VoreVagina vagina;
         public VoreVagina Vagina => vagina;
-        private List<VoreBasic> voreOrgans = new List<VoreBasic>();
+        private List<VoreBasic> voreOrgans;
 
-        public List<VoreBasic> VoreOrgans
-        {
-            get
-            {
-                if (voreOrgans.Count < 1)
-                {
-                    voreOrgans = new List<VoreBasic>() { Balls, Boobs, Stomach, Anal, Vagina };
-                }
-                return voreOrgans;
-            }
-        }
+        public List<VoreBasic> VoreOrgans => voreOrgans = voreOrgans ?? new List<VoreBasic>() { Balls, Boobs, Stomach, Anal, Vagina };
 
         #endregion voreOrgans
 
@@ -50,20 +42,22 @@ namespace Vore
             stomach = new VoreStomach(parPred);
             anal = new VoreAnal(parPred);
             vagina = new VoreVagina(parPred);
+            balls.PassOnExp += voreExp.GainExp;
+            boobs.PassOnExp += voreExp.GainExp;
+            stomach.PassOnExp += voreExp.GainExp;
+            anal.PassOnExp += voreExp.GainExp;
+            vagina.PassOnExp += voreExp.GainExp;
         }
 
         private bool? playerIsPred;
 
-        private bool PlayerPred
+        private bool PlayerIsPred()
         {
-            get
+            if (!playerIsPred.HasValue)
             {
-                if (!playerIsPred.HasValue)
-                {
-                    playerIsPred = pred.CompareTag(PlayerMain.GetPlayer.tag);
-                }
-                return playerIsPred.Value;
+                playerIsPred = pred.CompareTag(PlayerMain.GetPlayer.tag);
             }
+            return playerIsPred.Value;
         }
 
         public void Digest()
@@ -92,7 +86,7 @@ namespace Vore
 
         private void PlayerPredEventLog(string text)
         {
-            if (PlayerPred)
+            if (PlayerIsPred())
             {
                 EventLog.AddTo(text);
             }

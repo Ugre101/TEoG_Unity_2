@@ -190,7 +190,7 @@ public class CombatMain : MonoBehaviour
         // Losing enemy gain obedince and loses affection towards player
         b.RelationshipTracker.GetTempRelationshipWith(player).ObedienceStat.BaseValue++;
         b.RelationshipTracker.GetTempRelationshipWith(player).AffectionStat.BaseValue--;
-        Player.ExpSystem.Exp += b.Reward.ExpReward;
+        Player.ExpSystem.GainExp(Player.ExpSystem.Exp + b.Reward.ExpReward);
         b.Reward.HandleDrops(Player);
         Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
             ? b.Reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)

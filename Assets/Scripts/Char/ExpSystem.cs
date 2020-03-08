@@ -9,39 +9,31 @@ public class ExpSystem
 
     public ExpSystem(int startLevel) => level = startLevel;
 
-    [SerializeField]
-    private int level = 0;
+    [SerializeField] private int level = 1;
 
     // TODO decide if set level should be public or not, problem is setting level of enemies will be harder
     // if it isn't
     public int Level => level;
 
-    [SerializeField]
-    private int exp = 0;
+    [SerializeField] private int exp = 0;
 
-    public int Exp
+    public int Exp => exp;
+
+    public void GainExp(int value)
     {
-        get => exp;
-        set
+        exp += Mathf.Max(0, value);
+        while (exp > MaxExp)
         {
-            exp += Mathf.Max(0, value);
-            while (exp > MaxExp)
-            {
-                exp -= MaxExp;
-                level++;
-                perkPoints++;
-            }
-            ExpChangeEvent?.Invoke();
+            exp -= MaxExp;
+            level++;
+            perkPoints += 2;
         }
+        ExpChangeEvent?.Invoke();
     }
 
-    [SerializeField]
-    private int perkPoints = 0;
+    [SerializeField] private int perkPoints = 0;
 
-    /// <summary>
-    /// Show amount of parkpoints, note you can only add extra perkpoints not remove. This is to avoid
-    /// getting negative amount of points. All
-    /// </summary>
+    /// <summary> Show amount of parkpoints, note you can only add extra perkpoints not remove. This is to avoid getting negative amount of points. All </summary>
     public int PerkPoints => perkPoints;
 
     public bool PerkBool(int parCost = 1)
@@ -58,9 +50,9 @@ public class ExpSystem
 
     public string ExpStatus => $"{Exp}/{MaxExp}";
 
-    private int MaxExp => Mathf.RoundToInt(30f * Mathf.Pow(1.05f, level - 1f));
+    private int MaxExp => Mathf.RoundToInt(30f * Mathf.Pow(1.05f, Mathf.Max(0, level - 1f)));
 
-    public string LevelStatus => $"Level: {level}";
+    public string LevelStatus => $"Level: {Level}";
 
     public delegate void ExpChange();
 

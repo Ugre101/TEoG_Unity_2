@@ -22,7 +22,7 @@ public class TownHall : Building, IGiveQuest
     {
         QuestToGive.ForEach(q => q.Btn.onClick.AddListener(() => Instantiate(QuestPanelPrefab, transform).Setup(q.Quest, player, q.Btn)));
     }
-
+    // TODO quest reward
     public override void OnEnable()
     {
         base.OnEnable();

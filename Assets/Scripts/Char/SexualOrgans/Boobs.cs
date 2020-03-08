@@ -26,6 +26,8 @@ public class Boobs : SexualOrganWithFluid
 
 public static class BoobExtensions
 {
+    public static Boobs Biggest(this List<Boobs> list) => list.Find(so => so.Size == list.BiggestSize());
+
     public static float GrowCost(this Boobs boobs) => Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, boobs.BaseSize)));
 
     public static void AddBoobs(this List<Boobs> boobs) => boobs.Add(new Boobs());

@@ -24,12 +24,6 @@ public class PlayerMain : BasicChar
         base.Start();
         RaceSystem.AddRace(Races.Human, 100);
         body = new Body(160, 10, 20);
-        Inventory.AddItem(ItemIds.Pouch);
-        Inventory.AddItem(ItemIds.WoodenStick);
-        Inventory.AddItem(ItemIds.WoodenWarHammer);
-        Inventory.AddItem(ItemIds.SpikedClub);
-        Inventory.AddItem(ItemIds.FertilityTempBooster);
-        Inventory.AddItem(ItemIds.Hood);
         Essence.StableEssence.BaseValue += 100;
         Essence.Masc.Gain(99);
         Essence.Femi.Gain(99);

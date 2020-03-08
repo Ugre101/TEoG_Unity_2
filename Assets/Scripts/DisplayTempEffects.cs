@@ -53,6 +53,7 @@ namespace UI
         private void DisplayEffects()
         {
             container.KillChildren();
+            hoverText.StopHovering();
             TempMods();
             VorePreys();
             // The rest

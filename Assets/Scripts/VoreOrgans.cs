@@ -20,6 +20,13 @@ namespace Vore
         public int PreyCount => Preys.Count;
 
         [SerializeField] protected int voreExp = 0;
+        public Action<int> PassOnExp;
+
+        public void GainExp(int gain)
+        {
+            voreExp += gain;
+            PassOnExp?.Invoke(gain);
+        }
 
         protected float VoreExpCapBonus => 1f + (voreExp / 100);
 
@@ -65,7 +72,7 @@ namespace Vore
                     digested?.Invoke(prey);
                     Preys.Remove(prey);
                 }
-                voreExp += Mathf.FloorToInt(toDigest);
+                GainExp(Mathf.FloorToInt(toDigest));
             }
         }
     }

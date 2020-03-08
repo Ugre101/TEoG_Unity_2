@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -22,6 +23,8 @@ public class Vagina : SexualOrgan
 
 public static class VaginaExtensions
 {
+    public static Vagina Biggest(this List<Vagina> list) => list.Find(so => so.Size == list.BiggestSize());
+
     public static float GrowCost(this Vagina vagina) => Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, vagina.BaseSize)));
 
     public static void AddVag(this List<Vagina> vaginas) => vaginas.Add(new Vagina());

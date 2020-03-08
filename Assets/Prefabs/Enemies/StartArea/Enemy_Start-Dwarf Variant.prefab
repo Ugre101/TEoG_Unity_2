@@ -172,6 +172,16 @@ PrefabInstance:
       propertyPath: startGender.favoured
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: body.fat.baseValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: reward.rng
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: m_Sprite
@@ -186,12 +196,12 @@ PrefabInstance:
     - target: {fileID: 8534239450746442159, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 26
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442159, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -14
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442159, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
