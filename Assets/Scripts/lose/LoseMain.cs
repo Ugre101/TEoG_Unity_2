@@ -35,6 +35,7 @@ public class LoseMain : MonoBehaviour
     private void Start()
     {
         player = player != null ? player : PlayerMain.GetPlayer;
+        LoseSexButton.PlayScene += HandleScene;
     }
 
     public void Setup(List<BasicChar> parEnemies)
@@ -80,5 +81,11 @@ public class LoseMain : MonoBehaviour
                 Instantiate(sexButton, sexButtonsContainer).Setup(player, Target, this, GetAScene(submitCanDo));
             }
         }
+    }
+
+    private void HandleScene(SexScenes scene)
+    {
+        AddToTextBox(scene.StartScene(player, Target));
+        CanLeave();
     }
 }

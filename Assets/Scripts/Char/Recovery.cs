@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class Recovery : Stat
+public class Recovery : IntStat
 {
     public Recovery()
     {
@@ -16,18 +16,15 @@ public class Recovery : Stat
     public List<HealthMod> Mods => healthMods;
     public List<TempHealthMod> TempMods => tempHealthMods;
 
-    protected override int CalcValue
+    protected override int GetCalcValue()
     {
-        get
-        {
-            float flat = BaseValue
-                + Mods.FindAll(m => m.ModType == ModTypes.Flat).Sum(m => m.Value)
-                + TempMods.FindAll(m => m.ModType == ModTypes.Flat).Sum(m => m.Value);
-            float precent = 1f
-                + Mods.FindAll(m => m.ModType == ModTypes.Precent).Sum(m => m.Value)
-                + TempMods.FindAll(m => m.ModType == ModTypes.Precent).Sum(m => m.Value);
-            return Mathf.FloorToInt(flat * precent);
-        }
+        float flat = BaseValue
+            + Mods.FindAll(m => m.ModType == ModTypes.Flat).Sum(m => m.Value)
+            + TempMods.FindAll(m => m.ModType == ModTypes.Flat).Sum(m => m.Value);
+        float precent = 1f
+            + Mods.FindAll(m => m.ModType == ModTypes.Precent).Sum(m => m.Value)
+            + TempMods.FindAll(m => m.ModType == ModTypes.Precent).Sum(m => m.Value);
+        return Mathf.FloorToInt(flat * precent);
     }
 
     #region AddAndRemoveMods

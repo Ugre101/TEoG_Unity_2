@@ -13,6 +13,8 @@ public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IP
 
     [SerializeField] protected Image rune = null;
 
+    public void SetRune(Sprite newRune) => rune.sprite = newRune;
+
     protected Color color;
 
     private bool taken = false;

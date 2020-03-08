@@ -1,24 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
 
-public class SexButton : SexButtonBase
+public class SexButton : AfterBattleButtonBase
 {
-    [SerializeField]
-    private AfterBattleMain afterBattle = null;
+    private SexScenes scene;
 
-    private void Func()
-    {
-        afterBattle.AddToTextBox(afterBattle.LastScene == scene ? scene.ContinueScene(player, other) : scene.StartScene(player, other));
-        afterBattle.LastScene = scene;
-        scene.ArousalGain(player, other);
-    }
+    private void Func() => PlayScene?.Invoke(scene);
 
-    public void Setup(PlayerMain parPlayer, BasicChar parPartner, AfterBattleMain parAfterBattle, SexScenes parScene)
+    public void Setup(SexScenes parScene)
     {
-        player = parPlayer;
-        other = parPartner;
-        afterBattle = parAfterBattle;
         scene = parScene;
         title.text = scene.name;
         btn.onClick.AddListener(Func);
     }
+
+    public static Action<SexScenes> PlayScene;
 }

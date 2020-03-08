@@ -1,4 +1,6 @@
-﻿[System.Serializable]
+﻿using SkillsAndSpells;
+
+[System.Serializable]
 public class Skill
 {
     public Skill(SkillId parId) => id = parId;

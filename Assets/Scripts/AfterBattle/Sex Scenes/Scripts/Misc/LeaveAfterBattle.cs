@@ -15,4 +15,8 @@ public class LeaveAfterBattle : SexScenes
     }
 
     public override string ContinueScene(PlayerMain player, BasicChar other) => StartScene(player, other);
+
+    public override void ArousalGain(PlayerMain player, BasicChar other)
+    {
+    }
 }

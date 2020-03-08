@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 public enum SkillType
 {
     Physical,
@@ -6,68 +7,69 @@ public enum SkillType
     Seduction
 }
 
-[CreateAssetMenu(fileName = "testSkill", menuName = "ScriptableObject/CombatSkills/testSkill")]
-public class BasicSkill : ScriptableObject
+namespace SkillsAndSpells
 {
-    #region Variables
-
-    // Private serialized so values can't be changed during runtime by accident.
-    [SerializeField]
-    private string title = "";
-
-    public string Title => title;
-
-    [SerializeField]
-    private Sprite icon = null;
-
-    public Sprite Icon => icon;
-
-    [SerializeField]
-    private int baseAttack = 10;
-
-    public int BaseAttack => baseAttack;
-
-    [SerializeField]
-    private SkillId id = SkillId.BasicAttack;
-
-    public SkillId Id => id;
-
-    [SerializeField]
-    private SkillType type = SkillType.Magical;
-
-    public SkillType Type => type;
-
-    [Header("Cooldown")]
-    [SerializeField]
-    private bool hasCoolDown = false;
-
-    public bool HasCoolDown => hasCoolDown;
-
-    [SerializeField]
-    private int coolDown = 0;
-
-    public int CoolDown => coolDown;    
-
-    [Tooltip("0 means no rng, RNG works by value * random.range(1, 1 + rng). So 1 rng means 2dmg can become 2 or 4. Making it so baseAttack is lowest value possible.")]
-    [Range(0, 10)]
-    [SerializeField]
-    private float rng = 1;
-
-    protected float RNG => Random.Range(1, 1 + rng);
-
-    public float AvgValue => (baseAttack + (baseAttack * (1 + rng))) / 2;
-
-    #endregion Variables
-
-    public virtual string Action(BasicChar user, BasicChar target)
+    [CreateAssetMenu(fileName = "testSkill", menuName = BasicSkillExtension.MenuName + "testSkill")]
+    public abstract class BasicSkill : ScriptableObject
     {
-        float dmg = baseAttack * RNG; // + user something
-        return $"{user.Identity.FirstName} action {target.Identity.FirstName} for {dmg}.";
+        #region Variables
+
+        // Private serialized so values can't be changed during runtime by accident.
+        [SerializeField] private string title = "";
+
+        public string Title => title;
+
+        [SerializeField] private Sprite icon = null;
+
+        public Sprite Icon => icon;
+
+        [SerializeField] private int baseValue = 10;
+
+        public int BaseValue => baseValue;
+
+        [SerializeField] private SkillId id = SkillId.BasicAttack;
+
+        public SkillId Id => id;
+
+        [SerializeField] private SkillType type = SkillType.Magical;
+
+        public SkillType Type => type;
+        [SerializeField] private SkillUses skillUses = new SkillUses();
+        public SkillUses SkillUses => skillUses;
+
+        [Header("Cooldown")]
+        [SerializeField] private bool hasCoolDown = false;
+
+        public bool HasCoolDown => hasCoolDown;
+
+        [SerializeField] private int coolDown = 0;
+
+        public int CoolDown => coolDown;
+
+        [Tooltip("0 means no rng, RNG works by value * random.range(1, 1 + rng). So 1 rng means 2dmg can become 2 or 4. Making it so baseAttack is lowest value possible.")]
+        [Range(0, 10)]
+        [SerializeField] private float rng = 1;
+
+        protected float RNG => Random.Range(1, 1 + rng);
+
+        public float AvgValue => (baseValue + (baseValue * (1 + rng))) / 2;
+
+        #endregion Variables
+
+        public abstract string Action(BasicChar user, BasicChar target);
     }
 
-    public virtual string Text(BasicChar user, BasicChar target)
+    public static class BasicSkillExtension
     {
-        string text = $"{user.Identity.FirstName} attacks {target.Identity.FirstName}.";
-        return text;
+        public const string MenuName = "ScriptableObject/CombatSkills/";
+    }
+
+    [System.Serializable]
+    public class SkillUses
+    {
+        [SerializeField] private bool battle = true, sex = false, other = false;
+        public bool Battle => battle;
+        public bool Sex => sex;
+        public bool Other => other;
     }
 }

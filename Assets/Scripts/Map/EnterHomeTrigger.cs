@@ -6,7 +6,7 @@ public class EnterHomeTrigger : MonoBehaviour
     [SerializeField] private CanvasMain GameUI = null;
     [SerializeField] private MapEvents mapEvents = null;
     [SerializeField] private HomeMapHandler homeMapHandler = null;
-    private Tilemap toMap, landPlatform;
+    private Tilemap toMap, landPlatform = null;
     private readonly WorldMaps worldMaps = WorldMaps.Home;
 
     private void Start()

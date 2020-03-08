@@ -1,13 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using SkillsAndSpells;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public enum SkillId
 {
+    #region Do not change order
+
     BasicAttack,
     BasicTease,
     LowTierHeal,
-    LowTierResolve
+    LowTierResolve,
+
+    #endregion Do not change order
+
+    MinorTempShrink,
 }
 
 [System.Serializable]

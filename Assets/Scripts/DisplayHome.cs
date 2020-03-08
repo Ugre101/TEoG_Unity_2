@@ -4,7 +4,6 @@ using UnityEngine.Tilemaps;
 
 public class DisplayHome : MonoBehaviour
 {
-    [SerializeField] private Tilemap t1Home = null, t2home = null;
     [SerializeField] private List<Tilemap> homes = new List<Tilemap>();
     [SerializeField] private Tilemap t1Dorm = null, t2Dorm = null;
 

@@ -129,6 +129,7 @@ public class MapEvents : MonoBehaviour
 
     public void Load(PosSave save)
     {
+        ActiveMap = save.World;
         WorldChange(save.World, WorldChildren.Find(m => m.name == save.Map).transform.gameObject.GetComponent<Tilemap>());
         Player.transform.position = save.Pos;
     }

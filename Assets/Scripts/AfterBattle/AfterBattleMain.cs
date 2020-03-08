@@ -53,7 +53,7 @@ public class AfterBattleMain : MonoBehaviour
     [SerializeField] private Button sortAll = null, sortMouth = null, sortVore = null;
 
     private BasicChar newTarget;
-    public BasicChar Target => newTarget != null ? newTarget : enemies[0];
+    public BasicChar Target => newTarget != null ? newTarget : enemies.Count > 0 ? enemies[0] : null;
 
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
     public PlayerMain Caster => player;
@@ -66,8 +66,10 @@ public class AfterBattleMain : MonoBehaviour
         sortAll.onClick.AddListener(() => SceneChecker(allSexScenes, player.Vore.Active));
         sortMouth.onClick.AddListener(() => SceneChecker(mouthScenes));
         sortVore.onClick.AddListener(ShowVore);
-        VoreButton.VoredEvent += EnemyRemoved;
         TakeToDorm.TakenToDorm += EnemyRemoved;
+        SexButton.PlayScene += HandleSexScene;
+        EssSexButton.PlayScene += HandleEssScene;
+        VoreButton.PlayerScene += HandleVoreScene;
     }
 
     private void EnemyRemoved()
@@ -141,17 +143,14 @@ public class AfterBattleMain : MonoBehaviour
             buttons.transform.KillChildren();
         }
         MiscActions.KillChildren();
-        foreach (SexScenes sexScenes in miscScenes.FindAll(ms => ms.CanDo(player, Target)))
+        foreach (SexScenes sexScenes in miscScenes.FindAll(m => m.CanDo(player, Target)))
         {
-            Instantiate(sexButton, MiscActions).Setup(player, Target, this, sexScenes);
+            Instantiate(sexButton, MiscActions).Setup(sexScenes);
         }
         DrainActions.KillChildren();
         if (Target.SexStats.CanDrain)
         {
-            essScenes.FindAll(ess => ess.CanDo(Target)).ForEach(ess =>
-            {
-                Instantiate(essSexButton, DrainActions).Setup(this, ess);
-            });
+            essScenes.FindAll(ess => ess.CanDo(Target)).ForEach(ess => Instantiate(essSexButton, DrainActions).Setup(ess));
         }
     }
 
@@ -177,22 +176,22 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
-    private void PlayerOrgasmed() => InsertToTextBox(LastScene.PlayerOrgasmed(player, Target));
+    private void PlayerOrgasmed() => InsertToTextBox("\n\n" + LastScene.PlayerOrgasmed(player, Target));
 
-    private void OtherOrgasmed() => InsertToTextBox(LastScene.OtherOrgasmed(player, Target));
+    private void OtherOrgasmed() => InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
 
     private void SceneChecker(List<SexScenes> scenes, bool showVore = false)
     {
         buttons.transform.KillChildren();
         foreach (SexScenes scene in scenes.FindAll(s => s.CanDo(player, Target)))
         {
-            Instantiate(sexButton, buttons.transform).Setup(player, Target, this, scene);
+            Instantiate(sexButton, buttons.transform).Setup(scene);
         }
         if (showVore)
         {
             foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
             {
-                Instantiate(voreButton, buttons.transform).Setup(player, Target, this, vore);
+                Instantiate(voreButton, buttons.transform).Setup(vore);
             }
         }
     }
@@ -202,7 +201,7 @@ public class AfterBattleMain : MonoBehaviour
         buttons.transform.KillChildren();
         foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
         {
-            Instantiate(voreButton, buttons.transform).Setup(player, Target, this, vore);
+            Instantiate(voreButton, buttons.transform).Setup(vore);
         }
     }
 
@@ -210,4 +209,39 @@ public class AfterBattleMain : MonoBehaviour
 
     // TODO fix to extra info comes after
     public void InsertToTextBox(string text) => textBox.text += text;
+
+    private void HandleSexScene(SexScenes scene)
+    {
+        AddToTextBox(LastScene == scene ? scene.ContinueScene(player, Target) : scene.StartScene(player, Target));
+        LastScene = scene;
+        scene.ArousalGain(player, Target);
+    }
+
+    private void HandleEssScene(EssScene scene)
+    {
+        AddToTextBox(LastScene == scene ? scene.ContinueScene(Caster, Target) : scene.StartScene(Caster, Target));
+        LastScene = scene;
+        Target.SexStats.Drained();
+        RefreshScenes();
+    }
+
+    private void HandleVoreScene(VoreScene voreScene)
+    {
+        AddToTextBox(voreScene.Vore(player, new Vore.ThePrey(Target)));
+        LastScene = voreScene;
+        EnemyRemoved();
+    }
+
+    [SerializeField] private SkillDict skillDict = null;
+
+    private void SexSpells()
+    {
+        foreach (Skill s in player.Skills)
+        {
+            if (skillDict.Match(s.Id).skill.SkillUses.Sex)
+            {
+                // TODO insta spell button
+            }
+        }
+    }
 }

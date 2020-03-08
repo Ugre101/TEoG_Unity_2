@@ -23,6 +23,10 @@ public class TakeToDorm : SexScenes
 
     public override string ContinueScene(PlayerMain player, BasicChar other) => StartScene(player, other);
 
+    public override void ArousalGain(PlayerMain player, BasicChar other)
+    {
+    }
+
     public delegate void Taken();
 
     public static event Taken TakenToDorm;

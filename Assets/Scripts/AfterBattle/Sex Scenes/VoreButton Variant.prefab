@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efa56bf9865bc38478e4758fe6ea4d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  voreScene: {fileID: 0}
-  textMeshPro: {fileID: 4822462093410126019}
   btn: {fileID: 4822462093421729372}
+  title: {fileID: 4822462093410126019}
+  voreScene: {fileID: 0}
 --- !u!1001 &1389057686004540349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,6 +22,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5884585279157496702, guid: 3ffa19bc022615f42878c1415be36b0e,
+        type: 3}
+      propertyPath: m_firstOverflowCharacterIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884585279157496702, guid: 3ffa19bc022615f42878c1415be36b0e,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884585279157496702, guid: 3ffa19bc022615f42878c1415be36b0e,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884585279157496702, guid: 3ffa19bc022615f42878c1415be36b0e,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5884585279157496702, guid: 3ffa19bc022615f42878c1415be36b0e,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5884585279177881056, guid: 3ffa19bc022615f42878c1415be36b0e,
         type: 3}
       propertyPath: m_LocalPosition.x

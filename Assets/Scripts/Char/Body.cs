@@ -1,26 +1,143 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 [System.Serializable]
-public class BodyStat
+public class BodyStat : FloatStat
 {
-    public BodyStat(float stat) => value = stat;
+    public BodyStat(float val)
+    {
+        BaseValue = val;
+        DateSystem.NewHourEvent += TickTempMods;
+        Save.LoadEvent += OnLoad;
+        _ = Value;
+        ValueChanged?.Invoke();
+    }
 
-    [SerializeField]
-    private float value;
-
-    public float Value => value;
+    private void OnLoad()
+    {
+        IsDirty = true;
+        _ = Value;
+    }
 
     /// <summary>Max(Value - Abs(toLose),0.01f)</summary>
-    public void LoseFlat(float toLose) => value = Mathf.Max(value - Mathf.Abs(toLose), 0f);
+    public void LoseFlat(float toLose) => BaseValue = Mathf.Max(BaseValue - Mathf.Abs(toLose), 0f);
 
     /// <summary>Value *= clamp(value, 0.01f, 1f) </summary>
-    public void LosePrecent(float lostPrecent) => value *= Mathf.Clamp(lostPrecent, 0.001f, 1f);
+    public void LosePrecent(float lostPrecent) => BaseValue *= Mathf.Clamp(lostPrecent, 0.001f, 1f);
 
     /// <summary>Value += Abs(toGain)</summary>
-    public void GainFlat(float toGain) => value += Mathf.Abs(toGain);
+    public void GainFlat(float toGain) => BaseValue += Mathf.Abs(toGain);
 
     /// <summary>Value *= clamp(gainPrecent, 1.001f, infinity)</summary>
-    public void GainPrecent(float gainPrecent) => value *= Mathf.Clamp(gainPrecent, 1.001f, Mathf.Infinity);
+    public void GainPrecent(float gainPrecent) => BaseValue *= Mathf.Clamp(gainPrecent, 1.001f, Mathf.Infinity);
+
+    protected override float CalcValue()
+    {
+        float flat = BaseValue + StatMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(m => m.Value)
+            + TempMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(m => m.Value);
+        float precent = 1f + StatMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(m => m.Value)
+            + TempMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(m => m.Value);
+        return flat * precent;
+    }
+
+    [SerializeField] private List<StatMod> statMods = new List<StatMod>();
+    [SerializeField] private List<TempStatMod> tempStatMods = new List<TempStatMod>();
+    public List<StatMod> StatMods => statMods;
+    public List<TempStatMod> TempMods => tempStatMods;
+
+    #region AddRemoveMods
+
+    public void AddMods(StatMod mod)
+    {
+        StatMods.Add(mod);
+        IsDirty = true;
+    }
+
+    public void AddTempMod(TempStatMod mod)
+    {
+        if (TempMods.Exists(tm => tm.Source.Equals(mod.Source)))
+        {
+            TempStatMod toChange = TempMods.Find(tm => tm.Source.Equals(mod.Source));
+            float diminishingReturn = (float)toChange.Duration / mod.Duration;
+            int toIncrease = Mathf.Max(0, Mathf.FloorToInt(mod.Duration / Mathf.Max(1, 2 * diminishingReturn)));
+            toChange.IncreaseDuration(toIncrease);
+        }
+        else
+        {
+            // Clone otherwise diminishingReturn doesn't work as duration increase on both.
+            TempMods.Add(new TempStatMod(mod.Value, mod.ModType, mod.Source, mod.Duration));
+        }
+        IsDirty = true;
+        AddedTempEvent?.Invoke();
+    }
+
+    public delegate void DelegateAddedTemp();
+
+    public event DelegateAddedTemp AddedTempEvent;
+
+    public void RemoveMod(StatMod mod)
+    {
+        StatMods.Remove(mod);
+        IsDirty = true;
+    }
+
+    public void RemoveTempMod(TempStatMod mod)
+    {
+        TempMods.Remove(mod);
+        IsDirty = true;
+    }
+
+    public bool RemoveFromSource(string Source)
+    {
+        if (string.IsNullOrEmpty(Source))
+        {
+            return false;
+        }
+        if (StatMods.Exists(sm => sm.Source.Equals(Source)))
+        {
+            foreach (StatMod sm in StatMods.FindAll(s => s.Source.Equals(Source)))
+            {
+                StatMods.Remove(sm);
+            }
+            IsDirty = true;
+            return true;
+        }
+        return false;
+    }
+
+    public bool RemoveTempFromSource(string Source)
+    {
+        if (string.IsNullOrEmpty(Source))
+        {
+            return false;
+        }
+        if (TempMods.Exists(sm => sm.Source.Equals(Source)))
+        {
+            foreach (TempStatMod sm in TempMods.FindAll(s => s.Source.Equals(Source)))
+            {
+                TempMods.Remove(sm);
+            }
+            IsDirty = true;
+            return true;
+        }
+        return false;
+    }
+
+    #endregion AddRemoveMods
+
+    public void TickTempMods()
+    {
+        if (TempMods.RemoveAll(tm => tm.Duration < 1) > 0)
+        {
+            AddedTempEvent?.Invoke();
+            IsDirty = true;
+        }
+    }
+
+    public delegate void ValueChange();
+
+    public event ValueChange ValueChanged;
 }
 
 [System.Serializable]

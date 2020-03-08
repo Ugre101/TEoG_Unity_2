@@ -6,7 +6,7 @@ public class ExpStatusUpdater : MonoBehaviour
 {
     [SerializeField] private PlayerMain player = null;
 
-    [SerializeField] private TextMeshProUGUI _statusExp, _statusLevel;
+    [SerializeField] private TextMeshProUGUI _statusExp = null, _statusLevel = null;
 
     [SerializeField] private Slider slider = null;
 

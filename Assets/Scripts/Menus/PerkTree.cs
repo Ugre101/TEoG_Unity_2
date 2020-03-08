@@ -1,19 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+
 public class PerkTree : MonoBehaviour
 {
-    public List<GameObject> perkRunes;
-    public Sprite runeIMG;
+    [SerializeField] private Sprite runeIMG = null;
 
     public void SetRuneIMGs()
     {
-        if (perkRunes.Count > 0 && runeIMG != null)
+        if (runeIMG != null)
         {
-            foreach (GameObject rune in perkRunes)
+            PerkButton[] perkButtons = GetComponentsInChildren<PerkButton>();
+            foreach (PerkButton btn in perkButtons)
             {
-                Image img = rune.GetComponent<Image>();
-                img.sprite = runeIMG;
+                btn.SetRune(runeIMG);
             }
         }
     }

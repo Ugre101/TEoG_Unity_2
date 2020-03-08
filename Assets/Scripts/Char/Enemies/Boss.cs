@@ -12,7 +12,7 @@ public class Boss : EnemyPrefab
     // talk after fight?
     [SerializeField] private bool hasPostBattleDialog = false;
 
-    public bool PostBattleDialog => hasPreBattleDialog;
+    public bool PostBattleDialog => hasPostBattleDialog;
     [SerializeField] private HasCustomScenes hasCustomScene = new HasCustomScenes();
     public HasCustomScenes CustomScenes => hasCustomScene;
     [SerializeField] private bool lockedPosistion = false;

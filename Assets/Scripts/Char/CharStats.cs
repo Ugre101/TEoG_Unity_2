@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class CharStats : Stat
+public class CharStats : IntStat
 {
     [SerializeField] private List<StatMod> statMods = new List<StatMod>();
 
@@ -28,9 +28,15 @@ public class CharStats : Stat
     {
         BaseValue = parBaseValue;
         DateSystem.NewHourEvent += TickTempMods;
-        Save.LoadEvent += delegate { IsDirty = true; _ = Value; };
+        Save.LoadEvent += OnLoad;
         _ = Value;
         ValueChanged?.Invoke();
+    }
+
+    private void OnLoad()
+    {
+        IsDirty = true;
+        _ = Value;
     }
 
     public CharStats() : this(10)
@@ -117,18 +123,15 @@ public class CharStats : Stat
 
     #endregion AddAndRemoveMods
 
-    protected override int CalcValue
+    protected override int GetCalcValue()
     {
-        get
-        {
-            float finalValue = BaseValue +
-                StatMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(sm => sm.Value) +
-                TempMods.FindAll(tm => tm.ModType == ModTypes.Flat).Sum(tm => tm.Value);
-            float perMulti = 1 +
-                StatMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(sm => sm.Value) +
-                TempMods.FindAll(tm => tm.ModType == ModTypes.Precent).Sum(tm => tm.Value);
-            return Mathf.FloorToInt(finalValue * perMulti);
-        }
+        float finalValue = BaseValue +
+            StatMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(sm => sm.Value) +
+            TempMods.FindAll(tm => tm.ModType == ModTypes.Flat).Sum(tm => tm.Value);
+        float perMulti = 1 +
+            StatMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(sm => sm.Value) +
+            TempMods.FindAll(tm => tm.ModType == ModTypes.Precent).Sum(tm => tm.Value);
+        return Mathf.FloorToInt(finalValue * perMulti);
     }
 
     public void TickTempMods()

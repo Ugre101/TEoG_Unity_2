@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "BasicTease", menuName = "ScriptableObject/CombatSkills/BasicTease")]
-public class BasicTease : BasicSkill
+namespace SkillsAndSpells
 {
-    public override string Action(BasicChar user, BasicChar target)
+    [CreateAssetMenu(fileName = "BasicTease", menuName = "ScriptableObject/CombatSkills/BasicTease")]
+    public class BasicTease : BasicSkill
     {
-        float dmg = BaseAttack * (user.Stats.Cha / 10) * RNG;
-        target.WP.TakeDmg(dmg);
-        return $"{user.Identity.FirstName} teases {target.Identity.FirstName}, causing {target.Identity.FirstName} to lose {dmg} willpower.";
+        public override string Action(BasicChar user, BasicChar target)
+        {
+            float dmg = BaseValue * (user.Stats.Cha / 10) * RNG;
+            target.WP.TakeDmg(dmg);
+            return $"{user.Identity.FirstName} teases {target.Identity.FirstName}, causing {target.Identity.FirstName} to lose {dmg} willpower.";
+        }
     }
 }

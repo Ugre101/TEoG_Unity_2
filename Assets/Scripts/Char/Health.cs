@@ -10,7 +10,7 @@ public enum HealthTypes
 }
 
 [System.Serializable]
-public class Health : Stat
+public class Health : IntStat
 {
     [SerializeField] private float current;
     [SerializeField] private List<HealthMod> healthMods = new List<HealthMod>();
@@ -27,7 +27,7 @@ public class Health : Stat
         {
             if (IsDirty)
             {
-                lastValue = CalcValue;
+                lastValue = GetCalcValue();
                 IsDirty = false;
                 UpdateSliderEvent?.Invoke();
             }
@@ -63,19 +63,16 @@ public class Health : Stat
         }
     }
 
-    protected override int CalcValue
+    protected override int GetCalcValue()
     {
-        get
-        {
-            float flatValue = BaseValue +
-                HealthMods.FindAll(hm => hm.ModType == ModTypes.Flat).Sum(hm => hm.Value) +
-                TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Flat).Sum(thm => thm.Value) +
-                AffectedBy.Sum(ab => ab.CharStats.Value * ab.Multiplier);
-            float perValue = 1 +
-                HealthMods.FindAll(hm => hm.ModType == ModTypes.Precent).Sum(hm => hm.Value) +
-                TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Precent).Sum(thm => thm.Value);
-            return Mathf.FloorToInt(flatValue * perValue);
-        }
+        float flatValue = BaseValue +
+            HealthMods.FindAll(hm => hm.ModType == ModTypes.Flat).Sum(hm => hm.Value) +
+            TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Flat).Sum(thm => thm.Value) +
+            AffectedBy.Sum(ab => ab.CharStats.Value * ab.Multiplier);
+        float perValue = 1 +
+            HealthMods.FindAll(hm => hm.ModType == ModTypes.Precent).Sum(hm => hm.Value) +
+            TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Precent).Sum(thm => thm.Value);
+        return Mathf.FloorToInt(flatValue * perValue);
     }
 
     public Health()

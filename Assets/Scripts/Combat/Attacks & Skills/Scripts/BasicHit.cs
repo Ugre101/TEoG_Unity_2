@@ -1,17 +1,15 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "BasicHit", menuName = "ScriptableObject/CombatSkills/BasicHit")]
-public class BasicHit : BasicSkill
+namespace SkillsAndSpells
 {
-    public override string Action(BasicChar user, BasicChar target)
+    [CreateAssetMenu(fileName = "BasicHit", menuName = "ScriptableObject/CombatSkills/BasicHit")]
+    public class BasicHit : BasicSkill
     {
-        float dmg = BaseAttack * (user.Stats.Str / 10) * RNG;
-        target.HP.TakeDmg(dmg);
-        return $"{user.Identity.FirstName} dealt {dmg}dmg to {target.Identity.FirstName}'s health.";
-    }
-
-    public override string Text(BasicChar user, BasicChar target)
-    {
-        return base.Text(user, target);
+        public override string Action(BasicChar user, BasicChar target)
+        {
+            float dmg = BaseValue * (user.Stats.Str / 10) * RNG;
+            target.HP.TakeDmg(dmg);
+            return $"{user.Identity.FirstName} dealt {dmg}dmg to {target.Identity.FirstName}'s health.";
+        }
     }
 }

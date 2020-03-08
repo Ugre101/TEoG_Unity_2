@@ -6,7 +6,6 @@ using UnityEngine;
 public class Dorm : MonoBehaviour
 {
     public static Dorm GetDrom { get; private set; }
-    [SerializeField] private List<BasicChar> servantPrefabs = new List<BasicChar>();
     [SerializeField] private BasicChar defaultPrefab = null;
     public bool HasSpace => StartHomeStats.Dorm.Level * 3 > transform.childCount;
 
@@ -51,6 +50,7 @@ public class Dorm : MonoBehaviour
     {
         toMove.transform.SetParent(this.transform);
         toMove.transform.position = transform.position;
+        ServantsDirty = true;
     }
 
     public List<DormSave> Save()
@@ -85,16 +85,8 @@ public class Dorm : MonoBehaviour
         {
             foreach (DormSave ds in toLoad)
             {
-                if (servantPrefabs.Exists(n => n.name == ds.Name))
-                {
-                    BasicChar loaded = AddTo(servantPrefabs.Find(n => n.name == ds.Name));
-                    loadedChars.Add(new LoadedChar(loaded, ds));
-                }
-                else
-                {
-                    BasicChar loaded = AddTo(defaultPrefab);
-                    loadedChars.Add(new LoadedChar(loaded, ds));
-                }
+                BasicChar loaded = AddTo(defaultPrefab);
+                loadedChars.Add(new LoadedChar(loaded, ds));
             }
             StartCoroutine(WaitAFrame());
         }

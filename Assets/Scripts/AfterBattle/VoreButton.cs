@@ -1,47 +1,17 @@
-﻿using TMPro;
-using UnityEngine;
-using UnityEngine.UI;
-using Vore;
+﻿using System;
 
-public class VoreButton : MonoBehaviour
+public class VoreButton : AfterBattleButtonBase
 {
-    private AfterBattleMain afterBattleMain;
     public VoreScene voreScene;
-    public TextMeshProUGUI textMeshPro;
 
-    [SerializeField]
-    private Button btn;
+    private void Vore() => PlayerScene?.Invoke(voreScene);
 
-    private PlayerMain player;
-    private ThePrey other;
-
-    // Start is called before the first frame update
-    private void Start()
+    public void Setup(VoreScene parScene)
     {
-        if (btn == null)
-        {
-            btn = GetComponent<Button>();
-        }
-    }
-
-    private void Vore()
-    {
-        afterBattleMain.AddToTextBox(voreScene.Vore(player, other));
-        afterBattleMain.LastScene = voreScene;
-        VoredEvent?.Invoke();
-    }
-
-    public void Setup(PlayerMain parPlayer, BasicChar parPartner, AfterBattleMain parAfterBattle, VoreScene parScene)
-    {
-        player = parPlayer;
-        other = new ThePrey(parPartner);
-        afterBattleMain = parAfterBattle;
         voreScene = parScene;
-        textMeshPro.text = voreScene.name;
+        title.text = voreScene.name;
         btn.onClick.AddListener(Vore);
     }
 
-    public delegate void Vored();
-
-    public static event Vored VoredEvent;
+    public static Action<VoreScene> PlayerScene;
 }

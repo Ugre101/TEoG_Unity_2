@@ -32,7 +32,7 @@ namespace Bar
     public class BuyMeal : Ware
     {
         [SerializeField] private MealWithBuffs meal;
-        [SerializeField] private Sprite img;
+        [SerializeField] private Sprite img = null;
 
         public BuyMeal(MealWithBuffs parMeal, int parCost, string parTitle) : base(parCost, parTitle, "")
         {

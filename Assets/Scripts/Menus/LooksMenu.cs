@@ -8,7 +8,7 @@ public class LooksMenu : MonoBehaviour
     [SerializeField] private TextMeshProUGUI looksText = null;
 
     [SerializeField] private PlayerMain player = null;
-    [SerializeField] private Button toggleExact = null;
+    //  [SerializeField] private Button toggleExact = null;
 
     //    private bool exactDetails = false;
 
