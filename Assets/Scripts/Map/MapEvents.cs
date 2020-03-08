@@ -29,17 +29,11 @@ public class MapEvents : MonoBehaviour
 
     [SerializeField] private List<WorldMap> worldMaps = new List<WorldMap>();
 
-    private List<Transform> lastChildren = new List<Transform>();
-
     private List<Transform> WorldChildren
     {
         get
         {
-            if (lastChildren.Count < 1)
-            {
-                lastChildren = new List<Transform>(CurrentWorld.GetComponentsInChildren<Transform>());
-            }
-            return lastChildren;
+            return new List<Transform>(CurrentWorld.GetComponentsInChildren<Transform>());
         }
     }
 
@@ -97,7 +91,12 @@ public class MapEvents : MonoBehaviour
             CurrentMap = GetComponent<Tilemap>();
         }
         worldMaps = new List<WorldMap>(GetComponentsInChildren<WorldMap>());
+        transform.SleepChildren(CurrentWorld.transform);
         mapDirty = true;
+    }
+
+    private void Start()
+    {
     }
 
     public static void MapChange(Tilemap newMap)

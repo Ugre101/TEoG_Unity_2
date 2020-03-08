@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace EditorStuff
@@ -12,7 +13,7 @@ namespace EditorStuff
     [CustomEditor(typeof(Map))]
     public class MapsEditor : Editor
     {
-        private Rect dropEnemies, dropBosses;
+        private Rect dropEnemies, dropBosses, dropFolder;
         private Map map;
         private SerializedProperty mapName, amountOfEnemies, enemies, bosses;
         private bool EFold { get => MapsEditorFoldouts.EnemiesFoldout; set => MapsEditorFoldouts.EnemiesFoldout = value; }
@@ -44,6 +45,9 @@ namespace EditorStuff
             //  DropAreaGUI();
             UgreEditorTools.DropAreaGUI(dropEnemies, "Drop enemyprefab and normal enemies", HandleDroppedEnemies);
             GUILayout.Space(10);
+            dropFolder = GUILayoutUtility.GetRect(0.0f, 40f, GUILayout.ExpandWidth(true));
+            UgreEditorTools.DropAreaGUI(dropFolder, "Test drop folder of enemies", FindItems);
+            GUILayout.Space(10);
             EditorGUILayout.LabelField("Bosses", EditorStyles.boldLabel);
             for (int i = 0; i < bosses.arraySize; i++)
             {
@@ -73,6 +77,23 @@ namespace EditorStuff
                 if (go.GetComponent<Boss>() is Boss boss)
                 {
                     map.Bosses.Add(boss);
+                }
+            }
+        }
+
+        private void FindItems(Object obj)
+        {
+            string assetPath = AssetDatabase.GetAssetPath(obj);
+            string fileName = Path.GetFileName(assetPath + obj.name);
+            string dictName = assetPath.Replace(fileName, "");
+            string folderName = dictName;
+            DirectoryInfo toInclude = new DirectoryInfo(folderName);
+            foreach (FileInfo fileInfo in toInclude.GetFiles())
+            {
+                var temp = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(EnemyPrefab));
+                if (temp is EnemyPrefab enemy)
+                {
+                    map.Enemies.Add(enemy);
                 }
             }
         }
