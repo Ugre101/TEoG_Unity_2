@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Dex
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  perkInfo: 
+  perkInfo: Dexterity
   perkEffects: 
   maxLevel: 99
   perkCost: 1

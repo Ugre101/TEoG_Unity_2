@@ -52,6 +52,12 @@ public class EquiptItem
         GotItem?.Invoke();
     }
 
+    public void RemoveItem()
+    {
+        hasItem = false;
+        GotItem?.Invoke();
+    }
+
     public delegate void AddedItem();
 
     public event AddedItem GotItem;
@@ -59,6 +65,18 @@ public class EquiptItem
 
 public static class EquiptItemsExtensions
 {
+    public static void DeEquipItem(this BasicChar basicChar, EquipSlot equipSlot)
+    {
+        EquiptItem equiptItem = basicChar.EquiptItems.GetSlot(equipSlot);
+
+        if (equiptItem.HasItem)
+        {
+            basicChar.Inventory.AddItem(equiptItem.Item);
+            CleanModsFromItem(basicChar, equiptItem);
+            equiptItem.RemoveItem();
+        }
+    }
+
     public static void AutoEquipItem(this BasicChar basicChar, Item item)
     {
         if (item is IEquip equip)

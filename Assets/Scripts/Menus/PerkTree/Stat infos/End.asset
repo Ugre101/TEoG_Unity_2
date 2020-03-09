@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: End
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  perkInfo: 
-  perkEffects: 
+  perkInfo: Endurance
+  perkEffects: 'Increases health
+
+    Increases sex stamina'
   maxLevel: 99
   perkCost: 1
   stat: 2

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Charm
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  perkInfo: 
-  perkEffects: 
+  perkInfo: Charm
+  perkEffects: Increases seduction damage
   maxLevel: 99
   perkCost: 1
   stat: 1

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Will
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  perkInfo: 
-  perkEffects: 
+  perkInfo: Willpower
+  perkEffects: Increases willhealth
   maxLevel: 99
   perkCost: 1
   stat: 5

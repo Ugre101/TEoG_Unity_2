@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EquipmentSlot : MonoBehaviour
+public class EquipmentSlot : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private BasicChar wearer = null;
     [SerializeField] private EquipSlot slot = EquipSlot.Boots;
     [SerializeField] private ItemHolder itemHolder = null;
     [SerializeField] private Image icon = null;
+    [SerializeField] private Button btn = null;
     private Item item = null;
 
     private void OnEnable()
     {
         wearer = wearer != null ? wearer : PlayerMain.GetPlayer;
+        btn = btn != null ? btn : GetComponent<Button>();
         wearer.EquiptItems.GetSlot(slot).GotItem += HasItem;
         HasItem();
     }
@@ -29,7 +32,6 @@ public class EquipmentSlot : MonoBehaviour
     private void HasItem()
     {
         EquiptItem equiptItem = wearer.EquiptItems.GetSlot(slot);
-        Debug.Log(equiptItem.HasItem);
         if (equiptItem.HasItem)
         {
             item = itemHolder.GetById(equiptItem.Item);
@@ -40,6 +42,22 @@ public class EquipmentSlot : MonoBehaviour
         {
             icon.sprite = null;
             icon.gameObject.SetActive(false);
+        }
+    }
+
+    private void DeEquip() => wearer.DeEquipItem(slot);
+
+    private float lastClick;
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (Time.unscaledTime < lastClick + 1)
+        {
+            DeEquip();
+        }
+        else
+        {
+            lastClick = Time.unscaledTime;
         }
     }
 }
