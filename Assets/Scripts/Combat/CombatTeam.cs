@@ -6,9 +6,9 @@ public class CombatTeam : MonoBehaviour
 {
     [SerializeField] private CanvasMain gameUI = null;
     private List<BasicChar> Team = new List<BasicChar>();
-    [SerializeField] private GameObject TeamContainer;
-    [SerializeField] private CombatStatus CombatStatusPrefab;
-    [SerializeField] private CombatMain combatMain;
+    [SerializeField] private GameObject TeamContainer = null;
+    [SerializeField] private CombatStatus CombatStatusPrefab = null;
+    [SerializeField] private CombatMain combatMain = null;
     private List<CombatStatus> combatStatuses = new List<CombatStatus>();
 
     // if nobody is alive return true else false

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class EquipmentSlot : MonoBehaviour
 {
     [SerializeField] private BasicChar wearer = null;
-    [SerializeField] private EquipSlot slot;
+    [SerializeField] private EquipSlot slot = EquipSlot.Boots;
     [SerializeField] private ItemHolder itemHolder = null;
     [SerializeField] private Image icon = null;
     private Item item = null;

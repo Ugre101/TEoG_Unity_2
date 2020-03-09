@@ -4,6 +4,10 @@ using UnityEngine;
 // A space for me to build tools for methods I often use.
 public static class UgreTools
 {
+    public static bool GetPlayerPrefBool(string name) => PlayerPrefs.HasKey(name) ? PlayerPrefs.GetInt(name) == 1 : false;
+
+    public static void SetPlayerPrefBool(string name, bool boolVal) => PlayerPrefs.SetInt(name, boolVal ? 1 : 0);
+
     /// <summary> Destroy the children of gameobject calling it </summary>
     public static void KillChildren(this Transform parTransform)
     {

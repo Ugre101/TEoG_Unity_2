@@ -3,10 +3,39 @@ using UnityEngine;
 
 public static class Settings
 {
-    public static bool Imperial { get; private set; } = false;
-    public static bool SetImperial { set => Imperial = value; }
+    public static void Save()
+    {
+        UgreTools.SetPlayerPrefBool("Imperial", Imperial);
+        UgreTools.SetPlayerPrefBool("Vore", Vore);
+        PlayerPrefs.SetString("Male", Male);
+        PlayerPrefs.SetString("Female", Female);
+        PlayerPrefs.SetString("Herm", Herm);
+        PlayerPrefs.SetString("Cuntboy", Cuntboy);
+        PlayerPrefs.SetString("Dickgirl", Dickgirl);
+        PlayerPrefs.SetString("Doll", Doll);
+    }
 
-    public static bool ToogleImp() => Imperial = !Imperial;
+    public static void Load()
+    {
+        Imperial = UgreTools.GetPlayerPrefBool("Imperial");
+        Vore = UgreTools.GetPlayerPrefBool("Vore");
+        Male = PlayerPrefs.GetString("Male", Male);
+        Female = PlayerPrefs.GetString("Female", Female);
+        Herm = PlayerPrefs.GetString("Herm", Herm);
+        Cuntboy = PlayerPrefs.GetString("Cuntboy", Cuntboy);
+        Dickgirl = PlayerPrefs.GetString("Dickgirl", Dickgirl);
+        Doll = PlayerPrefs.GetString("Doll", Doll);
+    }
+
+    public static bool Imperial { get; private set; } = false;
+    public static bool Vore { get; private set; } = false;
+    public static bool Scat { get; private set; } = false;
+
+    public static bool ToogleImperial() => Imperial = !Imperial;
+
+    public static bool ToogleVore() => Vore = !Vore;
+
+    public static bool ToogleScat() => Scat = !Scat;
 
     public static string LorGal(float L)
     {

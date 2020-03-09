@@ -29,7 +29,7 @@ public class SaveMananger : MonoBehaviour
         SaveFolder = Directory.Exists(SaveSettings.SaveFolder)
             ? new DirectoryInfo(SaveSettings.SaveFolder)
             : Directory.CreateDirectory(SaveSettings.SaveFolder);
-        Settings.SetImperial = PlayerPrefs.HasKey("Imperial") ? PlayerPrefs.GetInt("Imperial") == 1 : false; ;
+        Settings.Load();
     }
 
     private void Update()

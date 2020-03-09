@@ -150,8 +150,7 @@ public class Body
         muscle = new BodyStat(parMuscle);
     }
 
-    [SerializeField]
-    private BodyStat height, fat, muscle;
+    [SerializeField] private BodyStat height, fat, muscle;
 
     public BodyStat Height => height;
     public BodyStat Fat => fat;
@@ -163,9 +162,9 @@ public class Body
     public float Weight => Height.Value * 0.15f + Fat.Value + Muscle.Value;
 
     ///<summary>Body fat percentage</summary>
-    public float FatPer => Fat.Value / Weight * 100f;
+    public float FatPrecent => Fat.Value / Weight * 100f;
 
-    private bool FatPerLowerThan(float parPer) => FatPer <= parPer;
+    private bool FatPerLowerThan(float parPer) => FatPrecent <= parPer;
 
     private bool MuscleLessHeight(float f) => Muscle.Value < Height.Value * f;
 
@@ -179,7 +178,7 @@ public class Body
         FatPerLowerThan(26f) ? "You have a healthy body " :
         FatPerLowerThan(31f) ? "You have an pudgy body " :
         FatPerLowerThan(36f) ? "You have a plump body " :
-        "You have a plus size body ";  // morbidly obese
+        "You are an mountain of flesh ";  // morbidly obese
 
         string b = MuscleLessHeight(0.18f) ? "with unnoticable muscle" :
         MuscleLessHeight(0.20f) ? "with some defined muscle" :

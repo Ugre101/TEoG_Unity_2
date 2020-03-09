@@ -22,10 +22,7 @@ public class OptionButtons : MonoBehaviour
     private void Start()
     {
         // PixelButton
-        if (PlayerPrefs.HasKey("pixelToggle"))
-        {
-            pixelToggle = PlayerPrefs.GetInt("pixelToggle") == 1;
-        }
+        pixelToggle = UgreTools.GetPlayerPrefBool("pixelToggle");
         if (pixelCameraButton != null && pixelPerfectCamera != null)
         {
             pixelCameraButton.onClick.AddListener(TogglePixelCamera);
@@ -42,16 +39,16 @@ public class OptionButtons : MonoBehaviour
 
     private void TogglePixelCamera()
     {
-        pixelToggle = pixelToggle ? false : true;
-        PlayerPrefs.SetInt("pixelToggle", pixelToggle ? 1 : 0);
+        pixelToggle = !pixelToggle;
+        UgreTools.SetPlayerPrefBool("pixelToggle", pixelToggle);
         pixelPerfectCamera.enabled = pixelToggle;
         pixelText.text = $"Pixelperfect: {pixelToggle}";
     }
 
     private void ToggleImp()
     {
-        Settings.ToogleImp();
-        PlayerPrefs.SetInt("Imperial", Settings.Imperial ? 1 : 0);
+        Settings.ToogleImperial();
+        UgreTools.SetPlayerPrefBool("Imperial", Settings.Imperial);
         impText.text = $"Imperial: {Settings.Imperial}";
     }
 }

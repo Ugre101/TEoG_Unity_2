@@ -37,12 +37,12 @@ namespace Vore
         }
 
         /// <summary> Return weight of prey content</summary>
-        public virtual float Current => preys.Sum(p => p.Prey.Weight);
+        public virtual float Current => preys.Sum(p => p.Prey.Body.Weight);
 
         /// <summary>Returns how full it is; 0.5 = 50%</summary>
         public virtual float FillPrecent => Current / MaxCapacity();
 
-        public virtual bool CanVore(ThePrey parPrey) => Current + parPrey.Prey.Weight <= MaxCapacity();
+        public virtual bool CanVore(ThePrey parPrey) => Current + parPrey.Prey.Body.Weight <= MaxCapacity();
 
         public virtual bool Vore(ThePrey parPrey)
         {
@@ -67,7 +67,7 @@ namespace Vore
             {
                 ThePrey prey = Preys[i];
                 pred.Body.Fat.GainFlat(prey.Digest(toDigest));
-                if (prey.Prey.Weight <= 1)
+                if (prey.Prey.Body.Weight <= 1)
                 {
                     digested?.Invoke(prey);
                     Preys.Remove(prey);

@@ -66,7 +66,6 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] protected Body body = new Body(160, 20, 20);
 
     public Body Body => body;
-    public float Weight => Body.Weight;
 
     public virtual void Awake()
     {

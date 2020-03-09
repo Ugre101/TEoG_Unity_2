@@ -25,6 +25,26 @@ public static class QuestsSystem
         || CountQuests.Exists(q => q.Type == parQuest)
         || TieredQuests.Exists(q => q.Type == parQuest);
 
+    public static bool QuestIsCompleted(Quests quests)
+    {
+        if (HasQuest(quests))
+        {
+            if (BasicQuests.Exists(q => q.Type == quests))
+            {
+                return GetBasicQuest(quests).Completed;
+            }
+            else if (CountQuests.Exists(q => q.Type == quests))
+            {
+                return GetCountQuest(quests).Completed;
+            }
+            else if (TieredQuests.Exists(q => q.Type == quests))
+            {
+                return GetTieredQuest(quests).Completed;
+            }
+        }
+        return false;
+    }
+
     public static void AddQuest(Quests which)
     {
         switch (which)
@@ -138,6 +158,53 @@ public static class QuestDesc
             case Quests.Bandit: return "Townhall";
             case Quests.ElfsHunt: return "Townhall";
             default: return string.Empty;
+        }
+    }
+}
+
+public static class QuestReward
+{
+    public static string GetReward(Quests quests)
+    {
+        switch (quests)
+        {
+            case Quests.Bandit:
+                return BanditLordReward(PlayerMain.GetPlayer);
+
+            case Quests.ElfsHunt:
+                return ElfHuntReward(PlayerMain.GetPlayer);
+
+            default:
+                return "";
+        }
+    }
+
+    private static string ElfHuntReward(PlayerMain player)
+    {
+        TieredQuest quest = QuestsSystem.GetTieredQuest(Quests.ElfsHunt);
+        float tierMulti = Mathf.Pow(2, quest.Tier - 1);
+        int expGain = Mathf.FloorToInt(100 * tierMulti);
+        int goldGain = Mathf.FloorToInt(150 * tierMulti);
+        player.ExpSystem.GainExp(expGain);
+        player.Currency.Gold += goldGain;
+        QuestsSystem.TieredQuests.Remove(quest);
+        return $"You are rewarded: {expGain}Exp and {goldGain}gold";
+    }
+
+    private static string BanditLordReward(PlayerMain player)
+    {
+        BasicQuest quest = QuestsSystem.GetBasicQuest(Quests.Bandit);
+        player.ExpSystem.GainExp(300);
+        player.Currency.Gold += 500;
+        QuestsSystem.BasicQuests.Remove(quest);
+        if (PlayerFlags.BeatBanditLord.Cleared)
+        {
+            return "You are rewared: 300Exp and 500gold";
+        }
+        else
+        {
+            PlayerFlags.BeatBanditLord.Clear();
+            return $"We can not thank you enough, as an token of our gratitude we have transfered you the rights of the propery around your home. \n\nYou are rewared: 300Exp and 500gold";
         }
     }
 }

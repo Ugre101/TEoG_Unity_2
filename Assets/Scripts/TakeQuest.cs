@@ -14,23 +14,20 @@ public class TakeQuest : MonoBehaviour
 
     private Quests quest;
 
-    private PlayerMain player;
-
     private void Start()
     {
         decline.onClick.AddListener(DeclineQuest);
         accept.onClick.AddListener(AcceptQuest);
     }
 
-    public void Setup(Quests whichQuest, PlayerMain parPlayer, Button btn)
+    public void Setup(QuestButton q)
     {
         gameObject.SetActive(true);
         GameManager.KeyBindsActive = false;
-        player = parPlayer;
-        quest = whichQuest;
-        callBtn = btn;
-        title.text = whichQuest.ToString();
-        textBox.text = QuestDesc.GetDesc(whichQuest);
+        quest = q.Quest;
+        callBtn = q.Btn;
+        title.text = quest.ToString();
+        textBox.text = QuestDesc.GetDesc(quest);
     }
 
     private void DeclineQuest()

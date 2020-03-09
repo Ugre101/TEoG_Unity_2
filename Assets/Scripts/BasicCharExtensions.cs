@@ -7,19 +7,23 @@ public static class BasicCharExtensions
         ? who.RaceSystem.CurrentRace().ToString()
         : who.RaceSystem.CurrentRace().ToString().ToLower();
 
-    public static string Height(this BasicChar who) => Settings.MorInch(who.Body.Height.Value);
+    public static string HeightMorInch(this Body body) => Settings.MorInch(body.Height.Value);
 
-    public static string Weight(this BasicChar who) => Settings.KgorP(who.Body.Weight);
+    public static string MuscleKgOrP(this Body body) => Settings.KgorP(body.Muscle.Value);
+
+    public static string FatKgOrP(this Body body) => Settings.KgorP(body.Fat.Value);
+
+    public static string WeightKgOrP(this Body body) => Settings.KgorP(body.Weight);
 
     public static string Summary(this BasicChar who)
     {
         // string title = who.Identity.FullName;
-        string desc = $"A {who.Height()} tall {who.Race()} {who.Gender.ToString()}.";
+        string desc = $"A {who.Body.HeightMorInch()} tall {who.Race()} {who.Gender.ToString()}.";
         // string stats = $"{who.Age.AgeYears}years old\nWeight: {Weight(who)}\nHeight: {Height(who)}";
         return desc;
     }
 
-    public static string BodyStats(this BasicChar who) => $"{who.Age.AgeYears}years old\nHeight: {who.Height()}\nWeight: {who.Weight()}\nMuscle: {Settings.KgorP(who.Body.Muscle.Value)}\nFat: {Settings.KgorP(who.Body.Fat.Value)}";
+    public static string BodyStats(this BasicChar who) => $"{who.Age.AgeYears}years old\nHeight: {who.Body.HeightMorInch()}\nWeight: {who.Body.WeightKgOrP()}\nMuscle: {who.Body.MuscleKgOrP()}\nFat: {who.Body.FatKgOrP()}";
 
     public static void Eat(this BasicChar eater, Meal meal)
     {

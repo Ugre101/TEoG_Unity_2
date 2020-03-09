@@ -10,7 +10,7 @@ namespace SkillsAndSpells
         public override string Action(BasicChar user, BasicChar target)
         {
             target.Body.Height.AddTempMod(ShrinkMod);
-            return $"You shrunk {target.Identity.FirstName} they are now {Settings.MorInch(target.Body.Height.Value)} tall.";
+            return $"You shrunk {target.Identity.FirstName} they are now {target.Body.HeightMorInch()} tall.";
         }
     }
 }

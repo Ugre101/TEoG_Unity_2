@@ -14,10 +14,10 @@ public abstract class ShopWare : MonoBehaviour
         this.displayCost.text = cost;
     }
 
-    [SerializeField] protected Image frame;
+    [SerializeField] protected Image frame = null;
 
     [SerializeField] protected int Cost;
-    [SerializeField] private Button buyBtn;
+    [SerializeField] private Button buyBtn = null;
     public Button BuyBtn => buyBtn;
 
     public virtual void Buy()

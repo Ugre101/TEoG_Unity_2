@@ -26,7 +26,7 @@ namespace Vore
         private void DisplayPrey()
         {
             title.text = voreContainers.ToString();
-            string preyDesc = $"{prey.Prey.Identity.FullName}\n\nWeight: {prey.Prey.Weight}";
+            string preyDesc = $"{prey.Prey.Identity.FullName}\n\nWeight: {prey.Prey.Body.WeightKgOrP()}";
             desc.text = preyDesc;
         }
     }

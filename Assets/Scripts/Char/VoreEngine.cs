@@ -107,7 +107,7 @@ namespace Vore
         public ThePrey(BasicChar parPrey)
         {
             prey = parPrey;
-            startWeight = parPrey.Weight;
+            startWeight = parPrey.Body.Weight;
         }
 
         /// <summary> First digest the fat, then the muscle and last the bones(height). </summary>
@@ -115,7 +115,7 @@ namespace Vore
         /// <returns>Amount digested</returns>
         public float Digest(float toDigest)
         {
-            float fatGain = Mathf.Min(toDigest, Prey.Weight);
+            float fatGain = Mathf.Min(toDigest, Prey.Body.Weight);
             if (Prey.Body.Fat.Value > 0)
             {
                 Prey.Body.Fat.LoseFlat(toDigest);
@@ -131,6 +131,6 @@ namespace Vore
             return fatGain;
         }
 
-        public float Progress => (StartWeight - Prey.Weight) / StartWeight;
+        public float Progress => (StartWeight - Prey.Body.Weight) / StartWeight;
     }
 }

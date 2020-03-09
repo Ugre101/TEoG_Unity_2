@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [System.Serializable]
 public class BuildButton : MonoBehaviour
 {
-    [SerializeField] private Button btn;
+    [SerializeField] private Button btn = null;
     [SerializeField] private TextMeshProUGUI btnText = null;
     private BuildCost buildCost;
     private HomeUpgrade homeUpgrade;
