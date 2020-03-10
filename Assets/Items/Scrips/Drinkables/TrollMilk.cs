@@ -11,7 +11,7 @@ namespace ItemScripts
 
         public override string Use(BasicChar user)
         {
-            float toHeal = user.WP.Value / 10;
+            float toHeal = user.WP.MaxValue / 10;
             if (!user.WP.IsMax)
             {
                 user.WP.Gain(toHeal);

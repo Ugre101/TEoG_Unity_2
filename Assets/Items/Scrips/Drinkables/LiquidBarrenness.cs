@@ -15,7 +15,7 @@ namespace ItemScripts
         {
             CharStats fert = user.PregnancySystem.Fertility;
             fert.BaseValue -= 1;
-            return $" {fert.Value}";
+            return $" {fert.MaxValue}";
         }
     }
 }

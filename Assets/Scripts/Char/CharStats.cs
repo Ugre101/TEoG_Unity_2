@@ -15,12 +15,12 @@ public class CharStats : IntStat
         set
         {
             isDirty = value;
-            _ = Value;
+            _ = MaxValue;
             ValueChanged?.Invoke();
         }
     }
 
-    public override int Value => base.Value;
+    public override int MaxValue => base.MaxValue;
     public List<StatMod> StatMods => statMods;
     public List<TempStatMod> TempMods => tempMods;
 
@@ -29,14 +29,14 @@ public class CharStats : IntStat
         BaseValue = parBaseValue;
         DateSystem.NewHourEvent += TickTempMods;
         Save.LoadEvent += OnLoad;
-        _ = Value;
+        _ = MaxValue;
         ValueChanged?.Invoke();
     }
 
     private void OnLoad()
     {
         IsDirty = true;
-        _ = Value;
+        _ = MaxValue;
     }
 
     public CharStats() : this(10)

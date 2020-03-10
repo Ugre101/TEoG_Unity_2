@@ -114,7 +114,7 @@ public class RelationshipWith
     [SerializeField] private CharStats obedience;
     public CharStats ObedienceStat => obedience;
     public Identity With => identity;
-    public int AffectionValue => affection.Value;
+    public int AffectionValue => affection.MaxValue;
 
     public Affection Affection
     {
@@ -143,7 +143,7 @@ public class RelationshipWith
         }
     }
 
-    public int ObedienceValue => obedience.Value;
+    public int ObedienceValue => obedience.MaxValue;
 
     public Obedience Obedience
     {

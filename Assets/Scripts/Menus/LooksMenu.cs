@@ -72,8 +72,8 @@ public class LooksMenu : MonoBehaviour
     private string PregnancyLook()
     {
         PregnancySystem pregnancySystem = player.PregnancySystem;
-        string pregLook = $"Virility: {pregnancySystem.Virility.Value}\n" +
-            $"Fertility: {pregnancySystem.Fertility.Value}\n\n";
+        string pregLook = $"Virility: {pregnancySystem.Virility.MaxValue}\n" +
+            $"Fertility: {pregnancySystem.Fertility.MaxValue}\n\n";
         if (player.Pregnant)
         {
             player.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus).ForEach(vag =>

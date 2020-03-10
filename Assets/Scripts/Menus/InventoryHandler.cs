@@ -44,6 +44,7 @@ public class InventoryHandler : MonoBehaviour
         sortAll.onClick.AddListener(() => { UpdateInventory(); ToggleButtons(sortAll); });
         sortEatDrink.onClick.AddListener(() => { UpdateInventory(ItemTypes.Consumables); ToggleButtons(sortEatDrink); });
         sortMisc.onClick.AddListener(() => { UpdateInventory(ItemTypes.Misc); ToggleButtons(sortMisc); });
+        player.EquiptItems.GetAll.ForEach(e => e.GotItem += UpdateInventory);
     }
 
     public void UpdateInventory()
@@ -97,7 +98,7 @@ public class InventoryHandler : MonoBehaviour
         if (Items.ExistByPos(startSlot))
         {
             InventoryItem inv = Items.FindByPos(startSlot);
-            Instantiate(yesNo, transform).Setup(() => RemoveItem(inv),"Do you want to delete item?");
+            Instantiate(yesNo, transform).Setup(() => RemoveItem(inv), "Do you want to delete item?");
         }
     }
 

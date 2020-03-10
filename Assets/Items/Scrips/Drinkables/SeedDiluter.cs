@@ -15,7 +15,7 @@ namespace ItemScripts
         {
             CharStats viri = user.PregnancySystem.Virility;
             viri.BaseValue -= 1;
-            return $" {viri.Value}";
+            return $" {viri.MaxValue}";
         }
     }
 }

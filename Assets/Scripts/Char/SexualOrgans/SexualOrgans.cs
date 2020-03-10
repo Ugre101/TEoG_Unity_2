@@ -192,7 +192,7 @@ public static class SexOrganExtension
             }
         }
         Essence masc = bc.Essence.Masc;
-        int StableAmount = bc.Essence.StableEssence.Value;
+        int StableAmount = bc.Essence.StableEssence.MaxValue;
         if (masc.Amount > StableAmount)
         {
             if (dicks.Total() <= ballsRatio)

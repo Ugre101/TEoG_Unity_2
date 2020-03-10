@@ -21,7 +21,7 @@ public class Health : IntStat
     public List<TempHealthMod> TempHealthMods => tempHealthMods;
     public Recovery Recovery => recovery;
 
-    public override int Value
+    public override int MaxValue
     {
         get
         {
@@ -43,16 +43,16 @@ public class Health : IntStat
             isDirty = value;
             if (value)
             {
-                _ = Value;
+                _ = MaxValue;
             }
         }
     }
 
-    public bool IsMax => current >= Value;
+    public bool IsMax => current >= MaxValue;
 
     private readonly List<AffectedByStat> AffectedBy = new List<AffectedByStat>();
 
-    public void TickRecovery() => Gain(Recovery.Value);
+    public void TickRecovery() => Gain(Recovery.MaxValue);
 
     public void TickTempMods()
     {
@@ -68,7 +68,7 @@ public class Health : IntStat
         float flatValue = BaseValue +
             HealthMods.FindAll(hm => hm.ModType == ModTypes.Flat).Sum(hm => hm.Value) +
             TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Flat).Sum(thm => thm.Value) +
-            AffectedBy.Sum(ab => ab.CharStats.Value * ab.Multiplier);
+            AffectedBy.Sum(ab => ab.CharStats.MaxValue * ab.Multiplier);
         float perValue = 1 +
             HealthMods.FindAll(hm => hm.ModType == ModTypes.Precent).Sum(hm => hm.Value) +
             TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Precent).Sum(thm => thm.Value);
@@ -108,17 +108,17 @@ public class Health : IntStat
 
     public void Gain(float gain)
     {
-        current += Mathf.Clamp(gain, 0, Value - current);
+        current += Mathf.Clamp(gain, 0, MaxValue - current);
         UpdateSliderEvent?.Invoke();
     }
 
-    public void FullGain() => current = Value;
+    public void FullGain() => current = MaxValue;
 
-    public float SliderValue => current / Value;
+    public float SliderValue => current / MaxValue;
 
     public string Status => current < 999 ?
-        $"{Mathf.FloorToInt(current)} / {Value}"
-        : $"{Math.Round(current / 1000, 1)}k / {Math.Round((float)Value / 1000, 1)}k";
+        $"{Mathf.FloorToInt(current)} / {MaxValue}"
+        : $"{Math.Round(current / 1000, 1)}k / {Math.Round((float)MaxValue / 1000, 1)}k";
 
     public delegate void UpdateSlider();
 

@@ -17,7 +17,7 @@ namespace ItemScripts
         {
             CharStats fert = user.PregnancySystem.Fertility;
             fert.AddTempMod(contraMod);
-            return $" {fert.Value}";
+            return $" {fert.MaxValue}";
         }
     }
 }

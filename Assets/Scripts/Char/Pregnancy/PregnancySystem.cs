@@ -30,8 +30,8 @@ public static class PregnancyExtensions
 {
     public static bool Impregnate(this BasicChar mother, BasicChar parFather)
     {
-        float motherFet = mother.PregnancySystem.Fertility.Value,
-            fatherVir = parFather.PregnancySystem.Virility.Value;
+        float motherFet = mother.PregnancySystem.Fertility.MaxValue,
+            fatherVir = parFather.PregnancySystem.Virility.MaxValue;
         float motherRoll = Random.Range(0 - motherFet, 200 - motherFet),
             fatherRoll = Random.Range(0 + fatherVir, 100 + fatherVir);
         if (motherRoll < fatherRoll)

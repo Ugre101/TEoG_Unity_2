@@ -95,11 +95,11 @@ public static class BasicCharExtensions
         Organs so = basicChar.SexualOrgans;
         if (so.HaveBalls())
         {
-            so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value));
+            so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.MaxValue));
         }
         if (so.Lactating)
         {
-            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value));
+            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.MaxValue));
         }
     }
 
