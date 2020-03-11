@@ -27,7 +27,21 @@ public static class Settings
         Doll = PlayerPrefs.GetString("Doll", Doll);
     }
 
-    public static bool Imperial { get; private set; } = false;
+    private static bool imperial = false;
+
+    public static bool Imperial
+    {
+        get => imperial;
+        set
+        {
+            Inch = value;
+            Pound = value;
+            imperial = value;
+        }
+    }
+
+    public static bool Inch { get; private set; } = false;
+    public static bool Pound { get; private set; } = false;
     public static bool Vore { get; private set; } = false;
     public static bool Scat { get; private set; } = false;
 

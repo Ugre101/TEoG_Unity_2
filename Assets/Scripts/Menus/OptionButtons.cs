@@ -11,7 +11,7 @@ public class OptionButtons : MonoBehaviour
     [SerializeField] private Button pixelCameraButton = null;
     private bool pixelToggle = false;
 
-    [SerializeField] private TextMeshProUGUI pixelText;
+    [SerializeField] private TextMeshProUGUI pixelText = null;
 
     [Header("Imperial")]
     [SerializeField] private Button impButton = null;
@@ -27,28 +27,32 @@ public class OptionButtons : MonoBehaviour
         {
             pixelCameraButton.onClick.AddListener(TogglePixelCamera);
             pixelText = pixelText != null ? pixelText : pixelCameraButton.GetComponentInChildren<TextMeshProUGUI>();
-            pixelText.text = $"Pixelperfect: {pixelToggle}";
+            SetPixelText();
         }
         if (impButton != null)
         {
             impButton.onClick.AddListener(ToggleImp);
             impText = impText != null ? impText : impButton.GetComponentInChildren<TextMeshProUGUI>();
-            impText.text = $"Imperial: {Settings.Imperial}";
+            SetImpText();
         }
     }
+
+    private void SetPixelText() => pixelText.text = $"Pixelperfect: {pixelToggle}";
+
+    private void SetImpText() => impText.text = $"Inch & pound: {Settings.Imperial}";
 
     private void TogglePixelCamera()
     {
         pixelToggle = !pixelToggle;
         UgreTools.SetPlayerPrefBool("pixelToggle", pixelToggle);
         pixelPerfectCamera.enabled = pixelToggle;
-        pixelText.text = $"Pixelperfect: {pixelToggle}";
+        SetPixelText();
     }
 
     private void ToggleImp()
     {
         Settings.ToogleImperial();
         UgreTools.SetPlayerPrefBool("Imperial", Settings.Imperial);
-        impText.text = $"Imperial: {Settings.Imperial}";
+        SetImpText();
     }
 }
