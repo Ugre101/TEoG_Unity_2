@@ -14,9 +14,9 @@ public class OptionButtons : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pixelText = null;
 
     [Header("Imperial")]
-    [SerializeField] private Button impButton = null;
+    [SerializeField] private Button impButton = null, inchBtn = null, poundBtn = null;
 
-    [SerializeField] private TextMeshProUGUI impText = null;
+    [SerializeField] private TextMeshProUGUI impText = null, inchText = null, poundText = null;
 
     // Start is called before the first frame update
     private void Start()
@@ -41,6 +41,10 @@ public class OptionButtons : MonoBehaviour
 
     private void SetImpText() => impText.text = $"Inch & pound: {Settings.Imperial}";
 
+    private void SetInchText() => inchText.text = $"Inch: {Settings.Inch}";
+
+    private void SetPoundText() => poundText.text = $"Pound: {Settings.Pound}";
+
     private void TogglePixelCamera()
     {
         pixelToggle = !pixelToggle;
@@ -54,5 +58,21 @@ public class OptionButtons : MonoBehaviour
         Settings.ToogleImperial();
         UgreTools.SetPlayerPrefBool("Imperial", Settings.Imperial);
         SetImpText();
+        SetInchText();
+        SetPoundText();
+    }
+
+    private void ToggleInch()
+    {
+        Settings.ToogleInch();
+        UgreTools.SetPlayerPrefBool("Inch", Settings.Inch);
+        SetInchText();
+    }
+
+    private void TooglePound()
+    {
+        Settings.TooglePound();
+        UgreTools.SetPlayerPrefBool("Pound", Settings.Pound);
+        SetPoundText();
     }
 }

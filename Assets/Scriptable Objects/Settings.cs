@@ -47,6 +47,10 @@ public static class Settings
 
     public static bool ToogleImperial() => Imperial = !Imperial;
 
+    public static bool ToogleInch() => Inch = !Inch;
+
+    public static bool TooglePound() => Pound = !Pound;
+
     public static bool ToogleVore() => Vore = !Vore;
 
     public static bool ToogleScat() => Scat = !Scat;
