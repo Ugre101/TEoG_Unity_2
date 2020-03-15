@@ -28,6 +28,8 @@ public static class Settings
     }
 
     private static bool imperial = false;
+    private static bool inch = false;
+    private static bool pound = false;
 
     public static bool Imperial
     {
@@ -40,8 +42,40 @@ public static class Settings
         }
     }
 
-    public static bool Inch { get; private set; } = false;
-    public static bool Pound { get; private set; } = false;
+    public static bool Inch
+    {
+        get => inch;
+        private set
+        {
+            inch = value;
+            if (!value)
+            {
+                imperial = false;
+            }
+            else if (Pound)
+            {
+                imperial = true;
+            }
+        }
+    }
+
+    public static bool Pound
+    {
+        get => pound;
+        private set
+        {
+            pound = value;
+            if (!value)
+            {
+                imperial = false;
+            }
+            else if (Inch)
+            {
+                imperial = true;
+            }
+        }
+    }
+
     public static bool Vore { get; private set; } = false;
     public static bool Scat { get; private set; } = false;
 

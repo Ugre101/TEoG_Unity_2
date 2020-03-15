@@ -14,7 +14,9 @@ public class OptionButtons : MonoBehaviour
     [SerializeField] private TextMeshProUGUI pixelText = null;
 
     [Header("Imperial")]
-    [SerializeField] private Button impButton = null, inchBtn = null, poundBtn = null;
+    [SerializeField] private Button impButton = null;
+
+    [SerializeField] private Button inchBtn = null, poundBtn = null;
 
     [SerializeField] private TextMeshProUGUI impText = null, inchText = null, poundText = null;
 
@@ -35,15 +37,27 @@ public class OptionButtons : MonoBehaviour
             impText = impText != null ? impText : impButton.GetComponentInChildren<TextMeshProUGUI>();
             SetImpText();
         }
+        if (inchBtn != null)
+        {
+            inchBtn.onClick.AddListener(ToggleInch);
+            inchText = inchText != null ? inchText : inchBtn.GetComponentInChildren<TextMeshProUGUI>();
+            SetInchText();
+        }
+        if (poundBtn != null)
+        {
+            poundBtn.onClick.AddListener(TooglePound);
+            poundText = poundText != null ? poundText : poundBtn.GetComponentInChildren<TextMeshProUGUI>();
+            SetPoundText();
+        }
     }
 
     private void SetPixelText() => pixelText.text = $"Pixelperfect: {pixelToggle}";
 
     private void SetImpText() => impText.text = $"Inch & pound: {Settings.Imperial}";
 
-    private void SetInchText() => inchText.text = $"Inch: {Settings.Inch}";
+    private void SetInchText() => inchText.text = Settings.Inch ? "Inch" : "Metric";
 
-    private void SetPoundText() => poundText.text = $"Pound: {Settings.Pound}";
+    private void SetPoundText() => poundText.text = Settings.Pound ? "Pound" : "Kg";
 
     private void TogglePixelCamera()
     {
@@ -67,6 +81,7 @@ public class OptionButtons : MonoBehaviour
         Settings.ToogleInch();
         UgreTools.SetPlayerPrefBool("Inch", Settings.Inch);
         SetInchText();
+        SetImpText();
     }
 
     private void TooglePound()
@@ -74,5 +89,6 @@ public class OptionButtons : MonoBehaviour
         Settings.TooglePound();
         UgreTools.SetPlayerPrefBool("Pound", Settings.Pound);
         SetPoundText();
+        SetImpText();
     }
 }

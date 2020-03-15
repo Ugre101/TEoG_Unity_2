@@ -7,9 +7,7 @@ public class QuestMiniBtn : MonoBehaviour
 {
     [SerializeField] private Image icon = null;
 
-    [SerializeField] private TextMeshProUGUI title = null;
-
-    [SerializeField] private TextMeshProUGUI desc = null;
+    [SerializeField] private TextMeshProUGUI title = null, desc = null, tier = null;
 
     [SerializeField] private Button btn;
 
@@ -32,7 +30,11 @@ public class QuestMiniBtn : MonoBehaviour
         desc.text = $"Completed: {quest.Completed}";
         if (quest is TieredQuest tiered)
         {
-            desc.text += $"Tier: {tiered.Tier}";
+            tier.text = $"Tier: {tiered.Tier}";
+        }
+        else
+        {
+            tier.gameObject.SetActive(false);
         }
         icon.sprite = null;
     }
