@@ -10,7 +10,7 @@ namespace EssenceMenu
         protected override void UpdateButtons()
         {
             transform.KillChildren();
-            Instantiate(addVaginaPrefab, transform).Setup(player);
+            Instantiate(addVaginaPrefab, transform).Setup(player).onClick.AddListener(UpdateButtons);
             foreach (Vagina v in player.SexualOrgans.Vaginas)
             {
                 Instantiate(growVaginaPrefab, transform).Setup(player, v);
