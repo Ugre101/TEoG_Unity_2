@@ -175,4 +175,6 @@ public static class Settings
         }
         string CapOrLower(string gender) => capital ? char.ToUpper(gender[0]) + gender.Substring(1) : gender.ToLower();
     }
+
+    public static float DoubleClickTime { get; private set; } = 2f;
 }

@@ -30,8 +30,5 @@ public class BasicStatButton : PerkTreeBasicBtn
         }
     }
 
-    public override void OnPointerEnter(PointerEventData eventData)
-    {
-        PerkTreeHoverText.Hovering(statInfo.Info, statInfo.Effects);
-    }
+    protected override void Hovering() => PerkTreeHoverText.Hovering(statInfo.Info, statInfo.Effects);
 }

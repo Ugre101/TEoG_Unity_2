@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class PerkButton : PerkTreeBasicBtn
 {
@@ -55,7 +54,7 @@ public class PerkButton : PerkTreeBasicBtn
         }
     }
 
-    public override void OnPointerEnter(PointerEventData eventData)
+    protected override void Hovering()
     {
         if (perkInfo.Unlocked(player))
         {

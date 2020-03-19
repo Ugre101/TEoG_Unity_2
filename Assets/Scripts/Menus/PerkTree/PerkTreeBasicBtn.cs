@@ -43,7 +43,23 @@ public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IP
     {
         btn = btn != null ? btn : GetComponent<Button>();
         player = player != null ? player : PlayerMain.GetPlayer;
-        btn.onClick.AddListener(Use);
+        btn.onClick.AddListener(DoubleClick);
+    }
+
+    private float lastClick;
+
+    private void DoubleClick()
+    {
+        float newClick = Time.unscaledTime;
+        if (newClick < lastClick + Settings.DoubleClickTime)
+        {
+            Use();
+        }
+        else
+        {
+            Hovering(); // Mainly for mobile
+        }
+        lastClick = Time.unscaledTime;
     }
 
     protected virtual void OnEnable() => RuneOpacity();
@@ -52,7 +68,9 @@ public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IP
 
     protected abstract void Use();
 
-    public abstract void OnPointerEnter(PointerEventData eventData);
+    protected abstract void Hovering();
+
+    public void OnPointerEnter(PointerEventData eventData) => Hovering();
 
     public void OnPointerExit(PointerEventData eventData) => PerkTreeHoverText.StopHovering();
 }
