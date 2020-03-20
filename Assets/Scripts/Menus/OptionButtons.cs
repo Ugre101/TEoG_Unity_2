@@ -20,6 +20,11 @@ public class OptionButtons : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI impText = null, inchText = null, poundText = null;
 
+    [Header("Gender")]
+    [SerializeField] private Button setGenders = null;
+
+    [SerializeField] private GameObject setGendersGameObj = null;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -49,6 +54,7 @@ public class OptionButtons : MonoBehaviour
             poundText = poundText != null ? poundText : poundBtn.GetComponentInChildren<TextMeshProUGUI>();
             SetPoundText();
         }
+        setGenders.onClick.AddListener(OpenSetGenders);
     }
 
     private void SetPixelText() => pixelText.text = $"Pixelperfect: {pixelToggle}";
@@ -90,5 +96,11 @@ public class OptionButtons : MonoBehaviour
         UgreTools.SetPlayerPrefBool("Pound", Settings.Pound);
         SetPoundText();
         SetImpText();
+    }
+
+    private void OpenSetGenders()
+    {
+        setGendersGameObj.SetActive(true);
+        GameManager.KeyBindsActive = false;
     }
 }

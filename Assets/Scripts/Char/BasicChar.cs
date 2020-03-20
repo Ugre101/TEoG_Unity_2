@@ -37,9 +37,9 @@ public abstract class BasicChar : MonoBehaviour
 
     private void DidGenderChange()
     {
-        if (lastGender != this.Gender)
+        if (lastGender != this.Gender())
         {
-            lastGender = this.Gender;
+            lastGender = this.Gender();
             GenderChangeEvent?.Invoke();
         }
     }
@@ -48,7 +48,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public event GenderChange GenderChangeEvent;
 
-    public Genders Gender => this.Gender();
+    public string Gender => Settings.GetGender(this);
     public GenderTypes GenderType => this.GenderType();
 
     [SerializeField] private VoreEngine vore;

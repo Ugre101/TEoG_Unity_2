@@ -157,21 +157,15 @@ public static class Settings
 
     public static string GetGender(BasicChar who, bool capital = false)
     {
-        switch (who.Gender)
+        switch (who.Gender())
         {
             case Genders.Herm: return CapOrLower(Herm);
-
             case Genders.Male: return CapOrLower(Male);
-
             case Genders.Female: return CapOrLower(Female);
-
             case Genders.Dickgirl: return CapOrLower(Dickgirl);
-
             case Genders.Cuntboy: return CapOrLower(Cuntboy);
-
             case Genders.Doll:
-            default:
-                return CapOrLower(Doll);
+            default: return CapOrLower(Doll);
         }
         string CapOrLower(string gender) => capital ? char.ToUpper(gender[0]) + gender.Substring(1) : gender.ToLower();
     }

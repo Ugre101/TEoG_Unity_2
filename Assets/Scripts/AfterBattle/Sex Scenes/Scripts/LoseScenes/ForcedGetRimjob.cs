@@ -6,16 +6,16 @@ public class ForcedGetRimjob : LoseScene
     public override string StartScene(PlayerMain player, BasicChar other)
     {
         string returnText = string.Empty;
-        if (player.Gender == Genders.Doll && other.SexualOrgans.HaveDick())
+        if (player.Gender() == Genders.Doll && other.SexualOrgans.HaveDick())
         {
             returnText += "Rather than use their penis on your ass, they'd rather find a pussy instead. ";
         }
-        else if (player.Gender != Genders.Doll)
+        else if (player.Gender() != Genders.Doll)
         {
             returnText += "Rather than pleasuring your more sensitive organs, they've decided to humiliate you instead. ";
         }
         returnText += "Forcing you onto your stomach, your enemy repeatedly smacks your ass, bringing a blush to both sets of cheeks. Despite your humiliation (and your ass getting sore), you soon orgasm";
-        if (player.Gender == Genders.Herm)
+        if (player.Gender() == Genders.Herm)
         {
             returnText += ", spurting cum from your dick onto your belly and soaking your thighs.";
         }
