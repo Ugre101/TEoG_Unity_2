@@ -16,9 +16,9 @@ public class OptionButtons : MonoBehaviour
     [Header("Imperial")]
     [SerializeField] private Button impButton = null;
 
-    [SerializeField] private Button inchBtn = null, poundBtn = null;
+    [SerializeField] private Button inchBtn = null, poundBtn = null, gallonBtn = null;
 
-    [SerializeField] private TextMeshProUGUI impText = null, inchText = null, poundText = null;
+    [SerializeField] private TextMeshProUGUI impText = null, inchText = null, poundText = null, gallonText = null;
 
     [Header("Gender")]
     [SerializeField] private Button setGenders = null;
@@ -54,16 +54,24 @@ public class OptionButtons : MonoBehaviour
             poundText = poundText != null ? poundText : poundBtn.GetComponentInChildren<TextMeshProUGUI>();
             SetPoundText();
         }
+        if (gallonBtn != null)
+        {
+            gallonBtn.onClick.AddListener(ToogleGallon);
+            gallonText = gallonText != null ? gallonText : gallonBtn.GetComponentInChildren<TextMeshProUGUI>();
+            SetGallonText();
+        }
         setGenders.onClick.AddListener(OpenSetGenders);
     }
 
     private void SetPixelText() => pixelText.text = $"Pixelperfect: {pixelToggle}";
 
-    private void SetImpText() => impText.text = $"Inch & pound: {Settings.Imperial}";
+    private void SetImpText() => impText.text = $"Imperial: {Settings.Imperial}";
 
     private void SetInchText() => inchText.text = Settings.Inch ? "Inch" : "Metric";
 
     private void SetPoundText() => poundText.text = Settings.Pound ? "Pound" : "Kg";
+
+    private void SetGallonText() => gallonText.text = Settings.Gallon ? "Gallon" : "Liter";
 
     private void TogglePixelCamera()
     {
@@ -80,6 +88,7 @@ public class OptionButtons : MonoBehaviour
         SetImpText();
         SetInchText();
         SetPoundText();
+        SetGallonText();
     }
 
     private void ToggleInch()
@@ -95,6 +104,14 @@ public class OptionButtons : MonoBehaviour
         Settings.TooglePound();
         UgreTools.SetPlayerPrefBool("Pound", Settings.Pound);
         SetPoundText();
+        SetImpText();
+    }
+
+    private void ToogleGallon()
+    {
+        Settings.ToogleGallon();
+        UgreTools.SetPlayerPrefBool("Gallon", Settings.Gallon);
+        SetGallonText();
         SetImpText();
     }
 

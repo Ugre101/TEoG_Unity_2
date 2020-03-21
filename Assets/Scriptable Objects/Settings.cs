@@ -5,7 +5,10 @@ public static class Settings
 {
     public static void Save()
     {
-        UgreTools.SetPlayerPrefBool("Imperial", Imperial);
+        UgreTools.SetPlayerPrefBool(impSaveName, Imperial);
+        UgreTools.SetPlayerPrefBool(inchSaveName, Inch);
+        UgreTools.SetPlayerPrefBool(poundSaveName, Pound);
+        UgreTools.SetPlayerPrefBool(gallonSaveName, Gallon);
         UgreTools.SetPlayerPrefBool("Vore", Vore);
         PlayerPrefs.SetString("Male", Male);
         PlayerPrefs.SetString("Female", Female);
@@ -17,7 +20,10 @@ public static class Settings
 
     public static void Load()
     {
-        Imperial = UgreTools.GetPlayerPrefBool("Imperial");
+        Imperial = UgreTools.GetPlayerPrefBool(impSaveName);
+        Inch = UgreTools.GetPlayerPrefBool(inchSaveName);
+        Pound = UgreTools.GetPlayerPrefBool(poundSaveName);
+        Gallon = UgreTools.GetPlayerPrefBool(gallonSaveName);
         Vore = UgreTools.GetPlayerPrefBool("Vore");
         Male = PlayerPrefs.GetString("Male", Male);
         Female = PlayerPrefs.GetString("Female", Female);
@@ -28,17 +34,23 @@ public static class Settings
     }
 
     private static bool imperial = false;
+    private const string impSaveName = "Imperial";
     private static bool inch = false;
+    private const string inchSaveName = "Inch";
     private static bool pound = false;
+    private const string poundSaveName = "Pound";
+    private static bool gallon = false;
+    private const string gallonSaveName = "Gallon";
 
     public static bool Imperial
     {
         get => imperial;
         set
         {
+            imperial = value;
             Inch = value;
             Pound = value;
-            imperial = value;
+            Gallon = value;
         }
     }
 
@@ -52,7 +64,7 @@ public static class Settings
             {
                 imperial = false;
             }
-            else if (Pound)
+            else if (Pound && Gallon)
             {
                 imperial = true;
             }
@@ -69,7 +81,24 @@ public static class Settings
             {
                 imperial = false;
             }
-            else if (Inch)
+            else if (Inch && Gallon)
+            {
+                imperial = true;
+            }
+        }
+    }
+
+    public static bool Gallon
+    {
+        get => gallon;
+        private set
+        {
+            gallon = value;
+            if (!value)
+            {
+                imperial = false;
+            }
+            else if (Inch && Pound)
             {
                 imperial = true;
             }
@@ -85,6 +114,8 @@ public static class Settings
 
     public static bool TooglePound() => Pound = !Pound;
 
+    public static bool ToogleGallon() => Gallon = !Gallon;
+
     public static bool ToogleVore() => Vore = !Vore;
 
     public static bool ToogleScat() => Scat = !Scat;
@@ -92,7 +123,7 @@ public static class Settings
     public static string LorGal(float L)
     {
         if (L == 0) { return "empty"; }
-        if (Imperial)
+        if (Gallon)
         {
             return Mathf.Floor(0.264172052f * L) < 1 ?
                 $"{Mathf.Round(L * 4.22675284f)}cups" : $"{Mathf.Round(L * 0.264172052f)}gallon";
@@ -106,7 +137,7 @@ public static class Settings
     public static string MorInch(float cm)
     {
         if (cm == 0) { return "zero?"; }
-        if (Imperial)
+        if (Inch)
         {
             float Inch = Mathf.Round(cm / 2.54f);
             float Feet = Mathf.Floor(Inch / 12);
@@ -123,7 +154,7 @@ public static class Settings
     public static string KgorP(float kg)
     {
         if (kg <= 0) { return "zero?"; }
-        if (Imperial)
+        if (Pound)
         {
             // int stone = Mathf.FloorToInt(kg * 0.15747304441777f); // when to use stone?
             float pound = Mathf.Round(kg * 2.20462262f);

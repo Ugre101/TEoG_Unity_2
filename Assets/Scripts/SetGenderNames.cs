@@ -48,5 +48,6 @@ public class SetGenderNames : MonoBehaviour
     private void OnDisable()
     {
         GameManager.KeyBindsActive = true;
+        gameObject.SetActive(false);
     }
 }
