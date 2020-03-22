@@ -3,6 +3,7 @@ using UnityEngine;
 
 public static class Settings
 {
+    #region Save&Load
     public static void Save()
     {
         UgreTools.SetPlayerPrefBool(impSaveName, Imperial);
@@ -32,6 +33,8 @@ public static class Settings
         Dickgirl = PlayerPrefs.GetString("Dickgirl", Dickgirl);
         Doll = PlayerPrefs.GetString("Doll", Doll);
     }
+    #endregion  
+    #region Unit bools
 
     private static bool imperial = false;
     private const string impSaveName = "Imperial";
@@ -105,9 +108,6 @@ public static class Settings
         }
     }
 
-    public static bool Vore { get; private set; } = false;
-    public static bool Scat { get; private set; } = false;
-
     public static bool ToogleImperial() => Imperial = !Imperial;
 
     public static bool ToogleInch() => Inch = !Inch;
@@ -116,10 +116,15 @@ public static class Settings
 
     public static bool ToogleGallon() => Gallon = !Gallon;
 
+    #endregion Unit bools
+
+    public static bool Vore { get; private set; } = false;
+    public static bool Scat { get; private set; } = false;
+
     public static bool ToogleVore() => Vore = !Vore;
 
     public static bool ToogleScat() => Scat = !Scat;
-
+    #region UnitConvetors
     public static string LorGal(float L)
     {
         if (L == 0) { return "empty"; }
@@ -178,7 +183,7 @@ public static class Settings
             else { return Mathf.Ceil(kg * 1000) + "g"; }
         }
     }
-
+    #endregion  
     public static string Male = "male";
     public static string Female = "female";
     public static string Herm = "herm";
@@ -201,5 +206,11 @@ public static class Settings
         string CapOrLower(string gender) => capital ? char.ToUpper(gender[0]) + gender.Substring(1) : gender.ToLower();
     }
 
-    public static float DoubleClickTime { get; private set; } = 2f;
+    public const float DoubleClickTime = 2f;
+    public static float EventLogFontSize { get; private set; } = 14f;
+    public static float EventLogFontSizeDown => EventLogFontSize -= 0.5f;
+    public static float EventLogFontSizeUp => EventLogFontSize += 0.5f;
+    public static float CombatLogFontSize { get; private set; } = 14f;
+    public static float CombatLogFontSizeDown => CombatLogFontSize -= 0.5f;
+    public static float CombatLogFontSizeUp => CombatLogFontSize += 0.5f;
 }
