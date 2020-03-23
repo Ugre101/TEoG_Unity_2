@@ -4,6 +4,7 @@ using UnityEngine;
 public static class Settings
 {
     #region Save&Load
+
     public static void Save()
     {
         UgreTools.SetPlayerPrefBool(impSaveName, Imperial);
@@ -33,7 +34,9 @@ public static class Settings
         Dickgirl = PlayerPrefs.GetString("Dickgirl", Dickgirl);
         Doll = PlayerPrefs.GetString("Doll", Doll);
     }
-    #endregion  
+
+    #endregion Save&Load
+
     #region Unit bools
 
     private static bool imperial = false;
@@ -124,7 +127,9 @@ public static class Settings
     public static bool ToogleVore() => Vore = !Vore;
 
     public static bool ToogleScat() => Scat = !Scat;
+
     #region UnitConvetors
+
     public static string LorGal(float L)
     {
         if (L == 0) { return "empty"; }
@@ -183,8 +188,11 @@ public static class Settings
             else { return Mathf.Ceil(kg * 1000) + "g"; }
         }
     }
-    #endregion  
+
+    #endregion UnitConvetors
+
     public static string Male = "male";
+
     public static string Female = "female";
     public static string Herm = "herm";
     public static string Cuntboy = "cuntboy";
@@ -213,4 +221,7 @@ public static class Settings
     public static float CombatLogFontSize { get; private set; } = 14f;
     public static float CombatLogFontSizeDown => CombatLogFontSize -= 0.5f;
     public static float CombatLogFontSizeUp => CombatLogFontSize += 0.5f;
+    public static float SexlogFontSize { get; private set; } = 14f;
+    public static float SexlogFontSizeDown => SexlogFontSize -= 0.5f;
+    public static float SexlogFontSizeUp => SexlogFontSize += 0.5f;
 }

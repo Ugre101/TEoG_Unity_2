@@ -25,6 +25,13 @@ public class OptionButtons : MonoBehaviour
 
     [SerializeField] private GameObject setGendersGameObj = null;
 
+    [Header("FontSizes")]
+    [SerializeField] private Button eventFontUp = null;
+
+    [SerializeField] private Button eventFontDown = null, textlogFontUp = null, textlogFontDown = null;
+
+    [SerializeField] private TextMeshProUGUI currEventFontSize = null, currTextlogFontSize = null;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -60,6 +67,18 @@ public class OptionButtons : MonoBehaviour
             gallonText = gallonText != null ? gallonText : gallonBtn.GetComponentInChildren<TextMeshProUGUI>();
             SetGallonText();
         }
+        if (currEventFontSize != null) { currEventFontSize.text = Settings.EventLogFontSize.ToString(); }
+        if (eventFontUp != null && eventFontDown != null)
+        {
+            eventFontUp.onClick.AddListener(EventFontSizeUp);
+            eventFontDown.onClick.AddListener(EventFontSizeDown);
+        }
+        if (currTextlogFontSize != null) { currTextlogFontSize.text = Settings.CombatLogFontSize.ToString(); }
+        if (textlogFontUp != null && textlogFontDown != null)
+        {
+            textlogFontUp.onClick.AddListener(TextlogFontSizeUp);
+            textlogFontDown.onClick.AddListener(TextlogFontSizeDown);
+        }
         setGenders.onClick.AddListener(OpenSetGenders);
     }
 
@@ -80,6 +99,8 @@ public class OptionButtons : MonoBehaviour
         pixelPerfectCamera.enabled = pixelToggle;
         SetPixelText();
     }
+
+    #region Toggle Units
 
     private void ToggleImp()
     {
@@ -114,6 +135,16 @@ public class OptionButtons : MonoBehaviour
         SetGallonText();
         SetImpText();
     }
+
+    #endregion Toggle Units
+
+    private void EventFontSizeUp() => currEventFontSize.text = Settings.EventLogFontSizeUp.ToString();
+
+    private void EventFontSizeDown() => currEventFontSize.text = Settings.EventLogFontSizeDown.ToString();
+
+    private void TextlogFontSizeUp() => currTextlogFontSize.text = Settings.CombatLogFontSizeUp.ToString();
+
+    private void TextlogFontSizeDown() => currTextlogFontSize.text = Settings.CombatLogFontSizeDown.ToString();
 
     private void OpenSetGenders()
     {
