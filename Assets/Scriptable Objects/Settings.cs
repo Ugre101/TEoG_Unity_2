@@ -7,17 +7,24 @@ public static class Settings
 
     public static void Save()
     {
+        // Metrics & Units
         UgreTools.SetPlayerPrefBool(impSaveName, Imperial);
         UgreTools.SetPlayerPrefBool(inchSaveName, Inch);
         UgreTools.SetPlayerPrefBool(poundSaveName, Pound);
         UgreTools.SetPlayerPrefBool(gallonSaveName, Gallon);
+
         UgreTools.SetPlayerPrefBool("Vore", Vore);
+        // Gender names
         PlayerPrefs.SetString("Male", Male);
         PlayerPrefs.SetString("Female", Female);
         PlayerPrefs.SetString("Herm", Herm);
         PlayerPrefs.SetString("Cuntboy", Cuntboy);
         PlayerPrefs.SetString("Dickgirl", Dickgirl);
         PlayerPrefs.SetString("Doll", Doll);
+        // Fontsizes
+        PlayerPrefs.SetFloat(eventLogFontSizeSaveName, EventLogFontSize);
+        PlayerPrefs.SetFloat(combatLogFontSizeSaveName, CombatLogFontSize);
+        PlayerPrefs.SetFloat(sexlogFontSizeSaveName, SexlogFontSize);
     }
 
     public static void Load()
@@ -33,6 +40,9 @@ public static class Settings
         Cuntboy = PlayerPrefs.GetString("Cuntboy", Cuntboy);
         Dickgirl = PlayerPrefs.GetString("Dickgirl", Dickgirl);
         Doll = PlayerPrefs.GetString("Doll", Doll);
+        EventLogFontSize = UgreTools.GetFloatPref(EventLogFontSize, eventLogFontSizeSaveName);
+        CombatLogFontSize = UgreTools.GetFloatPref(CombatLogFontSize, combatLogFontSizeSaveName);
+        SexlogFontSize = UgreTools.GetFloatPref(SexlogFontSize, sexlogFontSizeSaveName);
     }
 
     #endregion Save&Load
@@ -215,13 +225,21 @@ public static class Settings
     }
 
     public const float DoubleClickTime = 2f;
-    public static float EventLogFontSize { get; private set; } = 14f;
+    private static float eventLogFontSize = 14f;
+    private const string eventLogFontSizeSaveName = "EventlogFontSize";
+    private static float combatLogFontSize = 14f;
+    private const string combatLogFontSizeSaveName = "CombatlogFontSize";
+    private static float sexlogFontSize = 14f;
+    private const string sexlogFontSizeSaveName = "SexlogFontSize";
+
+    public static float EventLogFontSize { get => eventLogFontSize; private set => eventLogFontSize = Mathf.Max(value, 0.5f); }
+
     public static float EventLogFontSizeDown => EventLogFontSize -= 0.5f;
     public static float EventLogFontSizeUp => EventLogFontSize += 0.5f;
-    public static float CombatLogFontSize { get; private set; } = 14f;
+    public static float CombatLogFontSize { get => combatLogFontSize; private set => combatLogFontSize = Mathf.Max(value, 0.5f); }
     public static float CombatLogFontSizeDown => CombatLogFontSize -= 0.5f;
     public static float CombatLogFontSizeUp => CombatLogFontSize += 0.5f;
-    public static float SexlogFontSize { get; private set; } = 14f;
+    public static float SexlogFontSize { get => sexlogFontSize; private set => sexlogFontSize = Mathf.Max(value, 0.5f); }
     public static float SexlogFontSizeDown => SexlogFontSize -= 0.5f;
     public static float SexlogFontSizeUp => SexlogFontSize += 0.5f;
 }
