@@ -88,7 +88,7 @@ public class ShowDorm : MonoBehaviour
             {
                 List<BasicChar> sorted = dorm.Servants;
                 if (chooseRace.HasValue) { sorted = sorted.FindAll(bc => bc.RaceSystem.CurrentRace() == chooseRace.Value); }
-                if (chooseGender.HasValue) { sorted = sorted.FindAll(bc => bc.Gender == chooseGender.Value); }
+                if (chooseGender.HasValue) { sorted = sorted.FindAll(bc => bc.Gender() == chooseGender.Value); }
                 if (sortByStat.HasValue) { sorted = SortSercantByRelationship(sorted); }
                 sorted.ForEach(s =>
                 {

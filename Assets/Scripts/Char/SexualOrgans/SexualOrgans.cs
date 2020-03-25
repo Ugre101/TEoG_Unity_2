@@ -129,7 +129,6 @@ public abstract class SexualOrgan
     public SexualOrgan(int parBase)
     {
         BaseSize = parBase;
-        SomethingChanged?.Invoke(); 
     }
 
     public SexualOrgan() : this(2)

@@ -15,13 +15,15 @@ public class EventLogHandlerBase : MonoBehaviour, IPointerClickHandler
         canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
     }
 
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         EventLog.EventTextEvent += PrintEventlog;
         PrintEventlog();
     }
 
     private void OnDisable() => EventLog.EventTextEvent -= PrintEventlog;
+
+    protected void SetFontSize(float size) => logText.fontSize = size;
 
     private void PrintEventlog() => logText.text = EventLog.Print();
 

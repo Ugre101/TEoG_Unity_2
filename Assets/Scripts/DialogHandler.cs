@@ -30,10 +30,7 @@ public class DialogHandler : MonoBehaviour
     public void StartDialog(Dialog dialog)
     {
         textLog.SetText(dialog.Intro);
-        dialog.DialogOptions.ForEach(d =>
-        {
-            Instantiate(dialogBtn, btnContainer).Setup(d.ButtonTitle).onClick.AddListener(() => BtnClick(d));
-        });
+        dialog.DialogOptions.ForEach(d => Instantiate(dialogBtn, btnContainer).Setup(d.ButtonTitle).onClick.AddListener(() => BtnClick(d)));
     }
 
     private void BtnClick(DialogOption d)
@@ -42,22 +39,20 @@ public class DialogHandler : MonoBehaviour
         textLog.SetText(d.DialogText);
         if (d.DialogOptions.Count > 0)
         {
-            d.DialogOptions.ForEach(dn =>
-            {
-                Instantiate(dialogBtn, btnContainer).Setup(dn.ButtonTitle).onClick.AddListener(() => BtnClick(dn));
-            });
+            d.DialogOptions.ForEach(dn => Instantiate(dialogBtn, btnContainer).Setup(dn.ButtonTitle).onClick.AddListener(() => BtnClick(dn)));
         }
         else
         {
             // TODO add leave
         }
     }
+
     private void Fight()
     {
-
+       
     }
+
     private void Leave()
     {
-
     }
 }

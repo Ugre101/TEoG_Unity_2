@@ -3,21 +3,36 @@ using UnityEngine;
 
 public static class Settings
 {
+    #region Save&Load
+
     public static void Save()
     {
-        UgreTools.SetPlayerPrefBool("Imperial", Imperial);
+        // Metrics & Units
+        UgreTools.SetPlayerPrefBool(impSaveName, Imperial);
+        UgreTools.SetPlayerPrefBool(inchSaveName, Inch);
+        UgreTools.SetPlayerPrefBool(poundSaveName, Pound);
+        UgreTools.SetPlayerPrefBool(gallonSaveName, Gallon);
+
         UgreTools.SetPlayerPrefBool("Vore", Vore);
+        // Gender names
         PlayerPrefs.SetString("Male", Male);
         PlayerPrefs.SetString("Female", Female);
         PlayerPrefs.SetString("Herm", Herm);
         PlayerPrefs.SetString("Cuntboy", Cuntboy);
         PlayerPrefs.SetString("Dickgirl", Dickgirl);
         PlayerPrefs.SetString("Doll", Doll);
+        // Fontsizes
+        PlayerPrefs.SetFloat(eventLogFontSizeSaveName, EventLogFontSize);
+        PlayerPrefs.SetFloat(combatLogFontSizeSaveName, CombatLogFontSize);
+        PlayerPrefs.SetFloat(sexlogFontSizeSaveName, SexlogFontSize);
     }
 
     public static void Load()
     {
-        Imperial = UgreTools.GetPlayerPrefBool("Imperial");
+        Imperial = UgreTools.GetPlayerPrefBool(impSaveName);
+        Inch = UgreTools.GetPlayerPrefBool(inchSaveName);
+        Pound = UgreTools.GetPlayerPrefBool(poundSaveName);
+        Gallon = UgreTools.GetPlayerPrefBool(gallonSaveName);
         Vore = UgreTools.GetPlayerPrefBool("Vore");
         Male = PlayerPrefs.GetString("Male", Male);
         Female = PlayerPrefs.GetString("Female", Female);
@@ -25,22 +40,110 @@ public static class Settings
         Cuntboy = PlayerPrefs.GetString("Cuntboy", Cuntboy);
         Dickgirl = PlayerPrefs.GetString("Dickgirl", Dickgirl);
         Doll = PlayerPrefs.GetString("Doll", Doll);
+        EventLogFontSize = UgreTools.GetFloatPref(EventLogFontSize, eventLogFontSizeSaveName);
+        CombatLogFontSize = UgreTools.GetFloatPref(CombatLogFontSize, combatLogFontSizeSaveName);
+        SexlogFontSize = UgreTools.GetFloatPref(SexlogFontSize, sexlogFontSizeSaveName);
     }
 
-    public static bool Imperial { get; private set; } = false;
-    public static bool Vore { get; private set; } = false;
-    public static bool Scat { get; private set; } = false;
+    #endregion Save&Load
+
+    #region Unit bools
+
+    private static bool imperial = false;
+    private const string impSaveName = "Imperial";
+    private static bool inch = false;
+    private const string inchSaveName = "Inch";
+    private static bool pound = false;
+    private const string poundSaveName = "Pound";
+    private static bool gallon = false;
+    private const string gallonSaveName = "Gallon";
+
+    public static bool Imperial
+    {
+        get => imperial;
+        set
+        {
+            imperial = value;
+            Inch = value;
+            Pound = value;
+            Gallon = value;
+        }
+    }
+
+    public static bool Inch
+    {
+        get => inch;
+        private set
+        {
+            inch = value;
+            if (!value)
+            {
+                imperial = false;
+            }
+            else if (Pound && Gallon)
+            {
+                imperial = true;
+            }
+        }
+    }
+
+    public static bool Pound
+    {
+        get => pound;
+        private set
+        {
+            pound = value;
+            if (!value)
+            {
+                imperial = false;
+            }
+            else if (Inch && Gallon)
+            {
+                imperial = true;
+            }
+        }
+    }
+
+    public static bool Gallon
+    {
+        get => gallon;
+        private set
+        {
+            gallon = value;
+            if (!value)
+            {
+                imperial = false;
+            }
+            else if (Inch && Pound)
+            {
+                imperial = true;
+            }
+        }
+    }
 
     public static bool ToogleImperial() => Imperial = !Imperial;
+
+    public static bool ToogleInch() => Inch = !Inch;
+
+    public static bool TooglePound() => Pound = !Pound;
+
+    public static bool ToogleGallon() => Gallon = !Gallon;
+
+    #endregion Unit bools
+
+    public static bool Vore { get; private set; } = false;
+    public static bool Scat { get; private set; } = false;
 
     public static bool ToogleVore() => Vore = !Vore;
 
     public static bool ToogleScat() => Scat = !Scat;
 
+    #region UnitConvetors
+
     public static string LorGal(float L)
     {
         if (L == 0) { return "empty"; }
-        if (Imperial)
+        if (Gallon)
         {
             return Mathf.Floor(0.264172052f * L) < 1 ?
                 $"{Mathf.Round(L * 4.22675284f)}cups" : $"{Mathf.Round(L * 0.264172052f)}gallon";
@@ -54,7 +157,7 @@ public static class Settings
     public static string MorInch(float cm)
     {
         if (cm == 0) { return "zero?"; }
-        if (Imperial)
+        if (Inch)
         {
             float Inch = Mathf.Round(cm / 2.54f);
             float Feet = Mathf.Floor(Inch / 12);
@@ -71,7 +174,7 @@ public static class Settings
     public static string KgorP(float kg)
     {
         if (kg <= 0) { return "zero?"; }
-        if (Imperial)
+        if (Pound)
         {
             // int stone = Mathf.FloorToInt(kg * 0.15747304441777f); // when to use stone?
             float pound = Mathf.Round(kg * 2.20462262f);
@@ -96,7 +199,10 @@ public static class Settings
         }
     }
 
+    #endregion UnitConvetors
+
     public static string Male = "male";
+
     public static string Female = "female";
     public static string Herm = "herm";
     public static string Cuntboy = "cuntboy";
@@ -105,22 +211,35 @@ public static class Settings
 
     public static string GetGender(BasicChar who, bool capital = false)
     {
-        switch (who.Gender)
+        switch (who.Gender())
         {
             case Genders.Herm: return CapOrLower(Herm);
-
             case Genders.Male: return CapOrLower(Male);
-
             case Genders.Female: return CapOrLower(Female);
-
             case Genders.Dickgirl: return CapOrLower(Dickgirl);
-
             case Genders.Cuntboy: return CapOrLower(Cuntboy);
-
             case Genders.Doll:
-            default:
-                return CapOrLower(Doll);
+            default: return CapOrLower(Doll);
         }
         string CapOrLower(string gender) => capital ? char.ToUpper(gender[0]) + gender.Substring(1) : gender.ToLower();
     }
+
+    public const float DoubleClickTime = 2f;
+    private static float eventLogFontSize = 14f;
+    private const string eventLogFontSizeSaveName = "EventlogFontSize";
+    private static float combatLogFontSize = 14f;
+    private const string combatLogFontSizeSaveName = "CombatlogFontSize";
+    private static float sexlogFontSize = 14f;
+    private const string sexlogFontSizeSaveName = "SexlogFontSize";
+
+    public static float EventLogFontSize { get => eventLogFontSize; private set => eventLogFontSize = Mathf.Max(value, 0.5f); }
+
+    public static float EventLogFontSizeDown => EventLogFontSize -= 0.5f;
+    public static float EventLogFontSizeUp => EventLogFontSize += 0.5f;
+    public static float CombatLogFontSize { get => combatLogFontSize; private set => combatLogFontSize = Mathf.Max(value, 0.5f); }
+    public static float CombatLogFontSizeDown => CombatLogFontSize -= 0.5f;
+    public static float CombatLogFontSizeUp => CombatLogFontSize += 0.5f;
+    public static float SexlogFontSize { get => sexlogFontSize; private set => sexlogFontSize = Mathf.Max(value, 0.5f); }
+    public static float SexlogFontSizeDown => SexlogFontSize -= 0.5f;
+    public static float SexlogFontSizeUp => SexlogFontSize += 0.5f;
 }

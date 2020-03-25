@@ -8,6 +8,8 @@ public static class UgreTools
 
     public static void SetPlayerPrefBool(string name, bool boolVal) => PlayerPrefs.SetInt(name, boolVal ? 1 : 0);
 
+    public static float GetFloatPref(float val, string saveName) => PlayerPrefs.HasKey(saveName) ? PlayerPrefs.GetFloat(saveName) : val;
+
     /// <summary> Destroy the children of gameobject calling it </summary>
     public static void KillChildren(this Transform parTransform)
     {

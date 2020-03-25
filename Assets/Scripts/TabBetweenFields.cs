@@ -7,13 +7,9 @@ public class TabBetweenFields : MonoBehaviour
 {
     private List<TMP_InputField> fields;
 
-    [SerializeField]
-    private KeyCode tabKey = KeyCode.Tab;
+    [SerializeField]    private KeyCode tabKey = KeyCode.Tab;
 
-    private void Start()
-    {
-        fields = GetComponentsInChildren<TMP_InputField>().ToList();
-    }
+    private void Start() => fields = GetComponentsInChildren<TMP_InputField>().ToList();
 
     // Update is called once per frame
     private void Update()

@@ -13,6 +13,12 @@ public class EventLogHandler : EventLogHandlerBase
 
     [SerializeField] private Sprite upArrow = null, downArrow = null;
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        SetFontSize(Settings.EventLogFontSize);
+    }
+
     protected override void Start()
     {
         base.Start();

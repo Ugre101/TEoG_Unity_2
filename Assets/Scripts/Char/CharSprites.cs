@@ -17,7 +17,7 @@ public class CharSprites : ScriptableObject
         List<CharSprite> matches = charSprites.FindAll(c => c.Race == who.RaceSystem.CurrentRace());
         if (matches.Count > 0)
         {
-            List<CharSprite> genderMatch = matches.FindAll(c => c.Gender == who.Gender);
+            List<CharSprite> genderMatch = matches.FindAll(c => c.Gender == who.Gender());
             if (genderMatch.Count > 0)
             {
                 return genderMatch[rnd.Next(genderMatch.Count)];

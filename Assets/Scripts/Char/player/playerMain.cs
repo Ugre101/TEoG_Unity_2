@@ -25,8 +25,8 @@ public class PlayerMain : BasicChar
         RaceSystem.AddRace(Races.Human, 100);
         body = new Body(160, 10, 20);
         Essence.StableEssence.BaseValue += 100;
-        Essence.Masc.Gain(99);
-        Essence.Femi.Gain(99);
+        Essence.Masc.Gain(9999);
+        Essence.Femi.Gain(9988);
         Currency.Gold += 100;
         InitHealth();
     }
