@@ -68,7 +68,12 @@ public class PerkInfoEditor : BaseInfoEditor
             {
                 EditorGUILayout.BeginVertical("box");
                 SerializedProperty ele = neededPerks.GetArrayElementAtIndex(i);
-                EditorGUILayout.PropertyField(ele, GUIContent.none);
+                SerializedProperty amount = ele.FindPropertyRelative("amount");
+                SerializedProperty perksTypes = ele.FindPropertyRelative("perksTypes");
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.PropertyField(perksTypes, GUIContent.none);
+                amount.intValue = EditorGUILayout.IntField(amount.intValue);
+                EditorGUILayout.EndHorizontal();
                 if (GUILayout.Button("Remove"))
                 {
                     neededPerks.DeleteArrayElementAtIndex(i);

@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Int
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  perkInfo: Intelligence
+  perkTitle: Intelligence
+  perkInfo: 
   perkEffects: Increases effect of spells
   maxLevel: 99
   perkCost: 1

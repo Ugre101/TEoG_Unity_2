@@ -73,7 +73,7 @@ public class MiniMapController : MonoBehaviour
     {
         Vector3 _target = _player.transform.position + _offset;
         transform.position = Vector3.Lerp(transform.position, _target, smoothing);
-        if (keys.mapKey.KeyDown)
+        if (keys.MapKey.KeyDown)
         {
             UpdateMapState(NewState);
             //  _down = Time.time;

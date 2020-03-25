@@ -66,39 +66,42 @@ public class CameraController : MonoBehaviour
         _target.x = Mathf.Clamp(_target.x, _xMin, _xMax);
         _target.y = Mathf.Clamp(_target.y, _yMin, _yMax);
         // if Camera controll and check if bigger than tilemap
-
-        // Mobile zoom copied from unity learn
-        if (Input.touchCount == 2)
+        if (GameManager.CurState == GameState.Free)
         {
-            Touch touchZero = Input.GetTouch(0);
-            Touch touchOne = Input.GetTouch(1);
+            // Mobile zoom copied from unity learn
+            if (Input.touchCount == 2)
+            {
+                Touch touchZero = Input.GetTouch(0);
+                Touch touchOne = Input.GetTouch(1);
 
-            // Find the position in the previous frame of each touch.
-            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+                // Find the position in the previous frame of each touch.
+                Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+                Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
 
-            // Find the magnitude of the vector (the distance) between the touches in each frame.
-            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+                // Find the magnitude of the vector (the distance) between the touches in each frame.
+                float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+                float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
 
-            // Find the difference in the distances between each frame.
-            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+                // Find the difference in the distances between each frame.
+                float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-            // ... change the orthographic size based on the change in distance between the touches.
-            YouSetOrthSize(OrthSize + deltaMagnitudeDiff * zoomSpeed);
-        }
-        float scrollValue = Input.GetAxis("Mouse ScrollWheel");
-        if (keyBindings.zoomInKey.GetsKey)
-        {
-            YouSetOrthSize(OrthSize - zoomSpeed);
-        }
-        else if (keyBindings.zoomOutKey.GetsKey)
-        {
-            YouSetOrthSize(OrthSize + zoomSpeed);
-        }
-        else if (scrollValue != 0)
-        {
-            YouSetOrthSize(OrthSize - scrollValue); // times zoom speed
+                // ... change the orthographic size based on the change in distance between the touches.
+                YouSetOrthSize(OrthSize + deltaMagnitudeDiff * zoomSpeed);
+            }
+
+            float scrollValue = Input.GetAxis("Mouse ScrollWheel");
+            if (keyBindings.ZoomInKey.GetsKey)
+            {
+                YouSetOrthSize(OrthSize - zoomSpeed);
+            }
+            else if (keyBindings.ZoomOutKey.GetsKey)
+            {
+                YouSetOrthSize(OrthSize + zoomSpeed);
+            }
+            else if (scrollValue != 0)
+            {
+                YouSetOrthSize(OrthSize - scrollValue); // times zoom speed
+            }
         }
         transform.position = Vector3.Lerp(transform.position, _target, _smoothing);
         if (OutOfBorder(_target))

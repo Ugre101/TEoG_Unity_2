@@ -14,16 +14,20 @@ public class PerkInfo : BaseInfo
     public List<NeededCharStat> NeededCharStats => neededCharStats;
     [SerializeField] private bool needOtherPerks = false;
     public bool NeedOtherPerks => needOtherPerks;
-    [SerializeField] private List<PerksTypes> neededPerks = new List<PerksTypes>();
-    private List<PerksTypes> NeededPerks => neededPerks;
+    [SerializeField] private List<NeededPerk> neededPerks = new List<NeededPerk>();
+    private List<NeededPerk> NeededPerks => neededPerks;
 
     public bool Unlocked(BasicChar basicChar)
     {
         if (NeedOtherPerks)
         {
-            foreach (PerksTypes perks in NeededPerks)
+            foreach (NeededPerk perks in NeededPerks)
             {
-                if (!basicChar.Perks.List.Exists(p => p.Type == perks))
+                if (!basicChar.Perks.List.Exists(p => p.Type == perks.Perk))
+                {
+                    return false;
+                }
+                else if (basicChar.Perks.List.Find(p => p.Type == perks.Perk).Level < perks.Amount)
                 {
                     return false;
                 }
@@ -47,9 +51,21 @@ public class PerkInfo : BaseInfo
         StringBuilder sb = new StringBuilder();
         if (NeedOtherPerks)
         {
-            foreach (PerksTypes perks in NeededPerks.Where(perks => !basicChar.Perks.List.Exists(p => p.Type == perks)).Select(perks => perks))
+            foreach (NeededPerk perks in NeededPerks.Where(perks => !basicChar.Perks.List.Exists(p => p.Type == perks.Perk)).Select(perks => perks))
             {
-                sb.Append("Need: " + perks.ToString());
+                if (perks.Amount == 1)
+                {
+                    sb.Append($"Need: {perks.Perk}");
+                }
+                else
+                {
+                    sb.Append($"Need: {perks.Amount} {perks.Perk}");
+                }
+            }
+            foreach (NeededPerk perks in NeededPerks.Where(perks => basicChar.Perks.List.Exists(p => p.Type == perks.Perk)).Select(perks => perks).Where(perks
+                  => basicChar.Perks.List.Find(p => p.Type == perks.Perk).Level < perks.Amount).Select(perks => perks))
+            {
+                sb.Append($"Need: {perks.Amount} {perks.Perk}");
             }
         }
         if (NeedCharStat)
@@ -69,6 +85,15 @@ public class PerkInfo : BaseInfo
         [SerializeField] private StatTypes stat = StatTypes.Charm;
         public int Amount => amount;
         public StatTypes Stat => stat;
+    }
+
+    [System.Serializable]
+    public class NeededPerk
+    {
+        [SerializeField] private int amount = 1;
+        [SerializeField] private PerksTypes perksTypes = PerksTypes.Delicate;
+        public int Amount => amount;
+        public PerksTypes Perk => perksTypes;
     }
 }
 

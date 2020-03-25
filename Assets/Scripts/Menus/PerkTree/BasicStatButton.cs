@@ -30,5 +30,5 @@ public class BasicStatButton : PerkTreeBasicBtn
         }
     }
 
-    protected override void Hovering() => PerkTreeHoverText.Hovering(statInfo.Info, statInfo.Effects);
+    protected override void Hovering() => PerkTreeHoverText.Hovering(statInfo.Title, statInfo.Info, statInfo.Effects);
 }

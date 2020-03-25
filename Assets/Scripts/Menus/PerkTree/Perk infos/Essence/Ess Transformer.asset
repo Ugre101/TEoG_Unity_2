@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Ess Transformer
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 2cc807f96e5491145b1def55243180ba, type: 3}
+  perkTitle: Essence transformer
   perkInfo: 
-  perkEffects: 
+  perkEffects: + Give more essence
   maxLevel: 1
   perkCost: 1
   perk: 2

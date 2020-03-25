@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Str
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  perkInfo: "Strength\t"
+  perkTitle: Strength
+  perkInfo: 
   perkEffects: Increases physical damage
   maxLevel: 99
   perkCost: 1

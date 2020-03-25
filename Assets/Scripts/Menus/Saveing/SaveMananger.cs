@@ -34,13 +34,16 @@ public class SaveMananger : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F5))
+        if (GameManager.KeyBindsActive)
         {
-            NewSaveGame();
-        }
-        else if (Input.GetKeyDown(KeyCode.F9))
-        {
-            QuickLoad();
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                NewSaveGame();
+            }
+            else if (Input.GetKeyDown(KeyCode.F9))
+            {
+                QuickLoad();
+            }
         }
     }
 
@@ -58,19 +61,20 @@ public class SaveMananger : MonoBehaviour
         NewSaveGame();
         if (File.Exists(lastSavePath))
         {
-            Debug.Log("Pause menu; save & quit");
             Application.Quit();
         }
         else
         {
-            Debug.LogError("Save failed...");
         }
     }
 
     public void QuickLoad()
     {
-        string json = File.ReadAllText(lastSavePath);
-        NewSave.LoadData(json);
+        if (!string.IsNullOrEmpty(lastSavePath))
+        {
+            string json = File.ReadAllText(lastSavePath);
+            NewSave.LoadData(json);
+        }
     }
 
     public Save NewSave => new Save(player, dorm);
