@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Strong mind
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
+  perkTitle: Strong mind
   perkInfo: 
   perkEffects: 
   maxLevel: 1

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Seductress
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
+  perkTitle: Seductress
   perkInfo: 
   perkEffects: 
   maxLevel: 1

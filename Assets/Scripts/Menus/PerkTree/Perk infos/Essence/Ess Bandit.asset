@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Ess Bandit
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 2cc807f96e5491145b1def55243180ba, type: 3}
+  perkTitle: Essence bandit
   perkInfo: 
   perkEffects: 
   maxLevel: 1
@@ -21,4 +22,6 @@ MonoBehaviour:
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 1
-  neededPerks: 07000000
+  neededPerks:
+  - amount: 5
+    perksTypes: 7

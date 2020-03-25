@@ -5,6 +5,9 @@ public abstract class BaseInfo : ScriptableObject
     [SerializeField] private Sprite icon = null;
     public Sprite Icon => icon;
 
+    [SerializeField] protected string perkTitle = "";
+    public string Title => perkTitle;
+
     [TextArea]
     [SerializeField] protected string perkInfo = "";
 

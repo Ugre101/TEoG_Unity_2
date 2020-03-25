@@ -2,11 +2,12 @@
 
 public abstract class BaseInfoEditor : Editor
 {
-    protected SerializedProperty icon, perkInfo, perkEffects, maxLevel, perkCost;
+    protected SerializedProperty icon, perkTitle, perkInfo, perkEffects, maxLevel, perkCost;
 
     protected void BaseEnable()
     {
         icon = serializedObject.FindProperty("icon");
+        perkTitle = serializedObject.FindProperty("perkTitle");
         perkInfo = serializedObject.FindProperty("perkInfo");
         perkEffects = serializedObject.FindProperty("perkEffects");
         maxLevel = serializedObject.FindProperty("maxLevel");
@@ -21,6 +22,7 @@ public abstract class BaseInfoEditor : Editor
         EditorGUILayout.BeginVertical();
         serializedObject.Update();
         EditorGUILayout.PropertyField(icon);
+        UgreEditorTools.TextAreaWithBoldLabel(perkTitle, "Perk title");
         UgreEditorTools.TextAreaWithBoldLabel(perkInfo, "Perk info");
         UgreEditorTools.TextAreaWithBoldLabel(perkEffects, "Perk effects");
         UgreEditorTools.TwoBoldLabels("Max level", "Perk cost");

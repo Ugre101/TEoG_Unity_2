@@ -58,11 +58,11 @@ public class PerkButton : PerkTreeBasicBtn
     {
         if (perkInfo.Unlocked(player))
         {
-            PerkTreeHoverText.Hovering(perkInfo.Info, perkInfo.Effects);
+            PerkTreeHoverText.Hovering(perkInfo.Title, perkInfo.Info, perkInfo.Effects);
         }
         else
         {
-            PerkTreeHoverText.Hovering(perkInfo.Info, perkInfo.Effects, perkInfo.MissingReqs(player));
+            PerkTreeHoverText.Hovering(perkInfo.Title, perkInfo.Info, perkInfo.Effects, perkInfo.MissingReqs(player));
         }
     }
 }

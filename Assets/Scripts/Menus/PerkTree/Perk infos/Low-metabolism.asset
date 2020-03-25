@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Low-metabolism
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
+  perkTitle: Low metabolism
   perkInfo: 'Blessing for those whom doesn''t want to eat everyday, curse for those
     who desire to lose weight. '
   perkEffects: '+ Lower penalty for starving.

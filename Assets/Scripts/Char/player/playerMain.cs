@@ -22,11 +22,8 @@ public class PlayerMain : BasicChar
     public override void Start()
     {
         base.Start();
-        RaceSystem.AddRace(Races.Human, 100);
+        RaceSystem.AddRace(Races.Humanoid, 100);
         body = new Body(160, 10, 20);
-        Essence.StableEssence.BaseValue += 100;
-        Essence.Masc.Gain(9999);
-        Essence.Femi.Gain(9988);
         Currency.Gold += 100;
         InitHealth();
     }

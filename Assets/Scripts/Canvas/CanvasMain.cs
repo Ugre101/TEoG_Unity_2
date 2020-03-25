@@ -58,11 +58,11 @@ public class CanvasMain : MonoBehaviour
 
     private void Update()
     {
-        if (Keys.escKey.KeyDown)
+        if (Keys.EscKey.KeyDown)
         {
             EscapePause();
         }
-        else if (Keys.hideAllKey.KeyDown)
+        else if (Keys.HideAllKey.KeyDown)
         {
             if (GameManager.CurState.Equals(GameState.Free))
             {
@@ -72,31 +72,31 @@ public class CanvasMain : MonoBehaviour
         // if in menus or main game(not combat)
         if (GameManager.KeyBindsActive)
         {
-            if (KeyDown(Keys.saveKey, menuPanels.Savemenu))
+            if (KeyDown(Keys.SaveKey, menuPanels.Savemenu))
             {
             }
-            else if (KeyDown(Keys.optionsKey, menuPanels.Options))
+            else if (KeyDown(Keys.OptionsKey, menuPanels.Options))
             {
             }
-            else if (KeyDown(Keys.questKey, menuPanels.QuestMenu))
+            else if (KeyDown(Keys.QuestKey, menuPanels.QuestMenu))
             {
             }
-            else if (KeyDown(Keys.inventoryKey, menuPanels.Inventory))
+            else if (KeyDown(Keys.InventoryKey, menuPanels.Inventory))
             {
             }
-            else if (KeyDown(Keys.voreKey, menuPanels.Vore))
+            else if (KeyDown(Keys.VoreKey, menuPanels.Vore))
             {
             }
-            else if (KeyDown(Keys.essenceKey, menuPanels.Essence))
+            else if (KeyDown(Keys.EssenceKey, menuPanels.Essence))
             {
             }
-            else if (KeyDown(Keys.lvlKey, menuPanels.LevelUp))
+            else if (KeyDown(Keys.LvlKey, menuPanels.LevelUp))
             {
             }
-            else if (KeyDown(Keys.lookKey, menuPanels.Looks))
+            else if (KeyDown(Keys.LookKey, menuPanels.Looks))
             {
             }
-            if (Keys.eventKey.KeyDown)
+            if (Keys.EventKey.KeyDown)
             {
                 BigEventLog();
             }

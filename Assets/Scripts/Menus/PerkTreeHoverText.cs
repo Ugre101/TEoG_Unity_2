@@ -7,8 +7,8 @@ public class PerkTreeHoverText : MonoBehaviour
 
     private static void SetActive(bool isActive) => GetPerkTreeHoverText.gameObject.SetActive(isActive);
 
-    private static TextMeshProUGUI staticInfoText, staticEffectText, staticReqText;
-    [SerializeField] private TextMeshProUGUI infoText = null, effectText = null, reqText = null;
+    private static TextMeshProUGUI staticTitleText, staticInfoText, staticEffectText, staticReqText;
+    [SerializeField] private TextMeshProUGUI titleText = null, infoText = null, effectText = null, reqText = null;
 
     private void Start()
     {
@@ -20,22 +20,25 @@ public class PerkTreeHoverText : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        staticInfoText = infoText != null ? infoText : GetComponentsInChildren<TextMeshProUGUI>()[0];
-        staticEffectText = effectText != null ? effectText : GetComponentsInChildren<TextMeshProUGUI>()[1];
-        staticReqText = reqText != null ? reqText : GetComponentsInChildren<TextMeshProUGUI>()[2];
+        staticTitleText = titleText != null ? titleText : GetComponentsInChildren<TextMeshProUGUI>()[0];
+        staticInfoText = infoText != null ? infoText : GetComponentsInChildren<TextMeshProUGUI>()[1];
+        staticEffectText = effectText != null ? effectText : GetComponentsInChildren<TextMeshProUGUI>()[2];
+        staticReqText = reqText != null ? reqText : GetComponentsInChildren<TextMeshProUGUI>()[3];
         gameObject.SetActive(false);
     }
 
-    public static void Hovering(string text, string effects)
+    public static void Hovering(string title, string desc, string effects)
     {
-        staticInfoText.text = text;
+        staticTitleText.text = title;
+        staticInfoText.text = desc;
         staticEffectText.text = effects;
         staticReqText.text = string.Empty;
         SetActive(true);
     }
 
-    public static void Hovering(string infoText, string effects, string reqText)
+    public static void Hovering(string title, string infoText, string effects, string reqText)
     {
+        staticTitleText.text = title;
         staticInfoText.text = infoText;
         staticEffectText.text = effects;
         staticReqText.text = reqText;

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Healty body
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
+  perkTitle: Healthy body
   perkInfo: 
   perkEffects: 
   maxLevel: 1

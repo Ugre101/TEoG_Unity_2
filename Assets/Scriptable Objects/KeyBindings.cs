@@ -5,26 +5,34 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Key bindings", menuName = "Key bindings")]
 public class KeyBindings : ScriptableObject
 {
-    public KeyBind saveKey = new KeyBind(KeyCode.G, "Save");
-    public KeyBind optionsKey = new KeyBind(KeyCode.O, ("Options"));
-    public KeyBind voreKey = new KeyBind(KeyCode.V, "Vore");
-    public KeyBind lvlKey = new KeyBind(KeyCode.B, "Perks");
-    public KeyBind essenceKey = new KeyBind(KeyCode.T, "Essence");
-    public KeyBind inventoryKey = new KeyBind(KeyCode.Tab, "Inventory");
-    public KeyBind escKey = new KeyBind(KeyCode.Escape, "Esc");
-    public KeyBind questKey = new KeyBind(KeyCode.Q, "Quests");
-    public KeyBind mapKey = new KeyBind(KeyCode.M, "Map");
-    public KeyBind eventKey = new KeyBind(KeyCode.E, "Eventlog");
-    public KeyBind lookKey = new KeyBind(KeyCode.L, "Looks");
-    public KeyBind zoomInKey = new KeyBind(KeyCode.Comma, "Zoom in");
-    public KeyBind zoomOutKey = new KeyBind(KeyCode.Period, "Zoom out");
-    public KeyBind hideAllKey = new KeyBind(KeyCode.Space, "Hide UI");
+    [SerializeField]
+    private KeyBind saveKey = new KeyBind(KeyCode.G, "Save"), optionsKey = new KeyBind(KeyCode.O, ("Options")), voreKey = new KeyBind(KeyCode.V, "Vore"), lvlKey = new KeyBind(KeyCode.B, "Perks"), essenceKey = new KeyBind(KeyCode.T, "Essence"), inventoryKey = new KeyBind(KeyCode.Tab, "Inventory"),
+     escKey = new KeyBind(KeyCode.Escape, "Esc"), questKey = new KeyBind(KeyCode.Q, "Quests"), mapKey = new KeyBind(KeyCode.M, "Map"),
+     eventKey = new KeyBind(KeyCode.E, "Eventlog"), lookKey = new KeyBind(KeyCode.L, "Looks"), zoomInKey = new KeyBind(KeyCode.Comma, "Zoom in"),
+     zoomOutKey = new KeyBind(KeyCode.Period, "Zoom out"), hideAllKey = new KeyBind(KeyCode.Space, "Hide UI"), quickSave = new KeyBind(KeyCode.F5, "Quick save"),
+     quickLoad = new KeyBind(KeyCode.F9, "Quick load");
 
     public List<KeyBind> Keys { get; private set; }
+    public KeyBind SaveKey => saveKey;
+    public KeyBind OptionsKey => optionsKey;
+    public KeyBind VoreKey => voreKey;
+    public KeyBind LvlKey => lvlKey;
+    public KeyBind EssenceKey => essenceKey;
+    public KeyBind InventoryKey => inventoryKey;
+    public KeyBind EscKey => escKey;
+    public KeyBind QuestKey => questKey;
+    public KeyBind MapKey => mapKey;
+    public KeyBind EventKey => eventKey;
+    public KeyBind LookKey => lookKey;
+    public KeyBind ZoomInKey => zoomInKey;
+    public KeyBind ZoomOutKey => zoomOutKey;
+    public KeyBind HideAllKey => hideAllKey;
+    public KeyBind QuickSave => quickSave;
+    public KeyBind QuickLoad => quickLoad;
 
     private void OnEnable()
     {
-        Keys = new List<KeyBind>() { saveKey, optionsKey, voreKey, lvlKey, essenceKey, inventoryKey, escKey, questKey, mapKey, eventKey, lookKey, zoomInKey, zoomOutKey, hideAllKey };
+        Keys = new List<KeyBind>() { SaveKey, OptionsKey, VoreKey, LvlKey, EssenceKey, InventoryKey, EscKey, QuestKey, MapKey, EventKey, LookKey, ZoomInKey, ZoomOutKey, HideAllKey, QuickSave, QuickLoad };
         Keys.ForEach(k => k.Load());
     }
 
