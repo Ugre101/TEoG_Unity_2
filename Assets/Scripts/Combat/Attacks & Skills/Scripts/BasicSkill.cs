@@ -52,7 +52,13 @@ namespace SkillsAndSpells
 
         protected float RNG => Random.Range(1, 1 + rng);
 
-        public float AvgValue => (baseValue + (baseValue * (1 + rng))) / 2;
+        protected abstract float Value(BasicChar user);
+
+        public abstract string HoverDesc(BasicChar user);
+
+        protected float ValueWithRng(BasicChar user) => Value(user) * RNG;
+
+        public float AvgValue(BasicChar user) => (Value(user) + (Value(user) * (1 + rng))) / 2;
 
         #endregion Variables
 

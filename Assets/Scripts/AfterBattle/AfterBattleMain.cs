@@ -50,7 +50,7 @@ public class AfterBattleMain : MonoBehaviour
 
     [SerializeField] private SexChar playerChar = null, enemyChar = null;
 
-    [SerializeField] private Button sortAll = null, sortMouth = null, sortVore = null;
+    [SerializeField] private Button sortAll = null, sortMouth = null, sortAnal = null, sortDick = null, sortVagina = null, sortBreasts = null, sortVore = null;
 
     private BasicChar newTarget;
     public BasicChar Target => newTarget != null ? newTarget : enemies.Count > 0 ? enemies[0] : null;
@@ -65,6 +65,10 @@ public class AfterBattleMain : MonoBehaviour
     {
         sortAll.onClick.AddListener(() => SceneChecker(allSexScenes, player.Vore.Active));
         sortMouth.onClick.AddListener(() => SceneChecker(mouthScenes));
+        sortAnal.onClick.AddListener(() => SceneChecker(analScenes));
+        sortDick.onClick.AddListener(() => SceneChecker(dickScenes));
+        sortVagina.onClick.AddListener(() => SceneChecker(vaginaScenes));
+        sortBreasts.onClick.AddListener(() => SceneChecker(boobScenes));
         sortVore.onClick.AddListener(ShowVore);
         TakeToDorm.TakenToDorm += EnemyRemoved;
         SexButton.PlayScene += HandleSexScene;
@@ -108,7 +112,7 @@ public class AfterBattleMain : MonoBehaviour
 
     public void Setup(List<BasicChar> chars)
     {
-        sortVore.gameObject.SetActive(player.Vore.Active);
+        sortVore.gameObject.SetActive(Settings.Vore);
         gameObject.SetActive(true);
         enemies = chars;
         textBox.text = null;

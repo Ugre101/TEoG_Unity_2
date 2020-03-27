@@ -12,5 +12,9 @@ namespace SkillsAndSpells
             target.Body.Height.AddTempMod(ShrinkMod);
             return $"You shrunk {target.Identity.FirstName} they are now {target.Body.HeightMorInch()} tall.";
         }
+
+        public override string HoverDesc(BasicChar user) => $"{Title}\n{Type}\nShrink target by one tenth, doesn't stack in effect.";
+
+        protected override float Value(BasicChar user) => 0;
     }
 }

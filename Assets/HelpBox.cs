@@ -1,30 +1,30 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class HelpBox : MonoBehaviour
+public abstract class HelpBox : MonoBehaviour
 {
-    [SerializeField] private Button okeyBtn = null;
-    [SerializeField] private Toggle toggle = null;
+    [SerializeField] protected Button okeyBtn = null;
+    [SerializeField] protected Toggle toggle = null;
 
-    private const string saveName = "GameUIHelp";
+    protected abstract string SaveName { get; }
 
     // Start is called before the first frame update
-    private void Start()
+    protected virtual void Start()
     {
         okeyBtn = okeyBtn != null ? okeyBtn : GetComponentInChildren<Button>();
         toggle = toggle != null ? toggle : GetComponentInChildren<Toggle>();
         okeyBtn.onClick.AddListener(Okey);
         toggle.onValueChanged.AddListener(OnToggle);
-        if (PlayerPrefs.HasKey(saveName))
+        if (PlayerPrefs.HasKey(SaveName))
         {
-            if (PlayerPrefs.GetInt(saveName) == 1)
+            if (PlayerPrefs.GetInt(SaveName) == 1)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
     }
 
-    private void OnToggle(bool val) => PlayerPrefs.SetInt(saveName, val ? 1 : 0);
+    protected void OnToggle(bool val) => PlayerPrefs.SetInt(SaveName, val ? 1 : 0);
 
-    private void Okey() => Destroy(this.gameObject);
+    protected void Okey() => Destroy(gameObject);
 }

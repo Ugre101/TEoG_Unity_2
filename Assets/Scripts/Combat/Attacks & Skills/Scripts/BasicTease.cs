@@ -7,9 +7,13 @@ namespace SkillsAndSpells
     {
         public override string Action(BasicChar user, BasicChar target)
         {
-            float dmg = BaseValue * (user.Stats.Cha / 10) * RNG;
+            float dmg = ValueWithRng(user);
             target.WP.TakeDmg(dmg);
             return $"{user.Identity.FirstName} teases {target.Identity.FirstName}, causing {target.Identity.FirstName} to lose {dmg} willpower.";
         }
+
+        public override string HoverDesc(BasicChar user) => $"{Title}\n{Type}\n{ValueWithRng(user)}";
+
+        protected override float Value(BasicChar user) => BaseValue * (user.Stats.Cha / 10);
     }
 }
