@@ -5,6 +5,8 @@ public class PerkButton : PerkTreeBasicBtn
     [Space]
     [SerializeField] private PerkInfo perkInfo = null;
 
+    private int PerkLevel => player.Perks.GetPerkLevel(perkInfo.Perk);
+
     private void SetRuntSprite()
     {
         if (perkInfo.Icon != null)
@@ -35,6 +37,7 @@ public class PerkButton : PerkTreeBasicBtn
         if (started)
         {
             Taken = player.Perks.HasPerk(perkInfo.Perk);
+            amount.text = PerkLevel.ToString();
             base.OnEnable();
         }
     }
@@ -49,6 +52,7 @@ public class PerkButton : PerkTreeBasicBtn
                 {
                     Taken = true;
                     player.GainPerk(perkInfo.Perk);
+                    amount.text = PerkLevel.ToString();
                 }
             }
         }
