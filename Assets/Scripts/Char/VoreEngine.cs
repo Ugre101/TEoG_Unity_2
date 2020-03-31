@@ -91,6 +91,9 @@ namespace Vore
                 EventLog.AddTo(text);
             }
         }
+
+        [SerializeField] private VorePerksSystem perks = new VorePerksSystem();
+        public VorePerksSystem Perks => perks;
     }
 
     [System.Serializable]

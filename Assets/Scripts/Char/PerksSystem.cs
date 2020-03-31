@@ -22,32 +22,29 @@ public enum PerksTypes
 }
 
 [System.Serializable]
-public class Perk
+public abstract class PerkBase
 {
-    [SerializeField]
-    private int lvl;
+    [SerializeField] protected int lvl = 1;
 
     public int Level => lvl;
 
     public void LevelUp() => lvl++;
+}
 
-    [SerializeField]
-    private PerksTypes type;
+[System.Serializable]
+public class Perk : PerkBase
+{
+    [SerializeField] private PerksTypes type;
 
     public PerksTypes Type => type;
 
-    public Perk(PerksTypes type)
-    {
-        this.lvl = 1;
-        this.type = type;
-    }
+    public Perk(PerksTypes type) => this.type = type;
 }
 
 [System.Serializable]
 public class Perks
 {
-    [SerializeField]
-    private List<Perk> perkList = new List<Perk>();
+    [SerializeField] private List<Perk> perkList = new List<Perk>();
 
     public List<Perk> List => perkList;
 
@@ -55,27 +52,15 @@ public class Perks
 
     public Perk GetPerk(PerksTypes type) => perkList.Find(p => p.Type == type);
 
-    public int GetPerkLevel(PerksTypes type) => HasPerk(type) ? perkList.Find(p => p.Type == type).Level : 0;
+    public int GetPerkLevel(PerksTypes type) => HasPerk(type) ? GetPerk(type).Level : 0;
 
     public bool NotMaxLevel(PerksTypes type, int maxLevel)
     {
-        if (perkList.Exists(p => p.Type == type))
+        if (HasPerk(type))
         {
-            return perkList.Find(p => p.Type == type).Level < maxLevel;
+            return GetPerk(type).Level < maxLevel;
         }
         return false;
-    }
-
-    public string DisplayPerk(PerksTypes type)
-    {
-        switch (type)
-        {
-            case PerksTypes.FasterRest:
-                return perkList.Exists(p => p.Type == type) ? $"Faster rest: {perkList.Find(p => p.Type == type).Level}" : "Faster rest";
-
-            default:
-                return "";
-        }
     }
 }
 
@@ -133,9 +118,9 @@ public static class PerkExtensions
                 basicChar.Stats.Charm.AddMods(PerkEffects.Seductress.CharmMod);
                 break;
         }
-        if (perkList.Exists(p => p.Type == type))
+        if (basicChar.Perks.HasPerk(type))
         {
-            perkList.Find(p => p.Type == type).LevelUp(); ;
+            basicChar.Perks.GetPerk(type).LevelUp(); ;
         }
         else
         {
