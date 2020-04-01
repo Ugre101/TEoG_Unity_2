@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class PerkButton : PerkTreeBasicBtn
+public class VorePerkButton : PerkTreeBasicBtn
 {
     [Space]
-    [SerializeField] private PerkInfo perkInfo = null;
+    [SerializeField] private VorePerkInfo perkInfo = null;
 
-    private int PerkLevel => player.Perks.GetPerkLevel(perkInfo.Perk);
+    private int PerkLevel => player.Vore.Perks.GetPerkLevel(perkInfo.Perk);
 
     private void SetRuntSprite()
     {
@@ -36,7 +36,7 @@ public class PerkButton : PerkTreeBasicBtn
     {
         if (started)
         {
-            Taken = player.Perks.HasPerk(perkInfo.Perk);
+            Taken = player.Vore.Perks.HasPerk(perkInfo.Perk);
             amount.text = PerkLevel.ToString();
             base.OnEnable();
         }
@@ -46,7 +46,7 @@ public class PerkButton : PerkTreeBasicBtn
     {
         if (perkInfo.Unlocked(player))
         {
-            if (player.Perks.HasPerk(perkInfo.Perk) ? player.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
+            if (player.Vore.Perks.HasPerk(perkInfo.Perk) ? player.Vore.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
             {
                 if (player.ExpSystem.PerkBool(perkInfo.PerkCost))
                 {

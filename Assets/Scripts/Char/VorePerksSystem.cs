@@ -40,7 +40,7 @@ public static class VorePerksExtensions
         }
         else
         {
-            basicChar.Vore.Perks.VorePerks.Add(new VorePerk(type);
+            basicChar.Vore.Perks.VorePerks.Add(new VorePerk(type));
         }
     }
 }

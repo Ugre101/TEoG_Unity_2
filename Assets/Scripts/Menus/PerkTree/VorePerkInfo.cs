@@ -15,7 +15,7 @@ public enum VorePerks
     Compression,
 }
 
-[CreateAssetMenu(fileName = "Perk info", menuName = "Perks/Perk info")]
+[CreateAssetMenu(fileName = "Vore perk info", menuName = "Perks/Vore perk info")]
 public class VorePerkInfo : BaseInfo
 {
     [SerializeField] private VorePerks perk = VorePerks.Compression;

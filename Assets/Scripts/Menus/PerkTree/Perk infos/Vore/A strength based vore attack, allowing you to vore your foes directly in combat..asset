@@ -10,15 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3636945b21e2cf4ea9c1a1dd729a9d1, type: 3}
-  m_Name: Elastic
+  m_Name: A strength based vore attack, allowing you to vore your foes directly in
+    combat.
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  perkTitle: Elastic
+  perkTitle: 
   perkInfo: 
-  perkEffects: + Higher vore capacity of all organs.
+  perkEffects: 
   maxLevel: 1
   perkCost: 1
-  perk: 0
+  perk: 1
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 0
