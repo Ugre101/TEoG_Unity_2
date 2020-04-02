@@ -1,6 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-
+public enum VorePerks
+{
+    Elastic,
+    Compression,
+    DigestiveFluids,
+    OrgasmicFluids,
+    DrainEssence,
+    PredatoryMetabolism,
+}
 public class VorePerksSystem
 {
     [SerializeField] private List<VorePerk> vorePerks = new List<VorePerk>();

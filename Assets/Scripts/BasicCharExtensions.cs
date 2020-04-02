@@ -77,7 +77,15 @@ public static class BasicCharExtensions
         {
             basicChar.Vore.Digest();
         }
-        float fatBurnRate = 0.02f;
+        float fatBurnRate = basicChar.Body.Fat.BaseValue * 0.0001f;
+        if (basicChar.Vore.Active)
+        {
+            if (basicChar.Vore.Perks.HasPerk(VorePerks.PredatoryMetabolism))
+            {
+                // TODO pred metabol
+                fatBurnRate += (basicChar.Body.Fat.BaseValue * 0.0001f) * basicChar.Body.FatPrecent;
+            }
+        }
         if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
         {
             fatBurnRate += PerkEffects.Gluttony.ExtraFatBurn(basicChar.Perks);

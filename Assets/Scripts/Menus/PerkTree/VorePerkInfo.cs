@@ -9,12 +9,6 @@ using UnityEngine;
  *of having to find all refernces.
 */
 
-public enum VorePerks
-{
-    Elastic,
-    Compression,
-}
-
 [CreateAssetMenu(fileName = "Vore perk info", menuName = "Perks/Vore perk info")]
 public class VorePerkInfo : BaseInfo
 {

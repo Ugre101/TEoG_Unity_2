@@ -114,3 +114,9 @@ public class PerkInfoEditor : BaseInfoEditor
         serializedObject.ApplyModifiedProperties();
     }
 }
+
+[CustomEditor(typeof(VorePerkInfo))]
+public class VorePerkInfoEditor : PerkInfoEditor
+{
+    // Seem to be enough
+}

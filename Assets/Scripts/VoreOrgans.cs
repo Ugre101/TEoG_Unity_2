@@ -37,7 +37,7 @@ namespace Vore
         }
 
         /// <summary> Return weight of prey content</summary>
-        public virtual float Current => preys.Sum(p => p.Prey.Body.Weight);
+        public virtual float Current => preys.Sum(p => p.Prey.Body.Weight * CompresionFactor);
 
         /// <summary>Returns how full it is; 0.5 = 50%</summary>
         public virtual float FillPrecent => Current / MaxCapacity();
@@ -63,18 +63,30 @@ namespace Vore
 
         public void Digest(Action<ThePrey> digested, float toDigest = 2f)
         {
+            float totalDigest = toDigest + Perks.GetPerkLevel(VorePerks.DigestiveFluids);
             for (int i = Preys.Count - 1; i >= 0; i--)
             {
                 ThePrey prey = Preys[i];
-                pred.Body.Fat.GainFlat(prey.Digest(toDigest));
+                pred.Body.Fat.GainFlat(prey.Digest(totalDigest));
+                // TODO Ess drain
+                if (Perks.HasPerk(VorePerks.OrgasmicFluids))
+                {
+                    if (Perks.HasPerk(VorePerks.DrainEssence))
+                    {
+                    }
+                }
                 if (prey.Prey.Body.Weight <= 1)
                 {
                     digested?.Invoke(prey);
                     Preys.Remove(prey);
                 }
-                GainExp(Mathf.FloorToInt(toDigest));
+                GainExp(Mathf.FloorToInt(totalDigest));
             }
         }
+
+        protected VorePerksSystem Perks => pred.Vore.Perks;
+        protected float ElasticMulti => Perks.HasPerk(VorePerks.Elastic) ? 1f + (Perks.GetPerkLevel(VorePerks.Elastic) * 0.1f) : 1f;
+        protected float CompresionFactor => Perks.HasPerk(VorePerks.Compression) ? 1f - (Perks.GetPerkLevel(VorePerks.Compression) * 0.1f) : 1f;
     }
 
     [Serializable]
@@ -98,7 +110,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.SexualOrgans.Balls.Sum(b => b.Size);
+            float cap = pred.SexualOrgans.Balls.Sum(b => b.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
         }
     }
@@ -124,7 +136,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.SexualOrgans.Boobs.Sum(b => b.Size);
+            float cap = pred.SexualOrgans.Boobs.Sum(b => b.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
         }
     }
@@ -150,7 +162,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.Body.Height.Value / 3;
+            float cap = (pred.Body.Height.Value / 3) * ElasticMulti;
             return cap * VoreExpCapBonus;
         }
     }
@@ -176,7 +188,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.Body.Height.Value / 4;
+            float cap = (pred.Body.Height.Value / 4) * ElasticMulti;
             return cap * VoreExpCapBonus;
         }
     }
@@ -221,7 +233,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.SexualOrgans.Vaginas.Sum(v => v.Size);
+            float cap = pred.SexualOrgans.Vaginas.Sum(v => v.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
         }
 

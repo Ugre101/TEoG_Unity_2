@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3636945b21e2cf4ea9c1a1dd729a9d1, type: 3}
-  m_Name: Vore perk info
+  m_Name: Vore attackj
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  perkTitle: 
-  perkInfo: 
+  perkTitle: Vore attackj
+  perkInfo: A strength based vore attack, allowing you to vore your foes directly
+    in combat.
   perkEffects: 
   maxLevel: 1
   perkCost: 1
