@@ -58,8 +58,7 @@ public class AfterBattleMain : MonoBehaviour
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
     public PlayerMain Caster => player;
 
-    //TODO add extra for perks
-    private int MaxOrgasm => 1 + Mathf.FloorToInt(player.Stats.End / 20);
+    private int MaxOrgasm => player.MaxOrgasm();
 
     private void Start()
     {
@@ -245,12 +244,9 @@ public class AfterBattleMain : MonoBehaviour
 
     private void SexSpells()
     {
-        foreach (Skill s in player.Skills)
+        foreach (Skill s in player.Skills.SexSkills(skillDict))
         {
-            if (skillDict.Match(s.Id).skill.SkillUses.Sex)
-            {
-                // TODO insta spell button
-            }
+            // TODO INSTATIXZXE
         }
     }
 }

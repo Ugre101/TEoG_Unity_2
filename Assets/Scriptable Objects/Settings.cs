@@ -243,3 +243,38 @@ public static class Settings
     public static float SexlogFontSizeDown => SexlogFontSize -= 0.5f;
     public static float SexlogFontSizeUp => SexlogFontSize += 0.5f;
 }
+
+public enum ChooseEssence
+{
+    Masc,
+    Femi,
+    Both,
+}
+
+public static class VoreSettings
+{
+    public static ChooseEssence DrainEss { get; private set; } = ChooseEssence.Both;
+
+    public static ChooseEssence ToggleDrainEss()
+    {
+        switch (DrainEss)
+        {
+            case ChooseEssence.Masc:
+                DrainEss = ChooseEssence.Femi;
+                break;
+
+            case ChooseEssence.Femi:
+                DrainEss = ChooseEssence.Both;
+                break;
+
+            case ChooseEssence.Both:
+                DrainEss = ChooseEssence.Masc;
+                break;
+
+            default:
+                DrainEss = ChooseEssence.Both;
+                break;
+        }
+        return DrainEss;
+    }
+}

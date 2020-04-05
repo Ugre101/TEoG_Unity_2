@@ -83,7 +83,10 @@ public static class BasicCharExtensions
             if (basicChar.Vore.Perks.HasPerk(VorePerks.PredatoryMetabolism))
             {
                 // TODO pred metabol
-                fatBurnRate += (basicChar.Body.Fat.BaseValue * 0.0001f) * basicChar.Body.FatPrecent;
+                if (basicChar.Body.FatPrecent > 0.18f)
+                {
+                    fatBurnRate += (basicChar.Body.Fat.BaseValue * 0.0001f) * basicChar.Body.FatPrecent;
+                }
             }
         }
         if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))

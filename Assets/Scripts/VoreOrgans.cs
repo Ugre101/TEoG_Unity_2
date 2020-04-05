@@ -68,11 +68,29 @@ namespace Vore
             {
                 ThePrey prey = Preys[i];
                 pred.Body.Fat.GainFlat(prey.Digest(totalDigest));
-                // TODO Ess drain
+                // TODO test if working and implement way to toggle vore settings.
                 if (Perks.HasPerk(VorePerks.OrgasmicFluids))
                 {
-                    if (Perks.HasPerk(VorePerks.DrainEssence))
+                    float arusalGain = 5 * Perks.GetPerkLevel(VorePerks.OrgasmicFluids);
+                    if (prey.Prey.SexStats.GainArousal(arusalGain))
                     {
+                        if (Perks.HasPerk(VorePerks.DrainEssence))
+                        {
+                            float toDrain = 6 * Perks.GetPerkLevel(VorePerks.DrainEssence);
+                            if (prey.Prey.CanDrainFemi() && prey.Prey.CanDrainMasc() && VoreSettings.DrainEss == ChooseEssence.Both)
+                            {
+                                pred.Essence.Masc.Gain(prey.Prey.Essence.Masc.Lose(toDrain / 2));
+                                pred.Essence.Femi.Gain(prey.Prey.Essence.Femi.Lose(toDrain / 2));
+                            }
+                            else if (prey.Prey.CanDrainMasc() && VoreSettings.DrainEss == ChooseEssence.Masc)
+                            {
+                                pred.Essence.Masc.Gain(prey.Prey.Essence.Masc.Lose(toDrain));
+                            }
+                            else if (prey.Prey.CanDrainFemi() && VoreSettings.DrainEss == ChooseEssence.Femi)
+                            {
+                                pred.Essence.Femi.Gain(prey.Prey.Essence.Femi.Lose(toDrain));
+                            }
+                        }
                     }
                 }
                 if (prey.Prey.Body.Weight <= 1)

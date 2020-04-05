@@ -11,10 +11,11 @@ public class ShowServant : MonoBehaviour
 
     private void Start() => Btn = Btn != null ? Btn : GetComponent<Button>();
 
-    public void Init(BasicChar basicChar)
+    public Button Init(BasicChar basicChar)
     {
         this.basicChar = basicChar;
         title.text = basicChar.Identity.FullName;
         desc.text = basicChar.Summary();
+        return Btn;
     }
 }
