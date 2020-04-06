@@ -29,7 +29,6 @@ public class TownHall : Building
         }
     }
 
-    // TODO quest reward
     public override void OnEnable()
     {
         base.OnEnable();

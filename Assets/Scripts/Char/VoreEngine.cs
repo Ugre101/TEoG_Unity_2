@@ -7,7 +7,7 @@ namespace Vore
     [System.Serializable]
     public class VoreEngine
     {
-        private readonly BasicChar pred; // TODO try to get rid of this dependence
+        private readonly BasicChar pred;
         [SerializeField] private bool active = false;
         public bool Active => active;
         public bool ToogleVore => active = !active;

@@ -137,7 +137,7 @@ public class AfterBattleMain : MonoBehaviour
 
     public void RefreshScenes()
     {
-        if (player.SexStats.SessionOrgasm < MaxOrgasm)
+        if (player.CanOrgasmMore())
         {
             if (allSexScenes.Count == 0)
             {
@@ -191,9 +191,12 @@ public class AfterBattleMain : MonoBehaviour
     private void SceneChecker(List<SexScenes> scenes, bool showVore = false)
     {
         buttons.transform.KillChildren();
-        foreach (SexScenes scene in scenes.FindAll(s => s.CanDo(player, Target)))
+        if (player.CanOrgasmMore())
         {
-            Instantiate(sexButton, buttons.transform).Setup(scene);
+            foreach (SexScenes scene in scenes.FindAll(s => s.CanDo(player, Target)))
+            {
+                Instantiate(sexButton, buttons.transform).Setup(scene);
+            }
         }
         if (showVore)
         {

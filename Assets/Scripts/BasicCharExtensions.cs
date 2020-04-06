@@ -77,15 +77,18 @@ public static class BasicCharExtensions
         {
             basicChar.Vore.Digest();
         }
-        float fatBurnRate = basicChar.Body.Fat.BaseValue * 0.0001f;
+        Body body = basicChar.Body;
+        BodyStat fat = body.Fat;
+        float fatBurnRate = fat.BaseValue * 0.0001f;
         if (basicChar.Vore.Active)
         {
-            if (basicChar.Vore.Perks.HasPerk(VorePerks.PredatoryMetabolism))
+            VorePerksSystem perks = basicChar.Vore.Perks;
+            if (perks.HasPerk(VorePerks.PredatoryMetabolism))
             {
-                // TODO pred metabol
-                if (basicChar.Body.FatPrecent > 0.18f)
+                // TODO test pred metabol
+                if (body.FatPrecent > 0.18f)
                 {
-                    fatBurnRate += (basicChar.Body.Fat.BaseValue * 0.0001f) * basicChar.Body.FatPrecent;
+                    fatBurnRate += fat.BaseValue * (0.0001f* perks.GetPerkLevel(VorePerks.PredatoryMetabolism)) * body.FatPrecent;
                 }
             }
         }
@@ -97,7 +100,7 @@ public static class BasicCharExtensions
         {
             fatBurnRate -= PerkEffects.LowMetabolism.LowerBurn(basicChar.Perks);
         }
-        basicChar.Body.Fat.LoseFlat(fatBurnRate);
+        fat.LoseFlat(fatBurnRate);
         ReGainFluidsTick(basicChar);
     }
 

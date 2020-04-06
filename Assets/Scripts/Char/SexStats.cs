@@ -59,4 +59,6 @@ public static class SexStatsExtensions
         // TODO perks and stuff
         return baseOrg;
     }
+
+    public static bool CanOrgasmMore(this BasicChar basicChar) => basicChar.SexStats.SessionOrgasm < basicChar.MaxOrgasm();
 }

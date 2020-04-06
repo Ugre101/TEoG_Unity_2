@@ -6,7 +6,7 @@ public enum SubDom
     Submissive,
 
     Neutral,
-    Dominant
+    Dominant,
 }
 
 [System.Serializable]
