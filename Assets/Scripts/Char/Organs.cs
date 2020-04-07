@@ -43,6 +43,10 @@ public class Organs
     [SerializeField] private List<Vagina> vaginas = new List<Vagina>();
 
     public List<Vagina> Vaginas => vaginas;
+
+    [SerializeField] private List<Anal> anals = new List<Anal>();
+    public List<Anal> Anals => anals;
+    // TODO scat totals
 }
 
 public static class OrganExtension

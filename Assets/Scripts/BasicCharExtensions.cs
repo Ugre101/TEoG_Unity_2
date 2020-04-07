@@ -88,7 +88,7 @@ public static class BasicCharExtensions
                 // TODO test pred metabol
                 if (body.FatPrecent > 0.18f)
                 {
-                    fatBurnRate += fat.BaseValue * (0.0001f* perks.GetPerkLevel(VorePerks.PredatoryMetabolism)) * body.FatPrecent;
+                    fatBurnRate += fat.BaseValue * (0.0001f * perks.GetPerkLevel(VorePerks.PredatoryMetabolism)) * body.FatPrecent;
                 }
             }
         }
@@ -123,5 +123,11 @@ public static class BasicCharExtensions
         float str = basicChar.Stats.Strength.BaseValue;
         // basing on height is bad idea
         float height = basicChar.Body.Height.Value;
+    }
+
+    public static void GainFat(this BasicChar basicChar, float fatGain)
+    {
+        basicChar.Body.Fat.GainFlat(fatGain);
+        //   basicChar.SexualOrgans.
     }
 }

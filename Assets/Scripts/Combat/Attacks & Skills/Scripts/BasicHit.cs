@@ -12,7 +12,7 @@ namespace SkillsAndSpells
             return $"{user.Identity.FirstName} dealt {dmg}dmg to {target.Identity.FirstName}'s health.";
         }
 
-        public override string HoverDesc(BasicChar user) => $"{Title}\n{Type}\n{ValueWithRng(user)}";
+        public override string HoverDesc(BasicChar user) => $"{Title}\nType: {Type}\nAvg hp dmg: {AvgValue(user)}";
 
         protected override float Value(BasicChar user) => BaseValue * (user.Stats.Str / 10);
     }

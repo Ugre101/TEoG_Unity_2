@@ -63,7 +63,7 @@ namespace Vore
 
         public void Digest(Action<ThePrey> digested, float toDigest = 2f)
         {
-            float totalDigest = toDigest + Perks.GetPerkLevel(VorePerks.DigestiveFluids);
+            float totalDigest = toDigest + (Perks.GetPerkLevel(VorePerks.DigestiveFluids) * 2f);
             for (int i = Preys.Count - 1; i >= 0; i--)
             {
                 ThePrey prey = Preys[i];

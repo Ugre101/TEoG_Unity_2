@@ -70,6 +70,10 @@ public static class BoobExtensions
 
     public static string Looks(this List<Boobs> boobs)
     {
+        if (boobs.Count == 0)
+        {
+            return "A flat chest";
+        }
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < boobs
             .Count; i++)

@@ -8,10 +8,7 @@ public class EnterBuilding : MonoBehaviour
 
     public GameObject BuildingToEnter => building.gameObject;
 
-    private void Start()
-    {
-        gameUI = gameUI != null ? gameUI : CanvasMain.GetCanvasMain;
-    }
+    private void Start() => gameUI = gameUI != null ? gameUI : CanvasMain.GetCanvasMain;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {

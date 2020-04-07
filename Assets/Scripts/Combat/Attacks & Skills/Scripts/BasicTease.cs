@@ -12,7 +12,7 @@ namespace SkillsAndSpells
             return $"{user.Identity.FirstName} teases {target.Identity.FirstName}, causing {target.Identity.FirstName} to lose {dmg} willpower.";
         }
 
-        public override string HoverDesc(BasicChar user) => $"{Title}\n{Type}\n{ValueWithRng(user)}";
+        public override string HoverDesc(BasicChar user) => $"{Title}\nType: {Type}\nAvg wp dmg: {AvgValue(user)}";
 
         protected override float Value(BasicChar user) => BaseValue * (user.Stats.Cha / 10);
     }
