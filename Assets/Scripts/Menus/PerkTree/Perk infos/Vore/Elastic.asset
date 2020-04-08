@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
   perkTitle: Elastic
-  perkInfo: 
+  perkInfo: "Increase your vore capacity by allowing your body to stretch beyond
+    normal limits.\r"
   perkEffects: + Higher vore capacity of all organs.
-  maxLevel: 1
+  maxLevel: 10
   perkCost: 1
   perk: 0
   needCharStat: 0

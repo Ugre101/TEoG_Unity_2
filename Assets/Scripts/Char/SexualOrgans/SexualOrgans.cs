@@ -166,6 +166,10 @@ public static class SexOrganExtension
 
     public static float Smallest(this IEnumerable<SexualOrgan> list) => list.Select(so => so.Size).DefaultIfEmpty(0).Min();
 
+    public static float FluidCurrentTotal(this IEnumerable<SexualOrganWithFluid> list) => list.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
+
+    public static float FluidMax(this IEnumerable<SexualOrganWithFluid> list) => list.Select(b => b.Fluid.MaxAmount).DefaultIfEmpty(0).Sum();
+
     public static void RefreshOrgans(this BasicChar bc, bool autoEss = false)
     {
         Organs so = bc.SexualOrgans;

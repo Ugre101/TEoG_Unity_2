@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+
 public enum VorePerks
 {
     Elastic,
@@ -8,7 +9,9 @@ public enum VorePerks
     OrgasmicFluids,
     DrainEssence,
     PredatoryMetabolism,
+    ReBirth,
 }
+
 public class VorePerksSystem
 {
     [SerializeField] private List<VorePerk> vorePerks = new List<VorePerk>();
@@ -20,14 +23,7 @@ public class VorePerksSystem
 
     public int GetPerkLevel(VorePerks type) => HasPerk(type) ? GetPerk(type).Level : 0;
 
-    public bool NotMaxLevel(VorePerks type, int maxLevel)
-    {
-        if (HasPerk(type))
-        {
-            return GetPerk(type).Level < maxLevel;
-        }
-        return false;
-    }
+    public bool NotMaxLevel(VorePerks type, int maxLevel) => HasPerk(type) ? GetPerk(type).Level < maxLevel : false;
 }
 
 public static class VorePerksExtensions

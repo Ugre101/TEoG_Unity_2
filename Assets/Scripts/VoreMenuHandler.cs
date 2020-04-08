@@ -8,15 +8,15 @@ namespace Vore
     {
         [SerializeField] private PlayerMain player = null;
 
-        [SerializeField] private TextMeshProUGUI organText = null;
+        [SerializeField] private TextMeshProUGUI organText = null, capacityText = null;
 
         [SerializeField] private DisplayVorePrey vorePrey = null;
 
-        [SerializeField] private Transform preyContainer = null;
+        [SerializeField] private Transform preyContainer = null, optionContainer = null;
 
-        [SerializeField] private Button digestionBtn = null;
-
-        [SerializeField] private TextMeshProUGUI digestionBtnText = null;
+        [SerializeField] private VoreOptionBtnDigestion optionBtn = null;
+        [SerializeField] private VoreOptionBtnRebirth rebithBtn = null;
+        [SerializeField] private VoreOptionBtnDrainEss drainEssBtn = null;
 
         [SerializeField]
         private Button sortAll = null, sortStomach = null, sortAnal = null
@@ -37,8 +37,11 @@ namespace Vore
 
         private void OnEnable() => sortAll.onClick.Invoke();
 
+        private void Update() => ShowCapacityAll();
+
         private void ShowAll()
         {
+            optionContainer.KillChildren();
             preyContainer.KillChildren();
             if (player != null)
             {
@@ -53,19 +56,24 @@ namespace Vore
                 }
             }
             organText.text = "All";
-            digestionBtn.onClick.RemoveAllListeners();
-            digestionBtn.gameObject.SetActive(false);
+            ChangeDrainEss();
         }
 
         private void SortPrey(VoreBasic voreOrgan)
         {
             preyContainer.KillChildren();
+            optionContainer.KillChildren();
+            Instantiate(optionBtn, optionContainer).Setup(voreOrgan);
             organText.text = voreOrgan.VoreContainers.ToString();
-            digestionBtn.gameObject.SetActive(true);
-            digestionBtn.onClick.RemoveAllListeners();
-            digestionBtn.onClick.AddListener(() => { digestionBtnText.text = $"Digestion:\n{voreOrgan.ToggleDigestion}"; });
-            digestionBtnText.text = $"Digestion:\n{voreOrgan.Digestion}";
             SetupPrey(voreOrgan);
+            if (voreOrgan is VoreVagina voreVagina)
+            {
+                if (player.Vore.Perks.HasPerk(VorePerks.ReBirth))
+                {
+                    Instantiate(rebithBtn, optionContainer).Setup(voreVagina);
+                }
+            }
+            ChangeDrainEss();
         }
 
         private void SetupPrey(VoreBasic voreOrgan) => voreOrgan.Preys.ForEach(p =>
@@ -76,5 +84,35 @@ namespace Vore
             Debug.Log(prey.Prey.Identity.FullName);
             // TODO something
         }
+
+        private void ShowCapacityAll()
+        {
+            VoreEngine vore = player.Vore;
+            string capaText = Capacity(vore.Stomach);
+            if (vore.Balls.MaxCapacity() > 0)
+            {
+                capaText += "\n" + Capacity(vore.Balls);
+            }
+            if (vore.Boobs.MaxCapacity() > 0)
+            {
+                capaText += "\n" + Capacity(vore.Boobs);
+            }
+            if (vore.Vagina.MaxCapacity() > 0)
+            {
+                capaText += "\n" + Capacity(vore.Vagina);
+            }
+            capaText += "\n" + Capacity(vore.Anal);
+            capacityText.text = capaText;
+        }
+
+        private void ChangeDrainEss()
+        {
+            if (player.Vore.Perks.HasPerk(VorePerks.DrainEssence))
+            {
+                Instantiate(drainEssBtn, optionContainer).Setup();
+            }
+        }
+
+        private string Capacity(VoreBasic organ) => $"{organ.VoreContainers.ToString()}: {Settings.KgorPWithOutSuffix(organ.Current)}/{Settings.KgorP(organ.MaxCapacity())}";
     }
 }

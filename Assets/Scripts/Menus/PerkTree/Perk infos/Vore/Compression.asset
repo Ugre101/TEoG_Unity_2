@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
   perkTitle: Compression
-  perkInfo: 
+  perkInfo: "Increase your max vore capacity without ruining your figure.\r"
   perkEffects: + Shrink prey inside you by compressing them.
-  maxLevel: 1
+  maxLevel: 10
   perkCost: 1
   perk: 1
   needCharStat: 0

@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Predatory metabolism
   m_EditorClassIdentifier: 
   icon: {fileID: 0}
-  perkTitle: 
+  perkTitle: Predatory metabolism
   perkInfo: 
   perkEffects: 
   maxLevel: 1
   perkCost: 1
-  perk: 1
+  perk: 5
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 0

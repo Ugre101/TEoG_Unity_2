@@ -4,6 +4,7 @@ using UnityEngine;
 [CustomEditor(typeof(BasicChar))]
 public class BasicCharEditor : Editor
 {
+ 
     private BasicChar basicChar;
 
     private void OnEnable() => BasicCharEnable();

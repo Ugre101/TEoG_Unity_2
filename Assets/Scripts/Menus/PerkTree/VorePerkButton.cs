@@ -48,7 +48,7 @@ public class VorePerkButton : PerkTreeBasicBtn
         {
             if (player.Vore.Perks.HasPerk(perkInfo.Perk) ? player.Vore.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
             {
-                if (player.ExpSystem.PerkBool(perkInfo.PerkCost))
+                if (player.Vore.VoreExp.PerkBool(perkInfo.PerkCost))
                 {
                     Taken = true;
                     player.GainPerk(perkInfo.Perk);

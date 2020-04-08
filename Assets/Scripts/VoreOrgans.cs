@@ -61,6 +61,8 @@ namespace Vore
 
         public virtual bool ToggleDigestion => digestion = !digestion;
 
+        protected abstract void Digested(ThePrey parWho);
+
         public void Digest(Action<ThePrey> digested, float toDigest = 2f)
         {
             float totalDigest = toDigest + (Perks.GetPerkLevel(VorePerks.DigestiveFluids) * 2f);
@@ -97,6 +99,7 @@ namespace Vore
                 {
                     digested?.Invoke(prey);
                     Preys.Remove(prey);
+                    Digested(prey);
                 }
                 GainExp(Mathf.FloorToInt(totalDigest));
             }
@@ -131,6 +134,11 @@ namespace Vore
             float cap = pred.SexualOrgans.Balls.Sum(b => b.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
         }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Balls.PreyIsdigested(parWho);
+        }
     }
 
     [Serializable]
@@ -156,6 +164,11 @@ namespace Vore
         {
             float cap = pred.SexualOrgans.Boobs.Sum(b => b.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
+        }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Boobs.PreyIsdigested(parWho);
         }
     }
 
@@ -183,6 +196,11 @@ namespace Vore
             float cap = (pred.Body.Height.Value / 3) * ElasticMulti;
             return cap * VoreExpCapBonus;
         }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Stomach.PreyIsdigested(parWho);
+        }
     }
 
     [Serializable]
@@ -208,6 +226,11 @@ namespace Vore
         {
             float cap = (pred.Body.Height.Value / 4) * ElasticMulti;
             return cap * VoreExpCapBonus;
+        }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Anal.PreyIsdigested(parWho);
         }
     }
 
@@ -266,6 +289,11 @@ namespace Vore
                     tfChild?.Invoke(prey);
                 }
             }
+        }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Vagina.PreyIsdigested(parWho);
         }
 
         [Serializable]

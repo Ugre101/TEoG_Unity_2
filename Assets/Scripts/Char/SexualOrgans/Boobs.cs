@@ -51,10 +51,6 @@ public static class BoobExtensions
 
     public static float Milking(this List<Boobs> boobs, float dischargePrecentage) => boobs.Sum(b => b.Fluid.DisCharge(dischargePrecentage));
 
-    public static float MilkTotal(this List<Boobs> boobs) => boobs.Select(b => b.Fluid.Current).DefaultIfEmpty(0).Sum();
-
-    public static float MilkMax(this List<Boobs> boobs) => boobs.Select(b => b.Fluid.MaxAmount).DefaultIfEmpty(0).Sum();
-
     public static string BoobSizeConvertor(this Boobs boob)
     {
         List<string> Bra = new List<string>

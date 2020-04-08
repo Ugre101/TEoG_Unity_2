@@ -26,6 +26,7 @@ public class PlayerMain : BasicChar
         body = new Body(160, 10, 20);
         Currency.Gold += 100;
         InitHealth();
+        Essence.Masc.Gain(1000);
     }
 
     public void PlayerInit(string first, string last)
