@@ -48,7 +48,7 @@ namespace Vore
         private void LoadPreys(VoreContainer container, List<VoreSave> saves, List<ThePrey> preys)
         {
             container.transform.KillChildren();
-            for (int i = 0; i < saves.Count; i++)
+            for (int i = 0; i < saves.Count && i < preys.Count; i++)
             {
                 VoreSave vs = saves[i];
                 BasicChar loaded = preyPrefabs.Exists(n => n.name == vs.Name)

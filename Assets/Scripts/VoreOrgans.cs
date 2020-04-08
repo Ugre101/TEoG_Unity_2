@@ -37,7 +37,7 @@ namespace Vore
         }
 
         /// <summary> Return weight of prey content</summary>
-        public virtual float Current => preys.Sum(p => p.Prey.Body.Weight);
+        public virtual float Current => preys.Sum(p => p.Prey.Body.Weight * CompresionFactor);
 
         /// <summary>Returns how full it is; 0.5 = 50%</summary>
         public virtual float FillPrecent => Current / MaxCapacity();
@@ -61,20 +61,53 @@ namespace Vore
 
         public virtual bool ToggleDigestion => digestion = !digestion;
 
+        protected abstract void Digested(ThePrey parWho);
+
         public void Digest(Action<ThePrey> digested, float toDigest = 2f)
         {
+            float totalDigest = toDigest + (Perks.GetPerkLevel(VorePerks.DigestiveFluids) * 2f);
             for (int i = Preys.Count - 1; i >= 0; i--)
             {
                 ThePrey prey = Preys[i];
-                pred.Body.Fat.GainFlat(prey.Digest(toDigest));
+                pred.Body.Fat.GainFlat(prey.Digest(totalDigest));
+                // TODO test if working and implement way to toggle vore settings.
+                if (Perks.HasPerk(VorePerks.OrgasmicFluids))
+                {
+                    float arusalGain = 5 * Perks.GetPerkLevel(VorePerks.OrgasmicFluids);
+                    if (prey.Prey.SexStats.GainArousal(arusalGain))
+                    {
+                        if (Perks.HasPerk(VorePerks.DrainEssence))
+                        {
+                            float toDrain = 6 * Perks.GetPerkLevel(VorePerks.DrainEssence);
+                            if (prey.Prey.CanDrainFemi() && prey.Prey.CanDrainMasc() && VoreSettings.DrainEss == ChooseEssence.Both)
+                            {
+                                pred.Essence.Masc.Gain(prey.Prey.Essence.Masc.Lose(toDrain / 2));
+                                pred.Essence.Femi.Gain(prey.Prey.Essence.Femi.Lose(toDrain / 2));
+                            }
+                            else if (prey.Prey.CanDrainMasc() && VoreSettings.DrainEss == ChooseEssence.Masc)
+                            {
+                                pred.Essence.Masc.Gain(prey.Prey.Essence.Masc.Lose(toDrain));
+                            }
+                            else if (prey.Prey.CanDrainFemi() && VoreSettings.DrainEss == ChooseEssence.Femi)
+                            {
+                                pred.Essence.Femi.Gain(prey.Prey.Essence.Femi.Lose(toDrain));
+                            }
+                        }
+                    }
+                }
                 if (prey.Prey.Body.Weight <= 1)
                 {
                     digested?.Invoke(prey);
                     Preys.Remove(prey);
+                    Digested(prey);
                 }
-                GainExp(Mathf.FloorToInt(toDigest));
+                GainExp(Mathf.FloorToInt(totalDigest));
             }
         }
+
+        protected VorePerksSystem Perks => pred.Vore.Perks;
+        protected float ElasticMulti => Perks.HasPerk(VorePerks.Elastic) ? 1f + (Perks.GetPerkLevel(VorePerks.Elastic) * 0.1f) : 1f;
+        protected float CompresionFactor => Perks.HasPerk(VorePerks.Compression) ? 1f - (Perks.GetPerkLevel(VorePerks.Compression) * 0.1f) : 1f;
     }
 
     [Serializable]
@@ -98,8 +131,13 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.SexualOrgans.Balls.Sum(b => b.Size);
+            float cap = pred.SexualOrgans.Balls.Sum(b => b.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
+        }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Balls.PreyIsdigested(parWho);
         }
     }
 
@@ -124,8 +162,13 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.SexualOrgans.Boobs.Sum(b => b.Size);
+            float cap = pred.SexualOrgans.Boobs.Sum(b => b.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
+        }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Boobs.PreyIsdigested(parWho);
         }
     }
 
@@ -150,8 +193,13 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.Body.Height.Value / 3;
+            float cap = (pred.Body.Height.Value / 3) * ElasticMulti;
             return cap * VoreExpCapBonus;
+        }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Stomach.PreyIsdigested(parWho);
         }
     }
 
@@ -176,8 +224,13 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.Body.Height.Value / 4;
+            float cap = (pred.Body.Height.Value / 4) * ElasticMulti;
             return cap * VoreExpCapBonus;
+        }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Anal.PreyIsdigested(parWho);
         }
     }
 
@@ -221,7 +274,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.SexualOrgans.Vaginas.Sum(v => v.Size);
+            float cap = pred.SexualOrgans.Vaginas.Sum(v => v.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
         }
 
@@ -236,6 +289,11 @@ namespace Vore
                     tfChild?.Invoke(prey);
                 }
             }
+        }
+
+        protected override void Digested(ThePrey parWho)
+        {
+            pred.VoreChar.Vagina.PreyIsdigested(parWho);
         }
 
         [Serializable]

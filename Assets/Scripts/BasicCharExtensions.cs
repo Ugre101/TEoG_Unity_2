@@ -77,7 +77,21 @@ public static class BasicCharExtensions
         {
             basicChar.Vore.Digest();
         }
-        float fatBurnRate = 0.02f;
+        Body body = basicChar.Body;
+        BodyStat fat = body.Fat;
+        float fatBurnRate = fat.BaseValue * 0.0001f;
+        if (basicChar.Vore.Active)
+        {
+            VorePerksSystem perks = basicChar.Vore.Perks;
+            if (perks.HasPerk(VorePerks.PredatoryMetabolism))
+            {
+                // TODO test pred metabol
+                if (body.FatPrecent > 0.18f)
+                {
+                    fatBurnRate += fat.BaseValue * (0.0001f * perks.GetPerkLevel(VorePerks.PredatoryMetabolism)) * body.FatPrecent;
+                }
+            }
+        }
         if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
         {
             fatBurnRate += PerkEffects.Gluttony.ExtraFatBurn(basicChar.Perks);
@@ -86,7 +100,7 @@ public static class BasicCharExtensions
         {
             fatBurnRate -= PerkEffects.LowMetabolism.LowerBurn(basicChar.Perks);
         }
-        basicChar.Body.Fat.LoseFlat(fatBurnRate);
+        fat.LoseFlat(fatBurnRate);
         ReGainFluidsTick(basicChar);
     }
 
@@ -109,5 +123,11 @@ public static class BasicCharExtensions
         float str = basicChar.Stats.Strength.BaseValue;
         // basing on height is bad idea
         float height = basicChar.Body.Height.Value;
+    }
+
+    public static void GainFat(this BasicChar basicChar, float fatGain)
+    {
+        basicChar.Body.Fat.GainFlat(fatGain);
+        //   basicChar.SexualOrgans.
     }
 }

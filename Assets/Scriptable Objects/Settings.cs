@@ -12,8 +12,6 @@ public static class Settings
         UgreTools.SetPlayerPrefBool(inchSaveName, Inch);
         UgreTools.SetPlayerPrefBool(poundSaveName, Pound);
         UgreTools.SetPlayerPrefBool(gallonSaveName, Gallon);
-
-        UgreTools.SetPlayerPrefBool("Vore", Vore);
         // Gender names
         PlayerPrefs.SetString("Male", Male);
         PlayerPrefs.SetString("Female", Female);
@@ -25,24 +23,32 @@ public static class Settings
         PlayerPrefs.SetFloat(eventLogFontSizeSaveName, EventLogFontSize);
         PlayerPrefs.SetFloat(combatLogFontSizeSaveName, CombatLogFontSize);
         PlayerPrefs.SetFloat(sexlogFontSizeSaveName, SexlogFontSize);
+        // Misc
+        // UgreTools.SetPlayerPrefBool("Vore", Vore);
+        UgreTools.SetPlayerPrefBool("Scat", Scat);
     }
 
     public static void Load()
     {
+        // Units
         Imperial = UgreTools.GetPlayerPrefBool(impSaveName);
         Inch = UgreTools.GetPlayerPrefBool(inchSaveName);
         Pound = UgreTools.GetPlayerPrefBool(poundSaveName);
         Gallon = UgreTools.GetPlayerPrefBool(gallonSaveName);
-        Vore = UgreTools.GetPlayerPrefBool("Vore");
+        // Genders
         Male = PlayerPrefs.GetString("Male", Male);
         Female = PlayerPrefs.GetString("Female", Female);
         Herm = PlayerPrefs.GetString("Herm", Herm);
         Cuntboy = PlayerPrefs.GetString("Cuntboy", Cuntboy);
         Dickgirl = PlayerPrefs.GetString("Dickgirl", Dickgirl);
         Doll = PlayerPrefs.GetString("Doll", Doll);
+        // FontSizes
         EventLogFontSize = UgreTools.GetFloatPref(EventLogFontSize, eventLogFontSizeSaveName);
         CombatLogFontSize = UgreTools.GetFloatPref(CombatLogFontSize, combatLogFontSizeSaveName);
         SexlogFontSize = UgreTools.GetFloatPref(SexlogFontSize, sexlogFontSizeSaveName);
+        // Misc
+        //  Vore = UgreTools.GetPlayerPrefBool("Vore");
+        Scat = UgreTools.GetPlayerPrefBool("Scat");
     }
 
     #endregion Save&Load
@@ -131,10 +137,10 @@ public static class Settings
 
     #endregion Unit bools
 
-    public static bool Vore { get; private set; } = false;
+    public static bool Vore => PlayerMain.GetPlayer.Vore.Active;
     public static bool Scat { get; private set; } = false;
 
-    public static bool ToogleVore() => Vore = !Vore;
+    public static bool ToogleVore() => PlayerMain.GetPlayer.Vore.ToogleVore;
 
     public static bool ToogleScat() => Scat = !Scat;
 
@@ -173,7 +179,7 @@ public static class Settings
 
     public static string KgorP(float kg)
     {
-        if (kg <= 0) { return "zero?"; }
+        if (kg <= 0) { return "0"; }
         if (Pound)
         {
             // int stone = Mathf.FloorToInt(kg * 0.15747304441777f); // when to use stone?
@@ -196,6 +202,19 @@ public static class Settings
             }
             else if (kg > 1) { return Mathf.FloorToInt(kg) + "kg"; }
             else { return Mathf.Ceil(kg * 1000) + "g"; }
+        }
+    }
+
+    public static float KgorPWithOutSuffix(float kg)
+    {
+        if (Pound)
+        {
+            float pound = Mathf.Round(kg * 2.20462262f);
+            return pound;
+        }
+        else
+        {
+            return Mathf.FloorToInt(kg);
         }
     }
 
@@ -242,4 +261,44 @@ public static class Settings
     public static float SexlogFontSize { get => sexlogFontSize; private set => sexlogFontSize = Mathf.Max(value, 0.5f); }
     public static float SexlogFontSizeDown => SexlogFontSize -= 0.5f;
     public static float SexlogFontSizeUp => SexlogFontSize += 0.5f;
+}
+
+public enum ChooseEssence
+{
+    Masc,
+    Femi,
+    Both,
+    None,
+}
+
+public static class VoreSettings
+{
+    public static ChooseEssence DrainEss { get; private set; } = ChooseEssence.Both;
+
+    public static ChooseEssence ToggleDrainEss()
+    {
+        switch (DrainEss)
+        {
+            case ChooseEssence.Masc:
+                DrainEss = ChooseEssence.Femi;
+                break;
+
+            case ChooseEssence.Femi:
+                DrainEss = ChooseEssence.Both;
+                break;
+
+            case ChooseEssence.Both:
+                DrainEss = ChooseEssence.None;
+                break;
+
+            case ChooseEssence.None:
+                DrainEss = ChooseEssence.Masc;
+                break;
+
+            default:
+                DrainEss = ChooseEssence.Both;
+                break;
+        }
+        return DrainEss;
+    }
 }

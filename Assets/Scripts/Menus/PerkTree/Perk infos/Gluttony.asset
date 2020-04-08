@@ -30,5 +30,9 @@ MonoBehaviour:
   neededCharStats:
   - amount: 15
     stat: 2
+  - amount: 15
+    stat: 5
   needOtherPerks: 0
-  neededPerks: 
+  neededPerks: []
+  isExcluvsive: 1
+  exclusiveWith: 0a000000

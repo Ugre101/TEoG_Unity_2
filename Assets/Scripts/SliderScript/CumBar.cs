@@ -24,7 +24,7 @@
         slider.value = player.SexualOrgans.CumSlider;
         if (statusText != null)
         {
-            statusText.text = Settings.LorGal(player.SexualOrgans.Balls.CumTotal() / 1000);
+            statusText.text = Settings.LorGal(player.SexualOrgans.Balls.FluidCurrentTotal() / 1000);
         }
     }
 }

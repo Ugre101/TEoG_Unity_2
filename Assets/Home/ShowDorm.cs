@@ -90,21 +90,11 @@ public class ShowDorm : MonoBehaviour
                 if (chooseRace.HasValue) { sorted = sorted.FindAll(bc => bc.RaceSystem.CurrentRace() == chooseRace.Value); }
                 if (chooseGender.HasValue) { sorted = sorted.FindAll(bc => bc.Gender() == chooseGender.Value); }
                 if (sortByStat.HasValue) { sorted = SortSercantByRelationship(sorted); }
-                sorted.ForEach(s =>
-                {
-                    ShowServant showServant = Instantiate(ServantListPrefab, container);
-                    showServant.Init(s);
-                    showServant.Btn.onClick.AddListener(() => ShowAServant(s));
-                });
+                sorted.ForEach(s => Instantiate(ServantListPrefab, container).Init(s).onClick.AddListener(() => ShowAServant(s)));
             }
             else
             {
-                dorm.Servants.ForEach(s =>
-                {
-                    ShowServant showServant = Instantiate(ServantListPrefab, container);
-                    showServant.Init(s);
-                    showServant.Btn.onClick.AddListener(() => ShowAServant(s));
-                });
+                dorm.Servants.ForEach(s => Instantiate(ServantListPrefab, container).Init(s).onClick.AddListener(() => ShowAServant(s)));
             }
         }
     }
@@ -141,11 +131,8 @@ public class ShowDorm : MonoBehaviour
             {
                 // TODO make this working
                 case SortByEnum.AffectionAcc:
-                    basicChars.Sort(delegate (BasicChar a, BasicChar b)
-                    {
-                        return a.RelationshipTracker.GetReleationWith(player).AffectionValue.CompareTo(b.RelationshipTracker.GetReleationWith(player).AffectionValue);
-                    });
-                    basicChars.ForEach(b => Debug.Log(b.RelationshipTracker.GetReleationWith(player).AffectionValue));
+                    basicChars.Sort((BasicChar a, BasicChar b)
+                        => a.RelationshipTracker.GetReleationWith(player).AffectionValue.CompareTo(b.RelationshipTracker.GetReleationWith(player).AffectionValue));
                     break;
 
                 case SortByEnum.AffectionDec:

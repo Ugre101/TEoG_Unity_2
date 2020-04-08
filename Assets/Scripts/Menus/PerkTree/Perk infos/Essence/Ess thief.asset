@@ -18,10 +18,10 @@ MonoBehaviour:
   perkEffects: '+ Steal more essence
 
     + Slighty higher essence capacity'
-  maxLevel: 0
+  maxLevel: 5
   perkCost: 1
   perk: 7
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 0
-  neededPerks: 
+  neededPerks: []

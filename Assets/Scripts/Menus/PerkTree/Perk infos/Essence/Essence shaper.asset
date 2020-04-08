@@ -22,10 +22,10 @@ MonoBehaviour:
     others.
 
     + Higher essence capacity'
-  maxLevel: 0
+  maxLevel: 1
   perkCost: 1
   perk: 9
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 0
-  neededPerks: 
+  neededPerks: []

@@ -23,9 +23,9 @@ public class Organs
     [SerializeField] private CharStats ballsBunusRefillRate = new CharStats(0);
     public CharStats BallsBunusRefillRate => ballsBunusRefillRate;
 
-    public float CumSlider => Balls.CumTotal() / Balls.CumMax();
+    public float CumSlider => Balls.FluidCurrentTotal() / Balls.FluidMax();
 
-    public string CumStatus => $"{Mathf.Round(Balls.CumTotal())}";
+    public string CumStatus => $"{Mathf.Round(Balls.FluidCurrentTotal())}";
 
     [SerializeField] private List<Boobs> boobs = new List<Boobs>();
 
@@ -36,13 +36,20 @@ public class Organs
 
     public bool Lactating => lactating;
 
-    public float MilkSlider => Boobs.MilkTotal() / Boobs.MilkMax();
+    public float MilkSlider => Boobs.FluidCurrentTotal() / Boobs.FluidMax();
 
-    public string MilkStatus => $"{Mathf.Round(Boobs.MilkTotal() / 1000)}";
+    public string MilkStatus => $"{Mathf.Round(Boobs.FluidCurrentTotal() / 1000)}";
 
     [SerializeField] private List<Vagina> vaginas = new List<Vagina>();
 
     public List<Vagina> Vaginas => vaginas;
+
+    [SerializeField] private List<Anal> anals = new List<Anal>();
+    public List<Anal> Anals => anals;
+
+    public float ScatSlider => Anals.FluidCurrentTotal() / Anals.FluidMax();
+    public string ScatStatus => $"{Mathf.Round(Anals.FluidCurrentTotal() / 1000)}";
+    // TODO scat totals
 }
 
 public static class OrganExtension

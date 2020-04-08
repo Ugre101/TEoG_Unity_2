@@ -6,29 +6,19 @@ using UnityEngine.UI;
 
 public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField]
-    private UserSkill userSkill = null;
+    [SerializeField] private UserSkill userSkill = null;
 
     public BasicSkill Skill => userSkill?.skill;
 
-    [SerializeField]
-    private TextMeshProUGUI title = null, keycode = null;
+    [SerializeField] private TextMeshProUGUI title = null, keycode = null;
 
-    [SerializeField]
-    private Button btn = null;
+    [SerializeField] private Button btn = null;
 
-    [SerializeField]
-    private Image img = null;
+    [SerializeField] private Image img = null, coolDownImg = null;
 
-    [SerializeField]
-    private KeyCode quickKey = KeyCode.None;
+    [SerializeField] private KeyCode quickKey = KeyCode.None;
 
-    [SerializeField]
-    private SkillButtons skillButtons = null;
-
-    [SerializeField]
-    private Image coolDownImg = null;
-
+    [SerializeField] private SkillButtons skillButtons = null;
     private PlayerMain Player => PlayerMain.GetPlayer;
     private BasicChar Target => CombatMain.GetCombatMain.Target;
     private bool hovering = false;
@@ -135,7 +125,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     private void StartHovering()
     {
-        string toSend = $"{Skill.Title}\n{Skill.Type}\nAvg dmg: {Skill.AvgValue}";
+        string toSend = Skill.HoverDesc(Player);
         if (Skill.HasCoolDown)
         {
             toSend += $"\nCooldown: {Skill.CoolDown} turns";

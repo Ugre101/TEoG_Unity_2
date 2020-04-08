@@ -16,6 +16,25 @@ public class PerkInfo : BaseInfo
     public bool NeedOtherPerks => needOtherPerks;
     [SerializeField] private List<NeededPerk> neededPerks = new List<NeededPerk>();
     private List<NeededPerk> NeededPerks => neededPerks;
+    [SerializeField] private bool isExcluvsive = false;
+    public bool IsExcluvsive => isExcluvsive;
+    [SerializeField] private List<PerksTypes> exclusiveWith = new List<PerksTypes>();
+    public List<PerksTypes> ExclusiveWith => exclusiveWith;
+    public override string Effects => base.Effects + GetExclusiveInfo();
+
+    private string GetExclusiveInfo()
+    {
+        if (IsExcluvsive)
+        {
+            StringBuilder sb = new StringBuilder("\n");
+            foreach (PerksTypes perksTypes in ExclusiveWith)
+            {
+                sb.Append($"* Exclusive with {perksTypes}\n");
+            }
+            return sb.ToString();
+        }
+        return string.Empty;
+    }
 
     public bool Unlocked(BasicChar basicChar)
     {
@@ -23,11 +42,12 @@ public class PerkInfo : BaseInfo
         {
             foreach (NeededPerk perks in NeededPerks)
             {
-                if (!basicChar.Perks.List.Exists(p => p.Type == perks.Perk))
+                List<Perk> list = basicChar.Perks.List;
+                if (!list.Exists(p => p.Type == perks.Perk))
                 {
                     return false;
                 }
-                else if (basicChar.Perks.List.Find(p => p.Type == perks.Perk).Level < perks.Amount)
+                else if (list.Find(p => p.Type == perks.Perk).Level < perks.Amount)
                 {
                     return false;
                 }
@@ -43,6 +63,16 @@ public class PerkInfo : BaseInfo
                 }
             }
         }
+        if (IsExcluvsive)
+        {
+            foreach (PerksTypes perks in ExclusiveWith)
+            {
+                if (basicChar.Perks.HasPerk(perks))
+                {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -51,28 +81,38 @@ public class PerkInfo : BaseInfo
         StringBuilder sb = new StringBuilder();
         if (NeedOtherPerks)
         {
-            foreach (NeededPerk perks in NeededPerks.Where(perks => !basicChar.Perks.List.Exists(p => p.Type == perks.Perk)).Select(perks => perks))
+            List<Perk> myPerks = basicChar.Perks.List;
+            foreach (NeededPerk perks in NeededPerks.Where(perks => !myPerks.Exists(p => p.Type == perks.Perk)).Select(perks => perks))
             {
                 if (perks.Amount == 1)
                 {
-                    sb.Append($"Need: {perks.Perk}");
+                    sb.Append($"Need: {perks.Perk}\n");
                 }
                 else
                 {
-                    sb.Append($"Need: {perks.Amount} {perks.Perk}");
+                    sb.Append($"Need: {perks.Amount} {perks.Perk}\n");
                 }
             }
-            foreach (NeededPerk perks in NeededPerks.Where(perks => basicChar.Perks.List.Exists(p => p.Type == perks.Perk)).Select(perks => perks).Where(perks
-                  => basicChar.Perks.List.Find(p => p.Type == perks.Perk).Level < perks.Amount).Select(perks => perks))
+            foreach (NeededPerk perks in NeededPerks.Where(perks => myPerks.Exists(p => p.Type == perks.Perk)).Select(perks => perks).Where(perks => myPerks.Find(p => p.Type == perks.Perk).Level < perks.Amount).Select(perks => perks))
             {
-                sb.Append($"Need: {perks.Amount} {perks.Perk}");
+                sb.Append($"Need: {perks.Amount} {perks.Perk}\n");
             }
         }
         if (NeedCharStat)
         {
             foreach (NeededCharStat charStat in NeededCharStats.Where(charStat => basicChar.Stats.GetStat(charStat.Stat).BaseValue < charStat.Amount).Select(charStat => charStat))
             {
-                sb.Append("Need: " + charStat.Stat.ToString() + charStat.Amount);
+                sb.Append("Need: " + charStat.Stat.ToString() + charStat.Amount + "\n");
+            }
+        }
+        if (IsExcluvsive)
+        {
+            foreach (PerksTypes perks in ExclusiveWith)
+            {
+                if (basicChar.Perks.HasPerk(perks))
+                {
+                    sb.Append($"Is excluvsive with {perks}\n");
+                }
             }
         }
         return sb.ToString();
@@ -96,9 +136,3 @@ public class PerkInfo : BaseInfo
         public PerksTypes Perk => perksTypes;
     }
 }
-
-/*
- *store perk info in a ScriptableObject so that it's consistent
- *also store perk effect values so that if perks need nerfs/buffs in future I should only need to change them here instead
- *of having to find all refernces.
-*/

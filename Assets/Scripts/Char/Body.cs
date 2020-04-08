@@ -154,6 +154,7 @@ public class Body
 
     public BodyStat Height => height;
     public BodyStat Fat => fat;
+    // TODO convert muscle to a precent/factor instead of a kg val.
     public BodyStat Muscle => muscle;
 
     // TODO centaurs and etc need to weight more and in future maybe add diffrent settings for female body frame

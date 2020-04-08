@@ -16,10 +16,10 @@ MonoBehaviour:
   perkTitle: Essence hoader
   perkInfo: 
   perkEffects: + Much higher stable essence capacity
-  maxLevel: 0
+  maxLevel: 5
   perkCost: 1
   perk: 8
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 0
-  neededPerks: 
+  neededPerks: []

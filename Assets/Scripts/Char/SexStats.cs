@@ -1,4 +1,6 @@
-﻿public class SexStats
+﻿using UnityEngine;
+
+public class SexStats
 {
     private readonly float maxArousal = 100f;
     private int currOrgasm = 0;
@@ -10,6 +12,8 @@
 
     public void Drained() => currOrgasm--;
 
+    /// <summary>Returns true if orgasm ocurs</summary>
+    /// <param name="gain"></param>
     public bool GainArousal(float gain)
     {
         Arousal += gain;
@@ -44,6 +48,17 @@
     public delegate void Orgasmed();
 
     public event Orgasmed OrgasmedEvent;
+}
 
-    public void ManualArousalUpdate() => ArousalChangeEvent?.Invoke();
+public static class SexStatsExtensions
+{
+    public static int MaxOrgasm(this BasicChar basicChar)
+    {
+        int baseOrg = 1;
+        baseOrg += Mathf.FloorToInt(basicChar.Stats.End / 20);
+        // TODO perks and stuff
+        return baseOrg;
+    }
+
+    public static bool CanOrgasmMore(this BasicChar basicChar) => basicChar.SexStats.SessionOrgasm < basicChar.MaxOrgasm();
 }

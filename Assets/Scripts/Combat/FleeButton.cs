@@ -5,14 +5,11 @@ using UnityEngine.UI;
 
 public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    [SerializeField]
-    private Button btn = null;
+    [SerializeField] private Button btn = null;
 
-    [SerializeField]
-    private TextMeshProUGUI quickText = null;
+    [SerializeField] private TextMeshProUGUI quickText = null;
 
-    [SerializeField]
-    private KeyCode quickKey = KeyCode.Alpha0;
+    [SerializeField] private KeyCode quickKey = KeyCode.Alpha0;
 
     private int Roll => Random.Range(0, 100);
     private bool hovering = false;

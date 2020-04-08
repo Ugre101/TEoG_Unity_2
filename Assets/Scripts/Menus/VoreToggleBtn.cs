@@ -16,8 +16,8 @@ public class VoreToggleBtn : MonoBehaviour
         btn = btn != null ? btn : GetComponent<Button>();
         btn.onClick.AddListener(ToggleVore);
         text = text != null ? text : GetComponentInChildren<TextMeshProUGUI>();
-        BtnText(player.Vore.Active);
+        BtnText(Settings.Vore);
     }
 
-    private void ToggleVore() => BtnText(player.Vore.ToogleVore);
+    private void ToggleVore() => BtnText(Settings.ToogleVore());
 }

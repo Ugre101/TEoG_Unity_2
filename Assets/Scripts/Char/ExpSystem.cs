@@ -11,8 +11,6 @@ public class ExpSystem
 
     [SerializeField] private int level = 1;
 
-    // TODO decide if set level should be public or not, problem is setting level of enemies will be harder
-    // if it isn't
     public int Level => level;
 
     [SerializeField] private int exp = 0;

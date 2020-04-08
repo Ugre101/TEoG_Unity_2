@@ -3,17 +3,17 @@ using UnityEngine;
 
 namespace Vore
 {
-    public class VoreContainer : MonoBehaviour
+    public abstract class VoreContainer : MonoBehaviour
     {
-        private BasicChar[] PreyArray => GetComponentsInChildren<BasicChar>();
-        private List<BasicChar> lastPreys = new List<BasicChar>();
-        private bool preysDirty = true;
+        protected BasicChar[] PreyArray => GetComponentsInChildren<BasicChar>();
+        protected List<BasicChar> lastPreys = new List<BasicChar>();
+        protected bool preysDirty = true;
 
         public List<BasicChar> GetPreys()
         {
             if (preysDirty)
             {
-                lastPreys = transform.childCount > 0 ? new List<BasicChar>(PreyArray) : new List<BasicChar>();
+                lastPreys = new List<BasicChar>(PreyArray);
                 preysDirty = false;
             }
             return lastPreys;
@@ -30,6 +30,13 @@ namespace Vore
             // Not sure if this works
             preysDirty = true;
             GameObject prey = GetPreys().Find(p => p.GetInstanceID() == parWho.Prey.GetInstanceID()).gameObject;
+        }
+
+        public void PreyIsdigested(ThePrey parWho)
+        {
+            preysDirty = true;
+            GameObject prey = GetPreys().Find(p => p.GetInstanceID() == parWho.Prey.GetInstanceID()).gameObject;
+            prey.transform.parent = DigestedContainer.GetContainer.transform;
         }
     }
 }

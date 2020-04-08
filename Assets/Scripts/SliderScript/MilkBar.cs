@@ -28,7 +28,7 @@
         slider.value = player.SexualOrgans.MilkSlider;
         if (statusText != null)
         {
-            statusText.text = Settings.LorGal(player.SexualOrgans.Boobs.MilkTotal() / 1000);
+            statusText.text = Settings.LorGal(player.SexualOrgans.Boobs.FluidCurrentTotal() / 1000);
         }
     }
 }
