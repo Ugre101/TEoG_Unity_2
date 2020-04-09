@@ -170,7 +170,7 @@ public static class SexOrganExtension
 
     public static float FluidMax(this IEnumerable<SexualOrganWithFluid> list) => list.Select(b => b.Fluid.MaxAmount).DefaultIfEmpty(0).Sum();
 
-    public static void RefreshOrgans(this BasicChar bc, bool autoEss = false)
+    public static void RefreshOrgans(this BasicChar bc)
     {
         Organs so = bc.SexualOrgans;
         List<Dick> dicks = so.Dicks;
@@ -195,7 +195,7 @@ public static class SexOrganExtension
             }
         }
         Essence masc = bc.Essence.Masc;
-        int StableAmount = bc.Essence.StableEssence.MaxValue;
+        float StableAmount = bc.TotalStableEssence();
         if (masc.Amount > StableAmount)
         {
             if (dicks.Total() <= ballsRatio)

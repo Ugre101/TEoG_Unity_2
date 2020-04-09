@@ -84,7 +84,6 @@ public static class PerkExtensions
                 break;
 
             case PerksTypes.EssenceThief:
-                basicChar.Essence.StableEssence.AddMods(PerkEffects.EssenecePerks.EssThief.ImproveCapacity);
                 break;
 
             case PerksTypes.EssenceHoarder:
@@ -112,6 +111,7 @@ public static class PerkExtensions
                 break;
 
             case PerksTypes.EssenceShaper:
+
                 break;
 
             case PerksTypes.Seductress:

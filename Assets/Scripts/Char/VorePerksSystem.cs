@@ -12,6 +12,7 @@ public enum VorePerks
     ReBirth,
 }
 
+[System.Serializable]
 public class VorePerksSystem
 {
     [SerializeField] private List<VorePerk> vorePerks = new List<VorePerk>();

@@ -17,7 +17,7 @@ MonoBehaviour:
   perkInfo: 
   perkEffects: 
   maxLevel: 1
-  perkCost: 1
+  perkCost: 3
   perk: 5
   needCharStat: 0
   neededCharStats: []

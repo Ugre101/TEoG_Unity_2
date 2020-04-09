@@ -14,7 +14,7 @@ public abstract class BasicChar : MonoBehaviour
     private void DoEveryMin()
     {
         // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
-        this.RefreshOrgans(AutoEss);
+        this.RefreshOrgans();
         this.OverTimeTick();
     }
 
@@ -94,12 +94,8 @@ public abstract class BasicChar : MonoBehaviour
     public StatsContainer Stats => stats;
 
     [Header("Essence")]
-    [SerializeField] private bool autoEss = true;
-
-    public bool AutoEss => autoEss;
 
     // Maybe a bit overkill but I want to make sure autoEss isn't toggled by mistake
-    public void ToggleAutoEssence() => autoEss = !autoEss;
 
     [SerializeField] private EssenceSystem essence = new EssenceSystem();
 

@@ -84,11 +84,11 @@ namespace Vore
                                 pred.Essence.Masc.Gain(prey.Prey.Essence.Masc.Lose(toDrain / 2));
                                 pred.Essence.Femi.Gain(prey.Prey.Essence.Femi.Lose(toDrain / 2));
                             }
-                            else if (prey.Prey.CanDrainMasc() && VoreSettings.DrainEss == ChooseEssence.Masc)
+                            else if (prey.Prey.CanDrainMasc() && (VoreSettings.DrainEss == ChooseEssence.Masc || VoreSettings.DrainEss == ChooseEssence.Both))
                             {
                                 pred.Essence.Masc.Gain(prey.Prey.Essence.Masc.Lose(toDrain));
                             }
-                            else if (prey.Prey.CanDrainFemi() && VoreSettings.DrainEss == ChooseEssence.Femi)
+                            else if (prey.Prey.CanDrainFemi() && (VoreSettings.DrainEss == ChooseEssence.Femi || VoreSettings.DrainEss == ChooseEssence.Both))
                             {
                                 pred.Essence.Femi.Gain(prey.Prey.Essence.Femi.Lose(toDrain));
                             }

@@ -16,7 +16,7 @@ public abstract class BaseInfo : ScriptableObject
     [TextArea]
     [SerializeField] protected string perkEffects = "";
 
-    public virtual string Effects => "Costs: " + perkCost.ToString() + " points\n" + perkEffects;
+    public virtual string Effects => "Costs: " + perkCost.ToString() + " points" + "\tMax level: " + MaxLevel + "\n" + perkEffects;
 
     [SerializeField] protected int maxLevel = 1, perkCost = 1;
 

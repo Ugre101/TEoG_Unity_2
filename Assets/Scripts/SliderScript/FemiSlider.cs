@@ -2,22 +2,13 @@
 
 public class FemiSlider : EssenceSlider
 {
-    private Essence Femi => basicChar.Essence.Femi;
+    protected override Essence Ess => basicChar.Essence.Femi;
 
-    public override void Init(BasicChar who)
-    {
-        base.Init(who);
-        Femi.EssenceSliderEvent += ChangeFemi;
-        ChangeFemi();
-    }
-
-    private void OnDisable() => Femi.EssenceSliderEvent -= ChangeFemi;
-
-    private void ChangeFemi()
+    protected override void ChangeEss()
     {
         Color temp = _image.color;
-        temp.a = Femi.Amount > 0 ? 1f : 0.5f;
+        temp.a = Ess.Amount > 0 ? 1f : 0.5f;
         _image.color = temp;
-        essValue.text = Femi.StringAmount;
+        essValue.text = Ess.StringAmount;
     }
 }

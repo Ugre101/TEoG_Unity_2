@@ -18,7 +18,7 @@ MonoBehaviour:
     inside you.\r"
   perkEffects: 
   maxLevel: 1
-  perkCost: 1
+  perkCost: 5
   perk: 4
   needCharStat: 0
   neededCharStats: []
