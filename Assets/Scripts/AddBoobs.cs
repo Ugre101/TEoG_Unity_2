@@ -4,19 +4,23 @@ namespace EssenceMenu
 {
     public class AddBoobs : AddOrgan
     {
-        private Essence Femi => player.Essence.Femi;
+        protected override Essence Ess => player.Essence.Femi;
+
+        protected override float Cost => Boobs.Cost();
+
         private List<Boobs> Boobs => player.SexualOrgans.Boobs;
 
         protected override void AddFunc()
         {
-            if (Femi.Amount > Boobs.Cost())
+            if (CanAfford)
             {
-                Femi.Lose(Boobs.Cost());
+                Ess.Lose(Cost);
                 Boobs.AddBoobs();
                 DisplayCost();
+                ShowIfCanAfford();
             }
         }
 
-        protected override void DisplayCost() => btnText.text = $"Add boobs: {Boobs.Cost()}Femi";
+        protected override void DisplayCost() => btnText.text = $"Add boobs: {Cost}Femi";
     }
 }

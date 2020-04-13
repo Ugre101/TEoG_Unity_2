@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btn: {fileID: 297248684116494824}
   btnText: {fileID: 297248682604105388}
+  image: {fileID: 0}
+  canAfford: {r: 1, g: 0, b: 1, a: 1}
+  cantAfford: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &4686430261821870596
 PrefabInstance:
   m_ObjectHideFlags: 0

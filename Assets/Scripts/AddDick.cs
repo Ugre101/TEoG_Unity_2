@@ -4,19 +4,23 @@ namespace EssenceMenu
 {
     public class AddDick : AddOrgan
     {
-        private Essence Masc => player.Essence.Masc;
+        protected override Essence Ess => player.Essence.Masc;
+
+        protected override float Cost => Dicks.Cost();
+
         private List<Dick> Dicks => player.SexualOrgans.Dicks;
 
         protected override void AddFunc()
         {
-            if (Masc.Amount > Dicks.Cost())
+            if (CanAfford)
             {
-                Masc.Lose(Dicks.Cost());
+                Ess.Lose(Cost);
                 Dicks.AddDick();
                 DisplayCost();
+                ShowIfCanAfford();
             }
         }
 
-        protected override void DisplayCost() => btnText.text = $"Add dick: {Dicks.Cost()}";
+        protected override void DisplayCost() => btnText.text = $"Add dick: {Cost}";
     }
 }

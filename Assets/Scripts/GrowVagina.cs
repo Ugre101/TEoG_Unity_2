@@ -2,7 +2,10 @@
 {
     public class GrowVagina : GrowOrgan
     {
-        private Essence Femi => player.Essence.Femi;
+        protected override Essence Ess => player.Essence.Femi;
+
+        protected override float Cost => vagina.Cost;
+
         private Vagina vagina;
 
         public void Setup(PlayerMain player, Vagina vagina)
@@ -11,14 +14,15 @@
             BaseSetup(player);
         }
 
-        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(vagina.Size)} {vagina.Cost}Femi";
+        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(vagina.Size)} {Cost}Femi";
 
         protected override void Grow()
         {
-            if (Femi.Amount >= vagina.Cost)
+            if (CanAfford)
             {
-                vagina.Grow();
+                Ess.Lose(vagina.Grow());
                 DisplayCost();
+                ShowIfCanAfford();
             }
         }
     }

@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btn: {fileID: 8474739328679621299}
   btnText: {fileID: 8474739329382381047}
+  image: {fileID: 0}
+  canAfford: {r: 0, g: 0, b: 1, a: 1}
+  cantAfford: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1001 &3509944446043351391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 4983656730203249645, guid: bfbaeec3d19862640b800bf13a24d276,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 8.1250305
+      value: 8.125
       objectReference: {fileID: 0}
     - target: {fileID: 4983656730203249645, guid: bfbaeec3d19862640b800bf13a24d276,
         type: 3}
@@ -135,6 +138,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_firstOverflowCharacterIndex
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983656730569907368, guid: bfbaeec3d19862640b800bf13a24d276,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 8.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983656730569907368, guid: bfbaeec3d19862640b800bf13a24d276,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfbaeec3d19862640b800bf13a24d276, type: 3}

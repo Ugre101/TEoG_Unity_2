@@ -2,7 +2,10 @@
 {
     public class GrowBoobs : GrowOrgan
     {
-        private Essence Femi => player.Essence.Femi;
+        protected override Essence Ess => player.Essence.Femi;
+
+        protected override float Cost => boobs.Cost;
+
         private Boobs boobs;
 
         public void Setup(PlayerMain player, Boobs boobs)
@@ -15,10 +18,11 @@
 
         protected override void Grow()
         {
-            if (Femi.Amount >= boobs.Cost)
+            if (CanAfford)
             {
-                boobs.Grow();
+                Ess.Lose(boobs.Grow());
                 DisplayCost();
+                ShowIfCanAfford(); 
             }
         }
     }
