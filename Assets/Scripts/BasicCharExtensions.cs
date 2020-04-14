@@ -17,9 +17,10 @@ public static class BasicCharExtensions
 
     public static string Summary(this BasicChar who)
     {
-        // string title = who.Identity.FullName;
-        string desc = $"A {who.Body.HeightMorInch()} tall {who.Race()} {who.Gender.ToString()}.";
-        // string stats = $"{who.Age.AgeYears}years old\nWeight: {Weight(who)}\nHeight: {Height(who)}";
+        string title = who.Identity.FullName;
+        Body body = who.Body;
+        string desc = $" is a {body.HeightMorInch()} tall {who.Race()} {who.Gender.ToString()}.";
+        string stats = $"{who.Age.AgeYears}years old\nWeight: {body.WeightKgOrP()}\nHeight: {body.HeightMorInch()}";
         return desc;
     }
 
