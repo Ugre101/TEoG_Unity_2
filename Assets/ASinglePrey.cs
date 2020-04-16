@@ -1,23 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
 
-public class ASinglePrey : MonoBehaviour
+namespace Vore
 {
-    [SerializeField] private TextMeshProUGUI title = null, desc = null;
-    [SerializeField] private Button backBtn = null;
-    [SerializeField] private Transform optionContainer = null;
-    // Start is called before the first frame update
-    void Start()
+    public class ASinglePrey : MonoBehaviour
     {
-        
-    }
+        [SerializeField] private PlayerMain player = null;
+        [SerializeField] private TextMeshProUGUI title = null, desc = null;
+        [SerializeField] private Button backBtn = null, reguBtn = null;
+        [SerializeField] private Transform optionContainer = null, enemyContainer = null;
+        [SerializeField] private VoreMenuHandler voreMenu = null;
+        private VoreContainers voreContainer = VoreContainers.Stomach;
+        private ThePrey prey = null;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Start()
+        {
+            player = player != null ? player : PlayerMain.GetPlayer;
+            backBtn.onClick.AddListener(Back);
+            reguBtn.onClick.AddListener(Regurgileta);
+        }
+
+        public void Setup(ThePrey prey, VoreContainers voreContainer)
+        {
+            gameObject.SetActive(true);
+            this.prey = prey;
+            this.voreContainer = voreContainer;
+            title.text = prey.Prey.Identity.FullName;
+        }
+
+        private void Regurgileta()
+        {
+            if (prey.Progress < 0.5f)
+            {
+                player.VoreChar.GetVoreContainer(voreContainer).ReleasePreyTo(prey, enemyContainer, player.transform.position);
+            }
+            else
+            {
+                // Dead
+            }
+        }
+
+        private void Back() => voreMenu.OnEnable();
     }
 }
