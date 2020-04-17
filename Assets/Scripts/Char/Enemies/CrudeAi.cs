@@ -9,24 +9,15 @@ public class CrudeAi : MonoBehaviour
         Flee
     }
 
-    [SerializeField]
-    private PlayerMain target;
+    [SerializeField] private PlayerMain target = null;
 
-    [SerializeField]
-    private Rigidbody2D playerRigid;
+    [SerializeField] private Rigidbody2D playerRigid = null, rb2d = null;
 
     private Vector2 Target => playerRigid.position;
 
-    [SerializeField]
-    private Rigidbody2D rb2d = null;
-
     private Vector2 CurPos { get => rb2d.position; set => rb2d.position = value; }
 
-    [SerializeField]
-    private float chaseDist = 30f;
-
-    [SerializeField]
-    private float movementSpeed = 5f;
+    [SerializeField] private float chaseDist = 30f, movementSpeed = 5f;
 
     private State currentState;
 

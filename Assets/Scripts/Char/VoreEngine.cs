@@ -30,6 +30,8 @@ namespace Vore
 
         public List<VoreBasic> VoreOrgans => voreOrgans = voreOrgans ?? new List<VoreBasic>() { Balls, Boobs, Stomach, Anal, Vagina };
 
+        public VoreBasic GetVoreOrgan(VoreContainers container) => VoreOrgans.Find(v => v.VoreContainers == container);
+
         #endregion voreOrgans
 
         public int TotalPreyCount => VoreOrgans.Sum(vo => vo.PreyCount);

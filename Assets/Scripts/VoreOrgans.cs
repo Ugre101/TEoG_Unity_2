@@ -8,9 +8,13 @@ namespace Vore
     [Serializable]
     public abstract class VoreBasic
     {
-        public VoreContainers VoreContainers { get; protected set; }
+        public VoreContainers VoreContainers { get; }
 
-        public VoreBasic(BasicChar parPred) => pred = parPred;
+        public VoreBasic(BasicChar parPred, VoreContainers voreContainer)
+        {
+            pred = parPred;
+            VoreContainers = voreContainer;
+        }
 
         protected readonly BasicChar pred;
 
@@ -113,9 +117,8 @@ namespace Vore
     [Serializable]
     public class VoreBalls : VoreBasic
     {
-        public VoreBalls(BasicChar parPred) : base(parPred)
+        public VoreBalls(BasicChar parPred) : base(parPred, VoreContainers.Balls)
         {
-            VoreContainers = VoreContainers.Balls;
         }
 
         public override bool Vore(ThePrey parPrey)
@@ -144,9 +147,8 @@ namespace Vore
     [Serializable]
     public class VoreBoobs : VoreBasic
     {
-        public VoreBoobs(BasicChar pred) : base(pred)
+        public VoreBoobs(BasicChar pred) : base(pred, VoreContainers.Boobs)
         {
-            VoreContainers = VoreContainers.Boobs;
         }
 
         public override bool Vore(ThePrey parPrey)
@@ -175,9 +177,8 @@ namespace Vore
     [Serializable]
     public class VoreStomach : VoreBasic
     {
-        public VoreStomach(BasicChar pred) : base(pred)
+        public VoreStomach(BasicChar pred) : base(pred, VoreContainers.Stomach)
         {
-            VoreContainers = VoreContainers.Stomach;
         }
 
         public override bool Vore(ThePrey parPrey)
@@ -206,9 +207,8 @@ namespace Vore
     [Serializable]
     public class VoreAnal : VoreBasic
     {
-        public VoreAnal(BasicChar pred) : base(pred)
+        public VoreAnal(BasicChar pred) : base(pred, VoreContainers.Anal)
         {
-            VoreContainers = VoreContainers.Anal;
         }
 
         public override bool Vore(ThePrey parPrey)
@@ -237,9 +237,8 @@ namespace Vore
     [Serializable]
     public class VoreVagina : VoreBasic
     {
-        public VoreVagina(BasicChar Pred) : base(Pred)
+        public VoreVagina(BasicChar Pred) : base(Pred, VoreContainers.Vagina)
         {
-            VoreContainers = VoreContainers.Vagina;
         }
 
         public override bool Vore(ThePrey parPrey)
