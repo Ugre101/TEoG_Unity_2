@@ -69,6 +69,14 @@ namespace Vore
                 {
                     desc += $""; // Almost fully digested
                 }
+                if (PreyBody.Fat.Value < 1)
+                {
+                    desc += " all fat has melted of ";
+                }
+                if (PreyBody.Muscle.Value < 1)
+                {
+                    desc += $" all muscle has melted of {prey.Prey.HisHer()} body ";
+                }
             }
         }
 
