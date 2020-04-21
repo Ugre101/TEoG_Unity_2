@@ -51,10 +51,7 @@ public class CanvasMain : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        Movement.TriggerEnemy += StartCombat;
-    }
+    private void Start() => Movement.TriggerEnemy += StartCombat;
 
     private void Update()
     {

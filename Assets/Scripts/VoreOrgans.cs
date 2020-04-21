@@ -65,7 +65,7 @@ namespace Vore
 
         public virtual bool ToggleDigestion => digestion = !digestion;
 
-        protected abstract void Digested(ThePrey parWho);
+        protected abstract void DigestTo(float val);
 
         public void Digest(Action<ThePrey> digested, float toDigest = 2f)
         {
@@ -73,7 +73,7 @@ namespace Vore
             for (int i = Preys.Count - 1; i >= 0; i--)
             {
                 ThePrey prey = Preys[i];
-                pred.Body.Fat.GainFlat(prey.Digest(totalDigest));
+                DigestTo(prey.Digest(totalDigest));
                 // TODO test if working and implement way to toggle vore settings.
                 if (Perks.HasPerk(VorePerks.OrgasmicFluids))
                 {
@@ -103,7 +103,6 @@ namespace Vore
                 {
                     digested?.Invoke(prey);
                     Preys.Remove(prey);
-                    Digested(prey);
                 }
                 GainExp(Mathf.FloorToInt(totalDigest));
             }
@@ -112,6 +111,8 @@ namespace Vore
         protected VorePerksSystem Perks => pred.Vore.Perks;
         protected float ElasticMulti => Perks.HasPerk(VorePerks.Elastic) ? 1f + (Perks.GetPerkLevel(VorePerks.Elastic) * 0.1f) : 1f;
         protected float CompresionFactor => Perks.HasPerk(VorePerks.Compression) ? 1f - (Perks.GetPerkLevel(VorePerks.Compression) * 0.1f) : 1f;
+
+        public void RemovePrey(ThePrey prey) => Preys.Remove(prey);
     }
 
     [Serializable]
@@ -138,9 +139,15 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        protected override void Digested(ThePrey parWho)
+        protected override void DigestTo(float val)
         {
-            pred.VoreChar.Balls.PreyIsdigested(parWho);
+            pred.SexualOrgans.Balls.ForEach(b =>
+            {
+                if (!b.Fluid.IsFull)
+                {
+                    b.Fluid.ReFillWith(val);
+                }
+            });
         }
     }
 
@@ -168,9 +175,15 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        protected override void Digested(ThePrey parWho)
+        protected override void DigestTo(float val)
         {
-            pred.VoreChar.Boobs.PreyIsdigested(parWho);
+            pred.SexualOrgans.Boobs.ForEach(b =>
+            {
+                if (!b.Fluid.IsFull)
+                {
+                    b.Fluid.ReFillWith(val);
+                }
+            });
         }
     }
 
@@ -198,10 +211,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        protected override void Digested(ThePrey parWho)
-        {
-            pred.VoreChar.Stomach.PreyIsdigested(parWho);
-        }
+        protected override void DigestTo(float val) => pred.Body.Fat.GainFlat(val);
     }
 
     [Serializable]
@@ -228,10 +238,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        protected override void Digested(ThePrey parWho)
-        {
-            pred.VoreChar.Anal.PreyIsdigested(parWho);
-        }
+        protected override void DigestTo(float val) => pred.Body.Fat.GainFlat(val);
     }
 
     [Serializable]
@@ -290,9 +297,15 @@ namespace Vore
             }
         }
 
-        protected override void Digested(ThePrey parWho)
+        protected override void DigestTo(float val)
         {
-            pred.VoreChar.Vagina.PreyIsdigested(parWho);
+            pred.SexualOrgans.Vaginas.ForEach(v =>
+            {
+                if (!v.Fluid.IsFull)
+                {
+                    v.Fluid.ReFillWith(val);
+                }
+            });
         }
 
         [Serializable]

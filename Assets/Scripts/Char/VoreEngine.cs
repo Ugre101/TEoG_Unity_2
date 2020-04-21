@@ -76,12 +76,41 @@ namespace Vore
             {
                 Vagina.Digest(p => VaginaDigested(p));
             }
-            void TfToChild(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has shrunk");
-            void VaginaDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)}");
-            void BallsDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been fully transfomed into cum.");
-            void BoobsDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} is now nothing but milk.");
-            void StomachDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been digested.");
-            void AnalDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been reduced to nothing in your bowels.");
+            void TfToChild(ThePrey thePrey)
+            {
+                PlayerPredEventLog($"{FullName(thePrey)} has shrunk");
+                pred.VoreChar.Vagina.PreyIsRebithed(thePrey);
+            }
+
+            void VaginaDigested(ThePrey thePrey)
+            {
+                PlayerPredEventLog($"{FullName(thePrey)}");
+                pred.VoreChar.Vagina.PreyIsdigested(thePrey);
+            }
+
+            void BallsDigested(ThePrey thePrey)
+            {
+                PlayerPredEventLog($"{FullName(thePrey)} has been fully transfomed into cum.");
+                pred.VoreChar.Balls.PreyIsdigested(thePrey);
+            }
+
+            void BoobsDigested(ThePrey thePrey)
+            {
+                PlayerPredEventLog($"{FullName(thePrey)} is now nothing but milk.");
+                pred.VoreChar.Boobs.PreyIsdigested(thePrey);
+            }
+
+            void StomachDigested(ThePrey thePrey)
+            {
+                PlayerPredEventLog($"{FullName(thePrey)} has been digested.");
+                pred.VoreChar.Stomach.PreyIsdigested(thePrey);
+            }
+
+            void AnalDigested(ThePrey thePrey)
+            {
+                PlayerPredEventLog($"{FullName(thePrey)} has been reduced to nothing in your bowels.");
+                pred.VoreChar.Anal.PreyIsdigested(thePrey);
+            }
         }
 
         private string FullName(ThePrey thePrey) => thePrey.Prey.Identity.FullName;
@@ -137,5 +166,46 @@ namespace Vore
         }
 
         public float Progress => (StartWeight - Prey.Body.Weight) / StartWeight;
+
+        public string PreyDesc
+        {
+            get
+            {
+                string desc = string.Empty;
+                if (Progress > 0)
+                {
+                    desc += prey.Identity.FirstName;
+                    if (Progress < 0.3f)
+                    {
+                        desc += $" has started to show signs of their digestion "; //Starting to digest
+                    }
+                    else if (Progress < 0.5f)
+                    {
+                        desc += $" is halfway trough their digestion "; // Almost half digested check amount fat & muscle
+                    }
+                    else if (Progress < 0.8f)
+                    {
+                        desc += $"  "; // More than half way digested
+                    }
+                    else
+                    {
+                        desc += $""; // Almost fully digested
+                    }
+                    if (prey.Body.Fat.Value < 1 && prey.Body.Muscle.Value < 1)
+                    {
+                        desc += $" all of {prey.HisHer()} fat and muscle has melted of their bones.";
+                    }
+                    else if (prey.Body.Fat.Value < 1)
+                    {
+                        desc += " all fat has melted of ";
+                    }
+                    else if (prey.Body.Muscle.Value < 1)
+                    {
+                        desc += $" all muscle has melted of {prey.HisHer()} body ";
+                    }
+                }
+                return desc;
+            }
+        }
     }
 }

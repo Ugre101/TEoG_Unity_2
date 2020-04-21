@@ -15,7 +15,8 @@ public enum FluidType
 {
     Cum,
     Milk,
-    Scat
+    Scat,
+    VaginaFluids
 }
 
 [Serializable]
@@ -28,7 +29,7 @@ public class SexualFluid
         get => current;
         private set
         {
-            current = value;
+            current = Mathf.Clamp(value, 0, MaxAmount);
             FluidSlider?.Invoke();
         }
     }
@@ -36,7 +37,7 @@ public class SexualFluid
     [SerializeField] private FluidType type;
 
     public FluidType Type => type;
-
+    public bool IsFull => Current >= MaxAmount;
     public float MaxAmount { get; private set; }
     public float ReFillRate { get; private set; }
 
@@ -57,8 +58,7 @@ public class SexualFluid
     {
         if (Current < MaxAmount)
         {
-            float reFilled = current + ReFillRate;
-            Current = Mathf.Clamp(reFilled, 0, MaxAmount);
+            Current += ReFillRate;
         }
     }
 
@@ -66,8 +66,15 @@ public class SexualFluid
     {
         if (Current < MaxAmount)
         {
-            float reFilled = current + ReFillRate + bonus;
-            Current = Mathf.Clamp(reFilled, 0, MaxAmount);
+            Current += ReFillRate + bonus;
+        }
+    }
+
+    public void ReFillWith(float amount)
+    {
+        if (Current < MaxAmount)
+        {
+            Current += amount;
         }
     }
 

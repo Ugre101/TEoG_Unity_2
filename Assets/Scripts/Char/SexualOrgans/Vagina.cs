@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 
 [System.Serializable]
-public class Vagina : SexualOrgan
+public class Vagina : SexualOrganWithFluid
 {
-    public Vagina() : base()
+    public Vagina() : base(FluidType.VaginaFluids)
     {
     }
 
-    public Vagina(int parBase) : base(parBase)
+    public Vagina(int parBase) : base(FluidType.VaginaFluids, parBase)
     {
     }
 

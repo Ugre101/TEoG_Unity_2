@@ -32,6 +32,7 @@ namespace Vore
             this.prey = prey;
             this.voreContainer = voreContainer;
             title.text = prey.Prey.Identity.FullName;
+            desc.text = prey.PreyDesc;
         }
 
         private void Regurgileta()
@@ -41,42 +42,15 @@ namespace Vore
                 Vector3 middleOfMap = MapEvents.CurrentMap.cellBounds.center;
 
                 player.VoreChar.GetVoreContainer(voreContainer).ReleasePreyTo(prey, enemyContainer, player.transform.position);
+                player.Vore.GetVoreOrgan(voreContainer).RemovePrey(prey);
+                Back();
             }
             else
             {
+                player.VoreChar.GetVoreContainer(voreContainer).PreyIsdigested(prey);
+                player.Vore.GetVoreOrgan(voreContainer).RemovePrey(prey);
+                Back();
                 // Dead
-            }
-        }
-
-        private void PreyDesc()
-        {
-            string desc = string.Empty;
-            if (DigestionProgress > 0)
-            {
-                if (DigestionProgress < 0.3f)
-                {
-                    desc += $"{PreyFName} has just started to digest"; //Starting to digest
-                }
-                else if (DigestionProgress < 0.5f)
-                {
-                    desc += $""; // Almost half digested check amount fat & muscle
-                }
-                else if (DigestionProgress < 0.8f)
-                {
-                    desc += $""; // More than half way digested
-                }
-                else
-                {
-                    desc += $""; // Almost fully digested
-                }
-                if (PreyBody.Fat.Value < 1)
-                {
-                    desc += " all fat has melted of ";
-                }
-                if (PreyBody.Muscle.Value < 1)
-                {
-                    desc += $" all muscle has melted of {prey.Prey.HisHer()} body ";
-                }
             }
         }
 
