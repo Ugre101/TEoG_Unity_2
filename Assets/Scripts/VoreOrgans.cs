@@ -211,7 +211,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        protected override void DigestTo(float val) => pred.Body.Fat.GainFlat(val);
+        protected override void DigestTo(float val) => pred.GainFatAndRefillScat(val);
     }
 
     [Serializable]
@@ -238,7 +238,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        protected override void DigestTo(float val) => pred.Body.Fat.GainFlat(val);
+        protected override void DigestTo(float val) => pred.GainFatAndRefillScat(val);
     }
 
     [Serializable]

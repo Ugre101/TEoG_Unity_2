@@ -8,6 +8,7 @@ public class Meal
     [SerializeField] private float wpGain;
     [SerializeField] private float fatGain;
 
+
     public Meal(float wp, float hp, float fat)
     {
         hpGain = hp;

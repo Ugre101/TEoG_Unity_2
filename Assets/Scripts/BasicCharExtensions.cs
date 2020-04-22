@@ -30,7 +30,7 @@ public static class BasicCharExtensions
     {
         eater.HP.Gain(meal.HpGain);
         eater.WP.Gain(meal.WpGain);
-        eater.Body.Fat.GainFlat(meal.FatGain);
+        eater.GainFatAndRefillScat(meal.FatGain);
         if (meal is MealWithBuffs buffs)
         {
             if (buffs.TempMods.Count > 0)
@@ -126,9 +126,18 @@ public static class BasicCharExtensions
         float height = basicChar.Body.Height.Value;
     }
 
-    public static void GainFat(this BasicChar basicChar, float fatGain)
+    public static void GainFatAndRefillScat(this BasicChar basicChar, float fatGain, float scatRatio = 0.1f)
     {
         basicChar.Body.Fat.GainFlat(fatGain);
-        //   basicChar.SexualOrgans.
+        basicChar.SexualOrgans.Anals.ForEach(a =>
+        {
+            if (!a.Fluid.IsFull)
+            {
+                a.Fluid.ReFillWith(fatGain * scatRatio);
+            }else
+            {
+                // TODO need to shit
+            }
+        });
     }
 }
