@@ -133,6 +133,7 @@ public abstract class BasicChar : MonoBehaviour
         expSystem = new ExpSystem(1);
         DateSystem.NewDayEvent += this.GrowFetuses;
         DateSystem.NewDayEvent += PregnancySystem.GrowChild;
+        gameEvent = new GameEventSystem(this);
     }
 
     protected void InitHealth()
@@ -153,4 +154,6 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private List<Skill> skills = new List<Skill>();
 
     public List<Skill> Skills => skills;
+    [SerializeField] private GameEventSystem gameEvent;
+    public GameEventSystem Events => gameEvent;
 }
