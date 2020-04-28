@@ -12,6 +12,8 @@ public class EventMain : MonoBehaviour
     // Percipants
     [SerializeField] private PlayerMain player = null;
 
+    [SerializeField] private ChangeName changeName = null;
+
     private void Awake()
     {
         if (GetEventMain == null)
@@ -66,6 +68,10 @@ public class EventMain : MonoBehaviour
         gameObject.SetActive(false);
         canvasMain.Resume();
     }
+
+    public void SummonChangeName(Identity basicChar) => Instantiate(changeName, transform).Setup(basicChar);
+
+    public void EndEvent() => Leave();
 }
 
 public class GameEventSystem
@@ -159,9 +165,11 @@ public abstract class SoloEvent
     public SoloEvent(PlayerMain player)
     {
         this.player = player;
+        eventMain = EventMain.GetEventMain;
     }
 
     protected PlayerMain player;
+    protected EventMain eventMain;
     public abstract string Title { get; }
     public abstract string Intro { get; }
     public abstract List<SoloEvent> SubEvents { get; }
@@ -192,7 +200,14 @@ public class NeedToShit : SoloEvent
 
         public override string Title => "Shit";
 
-        public override string Intro => "";
+        public override string Intro
+        {
+            get
+            {
+                string shit = player.SexualOrgans.Anals.DefecateAll();
+                return "" + shit;
+            }
+        }
 
         public override List<SoloEvent> SubEvents { get; } = new List<SoloEvent>();
     }
@@ -213,11 +228,14 @@ public class NeedToShit : SoloEvent
 
 public class GiveBirth : SoloEvent
 {
-    public GiveBirth(PlayerMain player) : base(player)
+    public GiveBirth(PlayerMain player, Child child) : base(player)
     {
-        SubEvents.Add(new GiveBirthSub(player));
+        this.child = child;
+        SubEvents.Add(new GiveBirthSub(player, child));
+        SubEvents.Add(new GiveBirthSub2(player, child));
     }
 
+    private Child child;
     public override string Title => "Give birth";
 
     public override string Intro => "The water has gobe";
@@ -226,13 +244,46 @@ public class GiveBirth : SoloEvent
 
     private class GiveBirthSub : SoloEvent
     {
-        public GiveBirthSub(PlayerMain player) : base(player)
+        public GiveBirthSub(PlayerMain player, Child child) : base(player)
         {
+            this.child = child;
         }
 
-        public override string Title => throw new System.NotImplementedException();
+        private Child child;
+        public override string Title => "Name child";
 
-        public override string Intro => throw new System.NotImplementedException();
+        public override string Intro
+        {
+            get
+            {
+                eventMain.SummonChangeName(child.ChildIdentity);
+                return "";
+            }
+        }
+
+        public override List<SoloEvent> SubEvents => throw new System.NotImplementedException();
+    }
+
+    private class GiveBirthSub2 : SoloEvent
+    {
+        public GiveBirthSub2(PlayerMain player, Child child) : base(player)
+        {
+            this.child = child;
+        }
+
+        private Child child;
+        public override string Title => "Skip & auto name";
+
+        public override string Intro
+        {
+            get
+            {
+                child.ChildIdentity.FirstName = RandomName.FemaleName;
+                child.ChildIdentity.LastName = player.Identity.LastName;
+                eventMain.EndEvent();
+                return "";
+            }
+        }
 
         public override List<SoloEvent> SubEvents => throw new System.NotImplementedException();
     }

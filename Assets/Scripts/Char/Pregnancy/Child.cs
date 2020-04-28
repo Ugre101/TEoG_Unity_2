@@ -3,15 +3,13 @@
 [System.Serializable]
 public class Child
 {
-    [SerializeField]
-    private float daysOld;
+    [SerializeField] private float daysOld;
 
-    [SerializeField]
-    private Races race;
+    [SerializeField] private Races race;
 
-    [SerializeField]
-    private Identity father, mother;
-
+    [SerializeField] private Identity child, father, mother;
+    public Identity ChildIdentity => child;
+    public string ChildName => child.FullName;
     public string FatherName => father.FullName;
     public string MotherName => mother.FullName;
     public Races Race => race;
@@ -38,6 +36,7 @@ public class Child
     public Child(Races parRace, Identity parMother, Identity parFather)
     {
         race = parRace;
+        child = new Identity();
         father = parFather;
         mother = parMother;
     }

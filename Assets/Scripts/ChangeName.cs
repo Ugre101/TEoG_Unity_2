@@ -4,50 +4,41 @@ using UnityEngine.UI;
 
 public class ChangeName : MonoBehaviour
 {
-    private BasicChar Player => PlayerMain.GetPlayer;
+    private Identity whoms;
 
-    [SerializeField]
-    private TMP_InputField firstName = null, lastName = null;
+    [SerializeField] private TMP_InputField firstName = null, lastName = null;
 
-    [SerializeField]
-    private Button Accept = null;
+    [SerializeField] private Button Accept = null;
 
-    private void Start()
+    protected virtual void Start() => Accept.onClick.AddListener(AcceptNameChange);
+
+    public void Setup(Identity identity)
     {
-        Accept.onClick.AddListener(NameChange);
-    }
-
-    // Start is called before the first frame update
-    private void OnEnable()
-    {
-        if (Player == null)
-        {
-            enabled = false;
-        }
+        whoms = identity;
         if (firstName != null)
         {
-            firstName.text = Player.Identity.FirstName;
+            firstName.text = whoms.FirstName;
         }
         if (lastName != null)
         {
-            lastName.text = Player.Identity.LastName;
+            lastName.text = whoms.LastName;
         }
     }
 
-    public void NameChange()
+    public void AcceptNameChange()
     {
         if (firstName != null)
         {
             if (firstName.text.Length > 0)
             {
-                Player.Identity.FirstName = firstName.text;
+                whoms.FirstName = firstName.text;
             }
         }
         if (lastName != null)
         {
             if (lastName.text.Length > 0)
             {
-                Player.Identity.LastName = lastName.text;
+                whoms.LastName = lastName.text;
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -29,7 +30,22 @@ public static class AnalExtension
 
     public static float Cost(this List<Anal> anal) => Mathf.Round(30 * Mathf.Pow(4, anal.Count));
 
-    public static string Defecate(this Anal anal) => $"";
+    public static string DefecateAll(this List<Anal> anals, bool capital = true)
+    {
+        string desc = "Through your";
+        float sum = anals.Sum(a => a.Fluid.DisCharge());
+        desc += anals.Count > 1
+            ? $" multiple "
+            : $"  ";
+
+        return $"{sum}";
+    }
+
+    public static string Defecate(this Anal anal)
+    {
+        float sum = anal.Fluid.DisCharge();
+        return $"{sum}";
+    }
 
     public static string Look(this Anal anal, bool capaital = true) => $"";
 
