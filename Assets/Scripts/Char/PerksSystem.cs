@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum PerksTypes
 {
+    #region Existing perks dont touch unless necesary
     FasterRest,
     Gluttony,
     Delicate,
@@ -19,6 +20,10 @@ public enum PerksTypes
     Seductress,
     EssenceBandit,
     EssenceTransformer,
+    #endregion
+    SingleMother,
+
+    // Remember to always add new perks last in list to avoid breaking saves
 }
 
 [System.Serializable]
