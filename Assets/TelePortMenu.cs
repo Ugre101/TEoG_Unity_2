@@ -1,18 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TelePortMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private MapEvents mapEvents = null;
+    [SerializeField] private TelePortButton prefabBtn = null;
+    [SerializeField] private Transform btnConatiner = null;
+    private void Start()
     {
-        
+        if (mapEvents == null)
+        {
+            enabled = false;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ListTeleports()
     {
-        
+      //  Instantiate(prefabBtn,btnConatiner).Setup(mapEvents,WorldMaps.Home)
+        // TODO make a playerflag for know maps, and make a way to get tilemaps in here
     }
 }
