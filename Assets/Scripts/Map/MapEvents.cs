@@ -95,6 +95,24 @@ public class MapEvents : MonoBehaviour
         mapDirty = true;
     }
 
+    private List<TelePortLocation> telePortLocations;
+
+    public List<TelePortLocation> TelePortLocations
+    {
+        get
+        {
+            if (telePortLocations == null)
+            {
+                telePortLocations = new List<TelePortLocation>();
+                foreach (CanTelePortTo canTele in GetComponentsInChildren<CanTelePortTo>())
+                {
+                    telePortLocations.Add(new TelePortLocation(canTele, this));
+                }
+            }
+            return telePortLocations;
+        }
+    }
+
     private void Start()
     {
     }
