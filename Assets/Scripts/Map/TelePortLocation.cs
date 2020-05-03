@@ -1,8 +1,9 @@
-﻿using UnityEngine.Tilemaps;
+﻿using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class TelePortLocation
 {
-    private readonly Tilemap landPlatform;
+    private Vector3 landPlatform;
     public Tilemap Map { get; }
     public WorldMaps World { get; }
     private readonly MapEvents mapEvents;

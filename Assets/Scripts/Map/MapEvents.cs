@@ -138,6 +138,12 @@ public class MapEvents : MonoBehaviour
         WorldChange(toWorld, toMap);
     }
 
+    public void Teleport(WorldMaps toWorld, Tilemap toMap, Vector3 landPos)
+    {
+        Player.transform.position = landPos;
+        WorldChange(toWorld, toMap);
+    }
+
     public void Teleport(WorldMaps toWorld, Tilemap toMap, Tilemap teleportPlatform)
     {
         Player.transform.position = teleportPlatform == null ? toMap.cellBounds.center : teleportPlatform.cellBounds.center;

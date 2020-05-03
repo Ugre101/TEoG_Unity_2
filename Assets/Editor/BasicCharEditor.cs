@@ -6,7 +6,6 @@ public class BasicCharEditor : Editor
 {
  
     private BasicChar basicChar;
-
     private void OnEnable() => BasicCharEnable();
 
     protected void BasicCharEnable() => basicChar = (BasicChar)target;
