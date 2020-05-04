@@ -7,7 +7,7 @@ public class MapEvents : MonoBehaviour
 {
     public static MapEvents GetMapEvents { get; private set; }
 
-    public static event Action<Tilemap> WorldMapChange;
+    public static event Action<Tilemap> TileMapChange;
 
     private PlayerMain gottenPlayer;
 
@@ -121,7 +121,7 @@ public class MapEvents : MonoBehaviour
     {
         mapDirty = true;
         CurrentMap = newMap;
-        WorldMapChange?.Invoke(CurrentMap);
+        TileMapChange?.Invoke(CurrentMap);
     }
 
     public void WorldChange(WorldMaps newWorld, Tilemap newMap)

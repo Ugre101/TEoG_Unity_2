@@ -10,6 +10,7 @@ public class CanTelePortTo : MonoBehaviour
     [SerializeField] private bool know = true;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Animator animator = null;
+    [SerializeField] private GameObject teleporterMenu = null;
 
     public bool Know
     {
@@ -27,6 +28,12 @@ public class CanTelePortTo : MonoBehaviour
 
     public void Load(bool know) => Know = know;
 
+    private bool justTeleportedTo = false;
+
+    public void TeleportTo() => justTeleportedTo = true;
+
+    private float timeLoaded;
+
     private void Start()
     {
         Map = GetComponentInParent<Map>().gameObject.GetComponent<Tilemap>();
@@ -35,32 +42,39 @@ public class CanTelePortTo : MonoBehaviour
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
         animator = animator != null ? animator : GetComponent<Animator>();
         HandleSprite();
+        MapEvents.TileMapChange += NewMapIsThisMap;
+        Save.LoadEvent += () =>
+        {
+            NewMapIsThisMap(MapEvents.CurrentMap);
+            justTeleportedTo = false;
+            timeLoaded = Time.unscaledTime;
+        };
+    }
+
+    private void NewMapIsThisMap(Tilemap tilemap)
+    {
+        if (tilemap == map)
+        {
+            HandleSprite();
+            Debug.Log(true);
+        }
+        else
+        {
+            Debug.Log(false);
+        }
     }
 
     private void HandleSprite()
     {
         if (Know)
         {
+            animator.enabled = true;
             animator.Play("Spinning");
         }
         else
         {
-            if (deActivated != null)
-            {
-                spriteRenderer.sprite = deActivated;
-            }
-            else
-            {
-                Debug.LogError("A teleporter is missing sprites, world: " + WorldMaps + " and Map: " + Map.name);
-            }
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag(PlayerMain.GetTag))
-        {
-            Debug.Log("Player");
+            animator.enabled = false;
+            spriteRenderer.sprite = deActivated;
         }
     }
 
@@ -68,8 +82,23 @@ public class CanTelePortTo : MonoBehaviour
     {
         if (collision.gameObject.CompareTag(PlayerMain.GetTag))
         {
-            Debug.Log("Player Trigger");
+            if (!justTeleportedTo && timeLoaded + 1f <= Time.unscaledTime)
+            {
+                CanvasMain.GetCanvasMain.EnterBuilding(teleporterMenu);
+                Debug.Log("Player Trigger");
+            }
             // TODO if just teleported don't open teleport menu
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag(PlayerMain.GetTag))
+        {
+            if (justTeleportedTo)
+            {
+                justTeleportedTo = false;
+            }
         }
     }
 }

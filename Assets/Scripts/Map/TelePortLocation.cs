@@ -18,5 +18,9 @@ public class TelePortLocation
         this.mapEvents = mapEvents;
     }
 
-    public void TelePortTo() => mapEvents.Teleport(World, Map, landPlatform);
+    public void TelePortTo()
+    {
+        CanTelePortTo.TeleportTo();
+        mapEvents.Teleport(World, Map, landPlatform);
+    }
 }

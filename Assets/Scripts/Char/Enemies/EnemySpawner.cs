@@ -28,7 +28,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         Player = Player != null ? Player : PlayerMain.GetPlayer;
-        MapEvents.WorldMapChange += DoorChanged;
+        MapEvents.TileMapChange += DoorChanged;
         Movement.TriggerEnemy += RePosistion;
         DoorChanged(MapEvents.CurrentMap);
     }

@@ -52,7 +52,7 @@ public class CameraController : MonoBehaviour
     {
         _player = _player != null ? _player : PlayerMain.GetPlayer.transform;
         _map = MapEvents.CurrentMap;
-        MapEvents.WorldMapChange += DoorChanged;
+        MapEvents.TileMapChange += DoorChanged;
         cam = GetComponent<Camera>();
         minTile = _map.CellToWorld(_map.cellBounds.min);
         maxTile = _map.CellToWorld(_map.cellBounds.max);

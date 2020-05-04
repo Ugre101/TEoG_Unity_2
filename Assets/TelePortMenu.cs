@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class TelePortMenu : MonoBehaviour
 {
-    [SerializeField] private HomeMain home = null;
     [SerializeField] private MapEvents mapEvents = null;
     [SerializeField] private TelePortButton prefabBtn = null;
-    [SerializeField] private Transform btnConatiner = null, sortBtnContainer = null;
+    [SerializeField] private Transform btnConatiner = null;
 
     private void Start()
     {
@@ -24,7 +23,7 @@ public class TelePortMenu : MonoBehaviour
     private void ListAllTeleports()
     {
         btnConatiner.KillChildren();
-        mapEvents.TelePortLocations.FindAll(tl => tl.CanTelePortTo.Know).ForEach(t => Instantiate(prefabBtn, btnConatiner).Setup(t, home));
+        mapEvents.TelePortLocations.FindAll(tl => tl.CanTelePortTo.Know).ForEach(t => Instantiate(prefabBtn, btnConatiner).Setup(t));
         //  Instantiate(prefabBtn,btnConatiner).Setup(mapEvents,WorldMaps.Home)
         // TODO make a playerflag for know maps, and make a way to get tilemaps in here
     }
@@ -33,6 +32,10 @@ public class TelePortMenu : MonoBehaviour
     {
         btnConatiner.KillChildren();
         List<TelePortLocation> firstSort = mapEvents.TelePortLocations.FindAll(tl => tl.CanTelePortTo.Know);
-        firstSort.FindAll(tl => tl.World == world).ForEach(t => Instantiate(prefabBtn, btnConatiner).Setup(t, home));
+        firstSort.FindAll(tl => tl.World == world).ForEach(t => Instantiate(prefabBtn, btnConatiner).Setup(t));
     }
+}
+
+public class TelePortMenuHome : TelePortMenu
+{
 }
