@@ -14,7 +14,7 @@ public class TelePortLocation
         CanTelePortTo = canTele;
         Map = canTele.Map;
         landPlatform = canTele.LandPlatform;
-        World = canTele.WorldMaps;
+        World = canTele.World;
         this.mapEvents = mapEvents;
     }
 

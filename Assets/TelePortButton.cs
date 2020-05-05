@@ -14,7 +14,7 @@ public class TelePortButton : MonoBehaviour
         btnText = btnText != null ? btnText : GetComponentInChildren<TextMeshProUGUI>();
         this.canTele = canTele;
         btn.onClick.AddListener(TeleportTo);
-        btnText.text = $"World: {canTele.CanTelePortTo.WorldMaps}\nMap: {canTele.CanTelePortTo.Map.name}";
+        btnText.text = $"World: {canTele.CanTelePortTo.World}\nMap: {canTele.CanTelePortTo.Map.name}";
     }
 
     private void TeleportTo()

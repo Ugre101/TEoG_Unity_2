@@ -25,7 +25,7 @@ public class Save
         PosSave playerPos = new PosSave(Pos.position, MapEvents.ActiveMap, MapEvents.CurrentMap.transform.name);
         HomeSave homeSave = StartHomeStats.Save();
         VoreSaves voreSaves = voreChar.Save;
-        FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, voreSaves);
+        FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, voreSaves, MapEvents.GetMapEvents.GetTeleportSaves());
         Debug.Log(JsonUtility.ToJson(fullSave));
 
         return JsonUtility.ToJson(fullSave);
@@ -35,7 +35,7 @@ public class Save
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
         // Singleton static
-        MapEvents.GetMapEvents.Load(fullSave.PosPart);
+        MapEvents.GetMapEvents.Load(fullSave.PosPart, fullSave.TeleportSaves);
         // Reference
         JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
         StartHomeStats.Load(fullSave.HomePart);
@@ -65,6 +65,7 @@ public class FullSave
     [SerializeField] private VoreSaves voreSaves;
     [SerializeField] private QuestSave questSave;
     [SerializeField] private PlayerFlagsSave playerFlags;
+    [SerializeField] private List<TeleportSave> teleportSaves;
     public PlayerSave PlayerPart => playerPart;
     public PosSave PosPart => posPart;
     public List<DormSave> DormPart => dormPart;
@@ -73,8 +74,9 @@ public class FullSave
     public VoreSaves VoreSaves => voreSaves;
     public QuestSave QuestSave => questSave;
     public PlayerFlagsSave PlayerFlagsSave => playerFlags;
+    public List<TeleportSave> TeleportSaves => teleportSaves;
 
-    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, HomeSave parHome, VoreSaves vore)
+    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, HomeSave parHome, VoreSaves vore, List<TeleportSave> teleportSaves)
     {
         this.playerPart = player;
         this.posPart = pos;
@@ -84,6 +86,7 @@ public class FullSave
         this.voreSaves = vore;
         this.questSave = QuestsSystem.Save;
         this.playerFlags = PlayerFlags.Save();
+        this.teleportSaves = teleportSaves;
     }
 }
 
@@ -117,4 +120,3 @@ public struct PosSave
         map = currMap;
     }
 }
-

@@ -24,7 +24,7 @@ public class CanTelePortTo : MonoBehaviour
 
     public Tilemap Map { get => map; private set => map = value; }
     public Vector3 LandPlatform { get => landPlatform; private set => landPlatform = value; }
-    public WorldMaps WorldMaps { get => worldMaps; private set => worldMaps = value; }
+    public WorldMaps World { get => worldMaps; private set => worldMaps = value; }
 
     public void Load(bool know) => Know = know;
 
@@ -38,7 +38,7 @@ public class CanTelePortTo : MonoBehaviour
     {
         Map = GetComponentInParent<Map>().gameObject.GetComponent<Tilemap>();
         LandPlatform = transform.position;
-        WorldMaps = GetComponentInParent<WorldMap>().World;
+        World = GetComponentInParent<WorldMap>().World;
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
         animator = animator != null ? animator : GetComponent<Animator>();
         HandleSprite();
@@ -101,4 +101,36 @@ public class CanTelePortTo : MonoBehaviour
             }
         }
     }
+
+    public TeleportSave SaveThis() => new TeleportSave(Map.name, World, Know);
+
+    public void LoadThis(TeleportSave save)
+    {
+        if (World == save.World)
+        {
+            if (Map.name == save.MapName)
+            {
+                Know = save.Know;
+            }
+        }
+    }
+}
+
+[System.Serializable]
+public struct TeleportSave
+{
+    [SerializeField] private string mapName;
+    [SerializeField] private WorldMaps world;
+    [SerializeField] private bool know;
+
+    public TeleportSave(string mapName, WorldMaps world, bool know)
+    {
+        this.mapName = mapName;
+        this.world = world;
+        this.know = know;
+    }
+
+    public string MapName => mapName;
+    public WorldMaps World => world;
+    public bool Know => know;
 }
