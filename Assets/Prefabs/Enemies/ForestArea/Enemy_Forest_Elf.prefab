@@ -97,10 +97,15 @@ PrefabInstance:
       propertyPath: isQuest.quest
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8534239450746442156, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: body.fat.baseValue
+      value: 19.680565
+      objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442159, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 160
+      value: 133
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442159, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}

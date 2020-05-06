@@ -8,6 +8,7 @@ public class EventMain : MonoBehaviour
     [SerializeField] private EventMenuOptionButton optionBtn = null;
     [SerializeField] private Transform optionContainer = null;
     [SerializeField] private CanvasMain canvasMain = null;
+    [SerializeField] private GameObject eventMenu = null;
 
     // Percipants
     [SerializeField] private PlayerMain player = null;
@@ -28,7 +29,6 @@ public class EventMain : MonoBehaviour
 
     private void Start()
     {
-        textLog = textLog != null ? textLog : GetComponent<TextLog>();
         canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
     }
 
@@ -53,20 +53,28 @@ public class EventMain : MonoBehaviour
         Setup(CanLeaveDiretly);
     }
 
+    private bool gameUIWasActive;
+
     private void Setup(bool canLeave)
     {
         if (canLeave)
         {
             LeaveBtn();
         }
+        eventMenu.SetActive(true);
+        gameUIWasActive = canvasMain.HideGameUI();
     }
 
     private void LeaveBtn() => Instantiate(optionBtn, optionContainer).Setup("Leave").onClick.AddListener(Leave);
 
     private void Leave()
     {
-        gameObject.SetActive(false);
+        eventMenu.SetActive(false);
         canvasMain.Resume();
+        if (gameUIWasActive)
+        {
+            canvasMain.ShowGameUI();
+        }
     }
 
     public void SummonChangeName(Identity basicChar) => Instantiate(changeName, transform).Setup(basicChar);
@@ -76,13 +84,8 @@ public class EventMain : MonoBehaviour
 
 public class GameEventSystem
 {
-    private readonly BasicChar basicChar;
-    private readonly EventMain eventMain;
-
     public GameEventSystem(BasicChar basicChar)
     {
-        this.basicChar = basicChar;
-        eventMain = EventMain.GetEventMain;
         SoloEvents = new SoloEventsClass(basicChar);
     }
 
@@ -107,6 +110,14 @@ public class GameEventSystem
             if (basicChar is PlayerMain player)
             {
                 eventMain.EventSolo(new NeedToShit(player));
+            }
+        }
+
+        public void TeleportIsLocked()
+        {
+            if (basicChar is PlayerMain player)
+            {
+                eventMain.EventSolo(new PortalIsLocked(player), true);
             }
         }
 
@@ -151,12 +162,11 @@ public class GameEventSystem
 public abstract class EventsContaier
 {
     protected readonly BasicChar basicChar;
-    protected readonly EventMain eventMain;
+    protected EventMain eventMain => EventMain.GetEventMain;
 
     public EventsContaier(BasicChar basicChar)
     {
         this.basicChar = basicChar;
-        eventMain = EventMain.GetEventMain;
     }
 }
 
@@ -287,4 +297,17 @@ public class GiveBirth : SoloEvent
 
         public override List<SoloEvent> SubEvents => throw new System.NotImplementedException();
     }
+}
+
+public class PortalIsLocked : SoloEvent
+{
+    public PortalIsLocked(PlayerMain player) : base(player)
+    {
+    }
+
+    public override string Title => "Failed to sync portal";
+
+    public override string Intro => "For some reason you couldn't sync with this portal, maybe if you look around you will find a way.";
+
+    public override List<SoloEvent> SubEvents => new List<SoloEvent>();
 }

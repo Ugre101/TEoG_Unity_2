@@ -154,6 +154,6 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private List<Skill> skills = new List<Skill>();
 
     public List<Skill> Skills => skills;
-    [SerializeField] private GameEventSystem gameEvent;
+     private GameEventSystem gameEvent;
     public GameEventSystem Events => gameEvent;
 }

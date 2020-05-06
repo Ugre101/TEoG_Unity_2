@@ -4,17 +4,16 @@ using UnityEngine.Tilemaps;
 public class TelePortLocation
 {
     private Vector3 landPlatform;
-    public Tilemap Map { get; }
-    public WorldMaps World { get; }
+    public Tilemap Map => CanTelePortTo.Map;
+    public WorldMaps World => CanTelePortTo.World;
     private readonly MapEvents mapEvents;
+
     public CanTelePortTo CanTelePortTo { get; }
 
     public TelePortLocation(CanTelePortTo canTele, MapEvents mapEvents)
     {
         CanTelePortTo = canTele;
-        Map = canTele.Map;
-        landPlatform = canTele.LandPlatform;
-        World = canTele.World;
+        landPlatform = canTele.LandCordinations;
         this.mapEvents = mapEvents;
     }
 

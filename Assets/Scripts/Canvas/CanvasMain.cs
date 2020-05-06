@@ -222,7 +222,26 @@ public class CanvasMain : MonoBehaviour
     {
         GameManager.CurState = GameState.InBuilding;
         ToggleBigPanel(Buildings.gameObject);
-        // Disable all buildings
+        // Disable all buildings expect the one to enter
         Buildings.transform.SleepChildren(buildingToEnter.transform);
+    }
+
+    [SerializeField] private GameObject teleportMenu = null;
+
+    public void TeleportMenu() => EnterBuilding(teleportMenu);
+    /// <summary> Hides gameUI and returns if gameUi was active before </summary>
+    /// <returns></returns>
+    public bool HideGameUI()
+    {
+        bool currState = Gameui.gameObject.activeSelf;
+        Gameui.gameObject.SetActive(false);
+        return currState;
+    }
+    public void ShowGameUI()
+    {
+        if (GameManager.CurState == GameState.Free)
+        {
+            Gameui.gameObject.SetActive(true);
+        }
     }
 }
