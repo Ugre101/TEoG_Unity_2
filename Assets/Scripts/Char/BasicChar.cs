@@ -124,6 +124,7 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private SexStats sexStats = new SexStats();
 
     public SexStats SexStats => sexStats;
+    [SerializeField] private CharSpriteHandler spriteHandler;
 
     public virtual void Start()
     {
@@ -134,6 +135,8 @@ public abstract class BasicChar : MonoBehaviour
         DateSystem.NewDayEvent += this.GrowFetuses;
         DateSystem.NewDayEvent += PregnancySystem.GrowChild;
         gameEvent = new GameEventSystem(this);
+        spriteHandler = spriteHandler != null ? spriteHandler : GetComponent<CharSpriteHandler>();
+        spriteHandler.Setup(this);
     }
 
     protected void InitHealth()
@@ -154,6 +157,6 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private List<Skill> skills = new List<Skill>();
 
     public List<Skill> Skills => skills;
-     private GameEventSystem gameEvent;
+    private GameEventSystem gameEvent;
     public GameEventSystem Events => gameEvent;
 }

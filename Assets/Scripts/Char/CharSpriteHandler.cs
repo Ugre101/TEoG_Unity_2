@@ -8,17 +8,10 @@ public class CharSpriteHandler : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private BasicChar whom;
 
-    private void Start()
+    public void Setup(BasicChar whom)
     {
-        // Let char be fully built first
-        StartCoroutine("WaitAFrame");
-    }
-
-    private IEnumerator WaitAFrame()
-    {
-        yield return new WaitForEndOfFrame();
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
-        whom = whom != null ? whom : GetComponent<BasicChar>();
+        this.whom = whom;
 
         whom.RaceSystem.RaceChangeEvent += ChangeSprite;
         whom.GenderChangeEvent += ChangeSprite;
