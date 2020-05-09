@@ -30,6 +30,7 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] private BigPanel Battle = null;
     [SerializeField] private BigPanel Menus = null;
     [SerializeField] private BigPanel Buildings = null;
+    [SerializeField] private Buildings buildings = null;
     [SerializeField] private GameObject PauseMenu = null;
     [SerializeField] private HomeMain Home = null;
 
@@ -224,6 +225,12 @@ public class CanvasMain : MonoBehaviour
         ToggleBigPanel(Buildings.gameObject);
         // Disable all buildings expect the one to enter
         Buildings.transform.SleepChildren(buildingToEnter.transform);
+    }
+    public void EnterBuilding(Building building)
+    {
+        GameManager.CurState = GameState.InBuilding;
+        transform.SleepChildren();
+        buildings.EnterBuilding(building);
     }
 
     [SerializeField] private GameObject teleportMenu = null;

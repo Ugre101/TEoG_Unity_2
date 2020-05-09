@@ -3,7 +3,7 @@
 public class Npc : BasicChar
 {
     [SerializeField] private bool triggerColider = true, hasNpcMenuPage = false;
-    [SerializeField] private GameEventSystem npcMenuPage = null;
+    [SerializeField] private GameObject npcMenuPage = null;
 
     public override void Awake()
     {
