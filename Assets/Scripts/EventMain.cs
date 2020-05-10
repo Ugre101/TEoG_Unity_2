@@ -36,14 +36,28 @@ public class EventMain : MonoBehaviour
     {
         textLog.SetText(soloEvent.Intro);
         optionContainer.KillChildren();
-        foreach (SoloEvent solo in soloEvent.SubEvents)
+        foreach (SoloSubEvent solo in soloEvent.SubEvents)
         {
-            Instantiate(optionBtn, optionContainer).Setup(solo.Title).onClick.AddListener(() => EventSolo(solo));
+            Instantiate(optionBtn, optionContainer).Setup(solo.Title).onClick.AddListener(() => EventSubSolo(solo));
         }
         Setup(CanLeaveDiretly);
     }
 
-    public void EventWith(BasicChar whom, bool CanLeaveDiretly = true)
+    private void EventSubSolo(SoloSubEvent subEvent)
+    {
+        textLog.SetText(subEvent.Intro);
+        optionContainer.KillChildren();
+        if (subEvent.SubEvents != null)
+        {
+            foreach (SoloSubEvent solo in subEvent.SubEvents)
+            {
+                Instantiate(optionBtn, optionContainer).Setup(solo.Title).onClick.AddListener(() => EventSubSolo(solo));
+            }
+        }
+        Setup(subEvent.CanLeave);
+    }
+
+    public void EventWith(BasicChar whom, bool CanLeaveDiretly)
     {
         Setup(CanLeaveDiretly);
     }
@@ -100,16 +114,33 @@ public class GameEventSystem
 
         public SoloVoreEvents VoreEvents { get; }
 
-        public void GiveBirth()
-        {
-            // Option to name
-        }
-
-        public void NeedToShit()
+        public void IGiveBirth(List<Child> child)
         {
             if (basicChar is PlayerMain player)
             {
-                eventMain.EventSolo(new NeedToShit(player));
+                if (GiveBirth.skipEvent.Skip)
+                {
+                    new GiveBirth(player, child).SkipAction();
+                }
+                else
+                {
+                    eventMain.EventSolo(new GiveBirth(player, child));
+                }
+            }
+        }
+
+        public void INeedToShit()
+        {
+            if (basicChar is PlayerMain player)
+            {
+                if (NeedToShit.skipEvent.Skip)
+                {
+                    new NeedToShit(player).SkipAction();
+                }
+                else
+                {
+                    eventMain.EventSolo(new NeedToShit(player));
+                }
             }
         }
 
@@ -170,6 +201,12 @@ public abstract class EventsContaier
     }
 }
 
+public class SkipEvent
+{
+    public bool Skip { get; private set; }
+    public bool ToggleSkip => Skip = !Skip;
+}
+
 public abstract class SoloEvent
 {
     public SoloEvent(PlayerMain player)
@@ -182,7 +219,27 @@ public abstract class SoloEvent
     protected EventMain eventMain;
     public abstract string Title { get; }
     public abstract string Intro { get; }
-    public abstract List<SoloEvent> SubEvents { get; }
+    public abstract List<SoloSubEvent> SubEvents { get; }
+
+    public virtual void SkipAction()
+    {
+    }
+}
+
+public abstract class SoloSubEvent
+{
+    public SoloSubEvent(PlayerMain player)
+    {
+        this.player = player;
+        eventMain = EventMain.GetEventMain;
+    }
+
+    protected PlayerMain player;
+    protected EventMain eventMain;
+    public abstract bool CanLeave { get; }
+    public abstract string Title { get; }
+    public abstract string Intro { get; }
+    public abstract List<SoloSubEvent> SubEvents { get; }
 }
 
 public class NeedToShit : SoloEvent
@@ -195,14 +252,20 @@ public class NeedToShit : SoloEvent
 
     public override string Title => "Need to shit";
     public override string Intro => intro();
-    public override List<SoloEvent> SubEvents { get; } = new List<SoloEvent>();
+    public override List<SoloSubEvent> SubEvents { get; } = new List<SoloSubEvent>();
+    public static SkipEvent skipEvent = new SkipEvent();
+
+    public override void SkipAction()
+    {
+        base.SkipAction();
+    }
 
     private string intro()
     {
         return "You feel the presure build on your rectum";
     }
 
-    private class NeedToShitSub : SoloEvent
+    private class NeedToShitSub : SoloSubEvent
     {
         public NeedToShitSub(PlayerMain player) : base(player)
         {
@@ -219,10 +282,12 @@ public class NeedToShit : SoloEvent
             }
         }
 
-        public override List<SoloEvent> SubEvents { get; } = new List<SoloEvent>();
+        public override List<SoloSubEvent> SubEvents { get; } = new List<SoloSubEvent>();
+
+        public override bool CanLeave => true;
     }
 
-    private class NeedToShitSub2 : SoloEvent
+    private class NeedToShitSub2 : SoloSubEvent
     {
         public NeedToShitSub2(PlayerMain player) : base(player)
         {
@@ -232,70 +297,84 @@ public class NeedToShit : SoloEvent
 
         public override string Intro => throw new System.NotImplementedException();
 
-        public override List<SoloEvent> SubEvents => throw new System.NotImplementedException();
+        public override List<SoloSubEvent> SubEvents => new List<SoloSubEvent>();
+
+        public override bool CanLeave => true;
     }
 }
 
 public class GiveBirth : SoloEvent
 {
-    public GiveBirth(PlayerMain player, Child child) : base(player)
+    public GiveBirth(PlayerMain player, List<Child> child) : base(player)
     {
         this.child = child;
         SubEvents.Add(new GiveBirthSub(player, child));
         SubEvents.Add(new GiveBirthSub2(player, child));
     }
 
-    private Child child;
+    private List<Child> child;
     public override string Title => "Give birth";
 
     public override string Intro => "The water has gobe";
 
-    public override List<SoloEvent> SubEvents { get; } = new List<SoloEvent>();
+    public override List<SoloSubEvent> SubEvents { get; } = new List<SoloSubEvent>();
+    public static SkipEvent skipEvent = new SkipEvent();
 
-    private class GiveBirthSub : SoloEvent
+    public override void SkipAction()
     {
-        public GiveBirthSub(PlayerMain player, Child child) : base(player)
+        child.ForEach(c => c.ChildIdentity.FirstName = RandomName.FemaleName);
+        child.ForEach(c => c.ChildIdentity.LastName = player.Identity.LastName);
+        base.SkipAction();
+    }
+
+    private class GiveBirthSub : SoloSubEvent
+    {
+        public GiveBirthSub(PlayerMain player, List<Child> child) : base(player)
         {
             this.child = child;
         }
 
-        private Child child;
+        private List<Child> child;
         public override string Title => "Name child";
 
         public override string Intro
         {
             get
             {
-                eventMain.SummonChangeName(child.ChildIdentity);
+                eventMain.SummonChangeName(child[0].ChildIdentity);
                 return "";
             }
         }
 
-        public override List<SoloEvent> SubEvents => throw new System.NotImplementedException();
+        public override List<SoloSubEvent> SubEvents => throw new System.NotImplementedException();
+
+        public override bool CanLeave => true;
     }
 
-    private class GiveBirthSub2 : SoloEvent
+    private class GiveBirthSub2 : SoloSubEvent
     {
-        public GiveBirthSub2(PlayerMain player, Child child) : base(player)
+        public GiveBirthSub2(PlayerMain player, List<Child> child) : base(player)
         {
             this.child = child;
         }
 
-        private Child child;
+        private List<Child> child;
         public override string Title => "Skip & auto name";
 
         public override string Intro
         {
             get
             {
-                child.ChildIdentity.FirstName = RandomName.FemaleName;
-                child.ChildIdentity.LastName = player.Identity.LastName;
+                child.ForEach(c => c.ChildIdentity.FirstName = RandomName.FemaleName);
+                child.ForEach(c => c.ChildIdentity.LastName = player.Identity.LastName);
                 eventMain.EndEvent();
                 return "";
             }
         }
 
-        public override List<SoloEvent> SubEvents => throw new System.NotImplementedException();
+        public override List<SoloSubEvent> SubEvents => new List<SoloSubEvent>();
+
+        public override bool CanLeave => true;
     }
 }
 
@@ -309,5 +388,6 @@ public class PortalIsLocked : SoloEvent
 
     public override string Intro => "For some reason you couldn't sync with this portal, maybe if you look around you will find a way.";
 
-    public override List<SoloEvent> SubEvents => new List<SoloEvent>();
+    public override List<SoloSubEvent> SubEvents => new List<SoloSubEvent>();
+    public static SkipEvent skipEvent = new SkipEvent();
 }

@@ -28,7 +28,7 @@ public class PlayerMain : BasicChar
         InitHealth();
         Essence.Masc.Gain(1000);
         Essence.Femi.Gain(1999);
-        Events.SoloEvents.NeedToShit();
+        Events.SoloEvents.INeedToShit();
     }
 
     public void PlayerInit(string first, string last)
