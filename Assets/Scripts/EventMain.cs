@@ -14,6 +14,7 @@ public class EventMain : MonoBehaviour
     [SerializeField] private PlayerMain player = null;
 
     [SerializeField] private ChangeName changeName = null;
+    [SerializeField] private ChangeNames changeNames = null;
 
     private void Awake()
     {
@@ -92,6 +93,10 @@ public class EventMain : MonoBehaviour
     }
 
     public void SummonChangeName(Identity basicChar) => Instantiate(changeName, transform).Setup(basicChar);
+
+    public ChangeNames SummonChangeNames(List<Identity> identities) => Instantiate(changeNames, transform).Setup(identities);
+
+    public ChangeNames SummonChangeNames(List<Identity> identities, string lastName) => Instantiate(changeNames, transform).Setup(identities, lastName);
 
     public void EndEvent() => Leave();
 }
@@ -341,12 +346,14 @@ public class GiveBirth : SoloEvent
         {
             get
             {
-                eventMain.SummonChangeName(child[0].ChildIdentity);
+                List<Identity> identities = new List<Identity>();
+                child.ForEach(c => identities.Add(c.ChildIdentity));
+                eventMain.SummonChangeNames(identities, player.Identity.LastName).Done += eventMain.EndEvent;
                 return "";
             }
         }
 
-        public override List<SoloSubEvent> SubEvents => throw new System.NotImplementedException();
+        public override List<SoloSubEvent> SubEvents => new List<SoloSubEvent>();
 
         public override bool CanLeave => true;
     }

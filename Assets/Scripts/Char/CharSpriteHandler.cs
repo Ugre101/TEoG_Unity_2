@@ -14,22 +14,17 @@ public class CharSpriteHandler : MonoBehaviour
         this.whom = whom;
 
         whom.RaceSystem.RaceChangeEvent += ChangeSprite;
-        whom.GenderChangeEvent += ChangeSprite;
         ChangeSprite();
     }
 
-    private void ChangeSprite()
+    public void ChangeSprite()
     {
         spriteRenderer.sprite = sprites.GetSprite(whom);
         currentSprite = sprites.BestMatch(whom);
         Height();
     }
 
-    private void OnDestroy()
-    {
-        whom.RaceSystem.RaceChangeEvent -= ChangeSprite;
-        whom.GenderChangeEvent -= ChangeSprite;
-    }
+    private void OnDestroy() => whom.RaceSystem.RaceChangeEvent -= ChangeSprite;
 
     private void Height()
     {

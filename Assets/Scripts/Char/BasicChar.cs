@@ -40,14 +40,9 @@ public abstract class BasicChar : MonoBehaviour
         if (lastGender != this.Gender())
         {
             lastGender = this.Gender();
-            GenderChangeEvent?.Invoke();
+            spriteHandler.ChangeSprite();
         }
     }
-
-    public delegate void GenderChange();
-
-    public event GenderChange GenderChangeEvent;
-
     public string Gender => Settings.GetGender(this);
     public GenderTypes GenderType => this.GenderType();
 
@@ -129,8 +124,8 @@ public abstract class BasicChar : MonoBehaviour
     public virtual void Start()
     {
         identity = new Identity();
-        Essence.Masc.EssenceSliderEvent += DidGenderChange;
-        essence.Femi.EssenceSliderEvent += DidGenderChange;
+        SexualOrgan.SomethingChanged += DidGenderChange;
+     
         expSystem = new ExpSystem(1);
         DateSystem.NewDayEvent += this.GrowFetuses;
         DateSystem.NewDayEvent += PregnancySystem.GrowChild;
@@ -149,8 +144,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-        Essence.Masc.EssenceSliderEvent -= DidGenderChange;
-        essence.Femi.EssenceSliderEvent -= DidGenderChange;
+        SexualOrgan.SomethingChanged -= DidGenderChange;
         DateSystem.NewMinuteEvent -= DoEveryMin;
     }
 

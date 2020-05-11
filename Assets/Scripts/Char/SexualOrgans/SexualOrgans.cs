@@ -316,7 +316,7 @@ public abstract class SexualOrganWithFluid : SexualOrgan
     {
         get
         {
-            if (baseSize != lastBase)
+            if (BaseSize != lastBase)
             {
                 sexualFluid.FluidCalc(Size);
             }

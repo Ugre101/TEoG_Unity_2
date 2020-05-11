@@ -6,7 +6,7 @@ public class CharSprites : ScriptableObject
 {
     public Sprite GetSprite(BasicChar who) => BestMatch(who).Sprite;
 
-    [SerializeField] private CharSprite defaultSprite = null;
+    [SerializeField] private CharSprite defaultSpriteMasc = null, defaultSpriteFemi = null;
 
     [SerializeField] private List<CharSprite> charSprites = new List<CharSprite>();
     public List<CharSprite> List => charSprites;
@@ -31,8 +31,11 @@ public class CharSprites : ScriptableObject
         }
         else
         {
-            // Default
-            return defaultSprite;
+            if (who.GenderType == GenderTypes.Feminine)
+            {
+                return defaultSpriteFemi;
+            }
+            return defaultSpriteMasc;
         }
     }
 }
