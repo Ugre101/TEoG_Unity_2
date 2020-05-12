@@ -37,7 +37,7 @@ public static class EssenceExtension
 {
     public static float TotalStableEssence(this BasicChar basicChar)
     {
-        float baseStable = basicChar.Essence.StableEssence.MaxValue;
+        float baseStable = basicChar.Essence.StableEssence.Value;
         Perks perks = basicChar.Perks;
         if (perks.HasPerk(PerksTypes.EssenceHoarder))
         {

@@ -9,6 +9,7 @@ public class Womb
     private List<Fetus> fetuses = new List<Fetus>();
 
     public List<Fetus> Fetuses => fetuses;
+
     public string AgeOfOldest
     {
         get
@@ -61,8 +62,16 @@ public class Womb
     /// <param name="parMother"></param>
     /// <param name="parFather"></param>
     /// <param name="parMultiChildBonus"> amount = floor(range(1,2.1)); where amount equals the amount of fetuses added to womb.</param>
-    public void GetImpregnated(BasicChar parMother, BasicChar parFather, float parMultiChildBonus = 0, int parBaseChildAmount = 1)
+    public void GetImpregnated(BasicChar parMother, BasicChar parFather)
     {
+        float parMultiChildBonus = 0 + RaceChildBonusAmountFather(parFather) + RaceChildBonusAmountModsMother(parMother);
+        PregnancyBlessings pregnancyBlessings = parMother.PregnancySystem.PregnancyBlessings;
+        if (pregnancyBlessings.HasBlessing(PregnancyBlessingsIds.BroadMother))
+        {
+            parMultiChildBonus += pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.BroadMother);
+        }
+        int parBaseChildAmount = 1 + RaceChildBaseAmountModsFather(parFather) + RaceChildBaseAmountModsMother(parMother);
+        // TODO add racemods
         int amount = Mathf.FloorToInt(Random.Range(parBaseChildAmount, 2.1f + Mathf.Max(-1f, parMultiChildBonus)));
         for (int i = 0; i < amount; i++)
         {
@@ -73,5 +82,26 @@ public class Womb
                 parMother.RaceSystem.CurrentRace() : parFather.RaceSystem.CurrentRace();
             fetuses.Add(new Fetus(babyRace, parFather, parMother));
         }
+    }
+
+    private int RaceChildBaseAmountModsMother(BasicChar basicChar)
+    {
+        return 0;
+        // if certain race add bonus
+    }
+
+    private int RaceChildBonusAmountModsMother(BasicChar basicChar)
+    {
+        return 0;
+    }
+
+    private int RaceChildBaseAmountModsFather(BasicChar basicChar)
+    {
+        return 0;
+    }
+
+    private int RaceChildBonusAmountFather(BasicChar basicChar)
+    {
+        return 0;
     }
 }

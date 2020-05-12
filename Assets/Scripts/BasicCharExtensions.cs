@@ -102,19 +102,29 @@ public static class BasicCharExtensions
             fatBurnRate -= PerkEffects.LowMetabolism.LowerBurn(basicChar.Perks);
         }
         fat.LoseFlat(fatBurnRate);
-        ReGainFluidsTick(basicChar);
+        basicChar.ReGainFluidsTick();
     }
 
-    private static void ReGainFluidsTick(BasicChar basicChar)
+    private static void ReGainFluidsTick(this BasicChar basicChar)
     {
         Organs so = basicChar.SexualOrgans;
         if (so.HaveBalls())
         {
-            so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.MaxValue));
+            PregnancyBlessings pregnancyBlessings = basicChar.PregnancySystem.PregnancyBlessings;
+            if (pregnancyBlessings.HasBlessing(PregnancyBlessingsIds.SpermFactory))
+            {
+                int blessVal = pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.SpermFactory);
+                basicChar.Body.Fat.LoseFlat(blessVal / 100); // TODO is this balanced?
+                so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value + blessVal));
+            }
+            else
+            {
+                so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value));
+            }
         }
         if (so.Lactating)
         {
-            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.MaxValue));
+            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value));
         }
     }
 
@@ -134,7 +144,8 @@ public static class BasicCharExtensions
             if (!a.Fluid.IsFull)
             {
                 a.Fluid.ReFillWith(fatGain * scatRatio);
-            }else
+            }
+            else
             {
                 // TODO need to shit
             }

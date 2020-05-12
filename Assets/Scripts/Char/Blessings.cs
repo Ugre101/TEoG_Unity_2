@@ -1,15 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Blessings
-{
-    [SerializeField] private PregnancyBlessings pregnancyBlessings = new PregnancyBlessings();
-    public PregnancyBlessings PregnancyBlessing => pregnancyBlessings;
-}
-
 public enum PregnancyBlessingsIds
-{
+{// Only blessing that act inside PregnancySystem or totaly outside where still easy to assec blessing inside pregSystem.
     Incubator, // Faster pregnancy
     BroadMother, // Higher change for twins or more
     VirileLoad, // Simple virility rise
@@ -45,6 +38,8 @@ public class PregnancyBlessings
     public bool HasBlessing(PregnancyBlessingsIds id) => pregnancyBlessings.Exists(pb => pb.Id == id);
 
     public PregnancyBlessing GetBlessing(PregnancyBlessingsIds id) => pregnancyBlessings.Find(pb => pb.Id == id);
-
+    /// <summary>Return blessing level, if you don't have blessing returns zero </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     public int GetBlessingValue(PregnancyBlessingsIds id) => HasBlessing(id) ? GetBlessing(id).Value : 0;
 }

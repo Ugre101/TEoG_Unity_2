@@ -39,27 +39,27 @@ public class StatsContainer
 
     [SerializeField] private CharStats strength;
 
-    public float Str => Strength.MaxValue;
+    public float Str => Strength.Value;
 
     [SerializeField] private CharStats charm;
 
-    public float Cha => Charm.MaxValue;
+    public float Cha => Charm.Value;
 
     [SerializeField] private CharStats endurance;
 
-    public float End => Endurance.MaxValue;
+    public float End => Endurance.Value;
 
     [SerializeField] private CharStats dexterity;
 
-    public float Dex => Dexterity.MaxValue;
+    public float Dex => Dexterity.Value;
 
     [SerializeField] private CharStats intelligence;
 
-    public float Int => Intelligence.MaxValue;
+    public float Int => Intelligence.Value;
 
     [SerializeField] private CharStats willpower;
 
-    public float Will => willpower.MaxValue;
+    public float Will => willpower.Value;
     public CharStats Strength => strength;
     public CharStats Charm => charm;
     public CharStats Endurance => endurance;

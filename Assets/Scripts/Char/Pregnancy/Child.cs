@@ -32,7 +32,13 @@ public class Child
             }
         }
     }
-
+    public Child(Races parRace, Identity parMother) // Single mother
+    {
+        race = parRace;
+        child = new Identity();
+        father = new Identity();
+        mother = parMother;
+    }
     public Child(Races parRace, Identity parMother, Identity parFather)
     {
         race = parRace;

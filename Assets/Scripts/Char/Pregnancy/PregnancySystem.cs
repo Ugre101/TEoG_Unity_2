@@ -12,28 +12,76 @@ public class PregnancySystem
 
     public CharStats Virility => virility;
 
+    public int VirilityValue
+    {
+        get
+        {
+            int baseVal = Virility.Value;
+            if (PregnancyBlessings.HasBlessing(PregnancyBlessingsIds.VirileLoad))
+            {
+                // TODO decide moderfier for blessing; blessing * mod.
+                baseVal += pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.VirileLoad);
+            }
+            if (pregnancyBlessings.HasBlessing(PregnancyBlessingsIds.PrenancyFreak))
+            {
+                baseVal += PregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.PrenancyFreak);
+            }
+            return baseVal;
+        }
+    }
+
     [SerializeField] private CharStats fertility = new CharStats(1);
 
     public CharStats Fertility => fertility;
 
+    public int FertilityValue
+    {
+        get
+        {
+            int baseVal = Fertility.Value;
+            if (PregnancyBlessings.HasBlessing(PregnancyBlessingsIds.PrenancyFreak))
+            {
+                baseVal += pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.PrenancyFreak);
+            }
+            return baseVal;
+        }
+    }
+
     // growth in days
-    private readonly float baseFetusGrowth = 1f;
+    [SerializeField] private CharStats fetusGrowthRate = new CharStats(1);
 
-    [SerializeField] private float bonusFetusGrowth = 0f;
+    public CharStats FetusGrowthRate => fetusGrowthRate;
+    [SerializeField] private PregnancyBlessings pregnancyBlessings = new PregnancyBlessings();
+    public PregnancyBlessings PregnancyBlessings => pregnancyBlessings;
 
-    public float FinalGrowthRate => baseFetusGrowth + bonusFetusGrowth;
+    public float FinalGrowthRate
+    {
+        get
+        {
+            int growthRate = FetusGrowthRate.Value;
+            if (PregnancyBlessings.HasBlessing(PregnancyBlessingsIds.Incubator))
+            {
+                growthRate += pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.Incubator);
+            }
+            return growthRate;
+        }
+    }
 
     public void GrowChild() => Children.ForEach(c => c.Grow());
+
+    [SerializeField] private DateSave lastTimePregnant;
+    [SerializeField] private DateSave lastTimeImpregnatedSomeOne;
+    // TODO add last time impregnated & imprete add penalty for pregFreak
 }
 
 public static class PregnancyExtensions
 {
     public static bool Impregnate(this BasicChar mother, BasicChar parFather)
     {
-        float motherFet = mother.PregnancySystem.Fertility.MaxValue,
-            fatherVir = parFather.PregnancySystem.Virility.MaxValue;
+        float motherFet = mother.PregnancySystem.Fertility.Value,
+            fatherVir = parFather.PregnancySystem.VirilityValue;
         float motherRoll = Random.Range(0 - motherFet, 200 - motherFet),
-            fatherRoll = Random.Range(0 + fatherVir, 100 + fatherVir);
+            fatherRoll = Random.Range(0 + fatherVir, 50 + fatherVir);
         if (motherRoll < fatherRoll)
         {
             // if mother has empty womb then impregnate first empty womb

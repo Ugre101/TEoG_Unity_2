@@ -17,7 +17,7 @@ namespace ItemScripts
         {
             CharStats viri = user.PregnancySystem.Virility;
             viri.AddTempMod(contraMod);
-            return $" {viri.MaxValue}";
+            return $" {viri.Value}";
         }
     }
 }

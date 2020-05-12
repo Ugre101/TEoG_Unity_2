@@ -142,6 +142,45 @@ public static class DateSystem
     public static event NewMinute NewMinuteEvent;
 }
 
+public static class DateSystemExtensions
+{
+    public static int CompareDateHours(this DateSave dateSave)
+    {
+        int yearsDiff = DateSystem.Year - dateSave.Year;
+        int monthDiff = DateSystem.Month - dateSave.Month;
+        int weekDiff = DateSystem.Week - dateSave.Week;
+        int dayDiff = DateSystem.Day - dateSave.Day;
+        int hourDiff = DateSystem.Hour - dateSave.Hour;
+        return (yearsDiff * 8064) + (monthDiff * 672) + (weekDiff * 168) + (dayDiff * 24) + hourDiff;
+    }
+
+    public static int CompareDateDays(this DateSave dateSave)
+    {
+        int yearsDiff = DateSystem.Year - dateSave.Year;
+        int monthDiff = DateSystem.Month - dateSave.Month;
+        int weekDiff = DateSystem.Week - dateSave.Week;
+        int dayDiff = DateSystem.Day - dateSave.Day;
+        return (yearsDiff * 336) + (monthDiff * 28) + (weekDiff * 7) + dayDiff;
+    }
+
+    public static int CompareDateWeeks(this DateSave dateSave)
+    {
+        int yearsDiff = DateSystem.Year - dateSave.Year;
+        int monthDiff = DateSystem.Month - dateSave.Month;
+        int weekDiff = DateSystem.Week - dateSave.Week;
+        return (yearsDiff * 48) + (monthDiff * 4) + weekDiff;
+    }
+
+    public static int CompareDateMonths(this DateSave dateSave)
+    {
+        int yearsDiff = DateSystem.Year - dateSave.Year;
+        int monthDiff = DateSystem.Month - dateSave.Month;
+        return (yearsDiff * 12) + monthDiff;
+    }
+
+    public static int CompareDateYears(this DateSave dateSave) => DateSystem.Year - dateSave.Year;
+}
+
 [System.Serializable]
 public struct DateSave
 {
