@@ -1,42 +1,41 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-// Scriptable object to hold all keybindings
-[CreateAssetMenu(fileName = "Key bindings", menuName = "Key bindings")]
-public class KeyBindings : ScriptableObject
+public static class KeyBindings
 {
-    [SerializeField]
-    private KeyBind saveKey = new KeyBind(KeyCode.G, "Save"), optionsKey = new KeyBind(KeyCode.O, ("Options")), voreKey = new KeyBind(KeyCode.V, "Vore"), lvlKey = new KeyBind(KeyCode.B, "Perks"), essenceKey = new KeyBind(KeyCode.T, "Essence"), inventoryKey = new KeyBind(KeyCode.Tab, "Inventory"),
-     escKey = new KeyBind(KeyCode.Escape, "Esc"), questKey = new KeyBind(KeyCode.Q, "Quests"), mapKey = new KeyBind(KeyCode.M, "Map"),
-     eventKey = new KeyBind(KeyCode.E, "Eventlog"), lookKey = new KeyBind(KeyCode.L, "Looks"), zoomInKey = new KeyBind(KeyCode.Comma, "Zoom in"),
-     zoomOutKey = new KeyBind(KeyCode.Period, "Zoom out"), hideAllKey = new KeyBind(KeyCode.Space, "Hide UI"), quickSave = new KeyBind(KeyCode.F5, "Quick save"),
-     quickLoad = new KeyBind(KeyCode.F9, "Quick load");
+    private static List<KeyBind> keys;
 
-    public List<KeyBind> Keys { get; private set; }
-    public KeyBind SaveKey => saveKey;
-    public KeyBind OptionsKey => optionsKey;
-    public KeyBind VoreKey => voreKey;
-    public KeyBind LvlKey => lvlKey;
-    public KeyBind EssenceKey => essenceKey;
-    public KeyBind InventoryKey => inventoryKey;
-    public KeyBind EscKey => escKey;
-    public KeyBind QuestKey => questKey;
-    public KeyBind MapKey => mapKey;
-    public KeyBind EventKey => eventKey;
-    public KeyBind LookKey => lookKey;
-    public KeyBind ZoomInKey => zoomInKey;
-    public KeyBind ZoomOutKey => zoomOutKey;
-    public KeyBind HideAllKey => hideAllKey;
-    public KeyBind QuickSave => quickSave;
-    public KeyBind QuickLoad => quickLoad;
-
-    private void OnEnable()
+    public static List<KeyBind> Keys
     {
-        Keys = new List<KeyBind>() { SaveKey, OptionsKey, VoreKey, LvlKey, EssenceKey, InventoryKey, EscKey, QuestKey, MapKey, EventKey, LookKey, ZoomInKey, ZoomOutKey, HideAllKey, QuickSave, QuickLoad };
-        Keys.ForEach(k => k.Load());
+        get
+        {
+            if (keys == null)
+            {
+                keys = new List<KeyBind>() { SaveKey, OptionsKey, VoreKey, LvlKey, EssenceKey, InventoryKey, EscKey, QuestKey, MapKey, EventKey, LookKey, ZoomInKey, ZoomOutKey, HideAllKey, QuickSave, QuickLoad, ActionKey };
+            }
+            return keys;
+        }
     }
 
-    public KeyBind ReBind(KeyBind toReBind, KeyCode newKeyCode)
+    public static KeyBind SaveKey { get; } = new KeyBind(KeyCode.G, "Save");
+    public static KeyBind OptionsKey { get; } = new KeyBind(KeyCode.O, ("Options"));
+    public static KeyBind VoreKey { get; } = new KeyBind(KeyCode.V, "Vore");
+    public static KeyBind LvlKey { get; } = new KeyBind(KeyCode.B, "Perks");
+    public static KeyBind EssenceKey { get; } = new KeyBind(KeyCode.T, "Essence");
+    public static KeyBind InventoryKey { get; } = new KeyBind(KeyCode.Tab, "Inventory");
+    public static KeyBind EscKey { get; } = new KeyBind(KeyCode.Escape, "Esc");
+    public static KeyBind QuestKey { get; } = new KeyBind(KeyCode.Q, "Quests");
+    public static KeyBind MapKey { get; } = new KeyBind(KeyCode.M, "Map");
+    public static KeyBind EventKey { get; } = new KeyBind(KeyCode.E, "Eventlog");
+    public static KeyBind LookKey { get; } = new KeyBind(KeyCode.L, "Looks");
+    public static KeyBind ZoomInKey { get; } = new KeyBind(KeyCode.Comma, "Zoom in");
+    public static KeyBind ZoomOutKey { get; } = new KeyBind(KeyCode.Period, "Zoom out");
+    public static KeyBind HideAllKey { get; } = new KeyBind(KeyCode.Space, "Hide UI");
+    public static KeyBind QuickSave { get; } = new KeyBind(KeyCode.F5, "Quick save");
+    public static KeyBind QuickLoad { get; } = new KeyBind(KeyCode.F9, "Quick load");
+    public static KeyBind ActionKey { get; } = new KeyBind(KeyCode.F, "Action");
+
+    public static KeyBind ReBind(KeyBind toReBind, KeyCode newKeyCode)
     {
         KeyBind effected = null;
         if (Keys.Exists(k => k.Key == newKeyCode))
@@ -53,7 +52,7 @@ public class KeyBindings : ScriptableObject
         return effected;
     }
 
-    public KeyBind AltReBind(KeyBind toReBind, KeyCode newKeyCode)
+    public static KeyBind AltReBind(KeyBind toReBind, KeyCode newKeyCode)
     {
         KeyBind effected = null;
         if (Keys.Exists(k => k.Key == newKeyCode))
@@ -68,10 +67,5 @@ public class KeyBindings : ScriptableObject
         }
         toReBind.ReBindAlt(newKeyCode);
         return effected;
-    }
-
-    private void OnDestroy()
-    {
-        Keys.ForEach(k => k.Save());
     }
 }

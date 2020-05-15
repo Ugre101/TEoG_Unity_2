@@ -5,6 +5,8 @@ public class SmartTree : MonoBehaviour
     [SerializeField] private PlayerMain player = null;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite stump = null, tree = null;
+    [SerializeField] private CapsuleCollider2D capsule = null;
+    private Vector2 normalSize = new Vector2(), smallerSize = new Vector2(0.1f, 0.1f);
     private bool chopped = false;
 
     private bool started = false;
@@ -14,12 +16,14 @@ public class SmartTree : MonoBehaviour
     private void Start()
     {
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
+        capsule = capsule != null ? capsule : GetComponent<CapsuleCollider2D>();
         player = player != null ? player : PlayerMain.GetPlayer;
         if (stump == null || tree == null)
         {
             Debug.LogError("A tree is missing sprites and was DESTROYED");
             Destroy(gameObject);
         }
+        normalSize = capsule.size;
         started = true;
     }
 
@@ -38,13 +42,26 @@ public class SmartTree : MonoBehaviour
         }
     }
 
-    private void SetSprite() => spriteRenderer.sprite = chopped ? stump : tree;
+    private void Update()
+    {
+        if (KeyBindings.ActionKey.KeyDown)
+        {
+            Action();
+        }
+    }
+
+    private void SetSprite()
+    {
+        spriteRenderer.sprite = chopped ? stump : tree;
+        capsule.size = chopped ? smallerSize : normalSize;
+    }
 
     private DateSave? timeChoppedDown;
 
-    private void OnMouseDown()
+    private void OnMouseDown() => Action();
+
+    private void Action()
     {
-        Debug.Log("Click tree?");
         if (Vector2.Distance(player.transform.position, transform.position) < 5f)
         {
             hp -= 25;

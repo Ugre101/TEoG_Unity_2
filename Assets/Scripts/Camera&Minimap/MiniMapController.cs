@@ -3,28 +3,20 @@
 public class MiniMapController : MonoBehaviour
 {
     // Public
-    [SerializeField]
-    private Transform _player = null;
+    [SerializeField] private Transform _player = null;
 
-    [SerializeField]
-    private KeyBindings keys = null;
+    [SerializeField] private GameObject miniMap = null, bigMap = null;
 
-    [SerializeField]
-    private GameObject miniMap = null, bigMap = null;
-
-    [SerializeField]
-    private RenderTexture miniTexture = null, bigTexture = null;
+    [SerializeField] private RenderTexture miniTexture = null, bigTexture = null;
 
     [Header("Settings")]
     [Range(1f, 10f)]
-    [SerializeField]
-    private float smoothing = 1f;
+    [SerializeField] private float smoothing = 1f;
 
     // Private
     private bool mini = true, big = false;
 
-    [SerializeField]
-    private Vector3 _offset = new Vector3(1f, 0, -10);
+    [SerializeField] private Vector3 _offset = new Vector3(1f, 0, -10);
 
     private Camera cam;
     //  private float _down;
@@ -73,7 +65,7 @@ public class MiniMapController : MonoBehaviour
     {
         Vector3 _target = _player.transform.position + _offset;
         transform.position = Vector3.Lerp(transform.position, _target, smoothing);
-        if (keys.MapKey.KeyDown)
+        if (KeyBindings.MapKey.KeyDown)
         {
             UpdateMapState(NewState);
             //  _down = Time.time;

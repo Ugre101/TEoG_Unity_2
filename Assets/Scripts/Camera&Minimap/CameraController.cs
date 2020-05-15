@@ -6,8 +6,6 @@ public class CameraController : MonoBehaviour
     // Public
     [SerializeField] private Transform _player = null;
 
-    [SerializeField] private KeyBindings keyBindings = null;
-
     [Header("Settings")]
     [SerializeField] private float _smoothing = 1f;
 
@@ -90,11 +88,11 @@ public class CameraController : MonoBehaviour
             }
 
             float scrollValue = Input.GetAxis("Mouse ScrollWheel");
-            if (keyBindings.ZoomInKey.GetsKey)
+            if (KeyBindings.ZoomInKey.GetsKey)
             {
                 YouSetOrthSize(OrthSize - zoomSpeed);
             }
-            else if (keyBindings.ZoomOutKey.GetsKey)
+            else if (KeyBindings.ZoomOutKey.GetsKey)
             {
                 YouSetOrthSize(OrthSize + zoomSpeed);
             }

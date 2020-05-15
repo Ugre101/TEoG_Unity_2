@@ -15,7 +15,7 @@ MonoBehaviour:
   itemId: 38
   title: Wood
   useName: Use
-  sprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: cc0d7511a61c9484897331b06b3a375a, type: 3}
   type: 1
   value: 0
   desc: A piece of wood.

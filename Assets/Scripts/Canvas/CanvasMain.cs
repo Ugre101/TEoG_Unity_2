@@ -25,7 +25,6 @@ public class CanvasMain : MonoBehaviour
 
     #region Properties
 
-    [SerializeField] private KeyBindings Keys = null;
     [SerializeField] private BigPanel Gameui = null;
     [SerializeField] private BigPanel Battle = null;
     [SerializeField] private BigPanel Menus = null;
@@ -56,11 +55,11 @@ public class CanvasMain : MonoBehaviour
 
     private void Update()
     {
-        if (Keys.EscKey.KeyDown)
+        if (KeyBindings.EscKey.KeyDown)
         {
             EscapePause();
         }
-        else if (Keys.HideAllKey.KeyDown)
+        else if (KeyBindings.HideAllKey.KeyDown)
         {
             if (GameManager.CurState.Equals(GameState.Free))
             {
@@ -70,31 +69,31 @@ public class CanvasMain : MonoBehaviour
         // if in menus or main game(not combat)
         if (GameManager.KeyBindsActive)
         {
-            if (KeyDown(Keys.SaveKey, menuPanels.Savemenu))
+            if (KeyDown(KeyBindings.SaveKey, menuPanels.Savemenu))
             {
             }
-            else if (KeyDown(Keys.OptionsKey, menuPanels.Options))
+            else if (KeyDown(KeyBindings.OptionsKey, menuPanels.Options))
             {
             }
-            else if (KeyDown(Keys.QuestKey, menuPanels.QuestMenu))
+            else if (KeyDown(KeyBindings.QuestKey, menuPanels.QuestMenu))
             {
             }
-            else if (KeyDown(Keys.InventoryKey, menuPanels.Inventory))
+            else if (KeyDown(KeyBindings.InventoryKey, menuPanels.Inventory))
             {
             }
-            else if (KeyDown(Keys.VoreKey, menuPanels.Vore))
+            else if (KeyDown(KeyBindings.VoreKey, menuPanels.Vore))
             {
             }
-            else if (KeyDown(Keys.EssenceKey, menuPanels.Essence))
+            else if (KeyDown(KeyBindings.EssenceKey, menuPanels.Essence))
             {
             }
-            else if (KeyDown(Keys.LvlKey, menuPanels.LevelUp))
+            else if (KeyDown(KeyBindings.LvlKey, menuPanels.LevelUp))
             {
             }
-            else if (KeyDown(Keys.LookKey, menuPanels.Looks))
+            else if (KeyDown(KeyBindings.LookKey, menuPanels.Looks))
             {
             }
-            if (Keys.EventKey.KeyDown)
+            if (KeyBindings.EventKey.KeyDown)
             {
                 BigEventLog();
             }
