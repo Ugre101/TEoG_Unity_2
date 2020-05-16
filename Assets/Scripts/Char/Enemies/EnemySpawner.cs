@@ -152,6 +152,9 @@ public class EnemySpawner : MonoBehaviour
                 {
                     Instantiate(prefab, transform, true).name = prefab.name;
                     RePosistion(prefab);
+                }else
+                {
+                    Debug.LogWarning(MapEvents.CurrentMap + " is missing enemies references");
                 }
             }
         }

@@ -60,7 +60,6 @@ public class SpawnTrees : MonoBehaviour
         {
             if (NotToCloseToOtherTrees(spot))
             {
-                Debug.Log(Random.value < spawnChance);
                 if (Random.value < spawnChance)
                 {
                     smartTrees.Add(Instantiate(smartTree, spot, Quaternion.identity, transform));

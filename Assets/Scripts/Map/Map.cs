@@ -20,4 +20,24 @@ public class Map : MonoBehaviour
     public List<EnemyPrefab> Enemies => enemies;
     public List<Boss> Bosses => bosses;
     public int EnemyCount => amountOfEnemies;
+
+    private void Start()
+    {
+        foreach (EnemyPrefab enemyPrefab in Enemies)
+        {
+            if (enemyPrefab == null)
+            {
+                Debug.LogWarning(name + " is missing enemys refs");
+                break;
+            }
+        }
+        foreach (Boss boss in Bosses)
+        {
+            if (boss == null)
+            {
+                Debug.LogWarning(name + " is missing boss refs");
+                break;
+            }
+        }
+    }
 }
