@@ -21,6 +21,7 @@ public class EnemySpawner : MonoBehaviour
 
     private readonly List<Vector3> _empty = new List<Vector3>();
     private readonly List<EnemyPrefab> currEnemies = new List<EnemyPrefab>();
+    private readonly List<EnemyPrefab> addedEnemies = new List<EnemyPrefab>();
     private readonly List<Boss> currBosses = new List<Boss>();
     private readonly List<Boss> addedBosses = new List<Boss>();
     private readonly System.Random rnd = new System.Random();
@@ -65,7 +66,20 @@ public class EnemySpawner : MonoBehaviour
         return false;
     }
 
-    public void RePosistion(BasicChar toRePos)
+    public bool AroundOtherEnemy(Vector3 vector3)
+    {
+        if (addedEnemies.Count < 1) { return false; }
+        foreach (EnemyPrefab b in addedEnemies)
+        {
+            if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Vector3 GetPosistion()
     {
         if (_empty.Count < 1)
         {
@@ -73,19 +87,24 @@ public class EnemySpawner : MonoBehaviour
         }
         int index = rnd.Next(_empty.Count);
         int tries = 0;
-        while (AroundPlayer(_empty[index]) || AroundBoss(_empty[index]))
+        while (AroundPlayer(_empty[index]) || AroundBoss(_empty[index]) || AroundOtherEnemy(_empty[index]))
         {
             index = rnd.Next(_empty.Count);
             tries++;
             if (tries > 100)
             {
+                if (Debug.isDebugBuild)
+                {
+                    Debug.LogError("Spawner had to give up trying to posistion enemy");
+                }
                 break;
                 // Give up and just let is spawn whereever
             }
         }
-        toRePos.transform.position = _empty[index];
-        _empty.RemoveAt(index);
+        return _empty[index];
     }
+
+    public void RePosistion(BasicChar toRePos) => toRePos.transform.position = GetPosistion();
 
     private void DoorChanged(Tilemap _currMap)
     {
@@ -100,6 +119,7 @@ public class EnemySpawner : MonoBehaviour
         currEnemies.Clear();
         currBosses.Clear();
         addedBosses.Clear();
+        addedEnemies.Clear();
         if (MapEvents.CurMapScript != null)
         {
             if (MapEvents.CurMapScript.Enemies.Count > 0)
@@ -150,9 +170,11 @@ public class EnemySpawner : MonoBehaviour
                 EnemyPrefab prefab = currEnemies[rnd.Next(currEnemies.Count)];
                 if (prefab != null)
                 {
-                    Instantiate(prefab, transform, true).name = prefab.name;
-                    RePosistion(prefab);
-                }else
+                    EnemyPrefab newEnemy = Instantiate(prefab, GetPosistion(), Quaternion.identity, transform);
+                    newEnemy.name = prefab.name;
+                    addedEnemies.Add(newEnemy);
+                }
+                else
                 {
                     Debug.LogWarning(MapEvents.CurrentMap + " is missing enemies references");
                 }
