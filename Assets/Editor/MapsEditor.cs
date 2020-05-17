@@ -83,6 +83,7 @@ namespace EditorStuff
 
         private void FindItems(Object obj)
         {
+            map.EnemyFolder = obj;
             string assetPath = AssetDatabase.GetAssetPath(obj);
             string fileName = Path.GetFileName(assetPath + obj.name);
             string dictName = assetPath.Replace(fileName, "");

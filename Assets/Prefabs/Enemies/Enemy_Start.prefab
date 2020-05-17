@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -299,7 +300,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8534239450746442155}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.76, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.12148, y: 0.12148, z: 0.12148}
   m_Children:
   - {fileID: 3731972896514886437}
@@ -322,14 +323,45 @@ MonoBehaviour:
     firstName: 
     lastName: 
     id: 202001172202221
+  relationshipTracker:
+    relationshipWiths: []
   inventory:
     bonusAmount: 0
     items: []
+  equiptItems:
+    head:
+      item: 0
+      slot: 0
+      hasItem: 0
+    chest:
+      item: 0
+      slot: 1
+      hasItem: 0
+    leftHand:
+      item: 0
+      slot: 2
+      hasItem: 0
+    rightHand:
+      item: 0
+      slot: 3
+      hasItem: 0
+    pants:
+      item: 0
+      slot: 4
+      hasItem: 0
+    boots:
+      item: 0
+      slot: 5
+      hasItem: 0
   raceSystem:
     raceList: []
     dirty: 1
   vore:
     active: 0
+    voreExp:
+      level: 1
+      exp: 0
+      perkPoints: 0
     balls:
       preys: []
       voreExp: 0
@@ -351,16 +383,24 @@ MonoBehaviour:
       voreExp: 0
       digestion: 1
       childTf: 0
+    perks:
+      vorePerks: []
   age:
     ageYears: 18
     ageDays: 0
   body:
     height:
-      value: 0
+      baseValue: 160
+      statMods: []
+      tempStatMods: []
     fat:
-      value: 0
+      baseValue: 19.98001
+      statMods: []
+      tempStatMods: []
     muscle:
-      value: 0
+      baseValue: 20
+      statMods: []
+      tempStatMods: []
   hp:
     baseValue: 0
     current: 0
@@ -410,7 +450,6 @@ MonoBehaviour:
       baseValue: 10
       statMods: []
       tempMods: []
-  autoEss: 1
   essence:
     masc:
       _amount: 0
@@ -438,7 +477,22 @@ MonoBehaviour:
       baseValue: 1
       statMods: []
       tempMods: []
-    bonusFetusGrowth: 0
+    fetusGrowthRate:
+      baseValue: 1
+      statMods: []
+      tempMods: []
+    lastTimePregnant:
+      hour: 0
+      year: 0
+      month: 0
+      week: 0
+      day: 0
+    lastTimeImpregnatedSomeOne:
+      hour: 0
+      year: 0
+      month: 0
+      week: 0
+      day: 0
   sexualOrgans:
     genderPrefActive: 0
     genderPref: 1
@@ -455,6 +509,8 @@ MonoBehaviour:
       tempMods: []
     lactating: 0
     vaginas: []
+    anals: []
+  spriteHandler: {fileID: 0}
   skills: []
   NeedFirstName: 1
   NeedLastName: 1
