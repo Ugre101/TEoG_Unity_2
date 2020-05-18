@@ -9,7 +9,7 @@ public class ItemHolder : ScriptableObject
 
     public List<Item> ItemsDict => items;
 
-    public void Add(Item toAdd) => items.Add(toAdd);
+    public void Add(Item toAdd) => ItemsDict.Add(toAdd);
 
     public Item GetById(ItemIds parId)
     {

@@ -33,9 +33,5 @@ namespace EssenceMenu
         protected abstract void DisplayCost();
 
         protected abstract void AddFunc();
-
-        public delegate void AddedOrgan();
-
-        public event AddedOrgan Added;
     }
 }

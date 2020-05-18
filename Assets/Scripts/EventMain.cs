@@ -11,7 +11,7 @@ public class EventMain : MonoBehaviour
     [SerializeField] private GameObject eventMenu = null;
 
     // Percipants
-    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private PlayerMain lplayer = null;
 
     [SerializeField] private ChangeName changeName = null;
     [SerializeField] private ChangeNames changeNames = null;

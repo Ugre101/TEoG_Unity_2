@@ -52,6 +52,8 @@ public class ItemsEditor : Editor
                 if (!items.HasItem(item.ItemId))
                 {
                     items.Add(item);
+                    EditorUtility.SetDirty(items);
+                    AssetDatabase.SaveAssets();
                 }
             }
         }
