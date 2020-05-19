@@ -167,9 +167,11 @@ public class CanvasMain : MonoBehaviour
 
     private void ToggleBigPanel(List<Transform> toActivate) => transform.SleepChildren(toActivate);
 
+    private GameObject activeGameObject = null;
+
     public void ResumePause(GameObject toBeActivated)
     {
-        if (GameManager.CurState.Equals(GameState.Menu))
+        if (GameManager.CurState.Equals(GameState.Menu) && (activeGameObject != null ? activeGameObject.GetInstanceID() == toBeActivated.GetInstanceID() : true))
         {
             Resume();
         }
@@ -177,6 +179,7 @@ public class CanvasMain : MonoBehaviour
         {
             Pause();
             toBeActivated.SetActive(true);
+            activeGameObject = toBeActivated;
         }
     }
 
@@ -225,6 +228,7 @@ public class CanvasMain : MonoBehaviour
         // Disable all buildings expect the one to enter
         Buildings.transform.SleepChildren(buildingToEnter.transform);
     }
+
     public void EnterBuilding(Building building)
     {
         GameManager.CurState = GameState.InBuilding;
@@ -235,6 +239,7 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] private GameObject teleportMenu = null;
 
     public void TeleportMenu() => EnterBuilding(teleportMenu);
+
     /// <summary> Hides gameUI and returns if gameUi was active before </summary>
     /// <returns></returns>
     public bool HideGameUI()
@@ -243,6 +248,7 @@ public class CanvasMain : MonoBehaviour
         Gameui.gameObject.SetActive(false);
         return currState;
     }
+
     public void ShowGameUI()
     {
         if (GameManager.CurState == GameState.Free)
