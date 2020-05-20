@@ -11,6 +11,7 @@ public abstract class Building : MonoBehaviour
     {
         player = player != null ? player : PlayerMain.GetPlayer;
     }
+
 }
 
 public abstract class Shop : Building
@@ -22,9 +23,15 @@ public abstract class Shop : Building
     [SerializeField] protected TextMeshProUGUI sellBtnText = null;
     [SerializeField] protected SellItem sellItemPrefab = null;
     [SerializeField] protected List<ItemIds> buyItems = new List<ItemIds>();
+    [SerializeField] protected Wares wares = null;
+
     protected bool selling = false;
 
-    public virtual void Start() => sellBtn.onClick.AddListener(ToggleSelling);
+    public virtual void Start()
+    {
+        wares = wares != null ? wares : GetComponentInChildren<Wares>();
+        sellBtn.onClick.AddListener(ToggleSelling);
+    }
 
     public new virtual void OnEnable()
     {
@@ -56,13 +63,13 @@ public abstract class Shop : Building
     public virtual void ShowWares()
     {
         container.KillChildren();
-        buyItems.ForEach(i => Instantiate(buyItem, container).Setup(player, ItemsRef.GetById(i)));
+        wares.BuyItems(player, buyItems);
     }
 
     protected virtual void SellWares()
     {
         selling = true;
         container.KillChildren();
-        player.Inventory.Items.ForEach(i => Instantiate(sellItemPrefab, container).Setup(ItemsRef.GetById(i.Id), i, player));
+        wares.SellItems(player);
     }
 }

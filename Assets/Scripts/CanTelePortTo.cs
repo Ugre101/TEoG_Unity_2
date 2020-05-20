@@ -26,6 +26,8 @@ public class CanTelePortTo : MonoBehaviour
 
     public void Load(bool know) => Know = know;
 
+    public void Unlock() => Know = true;
+
     private bool justTeleportedTo = false;
 
     public void TeleportTo() => justTeleportedTo = true;
@@ -77,7 +79,8 @@ public class CanTelePortTo : MonoBehaviour
             if (!Know && walkOnToUnlock)
             {
                 Know = true;
-            }else if (!Know && !walkOnToUnlock)
+            }
+            else if (!Know && !walkOnToUnlock)
             {
                 PlayerMain.GetPlayer.Events.SoloEvents.TeleportIsLocked();
             }
