@@ -20,7 +20,8 @@ public class PortalShop : Shop
             {
                 string desc = $"Unlock teleport to\nWorld: {tele.World}\nMap: {tele.Map}";
                 void Action() => tele.Unlock();
-                Instantiate(sellServicePrefab, container).Setup("Teleport location", desc, 1000f, Action);
+                BuySerciveInfo buySercive = new BuySerciveInfo("Teleport location", desc, 1000f, Action);
+                wares.BuyServices(buySercive);
             }
         }
     }

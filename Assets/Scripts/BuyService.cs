@@ -15,4 +15,22 @@ public class BuyService : MonoBehaviour
         sellPrice.text = $"{price}g";
         btn.onClick.AddListener(useAction);
     }
+
+    public void Setup(BuySerciveInfo serciveInfo) => Setup(serciveInfo.Title, serciveInfo.Desc, serciveInfo.Price, serciveInfo.Action);
+}
+
+public struct BuySerciveInfo
+{
+    public BuySerciveInfo(string title, string desc, float price, UnityAction action)
+    {
+        Title = title;
+        Desc = desc;
+        Price = price;
+        Action = action;
+    }
+
+    public string Title { get; }
+    public string Desc { get; }
+    public float Price { get; }
+    public UnityAction Action { get; }
 }

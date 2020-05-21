@@ -40,9 +40,10 @@ public abstract class BasicChar : MonoBehaviour
         if (lastGender != this.Gender())
         {
             lastGender = this.Gender();
-            spriteHandler.ChangeSprite();
+            SpriteHandler.ChangeSprite();
         }
     }
+
     public string Gender => Settings.GetGender(this);
     public GenderTypes GenderType => this.GenderType();
 
@@ -120,18 +121,27 @@ public abstract class BasicChar : MonoBehaviour
 
     public SexStats SexStats => sexStats;
     [SerializeField] private CharSpriteHandler spriteHandler;
-
+    public CharSpriteHandler SpriteHandler
+    {
+        get
+        {
+            if (spriteHandler == null)
+            {
+                spriteHandler = GetComponent<CharSpriteHandler>();
+            }
+            return spriteHandler;
+        }
+    }
     public virtual void Start()
     {
         identity = new Identity();
         SexualOrgan.SomethingChanged += DidGenderChange;
-     
+
         expSystem = new ExpSystem(1);
         DateSystem.NewDayEvent += this.GrowFetuses;
         DateSystem.NewDayEvent += PregnancySystem.GrowChild;
         gameEvent = new GameEventSystem(this);
-        spriteHandler = spriteHandler != null ? spriteHandler : GetComponent<CharSpriteHandler>();
-        spriteHandler.Setup(this);
+        SpriteHandler.Setup(this);
     }
 
     protected void InitHealth()
@@ -153,4 +163,6 @@ public abstract class BasicChar : MonoBehaviour
     public List<Skill> Skills => skills;
     private GameEventSystem gameEvent;
     public GameEventSystem Events => gameEvent;
+
+
 }

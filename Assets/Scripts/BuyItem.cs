@@ -1,5 +1,9 @@
-﻿public class BuyItem : ShopWare
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+public class BuyItem : ShopWare
 {
+    [SerializeField] private Image icon = null;
     private Item item;
 
     public void Setup(BasicChar buyer, Item item)
@@ -13,6 +17,14 @@
         FrameCanAfford();
         buyer.Currency.GoldChanged += FrameCanAfford;
         BuyBtn.onClick.AddListener(Buy);
+        if (item.Sprite != null)
+        {
+            icon.sprite = item.Sprite;
+        }
+        else
+        {
+            icon.gameObject.SetActive(false);
+        }
     }
 
     private void OnDestroy()

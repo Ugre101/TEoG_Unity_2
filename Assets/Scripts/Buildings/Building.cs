@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class Building : MonoBehaviour
 {
@@ -11,38 +9,38 @@ public abstract class Building : MonoBehaviour
     {
         player = player != null ? player : PlayerMain.GetPlayer;
     }
-
 }
 
 public abstract class Shop : Building
 {
-    [SerializeField] protected Transform container = null;
-    [SerializeField] protected BuyItem buyItem = null;
-    [SerializeField] protected ItemHolder ItemsRef = null;
-    [SerializeField] protected Button sellBtn = null;
-    [SerializeField] protected TextMeshProUGUI sellBtnText = null;
-    [SerializeField] protected SellItem sellItemPrefab = null;
     [SerializeField] protected List<ItemIds> buyItems = new List<ItemIds>();
     [SerializeField] protected Wares wares = null;
 
+    protected Wares Wares
+    {
+        get
+        {
+            if (wares == null)
+            {
+                wares = wares != null ? wares : GetComponentInChildren<Wares>();
+            }
+            return wares;
+        }
+    }
+
     protected bool selling = false;
 
-    public virtual void Start()
-    {
-        wares = wares != null ? wares : GetComponentInChildren<Wares>();
-        sellBtn.onClick.AddListener(ToggleSelling);
-    }
+    public virtual void Start() => Wares.SellBtn.onClick.AddListener(ToggleSelling);
 
     public new virtual void OnEnable()
     {
         player = player != null ? player : PlayerMain.GetPlayer;
-        if (ItemsRef == null)
+        Wares.ClearContainer();
+        if (buyItems.Count > 0)
         {
-            Debug.Log("You forgot to assing itemsHolder at " + new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType);
+            ShowWares();
         }
-        ShowWares();
         selling = false;
-        sellBtnText.text = "Sell";
     }
 
     protected virtual void ToggleSelling()
@@ -50,26 +48,22 @@ public abstract class Shop : Building
         if (selling)
         {
             selling = false;
-            sellBtnText.text = "Sell";
             OnEnable();
+            Wares.SellBtnText.text = "Sell";
         }
         else
         {
             SellWares();
-            sellBtnText.text = "Buy";
+            Wares.SellBtnText.text = "Buy";
         }
     }
 
-    public virtual void ShowWares()
-    {
-        container.KillChildren();
-        wares.BuyItems(player, buyItems);
-    }
+    public virtual void ShowWares() => Wares.BuyItems(player, buyItems);
 
     protected virtual void SellWares()
     {
         selling = true;
-        container.KillChildren();
-        wares.SellItems(player);
+        Wares.ClearContainer();
+        Wares.SellItems(player);
     }
 }
