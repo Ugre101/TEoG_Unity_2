@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class CanvasMain : MonoBehaviour
 {
@@ -183,6 +184,10 @@ public class CanvasMain : MonoBehaviour
         }
     }
 
+    [SerializeField] private MapEvents mapEvents = null;
+    [SerializeField] private HomeMapHandler homeMapHandler = null;
+    [SerializeField] private Tilemap homeLandPlatform = null;
+
     public void EnterHome()
     {
         GameManager.CurState = GameState.Free;
@@ -190,6 +195,14 @@ public class CanvasMain : MonoBehaviour
 
         ToggleBigPanel(new List<Transform>() { Home.transform, Gameui.transform });
         Home.transform.SleepChildren(Home.transform.GetChild(0));
+        if (homeLandPlatform == null)
+        {
+            mapEvents.Teleport(WorldMaps.Home, homeMapHandler.GetActiveLawn);
+        }
+        else
+        {
+            mapEvents.Teleport(WorldMaps.Home, homeMapHandler.GetActiveLawn, homeLandPlatform);
+        }
     }
 
     public void EscapePause()

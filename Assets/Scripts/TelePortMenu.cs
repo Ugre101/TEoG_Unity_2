@@ -8,6 +8,7 @@ public class TelePortMenu : MonoBehaviour
 {
     [SerializeField] private MapEvents mapEvents = null;
     [SerializeField] private TelePortButton prefabBtn = null;
+    [SerializeField] private TelePortHomeButton homePrefabBtn = null;
     [SerializeField] private Transform btnConatiner = null;
     [SerializeField] private TMP_Dropdown sortDropDown = null;
     private const string sortAllName = "All";// Just to make it easier, when sorting
@@ -38,6 +39,7 @@ public class TelePortMenu : MonoBehaviour
     private void ListAllTeleports()
     {
         btnConatiner.KillChildren();
+        Instantiate(homePrefabBtn, btnConatiner);
         mapEvents.TelePortLocations.FindAll(tl => tl.CanTelePortTo.Know).ForEach(t => Instantiate(prefabBtn, btnConatiner).Setup(t));
         //  Instantiate(prefabBtn,btnConatiner).Setup(mapEvents,WorldMaps.Home)
         // TODO custom teleport for home

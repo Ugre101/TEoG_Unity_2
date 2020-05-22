@@ -4,9 +4,14 @@ using UnityEngine;
 
 public enum WorldMaps
 {
+    #region old Enums don't reorder will break stuff
+
     StartMap,
     SecondMap,
-    Home
+    Home,
+    Mountain,
+
+    #endregion old Enums don't reorder will break stuff
 }
 
 public class WorldMap : MonoBehaviour
