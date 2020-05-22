@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -7,7 +8,7 @@ public class MapEvents : MonoBehaviour
 {
     public static MapEvents GetMapEvents { get; private set; }
 
-    public static event Action<Tilemap> WorldMapChange;
+    public static event Action<Tilemap> TileMapChange;
 
     private PlayerMain gottenPlayer;
 
@@ -91,8 +92,31 @@ public class MapEvents : MonoBehaviour
             CurrentMap = GetComponent<Tilemap>();
         }
         worldMaps = new List<WorldMap>(GetComponentsInChildren<WorldMap>());
-        transform.SleepChildren(CurrentWorld.transform);
+        _ = TelePortLocations;
         mapDirty = true;
+        StartCoroutine(waitAFrame());
+    }
+    private IEnumerator waitAFrame()
+    {
+        yield return new WaitForEndOfFrame();
+        transform.SleepChildren(CurrentWorld.transform);
+    }
+    private List<TelePortLocation> telePortLocations;
+
+    public List<TelePortLocation> TelePortLocations
+    {
+        get
+        {
+            if (telePortLocations == null)
+            {
+                telePortLocations = new List<TelePortLocation>();
+                foreach (CanTelePortTo canTele in GetComponentsInChildren<CanTelePortTo>())
+                {
+                    telePortLocations.Add(new TelePortLocation(canTele, this));
+                }
+            }
+            return telePortLocations;
+        }
     }
 
     private void Start()
@@ -103,7 +127,7 @@ public class MapEvents : MonoBehaviour
     {
         mapDirty = true;
         CurrentMap = newMap;
-        WorldMapChange?.Invoke(CurrentMap);
+        TileMapChange?.Invoke(CurrentMap);
     }
 
     public void WorldChange(WorldMaps newWorld, Tilemap newMap)
@@ -120,16 +144,36 @@ public class MapEvents : MonoBehaviour
         WorldChange(toWorld, toMap);
     }
 
+    public void Teleport(WorldMaps toWorld, Tilemap toMap, Vector3 landPos)
+    {
+        Player.transform.position = landPos;
+        WorldChange(toWorld, toMap);
+    }
+
     public void Teleport(WorldMaps toWorld, Tilemap toMap, Tilemap teleportPlatform)
     {
         Player.transform.position = teleportPlatform == null ? toMap.cellBounds.center : teleportPlatform.cellBounds.center;
         WorldChange(toWorld, toMap);
     }
 
-    public void Load(PosSave save)
+    public List<TeleportSave> GetTeleportSaves()
+    {
+        List<TeleportSave> teleportSaves = new List<TeleportSave>();
+        TelePortLocations.ForEach(tl => teleportSaves.Add(tl.CanTelePortTo.SaveThis()));
+        return teleportSaves;
+    }
+
+    public void Load(PosSave save, List<TeleportSave> teleportSaves)
     {
         ActiveMap = save.World;
         WorldChange(save.World, WorldChildren.Find(m => m.name == save.Map).transform.gameObject.GetComponent<Tilemap>());
         Player.transform.position = save.Pos;
+        foreach (TeleportSave teleSave in teleportSaves)
+        {
+            foreach (TelePortLocation teleLocation in TelePortLocations)
+            {
+                teleLocation.CanTelePortTo.LoadThis(teleSave);
+            }
+        }
     }
 }

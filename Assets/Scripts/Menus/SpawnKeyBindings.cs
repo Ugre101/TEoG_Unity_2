@@ -7,8 +7,6 @@ public class SpawnKeyBindings : MonoBehaviour
 {
     [SerializeField] private KeyBindingButton prefab = null;
 
-    [SerializeField] private KeyBindings keyBindings = null;
-
     [SerializeField] private Transform spawnLocation = null;
 
     private KeyBindingButton selectedBtn;
@@ -19,7 +17,7 @@ public class SpawnKeyBindings : MonoBehaviour
     private readonly List<KeyBindingButton> bindingButtons = new List<KeyBindingButton>();
 
     // Start is called before the first frame update
-    private void Start() => keyBindings.Keys.ForEach(k => SpawnButton(k));
+    private void Start() => KeyBindings.Keys.ForEach(k => SpawnButton(k));
 
     private void OnEnable() => waitingForKey = false;
 
@@ -62,7 +60,7 @@ public class SpawnKeyBindings : MonoBehaviour
         {
             yield return null;
         }
-        KeyBind effected = AltKey ? keyBindings.AltReBind(selectedKey, newKey) : keyBindings.ReBind(selectedKey, newKey); ;
+        KeyBind effected = AltKey ? KeyBindings.AltReBind(selectedKey, newKey) : KeyBindings.ReBind(selectedKey, newKey); ;
         selectedBtn.SetKeyText(newKey, AltKey);
         if (effected != null)
         {

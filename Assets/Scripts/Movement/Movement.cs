@@ -50,7 +50,7 @@ public class Movement : MonoBehaviour
         mobilePlatform = Application.isMobilePlatform;
         touchSupport = Input.touchSupported;
         mousePresent = Input.mousePresent;
-        MapEvents.WorldMapChange += TilemapLimits;
+        MapEvents.TileMapChange += TilemapLimits;
         TilemapLimits(MapEvents.CurrentMap);
     }
 

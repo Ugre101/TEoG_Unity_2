@@ -26,7 +26,7 @@ public class PlayerMain : BasicChar
         body = new Body(160, 10, 20);
         Currency.Gold += 100;
         InitHealth();
-        Essence.Masc.Gain(1000);
+        Inventory.AddItem(ItemIds.PocketPortal);
     }
 
     public void PlayerInit(string first, string last)
@@ -46,7 +46,7 @@ public class PlayerMain : BasicChar
         {
             if (Debug.isDebugBuild)
             {
-                Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed playermain");
+              //  Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed playermain");
             }
             if (thisPlayer == null)
             {

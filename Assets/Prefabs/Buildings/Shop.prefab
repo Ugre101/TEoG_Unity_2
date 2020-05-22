@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.8962264, g: 0.6960249, b: 0.40161088, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -132,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f8a7192a384b9440a039fe9465ec084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btn: {fileID: 0}
+  btn: {fileID: 3673550079589633663}
   canvasMain: {fileID: 0}
 --- !u!1 &3673550080482950762
 GameObject:
@@ -194,6 +195,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -351,6 +353,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.4056604, g: 0.2562529, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -424,6 +427,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -635,6 +639,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5756724670806695443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7993566572985795966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e53b0ae86aea7f4aa47f9657830489b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: {fileID: 0}
+  desc: {fileID: 0}
+  sellPrice: {fileID: 0}
+  btn: {fileID: 0}
 --- !u!1001 &1090245420027819900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1227,6 +1247,11 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7048008195545002498, guid: b07ce95621d38d54dbaf48d265c6dc2f,
+        type: 3}
+      propertyPath: m_Name
+      value: SellService
+      objectReference: {fileID: 0}
     - target: {fileID: 7048008195545002499, guid: b07ce95621d38d54dbaf48d265c6dc2f,
         type: 3}
       propertyPath: m_AnchorMin.y
@@ -1257,11 +1282,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7589715182109086638, guid: b07ce95621d38d54dbaf48d265c6dc2f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b07ce95621d38d54dbaf48d265c6dc2f, type: 3}
 --- !u!224 &3234061284195849800 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2576311825282326836, guid: b07ce95621d38d54dbaf48d265c6dc2f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1090245420027819900}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7993566572985795966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7048008195545002498, guid: b07ce95621d38d54dbaf48d265c6dc2f,
     type: 3}
   m_PrefabInstance: {fileID: 1090245420027819900}
   m_PrefabAsset: {fileID: 0}

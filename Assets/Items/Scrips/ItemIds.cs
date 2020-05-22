@@ -54,4 +54,5 @@ public enum ItemIds // Not sure about enum long term seems hard to struture, but
 
     WoodenWarHammer,
     Hood,
+    Wood,
 }

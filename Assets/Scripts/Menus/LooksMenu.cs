@@ -40,12 +40,6 @@ public class LooksMenu : MonoBehaviour
         return body;
     }
 
-    private string StatsDetails()
-    {
-        string stats = $"Strength: {player.Stats.Str}\nCharm: {player.Stats.Cha}\nEndurance: {player.Stats.End}";
-        return stats;
-    }
-
     private string SexOrgans()
     {
         string toReturn = " ";
@@ -72,14 +66,11 @@ public class LooksMenu : MonoBehaviour
     private string PregnancyLook()
     {
         PregnancySystem pregnancySystem = player.PregnancySystem;
-        string pregLook = $"Virility: {pregnancySystem.Virility.MaxValue}\n" +
-            $"Fertility: {pregnancySystem.Fertility.MaxValue}\n\n";
+        string pregLook = $"Virility: {pregnancySystem.Virility.Value}\n" +
+            $"Fertility: {pregnancySystem.Fertility.Value}\n\n";
         if (player.Pregnant)
         {
-            player.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus).ForEach(vag =>
-            {
-                pregLook += FetusDesc(vag) + "\n";
-            });
+            player.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus).ForEach(vag => pregLook += FetusDesc(vag) + "\n");
         }
         List<Child> children = pregnancySystem.Children;
         if (children.Count > 0)

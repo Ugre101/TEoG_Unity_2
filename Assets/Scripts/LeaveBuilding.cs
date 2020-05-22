@@ -3,11 +3,9 @@ using UnityEngine.UI;
 
 public class LeaveBuilding : MonoBehaviour
 {
-    [SerializeField]
-    private Button btn = null;
+    [SerializeField] private Button btn = null;
 
-    [SerializeField]
-    private CanvasMain canvasMain = null;
+    [SerializeField] private CanvasMain canvasMain = null;
 
     // Start is called before the first frame update
     private void Start()

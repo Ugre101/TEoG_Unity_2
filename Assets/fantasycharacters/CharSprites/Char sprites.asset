@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea49f5f6c1a6c342b3129169e1458bd, type: 3}
   m_Name: Char sprites
   m_EditorClassIdentifier: 
-  defaultSprite: {fileID: 11400000, guid: f089d44174e7a9042ab8f34d3ce1a6fc, type: 2}
+  defaultSpriteMasc: {fileID: 11400000, guid: f089d44174e7a9042ab8f34d3ce1a6fc, type: 2}
+  defaultSpriteFemi: {fileID: 11400000, guid: 5abb570b9537c1f45919b0e1bf8b15e4, type: 2}
   charSprites:
   - {fileID: 11400000, guid: 9f3a12fdbb313b142be7028f42c4b787, type: 2}
   - {fileID: 11400000, guid: d165e62696e198d47871ec71177bc810, type: 2}

@@ -17,11 +17,12 @@ public class Inventory
 
     public List<InventoryItem> Items => items;
     public bool HasSpace => items.Count <= SlotsAmount;
+
     public bool AddItem(ItemIds theitem)
     {
-        if (Items.Exists(i => i.Id == theitem))
+        if (this.HasItem(theitem))
         {
-            Items.Find(i => i.Id == theitem).Amount++;
+            this.GetItem(theitem).Amount++;
         }
         else if (items.Count <= SlotsAmount)
         {
@@ -29,6 +30,7 @@ public class Inventory
         }
         else
         {
+            // TODO Trigger warning full inventory & maybe a what do you want to replace?
             return false;
         }
         return true;
@@ -82,4 +84,8 @@ public static class InventoryExtensions
     public static bool ExistByPos(this List<InventoryItem> inventory, int invPos) => inventory.Exists(i => i.InvPos == invPos);
 
     public static void Clean(this Inventory inv) => inv.Items.RemoveAll(i => i.Amount < 1);
+
+    public static bool HasItem(this Inventory inv, ItemIds id) => inv.Items.Exists(i => i.Id == id);
+
+    public static InventoryItem GetItem(this Inventory inv, ItemIds id) => inv.Items.Find(i => i.Id == id);
 }

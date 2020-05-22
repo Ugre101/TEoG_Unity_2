@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum PerksTypes
 {
+    #region Existing perks dont touch unless necesary
     FasterRest,
     Gluttony,
     Delicate,
@@ -19,6 +20,10 @@ public enum PerksTypes
     Seductress,
     EssenceBandit,
     EssenceTransformer,
+    #endregion
+    SingleMother,
+
+    // Remember to always add new perks last in list to avoid breaking saves
 }
 
 [System.Serializable]
@@ -84,7 +89,6 @@ public static class PerkExtensions
                 break;
 
             case PerksTypes.EssenceThief:
-                basicChar.Essence.StableEssence.AddMods(PerkEffects.EssenecePerks.EssThief.ImproveCapacity);
                 break;
 
             case PerksTypes.EssenceHoarder:
@@ -112,6 +116,7 @@ public static class PerkExtensions
                 break;
 
             case PerksTypes.EssenceShaper:
+
                 break;
 
             case PerksTypes.Seductress:

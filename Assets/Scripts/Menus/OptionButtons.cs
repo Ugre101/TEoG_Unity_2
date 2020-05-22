@@ -28,10 +28,12 @@ public class OptionButtons : MonoBehaviour
     [Header("FontSizes")]
     [SerializeField] private Button eventFontUp = null;
 
-    [SerializeField] private Button eventFontDown = null, textlogFontUp = null, textlogFontDown = null;
+    [SerializeField] private Button eventFontDown = null;
 
-    [SerializeField] private TextMeshProUGUI currEventFontSize = null, currTextlogFontSize = null;
-
+    [SerializeField] private TextMeshProUGUI currEventFontSize = null;
+    [Header("Skipped events")]
+    [SerializeField] private Button toggleSkippedMenu = null;
+    [SerializeField] private GameObject skippedMenu = null;
     // Start is called before the first frame update
     private void Start()
     {
@@ -73,15 +75,17 @@ public class OptionButtons : MonoBehaviour
             eventFontUp.onClick.AddListener(EventFontSizeUp);
             eventFontDown.onClick.AddListener(EventFontSizeDown);
         }
-        if (currTextlogFontSize != null) { currTextlogFontSize.text = Settings.CombatLogFontSize.ToString(); }
-        if (textlogFontUp != null && textlogFontDown != null)
-        {
-            textlogFontUp.onClick.AddListener(TextlogFontSizeUp);
-            textlogFontDown.onClick.AddListener(TextlogFontSizeDown);
-        }
         setGenders.onClick.AddListener(OpenSetGenders);
+        if (toggleSkippedMenu != null && skippedMenu != null)
+        {
+            toggleSkippedMenu.onClick.AddListener(() => skippedMenu.SetActive(!skippedMenu.activeSelf));
+        }
     }
-
+    private void OnEnable()
+    {
+        skippedMenu.SetActive(false);
+        setGendersGameObj.SetActive(false);
+    }
     private void SetPixelText() => pixelText.text = $"Pixelperfect: {pixelToggle}";
 
     private void SetImpText() => impText.text = $"Imperial: {Settings.Imperial}";
@@ -141,10 +145,6 @@ public class OptionButtons : MonoBehaviour
     private void EventFontSizeUp() => currEventFontSize.text = Settings.EventLogFontSizeUp.ToString();
 
     private void EventFontSizeDown() => currEventFontSize.text = Settings.EventLogFontSizeDown.ToString();
-
-    private void TextlogFontSizeUp() => currTextlogFontSize.text = Settings.CombatLogFontSizeUp.ToString();
-
-    private void TextlogFontSizeDown() => currTextlogFontSize.text = Settings.CombatLogFontSizeDown.ToString();
 
     private void OpenSetGenders()
     {

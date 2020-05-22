@@ -9,7 +9,6 @@ public class SaveMananger : MonoBehaviour
     [SerializeField] private PlayerMain player = null;
 
     [SerializeField] private Dorm dorm = null;
-
     private DirectoryInfo SaveFolder;
 
     private string newSavePath, lastSavePath;

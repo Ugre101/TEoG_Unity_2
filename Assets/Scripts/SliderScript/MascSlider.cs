@@ -2,22 +2,13 @@
 
 public class MascSlider : EssenceSlider
 {
-    private Essence Masc => basicChar.Essence.Masc;
+    protected override Essence Ess => basicChar.Essence.Masc;
 
-    public override void Init(BasicChar who)
-    {
-        base.Init(who);
-        Masc.EssenceSliderEvent += ChangeMasc;
-        ChangeMasc();
-    }
-
-    private void OnDisable() => Masc.EssenceSliderEvent -= ChangeMasc;
-
-    private void ChangeMasc()
+    protected override void ChangeEss()
     {
         Color temp = _image.color;
-        temp.a = Masc.Amount > 0 ? 1f : 0.5f;
+        temp.a = Ess.Amount > 0 ? 1f : 0.5f;
         _image.color = temp;
-        essValue.text = Masc.StringAmount;
+        essValue.text = Ess.StringAmount;
     }
 }

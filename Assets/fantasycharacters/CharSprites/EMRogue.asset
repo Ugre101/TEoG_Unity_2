@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f6c954d524eb824c86f979e70dd64c2, type: 3}
   m_Name: EMRogue
   m_EditorClassIdentifier: 
-  gender: 0
+  gender: 1
   race: 1
   classType: 3
   genderType: 1

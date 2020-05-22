@@ -2,7 +2,10 @@
 {
     public class GrowBalls : GrowOrgan
     {
-        private Essence Masc => player.Essence.Masc;
+        protected override Essence Ess => player.Essence.Masc;
+
+        protected override float Cost => balls.Cost;
+
         private Balls balls;
 
         public void Setup(PlayerMain player, Balls balls)
@@ -11,14 +14,15 @@
             BaseSetup(player);
         }
 
-        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(balls.Size)} {balls.Cost}Masc";
+        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(balls.Size)} {Cost}Masc";
 
         protected override void Grow()
         {
-            if (Masc.Amount >= balls.Cost)
+            if (CanAfford)
             {
-                balls.Grow();
+                Ess.Lose(balls.Grow());
                 DisplayCost();
+                ShowIfCanAfford();
             }
         }
     }

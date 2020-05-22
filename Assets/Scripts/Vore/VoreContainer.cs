@@ -25,11 +25,13 @@ namespace Vore
             parPrey.Prey.transform.SetParent(transform);
         }
 
-        public void ReleasePrey(ThePrey parWho)
+        public void ReleasePreyTo(ThePrey parWho, Transform parent, Vector3 pos)
         {
             // Not sure if this works
             preysDirty = true;
             GameObject prey = GetPreys().Find(p => p.GetInstanceID() == parWho.Prey.GetInstanceID()).gameObject;
+            prey.transform.parent = parent;
+            prey.transform.position = pos;
         }
 
         public void PreyIsdigested(ThePrey parWho)

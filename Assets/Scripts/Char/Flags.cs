@@ -54,6 +54,10 @@ public class KnowMap
 
     public event KnowThis KnowThisMap;
 }
+public class KnowTeleport
+{
+    private bool know = false;
+}
 
 public static class PlayerFlags
 {

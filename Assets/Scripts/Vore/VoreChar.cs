@@ -29,6 +29,19 @@ namespace Vore
 
         #endregion Containers
 
+        public VoreContainer GetVoreContainer(VoreContainers containers)
+        {
+            switch (containers)
+            {
+                case VoreContainers.Stomach: return Stomach;
+                case VoreContainers.Anal: return Anal;
+                case VoreContainers.Vagina: return Vagina;
+                case VoreContainers.Balls: return Balls;
+                case VoreContainers.Boobs: return Boobs;
+                default: return Stomach;
+            }
+        }
+
         public VoreSaves Save => new VoreSaves(Balls.GetPreys(), Anal.GetPreys(), Boobs.GetPreys(), Stomach.GetPreys(), Vagina.GetPreys());
 
         public void Load(VoreSaves parSaves, BasicChar pred)

@@ -18,18 +18,21 @@ public class KeyBind
     {
         Key = parKey;
         PlayerPrefs.SetInt(SaveName, (int)parKey);
+        Save();
     }
 
     public void ReBindAlt(KeyCode parKey)
     {
         AltKey = parKey;
         PlayerPrefs.SetInt(AltSaveName, (int)parKey);
+        Save();
     }
 
     public KeyBind(KeyCode parKey, string parTitle)
     {
         Key = parKey;
         title = parTitle;
+        Load();    
     }
 
     public void Save()

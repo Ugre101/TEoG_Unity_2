@@ -35,6 +35,21 @@ public class Essence
 
 public static class EssenceExtension
 {
+    public static float TotalStableEssence(this BasicChar basicChar)
+    {
+        float baseStable = basicChar.Essence.StableEssence.Value;
+        Perks perks = basicChar.Perks;
+        if (perks.HasPerk(PerksTypes.EssenceHoarder))
+        {
+            baseStable += perks.GetPerkLevel(PerksTypes.EssenceHoarder) * 300;
+        }
+        if (perks.HasPerk(PerksTypes.EssenceShaper))
+        {
+            baseStable += perks.GetPerkLevel(PerksTypes.EssenceShaper) * 100;
+        }
+        return baseStable;
+    }
+
     public static float EssGive(this BasicChar basicChar) => 0;
 
     private static float EssDrain(this BasicChar basicChar)

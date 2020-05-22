@@ -154,6 +154,7 @@ public class Body
 
     public BodyStat Height => height;
     public BodyStat Fat => fat;
+
     // TODO convert muscle to a precent/factor instead of a kg val.
     public BodyStat Muscle => muscle;
 
@@ -197,5 +198,118 @@ public class Body
          "... No-one knows how you move.";
 
         return a + b + c;
+    }
+
+    public string GetHeightSynonom(bool capital = true)
+    {
+        float val = Height.Value;
+        if (val < 10)
+        {
+            return "Pixie sized";
+        }
+        else if (val < 40)
+        {
+            return "Gnome sized";
+        }
+        else if (val < 100)
+        {
+            return "Dwarf sized";
+        }
+        else if (val < 160)
+        {
+            return "Short sized";
+        }
+        else
+        {
+            return Settings.MorInch(val);
+        }
+    }
+}
+
+public static class BodyExtension
+{
+    public static string HeightCompToRace(this BasicChar basicChar)
+    {
+        Races race = basicChar.RaceSystem.CurrentRace();
+        float avg = AvgRaceSizes.GetAvgSize(race);
+        float ratio = basicChar.Body.Height.Value / avg;
+        if (ratio < 0.3f)
+        {
+            return $" pixie sized among {basicChar.Race()}'s";
+        }
+        else if (ratio < 0.5f)
+        {
+            // height is 50cm, which is
+            return $" half the height of your average {basicChar.Race()}"; // Race + "'s"
+        }
+        else if (ratio < 0.7f)
+        {
+            return $" short for a {basicChar.Race()}";
+        }
+        else if (ratio < 0.9f)
+        {
+            return $" shorter than average for a {basicChar.Race()}";
+        }
+        else if (ratio < 1.1f)
+        {
+            return $" average height for a {basicChar.Race()}";
+        }
+        else if (ratio < 1.3f)
+        {
+            return $" taller than your average {basicChar.Race()}";
+        }
+        else if (ratio < 1.5f)
+        {
+            return $" very tall for a {basicChar.Race()}";
+        }
+        else if (ratio < 2f)
+        {
+            return $" almost double the height of your average {basicChar.Race()}";
+        }
+        else
+        {
+            return $" a giant among {basicChar.Race()}'s";
+        }
+    }
+
+    public static class AvgRaceSizes
+    {
+        private const float Humanoid = 160f;
+        private const float Human = 160f;
+        private const float Elf = 160f;
+        private const float Orc = 180f;
+        private const float Troll = 185f;
+        private const float Dward = 130f;
+        private const float Halfling = 105f;
+        private const float Fairy = 20f;
+        private const float Incubus = 165f;
+        private const float Succubus = 160f;
+        private const float Equine = 200f;
+        private const float Dragon = 220f;
+        private const float DragonKin = 200f;
+        private const float Amazon = 180f;
+
+        public static float GetAvgSize(Races race)
+        {
+            switch (race)
+            {
+                case Races.Humanoid: return Humanoid;
+                case Races.Human: return Human;
+                case Races.Elf: return Elf;
+                case Races.Orc: return Orc;
+                case Races.Troll: return Troll;
+                case Races.Dwarf: return Dward;
+                case Races.Halfling: return Halfling;
+                case Races.Fairy: return Fairy;
+                case Races.Incubus: return Incubus;
+                case Races.Succubus: return Succubus;
+                case Races.Equine: return Equine;
+                case Races.Dragon: return Dragon;
+                case Races.DragonKin: return DragonKin;
+                case Races.Amazon: return Amazon;
+                default:
+                    return 160f;
+            }
+        }
     }
 }

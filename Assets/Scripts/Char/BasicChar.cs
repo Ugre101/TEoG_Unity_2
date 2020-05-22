@@ -14,7 +14,7 @@ public abstract class BasicChar : MonoBehaviour
     private void DoEveryMin()
     {
         // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
-        this.RefreshOrgans(AutoEss);
+        this.RefreshOrgans();
         this.OverTimeTick();
     }
 
@@ -40,13 +40,9 @@ public abstract class BasicChar : MonoBehaviour
         if (lastGender != this.Gender())
         {
             lastGender = this.Gender();
-            GenderChangeEvent?.Invoke();
+            SpriteHandler.ChangeSprite();
         }
     }
-
-    public delegate void GenderChange();
-
-    public event GenderChange GenderChangeEvent;
 
     public string Gender => Settings.GetGender(this);
     public GenderTypes GenderType => this.GenderType();
@@ -94,12 +90,8 @@ public abstract class BasicChar : MonoBehaviour
     public StatsContainer Stats => stats;
 
     [Header("Essence")]
-    [SerializeField] private bool autoEss = true;
-
-    public bool AutoEss => autoEss;
 
     // Maybe a bit overkill but I want to make sure autoEss isn't toggled by mistake
-    public void ToggleAutoEssence() => autoEss = !autoEss;
 
     [SerializeField] private EssenceSystem essence = new EssenceSystem();
 
@@ -128,15 +120,28 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private SexStats sexStats = new SexStats();
 
     public SexStats SexStats => sexStats;
-
+    [SerializeField] private CharSpriteHandler spriteHandler;
+    public CharSpriteHandler SpriteHandler
+    {
+        get
+        {
+            if (spriteHandler == null)
+            {
+                spriteHandler = GetComponent<CharSpriteHandler>();
+            }
+            return spriteHandler;
+        }
+    }
     public virtual void Start()
     {
         identity = new Identity();
-        Essence.Masc.EssenceSliderEvent += DidGenderChange;
-        essence.Femi.EssenceSliderEvent += DidGenderChange;
+        SexualOrgan.SomethingChanged += DidGenderChange;
+
         expSystem = new ExpSystem(1);
         DateSystem.NewDayEvent += this.GrowFetuses;
         DateSystem.NewDayEvent += PregnancySystem.GrowChild;
+        gameEvent = new GameEventSystem(this);
+        SpriteHandler.Setup(this);
     }
 
     protected void InitHealth()
@@ -149,12 +154,15 @@ public abstract class BasicChar : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-        Essence.Masc.EssenceSliderEvent -= DidGenderChange;
-        essence.Femi.EssenceSliderEvent -= DidGenderChange;
+        SexualOrgan.SomethingChanged -= DidGenderChange;
         DateSystem.NewMinuteEvent -= DoEveryMin;
     }
 
     [SerializeField] private List<Skill> skills = new List<Skill>();
 
     public List<Skill> Skills => skills;
+    private GameEventSystem gameEvent;
+    public GameEventSystem Events => gameEvent;
+
+
 }

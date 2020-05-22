@@ -35,6 +35,7 @@ public class TownHall : Building
         textBox.text = "Welcome";
         giveQuests.AlreadyHasQuest();
         questRewards.RewardButtons.ForEach(q => q.Btn.gameObject.SetActive(QuestsSystem.QuestIsCompleted(q.Quest)));
+        nameBox.SetActive(false);
     }
 
     public void ToggleNameChange()

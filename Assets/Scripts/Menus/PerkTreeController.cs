@@ -5,7 +5,6 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
 {
     [SerializeField] private PlayerMain player = null;
 
-    [SerializeField] private KeyBindings keyBindings = null;
 
     [SerializeField] private RectTransform zoomRect = null;
 
@@ -42,11 +41,11 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
     // Update is called once per frame
     private void Update()
     {
-        if (keyBindings.ZoomInKey.GetsKey)
+        if (KeyBindings.ZoomInKey.GetsKey)
         {
             SetZoom += keyZooomSen;
         }
-        else if (keyBindings.ZoomOutKey.GetsKey)
+        else if (KeyBindings.ZoomOutKey.GetsKey)
         {
             SetZoom -= keyZooomSen;
         }

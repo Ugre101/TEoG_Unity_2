@@ -17,9 +17,10 @@ public static class BasicCharExtensions
 
     public static string Summary(this BasicChar who)
     {
-        // string title = who.Identity.FullName;
-        string desc = $"A {who.Body.HeightMorInch()} tall {who.Race()} {who.Gender.ToString()}.";
-        // string stats = $"{who.Age.AgeYears}years old\nWeight: {Weight(who)}\nHeight: {Height(who)}";
+        string title = who.Identity.FullName;
+        Body body = who.Body;
+        string desc = $" is a {body.HeightMorInch()} tall {who.Race()} {who.Gender.ToString()}.";
+        string stats = $"{who.Age.AgeYears}years old\nWeight: {body.WeightKgOrP()}\nHeight: {body.HeightMorInch()}";
         return desc;
     }
 
@@ -29,7 +30,7 @@ public static class BasicCharExtensions
     {
         eater.HP.Gain(meal.HpGain);
         eater.WP.Gain(meal.WpGain);
-        eater.Body.Fat.GainFlat(meal.FatGain);
+        eater.GainFatAndRefillScat(meal.FatGain);
         if (meal is MealWithBuffs buffs)
         {
             if (buffs.TempMods.Count > 0)
@@ -101,19 +102,29 @@ public static class BasicCharExtensions
             fatBurnRate -= PerkEffects.LowMetabolism.LowerBurn(basicChar.Perks);
         }
         fat.LoseFlat(fatBurnRate);
-        ReGainFluidsTick(basicChar);
+        basicChar.ReGainFluidsTick();
     }
 
-    private static void ReGainFluidsTick(BasicChar basicChar)
+    private static void ReGainFluidsTick(this BasicChar basicChar)
     {
         Organs so = basicChar.SexualOrgans;
         if (so.HaveBalls())
         {
-            so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.MaxValue));
+            PregnancyBlessings pregnancyBlessings = basicChar.PregnancySystem.PregnancyBlessings;
+            if (pregnancyBlessings.HasBlessing(PregnancyBlessingsIds.SpermFactory))
+            {
+                int blessVal = pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.SpermFactory);
+                basicChar.Body.Fat.LoseFlat(blessVal / 100); // TODO is this balanced?
+                so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value + blessVal));
+            }
+            else
+            {
+                so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value));
+            }
         }
         if (so.Lactating)
         {
-            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.MaxValue));
+            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value));
         }
     }
 
@@ -125,9 +136,19 @@ public static class BasicCharExtensions
         float height = basicChar.Body.Height.Value;
     }
 
-    public static void GainFat(this BasicChar basicChar, float fatGain)
+    public static void GainFatAndRefillScat(this BasicChar basicChar, float fatGain, float scatRatio = 0.1f)
     {
         basicChar.Body.Fat.GainFlat(fatGain);
-        //   basicChar.SexualOrgans.
+        basicChar.SexualOrgans.Anals.ForEach(a =>
+        {
+            if (!a.Fluid.IsFull)
+            {
+                a.Fluid.ReFillWith(fatGain * scatRatio);
+            }
+            else
+            {
+                // TODO need to shit
+            }
+        });
     }
 }

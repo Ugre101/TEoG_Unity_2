@@ -17,7 +17,7 @@ MonoBehaviour:
   perkInfo: "Enhances the fluids in your vore capable organs with stimulating properties. 
     \r\n"
   perkEffects: 
-  maxLevel: 1
+  maxLevel: 10
   perkCost: 1
   perk: 3
   needCharStat: 0

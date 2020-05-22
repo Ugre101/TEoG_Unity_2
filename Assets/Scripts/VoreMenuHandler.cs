@@ -12,7 +12,7 @@ namespace Vore
 
         [SerializeField] private DisplayVorePrey vorePrey = null;
 
-        [SerializeField] private Transform preyContainer = null, optionContainer = null;
+        [SerializeField] private Transform preyContainer = null, optionContainer = null, allPreys = null;
 
         [SerializeField] private VoreOptionBtnDigestion optionBtn = null;
         [SerializeField] private VoreOptionBtnRebirth rebithBtn = null;
@@ -21,6 +21,8 @@ namespace Vore
         [SerializeField]
         private Button sortAll = null, sortStomach = null, sortAnal = null
             , sortBalls = null, sortBoobs = null, sortVagina = null;
+
+        [SerializeField] private ASinglePrey singlePrey = null;
 
         private void Start()
         {
@@ -35,7 +37,12 @@ namespace Vore
             sortAll.onClick.Invoke();
         }
 
-        private void OnEnable() => sortAll.onClick.Invoke();
+        public void OnEnable()
+        {
+            sortAll.onClick.Invoke();
+            allPreys.gameObject.SetActive(true);
+            singlePrey.gameObject.SetActive(false);
+        }
 
         private void Update() => ShowCapacityAll();
 
@@ -77,12 +84,12 @@ namespace Vore
         }
 
         private void SetupPrey(VoreBasic voreOrgan) => voreOrgan.Preys.ForEach(p =>
-        Instantiate(vorePrey, preyContainer).Setup(p, voreOrgan.VoreContainers).onClick.AddListener(() => ClickPrey(p)));
+        Instantiate(vorePrey, preyContainer).Setup(p, voreOrgan.VoreContainers).onClick.AddListener(() => ClickPrey(p, voreOrgan.VoreContainers)));
 
-        private void ClickPrey(ThePrey prey)
+        private void ClickPrey(ThePrey prey, VoreContainers voreContainers)
         {
-            Debug.Log(prey.Prey.Identity.FullName);
-            // TODO something
+            allPreys.gameObject.SetActive(false);
+            singlePrey.Setup(prey, voreContainers);
         }
 
         private void ShowCapacityAll()

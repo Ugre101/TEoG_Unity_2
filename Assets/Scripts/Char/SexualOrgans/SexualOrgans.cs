@@ -15,7 +15,8 @@ public enum FluidType
 {
     Cum,
     Milk,
-    Scat
+    Scat,
+    VaginaFluids
 }
 
 [Serializable]
@@ -28,7 +29,7 @@ public class SexualFluid
         get => current;
         private set
         {
-            current = value;
+            current = Mathf.Clamp(value, 0, MaxAmount);
             FluidSlider?.Invoke();
         }
     }
@@ -36,7 +37,7 @@ public class SexualFluid
     [SerializeField] private FluidType type;
 
     public FluidType Type => type;
-
+    public bool IsFull => Current >= MaxAmount;
     public float MaxAmount { get; private set; }
     public float ReFillRate { get; private set; }
 
@@ -57,8 +58,7 @@ public class SexualFluid
     {
         if (Current < MaxAmount)
         {
-            float reFilled = current + ReFillRate;
-            Current = Mathf.Clamp(reFilled, 0, MaxAmount);
+            Current += ReFillRate;
         }
     }
 
@@ -66,8 +66,15 @@ public class SexualFluid
     {
         if (Current < MaxAmount)
         {
-            float reFilled = current + ReFillRate + bonus;
-            Current = Mathf.Clamp(reFilled, 0, MaxAmount);
+            Current += ReFillRate + bonus;
+        }
+    }
+
+    public void ReFillWith(float amount)
+    {
+        if (Current < MaxAmount)
+        {
+            Current += amount;
         }
     }
 
@@ -170,7 +177,7 @@ public static class SexOrganExtension
 
     public static float FluidMax(this IEnumerable<SexualOrganWithFluid> list) => list.Select(b => b.Fluid.MaxAmount).DefaultIfEmpty(0).Sum();
 
-    public static void RefreshOrgans(this BasicChar bc, bool autoEss = false)
+    public static void RefreshOrgans(this BasicChar bc)
     {
         Organs so = bc.SexualOrgans;
         List<Dick> dicks = so.Dicks;
@@ -195,7 +202,7 @@ public static class SexOrganExtension
             }
         }
         Essence masc = bc.Essence.Masc;
-        int StableAmount = bc.Essence.StableEssence.MaxValue;
+        float StableAmount = bc.TotalStableEssence();
         if (masc.Amount > StableAmount)
         {
             if (dicks.Total() <= ballsRatio)
@@ -309,7 +316,7 @@ public abstract class SexualOrganWithFluid : SexualOrgan
     {
         get
         {
-            if (baseSize != lastBase)
+            if (BaseSize != lastBase)
             {
                 sexualFluid.FluidCalc(Size);
             }

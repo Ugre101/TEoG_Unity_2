@@ -6,7 +6,7 @@ public class HomeMain : MonoBehaviour
 {
     [SerializeField] private BasicChar owner = null;
     [SerializeField] private CanvasMain canvasMain = null;
-    [SerializeField] private GameObject dormGameobject = null;
+    [SerializeField] private GameObject dormGameobject = null, telePortMenu = null;
     [SerializeField] private MapEvents mapEvents = null;
     [SerializeField] private Button leaveBtn = null;
     [SerializeField] private Tilemap toMap = null, toPlatform = null;
@@ -76,6 +76,11 @@ public class HomeMain : MonoBehaviour
     {
         dormGameobject.SetActive(false);
         GameManager.CurState = GameState.Free;
+    }
+
+    public void ToggleTeleportMenu()
+    {
+        telePortMenu.gameObject.SetActive(!telePortMenu.activeSelf);
     }
 }
 

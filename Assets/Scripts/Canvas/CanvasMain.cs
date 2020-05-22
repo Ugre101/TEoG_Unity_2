@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class CanvasMain : MonoBehaviour
 {
@@ -25,11 +26,11 @@ public class CanvasMain : MonoBehaviour
 
     #region Properties
 
-    [SerializeField] private KeyBindings Keys = null;
     [SerializeField] private BigPanel Gameui = null;
     [SerializeField] private BigPanel Battle = null;
     [SerializeField] private BigPanel Menus = null;
     [SerializeField] private BigPanel Buildings = null;
+    [SerializeField] private Buildings buildings = null;
     [SerializeField] private GameObject PauseMenu = null;
     [SerializeField] private HomeMain Home = null;
 
@@ -51,18 +52,15 @@ public class CanvasMain : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        Movement.TriggerEnemy += StartCombat;
-    }
+    private void Start() => Movement.TriggerEnemy += StartCombat;
 
     private void Update()
     {
-        if (Keys.EscKey.KeyDown)
+        if (KeyBindings.EscKey.KeyDown)
         {
             EscapePause();
         }
-        else if (Keys.HideAllKey.KeyDown)
+        else if (KeyBindings.HideAllKey.KeyDown)
         {
             if (GameManager.CurState.Equals(GameState.Free))
             {
@@ -72,31 +70,31 @@ public class CanvasMain : MonoBehaviour
         // if in menus or main game(not combat)
         if (GameManager.KeyBindsActive)
         {
-            if (KeyDown(Keys.SaveKey, menuPanels.Savemenu))
+            if (KeyDown(KeyBindings.SaveKey, menuPanels.Savemenu))
             {
             }
-            else if (KeyDown(Keys.OptionsKey, menuPanels.Options))
+            else if (KeyDown(KeyBindings.OptionsKey, menuPanels.Options))
             {
             }
-            else if (KeyDown(Keys.QuestKey, menuPanels.QuestMenu))
+            else if (KeyDown(KeyBindings.QuestKey, menuPanels.QuestMenu))
             {
             }
-            else if (KeyDown(Keys.InventoryKey, menuPanels.Inventory))
+            else if (KeyDown(KeyBindings.InventoryKey, menuPanels.Inventory))
             {
             }
-            else if (KeyDown(Keys.VoreKey, menuPanels.Vore))
+            else if (KeyDown(KeyBindings.VoreKey, menuPanels.Vore))
             {
             }
-            else if (KeyDown(Keys.EssenceKey, menuPanels.Essence))
+            else if (KeyDown(KeyBindings.EssenceKey, menuPanels.Essence))
             {
             }
-            else if (KeyDown(Keys.LvlKey, menuPanels.LevelUp))
+            else if (KeyDown(KeyBindings.LvlKey, menuPanels.LevelUp))
             {
             }
-            else if (KeyDown(Keys.LookKey, menuPanels.Looks))
+            else if (KeyDown(KeyBindings.LookKey, menuPanels.Looks))
             {
             }
-            if (Keys.EventKey.KeyDown)
+            if (KeyBindings.EventKey.KeyDown)
             {
                 BigEventLog();
             }
@@ -170,9 +168,11 @@ public class CanvasMain : MonoBehaviour
 
     private void ToggleBigPanel(List<Transform> toActivate) => transform.SleepChildren(toActivate);
 
+    private GameObject activeGameObject = null;
+
     public void ResumePause(GameObject toBeActivated)
     {
-        if (GameManager.CurState.Equals(GameState.Menu))
+        if (GameManager.CurState.Equals(GameState.Menu) && (activeGameObject != null ? activeGameObject.GetInstanceID() == toBeActivated.GetInstanceID() : true))
         {
             Resume();
         }
@@ -180,8 +180,13 @@ public class CanvasMain : MonoBehaviour
         {
             Pause();
             toBeActivated.SetActive(true);
+            activeGameObject = toBeActivated;
         }
     }
+
+    [SerializeField] private MapEvents mapEvents = null;
+    [SerializeField] private HomeMapHandler homeMapHandler = null;
+    [SerializeField] private Tilemap homeLandPlatform = null;
 
     public void EnterHome()
     {
@@ -190,6 +195,14 @@ public class CanvasMain : MonoBehaviour
 
         ToggleBigPanel(new List<Transform>() { Home.transform, Gameui.transform });
         Home.transform.SleepChildren(Home.transform.GetChild(0));
+        if (homeLandPlatform == null)
+        {
+            mapEvents.Teleport(WorldMaps.Home, homeMapHandler.GetActiveLawn);
+        }
+        else
+        {
+            mapEvents.Teleport(WorldMaps.Home, homeMapHandler.GetActiveLawn, homeLandPlatform);
+        }
     }
 
     public void EscapePause()
@@ -225,7 +238,35 @@ public class CanvasMain : MonoBehaviour
     {
         GameManager.CurState = GameState.InBuilding;
         ToggleBigPanel(Buildings.gameObject);
-        // Disable all buildings
+        // Disable all buildings expect the one to enter
         Buildings.transform.SleepChildren(buildingToEnter.transform);
+    }
+
+    public void EnterBuilding(Building building)
+    {
+        GameManager.CurState = GameState.InBuilding;
+        transform.SleepChildren();
+        buildings.EnterBuilding(building);
+    }
+
+    [SerializeField] private GameObject teleportMenu = null;
+
+    public void TeleportMenu() => EnterBuilding(teleportMenu);
+
+    /// <summary> Hides gameUI and returns if gameUi was active before </summary>
+    /// <returns></returns>
+    public bool HideGameUI()
+    {
+        bool currState = Gameui.gameObject.activeSelf;
+        Gameui.gameObject.SetActive(false);
+        return currState;
+    }
+
+    public void ShowGameUI()
+    {
+        if (GameManager.CurState == GameState.Free)
+        {
+            Gameui.gameObject.SetActive(true);
+        }
     }
 }

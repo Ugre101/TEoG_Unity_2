@@ -6,13 +6,14 @@ using UnityEngine;
 public class CharSpritesEditor : Editor
 {
     private CharSprites myTarget;
-    private SerializedProperty defaultSprite;
+    private SerializedProperty defaultSpriteMasc, defaultSpiteFemi;
     private SerializedProperty list;
 
     private void OnEnable()
     {
         myTarget = (CharSprites)target;
-        defaultSprite = serializedObject.FindProperty("defaultSprite");
+        defaultSpriteMasc = serializedObject.FindProperty("defaultSpriteMasc");
+        defaultSpiteFemi = serializedObject.FindProperty("defaultSpriteFemi");
         list = serializedObject.FindProperty("charSprites");
         //  FindItems();
     }
@@ -20,8 +21,10 @@ public class CharSpritesEditor : Editor
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        EditorGUILayout.LabelField("Default sprite: ", EditorStyles.boldLabel);
-        EditorGUILayout.PropertyField(defaultSprite);
+        EditorGUILayout.LabelField("Default spriteMasc: ", EditorStyles.boldLabel);
+        EditorGUILayout.PropertyField(defaultSpriteMasc);
+        EditorGUILayout.LabelField("Default spriteFemi: ", EditorStyles.boldLabel);
+        EditorGUILayout.PropertyField(defaultSpiteFemi);
         EditorGUILayout.Space(5);
         EditorGUILayout.LabelField("Char sprites: ", EditorStyles.boldLabel);
         if (GUILayout.Button("Add all sprites in this folder", GUILayout.Height(30)))

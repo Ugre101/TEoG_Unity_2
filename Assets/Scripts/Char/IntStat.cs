@@ -9,7 +9,7 @@ public abstract class IntStat
     protected bool isDirty = true;
     protected virtual bool IsDirty { get => isDirty; set => isDirty = value; }
 
-    public virtual int MaxValue
+    public virtual int Value
     {
         get
         {
