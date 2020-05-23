@@ -67,10 +67,21 @@ public class PregnancySystem
         }
     }
 
+    public int FertilityShrinePoints => fertilityShrinePoints + Pregnant.Value + ImPregnated.Value;
+
     public void GrowChild() => Children.ForEach(c => c.Grow());
 
     [SerializeField] private DateSave lastTimePregnant;
     [SerializeField] private DateSave lastTimeImpregnatedSomeOne;
+    [SerializeField] private FlagInt pregnant = new FlagInt();
+    [SerializeField] private FlagInt imPregnated = new FlagInt();
+
+    public FlagInt Pregnant => pregnant;
+    public FlagInt ImPregnated => imPregnated;
+    [SerializeField] private int fertilityShrinePoints = 0;
+
+    public void AddFertilityShrinePoints(int toAdd) => fertilityShrinePoints += Mathf.Abs(toAdd);
+
     // TODO add last time impregnated & imprete add penalty for pregFreak
 }
 

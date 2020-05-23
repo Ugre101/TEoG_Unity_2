@@ -29,11 +29,7 @@ public class FlagBool
 [System.Serializable]
 public class Flags
 {
-    [SerializeField] private FlagInt pregnant = new FlagInt();
-    [SerializeField] private FlagInt imPregnated = new FlagInt();
 
-    public FlagInt Pregnant => pregnant;
-    public FlagInt ImPregnated => imPregnated;
 }
 
 public class KnowMap

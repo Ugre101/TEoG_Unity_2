@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 // A space for me to build tools for methods I often use.
@@ -60,5 +63,28 @@ public static class UgreTools
             default:
                 return parInt + "th";
         }
+    }
+
+    public static List<T> EnumToList<T>()
+    {
+        if (typeof(T).IsEnum)
+        {
+            T[] array = (T[])Enum.GetValues(typeof(T));
+            List<T> list = array.ToList();
+            return list;
+        }
+        throw new ArgumentException("<T> must be enum");
+    }
+
+    public static List<TMP_Dropdown.OptionData> EnumToOptionDataList<T>()
+    {
+        if (typeof(T).IsEnum)
+        {
+            TMP_Dropdown.OptionDataList optionList = new TMP_Dropdown.OptionDataList();
+            List<T> list = EnumToList<T>();
+            list.ForEach(l => optionList.options.Add(new TMP_Dropdown.OptionData(l.ToString())));
+            return optionList.options;
+        }
+        throw new ArgumentException("<T> must be enum");
     }
 }

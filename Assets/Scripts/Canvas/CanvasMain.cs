@@ -30,7 +30,7 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] private BigPanel Battle = null;
     [SerializeField] private BigPanel Menus = null;
     [SerializeField] private BigPanel Buildings = null;
-    [SerializeField] private Buildings buildings = null;
+    [SerializeField] private BuildingsMenu buildings = null;
     [SerializeField] private GameObject PauseMenu = null;
     [SerializeField] private HomeMain Home = null;
 
