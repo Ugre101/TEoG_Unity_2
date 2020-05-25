@@ -16,12 +16,20 @@ MonoBehaviour:
   PlayerBalls: 0
   PlayerBoobs: 0
   PlayerVagina: 0
+  playerAnal: 0
+  playerHands: 0
+  playerMouth: 1
   Dick: 0
   Balls: 0
   Boobs: 0
   Vagina: 0
+  otherAnal: 1
+  otherHands: 0
+  otherMouth: 0
   CasterGain: 0
+  casterStatMultipliers: []
   ReciverGain: 0
+  reciverStatMultipliers: []
   EnduranceMultiplier: 1
   CharmMultiplier: 1
   StrengthMultiplier: 1

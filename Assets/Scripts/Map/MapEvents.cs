@@ -162,9 +162,10 @@ public class MapEvents : MonoBehaviour
         TelePortLocations.ForEach(tl => teleportSaves.Add(tl.CanTelePortTo.SaveThis()));
         return teleportSaves;
     }
-
+    [SerializeField] private PlayerKnowMap knowMap = null;
     public void Load(PosSave save, List<TeleportSave> teleportSaves)
     {
+        knowMap.BanditMap();
         ActiveMap = save.World;
         WorldChange(save.World, WorldChildren.Find(m => m.name == save.Map).transform.gameObject.GetComponent<Tilemap>());
         Player.transform.position = save.Pos;

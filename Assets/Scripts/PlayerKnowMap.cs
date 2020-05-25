@@ -11,5 +11,5 @@ public class PlayerKnowMap : MonoBehaviour
         BanditMap();
     }
 
-    private void BanditMap() => banditMap.SetActive(PlayerFlags.BanditMap.Know);
+    public void BanditMap() => banditMap.SetActive(PlayerFlags.BanditMap.Know);
 }

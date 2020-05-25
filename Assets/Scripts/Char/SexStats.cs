@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 
+[System.Serializable]
 public class SexStats
 {
-    private readonly float maxArousal = 100f;
+    [SerializeField] private ExpSystem dickExp = new ExpSystem(0);
+    [SerializeField] private ExpSystem vagExp = new ExpSystem(0);
+    [SerializeField] private ExpSystem handExp = new ExpSystem(0);
+    [SerializeField] private ExpSystem mouthExp = new ExpSystem(0);
+    [SerializeField] private ExpSystem analExp = new ExpSystem(0);
+    [SerializeField] private ExpSystem breastsExp = new ExpSystem(0);
+    [SerializeField] private CharStats maxArousal = new CharStats(100);
     private int currOrgasm = 0;
     public float Arousal { get; private set; } = 0;
     public int Orgasms { get; private set; } = 0;
@@ -17,13 +24,13 @@ public class SexStats
     public bool GainArousal(float gain)
     {
         Arousal += gain;
-        bool org = Arousal > maxArousal;
+        bool org = Arousal > MaxArousal.Value;
         if (org)
         {
             Orgasms++;
             SessionOrgasm++;
             currOrgasm++;
-            Arousal -= maxArousal;
+            Arousal -= MaxArousal.Value;
             OrgasmedEvent?.Invoke();
         }
         ArousalChangeEvent?.Invoke();
@@ -37,9 +44,18 @@ public class SexStats
         currOrgasm = 0;
     }
 
-    public float ArousalSlider => Arousal / maxArousal;
+    public float ArousalSlider => Arousal / MaxArousal.Value;
 
-    public string ArousalStatus => $"{Arousal}/{maxArousal}";
+    public string ArousalStatus => $"{Arousal}/{MaxArousal}";
+
+    public ExpSystem DickExp => dickExp;
+    public ExpSystem VagExp => vagExp;
+    public ExpSystem HandExp => handExp;
+    public ExpSystem MouthExp => mouthExp;
+    public ExpSystem AnalExp => analExp;
+    public ExpSystem BreastsExp => breastsExp;
+
+    public CharStats MaxArousal => maxArousal;
 
     public delegate void ArousalChange();
 

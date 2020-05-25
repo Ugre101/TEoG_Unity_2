@@ -53,6 +53,7 @@ public class Womb
         {
             children.Add(f.GiveBirth());
         }
+        Fetuses.RemoveAll(c => c.ReadyToBeBorn);
         return children;
     }
 

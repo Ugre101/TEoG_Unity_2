@@ -93,6 +93,7 @@ public static class PregnancyExtensions
             fatherVir = parFather.PregnancySystem.VirilityValue;
         float motherRoll = Random.Range(0 - motherFet, 200 - motherFet),
             fatherRoll = Random.Range(0 + fatherVir, 50 + fatherVir);
+        Debug.Log(motherRoll + " " + fatherRoll);
         if (motherRoll < fatherRoll)
         {
             // if mother has empty womb then impregnate first empty womb

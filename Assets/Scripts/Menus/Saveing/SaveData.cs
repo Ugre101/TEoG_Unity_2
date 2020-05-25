@@ -35,7 +35,6 @@ public class Save
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
         // Singleton static
-        MapEvents.GetMapEvents.Load(fullSave.PosPart, fullSave.TeleportSaves);
         // Reference
         JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
         StartHomeStats.Load(fullSave.HomePart);
@@ -45,6 +44,8 @@ public class Save
         DateSystem.Load(fullSave.DatePart);
         QuestsSystem.Load(fullSave.QuestSave);
         PlayerFlags.Load(fullSave.PlayerFlagsSave);
+        MapEvents.GetMapEvents.Load(fullSave.PosPart, fullSave.TeleportSaves);
+
         EventLog.ClearLog();
         LoadEvent?.Invoke();
     }

@@ -7,7 +7,7 @@ public class SpawnTrees : MonoBehaviour
     [SerializeField] private SmartTree smartTree = null;
     [SerializeField] private List<Tile> spawnOn = new List<Tile>();
     [SerializeField] private Tilemap map = null;
-    [SerializeField] private int distFromBorder = 1;
+    [SerializeField] private int distFromBorder = 1,maxAmountTrees = 50;
 
     [Header("Precentage change of spawning a tree on empty spot")]
     [Range(0f, 0.1f)]
@@ -26,6 +26,7 @@ public class SpawnTrees : MonoBehaviour
         GetSpawnTiles();
         Spawn();
         DateSystem.NewWeekEvent += Spawn;
+        Debug.Log(emptySpots.Count / distFromOtherTress );
     }
 
     private void GetSpawnTiles()

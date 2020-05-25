@@ -4,17 +4,13 @@ using UnityEngine;
 [Serializable]
 public class Fetus
 {
-    [SerializeField]
-    private float age;
+    [SerializeField] private float age;
 
-    [SerializeField]
-    private Races race;
+    [SerializeField] private Races race;
 
-    [SerializeField]
-    private Identity father, mother;
+    [SerializeField] private Identity father, mother;
 
-    [SerializeField]
-    private bool playerFather = false, playerMother = false;
+    [SerializeField] private bool playerFather = false, playerMother = false;
 
     public bool PlayerFather => playerFather;
     public bool PlayerMother => playerMother;

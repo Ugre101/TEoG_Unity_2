@@ -1,7 +1,11 @@
-﻿namespace Bar
+﻿using UnityEngine;
+using UnityEngine.UI;
+
+namespace Bar
 {
     public class BarMeal : ShopWare
     {
+        [SerializeField] private Image icon = null;
         private BuyMeal meal;
 
         public override void Setup(Ware ware, BasicChar buyer)
@@ -15,6 +19,14 @@
                 BuyBtn.onClick.AddListener(Buy);
                 FrameCanAfford();
                 buyer.Currency.GoldChanged += FrameCanAfford;
+                if (meal.Img != null)
+                {
+                    icon.sprite = meal.Img;
+                }
+                else
+                {
+                    icon.gameObject.SetActive(false);
+                }
             }
             else { Destroy(gameObject); }
         }
