@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace EssenceMenu
+namespace EssenceMenuStuff
 {
     public abstract class EssenceOrganButtons : MonoBehaviour
     {

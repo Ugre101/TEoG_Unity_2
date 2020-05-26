@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class EventMain : MonoBehaviour
 {
-    public static EventMain GetEventMain;
+    public static EventMain GetEventMain { get; set; }
+
     [SerializeField] private TextLog textLog = null;
     [SerializeField] private EventMenuOptionButton optionBtn = null;
     [SerializeField] private Transform optionContainer = null;
@@ -21,6 +22,7 @@ public class EventMain : MonoBehaviour
         if (GetEventMain == null)
         {
             GetEventMain = this;
+            gameObject.SetActive(false);
         }
         else
         {
@@ -69,6 +71,7 @@ public class EventMain : MonoBehaviour
     }
 
     private bool gameUIWasActive;
+
 
     private void Setup(bool canLeave)
     {

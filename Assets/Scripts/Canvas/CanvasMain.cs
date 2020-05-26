@@ -37,6 +37,7 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] private MenuPanels menuPanels = new MenuPanels();
 
     [SerializeField] private CombatMain combatMain = null;
+    [SerializeField] private EventMain eventMain = null;
 
     #endregion Properties
 
@@ -49,6 +50,10 @@ public class CanvasMain : MonoBehaviour
         else if (thisCanvasMain != this)
         {
             Destroy(gameObject);
+        }
+        if (EventMain.GetEventMain == null)
+        {
+            eventMain.gameObject.SetActive(true);
         }
     }
 

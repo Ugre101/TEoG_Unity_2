@@ -1,4 +1,4 @@
-﻿namespace EssenceMenu
+﻿namespace EssenceMenuStuff
 {
     public class GrowBoobs : GrowOrgan
     {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace EssenceMenu
+namespace EssenceMenuStuff
 {
     public abstract class AddOrgan : MonoBehaviour
     {

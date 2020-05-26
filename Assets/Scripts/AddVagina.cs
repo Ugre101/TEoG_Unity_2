@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EssenceMenu
+namespace EssenceMenuStuff
 {
     public class AddVagina : AddOrgan
     {
