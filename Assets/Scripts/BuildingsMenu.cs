@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Buildings : MonoBehaviour
+public class BuildingsMenu : MonoBehaviour
 {
     public void EnterBuilding(Building building)
     {

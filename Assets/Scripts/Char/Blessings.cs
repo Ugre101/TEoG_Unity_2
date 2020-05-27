@@ -10,7 +10,8 @@ public enum PregnancyBlessingsIds
     PrenancyFreak, // Greatly increases virility and fertility however you will lose sanity if you don't impregnate and are impregnated.
 }
 
-public struct PregnancyBlessing
+[System.Serializable]
+public class PregnancyBlessing
 {
     public PregnancyBlessing(PregnancyBlessingsIds id, int value)
     {
@@ -31,13 +32,24 @@ public class PregnancyBlessings
 {
     [SerializeField] private List<PregnancyBlessing> pregnancyBlessings = new List<PregnancyBlessing>();
 
-    public void AddBlessing(PregnancyBlessingsIds id) => pregnancyBlessings.Add(new PregnancyBlessing(id, 1));
+    public void AddBlessing(PregnancyBlessingsIds id)
+    {
+        if (HasBlessing(id))
+        {
+            GetBlessing(id).IncreaseValue(1);
+        }
+        else
+        {
+            pregnancyBlessings.Add(new PregnancyBlessing(id, 1));
+        }
+    }
 
     public void AddBlessing(PregnancyBlessingsIds id, int startVal) => pregnancyBlessings.Add(new PregnancyBlessing(id, startVal));
 
     public bool HasBlessing(PregnancyBlessingsIds id) => pregnancyBlessings.Exists(pb => pb.Id == id);
 
     public PregnancyBlessing GetBlessing(PregnancyBlessingsIds id) => pregnancyBlessings.Find(pb => pb.Id == id);
+
     /// <summary>Return blessing level, if you don't have blessing returns zero </summary>
     /// <param name="id"></param>
     /// <returns></returns>

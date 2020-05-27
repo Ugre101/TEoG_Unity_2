@@ -1,15 +1,27 @@
-﻿using UnityEngine;
+﻿using EssenceMenuStuff;
+using UnityEngine;
+using Vore;
 
 [System.Serializable]
 public struct MenuPanels
 {
-    [field: SerializeField] public GameObject Savemenu { get; private set; }
-    [field: SerializeField] public GameObject Options { get; private set; }
-    [field: SerializeField] public GameObject Bigeventlog { get; private set; }
-    [field: SerializeField] public GameObject QuestMenu { get; private set; }
-    [field: SerializeField] public GameObject Inventory { get; private set; }
-    [field: SerializeField] public GameObject Vore { get; private set; }
-    [field: SerializeField] public GameObject Essence { get; private set; }
-    [field: SerializeField] public GameObject LevelUp { get; private set; }
-    [field: SerializeField] public GameObject Looks { get; private set; }
+    [SerializeField] private SaveSrollListControl savemenu;
+    [SerializeField] private OptionButtons options;
+    [SerializeField] private EventLogHandlerBase bigeventlog;
+    [SerializeField] private QuestMenuHandler questMenu;
+    [SerializeField] private InventoryHandler inventory;
+    [SerializeField] private VoreMenuHandler vore;
+    [SerializeField] private EssenceMenu essence;
+    [SerializeField] private PerkTreeController levelUp;
+    [SerializeField] private LooksMenu looks;
+
+    public GameObject Savemenu => savemenu.gameObject;
+    public GameObject Options => options.gameObject;
+    public GameObject Bigeventlog => bigeventlog.gameObject;
+    public GameObject QuestMenu => questMenu.gameObject;
+    public GameObject Inventory => inventory.gameObject;
+    public GameObject Vore => vore.gameObject;
+    public GameObject Essence => essence.gameObject;
+    public GameObject LevelUp => levelUp.gameObject;
+    public GameObject Looks => looks.gameObject;
 }

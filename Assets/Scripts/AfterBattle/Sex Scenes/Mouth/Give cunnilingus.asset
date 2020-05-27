@@ -12,17 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f74bdfc8c9cea7440b20e083eb0ca231, type: 3}
   m_Name: Give cunnilingus
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
   PlayerDick: 0
   PlayerBalls: 0
   PlayerBoobs: 0
   PlayerVagina: 0
+  playerAnal: 0
+  playerHands: 0
+  playerMouth: 1
   Dick: 0
   Balls: 0
   Boobs: 0
   Vagina: 1
+  otherAnal: 0
+  otherHands: 0
+  otherMouth: 0
   CasterGain: 33
+  casterStatMultipliers: []
   ReciverGain: 33
+  reciverStatMultipliers: []
   EnduranceMultiplier: 1
   CharmMultiplier: 1
   StrengthMultiplier: 1
+  <IImpregnate>k__BackingField: 0
+  <IGetImpregnated>k__BackingField: 0

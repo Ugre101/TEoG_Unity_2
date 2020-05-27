@@ -29,32 +29,17 @@ public class ShowDorm : MonoBehaviour
 
     private void Start()
     {
-        // Get arrays of enums to arrays
-        Races[] races = (Races[])Enum.GetValues(typeof(Races));
-        Genders[] genders = (Genders[])Enum.GetValues(typeof(Genders));
-        SortByEnum[] sort = (SortByEnum[])Enum.GetValues(typeof(SortByEnum));
-        // Convert the array to list for ease of use.
-        List<Races> racesList = races.ToList();
-        List<Genders> genderList = genders.ToList();
-        List<SortByEnum> sortByEnums = sort.ToList();
-        // Convert enums to string and add them to option list
-        TMP_Dropdown.OptionDataList optionDataList = new TMP_Dropdown.OptionDataList();
-        racesList.ForEach(r => optionDataList.options.Add(new TMP_Dropdown.OptionData(r.ToString())));
-        TMP_Dropdown.OptionDataList optionDataList1 = new TMP_Dropdown.OptionDataList();
-        genderList.ForEach(g => optionDataList1.options.Add(new TMP_Dropdown.OptionData(g.ToString())));
-        TMP_Dropdown.OptionDataList optionDataList2 = new TMP_Dropdown.OptionDataList();
-        sortByEnums.ForEach(g => optionDataList2.options.Add(new TMP_Dropdown.OptionData(g.ToString())));
         // Clear default options
         raceDropdown.ClearOptions();
         genderDropdown.ClearOptions();
         sortBy.ClearOptions();
         // Add my new ones + one extra for all
         raceDropdown.options.Add(new TMP_Dropdown.OptionData("All"));
-        raceDropdown.AddOptions(optionDataList.options);
+        raceDropdown.AddOptions(UgreTools.EnumToOptionDataList<Races>());
         genderDropdown.options.Add(new TMP_Dropdown.OptionData("All"));
-        genderDropdown.AddOptions(optionDataList1.options);
+        genderDropdown.AddOptions(UgreTools.EnumToOptionDataList<Genders>());
         sortBy.options.Add(new TMP_Dropdown.OptionData("Sort by"));
-        sortBy.AddOptions(optionDataList2.options);
+        sortBy.AddOptions(UgreTools.EnumToOptionDataList<SortByEnum>());
         // Add listerners
         raceDropdown.onValueChanged.AddListener(delegate { SortRace(raceDropdown); });
         genderDropdown.onValueChanged.AddListener(delegate { SortGender(genderDropdown); });

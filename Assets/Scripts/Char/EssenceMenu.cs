@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace EssenceMenu
+namespace EssenceMenuStuff
 {
     public class EssenceMenu : MonoBehaviour
     {

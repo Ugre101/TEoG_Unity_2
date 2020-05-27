@@ -12,17 +12,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ff79235c69a6334ca6187407e44545f, type: 3}
   m_Name: Give blowjob
   m_EditorClassIdentifier: 
-  settings: {fileID: 11400000, guid: 0098425338d197045a2150438015899c, type: 2}
   PlayerDick: 0
   PlayerBalls: 0
   PlayerBoobs: 0
   PlayerVagina: 0
+  playerAnal: 0
+  playerHands: 0
+  playerMouth: 1
   Dick: 1
   Balls: 0
   Boobs: 0
   Vagina: 0
+  otherAnal: 0
+  otherHands: 0
+  otherMouth: 0
   CasterGain: 33
+  casterStatMultipliers: []
   ReciverGain: 33
+  reciverStatMultipliers: []
   EnduranceMultiplier: 1
   CharmMultiplier: 1
   StrengthMultiplier: 1
+  <IImpregnate>k__BackingField: 0
+  <IGetImpregnated>k__BackingField: 0

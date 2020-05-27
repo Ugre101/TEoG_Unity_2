@@ -3,7 +3,8 @@ using UnityEngine.Tilemaps;
 
 public class HomeMapHandler : MonoBehaviour
 {
-    [SerializeField] private Tilemap startLawn = null, expandedLawn = null;
+    [SerializeField] private GrownHomeProperty grownHome = null;
+    [SerializeField] private Tilemap startLawn = null;
     [SerializeField] private Tilemap startLandPlatform = null, expandedLandPlatform = null;
 
     public Tilemap GetActiveLawn
@@ -12,20 +13,13 @@ public class HomeMapHandler : MonoBehaviour
         {
             gameObject.SetActive(true);
             ChoiceLawn();
-            if (expandedLawn.gameObject.activeSelf)
-            {
-                return expandedLawn;
-            }
-            else
-            {
-                return startLawn;
-            }
+            return startLawn;
         }
     }
 
     public Tilemap HasLandPlatform()
     {
-        if (GetActiveLawn == expandedLawn)
+        if (grownHome.AddedTiles.Count != 0)
         {
             return expandedLandPlatform;
         }
@@ -44,13 +38,22 @@ public class HomeMapHandler : MonoBehaviour
     {
         if (PlayerFlags.BeatBanditLord.Cleared)
         {
-            startLawn.gameObject.SetActive(false);
-            expandedLawn.gameObject.SetActive(true);
+            Debug.Log("Grow");
+            if (grownHome.AddedTiles.Count < 1)
+            {
+                Debug.Log("Grow; step 2");
+                for (int i = 0; i < 10; i++)
+                {
+                    grownHome.GrowLawn();
+                }
+            }
         }
         else
         {
-            startLawn.gameObject.SetActive(true);
-            expandedLawn.gameObject.SetActive(false);
+            if (grownHome.AddedTiles.Count != 0)
+            {
+                grownHome.ClearLawn();
+            }
         }
     }
 }

@@ -53,4 +53,32 @@ public static class GameManager
             curState = value;
         }
     }
+
+    public static GameManagerSaveState Save() => new GameManagerSaveState(CurState, CurrentArea, KeyBindsActive);
+
+    public static void Load(GameManagerSaveState load)
+    {
+        CurState = load.CurState;
+        CurrentArea = load.CurrentArea;
+        KeyBindsActive = load.KeyBindsActive;
+    }
+}
+
+[System.Serializable]
+public struct GameManagerSaveState
+{
+    [SerializeField] private GameState curState;
+    [SerializeField] private GlobalArea currentArea;
+    [SerializeField] private bool keyBindsActive;
+
+    public GameManagerSaveState(GameState curState, GlobalArea currentArea, bool keyBindsActive)
+    {
+        this.curState = curState;
+        this.currentArea = currentArea;
+        this.keyBindsActive = keyBindsActive;
+    }
+
+    public GameState CurState => curState;
+    public GlobalArea CurrentArea => currentArea;
+    public bool KeyBindsActive => keyBindsActive;
 }

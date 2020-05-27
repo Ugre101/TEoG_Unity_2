@@ -7,7 +7,7 @@ public class FlagInt
 
     public int Value => value;
 
-    public void Increase(int toIncrease = 0) => value += Mathf.Min(0, toIncrease);
+    public void Increase(int toIncrease = 0) => value += Mathf.Max(0, toIncrease);
 }
 
 [System.Serializable]
@@ -29,11 +29,6 @@ public class FlagBool
 [System.Serializable]
 public class Flags
 {
-    [SerializeField] private FlagInt pregnant = new FlagInt();
-    [SerializeField] private FlagInt imPregnated = new FlagInt();
-
-    public FlagInt Pregnant => pregnant;
-    public FlagInt ImPregnated => imPregnated;
 }
 
 public class KnowMap
@@ -54,6 +49,7 @@ public class KnowMap
 
     public event KnowThis KnowThisMap;
 }
+
 public class KnowTeleport
 {
     private bool know = false;

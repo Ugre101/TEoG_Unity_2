@@ -67,10 +67,21 @@ public class PregnancySystem
         }
     }
 
+    public int FertilityShrinePoints => fertilityShrinePoints + Pregnant.Value + ImPregnated.Value;
+
     public void GrowChild() => Children.ForEach(c => c.Grow());
 
     [SerializeField] private DateSave lastTimePregnant;
     [SerializeField] private DateSave lastTimeImpregnatedSomeOne;
+    [SerializeField] private FlagInt pregnant = new FlagInt();
+    [SerializeField] private FlagInt imPregnated = new FlagInt();
+
+    public FlagInt Pregnant => pregnant;
+    public FlagInt ImPregnated => imPregnated;
+    [SerializeField] private int fertilityShrinePoints = 0;
+
+    public void AddFertilityShrinePoints(int toAdd) => fertilityShrinePoints += Mathf.Abs(toAdd);
+
     // TODO add last time impregnated & imprete add penalty for pregFreak
 }
 
@@ -82,6 +93,7 @@ public static class PregnancyExtensions
             fatherVir = parFather.PregnancySystem.VirilityValue;
         float motherRoll = Random.Range(0 - motherFet, 200 - motherFet),
             fatherRoll = Random.Range(0 + fatherVir, 50 + fatherVir);
+        Debug.Log(motherRoll + " " + fatherRoll);
         if (motherRoll < fatherRoll)
         {
             // if mother has empty womb then impregnate first empty womb

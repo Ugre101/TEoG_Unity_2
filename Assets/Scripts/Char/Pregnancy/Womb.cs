@@ -53,6 +53,7 @@ public class Womb
         {
             children.Add(f.GiveBirth());
         }
+        Fetuses.RemoveAll(c => c.ReadyToBeBorn);
         return children;
     }
 
@@ -82,6 +83,8 @@ public class Womb
                 parMother.RaceSystem.CurrentRace() : parFather.RaceSystem.CurrentRace();
             fetuses.Add(new Fetus(babyRace, parFather, parMother));
         }
+        parFather.PregnancySystem.ImPregnated.Increase(1);
+        parMother.PregnancySystem.Pregnant.Increase(1);
     }
 
     private int RaceChildBaseAmountModsMother(BasicChar basicChar)

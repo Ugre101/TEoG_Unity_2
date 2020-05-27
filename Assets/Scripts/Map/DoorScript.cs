@@ -3,9 +3,14 @@ using UnityEngine.Tilemaps;
 
 public class DoorScript : MonoBehaviour
 {
+    [SerializeField] private bool autuAssingIfEmpty = true;
     [SerializeField] private Tilemap _fronTilemap = null, _toTilemap = null;
 
     private string playerTag;
+
+    public Tilemap FronTilemap { get => _fronTilemap; set => _fronTilemap = value; }
+    public Tilemap ToTilemap { get => _toTilemap; set => _toTilemap = value; }
+    public bool AutuAssingIfEmpty => autuAssingIfEmpty;
 
     private void Start() => playerTag = PlayerMain.GetPlayer.tag;
 
@@ -14,8 +19,8 @@ public class DoorScript : MonoBehaviour
     {
         if (collision.CompareTag(playerTag))
         {
-            bool direction = MapEvents.CurrentMap == _fronTilemap;
-            MapEvents.MapChange(direction ? _toTilemap : _fronTilemap);
+            bool direction = MapEvents.CurrentMap == FronTilemap;
+            MapEvents.MapChange(direction ? ToTilemap : FronTilemap);
         }
     }
 }

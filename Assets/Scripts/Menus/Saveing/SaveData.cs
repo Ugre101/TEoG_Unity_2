@@ -35,7 +35,6 @@ public class Save
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
         // Singleton static
-        MapEvents.GetMapEvents.Load(fullSave.PosPart, fullSave.TeleportSaves);
         // Reference
         JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
         StartHomeStats.Load(fullSave.HomePart);
@@ -45,6 +44,8 @@ public class Save
         DateSystem.Load(fullSave.DatePart);
         QuestsSystem.Load(fullSave.QuestSave);
         PlayerFlags.Load(fullSave.PlayerFlagsSave);
+        MapEvents.GetMapEvents.Load(fullSave.PosPart, fullSave.TeleportSaves);
+        GameManager.Load(fullSave.GameManagerSave);
         EventLog.ClearLog();
         LoadEvent?.Invoke();
     }
@@ -66,6 +67,7 @@ public class FullSave
     [SerializeField] private QuestSave questSave;
     [SerializeField] private PlayerFlagsSave playerFlags;
     [SerializeField] private List<TeleportSave> teleportSaves;
+    [SerializeField] private GameManagerSaveState gameManager;
     public PlayerSave PlayerPart => playerPart;
     public PosSave PosPart => posPart;
     public List<DormSave> DormPart => dormPart;
@@ -75,6 +77,8 @@ public class FullSave
     public QuestSave QuestSave => questSave;
     public PlayerFlagsSave PlayerFlagsSave => playerFlags;
     public List<TeleportSave> TeleportSaves => teleportSaves;
+
+    public GameManagerSaveState GameManagerSave => gameManager;
 
     public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, HomeSave parHome, VoreSaves vore, List<TeleportSave> teleportSaves)
     {
@@ -87,6 +91,7 @@ public class FullSave
         this.questSave = QuestsSystem.Save;
         this.playerFlags = PlayerFlags.Save();
         this.teleportSaves = teleportSaves;
+        this.gameManager = GameManager.Save();
     }
 }
 

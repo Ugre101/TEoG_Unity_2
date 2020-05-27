@@ -20,6 +20,7 @@ MonoBehaviour:
   buyBtn: {fileID: 2399185402528071055}
   affordColor: {r: 0.02628031, g: 0.735849, b: 0, a: 1}
   cantAffordColor: {r: 0.8207547, g: 0, b: 0, a: 1}
+  icon: {fileID: 257627240680112084}
 --- !u!1001 &2970406944105146890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -180,22 +181,22 @@ PrefabInstance:
     - target: {fileID: 608723761307495909, guid: 29620f6b488025e44b357bf9d027111b,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 8
+      value: 65
       objectReference: {fileID: 0}
     - target: {fileID: 608723761307495909, guid: 29620f6b488025e44b357bf9d027111b,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 608723761307495909, guid: 29620f6b488025e44b357bf9d027111b,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 608723761307495909, guid: 29620f6b488025e44b357bf9d027111b,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 608723761307495909, guid: 29620f6b488025e44b357bf9d027111b,
         type: 3}
@@ -254,6 +255,18 @@ GameObject:
 --- !u!114 &2399185403499888047 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 608723760791689125, guid: 29620f6b488025e44b357bf9d027111b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2970406944105146890}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &257627240680112084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3074348847326959070, guid: 29620f6b488025e44b357bf9d027111b,
     type: 3}
   m_PrefabInstance: {fileID: 2970406944105146890}
   m_PrefabAsset: {fileID: 0}

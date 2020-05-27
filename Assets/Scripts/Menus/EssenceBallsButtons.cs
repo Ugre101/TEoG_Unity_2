@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace EssenceMenu
+namespace EssenceMenuStuff
 {
     public class EssenceBallsButtons : EssenceOrganButtons
     {

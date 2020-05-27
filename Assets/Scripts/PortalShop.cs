@@ -19,7 +19,12 @@ public class PortalShop : Shop
             if (!tele.Know)
             {
                 string desc = $"Unlock teleport to\nWorld: {tele.World}\nMap: {tele.Map}";
-                void Action() => tele.Unlock();
+                void Action()
+                {
+                    tele.Unlock();
+                    OnEnable();
+                }
+
                 BuySerciveInfo buySercive = new BuySerciveInfo("Teleport location", desc, 1000f, Action);
                 wares.BuyServices(buySercive);
             }

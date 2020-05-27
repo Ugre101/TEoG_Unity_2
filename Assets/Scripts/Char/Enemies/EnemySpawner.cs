@@ -37,11 +37,11 @@ public class EnemySpawner : MonoBehaviour
     private void AvailblePos()
     {
         _empty.Clear();
-        for (int n = _currMap.cellBounds.xMin + distFromBorder; n < _currMap.cellBounds.xMax - distFromBorder; n++)
+        for (int x = _currMap.cellBounds.xMin + distFromBorder; x < _currMap.cellBounds.xMax - distFromBorder; x++)
         {
-            for (int p = _currMap.cellBounds.yMin + distFromBorder; p < _currMap.cellBounds.yMax - distFromBorder; p++)
+            for (int y = _currMap.cellBounds.yMin + distFromBorder; y < _currMap.cellBounds.yMax - distFromBorder; y++)
             {
-                Vector3Int localPlace = new Vector3Int(n, p, (int)_currMap.transform.position.z);
+                Vector3Int localPlace = new Vector3Int(x, y, (int)_currMap.transform.position.z);
                 if (_currMap.HasTile(localPlace) && !dontSpawnOn.Exists(t => t.HasTile(localPlace)))
                 {
                     Vector3 place = _currMap.CellToWorld(localPlace);
