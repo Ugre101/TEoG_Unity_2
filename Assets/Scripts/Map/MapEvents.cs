@@ -96,11 +96,13 @@ public class MapEvents : MonoBehaviour
         mapDirty = true;
         StartCoroutine(waitAFrame());
     }
+
     private IEnumerator waitAFrame()
     {
         yield return new WaitForEndOfFrame();
         transform.SleepChildren(CurrentWorld.transform);
     }
+
     private List<TelePortLocation> telePortLocations;
 
     public List<TelePortLocation> TelePortLocations
@@ -162,12 +164,29 @@ public class MapEvents : MonoBehaviour
         TelePortLocations.ForEach(tl => teleportSaves.Add(tl.CanTelePortTo.SaveThis()));
         return teleportSaves;
     }
+
     [SerializeField] private PlayerKnowMap knowMap = null;
+
     public void Load(PosSave save, List<TeleportSave> teleportSaves)
     {
         knowMap.BanditMap();
         ActiveMap = save.World;
-        WorldChange(save.World, WorldChildren.Find(m => m.name == save.Map).transform.gameObject.GetComponent<Tilemap>());
+
+        if (WorldChildren.Find(m => m.name == save.Map) != null && WorldChildren.Find(m => m.name == save.Map).GetComponent<Map>() is Map saveMap)
+        {
+            WorldChange(save.World, saveMap.GetComponent<Tilemap>());
+        }
+        else
+        {
+            foreach (Transform isMap in WorldChildren)
+            {
+                if (isMap.GetComponent<Map>() is Map map)
+                {
+                    WorldChange(save.World, map.GetComponent<Tilemap>());
+                    break;
+                }
+            }
+        }
         Player.transform.position = save.Pos;
         foreach (TeleportSave teleSave in teleportSaves)
         {

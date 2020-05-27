@@ -26,7 +26,6 @@ public class SpawnTrees : MonoBehaviour
         GetSpawnTiles();
         Spawn();
         DateSystem.NewWeekEvent += Spawn;
-        Debug.Log(emptySpots.Count / distFromOtherTress );
     }
 
     private void GetSpawnTiles()
