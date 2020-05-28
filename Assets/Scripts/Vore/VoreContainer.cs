@@ -38,7 +38,7 @@ namespace Vore
         {
             preysDirty = true;
             GameObject prey = GetPreys().Find(p => p.GetInstanceID() == parWho.Prey.GetInstanceID()).gameObject;
-            prey.transform.parent = DigestedContainer.GetContainer.transform;
+            prey.transform.parent = DigestedContainer.GetContainer.transform; // Move until new game to avoid references problem
         }
     }
 }

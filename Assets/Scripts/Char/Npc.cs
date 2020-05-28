@@ -2,8 +2,7 @@
 
 public class Npc : BasicChar
 {
-    [SerializeField] private bool triggerColider = true, hasNpcMenuPage = false;
-    [SerializeField] private GameObject npcMenuPage = null;
+    [SerializeField] private NpcMenuPage npcMenuPage = null;
 
     public override void Awake()
     {
@@ -17,15 +16,15 @@ public class Npc : BasicChar
 
     protected virtual void OnCollision()
     {
-        if (hasNpcMenuPage)
+        if (npcMenuPage != null)
         {
-
+            CanvasMain.GetCanvasMain.EnterNpc(npcMenuPage);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (triggerColider && collision.gameObject.CompareTag(PlayerMain.GetTag))
+        if (collision.gameObject.CompareTag(PlayerMain.GetTag))
         {
             OnCollision();
         }

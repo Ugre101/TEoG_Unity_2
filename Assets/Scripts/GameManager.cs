@@ -7,7 +7,8 @@ public enum GameState
     Menu,
     PauseMenu,
     Battle,
-    InBuilding
+    InBuilding,
+    Event
 }
 
 public enum GlobalArea
@@ -51,6 +52,7 @@ public static class GameManager
                     break;
             }
             curState = value;
+            GameStateChangeEvent?.Invoke();
         }
     }
 
@@ -62,6 +64,10 @@ public static class GameManager
         CurrentArea = load.CurrentArea;
         KeyBindsActive = load.KeyBindsActive;
     }
+
+    public delegate void GameStateChanged();
+
+    public static event GameStateChanged GameStateChangeEvent;
 }
 
 [System.Serializable]

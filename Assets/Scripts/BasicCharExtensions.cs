@@ -19,7 +19,7 @@ public static class BasicCharExtensions
     {
         string title = who.Identity.FullName;
         Body body = who.Body;
-        string desc = $" is a {body.HeightMorInch()} tall {who.Race()} {who.Gender.ToString()}.";
+        string desc = $" is a {body.HeightMorInch()} tall {who.Race()} {who.GetGender().ToString()}.";
         string stats = $"{who.Age.AgeYears}years old\nWeight: {body.WeightKgOrP()}\nHeight: {body.HeightMorInch()}";
         return desc;
     }

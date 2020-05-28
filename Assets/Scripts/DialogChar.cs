@@ -14,7 +14,7 @@ public class DialogChar : MonoBehaviour
 
     protected void SetTexts(BasicChar whom)
     {
-        raceGender.text = $"{whom.Race(true)}\n{whom.Gender}";
+        raceGender.text = $"{whom.Race(true)}\n{whom.GetGender()}";
         nameTitle.text = whom.Identity.FullName;
     }
 }

@@ -286,12 +286,12 @@ PrefabInstance:
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 400
+      value: 461.93216
       objectReference: {fileID: 0}
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -371.61856
+      value: -434.3312
       objectReference: {fileID: 0}
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
@@ -501,12 +501,12 @@ PrefabInstance:
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 400
+      value: 461.93216
       objectReference: {fileID: 0}
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -172.07286
+      value: -192.97708
       objectReference: {fileID: 0}
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
@@ -800,6 +800,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -856,7 +857,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 400, y: -71.90762}
+  m_AnchoredPosition: {x: 461.93216, y: -78.875694}
   m_SizeDelta: {x: 798.9, y: 122.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &414136571
@@ -874,6 +875,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1219,12 +1221,12 @@ PrefabInstance:
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 400
+      value: 461.93216
       objectReference: {fileID: 0}
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -238.58809
+      value: -273.42847
       objectReference: {fileID: 0}
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
@@ -1511,6 +1513,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1602,12 +1605,12 @@ PrefabInstance:
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 400
+      value: 461.93216
       objectReference: {fileID: 0}
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -305.10333
+      value: -353.87982
       objectReference: {fileID: 0}
     - target: {fileID: 4330354340416306109, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
@@ -2071,7 +2074,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2367,6 +2370,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2440,6 +2444,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2595,6 +2600,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

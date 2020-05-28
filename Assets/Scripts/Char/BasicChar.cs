@@ -44,7 +44,8 @@ public abstract class BasicChar : MonoBehaviour
         }
     }
 
-    public string Gender => Settings.GetGender(this);
+    public string GetGender(bool capital = false) => Settings.GetGender(this, capital);
+
     public GenderTypes GenderType => this.GenderType();
 
     [SerializeField] private VoreEngine vore;
@@ -121,6 +122,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public SexStats SexStats => sexStats;
     [SerializeField] private CharSpriteHandler spriteHandler;
+
     public CharSpriteHandler SpriteHandler
     {
         get
@@ -132,6 +134,7 @@ public abstract class BasicChar : MonoBehaviour
             return spriteHandler;
         }
     }
+
     public virtual void Start()
     {
         identity = new Identity();
@@ -163,6 +166,4 @@ public abstract class BasicChar : MonoBehaviour
     public List<Skill> Skills => skills;
     private GameEventSystem gameEvent;
     public GameEventSystem Events => gameEvent;
-
-
 }

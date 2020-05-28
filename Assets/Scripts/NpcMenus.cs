@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class NpcMenus : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+   public void EnterNpc(NpcMenuPage page)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        transform.SleepChildren(page.transform);
     }
 }

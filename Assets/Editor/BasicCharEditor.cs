@@ -15,7 +15,7 @@ public class BasicCharEditor : Editor
         GUILayout.Label("Summary", EditorStyles.boldLabel);
         GUILayout.BeginVertical("Box");
         GUILayout.Label(basicChar.Identity.FullName);
-        UgreEditorTools.TwoLabels(basicChar.Gender.ToString(), basicChar.Race(true));
+        UgreEditorTools.TwoLabels(basicChar.GetGender().ToString(), basicChar.Race(true));
         GUILayout.EndVertical();
         UgreEditorTools.TwoBoldLabels("First name", "Last name");
         GUILayout.BeginHorizontal();

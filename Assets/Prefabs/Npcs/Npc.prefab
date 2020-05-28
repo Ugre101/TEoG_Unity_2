@@ -10,7 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8556541799720497023}
   - component: {fileID: 8556541799720497021}
+  - component: {fileID: 5142458272746896385}
   - component: {fileID: 8556541799720497020}
+  - component: {fileID: 8246284664126168176}
+  - component: {fileID: 1599909048965688593}
   m_Layer: 0
   m_Name: Npc
   m_TagString: Untagged
@@ -82,6 +85,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5142458272746896385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556541799720497022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cabd24a40857efd40bbe43ff6d593a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites: {fileID: 11400000, guid: 30f7ea40fe5120b4f95bbc7c29587544, type: 2}
+  spriteRenderer: {fileID: 8556541799720497021}
+  whom: {fileID: 8556541799720497020}
 --- !u!114 &8556541799720497020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,7 +187,7 @@ MonoBehaviour:
       statMods: []
       tempStatMods: []
     fat:
-      baseValue: 20
+      baseValue: 19.001722
       statMods: []
       tempStatMods: []
     muscle:
@@ -178,7 +196,7 @@ MonoBehaviour:
       tempStatMods: []
   hp:
     baseValue: 100
-    current: 0
+    current: 100
     healthMods: []
     tempHealthMods: []
     recovery:
@@ -187,7 +205,7 @@ MonoBehaviour:
       tempHealthMods: []
   wp:
     baseValue: 100
-    current: 0
+    current: 100
     healthMods: []
     tempHealthMods: []
     recovery:
@@ -237,11 +255,6 @@ MonoBehaviour:
       tempMods: []
   currency:
     gold: 0
-  flags:
-    pregnant:
-      value: 0
-    imPregnated:
-      value: 0
   pregnancySystem:
     children: []
     virility:
@@ -252,7 +265,29 @@ MonoBehaviour:
       baseValue: 1
       statMods: []
       tempMods: []
-    bonusFetusGrowth: 0
+    fetusGrowthRate:
+      baseValue: 1
+      statMods: []
+      tempMods: []
+    pregnancyBlessings:
+      pregnancyBlessings: []
+    lastTimePregnant:
+      hour: 0
+      year: 0
+      month: 0
+      week: 0
+      day: 0
+    lastTimeImpregnatedSomeOne:
+      hour: 0
+      year: 0
+      month: 0
+      week: 0
+      day: 0
+    pregnant:
+      value: 0
+    imPregnated:
+      value: 0
+    fertilityShrinePoints: 0
   sexualOrgans:
     genderPrefActive: 0
     genderPref: 1
@@ -270,7 +305,82 @@ MonoBehaviour:
     lactating: 0
     vaginas: []
     anals: []
-  spriteHandler: {fileID: 0}
+  sexStats:
+    dickExp:
+      level: 0
+      exp: 0
+      perkPoints: 0
+    vagExp:
+      level: 0
+      exp: 0
+      perkPoints: 0
+    handExp:
+      level: 0
+      exp: 0
+      perkPoints: 0
+    mouthExp:
+      level: 0
+      exp: 0
+      perkPoints: 0
+    analExp:
+      level: 0
+      exp: 0
+      perkPoints: 0
+    breastsExp:
+      level: 0
+      exp: 0
+      perkPoints: 0
+    maxArousal:
+      baseValue: 100
+      statMods: []
+      tempMods: []
+  spriteHandler: {fileID: 5142458272746896385}
   skills: []
-  triggerColider: 1
-  hasNpcMenuPage: 0
+  npcMenuPage: {fileID: 0}
+--- !u!50 &8246284664126168176
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556541799720497022}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 6
+--- !u!61 &1599909048965688593
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8556541799720497022}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.75, y: 0.98}
+    newSize: {x: 0.75, y: 0.98}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.75, y: 0.98}
+  m_EdgeRadius: 0

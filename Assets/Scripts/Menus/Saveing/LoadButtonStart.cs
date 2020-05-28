@@ -16,8 +16,7 @@ namespace StartMenuStuff
             del.onClick.AddListener(DeleteSave);
 
             //SceneManager.sceneLoaded += OnSceneLoaded;
-            string cleanedTitleText = file.Name.Substring(0, file.Name.LastIndexOf("."))
-                .Replace("-", " ");
+            string cleanedTitleText = file.Name.Substring(0, file.Name.LastIndexOf(".")).Replace("-", " ");
             title.text = cleanedTitleText;
         }
 
