@@ -8,7 +8,7 @@ public class PregnancySystem
 
     public List<Child> Children => children;
 
-    [SerializeField] private CharStats virility = new CharStats(1);
+    [SerializeField] private CharStats virility = new CharStats(1), fertility = new CharStats(1);
 
     public CharStats Virility => virility;
 
@@ -29,8 +29,6 @@ public class PregnancySystem
             return baseVal;
         }
     }
-
-    [SerializeField] private CharStats fertility = new CharStats(1);
 
     public CharStats Fertility => fertility;
 

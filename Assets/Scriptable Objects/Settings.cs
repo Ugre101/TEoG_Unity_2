@@ -228,7 +228,7 @@ public static class Settings
     public static string Dickgirl = "dickgirl";
     public static string Doll = "doll";
 
-    public static string GetGender(BasicChar who, bool capital = false)
+    public static string GetGender(this BasicChar who, bool capital = false)
     {
         switch (who.Gender())
         {
@@ -243,7 +243,7 @@ public static class Settings
         string CapOrLower(string gender) => capital ? char.ToUpper(gender[0]) + gender.Substring(1) : gender.ToLower();
     }
 
-    public const float DoubleClickTime = 2f;
+    public const float DoubleClickTime = 1.2f;
     private static float eventLogFontSize = 14f;
     private const string eventLogFontSizeSaveName = "EventlogFontSize";
     private static float combatLogFontSize = 14f;

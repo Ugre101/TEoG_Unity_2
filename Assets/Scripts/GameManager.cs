@@ -32,6 +32,7 @@ public static class GameManager
             LastState = curState;
             switch (value)
             {
+                case GameState.Event:
                 case GameState.Intro:
                 case GameState.Battle:
                 case GameState.InBuilding:
@@ -44,7 +45,6 @@ public static class GameManager
                     KeyBindsActive = true;
                     Time.timeScale = 0f;
                     break;
-
                 case GameState.Free:
                 default:
                     KeyBindsActive = true;

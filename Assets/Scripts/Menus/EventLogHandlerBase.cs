@@ -6,14 +6,11 @@ public class EventLogHandlerBase : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] protected CanvasMain canvasMain = null;
 
-    [SerializeField] protected TextMeshProUGUI logText = null;
+    [SerializeField] protected TextMeshProUGUI logText = null, emptyText = null;
     private bool oneClick = false;
     private float timeFirstClick;
 
-    protected virtual void Start()
-    {
-        canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
-    }
+    protected virtual void Start() => canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
 
     protected virtual void OnEnable()
     {
@@ -25,13 +22,17 @@ public class EventLogHandlerBase : MonoBehaviour, IPointerClickHandler
 
     protected void SetFontSize(float size) => logText.fontSize = size;
 
-    private void PrintEventlog() => logText.text = EventLog.Print();
+    private void PrintEventlog()
+    {
+        logText.text = EventLog.Print();
+        emptyText.gameObject.SetActive(EventLog.IsEmpty);
+    }
 
     public void OnPointerClick(PointerEventData data)
     {
         if (oneClick)
         {
-            if (data.clickTime - timeFirstClick > 0.7f)
+            if (data.clickTime - timeFirstClick > Settings.DoubleClickTime)
             {
                 // if time since last click more than 1f just reset time
                 timeFirstClick = data.clickTime;

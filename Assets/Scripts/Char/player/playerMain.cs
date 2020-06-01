@@ -34,6 +34,11 @@ public class PlayerMain : BasicChar
         Identity.LastName = last;
     }
 
+    private void SubscribleToEvents()
+    {
+        RaceSystem.RaceChange += Events.SoloEvents.RaceChange;
+    }
+
     private static PlayerMain thisPlayer;
     private static string thisTag;
 

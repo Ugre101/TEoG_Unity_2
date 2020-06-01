@@ -5,19 +5,6 @@ using Vore;
 [System.Serializable]
 public abstract class BasicChar : MonoBehaviour
 {
-    public BasicChar()
-    {
-        vore = new VoreEngine(this);
-        DateSystem.NewMinuteEvent += DoEveryMin;
-    }
-
-    private void DoEveryMin()
-    {
-        // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
-        this.RefreshOrgans();
-        this.OverTimeTick();
-    }
-
     [SerializeField] protected Identity identity;
 
     public Identity Identity => identity;
@@ -33,6 +20,9 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private RaceSystem raceSystem = new RaceSystem();
 
     public RaceSystem RaceSystem => raceSystem;
+
+    #region Gender
+
     private Genders lastGender;
 
     private void DidGenderChange()
@@ -47,6 +37,8 @@ public abstract class BasicChar : MonoBehaviour
     public string GetGender(bool capital = false) => Settings.GetGender(this, capital);
 
     public GenderTypes GenderType => this.GenderType();
+
+    #endregion Gender
 
     [SerializeField] private VoreEngine vore;
 
@@ -68,11 +60,9 @@ public abstract class BasicChar : MonoBehaviour
     {
     }
 
-    [SerializeField] private Health hp;
+    [SerializeField] private Health hp, wp;
 
     public Health HP => hp;
-
-    [SerializeField] private Health wp;
 
     public Health WP => wp;
 
@@ -97,7 +87,6 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private EssenceSystem essence = new EssenceSystem();
 
     public EssenceSystem Essence => essence;
-    public float RestRate => 3.44f + Perks.GetPerkLevel(PerksTypes.FasterRest);
 
     [Space]
     [SerializeField] private Currency currency = new Currency();
@@ -138,13 +127,18 @@ public abstract class BasicChar : MonoBehaviour
     public virtual void Start()
     {
         identity = new Identity();
-        SexualOrgan.SomethingChanged += DidGenderChange;
-
+        vore = new VoreEngine(this);
         expSystem = new ExpSystem(1);
-        DateSystem.NewDayEvent += this.GrowFetuses;
-        DateSystem.NewDayEvent += PregnancySystem.GrowChild;
         gameEvent = new GameEventSystem(this);
         SpriteHandler.Setup(this);
+
+        SexualOrgan.SomethingChanged += DidGenderChange;
+        DateSystem.NewDayEvent += DoEveryDay;
+        DateSystem.NewMinuteEvent += DoEveryMin;
+        for (int i = 0; i < 10; i++) // Speed up use of start essence
+        {
+            this.RefreshOrgans();
+        }
     }
 
     protected void InitHealth()
@@ -155,10 +149,27 @@ public abstract class BasicChar : MonoBehaviour
         WP.FullGain();
     }
 
+    private void DoEveryMin()
+    {
+        // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
+        this.RefreshOrgans();
+        this.OverTimeTick();
+    }
+    private void DoEveryHour()
+    {
+
+    }
+    private void DoEveryDay()
+    {
+        this.GrowFetuses();
+        PregnancySystem.GrowChild();
+    }
+
     public virtual void OnDestroy()
     {
         SexualOrgan.SomethingChanged -= DidGenderChange;
         DateSystem.NewMinuteEvent -= DoEveryMin;
+        DateSystem.NewDayEvent -= DoEveryDay;
     }
 
     [SerializeField] private List<Skill> skills = new List<Skill>();

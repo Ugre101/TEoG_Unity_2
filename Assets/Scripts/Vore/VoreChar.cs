@@ -38,7 +38,7 @@ namespace Vore
                 case VoreContainers.Vagina: return Vagina;
                 case VoreContainers.Balls: return Balls;
                 case VoreContainers.Boobs: return Boobs;
-                default: return Stomach;
+                default: throw new System.ArgumentException("Container isn't defined.");
             }
         }
 

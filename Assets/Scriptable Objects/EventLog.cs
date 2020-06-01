@@ -4,6 +4,7 @@ using System.Text;
 public static class EventLog
 {
     private static readonly List<string> text = new List<string>();
+    public static bool IsEmpty => text.Count < 1;
 
     public static void AddTo(string addText)
     {
@@ -13,12 +14,16 @@ public static class EventLog
 
     public static string Print()
     {
-        StringBuilder toPrint = new StringBuilder();
-        foreach (string line in text)
+        if (!IsEmpty)
         {
-            toPrint.Append(line + "\n\n");
+            StringBuilder toPrint = new StringBuilder();
+            foreach (string line in text)
+            {
+                toPrint.Append(line + "\n\n");
+            }
+            return toPrint.ToString();
         }
-        return toPrint.ToString();
+        return string.Empty;
     }
 
     public static void ClearLog()

@@ -37,27 +37,17 @@ public class StatsContainer
         GetAll = new List<CharStats>() { strength, charm, dexterity, endurance, intelligence, willpower };
     }
 
-    [SerializeField] private CharStats strength;
+    [SerializeField] private CharStats strength, charm, endurance, dexterity, intelligence, willpower;
 
     public float Str => Strength.Value;
 
-    [SerializeField] private CharStats charm;
-
     public float Cha => Charm.Value;
-
-    [SerializeField] private CharStats endurance;
 
     public float End => Endurance.Value;
 
-    [SerializeField] private CharStats dexterity;
-
     public float Dex => Dexterity.Value;
 
-    [SerializeField] private CharStats intelligence;
-
     public float Int => Intelligence.Value;
-
-    [SerializeField] private CharStats willpower;
 
     public float Will => willpower.Value;
     public CharStats Strength => strength;
@@ -90,5 +80,51 @@ public class StatsContainer
     public void AddTempMods(List<AssingTempStatMod> mods)
     {
         mods.ForEach(m => GetStat(m.StatTypes).AddTempMod(m.TempStatMod));
+    }
+}
+
+public static class StatExtensions
+{
+    // Seperated from container to make it easier to handle perks
+    public static int Strength(this BasicChar basicChar)
+    {
+        int baseVal = basicChar.Stats.Strength.Value;
+
+        return baseVal;
+    }
+
+    public static int Charm(this BasicChar basicChar)
+    {
+        int baseVal = basicChar.Stats.Charm.Value;
+
+        return baseVal;
+    }
+
+    public static int Endurance(this BasicChar basicChar)
+    {
+        int baseVal = basicChar.Stats.Endurance.Value;
+
+        return baseVal;
+    }
+
+    public static int Dexterity(this BasicChar basicChar)
+    {
+        int baseVal = basicChar.Stats.Dexterity.Value;
+
+        return baseVal;
+    }
+
+    public static int Intelligence(this BasicChar basicChar)
+    {
+        int baseVal = basicChar.Stats.Intelligence.Value;
+
+        return baseVal;
+    }
+
+    public static int Willpower(this BasicChar basicChar)
+    {
+        int baseVal = basicChar.Stats.Willpower.Value;
+
+        return baseVal;
     }
 }

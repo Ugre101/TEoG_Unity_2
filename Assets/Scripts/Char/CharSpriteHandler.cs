@@ -1,21 +1,22 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CharSpriteHandler : MonoBehaviour
 {
     [SerializeField] private CharSprites sprites = null;
     private CharSprite currentSprite = null;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
-    [SerializeField] private BasicChar whom;
+    private BasicChar whom;
 
     public void Setup(BasicChar whom)
     {
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
         this.whom = whom;
 
-        whom.RaceSystem.RaceChangeEvent += ChangeSprite;
+        whom.RaceSystem.RaceChange += ChangeSprite;
         ChangeSprite();
     }
+
+    public void ChangeSprite(Races newRacem, Races oldRace) => ChangeSprite();
 
     public void ChangeSprite()
     {
@@ -24,7 +25,7 @@ public class CharSpriteHandler : MonoBehaviour
         Height();
     }
 
-    private void OnDestroy() => whom.RaceSystem.RaceChangeEvent -= ChangeSprite;
+    private void OnDestroy() => whom.RaceSystem.RaceChange -= ChangeSprite;
 
     private void Height()
     {

@@ -8,6 +8,8 @@ public class RaceSystem
 
     [SerializeField] private bool dirty = true;
 
+    public void SetDirty() => Dirty = true;
+
     public bool Dirty
     {
         get => dirty;
@@ -22,7 +24,7 @@ public class RaceSystem
         }
     }
 
-    private Races lastCurrent;
+    [SerializeField] private Races lastCurrent, secondaryLastCurrent;
 
     public List<Race> RaceList => raceList;
 
@@ -35,7 +37,7 @@ public class RaceSystem
         else
         {
             Race toAdd = new Race(race, amount);
-            toAdd.DirtyEvent += () => { Dirty = true; };
+            toAdd.DirtyEvent += SetDirty;
             raceList.Add(toAdd);
         }
         Dirty = true;
@@ -68,24 +70,56 @@ public class RaceSystem
 
     public Races CurrentRace()
     {
-        if (raceList.Count < 1)
+        if (raceList.Count == 0)
         {
             lastCurrent = Races.Humanoid;
+            secondaryLastCurrent = Races.Humanoid;
             return Races.Humanoid;
         }
         // TODO import & improve old race system from javascript version
         if (lastCurrent != FirstRace)
         {
             // not sure if this is a good place to trigger event, will it always trigger when it should?
+            Races oldRace = lastCurrent;
             lastCurrent = FirstRace;
-            RaceChangeEvent?.Invoke();
+            RaceChange?.Invoke(oldRace, FirstRace);
+        }
+        if (secondaryLastCurrent != SecondRace)
+        {
+            Races oldRace = secondaryLastCurrent;
+            secondaryLastCurrent = SecondRace;
+            SecondRaceChange?.Invoke(oldRace, SecondRace);
         }
         return lastCurrent;
     }
 
-    public Races FirstRace => RaceList[0].Amount >= 100 ? RaceList[0].Name : Races.Humanoid;
+    public Races FirstRace
+    {
+        get
+        {
+            if (RaceList.Count > 0)
+            {
+                return RaceList[0].Amount >= 100 ? RaceList[0].Name : Races.Humanoid;
+            }
+            return Races.Humanoid;
+        }
+    }
 
-    public Races SecondRace => RaceList[1].Amount >= 50 ? RaceList[1].Name : RaceList[0].Amount >= 50 ? RaceList[0].Name : Races.Humanoid;
+    public Races SecondRace
+    {
+        get
+        {
+            if (RaceList.Count > 0)
+            {
+                if (RaceList.Count > 1)
+                {
+                    return RaceList[1].Amount >= 50 ? RaceList[1].Name : RaceList[0].Amount >= 50 ? RaceList[0].Name : Races.Humanoid;
+                }
+                return RaceList[0].Amount >= 50 ? RaceList[0].Name : Races.Humanoid;
+            }
+            return Races.Humanoid;
+        }
+    }
 
     private void CleanRaces()
     {
@@ -95,7 +129,10 @@ public class RaceSystem
         Dirty = false;
     }
 
-    public delegate void RaceChange();
+    // Maybe overkill but I prefer to have the parameters named
+    public delegate void RaceChanged<in t1, in t2>(t1 oldRace, t2 newRace);
 
-    public event RaceChange RaceChangeEvent;
+    public event RaceChanged<Races, Races> RaceChange;
+
+    public event RaceChanged<Races, Races> SecondRaceChange;
 }

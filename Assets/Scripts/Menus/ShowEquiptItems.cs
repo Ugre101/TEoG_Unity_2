@@ -25,8 +25,7 @@ public class EquiptItems
             case EquipSlot.RightHand: return RightHand;
             case EquipSlot.Pants: return Pants;
             case EquipSlot.Boots: return Boots;
-            default:
-                return null;
+            default: throw new System.ArgumentException("Slot isn't defined");
         }
     }
 
@@ -82,10 +81,7 @@ public static class EquiptItemsExtensions
         if (item is IEquip equip)
         {
             List<EquiptItem> equiptItems = new List<EquiptItem>();
-            equip.Slots.ForEach(es =>
-            {
-                equiptItems.Add(basicChar.EquiptItems.GetSlot(es));
-            });
+            equip.Slots.ForEach(es => equiptItems.Add(basicChar.EquiptItems.GetSlot(es)));
             if (equiptItems.Exists(ei => !ei.HasItem))
             {
                 HandleItem(basicChar, item, equiptItems.Find(ei => !ei.HasItem));
