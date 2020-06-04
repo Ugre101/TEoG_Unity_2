@@ -21,6 +21,7 @@ public enum PerksTypes
     EssenceBandit,
     EssenceTransformer,
     #endregion
+
     SingleMother,
 
     // Remember to always add new perks last in list to avoid breaking saves

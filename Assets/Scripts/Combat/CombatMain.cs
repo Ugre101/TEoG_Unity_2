@@ -10,7 +10,7 @@ public class CombatMain : MonoBehaviour
     private CanvasMain CanvasMain => CanvasMain.GetCanvasMain;
     private PlayerMain player;
 
-    private PlayerMain Player => player = player != null ? player : PlayerMain.GetPlayer;
+    private PlayerMain Player => player = player != null ? player : PlayerHolder.Player;
 
     [SerializeField] private TextMeshProUGUI _textbox = null;
 

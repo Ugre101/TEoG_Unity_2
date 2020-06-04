@@ -1,33 +1,8 @@
-﻿using UnityEngine;
-
-public class Npc : BasicChar
+﻿public class Npc : BasicChar
 {
-    [SerializeField] private NpcMenuPage npcMenuPage = null;
-
-    public override void Awake()
+    public override void Setup()
     {
-        base.Awake();
-    }
-
-    public override void Start()
-    {
-        base.Start();
-    }
-
-    protected virtual void OnCollision()
-    {
-        if (npcMenuPage != null)
-        {
-            CanvasMain.GetCanvasMain.EnterNpc(npcMenuPage);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag(PlayerMain.GetTag))
-        {
-            OnCollision();
-        }
+        base.Setup();
     }
 
     public void Save()

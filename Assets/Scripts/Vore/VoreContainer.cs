@@ -22,23 +22,25 @@ namespace Vore
         public void AddPrey(ThePrey parPrey)
         {
             preysDirty = true;
-            parPrey.Prey.transform.SetParent(transform);
+            // parPrey.Prey.transform.SetParent(transform);
+            // parPrey.Prey.gameObject.layer = 10;
         }
 
         public void ReleasePreyTo(ThePrey parWho, Transform parent, Vector3 pos)
         {
             // Not sure if this works
             preysDirty = true;
-            GameObject prey = GetPreys().Find(p => p.GetInstanceID() == parWho.Prey.GetInstanceID()).gameObject;
-            prey.transform.parent = parent;
-            prey.transform.position = pos;
+            // GameObject prey = GetPreys().Find(p => p.GetInstanceID() == parWho.Prey.GetInstanceID()).gameObject;
+            //  prey.transform.parent = parent;
+            //  prey.transform.position = pos;
+            //  prey.layer = 0;
         }
 
         public void PreyIsdigested(ThePrey parWho)
         {
             preysDirty = true;
-            GameObject prey = GetPreys().Find(p => p.GetInstanceID() == parWho.Prey.GetInstanceID()).gameObject;
-            prey.transform.parent = DigestedContainer.GetContainer.transform; // Move until new game to avoid references problem
+            //  GameObject prey = GetPreys().Find(p => p.GetInstanceID() == parWho.Prey.GetInstanceID()).gameObject;
+            //  prey.transform.parent = DigestedContainer.GetContainer.transform; // Move until new game to avoid references problem
         }
     }
 }

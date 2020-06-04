@@ -34,7 +34,7 @@ public class LoseMain : MonoBehaviour
 
     private void Start()
     {
-        player = player != null ? player : PlayerMain.GetPlayer;
+        player = player != null ? player : PlayerHolder.Player;
         LoseSexButton.PlayScene += HandleScene;
     }
 

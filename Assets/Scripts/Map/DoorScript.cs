@@ -12,7 +12,7 @@ public class DoorScript : MonoBehaviour
     public Tilemap ToTilemap { get => _toTilemap; set => _toTilemap = value; }
     public bool AutuAssingIfEmpty => autuAssingIfEmpty;
 
-    private void Start() => playerTag = PlayerMain.GetPlayer.tag;
+    private void Start() => playerTag = PlayerHolder.GetTag;
 
     // Simple door script, handles trigger to switch tilemap for movement and camera.
     private void OnTriggerEnter2D(Collider2D collision)

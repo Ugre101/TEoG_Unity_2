@@ -8,14 +8,14 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] private DragInventory ItemPrefab = null;
     [SerializeField] private InventorySlot SlotPrefab = null;
     [SerializeField] private InventoryHoverText inventoryHoverText = null;
-    [SerializeField] private PlayerMain player = null;
     [SerializeField] private ItemHolder items = null;
     [SerializeField] private GameObject SlotsHolder = null;
     [SerializeField] private Button sortAll = null, sortEatDrink = null, sortMisc = null;
     [SerializeField] private PromptYesNo yesNo = null;
     [SerializeField] private int AmountOfSlots = 40;
+    private PlayerMain Player => PlayerHolder.Player;
 
-    private List<InventoryItem> Items => player.Inventory.Items;
+    private List<InventoryItem> Items => Player.Inventory.Items;
 
     //  public List<Item> Items;
     private InventorySlot[] Slots;
@@ -44,7 +44,7 @@ public class InventoryHandler : MonoBehaviour
         sortAll.onClick.AddListener(() => { UpdateInventory(); ToggleButtons(sortAll); });
         sortEatDrink.onClick.AddListener(() => { UpdateInventory(ItemTypes.Consumables); ToggleButtons(sortEatDrink); });
         sortMisc.onClick.AddListener(() => { UpdateInventory(ItemTypes.Misc); ToggleButtons(sortMisc); });
-        player.EquiptItems.GetAll.ForEach(e => e.GotItem += UpdateInventory);
+        Player.EquiptItems.GetAll.ForEach(e => e.GotItem += UpdateInventory);
     }
 
     public void UpdateInventory()
@@ -104,7 +104,7 @@ public class InventoryHandler : MonoBehaviour
 
     private void RemoveItem(InventoryItem itemToRemove)
     {
-        player.Inventory.Items.Remove(itemToRemove);
+        Player.Inventory.Items.Remove(itemToRemove);
         UpdateInventory();
     }
 }

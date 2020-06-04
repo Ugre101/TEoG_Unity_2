@@ -10,7 +10,7 @@ namespace EssenceMenuStuff
         protected override void UpdateButtons()
         {
             transform.KillChildren();
-            Instantiate(addDickPrefab, transform).Setup(player).onClick.AddListener(UpdateButtons);
+            Instantiate(addDickPrefab, transform).Setup().onClick.AddListener(UpdateButtons);
             foreach (Dick d in player.SexualOrgans.Dicks)
             {
                 Instantiate(growDickPrefab, transform).Setup(player, d);

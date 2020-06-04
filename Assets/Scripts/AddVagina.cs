@@ -4,9 +4,9 @@ namespace EssenceMenuStuff
 {
     public class AddVagina : AddOrgan
     {
-        private List<Vagina> Vaginas => player.SexualOrgans.Vaginas;
+        private List<Vagina> Vaginas => Player.SexualOrgans.Vaginas;
 
-        protected override Essence Ess => player.Essence.Femi;
+        protected override Essence Ess => Player.Essence.Femi;
 
         protected override float Cost => Vaginas.Cost();
 

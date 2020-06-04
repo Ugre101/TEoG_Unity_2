@@ -39,6 +39,7 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] private CombatMain combatMain = null;
     [SerializeField] private EventMain eventMain = null;
     [SerializeField] private NpcMenus npcMenus = null;
+
     #endregion Properties
 
     private void Awake()
@@ -160,12 +161,12 @@ public class CanvasMain : MonoBehaviour
         return false;
     }
 
-    public void StartCombat(BasicChar enemy)
+    public void StartCombat(CharHolder enemy)
     {
         GameManager.CurState = GameState.Battle;
         Battle.transform.SleepChildren();
         ToggleBigPanel(Battle.gameObject);
-        List<BasicChar> toAdd = new List<BasicChar> { enemy };
+        List<BasicChar> toAdd = new List<BasicChar> { enemy.BasicChar };
         combatMain.SetUpCombat(toAdd);
     }
 
@@ -209,12 +210,14 @@ public class CanvasMain : MonoBehaviour
             mapEvents.Teleport(WorldMaps.Home, homeMapHandler.GetActiveLawn, homeLandPlatform);
         }
     }
+
     public void EnterNpc(NpcMenuPage page)
     {
         GameManager.CurState = GameState.InBuilding;
         ToggleBigPanel(npcMenus.gameObject);
         npcMenus.EnterNpc(page);
     }
+
     public void EscapePause()
     {
         if (GameManager.CurState.Equals(GameState.Menu))

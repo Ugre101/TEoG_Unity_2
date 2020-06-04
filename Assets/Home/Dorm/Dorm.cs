@@ -1,120 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Dorm : MonoBehaviour
+public static class Dorm
 {
-    public static Dorm GetDrom { get; private set; }
-    [SerializeField] private BasicChar defaultPrefab = null;
-    public bool HasSpace => StartHomeStats.Dorm.Level * 3 > transform.childCount;
+    public static List<BasicChar> Followers { get; private set; } = new List<BasicChar>();
 
-    private BasicChar[] ArrayServants => GetComponentsInChildren<BasicChar>();
-    private bool ServantsDirty = true;
-    private List<BasicChar> lastServants = new List<BasicChar>();
+    public static void AddToDorm(BasicChar basicChar) => Followers.Add(basicChar);
 
-    public List<BasicChar> Servants
-    {
-        get
-        {
-            if (ServantsDirty)
-            {
-                lastServants = new List<BasicChar>(ArrayServants);
-                ServantsDirty = false;
-            }
-            return lastServants;
-        }
-    }
-
-    private void Awake()
-    {
-        if (GetDrom == null)
-        {
-            GetDrom = this;
-        }
-        else if (GetDrom != this)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    public BasicChar AddTo(BasicChar toAdd)
-    {
-        BasicChar sercv = Instantiate(toAdd, transform);
-        sercv.name = toAdd.name;
-        ServantsDirty = true;
-        return sercv;
-    }
-
-    public void MoveToDorm(BasicChar toMove)
-    {
-        toMove.transform.SetParent(this.transform);
-        toMove.transform.position = transform.position;
-        ServantsDirty = true;
-    }
-
-    public List<DormSave> Save()
+    public static List<DormSave> Save()
     {
         List<DormSave> dormSaves = new List<DormSave>();
-        foreach (Transform child in transform)
+        foreach (BasicChar basicChar in Followers)
         {
-            DormSave tempDorm = new DormSave(child.name, child.GetComponent<BasicChar>());
-            dormSaves.Add(tempDorm);
+            DormSave tempDorm = new DormSave(basicChar);
         }
+
         return dormSaves;
     }
 
-    private class LoadedChar
+    public static void Load(List<DormSave> dormSaves)
     {
-        public LoadedChar(BasicChar basicChar, DormSave dormSave)
+        Followers.Clear();
+        foreach (DormSave save in dormSaves)
         {
-            Loaded = basicChar;
-            Save = dormSave;
-        }
-
-        public BasicChar Loaded { get; }
-        public DormSave Save { get; }
-    }
-
-    private List<LoadedChar> loadedChars = new List<LoadedChar>();
-
-    public void Load(List<DormSave> toLoad)
-    {
-        transform.KillChildren();
-        if (toLoad.Count > 0)
-        {
-            foreach (DormSave ds in toLoad)
-            {
-                BasicChar loaded = AddTo(defaultPrefab);
-                loadedChars.Add(new LoadedChar(loaded, ds));
-            }
-            StartCoroutine(WaitAFrame());
+            Followers.Add(save.BasicChar);
         }
     }
 
-    private IEnumerator WaitAFrame()
-    {
-        // wait a frame to let new basicchar to fully load before overwritting it
-        yield return new WaitForEndOfFrame();
-        foreach (LoadedChar loaded in loadedChars)
-        {
-            JsonUtility.FromJsonOverwrite(loaded.Save.Who, loaded.Loaded);
-        }
-    }
+    public static bool HasSpace => StartHomeStats.Dorm.Level * 3 > Followers.Count;
 }
 
 [System.Serializable]
 public struct DormSave
 {
-    [SerializeField] private string name;
     [SerializeField] private string who;
 
-    public string Name => name;
     public string Who => who;
+    public BasicChar BasicChar => JsonUtility.FromJson<BasicChar>(who);
 
-    public DormSave(string Name, BasicChar Who)
+    public DormSave(BasicChar Who)
     {
-        name = Name;
         who = JsonUtility.ToJson(Who);
     }
 }

@@ -2,103 +2,129 @@
 using System.Linq;
 using UnityEngine;
 
-[System.Serializable]
-public class Recovery : IntStat
+namespace HealthRecovery
 {
-    public Recovery()
+    [System.Serializable]
+    public class Recovery : IntStat
     {
-        baseValue = 5;
-    }
-
-    [SerializeField] private List<HealthMod> healthMods = new List<HealthMod>();
-    [SerializeField] private List<TempHealthMod> tempHealthMods = new List<TempHealthMod>();
-
-    public List<HealthMod> Mods => healthMods;
-    public List<TempHealthMod> TempMods => tempHealthMods;
-
-    protected override int GetCalcValue()
-    {
-        float flat = BaseValue
-            + Mods.FindAll(m => m.ModType == ModTypes.Flat).Sum(m => m.Value)
-            + TempMods.FindAll(m => m.ModType == ModTypes.Flat).Sum(m => m.Value);
-        float precent = 1f
-            + Mods.FindAll(m => m.ModType == ModTypes.Precent).Sum(m => m.Value)
-            + TempMods.FindAll(m => m.ModType == ModTypes.Precent).Sum(m => m.Value);
-        return Mathf.FloorToInt(flat * precent);
-    }
-
-    #region AddAndRemoveMods
-
-    public void AddMods(HealthMod mod)
-    {
-        Mods.Add(mod);
-        IsDirty = true;
-    }
-
-    public void AddTempMod(TempHealthMod mod)
-    {
-        if (TempMods.Exists(tm => tm.Source.Equals(mod.Source)))
+        public Recovery()
         {
-            TempHealthMod toChange = TempMods.Find(tm => tm.Source.Equals(mod.Source));
-            float diminishingReturn = (float)toChange.Duration / (float)mod.Duration;
-            int toIncrease = Mathf.Max(0, Mathf.FloorToInt(mod.Duration / Mathf.Max(1, 2 * diminishingReturn)));
-            toChange.IncreaseDuration(toIncrease);
+            baseValue = 5;
         }
-        else
+
+        [SerializeField] private List<HealthMod> healthMods = new List<HealthMod>();
+        [SerializeField] private List<TempHealthMod> tempHealthMods = new List<TempHealthMod>();
+
+        public List<HealthMod> Mods => healthMods;
+        public List<TempHealthMod> TempMods => tempHealthMods;
+
+        protected override int GetCalcValue()
         {
-            // Clone otherwise diminishingReturn doesn't work as duration increase on both.
-            TempMods.Add(new TempHealthMod(mod.Value, mod.ModType, mod.HealthType, mod.Source, mod.Duration));
+            float flat = BaseValue
+                + Mods.FindAll(m => m.ModType == ModTypes.Flat).Sum(m => m.Value)
+                + TempMods.FindAll(m => m.ModType == ModTypes.Flat).Sum(m => m.Value);
+            float precent = 1f
+                + Mods.FindAll(m => m.ModType == ModTypes.Precent).Sum(m => m.Value)
+                + TempMods.FindAll(m => m.ModType == ModTypes.Precent).Sum(m => m.Value);
+            return Mathf.FloorToInt(flat * precent);
         }
-        IsDirty = true;
-    }
 
-    public void RemoveMods(HealthMod mod)
-    {
-        Mods.Remove(mod);
-        IsDirty = true;
-    }
+        #region AddAndRemoveMods
 
-    public void RemoveTempMods(TempHealthMod mod)
-    {
-        TempMods.Remove(mod);
-        IsDirty = true;
-    }
-
-    public bool RemoveFromSource(string Source)
-    {
-        if (string.IsNullOrEmpty(Source))
+        public void AddMods(HealthMod mod)
         {
-            return false;
+            Mods.Add(mod);
+            IsDirty = true;
         }
-        if (Mods.Exists(sm => sm.Source.Equals(Source)))
+
+        public void AddTempMod(TempHealthMod mod)
         {
-            foreach (HealthMod sm in Mods.FindAll(s => s.Source.Equals(Source)))
+            if (TempMods.Exists(tm => tm.Source.Equals(mod.Source)))
             {
-                Mods.Remove(sm);
+                TempHealthMod toChange = TempMods.Find(tm => tm.Source.Equals(mod.Source));
+                float diminishingReturn = (float)toChange.Duration / (float)mod.Duration;
+                int toIncrease = Mathf.Max(0, Mathf.FloorToInt(mod.Duration / Mathf.Max(1, 2 * diminishingReturn)));
+                toChange.IncreaseDuration(toIncrease);
+            }
+            else
+            {
+                // Clone otherwise diminishingReturn doesn't work as duration increase on both.
+                TempMods.Add(new TempHealthMod(mod.Value, mod.ModType, mod.HealthType, mod.Source, mod.Duration));
             }
             IsDirty = true;
-            return true;
         }
-        return false;
-    }
 
-    public bool RemoveTempFromSource(string Source)
-    {
-        if (string.IsNullOrEmpty(Source))
+        public void RemoveMods(HealthMod mod)
         {
+            Mods.Remove(mod);
+            IsDirty = true;
+        }
+
+        public void RemoveTempMods(TempHealthMod mod)
+        {
+            TempMods.Remove(mod);
+            IsDirty = true;
+        }
+
+        public bool RemoveFromSource(string Source)
+        {
+            if (string.IsNullOrEmpty(Source))
+            {
+                return false;
+            }
+            if (Mods.Exists(sm => sm.Source.Equals(Source)))
+            {
+                foreach (HealthMod sm in Mods.FindAll(s => s.Source.Equals(Source)))
+                {
+                    Mods.Remove(sm);
+                }
+                IsDirty = true;
+                return true;
+            }
             return false;
         }
-        if (TempMods.Exists(sm => sm.Source.Equals(Source)))
+
+        public bool RemoveTempFromSource(string Source)
         {
-            foreach (TempHealthMod sm in TempMods.FindAll(s => s.Source.Equals(Source)))
+            if (string.IsNullOrEmpty(Source))
             {
-                TempMods.Remove(sm);
+                return false;
             }
-            IsDirty = true;
-            return true;
+            if (TempMods.Exists(sm => sm.Source.Equals(Source)))
+            {
+                foreach (TempHealthMod sm in TempMods.FindAll(s => s.Source.Equals(Source)))
+                {
+                    TempMods.Remove(sm);
+                }
+                IsDirty = true;
+                return true;
+            }
+            return false;
         }
-        return false;
+
+        #endregion AddAndRemoveMods
     }
 
-    #endregion AddAndRemoveMods
+    public static class RecoveryExtensions
+    {
+        public static int HpRecoveryTotal(this BasicChar basicChar, int times = 1)
+        {
+            int baseVal = basicChar.HP.Recovery.Value;
+            if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
+            {
+                baseVal += PerkEffects.Gluttony.ExtraRecovery(basicChar.Perks);
+            }
+            return baseVal * times;
+        }
+
+        public static int WpRecoveryTotal(this BasicChar basicChar, int times = 1)
+        {
+            int baseVal = basicChar.WP.Recovery.Value;
+            if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
+            {
+                baseVal += PerkEffects.Gluttony.ExtraRecovery(basicChar.Perks);
+            }
+            return baseVal * times;
+        }
+    }
 }

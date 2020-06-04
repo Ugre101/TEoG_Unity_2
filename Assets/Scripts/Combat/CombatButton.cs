@@ -19,7 +19,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     [SerializeField] private KeyCode quickKey = KeyCode.None;
 
     [SerializeField] private SkillButtons skillButtons = null;
-    private PlayerMain Player => PlayerMain.GetPlayer;
+    private PlayerMain Player => PlayerHolder.Player;
     private BasicChar Target => CombatMain.GetCombatMain.Target;
     private bool hovering = false;
     private bool hoverBlockActive = false;

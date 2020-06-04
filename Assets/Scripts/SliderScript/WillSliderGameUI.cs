@@ -26,7 +26,7 @@ public class WillSliderGameUI : BasicSlider
     protected override void Start()
     {
         base.Start();
-        basicChar = basicChar != null ? basicChar : PlayerMain.GetPlayer;
+        basicChar = basicChar != null ? basicChar : PlayerHolder.Player;
         Started = true;
         StartCoroutine("WaitToStart");
 

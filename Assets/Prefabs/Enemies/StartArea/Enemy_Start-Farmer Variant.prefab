@@ -7,6 +7,56 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startRaces.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].races
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startRaces.Array.data[0].amount
+      value: 999
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: startGender.amount
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingStr
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingCharm
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingEnd
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingDex
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingInt
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingWill
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442155, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: m_Name

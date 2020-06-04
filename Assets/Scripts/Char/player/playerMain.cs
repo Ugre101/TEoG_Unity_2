@@ -1,31 +1,10 @@
-﻿using UnityEngine;
-
-public class PlayerMain : BasicChar
+﻿public class PlayerMain : BasicChar
 {
-    public PlayerMain() : base() => thisPlayer = this;
-
-    // public Settings sett;
-    public override void Awake()
-    {
-        if (thisPlayer == null)
-        {
-            thisPlayer = this;
-        }
-        else if (thisPlayer != this)
-        {
-            Destroy(gameObject);
-        }
-        base.Awake();
-    }
-
     // Start is called before the first frame update
-    public override void Start()
+    public override void Setup()
     {
-        base.Start();
-        RaceSystem.AddRace(Races.Humanoid, 100);
-        body = new Body(160, 10, 20);
+        base.Setup();
         Currency.Gold += 100;
-        InitHealth();
     }
 
     public void PlayerInit(string first, string last)
@@ -39,25 +18,7 @@ public class PlayerMain : BasicChar
         RaceSystem.RaceChange += Events.SoloEvents.RaceChange;
     }
 
-    private static PlayerMain thisPlayer;
-    private static string thisTag;
-
-    public static string GetTag => thisTag = thisTag ?? GetPlayer.tag;
-
-    public static PlayerMain GetPlayer
+    public PlayerMain(Age age, Body body, ExpSystem expSystem, Perks perk, EssenceSystem essence) : base(age, body, expSystem, essence)
     {
-        get
-        {
-            if (Debug.isDebugBuild)
-            {
-                //  Debug.Log(new System.Diagnostics.StackFrame(1).GetMethod().DeclaringType + " missed playermain");
-            }
-            if (thisPlayer == null)
-            {
-                thisPlayer = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMain>();
-                Debug.LogError("Something tried to call getplayer before player could awake");
-            }
-            return thisPlayer;
-        }
     }
 }

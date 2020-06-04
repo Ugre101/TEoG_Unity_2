@@ -21,7 +21,12 @@ public class BodyStat : FloatStat
     }
 
     /// <summary>Max(Value - Abs(toLose),0.01f)</summary>
-    public void LoseFlat(float toLose) => BaseValue = Mathf.Max(BaseValue - Mathf.Abs(toLose), 0f);
+    public float LoseFlat(float toLose)
+    {
+        float lost = Mathf.Clamp(toLose, 0, BaseValue);
+        BaseValue -= lost;
+        return lost;
+    }
 
     /// <summary>Value *= clamp(value, 0.01f, 1f) </summary>
     public void LosePrecent(float lostPrecent) => BaseValue *= Mathf.Clamp(lostPrecent, 0.001f, 1f);
@@ -311,5 +316,32 @@ public static class BodyExtension
                     return 160f;
             }
         }
+    }
+
+    public static float TotalFatBurn(this BasicChar basicChar)
+    {
+        Body body = basicChar.Body;
+        float fatBurnRate = body.Fat.BaseValue * 0.0001f;
+        if (basicChar.Vore.Active)
+        {
+            VorePerksSystem perks = basicChar.Vore.Perks;
+            if (perks.HasPerk(VorePerks.PredatoryMetabolism))
+            {
+                // TODO test pred metabol
+                if (body.FatPrecent > 0.18f)
+                {
+                    fatBurnRate += body.Fat.BaseValue * (0.0001f * perks.GetPerkLevel(VorePerks.PredatoryMetabolism)) * body.FatPrecent;
+                }
+            }
+        }
+        if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
+        {
+            fatBurnRate += PerkEffects.Gluttony.ExtraFatBurn(basicChar.Perks);
+        }
+        else if (basicChar.Perks.HasPerk(PerksTypes.LowMetabolism))
+        {
+            fatBurnRate -= PerkEffects.LowMetabolism.LowerBurn(basicChar.Perks);
+        }
+        return fatBurnRate;
     }
 }

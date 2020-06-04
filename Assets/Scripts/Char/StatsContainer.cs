@@ -81,6 +81,16 @@ public class StatsContainer
     {
         mods.ForEach(m => GetStat(m.StatTypes).AddTempMod(m.TempStatMod));
     }
+
+    public void SetBaseValues(int str, int cha, int end, int dex, int inte, int will)
+    {
+        Strength.BaseValue = str;
+        Charm.BaseValue = cha;
+        Endurance.BaseValue = end;
+        Dexterity.BaseValue = dex;
+        Intelligence.BaseValue = inte;
+        Willpower.BaseValue = will;
+    }
 }
 
 public static class StatExtensions

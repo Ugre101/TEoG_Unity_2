@@ -9,7 +9,7 @@ public class CheatMenu : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        player = player != null ? player : PlayerMain.GetPlayer;
+        player = player != null ? player : PlayerHolder.Player;
         closeBtn.onClick.AddListener(CanvasMain.GetCanvasMain.Resume);
         if (goldCheat != null)
         {

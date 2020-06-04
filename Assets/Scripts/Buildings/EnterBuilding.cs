@@ -12,7 +12,7 @@ public class EnterBuilding : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag(PlayerMain.GetPlayer.tag))
+        if (collider.CompareTag(PlayerHolder.GetTag))
         {
             if (building != null)
             {

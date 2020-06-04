@@ -17,7 +17,7 @@ public class VorePerkPointsLeft : MonoBehaviour
 
     private void OnEnable()
     {
-        player = player != null ? player : PlayerMain.GetPlayer;
+        player = player != null ? player : PlayerHolder.Player;
         voreIsActive = player.Vore.Active;
     }
 

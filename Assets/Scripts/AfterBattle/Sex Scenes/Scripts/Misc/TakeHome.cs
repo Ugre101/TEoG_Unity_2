@@ -2,7 +2,6 @@
 
 public class TakeHome : MonoBehaviour
 {
-    public Dorm dorm;
     private CanvasMain gameUI;
     private AfterBattleMain afterBattle;
 
@@ -14,8 +13,9 @@ public class TakeHome : MonoBehaviour
 
     public void DoScene()
     {
-        dorm.AddTo(afterBattle.Target);
-        Destroy(afterBattle.Target.transform.gameObject);
+        Dorm.AddToDorm(afterBattle.Target);
+        // Destroy(afterBattle.Target.transform.gameObject);
+        // TODO get rid of charholder
         gameUI.Resume();
         // Needs testing
     }

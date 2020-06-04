@@ -57,63 +57,39 @@ namespace Vore
         {
             if (!playerIsPred.HasValue)
             {
-                playerIsPred = pred.CompareTag(PlayerMain.GetPlayer.tag);
+                playerIsPred = pred is PlayerMain;
             }
             return playerIsPred.Value;
         }
 
-        public void Digest()
+        public void Digest(int times)
         {
-            Balls.Digest(p => BallsDigested(p));
-            Boobs.Digest(p => BoobsDigested(p));
-            Stomach.Digest(p => StomachDigested(p));
-            Anal.Digest(p => AnalDigested(p));
+            Balls.Digest(p => BallsDigested(p), times);
+            Boobs.Digest(p => BoobsDigested(p), times);
+            Stomach.Digest(p => StomachDigested(p), times);
+            Anal.Digest(p => AnalDigested(p), times);
             if (Vagina.ChildTf)
             {
-                vagina.TransformToChild(p => TfToChild(p));
+                vagina.TransformToChild(p => TfToChild(p), times);
             }
             else
             {
-                Vagina.Digest(p => VaginaDigested(p));
+                Vagina.Digest(p => VaginaDigested(p), times);
             }
-            void TfToChild(ThePrey thePrey)
-            {
-                PlayerPredEventLog($"{FullName(thePrey)} has shrunk");
-                pred.VoreChar.Vagina.PreyIsRebithed(thePrey);
-            }
+            void TfToChild(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has shrunk");//    pred.VoreChar.Vagina.PreyIsRebithed(thePrey);
 
-            void VaginaDigested(ThePrey thePrey)
-            {
-                PlayerPredEventLog($"{FullName(thePrey)}");
-                pred.VoreChar.Vagina.PreyIsdigested(thePrey);
-            }
+            void VaginaDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)}");//   pred.VoreChar.Vagina.PreyIsdigested(thePrey);
 
-            void BallsDigested(ThePrey thePrey)
-            {
-                PlayerPredEventLog($"{FullName(thePrey)} has been fully transfomed into cum.");
-                pred.VoreChar.Balls.PreyIsdigested(thePrey);
-            }
+            void BallsDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been fully transfomed into cum.");//   pred.VoreChar.Balls.PreyIsdigested(thePrey);
 
-            void BoobsDigested(ThePrey thePrey)
-            {
-                PlayerPredEventLog($"{FullName(thePrey)} is now nothing but milk.");
-                pred.VoreChar.Boobs.PreyIsdigested(thePrey);
-            }
+            void BoobsDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} is now nothing but milk.");//   pred.VoreChar.Boobs.PreyIsdigested(thePrey);
 
-            void StomachDigested(ThePrey thePrey)
-            {
-                PlayerPredEventLog($"{FullName(thePrey)} has been digested.");
-                pred.VoreChar.Stomach.PreyIsdigested(thePrey);
-            }
+            void StomachDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been digested.");//  pred.VoreChar.Stomach.PreyIsdigested(thePrey);
 
-            void AnalDigested(ThePrey thePrey)
-            {
-                PlayerPredEventLog($"{FullName(thePrey)} has been reduced to nothing in your bowels.");
-                pred.VoreChar.Anal.PreyIsdigested(thePrey);
-            }
+            void AnalDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been reduced to nothing in your bowels.");//  pred.VoreChar.Anal.PreyIsdigested(thePrey);
         }
 
-        private string FullName(ThePrey thePrey) => thePrey.Prey.Identity.FullName;
+        private string FullName(ThePrey thePrey) => thePrey.Identity.FullName;
 
         private void PlayerPredEventLog(string text)
         {
@@ -128,20 +104,14 @@ namespace Vore
     }
 
     [System.Serializable]
-    public class ThePrey
+    public class ThePrey : BasicChar
     {
-        [SerializeField] private BasicChar prey;
-        public BasicChar Prey => prey;
-
-        public void SetPrey(BasicChar value) => prey = value;
-
         [SerializeField] private float startWeight;
         public float StartWeight => startWeight;
 
-        public ThePrey(BasicChar parPrey)
+        public ThePrey(BasicChar basicChar) : base(basicChar.Identity, basicChar.RelationshipTracker, basicChar.Inventory, basicChar.EquiptItems, basicChar.RaceSystem, basicChar.Vore, basicChar.Age, basicChar.Body, basicChar.HP, basicChar.WP, basicChar.ExpSystem, basicChar.perk, basicChar.Stats, basicChar.Essence, basicChar.Currency, basicChar.Flags, basicChar.PregnancySystem, basicChar.SexualOrgans, basicChar.SexStats, basicChar.Skills)
         {
-            prey = parPrey;
-            startWeight = parPrey.Body.Weight;
+            startWeight = basicChar.Body.Weight;
         }
 
         /// <summary> First digest the fat, then the muscle and last the bones(height). </summary>
@@ -149,23 +119,18 @@ namespace Vore
         /// <returns>Amount digested</returns>
         public float Digest(float toDigest)
         {
-            float fatGain = Mathf.Min(toDigest, Prey.Body.Weight);
-            if (Prey.Body.Fat.Value > 0)
+            Body body = Body;
+            float fatGain = Mathf.Min(toDigest, body.Weight);
+            while (toDigest > 0 && (body.Fat.Value > 0 || body.Muscle.Value > 0 || body.Height.Value > 0))
             {
-                Prey.Body.Fat.LoseFlat(toDigest);
-            }
-            else if (Prey.Body.Muscle.Value > 0)
-            {
-                Prey.Body.Muscle.LoseFlat(toDigest);
-            }
-            else
-            {
-                Prey.Body.Height.LoseFlat(toDigest);
+                toDigest -= body.Fat.LoseFlat(toDigest);
+                toDigest -= body.Muscle.LoseFlat(toDigest);
+                toDigest -= body.Height.LoseFlat(toDigest);
             }
             return fatGain;
         }
 
-        public float Progress => (StartWeight - Prey.Body.Weight) / StartWeight;
+        public float Progress => (StartWeight - Body.Weight) / StartWeight;
 
         public string PreyDesc
         {
@@ -174,7 +139,7 @@ namespace Vore
                 string desc = string.Empty;
                 if (Progress > 0)
                 {
-                    desc += prey.Identity.FirstName;
+                    desc += Identity.FirstName;
                     if (Progress < 0.3f)
                     {
                         desc += $" has started to show signs of their digestion "; //Starting to digest
@@ -191,17 +156,17 @@ namespace Vore
                     {
                         desc += $""; // Almost fully digested
                     }
-                    if (prey.Body.Fat.Value < 1 && prey.Body.Muscle.Value < 1)
+                    if (Body.Fat.Value < 1 && Body.Muscle.Value < 1)
                     {
-                        desc += $" all of {prey.HisHer()} fat and muscle has melted of their bones.";
+                        desc += $" all of {this.HisHer()} fat and muscle has melted of their bones.";
                     }
-                    else if (prey.Body.Fat.Value < 1)
+                    else if (Body.Fat.Value < 1)
                     {
                         desc += " all fat has melted of ";
                     }
-                    else if (prey.Body.Muscle.Value < 1)
+                    else if (Body.Muscle.Value < 1)
                     {
-                        desc += $" all muscle has melted of {prey.HisHer()} body ";
+                        desc += $" all muscle has melted of {this.HisHer()} body ";
                     }
                 }
                 return desc;

@@ -41,19 +41,19 @@ namespace Vore
         }
 
         /// <summary> Return weight of prey content</summary>
-        public virtual float Current => preys.Sum(p => p.Prey.Body.Weight * CompresionFactor);
+        public virtual float Current => preys.Sum(p => p.Body.Weight * CompresionFactor);
 
         /// <summary>Returns how full it is; 0.5 = 50%</summary>
         public virtual float FillPrecent => Current / MaxCapacity();
 
-        public virtual bool CanVore(ThePrey parPrey) => Current + parPrey.Prey.Body.Weight <= MaxCapacity();
+        public virtual bool CanVore(BasicChar parPrey) => Current + parPrey.Body.Weight <= MaxCapacity();
 
-        public virtual bool Vore(ThePrey parPrey)
+        public virtual bool Vore(BasicChar parPrey)
         {
             if (CanVore(parPrey))
             {
-                preys.Add(parPrey);
-                pred.VoreChar.Stomach.AddPrey(parPrey);
+                preys.Add(new ThePrey(parPrey));
+                //  pred.VoreChar.Stomach.AddPrey(parPrey);
                 return true;
             }
             return false;
@@ -67,9 +67,9 @@ namespace Vore
 
         protected abstract void DigestTo(float val);
 
-        public void Digest(Action<ThePrey> digested, float toDigest = 2f)
+        public void Digest(Action<ThePrey> callBackDigested, int times, float toDigest = 2f)
         {
-            float totalDigest = toDigest + (Perks.GetPerkLevel(VorePerks.DigestiveFluids) * 2f);
+            float totalDigest = (toDigest + (Perks.GetPerkLevel(VorePerks.DigestiveFluids) * 2f)) * times;
             for (int i = Preys.Count - 1; i >= 0; i--)
             {
                 ThePrey prey = Preys[i];
@@ -78,30 +78,30 @@ namespace Vore
                 if (Perks.HasPerk(VorePerks.OrgasmicFluids))
                 {
                     float arusalGain = 5 * Perks.GetPerkLevel(VorePerks.OrgasmicFluids);
-                    if (prey.Prey.SexStats.GainArousal(arusalGain))
+                    if (prey.SexStats.GainArousal(arusalGain))
                     {
                         if (Perks.HasPerk(VorePerks.DrainEssence))
                         {
                             float toDrain = 6 * Perks.GetPerkLevel(VorePerks.DrainEssence);
-                            if (prey.Prey.CanDrainFemi() && prey.Prey.CanDrainMasc() && VoreSettings.DrainEss == ChooseEssence.Both)
+                            if (prey.CanDrainFemi() && prey.CanDrainMasc() && VoreSettings.DrainEss == ChooseEssence.Both)
                             {
-                                pred.Essence.Masc.Gain(prey.Prey.Essence.Masc.Lose(toDrain / 2));
-                                pred.Essence.Femi.Gain(prey.Prey.Essence.Femi.Lose(toDrain / 2));
+                                pred.Essence.Masc.Gain(prey.Essence.Masc.Lose(toDrain / 2));
+                                pred.Essence.Femi.Gain(prey.Essence.Femi.Lose(toDrain / 2));
                             }
-                            else if (prey.Prey.CanDrainMasc() && (VoreSettings.DrainEss == ChooseEssence.Masc || VoreSettings.DrainEss == ChooseEssence.Both))
+                            else if (prey.CanDrainMasc() && (VoreSettings.DrainEss == ChooseEssence.Masc || VoreSettings.DrainEss == ChooseEssence.Both))
                             {
-                                pred.Essence.Masc.Gain(prey.Prey.Essence.Masc.Lose(toDrain));
+                                pred.Essence.Masc.Gain(prey.Essence.Masc.Lose(toDrain));
                             }
-                            else if (prey.Prey.CanDrainFemi() && (VoreSettings.DrainEss == ChooseEssence.Femi || VoreSettings.DrainEss == ChooseEssence.Both))
+                            else if (prey.CanDrainFemi() && (VoreSettings.DrainEss == ChooseEssence.Femi || VoreSettings.DrainEss == ChooseEssence.Both))
                             {
-                                pred.Essence.Femi.Gain(prey.Prey.Essence.Femi.Lose(toDrain));
+                                pred.Essence.Femi.Gain(prey.Essence.Femi.Lose(toDrain));
                             }
                         }
                     }
                 }
-                if (prey.Prey.Body.Weight <= 1)
+                if (prey.Body.Weight <= 1)
                 {
-                    digested?.Invoke(prey);
+                    callBackDigested?.Invoke(prey);
                     Preys.Remove(prey);
                 }
                 GainExp(Mathf.FloorToInt(totalDigest));
@@ -122,15 +122,9 @@ namespace Vore
         {
         }
 
-        public override bool Vore(ThePrey parPrey)
+        public override bool Vore(BasicChar parPrey)
         {
-            if (CanVore(parPrey))
-            {
-                preys.Add(parPrey);
-                pred.VoreChar.Balls.AddPrey(parPrey);
-                return true;
-            }
-            return false;
+            return base.Vore(parPrey);
         }
 
         public override float MaxCapacity()
@@ -158,15 +152,9 @@ namespace Vore
         {
         }
 
-        public override bool Vore(ThePrey parPrey)
+        public override bool Vore(BasicChar parPrey)
         {
-            if (CanVore(parPrey))
-            {
-                preys.Add(parPrey);
-                pred.VoreChar.Boobs.AddPrey(parPrey);
-                return true;
-            }
-            return false;
+            return base.Vore(parPrey);
         }
 
         public override float MaxCapacity()
@@ -194,15 +182,9 @@ namespace Vore
         {
         }
 
-        public override bool Vore(ThePrey parPrey)
+        public override bool Vore(BasicChar parPrey)
         {
-            if (CanVore(parPrey))
-            {
-                pred.VoreChar.Stomach.AddPrey(parPrey);
-                preys.Add(parPrey);
-                return true;
-            }
-            return false;
+            return base.Vore(parPrey);
         }
 
         public override float MaxCapacity()
@@ -221,15 +203,9 @@ namespace Vore
         {
         }
 
-        public override bool Vore(ThePrey parPrey)
+        public override bool Vore(BasicChar parPrey)
         {
-            if (CanVore(parPrey))
-            {
-                preys.Add(parPrey);
-                pred.VoreChar.Anal.AddPrey(parPrey);
-                return true;
-            }
-            return false;
+            return base.Vore(parPrey);
         }
 
         public override float MaxCapacity()
@@ -248,15 +224,9 @@ namespace Vore
         {
         }
 
-        public override bool Vore(ThePrey parPrey)
+        public override bool Vore(BasicChar parPrey)
         {
-            if (CanVore(parPrey))
-            {
-                preys.Add(parPrey);
-                pred.VoreChar.Vagina.AddPrey(parPrey);
-                return true;
-            }
-            return false;
+            return base.Vore(parPrey);
         }
 
         [SerializeField] private bool childTf = false;
@@ -284,12 +254,12 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        public void TransformToChild(Action<ThePrey> tfChild)
+        public void TransformToChild(Action<ThePrey> tfChild, int times)
         {
             foreach (ThePrey prey in Preys)
             {
-                Age age = prey.Prey.Age;
-                age.AgeDown();
+                Age age = prey.Age;
+                age.AgeDown(times);
                 if (age.AgeYears < 1)
                 {
                     tfChild?.Invoke(prey);
@@ -314,7 +284,7 @@ namespace Vore
             public PreyToChild(ThePrey parPrey)
             {
                 prey = parPrey;
-                startAge = prey.Prey.Age.AgeYears;
+                startAge = prey.Age.AgeYears;
                 lastAge = startAge;
             }
 
@@ -326,12 +296,12 @@ namespace Vore
 
             [SerializeField] private int lastAge;
 
-            public int CurAge => prey.Prey.Age.AgeYears;
+            public int CurAge => prey.Age.AgeYears;
             public int StartAge => startAge;
 
             public bool AgeDown()
             {
-                BasicChar bChar = prey.Prey;
+                BasicChar bChar = prey;
                 bChar.Age.AgeDown();
                 if (lastAge != CurAge)
                 {

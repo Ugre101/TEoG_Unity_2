@@ -25,7 +25,13 @@ public class CharSpriteHandler : MonoBehaviour
         Height();
     }
 
-    private void OnDestroy() => whom.RaceSystem.RaceChange -= ChangeSprite;
+    private void OnDestroy()
+    {
+        if (whom != null)
+        {
+            whom.RaceSystem.RaceChange -= ChangeSprite;
+        }
+    }
 
     private void Height()
     {

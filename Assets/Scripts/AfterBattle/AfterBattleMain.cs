@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class AfterBattleMain : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    private PlayerMain player => PlayerHolder.Player;
 
     [SerializeField] private List<BasicChar> enemies = new List<BasicChar>();
 
@@ -200,7 +200,7 @@ public class AfterBattleMain : MonoBehaviour
         }
         if (showVore)
         {
-            foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
+            foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, Target)))
             {
                 Instantiate(voreButton, buttons.transform).Setup(vore);
             }
@@ -210,7 +210,7 @@ public class AfterBattleMain : MonoBehaviour
     private void ShowVore()
     {
         buttons.transform.KillChildren();
-        foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
+        foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, Target)))
         {
             Instantiate(voreButton, buttons.transform).Setup(vore);
         }
@@ -238,7 +238,7 @@ public class AfterBattleMain : MonoBehaviour
 
     private void HandleVoreScene(VoreScene voreScene)
     {
-        AddToTextBox(voreScene.Vore(player, new Vore.ThePrey(Target)));
+        AddToTextBox(voreScene.Vore(player, Target));
         LastScene = voreScene;
         EnemyRemoved();
     }

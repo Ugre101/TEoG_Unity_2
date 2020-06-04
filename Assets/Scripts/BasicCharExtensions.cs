@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using HealthRecovery;
+using System.Collections;
 using UnityEngine;
 
 public static class BasicCharExtensions
@@ -70,42 +71,30 @@ public static class BasicCharExtensions
     }
 
     /// <summary> Handles hp/wp recovery, fat burn, vore </summary>
-    public static void OverTimeTick(this BasicChar basicChar)
+    public static void OverTimeTick(this BasicChar basicChar, int times = 1)
     {
-        basicChar.HP.TickRecovery();
-        basicChar.WP.TickRecovery();
+        if (!basicChar.HP.IsMax)
+        {
+            basicChar.HP.Gain(basicChar.HpRecoveryTotal(times));
+        }
+        if (!basicChar.WP.IsMax)
+        {
+            basicChar.WP.Gain(basicChar.WpRecoveryTotal(times));
+        }
         if (basicChar.Vore.Active)
         {
-            basicChar.Vore.Digest();
+            basicChar.Vore.Digest(times);
         }
         Body body = basicChar.Body;
+        // TODO Fix fatburn
         BodyStat fat = body.Fat;
-        float fatBurnRate = fat.BaseValue * 0.0001f;
-        if (basicChar.Vore.Active)
-        {
-            VorePerksSystem perks = basicChar.Vore.Perks;
-            if (perks.HasPerk(VorePerks.PredatoryMetabolism))
-            {
-                // TODO test pred metabol
-                if (body.FatPrecent > 0.18f)
-                {
-                    fatBurnRate += fat.BaseValue * (0.0001f * perks.GetPerkLevel(VorePerks.PredatoryMetabolism)) * body.FatPrecent;
-                }
-            }
-        }
-        if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
-        {
-            fatBurnRate += PerkEffects.Gluttony.ExtraFatBurn(basicChar.Perks);
-        }
-        else if (basicChar.Perks.HasPerk(PerksTypes.LowMetabolism))
-        {
-            fatBurnRate -= PerkEffects.LowMetabolism.LowerBurn(basicChar.Perks);
-        }
-        fat.LoseFlat(fatBurnRate);
-        basicChar.ReGainFluidsTick();
+        float fatBurnRate = basicChar.TotalFatBurn();
+        fat.LoseFlat(fatBurnRate * times);
+
+        basicChar.ReGainFluidsTick(times);
     }
 
-    private static void ReGainFluidsTick(this BasicChar basicChar)
+    private static void ReGainFluidsTick(this BasicChar basicChar, int times)
     {
         Organs so = basicChar.SexualOrgans;
         if (so.HaveBalls())
@@ -115,16 +104,16 @@ public static class BasicCharExtensions
             {
                 int blessVal = pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.SpermFactory);
                 basicChar.Body.Fat.LoseFlat(blessVal / 100); // TODO is this balanced?
-                so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value + blessVal));
+                so.Balls.ForEach(b => b.Fluid.ReFill((so.BallsBunusRefillRate.Value + blessVal) * times));
             }
             else
             {
-                so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value));
+                so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value * times));
             }
         }
         if (so.Lactating)
         {
-            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value));
+            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value * times));
         }
     }
 

@@ -5,7 +5,7 @@ public class PerkButton : PerkTreeBasicBtn
     [Space]
     [SerializeField] private PerkInfo perkInfo = null;
 
-    private int PerkLevel => player.Perks.GetPerkLevel(perkInfo.Perk);
+    private int PerkLevel => Player.Perks.GetPerkLevel(perkInfo.Perk);
 
     private void SetRuntSprite()
     {
@@ -36,7 +36,7 @@ public class PerkButton : PerkTreeBasicBtn
     {
         if (started)
         {
-            Taken = player.Perks.HasPerk(perkInfo.Perk);
+            Taken = Player.Perks.HasPerk(perkInfo.Perk);
             amount.text = PerkLevel.ToString();
             base.OnEnable();
         }
@@ -44,14 +44,14 @@ public class PerkButton : PerkTreeBasicBtn
 
     protected override void Use()
     {
-        if (perkInfo.Unlocked(player))
+        if (perkInfo.Unlocked(Player))
         {
-            if (player.Perks.HasPerk(perkInfo.Perk) ? player.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
+            if (Player.Perks.HasPerk(perkInfo.Perk) ? Player.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
             {
-                if (player.ExpSystem.PerkBool(perkInfo.PerkCost))
+                if (Player.ExpSystem.PerkBool(perkInfo.PerkCost))
                 {
                     Taken = true;
-                    player.GainPerk(perkInfo.Perk);
+                    Player.GainPerk(perkInfo.Perk);
                     amount.text = PerkLevel.ToString();
                 }
             }
@@ -60,13 +60,13 @@ public class PerkButton : PerkTreeBasicBtn
  
     protected override void Hovering()
     {
-        if (perkInfo.Unlocked(player))
+        if (perkInfo.Unlocked(Player))
         {
             PerkTreeHoverText.Hovering(perkInfo.Title, perkInfo.Info, perkInfo.Effects);
         }
         else
         {
-            PerkTreeHoverText.Hovering(perkInfo.Title, perkInfo.Info, perkInfo.Effects, perkInfo.MissingReqs(player));
+            PerkTreeHoverText.Hovering(perkInfo.Title, perkInfo.Info, perkInfo.Effects, perkInfo.MissingReqs(Player));
         }
     }
 }

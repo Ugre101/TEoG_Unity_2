@@ -63,7 +63,7 @@ namespace EditorStuff
             if (obj is GameObject go)
             {
                 // skipt gettype so stuff derived from prefab can be added.
-                if (go.GetComponent<EnemyPrefab>() is EnemyPrefab test) //  && test.GetType() == typeof(EnemyPrefab)
+                if (go.GetComponent<EnemyHolder>() is EnemyHolder test) //  && test.GetType() == typeof(EnemyPrefab)
                 {
                     map.Enemies.Add(test);
                 }
@@ -74,7 +74,7 @@ namespace EditorStuff
         {
             if (obj is GameObject go)
             {
-                if (go.GetComponent<Boss>() is Boss boss)
+                if (go.GetComponent<BossHolder>() is BossHolder boss)
                 {
                     map.Bosses.Add(boss);
                 }
@@ -90,8 +90,8 @@ namespace EditorStuff
             DirectoryInfo toInclude = new DirectoryInfo(folderName);
             foreach (FileInfo fileInfo in toInclude.GetFiles())
             {
-                var temp = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(EnemyPrefab));
-                if (temp is EnemyPrefab enemy)
+                var temp = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(EnemyHolder));
+                if (temp is EnemyHolder enemy)
                 {
                     map.Enemies.Add(enemy);
                 }

@@ -1,13 +1,14 @@
 ﻿public static partial class PerkEffects
 {
-
     public static class Gluttony
     {
         public static float ExtraFatBurn(Perks perks) => perks.HasPerk(PerksTypes.Gluttony)
             ? 0.1f * perks.GetPerkLevel(PerksTypes.Gluttony)
             : 0;
 
-        public static HealthMod ExtraRecovery(HealthTypes type) => new HealthMod(3, ModTypes.Flat, typeof(Gluttony).Name, type);
+        public static int ExtraRecovery(Perks perks) => perks.HasPerk(PerksTypes.Gluttony)
+            ? 3 * perks.GetPerkLevel(PerksTypes.Gluttony)
+            : 0;
 
         public static float ExtraStarvationPenalty(Perks perks) => perks.HasPerk(PerksTypes.Gluttony)
             ? 0.1f * perks.GetPerkLevel(PerksTypes.Gluttony)

@@ -7,7 +7,7 @@ public class HomeMainHouse : MonoBehaviour
 
     public void Start()
     {
-        player = player != null ? player : PlayerMain.GetPlayer;
+        player = player != null ? player : PlayerHolder.Player;
     }
 
     public void Sleep()

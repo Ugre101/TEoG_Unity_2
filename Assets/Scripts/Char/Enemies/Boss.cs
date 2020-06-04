@@ -18,6 +18,17 @@ public class Boss : EnemyPrefab
     [SerializeField] private bool lockedPosistion = false;
     public bool LockedPosistion => lockedPosistion;
     [SerializeField] private Vector3 pos = new Vector3();
+
+    public Boss(bool hasPreBattleDialog, bool hasPostBattleDialog, HasCustomScenes hasCustomScene, bool lockedPosistion, Vector3 pos, Reward reward, IsQuest isQuest, bool canTakeToDorm, int orgsNeeded, Age age, Body body, ExpSystem expSystem, EssenceSystem essence)
+        : base(reward, isQuest, canTakeToDorm, orgsNeeded, age, body, expSystem, essence)
+    {
+        this.hasPreBattleDialog = hasPreBattleDialog;
+        this.hasPostBattleDialog = hasPostBattleDialog;
+        this.hasCustomScene = hasCustomScene;
+        this.lockedPosistion = lockedPosistion;
+        this.pos = pos;
+    }
+
     public Vector3 Pos => pos;
 }
 

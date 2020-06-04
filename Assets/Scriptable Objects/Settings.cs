@@ -137,10 +137,10 @@ public static class Settings
 
     #endregion Unit bools
 
-    public static bool Vore => PlayerMain.GetPlayer.Vore.Active;
+    public static bool Vore =>PlayerHolder.Player.Vore.Active;
     public static bool Scat { get; private set; } = false;
 
-    public static bool ToogleVore() => PlayerMain.GetPlayer.Vore.ToogleVore;
+    public static bool ToogleVore() => PlayerHolder.Player.Vore.ToogleVore;
 
     public static bool ToogleScat() => Scat = !Scat;
 

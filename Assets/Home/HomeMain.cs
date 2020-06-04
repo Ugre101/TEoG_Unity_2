@@ -22,7 +22,7 @@ public class HomeMain : MonoBehaviour
     private void Start()
     {
         mapEvents = mapEvents != null ? mapEvents : MapEvents.GetMapEvents;
-        owner = owner != null ? owner : PlayerMain.GetPlayer;
+        owner = owner != null ? owner : PlayerHolder.Player;
         leaveBtn.onClick.AddListener(LeaveHome);
         BuildButtons();
     }

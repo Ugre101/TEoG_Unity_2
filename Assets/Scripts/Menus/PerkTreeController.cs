@@ -3,8 +3,7 @@ using UnityEngine.EventSystems;
 
 public class PerkTreeController : MonoBehaviour, IScrollHandler
 {
-    [SerializeField] private PlayerMain player = null;
-
+    private PlayerMain player => PlayerHolder.Player;
 
     [SerializeField] private RectTransform zoomRect = null;
 

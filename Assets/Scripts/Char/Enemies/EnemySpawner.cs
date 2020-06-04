@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private PlayerMain Player;
+    [SerializeField] private PlayerHolder Player;
 
     [SerializeField] private List<Tilemap> dontSpawnOn = new List<Tilemap>();
 
@@ -20,15 +20,15 @@ public class EnemySpawner : MonoBehaviour
     private Tilemap _currMap;
 
     private readonly List<Vector3> _empty = new List<Vector3>();
-    private readonly List<EnemyPrefab> currEnemies = new List<EnemyPrefab>();
-    private readonly List<EnemyPrefab> addedEnemies = new List<EnemyPrefab>();
-    private readonly List<Boss> currBosses = new List<Boss>();
-    private readonly List<Boss> addedBosses = new List<Boss>();
+    private readonly List<EnemyHolder> currEnemies = new List<EnemyHolder>();
+    private readonly List<EnemyHolder> addedEnemies = new List<EnemyHolder>();
+    private readonly List<BossHolder> currBosses = new List<BossHolder>();
+    private readonly List<BossHolder> addedBosses = new List<BossHolder>();
     private readonly System.Random rnd = new System.Random();
 
     private void Start()
     {
-        Player = Player != null ? Player : PlayerMain.GetPlayer;
+        Player = Player != null ? Player : PlayerHolder.GetPlayerHolder;
         MapEvents.TileMapChange += DoorChanged;
         Movement.TriggerEnemy += RePosistion;
         DoorChanged(MapEvents.CurrentMap);
@@ -56,7 +56,7 @@ public class EnemySpawner : MonoBehaviour
     public bool AroundBoss(Vector3 vector3)
     {
         if (addedBosses.Count < 1) { return false; }
-        foreach (Boss b in addedBosses)
+        foreach (BossHolder b in addedBosses)
         {
             if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
             {
@@ -69,7 +69,7 @@ public class EnemySpawner : MonoBehaviour
     public bool AroundOtherEnemy(Vector3 vector3)
     {
         if (addedEnemies.Count < 1) { return false; }
-        foreach (EnemyPrefab b in addedEnemies)
+        foreach (EnemyHolder b in addedEnemies)
         {
             if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
             {
@@ -104,7 +104,7 @@ public class EnemySpawner : MonoBehaviour
         return _empty[index];
     }
 
-    public void RePosistion(BasicChar toRePos) => toRePos.transform.position = GetPosistion();
+    public void RePosistion(CharHolder toRePos) => toRePos.transform.position = GetPosistion();
 
     private void DoorChanged(Tilemap _currMap)
     {
@@ -161,16 +161,18 @@ public class EnemySpawner : MonoBehaviour
         SpawnEnemies();
     }
 
+    [SerializeField] private EnemyHolder enemyHolder = null;
+
     private void SpawnEnemies()
     {
         if (currEnemies.Count > 0)
         {
             for (int i = 0; i < enemyToAdd; i++)
             {
-                EnemyPrefab prefab = currEnemies[rnd.Next(currEnemies.Count)];
+                EnemyHolder prefab = currEnemies[rnd.Next(currEnemies.Count)];
                 if (prefab != null)
                 {
-                    EnemyPrefab newEnemy = Instantiate(prefab, GetPosistion(), Quaternion.identity, transform);
+                    EnemyHolder newEnemy = Instantiate(prefab, GetPosistion(), Quaternion.identity, transform);
                     newEnemy.name = prefab.name;
                     addedEnemies.Add(newEnemy);
                 }
@@ -182,33 +184,38 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
+    [SerializeField] private BossHolder bossHolder = null;
+
     private void SpawnBosses()
     {
         if (currBosses.Count > 0)
         {
-            foreach (Boss b in currBosses)
+            foreach (BossHolder boss in currBosses)
             {
-                if (b != null)
+                if (boss != null)
                 {
-                    if (b.LockedPosistion)
+                    if (boss.BasicChar is Boss b)
                     {
-                        Boss boss = Instantiate(b, b.Pos, Quaternion.identity, transform);
-                        NameAndADDBoss(b, boss);
-                    }
-                    else
-                    {
-                        Boss boss = Instantiate(b, transform, true);
-                        NameAndADDBoss(b, boss);
-                        RePosistion(boss);
+                        if (b.LockedPosistion)
+                        {
+                            Instantiate(boss, b.Pos, Quaternion.identity, transform);
+                            NameAndADDBoss(b, boss);
+                        }
+                        else
+                        {
+                            Instantiate(boss, transform, true);
+                            NameAndADDBoss(b, boss);
+                            RePosistion(boss);
+                        }
                     }
                 }
             }
         }
     }
 
-    private void NameAndADDBoss(Boss b, Boss boss)
+    private void NameAndADDBoss(Boss b, BossHolder boss)
     {
-        boss.name = b.name;
+        boss.name = b.Identity.FullName;
         addedBosses.Add(boss);
     }
 }

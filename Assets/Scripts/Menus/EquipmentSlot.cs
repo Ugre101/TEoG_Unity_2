@@ -13,7 +13,7 @@ public class EquipmentSlot : MonoBehaviour, IPointerClickHandler
 
     private void OnEnable()
     {
-        wearer = wearer != null ? wearer : PlayerMain.GetPlayer;
+        wearer = wearer != null ? wearer : PlayerHolder.Player;
         btn = btn != null ? btn : GetComponent<Button>();
         wearer.EquiptItems.GetSlot(slot).GotItem += HasItem;
         HasItem();

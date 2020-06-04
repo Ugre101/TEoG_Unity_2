@@ -8,7 +8,7 @@
     public override void Setup()
     {
         SexualFluid.FluidSlider += CumChange;
-        if (player.SexualOrgans.HaveBalls())
+        if (Player.SexualOrgans.HaveBalls())
         {
             CumChange();
         }
@@ -21,10 +21,10 @@
 
     private void CumChange()
     {
-        slider.value = player.SexualOrgans.CumSlider;
+        slider.value = Player.SexualOrgans.CumSlider;
         if (statusText != null)
         {
-            statusText.text = Settings.LorGal(player.SexualOrgans.Balls.FluidCurrentTotal() / 1000);
+            statusText.text = Settings.LorGal(Player.SexualOrgans.Balls.FluidCurrentTotal() / 1000);
         }
     }
 }

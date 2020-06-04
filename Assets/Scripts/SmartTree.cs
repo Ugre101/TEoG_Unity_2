@@ -2,7 +2,7 @@
 
 public class SmartTree : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private PlayerHolder player = null;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite stump = null, tree = null;
     [SerializeField] private CapsuleCollider2D capsule = null;
@@ -17,7 +17,7 @@ public class SmartTree : MonoBehaviour
     {
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
         capsule = capsule != null ? capsule : GetComponent<CapsuleCollider2D>();
-        player = player != null ? player : PlayerMain.GetPlayer;
+        player = player != null ? player : PlayerHolder.GetPlayerHolder;
         if (stump == null || tree == null)
         {
             Debug.LogError("A tree is missing sprites and was DESTROYED");
@@ -70,7 +70,7 @@ public class SmartTree : MonoBehaviour
                 chopped = true;
                 timeChoppedDown = DateSystem.Save;
                 SetSprite();
-                player.Inventory.AddItem(ItemIds.Wood);
+                player.BasicChar.Inventory.AddItem(ItemIds.Wood);
             }
         }
     }

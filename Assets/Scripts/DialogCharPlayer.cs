@@ -2,7 +2,7 @@
 {
     private void OnEnable()
     {
-        whom = whom != null ? whom : PlayerMain.GetPlayer;
+        whom = whom != null ? whom : PlayerHolder.Player;
         SetTexts(whom);
     }
 }

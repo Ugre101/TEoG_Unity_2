@@ -4,11 +4,11 @@ namespace EssenceMenuStuff
 {
     public class AddDick : AddOrgan
     {
-        protected override Essence Ess => player.Essence.Masc;
+        protected override Essence Ess => Player.Essence.Masc;
 
         protected override float Cost => Dicks.Cost();
 
-        private List<Dick> Dicks => player.SexualOrgans.Dicks;
+        private List<Dick> Dicks => Player.SexualOrgans.Dicks;
 
         protected override void AddFunc()
         {

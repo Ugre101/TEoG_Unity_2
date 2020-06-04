@@ -7,7 +7,6 @@ using UnityEngine;
 public class ShowDorm : MonoBehaviour
 {
     [SerializeField] private PlayerMain player = null;
-    [SerializeField] private Dorm dorm = null;
     [SerializeField] private Transform container = null;
     [SerializeField] private ShowServant ServantListPrefab = null;
     [SerializeField] private GameObject servantList = null;
@@ -48,7 +47,6 @@ public class ShowDorm : MonoBehaviour
 
     public void OnEnable()
     {
-        dorm = dorm != null ? dorm : Dorm.GetDrom;
         chooseRace = null;
         raceDropdown.value = 0;
         raceDropdown.RefreshShownValue();
@@ -64,14 +62,14 @@ public class ShowDorm : MonoBehaviour
         servantList.SetActive(true);
         aServant.gameObject.SetActive(false);
 
-        bool hasSevants = dorm.Servants.Count > 0;
+        bool hasSevants = Dorm.Followers.Count > 0;
         ifEmpty.SetActive(!hasSevants);
         container.KillChildren();
         if (hasSevants)
         {
             if (chooseRace.HasValue || chooseGender.HasValue || sortByStat.HasValue)
             {
-                List<BasicChar> sorted = dorm.Servants;
+                List<BasicChar> sorted = Dorm.Followers;
                 if (chooseRace.HasValue) { sorted = sorted.FindAll(bc => bc.RaceSystem.CurrentRace() == chooseRace.Value); }
                 if (chooseGender.HasValue) { sorted = sorted.FindAll(bc => bc.Gender() == chooseGender.Value); }
                 if (sortByStat.HasValue) { sorted = SortSercantByRelationship(sorted); }
@@ -79,7 +77,7 @@ public class ShowDorm : MonoBehaviour
             }
             else
             {
-                dorm.Servants.ForEach(s => Instantiate(ServantListPrefab, container).Init(s).onClick.AddListener(() => ShowAServant(s)));
+                Dorm.Followers.ForEach(s => Instantiate(ServantListPrefab, container).Init(s).onClick.AddListener(() => ShowAServant(s)));
             }
         }
     }

@@ -128,7 +128,7 @@ public class RaceSystem
         raceList.Sort((r1, r2) => r1.Amount.CompareTo(r2.Amount));
         Dirty = false;
     }
-
+    
     // Maybe overkill but I prefer to have the parameters named
     public delegate void RaceChanged<in t1, in t2>(t1 oldRace, t2 newRace);
 

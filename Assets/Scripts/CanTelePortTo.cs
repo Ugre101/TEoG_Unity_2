@@ -74,7 +74,7 @@ public class CanTelePortTo : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(PlayerMain.GetTag))
+        if (collision.gameObject.CompareTag(PlayerHolder.GetTag))
         {
             if (!Know && walkOnToUnlock)
             {
@@ -82,7 +82,7 @@ public class CanTelePortTo : MonoBehaviour
             }
             else if (!Know && !walkOnToUnlock)
             {
-                PlayerMain.GetPlayer.Events.SoloEvents.TeleportIsLocked();
+                PlayerHolder.Player.Events.SoloEvents.TeleportIsLocked();
             }
             if (Know)
             {
@@ -96,7 +96,7 @@ public class CanTelePortTo : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(PlayerMain.GetTag))
+        if (collision.gameObject.CompareTag(PlayerHolder.GetTag))
         {
             if (justTeleportedTo)
             {

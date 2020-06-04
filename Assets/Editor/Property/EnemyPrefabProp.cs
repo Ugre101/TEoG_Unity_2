@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace EditorStuff
 {
-    [CustomPropertyDrawer(typeof(EnemyPrefab))]
+    [CustomPropertyDrawer(typeof(EnemyHolder))]
     public class EnemyPrefabProp : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealthRecovery;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -30,6 +31,7 @@ public class Health : IntStat
                 lastValue = GetCalcValue();
                 IsDirty = false;
                 UpdateSliderEvent?.Invoke();
+                current = Mathf.Clamp(current, 0, lastValue);
             }
             return lastValue;
         }
@@ -52,8 +54,6 @@ public class Health : IntStat
 
     private readonly List<AffectedByStat> AffectedBy = new List<AffectedByStat>();
 
-    public void TickRecovery() => Gain(Recovery.Value);
-
     public void TickTempMods()
     {
         if (TempHealthMods.RemoveAll(tm => tm.Duration < 1) > 0)
@@ -68,29 +68,30 @@ public class Health : IntStat
         float flatValue = BaseValue +
             HealthMods.FindAll(hm => hm.ModType == ModTypes.Flat).Sum(hm => hm.Value) +
             TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Flat).Sum(thm => thm.Value) +
-            AffectedBy.Sum(ab => ab.CharStats.Value * ab.Multiplier);
+            AffectedBy.Sum(ab => basicChar.Stats.GetStat(ab.Stat).Value * ab.Multiplier);
         float perValue = 1 +
             HealthMods.FindAll(hm => hm.ModType == ModTypes.Precent).Sum(hm => hm.Value) +
             TempHealthMods.FindAll(thm => thm.ModType == ModTypes.Precent).Sum(thm => thm.Value);
         return Mathf.FloorToInt(flatValue * perValue);
     }
 
-    public Health()
+    private readonly BasicChar basicChar;
+
+    public Health(BasicChar basicChar)
     {
+        this.basicChar = basicChar;
         baseValue = 100;
         DateSystem.NewHourEvent += TickTempMods;
     }
 
-    public Health(List<AffectedByStat> affectedBy) : this()
+    public Health(BasicChar basicChar, List<AffectedByStat> affectedBy) : this(basicChar)
     {
         this.AffectedBy = affectedBy;
-        this.AffectedBy.ForEach(ab =>
-        {
-            ab.CharStats.ValueChanged += () => IsDirty = true;
-        });
+        this.AffectedBy.ForEach(ab => basicChar.Stats.GetStat(ab.Stat).ValueChanged += () => IsDirty = true);
+        current = Value;
     }
 
-    public Health(AffectedByStat affectedBy) : this(new List<AffectedByStat>() { affectedBy })
+    public Health(BasicChar basicChar, AffectedByStat affectedBy) : this(basicChar, new List<AffectedByStat>() { affectedBy })
     {
     }
 
@@ -215,12 +216,12 @@ public class Health : IntStat
 
 public class AffectedByStat
 {
-    public AffectedByStat(CharStats charStats, float multiplier)
+    public AffectedByStat(StatTypes stat, float multiplier)
     {
-        this.CharStats = charStats;
+        this.Stat = stat;
         this.Multiplier = multiplier;
     }
 
-    public CharStats CharStats { get; }
+    public StatTypes Stat;
     public float Multiplier { get; }
 }

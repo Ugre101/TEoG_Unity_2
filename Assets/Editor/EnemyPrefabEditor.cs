@@ -13,8 +13,8 @@ public static class EnemyPrefabEditorFoldouts
     public static bool IsQuestFold { get; set; } = false;
 }
 
-[CustomEditor(typeof(EnemyPrefab))]
-public class EnemyPrefabEditor : BasicCharEditor
+[CustomEditor(typeof(EnemyHolder))]
+public class EnemyPrefabEditor : CharHolderEditor
 {
     #region FoldsShortcut
 
@@ -42,11 +42,10 @@ public class EnemyPrefabEditor : BasicCharEditor
 
     private int TotalStats => assingStr.intValue + assingCharm.intValue + assingEnd.intValue + assingDex.intValue + assingInt.intValue + assingWillpower.intValue;
 
-            private void OnEnable()
-            {
-                BasicCharEnable();
-                GetSerializedObjectsForEnemyPrefab();
-            }
+    private void OnEnable()
+    {
+        GetSerializedObjectsForEnemyPrefab();
+    }
 
     protected void GetSerializedObjectsForEnemyPrefab()
     {
@@ -87,14 +86,14 @@ public class EnemyPrefabEditor : BasicCharEditor
     public override void OnInspectorGUI()
     {
         //GUILayout.Label("test");
-        EnemyPrefab myTarget = (EnemyPrefab)target;
+        EnemyHolder myTarget = (EnemyHolder)target;
         NameFold = EditorGUILayout.Foldout(NameFold, "Name", true, EditorStyles.foldout);
         if (NameFold)
         {
             GUILayout.BeginVertical("Box");
             UgreEditorTools.TwoBoldLabels("First name", "Last name");
             GUILayout.BeginHorizontal();
-            Identity identity = myTarget.Identity;
+            Identity identity = myTarget.BasicChar.Identity;
             identity.FirstName = EditorGUILayout.TextArea(identity.FirstName);
             identity.LastName = EditorGUILayout.TextArea(identity.LastName);
             GUILayout.EndHorizontal();

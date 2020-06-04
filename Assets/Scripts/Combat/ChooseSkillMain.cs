@@ -42,7 +42,7 @@ public class ChooseSkillMain : MonoBehaviour
 
     public void Toggle(CombatButton parCombatBtn)
     {
-        player = player != null ? player : PlayerMain.GetPlayer;
+        player = player != null ? player : PlayerHolder.Player;
         gameObject.SetActive(true);
         combatButton = parCombatBtn;
         // Clean container

@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Breast vore", menuName = ("Sex/Vore/Breast vore"))]
 public class BreastVore : VoreScene
 {
-    public override bool CanDo(BasicChar player, Vore.ThePrey Other)
+    public override bool CanDo(BasicChar player, BasicChar Other)
     {
         if (player.SexualOrgans.Boobs.BiggestSize() < 3)
         {
@@ -12,7 +12,7 @@ public class BreastVore : VoreScene
         return player.Vore.Boobs.CanVore(Other);
     }
 
-    public override string Vore(PlayerMain player, Vore.ThePrey other)
+    public override string Vore(PlayerMain player, BasicChar other)
     {
         if (player.Vore.Boobs.Vore(other))
         {

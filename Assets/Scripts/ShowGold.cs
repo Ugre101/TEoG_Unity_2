@@ -9,7 +9,7 @@ public class ShowGold : MonoBehaviour
 
     private void OnEnable()
     {
-        owner = owner != null ? owner : PlayerMain.GetPlayer;
+        owner = owner != null ? owner : PlayerHolder.Player;
         owner.Currency.GoldChanged += UpdateGold;
         UpdateGold();
     }

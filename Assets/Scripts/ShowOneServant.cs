@@ -6,7 +6,6 @@ public class ShowOneServant : MonoBehaviour
 {
     private BasicChar basicChar;
     [SerializeField] private ShowDorm showDorm = null;
-    [SerializeField] private Dorm dorm = null;
     [SerializeField] private Button backBtn = null, kickOutBtn = null;
     [SerializeField] private TextMeshProUGUI textBox = null;
 
@@ -15,7 +14,6 @@ public class ShowOneServant : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        dorm = dorm != null ? dorm : Dorm.GetDrom;
         showDorm = showDorm != null ? showDorm : GetComponentInParent<ShowDorm>();
         backBtn.onClick.AddListener(showDorm.ListServants);
         kickOutBtn.onClick.AddListener(KickOut);
@@ -30,17 +28,16 @@ public class ShowOneServant : MonoBehaviour
 
     private void KickOut()
     {
-        if (dorm.Servants.Exists(b => b == basicChar))
+        if (Dorm.Followers.Exists(b => b == basicChar))
         {
-            BasicChar who = dorm.Servants.Find(b => b == basicChar);
+            BasicChar who = Dorm.Followers.Find(b => b == basicChar);
             Instantiate(prompt, transform).Setup(() => KickASevantOut(who));
         }
     }
 
     private void KickASevantOut(BasicChar basicChar)
     {
-        dorm.Servants.Remove(basicChar);
-        Destroy(basicChar.gameObject);
+        Dorm.Followers.Remove(basicChar);
         showDorm.ListServants();
     }
 }

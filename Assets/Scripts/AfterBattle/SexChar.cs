@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SexChar : MonoBehaviour
 {
-    [SerializeField] private BasicChar whom;
+    private BasicChar whom;
 
     [Header("Organ descs")]
     [SerializeField] private DickInfo dickInfo = null;

@@ -169,10 +169,10 @@ public static class QuestReward
         switch (quests)
         {
             case Quests.Bandit:
-                return BanditLordReward(PlayerMain.GetPlayer);
+                return BanditLordReward(PlayerHolder.Player);
 
             case Quests.ElfsHunt:
-                return ElfHuntReward(PlayerMain.GetPlayer);
+                return ElfHuntReward(PlayerHolder.Player);
 
             default:
                 return "";

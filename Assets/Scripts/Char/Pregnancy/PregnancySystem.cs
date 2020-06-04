@@ -115,7 +115,7 @@ public static class PregnancyExtensions
                 pregnancySystem.Children.AddRange(born);
                 mother.Events.SoloEvents.IGiveBirth(born);
                 string amount = born.Count > 1 ? $"a pair of twins babies" : "one baby"; // TODO add more
-                string addText = mother.CompareTag(PlayerMain.GetPlayer.tag)
+                string addText = mother is PlayerMain
                     ? $"You have given birth to {amount}."
                     : $"{mother.Identity.FullName} has given birth to {amount}";
                 EventLog.AddTo(addText);
