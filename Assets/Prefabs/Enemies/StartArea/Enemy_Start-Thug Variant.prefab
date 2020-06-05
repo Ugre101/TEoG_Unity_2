@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2505866026918897770, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: basicChar.body.fat.baseValue
+      value: 18.346298
+      objectReference: {fileID: 0}
     - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: startRaces.Array.size
@@ -181,11 +186,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: 0db1d8b37932fc942a0b396eacf3bb84,
+        type: 3}
     - target: {fileID: 8534239450746442158, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442159, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}

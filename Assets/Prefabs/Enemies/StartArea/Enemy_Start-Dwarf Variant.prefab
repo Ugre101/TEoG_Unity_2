@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2505866026918897770, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: basicChar.body.fat.baseValue
+      value: 18.27671
+      objectReference: {fileID: 0}
     - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}
       propertyPath: startRaces.Array.size
@@ -56,6 +61,11 @@ PrefabInstance:
         type: 3}
       propertyPath: assingWill
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4671658219770181674, guid: 4ff97384ec7103546830b3b3d7bc14bb,
+        type: 3}
+      propertyPath: assingHeight
+      value: 122
       objectReference: {fileID: 0}
     - target: {fileID: 8534239450746442155, guid: 4ff97384ec7103546830b3b3d7bc14bb,
         type: 3}

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Vore;
 
@@ -29,21 +30,31 @@ public class Save
 
     public void LoadData(string json)
     {
-        FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
-        // Singleton static
-        // Reference
-        JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
-        StartHomeStats.Load(fullSave.HomePart);
-        Dorm.Load(fullSave.DormPart);
-        //  voreChar.Load(fullSave.VoreSaves, Player);
-        // Pure static
-        DateSystem.Load(fullSave.DatePart);
-        QuestsSystem.Load(fullSave.QuestSave);
-        PlayerFlags.Load(fullSave.PlayerFlagsSave);
-        MapEvents.GetMapEvents.Load(fullSave.PosPart, fullSave.TeleportSaves);
-        GameManager.Load(fullSave.GameManagerSave);
-        EventLog.ClearLog();
-        LoadEvent?.Invoke();
+        try
+        {
+            FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
+            // Singleton static
+            // Reference
+            PlayerHolder.GetPlayerHolder.Load(fullSave.PlayerPart.Who);
+            JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
+            StartHomeStats.Load(fullSave.HomePart);
+            Dorm.Load(fullSave.DormPart);
+            //  voreChar.Load(fullSave.VoreSaves, Player);
+            // Pure static
+            DateSystem.Load(fullSave.DatePart);
+            QuestsSystem.Load(fullSave.QuestSave);
+            PlayerFlags.Load(fullSave.PlayerFlagsSave);
+            MapEvents.GetMapEvents.Load(fullSave.PosPart, fullSave.TeleportSaves);
+            GameManager.Load(fullSave.GameManagerSave);
+            EventLog.ClearLog();
+            LoadEvent?.Invoke();
+        }
+        catch (Exception e)
+        {
+            // TODO make work
+            PopupHandler.GetPopupHandler.SpawnTimedPopup(e.Message,5f);
+            Debug.LogError(e.Message);
+        }
     }
 
     public delegate void DelegateLoad();

@@ -36,7 +36,7 @@ public class PlayerHolder : CharHolder
         BasicChar.BeforeDestroy();
     }
 
-    public override void Load(string jsonSave) => Player = JsonUtility.FromJson<PlayerMain>(jsonSave);
+    public override void Load(string jsonSave) => JsonUtility.FromJsonOverwrite(jsonSave, player);
 
     private static string thisTag;
     public static string GetTag => thisTag;
