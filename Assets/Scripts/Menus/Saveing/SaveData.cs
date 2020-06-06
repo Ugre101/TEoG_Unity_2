@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using Vore;
 
@@ -30,30 +29,46 @@ public class Save
 
     public void LoadData(string json)
     {
+        FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
+        string errorMsg = string.Empty;
+        // Singleton static
+        // Reference
         try
         {
-            FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
-            // Singleton static
-            // Reference
             PlayerHolder.GetPlayerHolder.Load(fullSave.PlayerPart.Who);
-            JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
-            StartHomeStats.Load(fullSave.HomePart);
-            Dorm.Load(fullSave.DormPart);
-            //  voreChar.Load(fullSave.VoreSaves, Player);
-            // Pure static
-            DateSystem.Load(fullSave.DatePart);
-            QuestsSystem.Load(fullSave.QuestSave);
-            PlayerFlags.Load(fullSave.PlayerFlagsSave);
-            MapEvents.GetMapEvents.Load(fullSave.PosPart, fullSave.TeleportSaves);
-            GameManager.Load(fullSave.GameManagerSave);
-            EventLog.ClearLog();
-            LoadEvent?.Invoke();
         }
-        catch (Exception e)
+        catch
         {
-            // TODO make work
-            PopupHandler.GetPopupHandler.SpawnTimedPopup(e.Message,5f);
-            Debug.LogError(e.Message);
+            errorMsg += "Player failed to load";
+        }
+        //  JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
+        try
+        {
+            StartHomeStats.Load(fullSave.HomePart);
+        }
+        catch
+        {
+            errorMsg += "Home failed to load";
+        }
+        try
+        {
+            Dorm.Load(fullSave.DormPart);
+        }
+        catch
+        {
+            errorMsg += "Dorm failed to load";
+        }
+
+        DateSystem.Load(fullSave.DatePart);
+        QuestsSystem.Load(fullSave.QuestSave);
+        PlayerFlags.Load(fullSave.PlayerFlagsSave);
+        MapEvents.GetMapEvents.Load(fullSave.PosPart, fullSave.TeleportSaves);
+        GameManager.Load(fullSave.GameManagerSave);
+        EventLog.ClearLog();
+        LoadEvent?.Invoke();
+        if (errorMsg != string.Empty)
+        {
+            PopupHandler.GetPopupHandler.DelayedSpawnTimedPopup(errorMsg, 6f);
         }
     }
 

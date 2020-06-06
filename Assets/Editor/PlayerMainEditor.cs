@@ -1,9 +1,9 @@
 ﻿using UnityEditor;
-/*
+
 [CustomEditor(typeof(PlayerHolder))]
 public class PlayerMainEditor : CharHolderEditor
 {
-    /*
+    
     private PlayerHolder playerHolder;
 
     private PlayerMain Player
@@ -17,10 +17,8 @@ public class PlayerMainEditor : CharHolderEditor
             return null;
         }
     }
-
     private void OnEnable()
     {
-        BasicCharEnable();
         playerHolder = (PlayerHolder)target;
     }
 
@@ -28,6 +26,5 @@ public class PlayerMainEditor : CharHolderEditor
     {
         base.OnInspectorGUI();
     }
-    /
+    
 }
-*/
