@@ -41,6 +41,7 @@ public class AfterBattleMain : MonoBehaviour
 
     [SerializeField] private List<VoreScene> voreScenes = new List<VoreScene>();
     [SerializeField] private List<SexScenes> miscScenes = new List<SexScenes>();
+    [SerializeField] private LeaveAfterBattle leaveScene = null;
 
     #endregion Scenes
 
@@ -89,6 +90,11 @@ public class AfterBattleMain : MonoBehaviour
         {
             buttons.transform.KillChildren();
             DrainActions.transform.KillChildren();
+            if (leaveScene != null)
+            {
+                MiscActions.transform.KillChildren();
+                Instantiate(sexButton, MiscActions).Setup(leaveScene);
+            }
         }
         else
         {

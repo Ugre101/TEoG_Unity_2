@@ -13,8 +13,8 @@ public static class Dorm
         foreach (BasicChar basicChar in Followers)
         {
             DormSave tempDorm = new DormSave(basicChar);
+            dormSaves.Add(tempDorm);
         }
-
         return dormSaves;
     }
 

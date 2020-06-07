@@ -161,8 +161,6 @@ public class EnemySpawner : MonoBehaviour
         SpawnEnemies();
     }
 
-    [SerializeField] private EnemyHolder enemyHolder = null;
-
     private void SpawnEnemies()
     {
         if (currEnemies.Count > 0)
@@ -184,8 +182,6 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    [SerializeField] private BossHolder bossHolder = null;
-
     private void SpawnBosses()
     {
         if (currBosses.Count > 0)
@@ -203,9 +199,8 @@ public class EnemySpawner : MonoBehaviour
                         }
                         else
                         {
-                            Instantiate(boss, transform, true);
+                            Instantiate(boss, GetPosistion(), Quaternion.identity, transform);
                             NameAndADDBoss(b, boss);
-                            RePosistion(boss);
                         }
                     }
                 }

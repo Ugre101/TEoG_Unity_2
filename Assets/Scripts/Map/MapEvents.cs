@@ -30,13 +30,7 @@ public class MapEvents : MonoBehaviour
 
     [SerializeField] private List<WorldMap> worldMaps = new List<WorldMap>();
 
-    private List<Transform> WorldChildren
-    {
-        get
-        {
-            return new List<Transform>(CurrentWorld.GetComponentsInChildren<Transform>());
-        }
-    }
+    private List<Transform> WorldChildren => new List<Transform>(CurrentWorld.GetComponentsInChildren<Transform>());
 
     #region mapScript
 
@@ -119,10 +113,6 @@ public class MapEvents : MonoBehaviour
             }
             return telePortLocations;
         }
-    }
-
-    private void Start()
-    {
     }
 
     public static void MapChange(Tilemap newMap)

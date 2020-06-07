@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Vore;
 
 public class Save
 {
     private readonly PlayerMain Player;
     private readonly Transform Pos;
-    private readonly VoreChar voreChar;
 
     public Save(PlayerMain player, PlayerHolder playerHolder)
     {
@@ -18,9 +16,8 @@ public class Save
     {
         PlayerSave playerSave = new PlayerSave(Player);
         List<DormSave> dormSaves = Dorm.Save();
-        PosSave playerPos = new PosSave(Pos.position, MapEvents.ActiveMap, MapEvents.CurrentMap.transform.name);
+        PosSave playerPos = new PosSave(Pos.position);
         HomeSave homeSave = StartHomeStats.Save();
-        //   VoreSaves voreSaves = voreChar.Save;
         FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, MapEvents.GetMapEvents.GetTeleportSaves());
         Debug.Log(JsonUtility.ToJson(fullSave));
 
@@ -30,12 +27,13 @@ public class Save
     public void LoadData(string json)
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
+        Debug.Log(json);
         string errorMsg = string.Empty;
         // Singleton static
         // Reference
         try
         {
-            PlayerHolder.GetPlayerHolder.Load(fullSave.PlayerPart.Who);
+            PlayerHolder.Load(fullSave.PlayerPart.Who);
         }
         catch
         {
@@ -86,7 +84,6 @@ public class FullSave
     [SerializeField] private DateSave datePart;
     [SerializeField] private HomeSave homePart;
 
-    //  [SerializeField] private VoreSaves voreSaves;
     [SerializeField] private QuestSave questSave;
 
     [SerializeField] private PlayerFlagsSave playerFlags;
@@ -98,7 +95,6 @@ public class FullSave
     public DateSave DatePart => datePart;
     public HomeSave HomePart => homePart;
 
-    //  public VoreSaves VoreSaves => voreSaves;
     public QuestSave QuestSave => questSave;
 
     public PlayerFlagsSave PlayerFlagsSave => playerFlags;
@@ -113,7 +109,6 @@ public class FullSave
         this.dormPart = dorm;
         this.datePart = DateSystem.Save;
         this.homePart = parHome;
-        //  this.voreSaves = vore;
         this.questSave = QuestsSystem.Save;
         this.playerFlags = PlayerFlags.Save();
         this.teleportSaves = teleportSaves;
@@ -144,10 +139,10 @@ public struct PosSave
     public WorldMaps World => world;
     public string Map => map;
 
-    public PosSave(Vector3 vec3, WorldMaps currWorld, string currMap)
+    public PosSave(Vector3 vec3)
     {
         pos = vec3;
-        world = currWorld;
-        map = currMap;
+        world = MapEvents.ActiveMap;
+        map = MapEvents.CurrentMap.transform.name;
     }
 }

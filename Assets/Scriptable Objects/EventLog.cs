@@ -26,6 +26,15 @@ public static class EventLog
         return string.Empty;
     }
 
+    public static EventLogSave Save() => new EventLogSave(text);
+
+    public static void Load(EventLogSave save)
+    {
+        text.Clear();
+        text.AddRange(save.Logs);
+        EventTextEvent?.Invoke();
+    }
+
     public static void ClearLog()
     {
         text.Clear();
@@ -35,4 +44,14 @@ public static class EventLog
     public delegate void EventText();
 
     public static event EventText EventTextEvent;
+}
+
+[System.Serializable]
+public struct EventLogSave
+{
+    [UnityEngine.SerializeField] private List<string> logs;
+
+    public EventLogSave(List<string> logs) => this.logs = logs;
+
+    public List<string> Logs => logs;
 }

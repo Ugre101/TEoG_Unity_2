@@ -19,7 +19,7 @@ namespace UI
         // Start is called before the first frame update
         private void Start()
         {
-            player = player != null ? player : PlayerHolder.Player;
+            player = player ?? PlayerHolder.Player;
             Save.LoadEvent += DisplayEffects;
             player.Stats.GetAll.ForEach(s => { s.AddedTempEvent += DisplayEffects; });
             player.HP.AddedTempEvent += DisplayEffects;
