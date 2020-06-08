@@ -18,8 +18,10 @@ MonoBehaviour:
   perkEffects: + Give more essence
   maxLevel: 1
   perkCost: 1
-  perk: 2
+  perk: 15
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 1
-  neededPerks: 0f000000
+  neededPerks: []
+  isExcluvsive: 0
+  exclusiveWith: 

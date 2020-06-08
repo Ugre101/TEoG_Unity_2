@@ -33,7 +33,7 @@ public class Save
         // Reference
         try
         {
-            PlayerHolder.Load(fullSave.PlayerPart.Who);
+            PlayerHolder.GetPlayerHolder.Load(fullSave.PlayerPart.Who);
         }
         catch
         {

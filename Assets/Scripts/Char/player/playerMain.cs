@@ -1,11 +1,5 @@
 ﻿public class PlayerMain : BasicChar
 {
-    // Start is called before the first frame update
-    public override void Setup()
-    {
-        base.Setup();
-        Currency.Gold += 100;
-    }
 
     public void PlayerInit(string first, string last)
     {

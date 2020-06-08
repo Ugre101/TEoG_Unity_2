@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29817c9a79a47744996aee4fe9a1777b, type: 3}
+  m_Name: Masculine Flow
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  perkTitle: "Masculine flow\t"
+  perkInfo: Inject some of your masculine essence into your partner unconsciously
+    when you orgasm, but also subconsciously transmute some of the shapeless essence
+    around you.
+  perkEffects: "+ Small free essence bonus (5 * perk level)\n+- Auto Inject  partner  
+    (15 * perk level)\n+- Drains you of masculine essence & organs \n- Not togglable "
+  maxLevel: 5
+  perkCost: 1
+  perk: 19
+  needCharStat: 0
+  neededCharStats: []
+  needOtherPerks: 0
+  neededPerks: []
+  isExcluvsive: 0
+  exclusiveWith: 

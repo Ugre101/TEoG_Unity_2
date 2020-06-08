@@ -14,46 +14,24 @@ public class PlayerHolder : CharHolder
         {
             Destroy(gameObject);
         }
-        thisTag = gameObject.tag;
+        GetTag = gameObject.tag;
     }
 
     private void Start()
     {
-        if (!isSetuped)
-        {
-            Setup();
-            isSetuped = true;
-        }
+        Setup();
     }
 
-    public override void Setup()
+    public override void Load(string jsonSave)
     {
-        BasicChar.Setup();
+        JsonUtility.FromJsonOverwrite(jsonSave, Player);
+        Unbind();
+        Bind();
     }
 
-    private void OnDestroy()
-    {
-        BasicChar.BeforeDestroy();
-    }
+    public static string GetTag { get; private set; }
 
-    public static new void Load(string jsonSave) => JsonUtility.FromJsonOverwrite(jsonSave, player);
+    public override BasicChar BasicChar { get => Player; protected set => Player = (PlayerMain)value; }
 
-    private static string thisTag;
-    public static string GetTag => thisTag;
-    private static PlayerMain player = new PlayerMain(new Age(), new Body(160, 10, 20), new ExpSystem(1), new Perks(), new EssenceSystem(new Essence(), new Essence(), new CharStats(0)));
-    public override BasicChar BasicChar { get => player; protected set => Player = (PlayerMain)value; }
-    private static bool isSetuped = false;
-
-    public static PlayerMain Player
-    {
-        get
-        {
-            if (!isSetuped)
-            {
-                player.Setup();
-            }
-            return player;
-        }
-        private set => player = value;
-    }
+    public static PlayerMain Player { get; private set; } = new PlayerMain(new Age(), new Body(160, 10, 20), new ExpSystem(1), new Perks(), new EssenceSystem(new Essence(), new Essence(), new CharStats(0)));
 }

@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public abstract class EssenceSlider : MonoBehaviour
 {
-    [SerializeField] protected BasicChar basicChar = null;
+    [SerializeField] private CharHolder charHolder = null;
+    protected BasicChar basicChar = null;
 
     [SerializeField] protected TextMeshProUGUI essValue = null;
 
@@ -13,9 +14,9 @@ public abstract class EssenceSlider : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (basicChar != null)
+        if (charHolder != null)
         {
-            Init(basicChar);
+            Init(charHolder.BasicChar);
         }
     }
 

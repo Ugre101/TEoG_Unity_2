@@ -10,7 +10,7 @@ public class NpcInfo : MonoBehaviour
 
     public void Setup(Npc npc)
     {
-        string info = $"{npc.Identity.FirstName}\n{npc.Race(true)}\n{npc.GetGender(true)}";
+        string info = $"{npc.Identity.FirstName}\n{npc.Race(true)}\n{npc.Gender(true)}";
         infoText.text = info;
     }
 }

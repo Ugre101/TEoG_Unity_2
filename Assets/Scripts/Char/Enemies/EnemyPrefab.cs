@@ -26,8 +26,4 @@ public class EnemyPrefab : BasicChar
 
     public bool CanTake => canTakeToDorm ? SexStats.SessionOrgasm >= orgsNeeded : false;
 
-    public override void Setup()
-    {
-        base.Setup();
-    }
 }

@@ -40,6 +40,5 @@ public class BossHolder : EnemyHolder
         {
             BasicChar.Identity.LastName = RandomName.LastName;
         }
-        BasicChar.Setup();
     }
 }

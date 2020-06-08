@@ -33,6 +33,7 @@ public class SexChar : MonoBehaviour
         mascSlider.Init(whom);
         femiSlider.Init(whom);
         Organs();
+        Arousal();
         whom.SexStats.ArousalChangeEvent += Arousal;
         SexualOrgan.SomethingChanged += Organs;
     }

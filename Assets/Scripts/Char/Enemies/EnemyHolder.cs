@@ -80,6 +80,5 @@ public class EnemyHolder : CharHolder
         {
             BasicChar.Identity.LastName = RandomName.LastName;
         }
-        BasicChar.Setup();
     }
 }

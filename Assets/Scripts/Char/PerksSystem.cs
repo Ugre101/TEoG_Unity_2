@@ -23,7 +23,11 @@ public enum PerksTypes
     #endregion
 
     SingleMother,
-
+    MasculineVacuum,
+    FemenineVacuum,
+    MasculineFlow,
+    FemenineFlow,
+    HermaphroditeVacuum,
     // Remember to always add new perks last in list to avoid breaking saves
 }
 

@@ -13,10 +13,16 @@
 
         public static class EssThief
         {
-            public static float ExtraDrain(Perks perks) => perks.HasPerk(PerksTypes.EssenceThief)
-                ? 5f * perks.GetPerkLevel(PerksTypes.EssenceThief) : 0;
+            public static float ExtraDrain(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceThief, 5f);
 
             public static StatMod ImproveCapacity => StatMod.FlatMod(50, typeof(EssThief).Name);
+        }
+
+        public static class EssBandit
+        {
+            public static float ExtraDrain(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceBandit, 15f);
+
+            public static StatMod ImproveCapacity => StatMod.FlatMod(200, typeof(EssThief).Name);
         }
 
         public static class EssHoarder
@@ -26,12 +32,37 @@
 
         public static class EssShaper
         {
-            public static float ExtraGive(Perks perks) => perks.HasPerk(PerksTypes.EssenceShaper)
-                 ? 5f * perks.GetPerkLevel(PerksTypes.EssenceShaper) : 0;
+            public static float ExtraGive(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceShaper, 5f);
 
             public static StatMod ImproveCapacity => StatMod.FlatMod(100, typeof(EssThief).Name);
         }
+
+        public static class EssMascVacuum
+        {
+            public static float ExtraDrain(Perks perks) => PerkFloatEffect(perks, PerksTypes.MasculineVacuum, 15f);
+        }
+
+        public static class EssFemiVacuum
+        {
+            public static float ExtraDrain(Perks perks) => PerkFloatEffect(perks, PerksTypes.FemenineVacuum, 15f);
+        }
+
+        public static class EssMascFlow
+        {
+            public static float EssGive(Perks perks) => PerkFloatEffect(perks, PerksTypes.MasculineFlow, 15f);
+
+            public static float EssGiveBonus(Perks perks) => PerkFloatEffect(perks, PerksTypes.MasculineFlow, 5f);
+        }
+
+        public static class EssFemiFlow
+        {
+            public static float EssGive(Perks perks) => PerkFloatEffect(perks, PerksTypes.FemenineFlow, 15f);
+
+            public static float EssGiveBonus(Perks perks) => PerkFloatEffect(perks, PerksTypes.FemenineFlow, 5f);
+        }
     }
+
+    private static float PerkFloatEffect(Perks perks, PerksTypes type, float multiplier) => perks.HasPerk(type) ? multiplier * perks.GetPerkLevel(type) : 0;
 }
 
 /*

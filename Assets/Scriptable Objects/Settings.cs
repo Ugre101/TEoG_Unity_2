@@ -230,7 +230,7 @@ public static class Settings
 
     public static string GetGender(this BasicChar who, bool capital = false)
     {
-        switch (who.Gender())
+        switch (GenderExtensions.Gender(who))
         {
             case Genders.Herm: return CapOrLower(Herm);
             case Genders.Male: return CapOrLower(Male);

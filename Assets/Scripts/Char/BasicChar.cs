@@ -3,30 +3,6 @@ using UnityEngine;
 using Vore;
 
 [System.Serializable]
-public abstract class CharHolder : MonoBehaviour
-{
-    public virtual void Setup()
-    {
-    }
-
-    public virtual void Load(BasicChar basicChar)
-    {
-        BasicChar = basicChar;
-    }
-
-    public virtual void Load(string jsonSave)
-    {
-        JsonUtility.FromJsonOverwrite(jsonSave, BasicChar);
-    }
-
-    private CharSpriteHandler spriteHandler = null;
-
-    public CharSpriteHandler SpriteHandler => spriteHandler = spriteHandler != null ? spriteHandler : GetComponent<CharSpriteHandler>();
-
-    public abstract BasicChar BasicChar { get; protected set; }
-}
-
-[System.Serializable]
 public class BasicChar
 {
     [SerializeField] protected Identity identity = new Identity();
@@ -49,15 +25,17 @@ public class BasicChar
 
     private Genders lastGender;
 
-    private void DidGenderChange()
+    public bool DidGenderChange()
     {
-        if (lastGender != this.Gender())
+        if (lastGender != GenderExtensions.Gender(this))
         {
-            lastGender = this.Gender();
+            lastGender = GenderExtensions.Gender(this);
+            return true;
         }
+        return false;
     }
 
-    public string GetGender(bool capital = false) => Settings.GetGender(this, capital);
+    public string Gender(bool capital = false) => Settings.GetGender(this, capital);
 
     public GenderTypes GenderType => this.GenderType();
 
@@ -74,10 +52,6 @@ public class BasicChar
     [SerializeField] protected Body body = new Body(160, 20, 20);
 
     public Body Body => body;
-
-    public virtual void Setup()
-    {
-    }
 
     [SerializeField] private Health hp, wp;
 
@@ -138,10 +112,6 @@ public class BasicChar
         gameEvent = new GameEventSystem(this);
         hp = new Health(this, new AffectedByStat(StatTypes.End, 5));
         wp = new Health(this, new AffectedByStat(StatTypes.Will, 5));
-
-        SexualOrgan.SomethingChanged += DidGenderChange;
-        DateSystem.NewDayEvent += DoEveryDay;
-        DateSystem.NewMinuteEvent += DoEveryMin;
         for (int i = 0; i < 10; i++) // Speed up use of start essence
         {
             this.RefreshOrgans();
@@ -184,30 +154,6 @@ public class BasicChar
         this.sexualOrgans = sexualOrgans;
         this.sexStats = sexStats;
         this.skills = skills;
-    }
-
-    private void DoEveryMin(int times)
-    {
-        // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
-        this.RefreshOrgans();
-        this.OverTimeTick(times);
-    }
-
-    private void DoEveryHour()
-    {
-    }
-
-    private void DoEveryDay()
-    {
-        this.GrowFetuses();
-        PregnancySystem.GrowChild();
-    }
-
-    public virtual void BeforeDestroy()
-    {
-        SexualOrgan.SomethingChanged -= DidGenderChange;
-        DateSystem.NewMinuteEvent -= DoEveryMin;
-        DateSystem.NewDayEvent -= DoEveryDay;
     }
 
     [SerializeField] private List<Skill> skills = new List<Skill>() { new Skill(SkillId.BasicAttack), new Skill(SkillId.BasicTease) };
