@@ -190,9 +190,47 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
-    private void PlayerOrgasmed() => InsertToTextBox("\n\n" + LastScene.PlayerOrgasmed(player, Target));
+    private void PlayerOrgasmed()
+    {
+        InsertToTextBox("\n\n" + LastScene.PlayerOrgasmed(player, Target));
+        HandleAutoGiveEssence();
+        if (player.Perks.HasPerk(PerksTypes.EssenceShaper) || player.Perks.HasPerk(PerksTypes.EssenceTransformer))
+        {
+            // TODO transmute essence
+        }
+    }
 
-    private void OtherOrgasmed() => InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
+    private void HandleAutoGiveEssence()
+    {
+        if ((player.Perks.HasPerk(PerksTypes.FemenineFlow) && player.Perks.HasPerk(PerksTypes.MasculineFlow)) || player.Perks.HasPerk(PerksTypes.HermaphroditeFlow))
+        {
+            float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(player.Perks) + PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(player.Perks) + PerkEffects.EssenecePerks.EssHemiFlow.EssGiveBonus(player.Perks);
+            Target.Essence.Femi.Gain(player.LoseFemi(player.EssGive()) + bonus);
+            Target.Essence.Masc.Gain(player.LoseMasc(player.EssGive()) + bonus);
+            player.SexStats.Drained();
+        }
+        else if (player.Perks.HasPerk(PerksTypes.FemenineFlow))
+        {
+            float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(player.Perks);
+            Target.Essence.Femi.Gain(player.LoseFemi(player.EssGive()) + bonus);
+            player.SexStats.Drained();
+        }
+        else if (player.perk.HasPerk(PerksTypes.MasculineFlow))
+        {
+            float bonus = PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(player.Perks);
+            Target.Essence.Masc.Gain(player.LoseMasc(player.EssGive()) + bonus);
+            player.SexStats.Drained();
+        }
+    }
+
+    private void OtherOrgasmed()
+    {
+        InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
+        if ((player.Perks.HasPerk(PerksTypes.FemenineVacuum) && player.perk.HasPerk(PerksTypes.MasculineVacuum)) || player.Perks.HasPerk(PerksTypes.HermaphroditeVacuum))
+        {
+            
+        }
+    }
 
     private void SceneChecker(List<SexScenes> scenes, bool showVore = false)
     {

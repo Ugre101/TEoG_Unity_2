@@ -35,6 +35,19 @@ public class Essence
 
 public static class EssenceExtension
 {
+    private static TransmuteFromTo transmuteOption = TransmuteFromTo.Off;
+
+    public enum TransmuteFromTo
+    {
+        Off,
+        MascToFemi,
+        FemiToMasc,
+    }
+
+    public static TransmuteFromTo TransmuteOption { get => transmuteOption; set => transmuteOption = Enum.IsDefined(typeof(TransmuteFromTo), value) ? value : 0; }
+
+    public static TransmuteFromTo ToggleTransmuteOption => TransmuteOption++;
+
     public static float TotalStableEssence(this BasicChar basicChar)
     {
         float baseStable = basicChar.Essence.StableEssence.Value;
@@ -50,13 +63,47 @@ public static class EssenceExtension
         return baseStable;
     }
 
-    public static float EssGive(this BasicChar basicChar) => 0;
+    public static float EssGive(this BasicChar basicChar)
+    {
+        float baseGive = 0;
+        Perks perks = basicChar.Perks;
+        baseGive = test(PerksTypes.EssenceShaper, PerkEffects.EssenecePerks.EssShaper.ExtraGive(perks));
+        baseGive = test(PerksTypes.EssenceTransformer, PerkEffects.EssenecePerks.EssTransformer.ExtrGive(perks));
+        baseGive = test(PerksTypes.MasculineFlow, PerkEffects.EssenecePerks.EssMascFlow.EssGive(perks));
+        baseGive = test(PerksTypes.FemenineFlow, PerkEffects.EssenecePerks.EssFemiFlow.EssGive(perks));
+        baseGive = test(PerksTypes.HermaphroditeFlow, PerkEffects.EssenecePerks.EssHemiFlow.EssGive(perks));
+        return baseGive;
+
+        float test(PerksTypes type, float gain)
+        {
+            if (perks.HasPerk(type))
+            {
+                baseGive += gain;
+            }
+            return baseGive;
+        }
+    }
 
     private static float EssDrain(this BasicChar basicChar)
     {
         float baseDrain = 5f;
-        baseDrain += PerkEffects.EssenecePerks.EssFlow.ExtraDrain(basicChar.Perks);
+        Perks perks = basicChar.Perks;
+        baseDrain = test(PerksTypes.EssenceFlow, PerkEffects.EssenecePerks.EssFlow.ExtraDrain(perks));
+        baseDrain = test(PerksTypes.FemenineVacuum, PerkEffects.EssenecePerks.EssFemiVacuum.ExtraDrain(perks));
+        baseDrain = test(PerksTypes.MasculineVacuum, PerkEffects.EssenecePerks.EssMascVacuum.ExtraDrain(perks));
+        baseDrain = test(PerksTypes.HermaphroditeVacuum, PerkEffects.EssenecePerks.EssHemiVacuum.ExtraDrain(perks));
+        baseDrain = test(PerksTypes.EssenceThief, PerkEffects.EssenecePerks.EssThief.ExtraDrain(perks));
+        baseDrain = test(PerksTypes.EssenceBandit, PerkEffects.EssenecePerks.EssBandit.ExtraDrain(perks));
         return baseDrain;
+
+        float test(PerksTypes type, float gain)
+        {
+            if (perks.HasPerk(type))
+            {
+                baseDrain += gain;
+            }
+            return baseDrain;
+        }
     }
 
     public static float EssenceDrain(this BasicChar drainer, BasicChar toDrain)

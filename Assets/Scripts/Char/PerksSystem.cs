@@ -28,6 +28,8 @@ public enum PerksTypes
     MasculineFlow,
     FemenineFlow,
     HermaphroditeVacuum,
+    HermaphroditeFlow,
+
     // Remember to always add new perks last in list to avoid breaking saves
 }
 
