@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -228,7 +229,9 @@ public class AfterBattleMain : MonoBehaviour
         InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
         if ((player.Perks.HasPerk(PerksTypes.FemenineVacuum) && player.perk.HasPerk(PerksTypes.MasculineVacuum)) || player.Perks.HasPerk(PerksTypes.HermaphroditeVacuum))
         {
-            
+            Organs playerOrg = UgreTools.JsonClone(player.SexualOrgans),
+                otherOrg = UgreTools.JsonClone(Target.SexualOrgans);
+            player.EssenceDrain(Target);
         }
     }
 
@@ -265,17 +268,21 @@ public class AfterBattleMain : MonoBehaviour
     // TODO fix to extra info comes after
     public void InsertToTextBox(string text) => textBox.text += text;
 
-    private void HandleSexScene(SexScenes scene)
+    private void SceneBasics(SexScenes scene)
     {
         AddToTextBox(LastScene == scene ? scene.ContinueScene(player, Target) : scene.StartScene(player, Target));
         LastScene = scene;
+    }
+
+    private void HandleSexScene(SexScenes scene)
+    {
+        SceneBasics(scene);
         scene.ArousalGain(player, Target);
     }
 
     private void HandleEssScene(EssScene scene)
     {
-        AddToTextBox(LastScene == scene ? scene.ContinueScene(Caster, Target) : scene.StartScene(Caster, Target));
-        LastScene = scene;
+        SceneBasics(scene);
         Target.SexStats.Drained();
         RefreshScenes();
     }
@@ -296,4 +303,40 @@ public class AfterBattleMain : MonoBehaviour
             // TODO INSTATIXZXE
         }
     }
+}
+
+public static class AfterBattleHandler
+{
+    // Test class to see if I can split out stuff from afterbattle to make it more like a view
+    public static void AddToTextBox(string text) => SetTextLog?.Invoke(text);
+
+    // TODO fix to extra info comes after
+    public static void InsertToTextBox(string text) => AddToTextlog?.Invoke(text);
+
+    public static Action<string> SetTextLog;
+    public static Action<string> AddToTextlog;
+
+    private static SexScenes LastScene;
+
+    private static void SceneBasics(SexScenes scene, PlayerMain player, BasicChar Target)
+    {
+        AddToTextBox(LastScene == scene ? scene.ContinueScene(player, Target) : scene.StartScene(player, Target));
+        LastScene = scene;
+    }
+
+    public static void HandleSexScene(SexScenes scene, PlayerMain player, BasicChar Target)
+    {
+        SceneBasics(scene, player, Target);
+        scene.ArousalGain(player, Target);
+    }
+
+    public static void HandleEssScene(EssScene scene, PlayerMain player, BasicChar Target)
+    {
+        SceneBasics(scene, player, Target);
+        Target.SexStats.Drained();
+        NeedRefresh?.Invoke();
+    }
+
+    public delegate void Refresh();
+    public static event Refresh NeedRefresh;
 }

@@ -83,8 +83,8 @@ public static class EssenceExtension
             return baseGive;
         }
     }
-
-    private static float EssDrain(this BasicChar basicChar)
+    /// <summary>Total drain amount with perks, if you gonna drain somebody use EssenceDrain instead of this </summary>
+    public static float EssDrain(this BasicChar basicChar)
     {
         float baseDrain = 5f;
         Perks perks = basicChar.Perks;

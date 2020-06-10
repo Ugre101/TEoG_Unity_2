@@ -22,7 +22,7 @@ public class SmarterGrid : LayoutGroup
        
         cellSize.x = cellWidth;
         cellSize.y = cellHeight;
-
+     
         for (int i = 0; i < rectChildren.Count; i++)
         {
             int rowCount = i / collums;
