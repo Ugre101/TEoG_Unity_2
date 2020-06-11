@@ -14,12 +14,5 @@ public class EssenceSystem
      * essence it have. Even that which was stable.*/
     [SerializeField] private CharStats stableEssence = new CharStats(0);
 
-    public EssenceSystem(Essence masc, Essence femi, CharStats stableEssence)
-    {
-        this.masc = masc;
-        this.femi = femi;
-        this.stableEssence = stableEssence;
-    }
-
     public CharStats StableEssence => stableEssence;
 }

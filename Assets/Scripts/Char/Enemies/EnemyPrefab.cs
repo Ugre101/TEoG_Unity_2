@@ -8,7 +8,7 @@ public class EnemyPrefab : BasicChar
 
     private int orgsNeeded = 3;
 
-    public EnemyPrefab(Reward reward, IsQuest isQuest, bool canTakeToDorm, int orgsNeeded, Identity identity, Age age, Body body, ExpSystem expSystem, EssenceSystem essence) : base(identity, age, body, expSystem, essence)
+    public EnemyPrefab(Reward reward, IsQuest isQuest, bool canTakeToDorm, int orgsNeeded, Identity identity, Age age, Body body, ExpSystem expSystem) : base(identity, age, body, expSystem)
     {
         this.Reward = reward;
         this.IsQuest = isQuest;
@@ -16,7 +16,7 @@ public class EnemyPrefab : BasicChar
         this.orgsNeeded = orgsNeeded;
     }
 
-    public EnemyPrefab(Reward reward, IsQuest isQuest, bool canTakeToDorm, int orgsNeeded, Age age, Body body, ExpSystem expSystem, EssenceSystem essence) : base(age, body, expSystem, essence)
+    public EnemyPrefab(Reward reward, IsQuest isQuest, bool canTakeToDorm, int orgsNeeded, Age age, Body body, ExpSystem expSystem) : base(age, body, expSystem)
     {
         this.Reward = reward;
         this.IsQuest = isQuest;

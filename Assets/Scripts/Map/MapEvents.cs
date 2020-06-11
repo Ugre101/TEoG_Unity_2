@@ -186,4 +186,12 @@ public class MapEvents : MonoBehaviour
             }
         }
     }
+
+    public void UnlockTeleports()
+    {
+        foreach (TelePortLocation telePort in TelePortLocations)
+        {
+            telePort.CanTelePortTo.Unlock();
+        }
+    }
 }

@@ -12,7 +12,7 @@
         RaceSystem.RaceChange += Events.SoloEvents.RaceChange;
     }
 
-    public PlayerMain(Age age, Body body, ExpSystem expSystem, Perks perk, EssenceSystem essence) : base(age, body, expSystem, essence)
+    public PlayerMain(Age age, Body body, ExpSystem expSystem, Perks perk) : base(age, body, expSystem)
     {
     }
 }

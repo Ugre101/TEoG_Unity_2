@@ -14,7 +14,7 @@ public abstract class CharHolder : MonoBehaviour
     protected virtual void DoEveryMin(int times)
     {
         // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
-        BasicChar.RefreshOrgans();
+        //   BasicChar.RefreshOrgans();
         BasicChar.OverTimeTick(times);
     }
 

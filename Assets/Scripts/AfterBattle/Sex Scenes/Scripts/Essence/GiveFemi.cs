@@ -5,15 +5,13 @@ public class GiveFemi : EssScene
 {
     public override bool CanDo(BasicChar basicChar)
     {
-        return basicChar.EssGive() > 0;
+        return basicChar.GiveEssence() > 0;
     }
 
     public override string StartScene(PlayerMain player, BasicChar other)
     {
         DrainChangeHandler drainChange = new DrainChangeHandler(player, other);
-        float toGive = player.EssGive();
-        player.LoseFemi(toGive);
-        other.Essence.Femi.Gain(toGive);
+        player.GiveFemi(other);
         return "Give femi" + drainChange.BothChanges;
     }
 

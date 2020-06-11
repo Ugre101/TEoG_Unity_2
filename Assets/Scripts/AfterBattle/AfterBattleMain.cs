@@ -9,7 +9,7 @@ public class AfterBattleMain : MonoBehaviour
 {
     private PlayerMain player => PlayerHolder.Player;
 
-    [SerializeField] private List<BasicChar> enemies = new List<BasicChar>();
+    private List<BasicChar> enemies = new List<BasicChar>();
 
     [SerializeField] private TextMeshProUGUI textBox = null;
 
@@ -144,19 +144,13 @@ public class AfterBattleMain : MonoBehaviour
 
     public void RefreshScenes()
     {
-        if (player.CanOrgasmMore())
+        if (allSexScenes.Count == 0)
         {
-            if (allSexScenes.Count == 0)
-            {
-                allSexScenes = dickScenes.Concat(mouthScenes).Concat(boobScenes)
-                    .Concat(vaginaScenes).Concat(analScenes).ToList();
-            }
-            SceneChecker(allSexScenes, player.Vore.Active);
+            allSexScenes = dickScenes.Concat(mouthScenes).Concat(boobScenes)
+                .Concat(vaginaScenes).Concat(analScenes).ToList();
         }
-        else
-        {
-            buttons.transform.KillChildren();
-        }
+        SceneChecker(allSexScenes, player.Vore.Active);
+
         MiscActions.KillChildren();
         foreach (SexScenes sexScenes in miscScenes.FindAll(m => m.CanDo(player, Target)))
         {
@@ -201,37 +195,61 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
+    private void OtherOrgasmed()
+    {
+        InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
+        HandleAutoDrainEssence();
+    }
+
+    private void HandleAutoDrainEssence()
+    {
+        if ((player.Perks.HasPerk(PerksTypes.FemenineVacuum) && player.Perks.HasPerk(PerksTypes.MasculineVacuum)) || player.Perks.HasPerk(PerksTypes.HermaphroditeVacuum))
+        {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+            player.DrainFemi(Target);
+            player.DrainMasc(Target);
+            InsertToTextBox(drainChange.BothChanges);
+        }
+        else if (player.Perks.HasPerk(PerksTypes.FemenineVacuum))
+        {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+            player.DrainFemi(Target);
+            InsertToTextBox(drainChange.BothChanges);
+        }
+        else if (player.Perks.HasPerk(PerksTypes.MasculineVacuum))
+        {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+            player.DrainMasc(Target);
+            InsertToTextBox(drainChange.BothChanges);
+        }
+    }
+
     private void HandleAutoGiveEssence()
     {
         if ((player.Perks.HasPerk(PerksTypes.FemenineFlow) && player.Perks.HasPerk(PerksTypes.MasculineFlow)) || player.Perks.HasPerk(PerksTypes.HermaphroditeFlow))
         {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
             float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(player.Perks) + PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(player.Perks) + PerkEffects.EssenecePerks.EssHemiFlow.EssGiveBonus(player.Perks);
-            Target.Essence.Femi.Gain(player.LoseFemi(player.EssGive()) + bonus);
-            Target.Essence.Masc.Gain(player.LoseMasc(player.EssGive()) + bonus);
+            player.GiveFemi(Target, bonus, true);
+            player.GiveMasc(Target, bonus, true);
             player.SexStats.Drained();
+            InsertToTextBox(drainChange.BothChanges);
         }
         else if (player.Perks.HasPerk(PerksTypes.FemenineFlow))
         {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
             float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(player.Perks);
-            Target.Essence.Femi.Gain(player.LoseFemi(player.EssGive()) + bonus);
+            player.GiveFemi(Target, bonus, true);
             player.SexStats.Drained();
+            InsertToTextBox(drainChange.BothChanges);
         }
-        else if (player.perk.HasPerk(PerksTypes.MasculineFlow))
+        else if (player.Perks.HasPerk(PerksTypes.MasculineFlow))
         {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
             float bonus = PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(player.Perks);
-            Target.Essence.Masc.Gain(player.LoseMasc(player.EssGive()) + bonus);
+            player.GiveMasc(Target, bonus, true);
             player.SexStats.Drained();
-        }
-    }
-
-    private void OtherOrgasmed()
-    {
-        InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
-        if ((player.Perks.HasPerk(PerksTypes.FemenineVacuum) && player.perk.HasPerk(PerksTypes.MasculineVacuum)) || player.Perks.HasPerk(PerksTypes.HermaphroditeVacuum))
-        {
-            Organs playerOrg = UgreTools.JsonClone(player.SexualOrgans),
-                otherOrg = UgreTools.JsonClone(Target.SexualOrgans);
-            player.EssenceDrain(Target);
+            InsertToTextBox(drainChange.BothChanges);
         }
     }
 
@@ -247,10 +265,15 @@ public class AfterBattleMain : MonoBehaviour
         }
         if (showVore)
         {
-            foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, Target)))
-            {
-                Instantiate(voreButton, buttons.transform).Setup(vore);
-            }
+            AddVoresScenes();
+        }
+    }
+
+    private void AddVoresScenes()
+    {
+        foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, Target)))
+        {
+            Instantiate(voreButton, buttons.transform).Setup(vore);
         }
     }
 
@@ -307,6 +330,8 @@ public class AfterBattleMain : MonoBehaviour
 
 public static class AfterBattleHandler
 {
+    private static List<BasicChar> enemies = new List<BasicChar>();
+
     // Test class to see if I can split out stuff from afterbattle to make it more like a view
     public static void AddToTextBox(string text) => SetTextLog?.Invoke(text);
 
@@ -317,6 +342,27 @@ public static class AfterBattleHandler
     public static Action<string> AddToTextlog;
 
     private static SexScenes LastScene;
+    public static BasicChar Target;
+    public static BasicChar newTarget;
+
+    public static void Setup(List<BasicChar> chars)
+    {
+        enemies = chars;
+        LastScene = null;
+        newTarget = null;
+
+        //    player.SexStats.OrgasmedEvent += PlayerOrgasmed;
+        //    enemies.ForEach(e => e.SexStats.OrgasmedEvent += OtherOrgasmed);
+
+        //    player.SexStats.OrgasmedEvent += () => NeedRefresh?.Invoke();
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent += () => NeedRefresh?.Invoke());
+
+        //    player.SexStats.OrgasmedEvent += Impreg;
+        //    enemies.ForEach(e => e.SexStats.OrgasmedEvent += GetImpreg);
+
+        //   player.SexStats.Reset();
+        //    RefreshScenes();
+    }
 
     private static void SceneBasics(SexScenes scene, PlayerMain player, BasicChar Target)
     {
@@ -338,5 +384,6 @@ public static class AfterBattleHandler
     }
 
     public delegate void Refresh();
+
     public static event Refresh NeedRefresh;
 }

@@ -109,7 +109,7 @@ namespace Vore
         [SerializeField] private float startWeight;
         public float StartWeight => startWeight;
 
-        public ThePrey(BasicChar basicChar) : base(basicChar.Identity, basicChar.RelationshipTracker, basicChar.Inventory, basicChar.EquiptItems, basicChar.RaceSystem, basicChar.Vore, basicChar.Age, basicChar.Body, basicChar.HP, basicChar.WP, basicChar.ExpSystem, basicChar.perk, basicChar.Stats, basicChar.Essence, basicChar.Currency, basicChar.Flags, basicChar.PregnancySystem, basicChar.SexualOrgans, basicChar.SexStats, basicChar.Skills)
+        public ThePrey(BasicChar basicChar) : base(basicChar.Identity, basicChar.RelationshipTracker, basicChar.Inventory, basicChar.EquiptItems, basicChar.RaceSystem, basicChar.Vore, basicChar.Age, basicChar.Body, basicChar.HP, basicChar.WP, basicChar.ExpSystem, basicChar.Perks, basicChar.Stats, basicChar.Essence, basicChar.Currency, basicChar.Flags, basicChar.PregnancySystem, basicChar.SexualOrgans, basicChar.SexStats, basicChar.Skills)
         {
             startWeight = basicChar.Body.Weight;
         }

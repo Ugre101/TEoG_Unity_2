@@ -179,74 +179,47 @@ public static class SexOrganExtension
 
     public static void RefreshOrgans(this BasicChar bc)
     {
+        while (bc.RefreshOrgansE())
+        {
+        }
+    }
+
+    private static bool RefreshOrgansE(this BasicChar bc)
+    {
+        float StableAmount = bc.TotalStableEssence();
+
+        bool MascChange = RefreshOrgansMasc(bc, StableAmount);
+        bool FemiChange = RefreshOrgansFemi(bc, StableAmount);
+        if (MascChange || FemiChange)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private static bool RefreshOrgansFemi(BasicChar bc, float StableAmount)
+    {
         Organs so = bc.SexualOrgans;
-        List<Dick> dicks = so.Dicks;
-        List<Balls> balls = so.Balls;
         List<Vagina> vaginas = so.Vaginas;
         List<Boobs> boobs = so.Boobs;
-        dicks.RemoveAll(d => d.Size <= 0);
-        balls.RemoveAll(b => b.Size <= 0);
         vaginas.RemoveAll(v => v.Size <= 0);
         boobs.RemoveAll(b => b.Size <= 0);
-        float ballsRatio = balls.Total() * 2f + 1f;
-        float vaginaRatio = vaginas.Total() * 1.5f + 1f;
-        if (so.GenderPrefActive)
-        {
-            if (so.GenderPref == Genders.Cuntboy)
-            {
-                vaginaRatio -= 100;
-            }
-            else if (so.GenderPref == Genders.Dickgirl)
-            {
-                vaginaRatio += 100;
-            }
-        }
-        Essence masc = bc.Essence.Masc;
-        float StableAmount = bc.TotalStableEssence();
-        if (masc.Amount > StableAmount)
-        {
-            if (dicks.Total() <= ballsRatio)
-            {
-                if (dicks.Exists(d => masc.Amount >= d.Cost))
-                {
-                    foreach (Dick d in dicks)
-                    {
-                        if (masc.Amount >= d.Cost)
-                        {
-                            masc.Lose(d.Grow());
-                            break;
-                        }
-                    }
-                }
-                else if (masc.Amount >= dicks.Cost())
-                {
-                    masc.Lose(dicks.Cost());
-                    dicks.AddDick();
-                }
-            }
-            else
-            {
-                if (balls.Exists(b => masc.Amount >= b.Cost))
-                {
-                    foreach (Balls b in balls)
-                    {
-                        if (masc.Amount >= b.Cost)
-                        {
-                            masc.Lose(b.Grow());
-                            break;
-                        }
-                    }
-                }
-                else if (masc.Amount >= balls.Cost())
-                {
-                    masc.Lose(balls.Cost());
-                    balls.AddBalls();
-                }
-            }
-        }
+
         Essence femi = bc.Essence.Femi;
         if (femi.Amount > StableAmount)
         {
+            float vaginaRatio = vaginas.Total() * 1.5f + 1f;
+            if (so.GenderPrefActive)
+            {
+                if (so.GenderPref == Genders.Cuntboy)
+                {
+                    vaginaRatio -= 100;
+                }
+                else if (so.GenderPref == Genders.Dickgirl)
+                {
+                    vaginaRatio += 100;
+                }
+            }
             if (boobs.Total() <= vaginaRatio)
             {
                 if (boobs.Exists(b => femi.Amount >= b.Cost))
@@ -256,7 +229,7 @@ public static class SexOrganExtension
                         if (femi.Amount >= b.Cost)
                         {
                             femi.Lose(b.Grow());
-                            break;
+                            return true;
                         }
                     }
                 }
@@ -264,6 +237,7 @@ public static class SexOrganExtension
                 {
                     femi.Lose(boobs.Cost());
                     boobs.AddBoobs();
+                    return true;
                 }
             }
             else
@@ -275,7 +249,7 @@ public static class SexOrganExtension
                         if (femi.Amount >= v.Cost)
                         {
                             femi.Lose(v.Grow());
-                            break;
+                            return true;
                         }
                     }
                 }
@@ -283,9 +257,69 @@ public static class SexOrganExtension
                 {
                     femi.Lose(vaginas.Cost());
                     vaginas.AddVag();
+                    return true;
                 }
             }
         }
+
+        return false;
+    }
+
+    private static bool RefreshOrgansMasc(BasicChar bc, float StableAmount)
+    {
+        Organs so = bc.SexualOrgans;
+        List<Dick> dicks = so.Dicks;
+        List<Balls> balls = so.Balls;
+        dicks.RemoveAll(d => d.Size <= 0);
+        balls.RemoveAll(b => b.Size <= 0);
+
+        Essence masc = bc.Essence.Masc;
+        if (masc.Amount > StableAmount)
+        {
+            float ballsRatio = balls.Total() * 2f + 1f;
+            if (dicks.Total() <= ballsRatio)
+            {
+                if (dicks.Exists(d => masc.Amount >= d.Cost))
+                {
+                    foreach (Dick d in dicks)
+                    {
+                        if (masc.Amount >= d.Cost)
+                        {
+                            masc.Lose(d.Grow());
+                            return true;
+                        }
+                    }
+                }
+                else if (masc.Amount >= dicks.Cost())
+                {
+                    masc.Lose(dicks.Cost());
+                    dicks.AddDick();
+                    return true;
+                }
+            }
+            else
+            {
+                if (balls.Exists(b => masc.Amount >= b.Cost))
+                {
+                    foreach (Balls b in balls)
+                    {
+                        if (masc.Amount >= b.Cost)
+                        {
+                            masc.Lose(b.Grow());
+                            return true;
+                        }
+                    }
+                }
+                else if (masc.Amount >= balls.Cost())
+                {
+                    masc.Lose(balls.Cost());
+                    balls.AddBalls();
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
 

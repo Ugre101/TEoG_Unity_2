@@ -64,7 +64,7 @@ public class BasicChar
 
     public ExpSystem ExpSystem => expSystem;
 
-    [SerializeField] public Perks perk = new Perks();
+    [SerializeField] private Perks perk = new Perks();
 
     public Perks Perks => perk;
 
@@ -77,7 +77,7 @@ public class BasicChar
 
     // Maybe a bit overkill but I want to make sure autoEss isn't toggled by mistake
 
-    [SerializeField] private EssenceSystem essence = new EssenceSystem(new global::Essence(0), new global::Essence(0), new CharStats(0));
+    [SerializeField] private EssenceSystem essence = new EssenceSystem();
 
     public EssenceSystem Essence => essence;
 
@@ -112,22 +112,19 @@ public class BasicChar
         gameEvent = new GameEventSystem(this);
         hp = new Health(this, new AffectedByStat(StatTypes.End, 5));
         wp = new Health(this, new AffectedByStat(StatTypes.Will, 5));
-        for (int i = 0; i < 10; i++) // Speed up use of start essence
-        {
-            this.RefreshOrgans();
-        }
+        Essence.Femi.GainEvent += this.RefreshOrgans;
+        Essence.Masc.GainEvent += this.RefreshOrgans;
     }
 
-    public BasicChar(Age age, Body body, ExpSystem expSystem, EssenceSystem essence) : this()
+    public BasicChar(Age age, Body body, ExpSystem expSystem) : this()
     {
         this.vore = new VoreEngine(this);
         this.age = age;
         this.body = body;
         this.expSystem = expSystem;
-        this.essence = essence;
     }
 
-    public BasicChar(Identity identity, Age age, Body body, ExpSystem expSystem, EssenceSystem essence) : this(age, body, expSystem, essence)
+    public BasicChar(Identity identity, Age age, Body body, ExpSystem expSystem) : this(age, body, expSystem)
     {
         this.identity = identity;
     }

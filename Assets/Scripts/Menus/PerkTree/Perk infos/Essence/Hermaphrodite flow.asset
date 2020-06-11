@@ -16,12 +16,16 @@ MonoBehaviour:
   perkTitle: Hermaphrodite flow
   perkInfo: 
   perkEffects: + Bonus give
-  maxLevel: 1
-  perkCost: 1
-  perk: 2
+  maxLevel: 5
+  perkCost: 3
+  perk: 22
   needCharStat: 0
   neededCharStats: []
-  needOtherPerks: 0
-  neededPerks: []
+  needOtherPerks: 1
+  neededPerks:
+  - amount: 5
+    perksTypes: 19
+  - amount: 5
+    perksTypes: 20
   isExcluvsive: 0
   exclusiveWith: 

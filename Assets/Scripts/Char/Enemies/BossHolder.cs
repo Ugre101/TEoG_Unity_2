@@ -21,7 +21,7 @@ public class BossHolder : EnemyHolder
     public override void Setup()
     {
         Body body = new Body(FinalHeight, FinalFat, FinalMuscle);
-        BasicChar = new Boss(hasPreBattleDialog, hasPostBattleDialog, CustomScenes, LockedPosistion, pos, reward, isQuest, canTakeToDorm, orgsNeeded, new Age(), body, new ExpSystem(), new EssenceSystem(new Essence(), new Essence(), new CharStats()));
+        BasicChar = new Boss(hasPreBattleDialog, hasPostBattleDialog, CustomScenes, LockedPosistion, pos, reward, isQuest, canTakeToDorm, orgsNeeded, new Age(), body, new ExpSystem());
         BasicChar.Stats.SetBaseValues(FinalStat(assingStr), FinalStat(assingCharm), FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt), assingWill);
         startRaces.ForEach(r => BasicChar.RaceSystem.AddRace(r.Races, r.Amount));
         startGender.Assing(BasicChar);

@@ -4,7 +4,7 @@ public class PerkButton : PerkTreeBasicBtn
 {
     [Space]
     [SerializeField] private PerkInfo perkInfo = null;
-
+    [SerializeField] private DrawLineBetweenObejcts drawLine = null;
     private int PerkLevel => Player.Perks.GetPerkLevel(perkInfo.Perk);
 
     private void SetRuntSprite()
@@ -25,12 +25,17 @@ public class PerkButton : PerkTreeBasicBtn
             SetRuntSprite();
             started = true;
             OnEnable();
+            if (drawLine != null)
+            {
+                
+            }
         }
         else
         {
             gameObject.SetActive(false); // if null set inactive
         }
     }
+
 
     protected override void OnEnable()
     {
@@ -57,7 +62,7 @@ public class PerkButton : PerkTreeBasicBtn
             }
         }
     }
- 
+
     protected override void Hovering()
     {
         if (perkInfo.Unlocked(Player))

@@ -23,10 +23,10 @@ namespace EssenceMenuStuff
             DisplayCost();
             btn.onClick.AddListener(Grow);
             image = image != null ? image : GetComponent<Image>();
-            Ess.EssenceSliderEvent += ShowIfCanAfford;
+            Ess.ChangeEvent += ShowIfCanAfford;
             ShowIfCanAfford();
         }
-        private void OnDestroy() => Ess.EssenceSliderEvent -= ShowIfCanAfford;
+        private void OnDestroy() => Ess.ChangeEvent -= ShowIfCanAfford;
         protected abstract void DisplayCost();
 
         protected abstract void Grow();

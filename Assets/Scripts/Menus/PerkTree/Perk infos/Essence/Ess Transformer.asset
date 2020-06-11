@@ -16,12 +16,14 @@ MonoBehaviour:
   perkTitle: Essence transformer
   perkInfo: 
   perkEffects: + Give more essence
-  maxLevel: 1
-  perkCost: 1
+  maxLevel: 3
+  perkCost: 3
   perk: 15
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 1
-  neededPerks: []
+  neededPerks:
+  - amount: 3
+    perksTypes: 9
   isExcluvsive: 0
   exclusiveWith: 

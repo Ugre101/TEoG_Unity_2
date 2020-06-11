@@ -24,7 +24,7 @@ public abstract class EssenceSlider : MonoBehaviour
     {
         basicChar = who;
         enabled = true;
-        Ess.EssenceSliderEvent += ChangeEss;
+        Ess.ChangeEvent += ChangeEss;
         ChangeEss();
         started = true;
     }
@@ -35,12 +35,12 @@ public abstract class EssenceSlider : MonoBehaviour
     {
         if (started)
         {
-            Ess.EssenceSliderEvent += ChangeEss;
+            Ess.ChangeEvent += ChangeEss;
             ChangeEss();
         }
     }
 
-    private void OnDisable() => Ess.EssenceSliderEvent -= ChangeEss;
+    private void OnDisable() => Ess.ChangeEvent -= ChangeEss;
 
     protected abstract void ChangeEss();
 }
