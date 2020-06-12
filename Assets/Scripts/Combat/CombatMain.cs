@@ -98,7 +98,6 @@ public class CombatMain : MonoBehaviour
 
         // EnemyTeam
         CombatHandler.EnemyTeamChars.ForEach(e => EnemyAI(e));
-        Debug.Log(EnemyTeamAttacks);
         // Formay textlog
         string textToAdd = $"Turn: {Turn}\nPlayer team\n" + PlayerTeamAttacks + "\nEnemy team\n" + EnemyTeamAttacks + "\n";
         CombatHandler.AddToCombatLog(textToAdd);

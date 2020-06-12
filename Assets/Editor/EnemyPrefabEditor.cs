@@ -4,16 +4,17 @@ using UnityEngine;
 // Static container so foldouts doesn't close dureing refresh
 public static class EnemyPrefabEditorFoldouts
 {
-    public static bool NameFold { get; set; } = false;
-    public static bool RaceFold { get; set; } = false;
-    public static bool GenderFold { get; set; } = false;
-    public static bool StatsFold { get; set; } = false;
-    public static bool BodyFold { get; set; } = false;
-    public static bool RewardFold { get; set; } = false;
-    public static bool IsQuestFold { get; set; } = false;
+    public static bool NameFold { get; set; } = true;
+    public static bool RaceFold { get; set; } = true;
+    public static bool GenderFold { get; set; } = true;
+    public static bool StatsFold { get; set; } = true;
+    public static bool BodyFold { get; set; } = true;
+    public static bool RewardFold { get; set; } = true;
+    public static bool IsQuestFold { get; set; } = true;
+    public static bool ShowStandardEditor { get; set; } = false;
 }
 
-[CustomEditor(typeof(EnemyHolder))]
+//[CustomEditor(typeof(EnemyHolder))]
 public class EnemyPrefabEditor : CharHolderEditor
 {
     #region FoldsShortcut

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fef4e4f2d113624da25390eccf911b5, type: 3}
+  m_Name: Orc Leader
+  m_EditorClassIdentifier: 
+  firstName: 
+  lastName: 
+  NeedFirstName: 1
+  NeedLastName: 1
+  age: 18
+  startRaces: []
+  startGender:
+    amount: 100
+    genderLock: 0
+    lockedGender: 5
+    favoured: 0
+    favouredGenderType: 0
+  assingStr: 15
+  assingCharm: 15
+  assingEnd: 15
+  assingDex: 15
+  assingInt: 15
+  assingWill: 15
+  statRngFactor: 0.4
+  assingHeight: 160
+  assingFat: 20
+  assingMuscle: 30
+  heightRng: 0.1
+  fatRng: 0.1
+  muscleRng: 0.1
+  isQuest:
+    isQuest: 0
+    quest: 0
+  reward:
+    expReward: 0
+    goldReward: 0
+    rng: 0.3
+    drops: []
+  canTakeToDorm: 1
+  orgsNeeded: 3
+  hasPreBattleDialog: 0
+  hasPostBattleDialog: 0
+  hasCustomScene:
+    haveCustomScenes: 0
+    blockNormalScenes: 0
+    customScenes: []
+  lockedPosistion: 0
+  pos: {x: 0, y: 0, z: 0}

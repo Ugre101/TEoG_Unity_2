@@ -20,7 +20,7 @@ public class EnemySpawner : MonoBehaviour
     private Tilemap _currMap;
 
     private readonly List<Vector3> _empty = new List<Vector3>();
-    private readonly List<EnemyHolder> currEnemies = new List<EnemyHolder>();
+    private readonly List<AssingEnemy> currEnemies = new List<AssingEnemy>();
     private readonly List<EnemyHolder> addedEnemies = new List<EnemyHolder>();
     private readonly List<BossHolder> currBosses = new List<BossHolder>();
     private readonly List<BossHolder> addedBosses = new List<BossHolder>();
@@ -114,6 +114,8 @@ public class EnemySpawner : MonoBehaviour
         SetupEnemies();
     }
 
+    [SerializeField] private EnemyHolder enemyHolder = null;
+
     private void CurrentEnemies()
     {
         currEnemies.Clear();
@@ -167,11 +169,13 @@ public class EnemySpawner : MonoBehaviour
         {
             for (int i = 0; i < enemyToAdd; i++)
             {
-                EnemyHolder prefab = currEnemies[rnd.Next(currEnemies.Count)];
-                if (prefab != null)
+                AssingEnemy enemy = currEnemies[rnd.Next(currEnemies.Count)];
+
+                if (enemyHolder != null)
                 {
-                    EnemyHolder newEnemy = Instantiate(prefab, GetPosistion(), Quaternion.identity, transform);
-                    newEnemy.name = prefab.name;
+                    EnemyHolder newEnemy = Instantiate(enemyHolder, GetPosistion(), Quaternion.identity, transform);
+                    newEnemy.Setup(enemy);
+                    newEnemy.name = enemy.name;
                     addedEnemies.Add(newEnemy);
                 }
                 else

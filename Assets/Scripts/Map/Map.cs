@@ -10,20 +10,20 @@ public class Map : MonoBehaviour
 
     [Header("Map enemies")]
     [Tooltip("Types of enemies that can spawn on this map.")]
-    [SerializeField] private List<EnemyHolder> enemies = new List<EnemyHolder>();
+    [SerializeField] private List<AssingEnemy> enemies = new List<AssingEnemy>();
 
     [Header("Bosses")]
     [SerializeField] private List<BossHolder> bosses = new List<BossHolder>();
 
     public string MapTitle => mapName;
 
-    public List<EnemyHolder> Enemies => enemies;
+    public List<AssingEnemy> Enemies => enemies;
     public List<BossHolder> Bosses => bosses;
     public int EnemyCount => amountOfEnemies;
 
     private void Start()
     {
-        foreach (EnemyHolder enemyPrefab in Enemies)
+        foreach (AssingEnemy enemyPrefab in Enemies)
         {
             if (enemyPrefab == null)
             {

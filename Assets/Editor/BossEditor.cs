@@ -5,8 +5,8 @@ public static class BossEditorBools
     public static bool BossStuffFoldout { get; set; } = false;
 }
 
-[CustomEditor(typeof(Boss))]
-public class BossEditor : EnemyPrefabEditor
+[CustomEditor(typeof(AssingBoss))]
+public class AssingBossEditor : AssingEnemyEditor
 {
     private bool BossStuff { get => BossEditorBools.BossStuffFoldout; set => BossEditorBools.BossStuffFoldout = value; }
     private SerializedProperty hasPreBattleDialog, hasPostBattleDialog, hasCustomScene;

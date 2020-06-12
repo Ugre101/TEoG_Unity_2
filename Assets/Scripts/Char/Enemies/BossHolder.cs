@@ -18,27 +18,5 @@ public class BossHolder : EnemyHolder
     [SerializeField] private Vector3 pos = new Vector3();
     public override BasicChar BasicChar { get; protected set; } = new BasicChar();
 
-    public override void Setup()
-    {
-        Body body = new Body(FinalHeight, FinalFat, FinalMuscle);
-        BasicChar = new Boss(hasPreBattleDialog, hasPostBattleDialog, CustomScenes, LockedPosistion, pos, reward, isQuest, canTakeToDorm, orgsNeeded, new Age(), body, new ExpSystem());
-        BasicChar.Stats.SetBaseValues(FinalStat(assingStr), FinalStat(assingCharm), FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt), assingWill);
-        startRaces.ForEach(r => BasicChar.RaceSystem.AddRace(r.Races, r.Amount));
-        startGender.Assing(BasicChar);
-        if (NeedFirstName)
-        {
-            if (BasicChar.GenderType == GenderTypes.Masculine)
-            {
-                BasicChar.Identity.FirstName = RandomName.MaleName;
-            }
-            else
-            {
-                BasicChar.Identity.FirstName = RandomName.FemaleName;
-            }
-        }
-        if (NeedLastName)
-        {
-            BasicChar.Identity.LastName = RandomName.LastName;
-        }
-    }
+    public void Setup(AssingBoss assingBoss) => BasicChar = assingBoss.Setup(BasicChar);
 }

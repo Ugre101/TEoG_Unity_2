@@ -24,7 +24,7 @@ public class ExpSystem
         {
             exp -= MaxExp;
             level++;
-            perkPoints += 2;
+            perkPoints += 3;
         }
         ExpChangeEvent?.Invoke();
     }
