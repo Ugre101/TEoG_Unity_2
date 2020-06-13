@@ -1,18 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using TMPro;
 using UnityEngine;
 
-public class FarmCentaurNpcMenu : MonoBehaviour
+[System.Serializable]
+public abstract class NpcMenuPage : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] protected Npc theNpc = null;
+    [SerializeField] protected TextMeshProUGUI textLog = null, title = null;
+    [SerializeField] protected NpcInfo npcInfo = null;
+    protected abstract string TitleName { get; }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Start()
     {
-        
+        npcInfo.Setup(theNpc);
+        title.text = TitleName;
     }
+}
+
+public class FarmCentaurNpcMenu : NpcMenuPage
+{
+    protected override string TitleName => "Centaur";
 }

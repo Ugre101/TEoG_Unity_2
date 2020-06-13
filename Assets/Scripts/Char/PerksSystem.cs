@@ -21,7 +21,15 @@ public enum PerksTypes
     EssenceBandit,
     EssenceTransformer,
     #endregion
+
     SingleMother,
+    MasculineVacuum,
+    FemenineVacuum,
+    MasculineFlow,
+    FemenineFlow,
+    HermaphroditeVacuum,
+    HermaphroditeFlow,
+    Bully,
 
     // Remember to always add new perks last in list to avoid breaking saves
 }
@@ -74,55 +82,6 @@ public static class PerkExtensions
     public static void GainPerk(this BasicChar basicChar, PerksTypes type)
     {
         List<Perk> perkList = basicChar.Perks.List;
-
-        switch (type)
-        {
-            case PerksTypes.FasterRest:
-                break;
-
-            case PerksTypes.Gluttony:
-                basicChar.HP.Recovery.AddMods(PerkEffects.Gluttony.ExtraRecovery(HealthTypes.Health));
-                basicChar.WP.Recovery.AddMods(PerkEffects.Gluttony.ExtraRecovery(HealthTypes.WillPower));
-                break;
-
-            case PerksTypes.EssenceFlow:
-                break;
-
-            case PerksTypes.EssenceThief:
-                break;
-
-            case PerksTypes.EssenceHoarder:
-                break;
-
-            case PerksTypes.HealthyBody:
-                break;
-
-            case PerksTypes.StrongMind:
-                break;
-
-            case PerksTypes.LowMetabolism:
-                break;
-
-            case PerksTypes.Delicate:
-                break;
-
-            case PerksTypes.EnhancedSenses:
-                break;
-
-            case PerksTypes.Thug:
-                break;
-
-            case PerksTypes.Greedy:
-                break;
-
-            case PerksTypes.EssenceShaper:
-
-                break;
-
-            case PerksTypes.Seductress:
-                basicChar.Stats.Charm.AddMods(PerkEffects.Seductress.CharmMod);
-                break;
-        }
         if (basicChar.Perks.HasPerk(type))
         {
             basicChar.Perks.GetPerk(type).LevelUp(); ;

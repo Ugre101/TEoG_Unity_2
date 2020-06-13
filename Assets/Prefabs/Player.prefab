@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 543689333}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 30, y: 30, z: 1}
   m_Children: []
   m_Father: {fileID: 3561722265227643815}
   m_RootOrder: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 3561722265227643818}
   - component: {fileID: 3561722265227643814}
   - component: {fileID: 404725221}
-  - component: {fileID: 404725225}
+  - component: {fileID: 1794781787}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 3561722265227643819}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.10000001, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children:
   - {fileID: 543689334}
   m_Father: {fileID: 0}
@@ -188,7 +188,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 6
 --- !u!61 &3561722265227643818
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -227,13 +227,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c466537dead13af4b8200853b74f9e7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 10
-  canvas: {fileID: 0}
-  spawner: {fileID: 0}
-  mapEvents: {fileID: 0}
+  movementSpeed: 11
+  bottomOffset: 1
   pointer: {fileID: 3212981430073784373, guid: c772b2ce14481f1478f0c253ebd4a48a, type: 3}
-  _coll: {fileID: 0}
-  _rb2d: {fileID: 0}
+  _coll: {fileID: 3561722265227643818}
+  _rb2d: {fileID: 3561722265227643813}
 --- !u!114 &404725221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,9 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprites: {fileID: 11400000, guid: 30f7ea40fe5120b4f95bbc7c29587544, type: 2}
   spriteRenderer: {fileID: 3561722265227643812}
-  eventLog: {fileID: 11400000, guid: afafec6ffb983614b80c3fc20d9a8849, type: 2}
-  whom: {fileID: 0}
---- !u!114 &404725225
+--- !u!114 &1794781787
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -259,99 +255,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3561722265227643819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c380547a57972ea4abc4064990388e43, type: 3}
+  m_Script: {fileID: 11500000, guid: e1a55124ad384fa47b4393e00d23dde0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firstName: 
-  lastName: 
-  inventory:
-    bonusAmount: 0
-    items: []
-  raceSystem:
-    raceList: []
-  vore:
-    Active: 0
-    balls:
-      preys: []
-      voreExp: 0
-    boobs:
-      preys: []
-      voreExp: 0
-    stomach:
-      preys: []
-      voreExp: 0
-    anal:
-      preys: []
-      voreExp: 0
-    vagina:
-      preys: []
-      voreExp: 0
-      childTf: 0
-  age:
-    ageYears: 18
-    ageDays: 0
-  body:
-    height:
-      value: 0
-    fat:
-      value: 0
-    muscle:
-      value: 0
-  hp:
-    _current: 0
-  wp:
-    _current: 0
-  expSystem:
-    level: 0
-    exp: 0
-    perkPoints: 0
-    statPoints: 0
-  perk:
-    perkList: []
-  stats:
-    strength:
-      baseValue: 10
-      _statMods: []
-    charm:
-      baseValue: 10
-      _statMods: []
-    endurance:
-      baseValue: 10
-      _statMods: []
-    dexterity:
-      baseValue: 10
-      _statMods: []
-    intelligence:
-      baseValue: 10
-      _statMods: []
-  autoEss: 1
-  essence:
-    masc:
-      _amount: 0
-    femi:
-      _amount: 0
-    bonusDrain: 0
-    bonusGive: 0
-  gold: 0
-  flags:
-    Pregnant:
-      value: 0
-    ImPregnated:
-      value: 0
-  pregnancySystem:
-    children: []
-    virility: 1
-    fertility: 1
-    bonusFetusGrowth: 0
-  sexualOrgans:
-    dicks: []
-    balls: []
-    boobs: []
-    lactating: 0
-    vaginas: []
-  skills: []
-  quest:
-    quests: []
-  playerFlags:
-    beatenBanditLord:
-      cleared: 0

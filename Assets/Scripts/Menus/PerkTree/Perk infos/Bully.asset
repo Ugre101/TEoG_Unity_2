@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29817c9a79a47744996aee4fe9a1777b, type: 3}
+  m_Name: Bully
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: c5c8a2d63610a4e48b2d6061b3e71349, type: 3}
+  perkTitle: Bully
+  perkInfo: You were never a nice kid.
+  perkEffects: '+ Mark last attcked enemy (WIP)
+
+    + Enemy doesn''t fully recover
+    after battle (-10% * perk level)'
+  maxLevel: 5
+  perkCost: 1
+  perk: 2
+  needCharStat: 0
+  neededCharStats: []
+  needOtherPerks: 0
+  neededPerks: []
+  isExcluvsive: 0
+  exclusiveWith: 

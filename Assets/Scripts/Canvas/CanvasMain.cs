@@ -32,12 +32,12 @@ public class CanvasMain : MonoBehaviour
     [SerializeField] private BigPanel Buildings = null;
     [SerializeField] private BuildingsMenu buildings = null;
     [SerializeField] private GameObject PauseMenu = null;
-    [SerializeField] private HomeMain Home = null;
 
     [SerializeField] private MenuPanels menuPanels = new MenuPanels();
 
     [SerializeField] private CombatMain combatMain = null;
     [SerializeField] private EventMain eventMain = null;
+    [SerializeField] private NpcMenus npcMenus = null;
 
     #endregion Properties
 
@@ -75,30 +75,14 @@ public class CanvasMain : MonoBehaviour
         // if in menus or main game(not combat)
         if (GameManager.KeyBindsActive)
         {
-            if (KeyDown(KeyBindings.SaveKey, menuPanels.Savemenu))
-            {
-            }
-            else if (KeyDown(KeyBindings.OptionsKey, menuPanels.Options))
-            {
-            }
-            else if (KeyDown(KeyBindings.QuestKey, menuPanels.QuestMenu))
-            {
-            }
-            else if (KeyDown(KeyBindings.InventoryKey, menuPanels.Inventory))
-            {
-            }
-            else if (KeyDown(KeyBindings.VoreKey, menuPanels.Vore))
-            {
-            }
-            else if (KeyDown(KeyBindings.EssenceKey, menuPanels.Essence))
-            {
-            }
-            else if (KeyDown(KeyBindings.LvlKey, menuPanels.LevelUp))
-            {
-            }
-            else if (KeyDown(KeyBindings.LookKey, menuPanels.Looks))
-            {
-            }
+            KeyDown(KeyBindings.SaveKey, menuPanels.Savemenu);
+            KeyDown(KeyBindings.OptionsKey, menuPanels.Options);
+            KeyDown(KeyBindings.QuestKey, menuPanels.QuestMenu);
+            KeyDown(KeyBindings.InventoryKey, menuPanels.Inventory);
+            KeyDown(KeyBindings.VoreKey, menuPanels.Vore);
+            KeyDown(KeyBindings.EssenceKey, menuPanels.Essence);
+            KeyDown(KeyBindings.LvlKey, menuPanels.LevelUp);
+            KeyDown(KeyBindings.LookKey, menuPanels.Looks);
             if (KeyBindings.EventKey.KeyDown)
             {
                 BigEventLog();
@@ -107,43 +91,32 @@ public class CanvasMain : MonoBehaviour
     }
 
     // DRY
-    private bool KeyDown(KeyBind key, GameObject panel)
+    private void KeyDown(KeyBind key, GameObject panel)
     {
-        bool keyDown = key.KeyDown;
-        if (keyDown)
+        if (key.KeyDown)
         {
             ResumePause(panel);
         }
-        return keyDown;
     }
 
     public void Intro()
     {
         transform.SleepChildren(transform.GetChild(0));
-        GameManager.CurState = GameState.Intro;
+        GameManager.SetCurState(GameState.Intro);
     }
 
     public void Resume()
     {
-        if (GameManager.CurrentArea == GlobalArea.Home)
-        {
-            Menus.transform.SleepChildren();
-            ToggleBigPanel(new List<Transform>() { Home.transform, Gameui.transform });
-            GameManager.CurState = GameState.Free;
-        }
-        else
-        {
-            Menus.transform.SleepChildren();
-            ToggleBigPanel(Gameui.gameObject);
-            GameManager.CurState = GameState.Free;
-        }
+        Menus.transform.SleepChildren();
+        ToggleBigPanel(Gameui.gameObject);
+        GameManager.SetCurState(GameState.Free);
     }
 
     public void Pause()
     {
         ToggleBigPanel(Menus.gameObject);
         Menus.transform.SleepChildren();
-        GameManager.CurState = GameState.Menu;
+        GameManager.SetCurState(GameState.Menu);
     }
 
     public void QuitGame() => Application.Quit();
@@ -160,12 +133,12 @@ public class CanvasMain : MonoBehaviour
         return false;
     }
 
-    public void StartCombat(BasicChar enemy)
+    public void StartCombat(CharHolder enemy)
     {
-        GameManager.CurState = GameState.Battle;
+        GameManager.SetCurState(GameState.Battle);
         Battle.transform.SleepChildren();
         ToggleBigPanel(Battle.gameObject);
-        List<BasicChar> toAdd = new List<BasicChar> { enemy };
+        List<BasicChar> toAdd = new List<BasicChar> { enemy.BasicChar };
         combatMain.SetUpCombat(toAdd);
     }
 
@@ -189,25 +162,13 @@ public class CanvasMain : MonoBehaviour
         }
     }
 
-    [SerializeField] private MapEvents mapEvents = null;
-    [SerializeField] private HomeMapHandler homeMapHandler = null;
-    [SerializeField] private Tilemap homeLandPlatform = null;
 
-    public void EnterHome()
+
+    public void EnterNpc(NpcMenuPage page)
     {
-        GameManager.CurState = GameState.Free;
-        GameManager.CurrentArea = GlobalArea.Home;
-
-        ToggleBigPanel(new List<Transform>() { Home.transform, Gameui.transform });
-        Home.transform.SleepChildren(Home.transform.GetChild(0));
-        if (homeLandPlatform == null)
-        {
-            mapEvents.Teleport(WorldMaps.Home, homeMapHandler.GetActiveLawn);
-        }
-        else
-        {
-            mapEvents.Teleport(WorldMaps.Home, homeMapHandler.GetActiveLawn, homeLandPlatform);
-        }
+        GameManager.SetCurState(GameState.InBuilding);
+        ToggleBigPanel(npcMenus.gameObject);
+        npcMenus.EnterNpc(page);
     }
 
     public void EscapePause()
@@ -225,12 +186,12 @@ public class CanvasMain : MonoBehaviour
             else
             {
                 PauseMenu.SetActive(false);
-                GameManager.CurState = GameManager.LastState;
+                GameManager.SetCurState(GameManager.LastState);
             }
         }
         else
         {
-            GameManager.CurState = GameState.PauseMenu;
+            GameManager.SetCurState(GameState.PauseMenu);
             PauseMenu.SetActive(true);
             if (Gameui.gameObject.activeSelf)
             {
@@ -241,7 +202,7 @@ public class CanvasMain : MonoBehaviour
 
     public void EnterBuilding(GameObject buildingToEnter)
     {
-        GameManager.CurState = GameState.InBuilding;
+        GameManager.SetCurState(GameState.InBuilding);
         ToggleBigPanel(Buildings.gameObject);
         // Disable all buildings expect the one to enter
         Buildings.transform.SleepChildren(buildingToEnter.transform);
@@ -249,7 +210,7 @@ public class CanvasMain : MonoBehaviour
 
     public void EnterBuilding(Building building)
     {
-        GameManager.CurState = GameState.InBuilding;
+        GameManager.SetCurState(GameState.InBuilding);
         transform.SleepChildren();
         buildings.EnterBuilding(building);
     }

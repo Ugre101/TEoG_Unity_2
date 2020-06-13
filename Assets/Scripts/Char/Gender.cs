@@ -61,7 +61,7 @@ public static class GenderExtensions
 
     public static GenderTypes GenderType(this BasicChar parWho)
     {
-        switch (parWho.Gender())
+        switch (Gender(parWho))
         {
             case Genders.Cuntboy:
             case Genders.Male:
@@ -80,7 +80,7 @@ public static class GenderExtensions
 
     public static string HisHer(this BasicChar basicChar, bool capital = false)
     {
-        switch (basicChar.Gender())
+        switch (Gender(basicChar))
         {
             case Genders.Male:
             case Genders.Cuntboy:
@@ -99,7 +99,7 @@ public static class GenderExtensions
 
     public static string HimHer(this BasicChar basicChar, bool capital = false)
     {
-        switch (basicChar.Gender())
+        switch (Gender(basicChar))
         {
             case Genders.Male:
             case Genders.Cuntboy:
@@ -118,7 +118,7 @@ public static class GenderExtensions
 
     public static string HeShe(this BasicChar basicChar, bool capital = false)
     {
-        switch (basicChar.Gender())
+        switch (Gender(basicChar))
         {
             case Genders.Male:
             case Genders.Cuntboy:

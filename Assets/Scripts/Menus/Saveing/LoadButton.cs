@@ -3,16 +3,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadButtonBase : MonoBehaviour
+public abstract class LoadButtonBase : MonoBehaviour
 {
     protected FileInfo file;
 
     // Short commands
-    [SerializeField]
-    protected TextMeshProUGUI title = null;
+    [SerializeField] protected TextMeshProUGUI title = null;
 
-    [SerializeField]
-    protected Button load = null, del = null;
+    [SerializeField] protected Button load = null, del = null;
 
     public virtual void Setup(FileInfo fileInfo)
     {
@@ -63,6 +61,7 @@ public class LoadButton : LoadButtonBase
         }
         else
         {
+            
             Debug.Log("Error load failed...");
             SaveFailed();
         }

@@ -3,22 +3,9 @@ using UnityEngine;
 using Vore;
 
 [System.Serializable]
-public abstract class BasicChar : MonoBehaviour
+public class BasicChar
 {
-    public BasicChar()
-    {
-        vore = new VoreEngine(this);
-        DateSystem.NewMinuteEvent += DoEveryMin;
-    }
-
-    private void DoEveryMin()
-    {
-        // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
-        this.RefreshOrgans();
-        this.OverTimeTick();
-    }
-
-    [SerializeField] protected Identity identity;
+    [SerializeField] protected Identity identity = new Identity();
 
     public Identity Identity => identity;
     [SerializeField] protected RelationshipTracker relationshipTracker = new RelationshipTracker();
@@ -33,27 +20,30 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private RaceSystem raceSystem = new RaceSystem();
 
     public RaceSystem RaceSystem => raceSystem;
+
+    #region Gender
+
     private Genders lastGender;
 
-    private void DidGenderChange()
+    public bool DidGenderChange()
     {
-        if (lastGender != this.Gender())
+        if (lastGender != GenderExtensions.Gender(this))
         {
-            lastGender = this.Gender();
-            SpriteHandler.ChangeSprite();
+            lastGender = GenderExtensions.Gender(this);
+            return true;
         }
+        return false;
     }
 
-    public string Gender => Settings.GetGender(this);
+    public string Gender(bool capital = false) => Settings.GetGender(this, capital);
+
     public GenderTypes GenderType => this.GenderType();
+
+    #endregion Gender
 
     [SerializeField] private VoreEngine vore;
 
     public VoreEngine Vore => vore;
-
-    private VoreChar voreChar;
-
-    public VoreChar VoreChar => voreChar = voreChar != null ? voreChar : GetComponentInChildren<VoreChar>();
 
     [SerializeField] private Age age = new Age();
 
@@ -63,15 +53,9 @@ public abstract class BasicChar : MonoBehaviour
 
     public Body Body => body;
 
-    public virtual void Awake()
-    {
-    }
-
-    [SerializeField] private Health hp;
+    [SerializeField] private Health hp, wp;
 
     public Health HP => hp;
-
-    [SerializeField] private Health wp;
 
     public Health WP => wp;
 
@@ -80,7 +64,7 @@ public abstract class BasicChar : MonoBehaviour
 
     public ExpSystem ExpSystem => expSystem;
 
-    [SerializeField] public Perks perk = new Perks();
+    [SerializeField] private Perks perk = new Perks();
 
     public Perks Perks => perk;
 
@@ -96,7 +80,6 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private EssenceSystem essence = new EssenceSystem();
 
     public EssenceSystem Essence => essence;
-    public float RestRate => 3.44f + Perks.GetPerkLevel(PerksTypes.FasterRest);
 
     [Space]
     [SerializeField] private Currency currency = new Currency();
@@ -120,49 +103,65 @@ public abstract class BasicChar : MonoBehaviour
     [SerializeField] private SexStats sexStats = new SexStats();
 
     public SexStats SexStats => sexStats;
-    [SerializeField] private CharSpriteHandler spriteHandler;
-    public CharSpriteHandler SpriteHandler
-    {
-        get
-        {
-            if (spriteHandler == null)
-            {
-                spriteHandler = GetComponent<CharSpriteHandler>();
-            }
-            return spriteHandler;
-        }
-    }
-    public virtual void Start()
+
+    public BasicChar()
     {
         identity = new Identity();
-        SexualOrgan.SomethingChanged += DidGenderChange;
-
+        vore = new VoreEngine(this);
         expSystem = new ExpSystem(1);
-        DateSystem.NewDayEvent += this.GrowFetuses;
-        DateSystem.NewDayEvent += PregnancySystem.GrowChild;
         gameEvent = new GameEventSystem(this);
-        SpriteHandler.Setup(this);
+        hp = new Health(this, new AffectedByStat(StatTypes.End, 5));
+        wp = new Health(this, new AffectedByStat(StatTypes.Will, 5));
+        Essence.Femi.GainEvent += this.RefreshOrgans;
+        Essence.Masc.GainEvent += this.RefreshOrgans;
     }
 
-    protected void InitHealth()
+    public BasicChar(Age age, Body body, ExpSystem expSystem) : this()
     {
-        hp = new Health(new AffectedByStat(Stats.Endurance, 5));
-        wp = new Health(new AffectedByStat(Stats.Willpower, 5));
-        HP.FullGain();
-        WP.FullGain();
+        this.vore = new VoreEngine(this);
+        this.age = age;
+        this.body = body;
+        this.expSystem = expSystem;
     }
 
-    public virtual void OnDestroy()
+    public BasicChar(Identity identity, Age age, Body body, ExpSystem expSystem) : this(age, body, expSystem)
     {
-        SexualOrgan.SomethingChanged -= DidGenderChange;
-        DateSystem.NewMinuteEvent -= DoEveryMin;
+        this.identity = identity;
     }
 
-    [SerializeField] private List<Skill> skills = new List<Skill>();
+    public BasicChar(Identity identity, RelationshipTracker relationshipTracker, Inventory inventory, EquiptItems equiptItems, RaceSystem raceSystem, VoreEngine vore, Age age, Body body, Health hp, Health wp, ExpSystem expSystem, Perks perk, StatsContainer stats, EssenceSystem essence, Currency currency, Flags flags, PregnancySystem pregnancySystem, Organs sexualOrgans, SexStats sexStats, List<Skill> skills)
+    {
+        this.identity = identity;
+        this.relationshipTracker = relationshipTracker;
+        this.inventory = inventory;
+        this.equiptItems = equiptItems;
+        this.raceSystem = raceSystem;
+        this.vore = vore;
+        this.age = age;
+        this.body = body;
+        this.hp = hp;
+        this.wp = wp;
+        this.expSystem = expSystem;
+        this.perk = perk;
+        this.stats = stats;
+        this.essence = essence;
+        this.currency = currency;
+        this.flags = flags;
+        this.pregnancySystem = pregnancySystem;
+        this.sexualOrgans = sexualOrgans;
+        this.sexStats = sexStats;
+        this.skills = skills;
+    }
+
+    [SerializeField] private List<Skill> skills = new List<Skill>() { new Skill(SkillId.BasicAttack), new Skill(SkillId.BasicTease) };
 
     public List<Skill> Skills => skills;
     private GameEventSystem gameEvent;
     public GameEventSystem Events => gameEvent;
 
+    public delegate void DestroyHolder();
 
+    public event DestroyHolder DestroyHolderEvent;
+
+    public void IfHaveHolderDestoryIt() => DestroyHolderEvent?.Invoke();
 }

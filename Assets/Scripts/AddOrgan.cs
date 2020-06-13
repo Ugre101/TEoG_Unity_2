@@ -10,25 +10,24 @@ namespace EssenceMenuStuff
         [SerializeField] protected TextMeshProUGUI btnText = null;
         [SerializeField] protected Image image = null;
         [SerializeField] protected Color canAfford, cantAfford;
-        protected PlayerMain player;
+        protected PlayerMain Player => PlayerHolder.Player;
         protected abstract Essence Ess { get; }
         protected abstract float Cost { get; }
         protected bool CanAfford => Ess.Amount >= Cost;
 
         protected void ShowIfCanAfford() => image.color = CanAfford ? canAfford : cantAfford;
 
-        public virtual Button Setup(PlayerMain player)
+        public virtual Button Setup()
         {
-            this.player = player;
             btn.onClick.AddListener(AddFunc);
             DisplayCost();
             image = image != null ? image : GetComponent<Image>();
-            Ess.EssenceSliderEvent += ShowIfCanAfford;
+            Ess.ChangeEvent += ShowIfCanAfford;
             ShowIfCanAfford();
             return btn;
         }
 
-        private void OnDestroy() => Ess.EssenceSliderEvent -= ShowIfCanAfford;
+        private void OnDestroy() => Ess.ChangeEvent -= ShowIfCanAfford;
 
         protected abstract void DisplayCost();
 

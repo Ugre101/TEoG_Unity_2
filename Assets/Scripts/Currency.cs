@@ -3,8 +3,7 @@
 [System.Serializable]
 public class Currency
 {
-    [SerializeField]
-    private float gold;
+    [SerializeField] private float gold;
 
     public float Gold
     {
@@ -15,6 +14,7 @@ public class Currency
             GoldChanged?.Invoke();
         }
     }
+
     /// <summary> Checks if you can afford it. </summary>
     public bool CanAfford(int cost) => cost <= Gold;
 
@@ -28,6 +28,7 @@ public class Currency
         }
         return false;
     }
+
     public delegate void GoldChange();
 
     public event GoldChange GoldChanged;

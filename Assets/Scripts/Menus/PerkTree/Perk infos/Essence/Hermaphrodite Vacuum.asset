@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29817c9a79a47744996aee4fe9a1777b, type: 3}
+  m_Name: Hermaphrodite Vacuum
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 2cc807f96e5491145b1def55243180ba, type: 3}
+  perkTitle: Hermaphrodite Vacuum
+  perkInfo: 
+  perkEffects: "+ Drain both types of gender essence\r\n+ Big auto drain (30 * perk
+    level)\r\n- You can\u2019t draw essence manually anymore\r"
+  maxLevel: 5
+  perkCost: 5
+  perk: 2
+  needCharStat: 0
+  neededCharStats: []
+  needOtherPerks: 1
+  neededPerks:
+  - amount: 10
+    perksTypes: 18
+  - amount: 10
+    perksTypes: 17
+  isExcluvsive: 0
+  exclusiveWith: 

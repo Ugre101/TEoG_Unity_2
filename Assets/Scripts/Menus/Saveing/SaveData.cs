@@ -1,31 +1,24 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Vore;
 
-[System.Serializable]
 public class Save
 {
     private readonly PlayerMain Player;
     private readonly Transform Pos;
-    private readonly Dorm dorm;
-    private readonly VoreChar voreChar;
 
-    public Save(PlayerMain player, Dorm theDorm)
+    public Save(PlayerMain player, PlayerHolder playerHolder)
     {
         Player = player;
-        Pos = player.transform;
-        dorm = theDorm;
-        voreChar = player.VoreChar;
+        Pos = playerHolder.transform;
     }
 
     public string SaveData()
     {
         PlayerSave playerSave = new PlayerSave(Player);
-        List<DormSave> dormSaves = dorm.Save();
-        PosSave playerPos = new PosSave(Pos.position, MapEvents.ActiveMap, MapEvents.CurrentMap.transform.name);
+        List<DormSave> dormSaves = Dorm.Save();
+        PosSave playerPos = new PosSave(Pos.position);
         HomeSave homeSave = StartHomeStats.Save();
-        VoreSaves voreSaves = voreChar.Save;
-        FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, voreSaves, MapEvents.GetMapEvents.GetTeleportSaves());
+        FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, MapEvents.GetMapEvents.GetTeleportSaves());
         Debug.Log(JsonUtility.ToJson(fullSave));
 
         return JsonUtility.ToJson(fullSave);
@@ -34,13 +27,36 @@ public class Save
     public void LoadData(string json)
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
+        Debug.Log(json);
+        string errorMsg = string.Empty;
         // Singleton static
         // Reference
-        JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
-        StartHomeStats.Load(fullSave.HomePart);
-        dorm.Load(fullSave.DormPart);
-        voreChar.Load(fullSave.VoreSaves, Player);
-        // Pure static
+        try
+        {
+            PlayerHolder.GetPlayerHolder.Load(fullSave.PlayerPart.Who);
+        }
+        catch
+        {
+            errorMsg += "Player failed to load";
+        }
+        //  JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
+        try
+        {
+            StartHomeStats.Load(fullSave.HomePart);
+        }
+        catch
+        {
+            errorMsg += "Home failed to load";
+        }
+        try
+        {
+            Dorm.Load(fullSave.DormPart);
+        }
+        catch
+        {
+            errorMsg += "Dorm failed to load";
+        }
+
         DateSystem.Load(fullSave.DatePart);
         QuestsSystem.Load(fullSave.QuestSave);
         PlayerFlags.Load(fullSave.PlayerFlagsSave);
@@ -48,6 +64,10 @@ public class Save
         GameManager.Load(fullSave.GameManagerSave);
         EventLog.ClearLog();
         LoadEvent?.Invoke();
+        if (errorMsg != string.Empty)
+        {
+            PopupHandler.GetPopupHandler.DelayedSpawnTimedPopup(errorMsg, 6f);
+        }
     }
 
     public delegate void DelegateLoad();
@@ -63,8 +83,9 @@ public class FullSave
     [SerializeField] private List<DormSave> dormPart;
     [SerializeField] private DateSave datePart;
     [SerializeField] private HomeSave homePart;
-    [SerializeField] private VoreSaves voreSaves;
+
     [SerializeField] private QuestSave questSave;
+
     [SerializeField] private PlayerFlagsSave playerFlags;
     [SerializeField] private List<TeleportSave> teleportSaves;
     [SerializeField] private GameManagerSaveState gameManager;
@@ -73,21 +94,21 @@ public class FullSave
     public List<DormSave> DormPart => dormPart;
     public DateSave DatePart => datePart;
     public HomeSave HomePart => homePart;
-    public VoreSaves VoreSaves => voreSaves;
+
     public QuestSave QuestSave => questSave;
+
     public PlayerFlagsSave PlayerFlagsSave => playerFlags;
     public List<TeleportSave> TeleportSaves => teleportSaves;
 
     public GameManagerSaveState GameManagerSave => gameManager;
 
-    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, HomeSave parHome, VoreSaves vore, List<TeleportSave> teleportSaves)
+    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, HomeSave parHome, List<TeleportSave> teleportSaves)
     {
         this.playerPart = player;
         this.posPart = pos;
         this.dormPart = dorm;
         this.datePart = DateSystem.Save;
         this.homePart = parHome;
-        this.voreSaves = vore;
         this.questSave = QuestsSystem.Save;
         this.playerFlags = PlayerFlags.Save();
         this.teleportSaves = teleportSaves;
@@ -118,10 +139,10 @@ public struct PosSave
     public WorldMaps World => world;
     public string Map => map;
 
-    public PosSave(Vector3 vec3, WorldMaps currWorld, string currMap)
+    public PosSave(Vector3 vec3)
     {
         pos = vec3;
-        world = currWorld;
-        map = currMap;
+        world = MapEvents.ActiveMap;
+        map = MapEvents.CurrentMap.transform.name;
     }
 }

@@ -15,7 +15,9 @@ public enum Races
     Equine,
     Dragon,
     DragonKin, // Humaniod dragon
-    Amazon // Human sub-species
+    Amazon, // Human sub-species
+    DarkElf,
+    Bovine,
 }
 
 public enum HalfRaces

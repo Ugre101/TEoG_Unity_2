@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 
@@ -7,10 +9,9 @@ public class CombatMain : MonoBehaviour
     /// <summary>Can only be used by children of this as it isn't defined before first enable</summary>
     public static CombatMain GetCombatMain { get; private set; }
 
-    private CanvasMain CanvasMain => CanvasMain.GetCanvasMain;
     private PlayerMain player;
 
-    private PlayerMain Player => player = player != null ? player : PlayerMain.GetPlayer;
+    private PlayerMain Player => player = player != null ? player : PlayerHolder.Player;
 
     [SerializeField] private TextMeshProUGUI _textbox = null;
 
@@ -20,25 +21,9 @@ public class CombatMain : MonoBehaviour
 
     [SerializeField] private SkillBook skillBook = null;
 
-    public BasicChar CurrentEnemy
-    {
-        get
-        {
-            if (enemyTeamChars.Count < 1) { CanvasMain.Resume(); return null; }
-            return enemyTeamChars[indexCurrentEnemy];
-        }
-    }
-
-    private int indexCurrentEnemy = 0;
-    private readonly List<BasicChar> playerTeamChars = new List<BasicChar>();
-    private readonly List<BasicChar> enemyTeamChars = new List<BasicChar>();
-
     [SerializeField] private CombatTeam playerTeam = null;
 
     [SerializeField] private CombatTeam enemyTeam = null;
-
-    public BasicChar Target => newTarget != null ? newTarget : CurrentEnemy;
-    private BasicChar newTarget = null;
 
     [Header("Win")]
     [SerializeField] private AfterBattleMain afterBattle = null;
@@ -46,11 +31,9 @@ public class CombatMain : MonoBehaviour
     [Header("Lose")]
     [SerializeField] private LoseMain loseBattle = null;
 
-    // Private
-    private readonly List<string> _battleLog = new List<string>();
-
-    private string _PlayerTeamAttacks, _EnemyTeamAttacks;
-    private int _turn;
+    private string PlayerTeamAttacks { get => CombatHandler.PlayerTeamAttacks; set => CombatHandler.PlayerTeamAttacks = value; }
+    private string EnemyTeamAttacks { get => CombatHandler.EnemyTeamAttacks; set => CombatHandler.SetEnemyTeamAttacks(value); }
+    private int Turn { get => CombatHandler.Turn; set => CombatHandler.Turn = value; }
 
     private void Awake()
     {
@@ -66,6 +49,8 @@ public class CombatMain : MonoBehaviour
 
     private void Start()
     {
+        CombatHandler.PrintActionLog += SetTextBox;
+        CombatHandler.EndTurnEvent += TurnManager;
         skillButtons = new List<CombatButton>(skillButtonsContainer.GetComponentsInChildren<CombatButton>());
         if (!skillButtons.Exists(s => s.Skill != null))
         {
@@ -76,34 +61,19 @@ public class CombatMain : MonoBehaviour
         }
     }
 
+    private void SetTextBox(string text) => _textbox.text = text;
+
     private void ResetSkills(List<BasicChar> basicChars) =>
         basicChars.ForEach(bc => skillBook.Dict.OwnedSkills(bc.Skills).ForEach(us => us.ResetCoolDown()));
 
     public void SetUpCombat(List<BasicChar> enemies)
     {
         gameObject.SetActive(true);
-        // Clear battle log
-        _battleLog.Clear();
-        _textbox.text = "";
-        _turn = 1;
-
-        if (playerTeamChars.Count < 1)
-        {
-            playerTeamChars.Add(Player);
-        }
-
-        enemyTeamChars.Clear();
-        enemyTeamChars.AddRange(enemies);
+        CombatHandler.SetUpCombat(enemies);
         _ = enemyTeam.StartCoroutine(enemyTeam.StartFight(enemies));
-        _ = playerTeam.StartCoroutine(playerTeam.StartFight(playerTeamChars));
-        ResetSkills(playerTeamChars);
-        ResetSkills(enemyTeamChars);
-    }
-
-    public void PlayerAttack(string attack)
-    {
-        _PlayerTeamAttacks += attack + "\n";
-        TurnManager();
+        _ = playerTeam.StartCoroutine(playerTeam.StartFight(CombatHandler.PlayerTeamChars));
+        ResetSkills(CombatHandler.PlayerTeamChars);
+        ResetSkills(CombatHandler.EnemyTeamChars);
     }
 
     public void EnemyAI(BasicChar Enemy)
@@ -111,23 +81,14 @@ public class CombatMain : MonoBehaviour
         float str = Enemy.Stats.Str, charm = Enemy.Stats.Cha;
         //  List<string> strAttack = new List<string> { "Hits you", "Kicks you", "Grapples you down to the ground" };
         //  List<string> charmAttack = new List<string> { $"Teases you" };
+        // TODO check highest avg dmg amoung owned skills in future
         if (charm < str)
         {
-            _EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicAttack).skill.Action(Enemy, player);
+            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicAttack).skill.Action(Enemy, player);
         }
         else
         {
-            _EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicTease).skill.Action(Enemy, player);
-        }
-    }
-
-    public void AddToCombatLog(string addText)
-    {
-        _battleLog.Insert(0, addText + "\n");
-        if (_textbox != null)
-        {
-            _textbox.text = null;
-            _battleLog.ForEach(s => _textbox.text += s);
+            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicTease).skill.Action(Enemy, player);
         }
     }
 
@@ -136,16 +97,16 @@ public class CombatMain : MonoBehaviour
         // PlayerTeam
 
         // EnemyTeam
-        enemyTeamChars.ForEach(e => EnemyAI(e));
+        CombatHandler.EnemyTeamChars.ForEach(e => EnemyAI(e));
         // Formay textlog
-        string textToAdd = $"Turn: {_turn}\nPlayer team\n" + _PlayerTeamAttacks + "\nEnemy team\n" + _EnemyTeamAttacks + "\n";
-        AddToCombatLog(textToAdd);
-        _turn++;
-        _PlayerTeamAttacks = null;
-        _EnemyTeamAttacks = null;
+        string textToAdd = $"Turn: {Turn}\nPlayer team\n" + PlayerTeamAttacks + "\nEnemy team\n" + EnemyTeamAttacks + "\n";
+        CombatHandler.AddToCombatLog(textToAdd);
+        Turn++;
+        PlayerTeamAttacks = null;
+        EnemyTeamAttacks = null;
         // Reset cooldoowns
-        RefreshCooldown(playerTeamChars);
-        RefreshCooldown(enemyTeamChars);
+        RefreshCooldown(CombatHandler.PlayerTeamChars);
+        RefreshCooldown(CombatHandler.EnemyTeamChars);
         skillButtons.FindAll(sb => sb.Skill != null).ForEach(cb => cb.CoolDownHandler());
         // Reset newTarget
         SelectNewTarget(null);
@@ -156,12 +117,12 @@ public class CombatMain : MonoBehaviour
     public void LoseBattle()
     {
         gameObject.SetActive(false);
-        loseBattle.Setup(enemyTeamChars);
+        loseBattle.Setup(CombatHandler.EnemyTeamChars);
     }
 
     public void WinBattle()
     {
-        enemyTeamChars.ForEach(etc =>
+        CombatHandler.EnemyTeamChars.ForEach(etc =>
         {
             if (etc is Boss b)
             {
@@ -174,12 +135,22 @@ public class CombatMain : MonoBehaviour
             }
             else if (etc is EnemyPrefab e)
             {
+                if (player.Perks.HasPerk(PerksTypes.Bully))
+                {
+                    e.HP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(player.Perks));
+                    e.WP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(player.Perks));
+                }
+                else
+                {
+                    e.HP.FullGain();
+                    e.WP.FullGain();
+                }
                 PostBattleReward(e);
             }
             // if something else
         });
 
-        afterBattle.Setup(enemyTeamChars);
+        afterBattle.Setup(CombatHandler.EnemyTeamChars);
         gameObject.SetActive(false);
     }
 
@@ -215,6 +186,88 @@ public class CombatMain : MonoBehaviour
     {
         playerTeam.DeSelectAll();
         enemyTeam.DeSelectAll();
-        newTarget = target;
+        CombatHandler.NewTarget = target;
     }
+}
+
+public static class CombatHandler
+{
+    private static readonly List<string> battleLog = new List<string>();
+
+    public static void ClearBattleLog()
+    {
+        battleLog.Clear();
+        PrintActionLog?.Invoke(string.Empty);
+    }
+
+    public static void AddToCombatLog(string addText)
+    {
+        battleLog.Insert(0, addText + "\n");
+
+        StringBuilder sb = new StringBuilder();
+        foreach (string s in battleLog)
+        {
+            sb.Append(s);
+        }
+        PrintActionLog?.Invoke(sb.ToString());
+    }
+
+    public static Action<string> PrintActionLog;
+
+    public static List<BasicChar> PlayerTeamChars { get; } = new List<BasicChar>();
+    public static List<BasicChar> EnemyTeamChars { get; } = new List<BasicChar>();
+
+    public static BasicChar CurrentEnemy
+    {
+        get
+        {
+            if (EnemyTeamChars.Count < 1)
+            {
+                CanvasMain.GetCanvasMain.Resume(); // Error return to main game
+                return null;
+            }
+            return EnemyTeamChars[indexCurrentEnemy];
+        }
+    }
+
+    private static int indexCurrentEnemy = 0;
+
+    public static BasicChar Target => NewTarget ?? CurrentEnemy;
+    public static BasicChar NewTarget { private get; set; } = null;
+
+    public static string PlayerTeamAttacks { get; set; }
+
+    private static string enemyTeamAttacks;
+
+    public static string EnemyTeamAttacks => enemyTeamAttacks;
+
+    public static void SetEnemyTeamAttacks(string value) => enemyTeamAttacks = value;
+
+    public static int Turn { get; set; }
+
+    public static void SetUpCombat(List<BasicChar> enemies)
+    {
+        // Clear battle log
+        ClearBattleLog();
+        Turn = 1;
+
+        if (PlayerTeamChars.Count < 1)
+        {
+            PlayerTeamChars.Add(PlayerHolder.GetPlayerHolder.BasicChar);
+        }
+
+        EnemyTeamChars.Clear();
+        EnemyTeamChars.AddRange(enemies);
+    }
+
+    public static void PlayerAttack(string attack)
+    {
+        PlayerTeamAttacks += attack + "\n";
+        EndTurnEvent?.Invoke();
+        //   TurnManager();
+    }
+
+    public delegate void EndTurn();
+
+    public static event EndTurn EndTurnEvent;
 }

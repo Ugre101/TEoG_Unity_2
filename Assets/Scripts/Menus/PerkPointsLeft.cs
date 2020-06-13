@@ -11,7 +11,7 @@ public class PerkPointsLeft : MonoBehaviour
     private void Start()
     {
         textUGUI = textUGUI != null ? textUGUI : GetComponent<TextMeshProUGUI>();
-        player = player != null ? player : PlayerMain.GetPlayer;
+        player = player != null ? player : PlayerHolder.Player;
         ShowPoints();
     }
 

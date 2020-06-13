@@ -7,7 +7,7 @@ namespace UI
     {
         [SerializeField] private GameObject Vore = null;
 
-        [SerializeField] private PlayerMain player = null;
+        [SerializeField] private PlayerHolder player = null;
 
         [SerializeField] private Image levelBtnImg = null;
 
@@ -17,9 +17,9 @@ namespace UI
 
         private void OnEnable()
         {
-            hasLeveld = player.ExpSystem.PerkPoints > 0;
+            hasLeveld = player.BasicChar.ExpSystem.PerkPoints > 0;
             levelBtnImg.sprite = hasLeveld ? levelImg : noLevelImg;
-            Vore.SetActive(player.Vore.Active);
+            Vore.SetActive(player.BasicChar.Vore.Active);
         }
     }
 }

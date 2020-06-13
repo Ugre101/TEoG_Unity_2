@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -6,9 +7,9 @@ using UnityEngine.UI;
 
 public class AfterBattleMain : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    private PlayerMain player => PlayerHolder.Player;
 
-    [SerializeField] private List<BasicChar> enemies = new List<BasicChar>();
+    private List<BasicChar> enemies = new List<BasicChar>();
 
     [SerializeField] private TextMeshProUGUI textBox = null;
 
@@ -41,6 +42,7 @@ public class AfterBattleMain : MonoBehaviour
 
     [SerializeField] private List<VoreScene> voreScenes = new List<VoreScene>();
     [SerializeField] private List<SexScenes> miscScenes = new List<SexScenes>();
+    [SerializeField] private LeaveAfterBattle leaveScene = null;
 
     #endregion Scenes
 
@@ -89,6 +91,11 @@ public class AfterBattleMain : MonoBehaviour
         {
             buttons.transform.KillChildren();
             DrainActions.transform.KillChildren();
+            if (leaveScene != null)
+            {
+                MiscActions.transform.KillChildren();
+                Instantiate(sexButton, MiscActions).Setup(leaveScene);
+            }
         }
         else
         {
@@ -137,28 +144,26 @@ public class AfterBattleMain : MonoBehaviour
 
     public void RefreshScenes()
     {
-        if (player.CanOrgasmMore())
+        if (allSexScenes.Count == 0)
         {
-            if (allSexScenes.Count == 0)
-            {
-                allSexScenes = dickScenes.Concat(mouthScenes).Concat(boobScenes)
-                    .Concat(vaginaScenes).Concat(analScenes).ToList();
-            }
-            SceneChecker(allSexScenes, player.Vore.Active);
+            allSexScenes = dickScenes.Concat(mouthScenes).Concat(boobScenes)
+                .Concat(vaginaScenes).Concat(analScenes).ToList();
         }
-        else
-        {
-            buttons.transform.KillChildren();
-        }
+        SceneChecker(allSexScenes, player.Vore.Active);
+
         MiscActions.KillChildren();
         foreach (SexScenes sexScenes in miscScenes.FindAll(m => m.CanDo(player, Target)))
         {
             Instantiate(sexButton, MiscActions).Setup(sexScenes);
         }
+        Debug.Log("Refresh can drain" + Target.SexStats.CanDrain);
         DrainActions.KillChildren();
         if (Target.SexStats.CanDrain)
         {
-            essScenes.FindAll(ess => ess.CanDo(Target)).ForEach(ess => Instantiate(essSexButton, DrainActions).Setup(ess));
+            foreach (EssScene essScene in essScenes.FindAll(ess => ess.CanDo(Target)))
+            {
+                Instantiate(essSexButton, DrainActions).Setup(essScene);
+            }
         }
     }
 
@@ -184,9 +189,78 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
-    private void PlayerOrgasmed() => InsertToTextBox("\n\n" + LastScene.PlayerOrgasmed(player, Target));
+    private void PlayerOrgasmed()
+    {
+        InsertToTextBox("\n\n" + LastScene.PlayerOrgasmed(player, Target));
+        HandleAutoGiveEssence();
+        if (player.Perks.HasPerk(PerksTypes.EssenceShaper) || player.Perks.HasPerk(PerksTypes.EssenceTransformer))
+        {
+            // TODO transmute essence
+        }
+    }
 
-    private void OtherOrgasmed() => InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
+    private void OtherOrgasmed()
+    {
+        Debug.Log("Can drain berfore " + Target.SexStats.CanDrain);
+        InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
+        HandleAutoDrainEssence();
+        Debug.Log("Can drain after" + Target.SexStats.CanDrain);
+    }
+
+    private void HandleAutoDrainEssence()
+    {
+        if ((player.Perks.HasPerk(PerksTypes.FemenineVacuum) && player.Perks.HasPerk(PerksTypes.MasculineVacuum)) || player.Perks.HasPerk(PerksTypes.HermaphroditeVacuum))
+        {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+            player.DrainFemi(Target);
+            player.DrainMasc(Target);
+            InsertToTextBox(drainChange.BothChanges);
+            player.SexStats.Drained();
+        }
+        else if (player.Perks.HasPerk(PerksTypes.FemenineVacuum))
+        {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+            player.DrainFemi(Target);
+            InsertToTextBox(drainChange.BothChanges);
+            player.SexStats.Drained();
+        }
+        else if (player.Perks.HasPerk(PerksTypes.MasculineVacuum))
+        {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+            player.DrainMasc(Target);
+            InsertToTextBox(drainChange.BothChanges);
+            player.SexStats.Drained();
+        }
+    }
+
+    private void HandleAutoGiveEssence()
+    {
+        if ((player.Perks.HasPerk(PerksTypes.FemenineFlow) && player.Perks.HasPerk(PerksTypes.MasculineFlow)) || player.Perks.HasPerk(PerksTypes.HermaphroditeFlow))
+        {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+            float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(player.Perks) + PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(player.Perks) + PerkEffects.EssenecePerks.EssHemiFlow.EssGiveBonus(player.Perks);
+            player.GiveFemi(Target, bonus, true);
+            player.GiveMasc(Target, bonus, true);
+            player.SexStats.Drained();
+            InsertToTextBox(drainChange.BothChanges);
+        }
+        else if (player.Perks.HasPerk(PerksTypes.FemenineFlow))
+        {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+            float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(player.Perks);
+            player.GiveFemi(Target, bonus, true);
+            player.SexStats.Drained();
+            InsertToTextBox(drainChange.BothChanges);
+        }
+        else if (player.Perks.HasPerk(PerksTypes.MasculineFlow))
+        {
+            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+            float bonus = PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(player.Perks);
+            player.GiveMasc(Target, bonus, true);
+            player.SexStats.Drained();
+            InsertToTextBox(drainChange.BothChanges);
+        }
+    }
 
     private void SceneChecker(List<SexScenes> scenes, bool showVore = false)
     {
@@ -200,17 +274,22 @@ public class AfterBattleMain : MonoBehaviour
         }
         if (showVore)
         {
-            foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
-            {
-                Instantiate(voreButton, buttons.transform).Setup(vore);
-            }
+            AddVoresScenes();
+        }
+    }
+
+    private void AddVoresScenes()
+    {
+        foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, Target)))
+        {
+            Instantiate(voreButton, buttons.transform).Setup(vore);
         }
     }
 
     private void ShowVore()
     {
         buttons.transform.KillChildren();
-        foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, new Vore.ThePrey(Target))))
+        foreach (VoreScene vore in voreScenes.FindAll(vs => vs.CanDo(player, Target)))
         {
             Instantiate(voreButton, buttons.transform).Setup(vore);
         }
@@ -221,25 +300,30 @@ public class AfterBattleMain : MonoBehaviour
     // TODO fix to extra info comes after
     public void InsertToTextBox(string text) => textBox.text += text;
 
-    private void HandleSexScene(SexScenes scene)
+    private void SceneBasics(SexScenes scene)
     {
         AddToTextBox(LastScene == scene ? scene.ContinueScene(player, Target) : scene.StartScene(player, Target));
         LastScene = scene;
+    }
+
+    private void HandleSexScene(SexScenes scene)
+    {
+        SceneBasics(scene);
         scene.ArousalGain(player, Target);
     }
 
     private void HandleEssScene(EssScene scene)
     {
-        AddToTextBox(LastScene == scene ? scene.ContinueScene(Caster, Target) : scene.StartScene(Caster, Target));
-        LastScene = scene;
+        SceneBasics(scene);
         Target.SexStats.Drained();
         RefreshScenes();
     }
 
     private void HandleVoreScene(VoreScene voreScene)
     {
-        AddToTextBox(voreScene.Vore(player, new Vore.ThePrey(Target)));
+        AddToTextBox(voreScene.Vore(player, Target));
         LastScene = voreScene;
+        Target.IfHaveHolderDestoryIt();
         EnemyRemoved();
     }
 
@@ -252,4 +336,64 @@ public class AfterBattleMain : MonoBehaviour
             // TODO INSTATIXZXE
         }
     }
+}
+
+public static class AfterBattleHandler
+{
+    private static List<BasicChar> enemies = new List<BasicChar>();
+
+    // Test class to see if I can split out stuff from afterbattle to make it more like a view
+    public static void AddToTextBox(string text) => SetTextLog?.Invoke(text);
+
+    // TODO fix to extra info comes after
+    public static void InsertToTextBox(string text) => AddToTextlog?.Invoke(text);
+
+    public static Action<string> SetTextLog;
+    public static Action<string> AddToTextlog;
+
+    private static SexScenes LastScene;
+    public static BasicChar Target;
+    public static BasicChar newTarget;
+
+    public static void Setup(List<BasicChar> chars)
+    {
+        enemies = chars;
+        LastScene = null;
+        newTarget = null;
+
+        //    player.SexStats.OrgasmedEvent += PlayerOrgasmed;
+        //    enemies.ForEach(e => e.SexStats.OrgasmedEvent += OtherOrgasmed);
+
+        //    player.SexStats.OrgasmedEvent += () => NeedRefresh?.Invoke();
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent += () => NeedRefresh?.Invoke());
+
+        //    player.SexStats.OrgasmedEvent += Impreg;
+        //    enemies.ForEach(e => e.SexStats.OrgasmedEvent += GetImpreg);
+
+        //   player.SexStats.Reset();
+        //    RefreshScenes();
+    }
+
+    private static void SceneBasics(SexScenes scene, PlayerMain player, BasicChar Target)
+    {
+        AddToTextBox(LastScene == scene ? scene.ContinueScene(player, Target) : scene.StartScene(player, Target));
+        LastScene = scene;
+    }
+
+    public static void HandleSexScene(SexScenes scene, PlayerMain player, BasicChar Target)
+    {
+        SceneBasics(scene, player, Target);
+        scene.ArousalGain(player, Target);
+    }
+
+    public static void HandleEssScene(EssScene scene, PlayerMain player, BasicChar Target)
+    {
+        SceneBasics(scene, player, Target);
+        Target.SexStats.Drained();
+        NeedRefresh?.Invoke();
+    }
+
+    public delegate void Refresh();
+
+    public static event Refresh NeedRefresh;
 }

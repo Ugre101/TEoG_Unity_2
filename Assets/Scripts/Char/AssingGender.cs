@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace EnemyCreatorStuff
 {
@@ -22,7 +23,7 @@ namespace EnemyCreatorStuff
             }
         }
 
-        private static Random rnd = new Random();
+        private static readonly System.Random rnd = new System.Random();
 
         private static void GenderSwitch(Genders genders, float amount, BasicChar who)
         {

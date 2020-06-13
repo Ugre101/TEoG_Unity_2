@@ -14,10 +14,11 @@ public class TakeToDorm : SexScenes
 
     public override string StartScene(PlayerMain player, BasicChar other)
     {
-        Dorm.GetDrom.MoveToDorm(other);
+        Dorm.AddToDorm(other);
         TakenToDorm?.Invoke();
         other.RelationshipTracker.MoveFromTemp(player);
         player.RelationshipTracker.MoveFromTemp(other);
+        other.IfHaveHolderDestoryIt();
         return $"";
     }
 

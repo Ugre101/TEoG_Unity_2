@@ -26,7 +26,7 @@ namespace Vore
 
         private void Start()
         {
-            player = player != null ? player : PlayerMain.GetPlayer;
+            player = player != null ? player : PlayerHolder.Player;
             VoreEngine vore = player.Vore;
             sortAll.onClick.AddListener(ShowAll);
             sortStomach.onClick.AddListener(() => SortPrey(vore.Stomach));

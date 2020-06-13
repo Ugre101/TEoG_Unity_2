@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SexChar : MonoBehaviour
 {
-    [SerializeField] private BasicChar whom;
+    private BasicChar whom;
 
     [Header("Organ descs")]
     [SerializeField] private DickInfo dickInfo = null;
@@ -33,6 +33,7 @@ public class SexChar : MonoBehaviour
         mascSlider.Init(whom);
         femiSlider.Init(whom);
         Organs();
+        Arousal();
         whom.SexStats.ArousalChangeEvent += Arousal;
         SexualOrgan.SomethingChanged += Organs;
     }

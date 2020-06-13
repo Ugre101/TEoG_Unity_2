@@ -8,8 +8,7 @@ public class TabBetweenButtons : MonoBehaviour
 {
     private List<Button> buttons;
 
-    [SerializeField]
-    private KeyCode key = KeyCode.Tab;
+    [SerializeField] private KeyCode key = KeyCode.Tab;
 
     private int nextBtn = 0;
     private int btnCount = 0;
@@ -26,14 +25,19 @@ public class TabBetweenButtons : MonoBehaviour
     {
         if (Input.GetKeyDown(key))
         {
-            if (btnCount > 0)
+            SelectBtn();
+        }
+    }
+
+    private void SelectBtn()
+    {
+        if (btnCount > 0)
+        {
+            buttons[nextBtn].Select();
+            nextBtn++;
+            if (nextBtn > btnCount - 1)
             {
-                buttons[nextBtn].Select();
-                nextBtn++;
-                if (nextBtn > btnCount - 1)
-                {
-                    nextBtn = 0;
-                }
+                nextBtn = 0;
             }
         }
     }

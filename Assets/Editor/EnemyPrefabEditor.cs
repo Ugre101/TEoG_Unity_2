@@ -4,17 +4,18 @@ using UnityEngine;
 // Static container so foldouts doesn't close dureing refresh
 public static class EnemyPrefabEditorFoldouts
 {
-    public static bool NameFold { get; set; } = false;
-    public static bool RaceFold { get; set; } = false;
-    public static bool GenderFold { get; set; } = false;
-    public static bool StatsFold { get; set; } = false;
-    public static bool BodyFold { get; set; } = false;
-    public static bool RewardFold { get; set; } = false;
-    public static bool IsQuestFold { get; set; } = false;
+    public static bool NameFold { get; set; } = true;
+    public static bool RaceFold { get; set; } = true;
+    public static bool GenderFold { get; set; } = true;
+    public static bool StatsFold { get; set; } = true;
+    public static bool BodyFold { get; set; } = true;
+    public static bool RewardFold { get; set; } = true;
+    public static bool IsQuestFold { get; set; } = true;
+    public static bool ShowStandardEditor { get; set; } = false;
 }
 
-[CustomEditor(typeof(EnemyPrefab))]
-public class EnemyPrefabEditor : BasicCharEditor
+//[CustomEditor(typeof(EnemyHolder))]
+public class EnemyPrefabEditor : CharHolderEditor
 {
     #region FoldsShortcut
 
@@ -42,11 +43,10 @@ public class EnemyPrefabEditor : BasicCharEditor
 
     private int TotalStats => assingStr.intValue + assingCharm.intValue + assingEnd.intValue + assingDex.intValue + assingInt.intValue + assingWillpower.intValue;
 
-            private void OnEnable()
-            {
-                BasicCharEnable();
-                GetSerializedObjectsForEnemyPrefab();
-            }
+    private void OnEnable()
+    {
+        GetSerializedObjectsForEnemyPrefab();
+    }
 
     protected void GetSerializedObjectsForEnemyPrefab()
     {
@@ -87,14 +87,14 @@ public class EnemyPrefabEditor : BasicCharEditor
     public override void OnInspectorGUI()
     {
         //GUILayout.Label("test");
-        EnemyPrefab myTarget = (EnemyPrefab)target;
+        EnemyHolder myTarget = (EnemyHolder)target;
         NameFold = EditorGUILayout.Foldout(NameFold, "Name", true, EditorStyles.foldout);
         if (NameFold)
         {
             GUILayout.BeginVertical("Box");
             UgreEditorTools.TwoBoldLabels("First name", "Last name");
             GUILayout.BeginHorizontal();
-            Identity identity = myTarget.Identity;
+            Identity identity = myTarget.BasicChar.Identity;
             identity.FirstName = EditorGUILayout.TextArea(identity.FirstName);
             identity.LastName = EditorGUILayout.TextArea(identity.LastName);
             GUILayout.EndHorizontal();

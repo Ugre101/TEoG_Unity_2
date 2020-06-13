@@ -5,10 +5,9 @@ using UnityEngine;
 public class RelationshipTracker
 {
     [SerializeField] private List<RelationshipWith> relationshipWiths = new List<RelationshipWith>();
-    /* List to put combat enemies in to track temp relations and if you take them home then move them to real one, this is to not fill save file with irrevant relationships with removed enemies */
-    private List<RelationshipWith> tempRelations = new List<RelationshipWith>();
+
     public List<RelationshipWith> Relationships => relationshipWiths;
-    public List<RelationshipWith> TempRelations => tempRelations;
+    public List<RelationshipWith> TempRelations { get; } = new List<RelationshipWith>();
 
     public RelationshipWith GetReleationWith(BasicChar with) => GetPerson(with);
 
@@ -72,7 +71,7 @@ public class RelationshipTracker
 
     private bool Exists(BasicChar basicChar) => Relationships.Exists(r => r.With.Id == basicChar.Identity.Id);
 
-    private bool TempExist(BasicChar basicChar) => tempRelations.Exists(r => r.With.Id == basicChar.Identity.Id);
+    private bool TempExist(BasicChar basicChar) => TempRelations.Exists(r => r.With.Id == basicChar.Identity.Id);
 }
 
 public enum Affection

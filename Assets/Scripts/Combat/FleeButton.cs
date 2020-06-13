@@ -58,7 +58,7 @@ public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
         else
         {
-            CombatMain.GetCombatMain.PlayerAttack("You failed to escape");
+            CombatHandler.PlayerAttack("You failed to escape");
             // Write to combat log and next turn.
         }
     }

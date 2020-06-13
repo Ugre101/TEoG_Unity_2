@@ -1,9 +1,9 @@
 ﻿using UnityEditor;
-using UnityEngine;
-[CustomEditor(typeof(Npc))]
 
-public class NpcEditor : BasicCharEditor
+[CustomEditor(typeof(Npc))]
+public class NpcEditor : CharHolderEditor
 {
+    /*
     private void OnEnable()
     {
         BasicCharEnable();
@@ -13,4 +13,5 @@ public class NpcEditor : BasicCharEditor
     {
         base.OnInspectorGUI();
     }
+    */
 }

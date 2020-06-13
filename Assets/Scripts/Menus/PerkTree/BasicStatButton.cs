@@ -6,7 +6,7 @@ public class BasicStatButton : PerkTreeBasicBtn
     [Space]
     [SerializeField] private StatInfo statInfo = null;
 
-    private CharStats GetStat => player.Stats.GetStat(statInfo.Stat);
+    private CharStats GetStat => Player.Stats.GetStat(statInfo.Stat);
     private int BaseValue { get => GetStat.BaseValue; set => GetStat.BaseValue = value; }
 
     protected override void OnEnable()
@@ -22,7 +22,7 @@ public class BasicStatButton : PerkTreeBasicBtn
 
     protected override void Use()
     {
-        if (player.ExpSystem.PerkBool())
+        if (Player.ExpSystem.PerkBool())
         {
             Taken = true;
             BaseValue++;

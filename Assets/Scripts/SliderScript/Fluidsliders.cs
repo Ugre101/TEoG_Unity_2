@@ -2,21 +2,34 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FluidSliders : MonoBehaviour
+public abstract class FluidSliders : MonoBehaviour
 {
-    [SerializeField]
-    protected PlayerMain player = null;
+    [SerializeField] protected PlayerHolder playerHolder = null;
+    private PlayerMain setPlayer;
 
-    [SerializeField]
-    protected TextMeshProUGUI statusText = null;
+    protected PlayerMain Player
+    {
+        get
+        {
+            if (setPlayer == null)
+            {
+                playerHolder = playerHolder != null ? playerHolder : PlayerHolder.GetPlayerHolder;
+                if (playerHolder.BasicChar is PlayerMain p)
+                {
+                    setPlayer = p;
+                }
+            }
+            return setPlayer;
+        }
+    }
 
-    [SerializeField]
-    protected Slider slider = null;
+    [SerializeField] protected TextMeshProUGUI statusText = null;
+
+    [SerializeField] protected Slider slider = null;
 
     protected void Start()
     {
         slider = slider != null ? slider : GetComponent<Slider>();
-        player = player != null ? player : PlayerMain.GetPlayer;
         Setup();
     }
 

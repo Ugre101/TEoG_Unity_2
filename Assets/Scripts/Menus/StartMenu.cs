@@ -7,6 +7,7 @@ namespace StartMenuStuff
         private void OnEnable()
         {
             transform.SleepChildren(transform.GetChild(0));
+            ScreenSetting.Load();
         }
 
         public void QuitGame()

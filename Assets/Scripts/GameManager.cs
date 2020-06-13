@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum GameState
 {
@@ -7,7 +8,8 @@ public enum GameState
     Menu,
     PauseMenu,
     Battle,
-    InBuilding
+    InBuilding,
+    Event
 }
 
 public enum GlobalArea
@@ -18,50 +20,65 @@ public enum GlobalArea
 
 public static class GameManager
 {
-    private static GameState curState = GameState.Free;
     public static GameState LastState { get; private set; }
-    public static GlobalArea CurrentArea { get; set; }
+
+    private static GlobalArea currentArea;
+    public static GlobalArea CurrentArea
+    {
+        get => currentArea;
+        private set
+        {
+            currentArea = value;
+            GloablAreaChange?.Invoke(value);
+        }
+    }
+
+    public static void SetCurrentArea(GlobalArea value) => CurrentArea = value;
+
     public static bool KeyBindsActive { get; set; } = true;
 
-    public static GameState CurState
+    public static GameState CurState { get; private set; } = GameState.Free;
+
+    public static void SetCurState(GameState value)
     {
-        get => curState;
-        set
+        LastState = CurState;
+        switch (value)
         {
-            LastState = curState;
-            switch (value)
-            {
-                case GameState.Intro:
-                case GameState.Battle:
-                case GameState.InBuilding:
-                    Time.timeScale = 0f;
-                    KeyBindsActive = false;
-                    break;
+            case GameState.Event:
+            case GameState.Intro:
+            case GameState.Battle:
+            case GameState.InBuilding:
+                Time.timeScale = 0f;
+                KeyBindsActive = false;
+                break;
 
-                case GameState.PauseMenu:
-                case GameState.Menu:
-                    KeyBindsActive = true;
-                    Time.timeScale = 0f;
-                    break;
-
-                case GameState.Free:
-                default:
-                    KeyBindsActive = true;
-                    Time.timeScale = 1f;
-                    break;
-            }
-            curState = value;
+            case GameState.PauseMenu:
+            case GameState.Menu:
+                KeyBindsActive = true;
+                Time.timeScale = 0f;
+                break;
+            case GameState.Free:
+            default:
+                KeyBindsActive = true;
+                Time.timeScale = 1f;
+                break;
         }
+        CurState = value;
+        GameStateChangeEvent?.Invoke(value);
     }
 
     public static GameManagerSaveState Save() => new GameManagerSaveState(CurState, CurrentArea, KeyBindsActive);
 
     public static void Load(GameManagerSaveState load)
     {
-        CurState = load.CurState;
-        CurrentArea = load.CurrentArea;
+        SetCurState(load.CurState);
+        SetCurrentArea(load.CurrentArea);
         KeyBindsActive = load.KeyBindsActive;
     }
+
+
+    public static Action<GameState>  GameStateChangeEvent;
+    public static Action<GlobalArea> GloablAreaChange;
 }
 
 [System.Serializable]

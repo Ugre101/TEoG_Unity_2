@@ -51,7 +51,7 @@ public class MiniMapController : MonoBehaviour
     {
         if (_player == null)
         {
-            _player = PlayerMain.GetPlayer.transform;
+            _player = PlayerHolder.GetPlayerHolder.transform;
         }
         cam = GetComponent<Camera>();
         cam.orthographicSize = 80f;

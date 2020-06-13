@@ -24,11 +24,6 @@ public class DrawLineBetweenObejcts : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        DrawLine();
-    }
-
     private void DrawLine()
     {
         Vector3 diffVector = drawTo.localPosition - drawFrom.localPosition;

@@ -56,9 +56,9 @@ namespace SkillsAndSpells
 
         public abstract string HoverDesc(BasicChar user);
 
-        protected float ValueWithRng(BasicChar user) => Value(user) * RNG;
+        protected float ValueWithRng(BasicChar user) => Mathf.FloorToInt(Value(user) * RNG);
 
-        public float AvgValue(BasicChar user) => (Value(user) + (Value(user) * (1 + rng))) / 2;
+        public float AvgValue(BasicChar user) => Mathf.FloorToInt((Value(user) + (Value(user) * (1 + rng))) / 2);
 
         #endregion Variables
 

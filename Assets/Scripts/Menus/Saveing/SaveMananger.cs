@@ -5,10 +5,9 @@ using UnityEngine;
 public class SaveMananger : MonoBehaviour
 {
     public static SaveMananger Instance { get; private set; }
-
+    [SerializeField] private PlayerHolder playerHolder = null;
     [SerializeField] private PlayerMain player = null;
 
-    [SerializeField] private Dorm dorm = null;
     private DirectoryInfo SaveFolder;
 
     private string newSavePath, lastSavePath;
@@ -23,11 +22,12 @@ public class SaveMananger : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        player = player != null ? player : PlayerMain.GetPlayer;
+    }
 
-        SaveFolder = Directory.Exists(SaveSettings.SaveFolder)
-            ? new DirectoryInfo(SaveSettings.SaveFolder)
-            : Directory.CreateDirectory(SaveSettings.SaveFolder);
+    private void Start()
+    {
+        player = player != null ? player : PlayerHolder.Player;
+        SaveFolder = Directory.Exists(SaveSettings.SaveFolder) ? new DirectoryInfo(SaveSettings.SaveFolder) : Directory.CreateDirectory(SaveSettings.SaveFolder);
         Settings.Load();
     }
 
@@ -76,7 +76,7 @@ public class SaveMananger : MonoBehaviour
         }
     }
 
-    public Save NewSave => new Save(player, dorm);
+    public Save NewSave => new Save(player, playerHolder);
 
     public delegate void SavedGame();
 

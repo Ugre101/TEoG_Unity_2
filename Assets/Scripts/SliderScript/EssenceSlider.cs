@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public abstract class EssenceSlider : MonoBehaviour
 {
-    [SerializeField] protected BasicChar basicChar = null;
+    [SerializeField] private CharHolder charHolder = null;
+    protected BasicChar basicChar = null;
 
     [SerializeField] protected TextMeshProUGUI essValue = null;
 
@@ -13,9 +14,9 @@ public abstract class EssenceSlider : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (basicChar != null)
+        if (charHolder != null)
         {
-            Init(basicChar);
+            Init(charHolder.BasicChar);
         }
     }
 
@@ -23,7 +24,7 @@ public abstract class EssenceSlider : MonoBehaviour
     {
         basicChar = who;
         enabled = true;
-        Ess.EssenceSliderEvent += ChangeEss;
+        Ess.ChangeEvent += ChangeEss;
         ChangeEss();
         started = true;
     }
@@ -34,12 +35,12 @@ public abstract class EssenceSlider : MonoBehaviour
     {
         if (started)
         {
-            Ess.EssenceSliderEvent += ChangeEss;
+            Ess.ChangeEvent += ChangeEss;
             ChangeEss();
         }
     }
 
-    private void OnDisable() => Ess.EssenceSliderEvent -= ChangeEss;
+    private void OnDisable() => Ess.ChangeEvent -= ChangeEss;
 
     protected abstract void ChangeEss();
 }

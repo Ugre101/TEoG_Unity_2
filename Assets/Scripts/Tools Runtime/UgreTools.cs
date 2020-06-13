@@ -87,4 +87,6 @@ public static class UgreTools
         }
         throw new ArgumentException("<T> must be enum");
     }
+    public static T JsonClone<T>(T source) => JsonUtility.FromJson<T>(JsonUtility.ToJson(source));
+
 }

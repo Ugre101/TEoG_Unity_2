@@ -9,7 +9,7 @@ public class CrudeAi : MonoBehaviour
         Flee
     }
 
-    [SerializeField] private PlayerMain target = null;
+    [SerializeField] private PlayerHolder target = null;
 
     [SerializeField] private Rigidbody2D playerRigid = null, rb2d = null;
 
@@ -23,7 +23,7 @@ public class CrudeAi : MonoBehaviour
 
     private void Start()
     {
-        target = target != null ? target : PlayerMain.GetPlayer;
+        target = target != null ? target : PlayerHolder.GetPlayerHolder;
         playerRigid = playerRigid != null ? playerRigid : target.GetComponent<Rigidbody2D>();
         rb2d = rb2d != null ? rb2d : GetComponent<Rigidbody2D>();
         currentState = State.Idle;

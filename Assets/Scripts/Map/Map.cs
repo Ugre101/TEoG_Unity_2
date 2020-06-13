@@ -10,20 +10,20 @@ public class Map : MonoBehaviour
 
     [Header("Map enemies")]
     [Tooltip("Types of enemies that can spawn on this map.")]
-    [SerializeField] private List<EnemyPrefab> enemies = new List<EnemyPrefab>();
+    [SerializeField] private List<AssingEnemy> enemies = new List<AssingEnemy>();
 
     [Header("Bosses")]
-    [SerializeField] private List<Boss> bosses = new List<Boss>();
+    [SerializeField] private List<AssingBoss> bosses = new List<AssingBoss>();
 
     public string MapTitle => mapName;
 
-    public List<EnemyPrefab> Enemies => enemies;
-    public List<Boss> Bosses => bosses;
+    public List<AssingEnemy> Enemies => enemies;
+    public List<AssingBoss> Bosses => bosses;
     public int EnemyCount => amountOfEnemies;
 
     private void Start()
     {
-        foreach (EnemyPrefab enemyPrefab in Enemies)
+        foreach (AssingEnemy enemyPrefab in Enemies)
         {
             if (enemyPrefab == null)
             {
@@ -31,7 +31,7 @@ public class Map : MonoBehaviour
                 break;
             }
         }
-        foreach (Boss boss in Bosses)
+        foreach (AssingBoss boss in Bosses)
         {
             if (boss == null)
             {

@@ -6,12 +6,10 @@ namespace StartMenuStuff
 {
     public class StartSaveSrollListControl : MonoBehaviour
     {
-        public LoadButtonStart loadButton;
-        public Transform container;
-        public StartLoader loader;
-
-        [SerializeField]
-        private TimedPopupText timedPopup = null;
+        [SerializeField] private LoadButtonStart loadButton = null;
+        [SerializeField] private Transform container = null;
+        [SerializeField] private StartLoader loader = null;
+        [SerializeField] private TimedPopupText timedPopup = null;
 
         private DirectoryInfo _dirInfo;
         private FileInfo[] _fileInfo;

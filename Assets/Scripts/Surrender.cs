@@ -30,7 +30,7 @@ public class Surrender : MonoBehaviour
 
     private void SurrenderBattle()
     {
-        if (CombatMain.GetCombatMain.Target != null)
+        if (CombatHandler.Target != null)
         {
             CombatMain.GetCombatMain.LoseBattle();
         }

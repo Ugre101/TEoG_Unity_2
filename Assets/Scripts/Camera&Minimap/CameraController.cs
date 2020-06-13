@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        _player = _player != null ? _player : PlayerMain.GetPlayer.transform;
+        _player = _player != null ? _player : PlayerHolder.GetPlayerHolder.transform;
         _map = MapEvents.CurrentMap;
         MapEvents.TileMapChange += DoorChanged;
         cam = GetComponent<Camera>();

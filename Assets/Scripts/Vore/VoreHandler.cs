@@ -21,8 +21,8 @@ namespace Vore
         private VoreChar AddPred(BasicChar pred)
         {
             VoreChar otherPred = Instantiate(prefab, transform);
-            otherPred.name = pred.name;
-          //  otherPred.Setup(pred);
+            //  otherPred.name = pred.name;
+            //  otherPred.Setup(pred);
             return otherPred;
         }
 

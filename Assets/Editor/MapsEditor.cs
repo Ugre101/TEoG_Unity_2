@@ -63,7 +63,7 @@ namespace EditorStuff
             if (obj is GameObject go)
             {
                 // skipt gettype so stuff derived from prefab can be added.
-                if (go.GetComponent<EnemyPrefab>() is EnemyPrefab test) //  && test.GetType() == typeof(EnemyPrefab)
+                if (go.GetComponent<AssingEnemy>() is AssingEnemy test) //  && test.GetType() == typeof(EnemyPrefab)
                 {
                     map.Enemies.Add(test);
                 }
@@ -72,12 +72,9 @@ namespace EditorStuff
 
         private void HandleDroppedBosses(Object obj)
         {
-            if (obj is GameObject go)
+            if (obj is AssingBoss boss)
             {
-                if (go.GetComponent<Boss>() is Boss boss)
-                {
-                    map.Bosses.Add(boss);
-                }
+                map.Bosses.Add(boss);
             }
         }
 
@@ -90,8 +87,13 @@ namespace EditorStuff
             DirectoryInfo toInclude = new DirectoryInfo(folderName);
             foreach (FileInfo fileInfo in toInclude.GetFiles())
             {
-                var temp = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(EnemyPrefab));
-                if (temp is EnemyPrefab enemy)
+                var tempEnemy = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(AssingEnemy));
+                var tempBoss = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(AssingBoss));
+                if (tempBoss is AssingBoss boss)
+                {
+                    map.Bosses.Add(boss);
+                }
+                else if (tempEnemy is AssingEnemy enemy)
                 {
                     map.Enemies.Add(enemy);
                 }

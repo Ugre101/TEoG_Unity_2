@@ -5,15 +5,14 @@ public class GiveFemi : EssScene
 {
     public override bool CanDo(BasicChar basicChar)
     {
-        return basicChar.Perks.HasPerk(PerksTypes.EssenceShaper) ? basicChar.SexStats.SessionOrgasm > 0 : false;
+        return basicChar.GiveEssence() > 0;
     }
 
     public override string StartScene(PlayerMain player, BasicChar other)
     {
-        float toGive = player.EssGive();
-        player.LoseFemi(toGive);
-        other.Essence.Femi.Gain(toGive);
-        return "Give femi";
+        DrainChangeHandler drainChange = new DrainChangeHandler(player, other);
+        player.GiveFemi(other);
+        return "Give femi" + drainChange.BothChanges;
     }
 
     public override string ContinueScene(PlayerMain player, BasicChar other)

@@ -19,13 +19,15 @@ MonoBehaviour:
   perkEffects: '+ You can give more essence.
 
     + You can transmute essence in
-    others.
+    others(WIP).
 
     + Higher essence capacity'
-  maxLevel: 1
+  maxLevel: 3
   perkCost: 1
   perk: 9
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 0
   neededPerks: []
+  isExcluvsive: 0
+  exclusiveWith: 

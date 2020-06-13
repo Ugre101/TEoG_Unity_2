@@ -16,7 +16,7 @@ public class LooksMenu : MonoBehaviour
 
     private void Start()
     {
-        player = player != null ? player : PlayerMain.GetPlayer;
+        player = player != null ? player : PlayerHolder.Player;
         // toggleExact.onClick.AddListener(() => exactDetails = !exactDetails);
         sortAllBtn.onClick.AddListener(() => looksText.text = Summary);
         sortBodyBtn.onClick.AddListener(() => looksText.text = BodyLook());

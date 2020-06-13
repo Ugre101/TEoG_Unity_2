@@ -68,32 +68,24 @@ public static class DateSystem
         }
     }
 
-    public static int Minute
+    public static int Minute => minute;
+
+    private static void AddMinute(int value)
     {
-        get => minute;
-        private set
+        minute += value;
+        while (minute > 60)
         {
-            minute = value;
-            if (minute > 60)
-            {
-                minute -= 60;
-                Hour++;
-            }
-            NewMinuteEvent?.Invoke();
+            minute -= 60;
+            Hour++;
         }
+        NewMinuteEvent?.Invoke(value);
     }
 
     public static string CurrentDate => $"{Year}-{Month}-{Day} {Hour}:00";
 
-    public static void PassHour(int toPass = 1)
-    {
-        for (int h = 0; h < toPass * 60; h++) Minute++;
-    }
+    public static void PassHour(int toPass = 1) => AddMinute(toPass * 60);
 
-    public static void PassMinute(int toPass = 60)
-    {
-        for (int m = 0; m < toPass; m++) Minute++;
-    }
+    public static void PassMinute(int toPass = 60) => AddMinute(toPass);
 
     public static IEnumerator TickMinute()
     {
@@ -104,7 +96,7 @@ public static class DateSystem
             if (time + 1f < Time.time)
             {
                 time = Time.time;
-                Minute++;
+                AddMinute(1);
             }
             yield return null;
         }
@@ -137,7 +129,7 @@ public static class DateSystem
 
     public static event NewMonth NewMonthEvent;
 
-    public delegate void NewMinute();
+    public delegate void NewMinute(int timesCalled);
 
     public static event NewMinute NewMinuteEvent;
 }

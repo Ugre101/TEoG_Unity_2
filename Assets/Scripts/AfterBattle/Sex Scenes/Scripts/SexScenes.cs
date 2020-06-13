@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Sex scene", menuName = ("Sex/Test"))]
@@ -195,7 +196,7 @@ public abstract class EssScene : SexScenes
 
 public abstract class VoreScene : SexScenes
 {
-    public virtual bool CanDo(BasicChar player, Vore.ThePrey Other)
+    public override bool CanDo(BasicChar player, BasicChar Other)
     {
         if (!player.Vore.Active)
         {
@@ -204,7 +205,7 @@ public abstract class VoreScene : SexScenes
         return true;
     }
 
-    public virtual string Vore(PlayerMain player, Vore.ThePrey other)
+    public virtual string Vore(PlayerMain player, BasicChar other)
     {
         return $"";
     }

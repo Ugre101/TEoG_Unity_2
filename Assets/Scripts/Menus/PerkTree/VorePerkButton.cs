@@ -5,7 +5,7 @@ public class VorePerkButton : PerkTreeBasicBtn
     [Space]
     [SerializeField] private VorePerkInfo perkInfo = null;
 
-    private int PerkLevel => player.Vore.Perks.GetPerkLevel(perkInfo.Perk);
+    private int PerkLevel => Player.Vore.Perks.GetPerkLevel(perkInfo.Perk);
 
     private void SetRuntSprite()
     {
@@ -36,7 +36,7 @@ public class VorePerkButton : PerkTreeBasicBtn
     {
         if (started)
         {
-            Taken = player.Vore.Perks.HasPerk(perkInfo.Perk);
+            Taken = Player.Vore.Perks.HasPerk(perkInfo.Perk);
             amount.text = PerkLevel.ToString();
             base.OnEnable();
         }
@@ -44,14 +44,14 @@ public class VorePerkButton : PerkTreeBasicBtn
 
     protected override void Use()
     {
-        if (perkInfo.Unlocked(player))
+        if (perkInfo.Unlocked(Player))
         {
-            if (player.Vore.Perks.HasPerk(perkInfo.Perk) ? player.Vore.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
+            if (Player.Vore.Perks.HasPerk(perkInfo.Perk) ? Player.Vore.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
             {
-                if (player.Vore.VoreExp.PerkBool(perkInfo.PerkCost))
+                if (Player.Vore.VoreExp.PerkBool(perkInfo.PerkCost))
                 {
                     Taken = true;
-                    player.GainPerk(perkInfo.Perk);
+                    Player.GainPerk(perkInfo.Perk);
                     amount.text = PerkLevel.ToString();
                 }
             }
@@ -60,13 +60,13 @@ public class VorePerkButton : PerkTreeBasicBtn
 
     protected override void Hovering()
     {
-        if (perkInfo.Unlocked(player))
+        if (perkInfo.Unlocked(Player))
         {
             PerkTreeHoverText.Hovering(perkInfo.Title, perkInfo.Info, perkInfo.Effects);
         }
         else
         {
-            PerkTreeHoverText.Hovering(perkInfo.Title, perkInfo.Info, perkInfo.Effects, perkInfo.MissingReqs(player));
+            PerkTreeHoverText.Hovering(perkInfo.Title, perkInfo.Info, perkInfo.Effects, perkInfo.MissingReqs(Player));
         }
     }
 }

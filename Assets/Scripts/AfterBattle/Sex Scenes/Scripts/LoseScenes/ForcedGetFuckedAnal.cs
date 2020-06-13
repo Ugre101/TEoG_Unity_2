@@ -14,7 +14,7 @@ public class ForcedGetFuckedAnal : LoseScene
         }
         returnText += "Having gotten into position, your enemy spreads your ass cheeks, and slowly works their dick into your bowels. Unable to respond, you feel your ass getting stretched. ";
 
-        if (player.Gender() == Genders.Herm && sexualOrgans.HaveBalls())
+        if (GenderExtensions.Gender(player) == Genders.Herm && sexualOrgans.HaveBalls())
         {
             returnText += "With every thrust, you feel their balls tapping your balls and clit, sending little bursts of unintended pleasure through your organs.\nIt doesn't take long for you to orgasm, your pussy's walls quivering, milking a nonexistent dick. Your balls refuse to be left out, and unload themselves onto your stomach and the ground. ";
         }

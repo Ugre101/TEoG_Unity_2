@@ -19,8 +19,8 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     [SerializeField] private KeyCode quickKey = KeyCode.None;
 
     [SerializeField] private SkillButtons skillButtons = null;
-    private PlayerMain Player => PlayerMain.GetPlayer;
-    private BasicChar Target => CombatMain.GetCombatMain.Target;
+    private PlayerMain Player => PlayerHolder.Player;
+    private BasicChar Target => CombatHandler.Target;
     private bool hovering = false;
     private bool hoverBlockActive = false;
     private float timeStarted;
@@ -51,7 +51,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             {
                 if (userSkill.Ready)
                 {
-                    CombatMain.GetCombatMain.PlayerAttack(Skill.Action(Player, Target));
+                    CombatHandler.PlayerAttack(Skill.Action(Player, Target));
                     userSkill.StartCoolDown();
                     CoolDownHandler();
                     // code to put dim on skill to show it's on cooldown
@@ -59,7 +59,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             }
             else
             {
-                CombatMain.GetCombatMain.PlayerAttack(Skill.Action(Player, Target));
+                CombatHandler.PlayerAttack(Skill.Action(Player, Target));
             }
         }
         else

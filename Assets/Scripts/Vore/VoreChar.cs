@@ -38,7 +38,7 @@ namespace Vore
                 case VoreContainers.Vagina: return Vagina;
                 case VoreContainers.Balls: return Balls;
                 case VoreContainers.Boobs: return Boobs;
-                default: return Stomach;
+                default: throw new System.ArgumentException("Container isn't defined.");
             }
         }
 
@@ -64,34 +64,33 @@ namespace Vore
             for (int i = 0; i < saves.Count && i < preys.Count; i++)
             {
                 VoreSave vs = saves[i];
-                BasicChar loaded = preyPrefabs.Exists(n => n.name == vs.Name)
-                    ? InstantiateVoreChar(container, vs, preyPrefabs.Find(n => n.name == vs.Name))
-                    : InstantiateVoreChar(container, vs, defaultPrefab);
-                preys[i].SetPrey(loaded);
+                //      BasicChar loaded = preyPrefabs.Exists(n => n.name == vs.Name)
+                //        ? InstantiateVoreChar(container, vs, preyPrefabs.Find(n => n.name == vs.Name))
+                //        : InstantiateVoreChar(container, vs, defaultPrefab);
+                //    preys[i].SetPrey(loaded);
             }
         }
 
+        /*
         private BasicChar InstantiateVoreChar(VoreContainer container, VoreSave vs, BasicChar basicChar)
         {
             BasicChar loaded = Instantiate(basicChar, container.transform);
             loaded.name = vs.Name;
             JsonUtility.FromJsonOverwrite(vs.Prey, loaded);
             return loaded;
-        }
+        }*/
     }
 
     [System.Serializable]
     public class VoreSave
     {
-        [SerializeField] private string name;
         [SerializeField] private string prey;
 
-        public string Name => name;
         public string Prey => prey;
+        public BasicChar BasicChar => JsonUtility.FromJson<BasicChar>(Prey);
 
-        public VoreSave(string parName, BasicChar parPrey)
+        public VoreSave(BasicChar parPrey)
         {
-            name = parName;
             prey = JsonUtility.ToJson(parPrey);
         }
     }
@@ -135,6 +134,6 @@ namespace Vore
             }
         }
 
-        private VoreSave SaveName(BasicChar prey) => new VoreSave(prey.name, prey);
+        private VoreSave SaveName(BasicChar prey) => new VoreSave(prey);
     }
 }

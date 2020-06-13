@@ -137,10 +137,10 @@ public static class Settings
 
     #endregion Unit bools
 
-    public static bool Vore => PlayerMain.GetPlayer.Vore.Active;
+    public static bool Vore =>PlayerHolder.Player.Vore.Active;
     public static bool Scat { get; private set; } = false;
 
-    public static bool ToogleVore() => PlayerMain.GetPlayer.Vore.ToogleVore;
+    public static bool ToogleVore() => PlayerHolder.Player.Vore.ToogleVore;
 
     public static bool ToogleScat() => Scat = !Scat;
 
@@ -228,9 +228,9 @@ public static class Settings
     public static string Dickgirl = "dickgirl";
     public static string Doll = "doll";
 
-    public static string GetGender(BasicChar who, bool capital = false)
+    public static string GetGender(this BasicChar who, bool capital = false)
     {
-        switch (who.Gender())
+        switch (GenderExtensions.Gender(who))
         {
             case Genders.Herm: return CapOrLower(Herm);
             case Genders.Male: return CapOrLower(Male);
@@ -243,7 +243,7 @@ public static class Settings
         string CapOrLower(string gender) => capital ? char.ToUpper(gender[0]) + gender.Substring(1) : gender.ToLower();
     }
 
-    public const float DoubleClickTime = 2f;
+    public const float DoubleClickTime = 1.2f;
     private static float eventLogFontSize = 14f;
     private const string eventLogFontSizeSaveName = "EventlogFontSize";
     private static float combatLogFontSize = 14f;

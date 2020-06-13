@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private PlayerMain Player;
+    [SerializeField] private PlayerHolder Player;
 
     [SerializeField] private List<Tilemap> dontSpawnOn = new List<Tilemap>();
 
@@ -20,15 +21,15 @@ public class EnemySpawner : MonoBehaviour
     private Tilemap _currMap;
 
     private readonly List<Vector3> _empty = new List<Vector3>();
-    private readonly List<EnemyPrefab> currEnemies = new List<EnemyPrefab>();
-    private readonly List<EnemyPrefab> addedEnemies = new List<EnemyPrefab>();
-    private readonly List<Boss> currBosses = new List<Boss>();
-    private readonly List<Boss> addedBosses = new List<Boss>();
+    private readonly List<AssingEnemy> currEnemies = new List<AssingEnemy>();
+    private List<EnemyHolder> AddedEnemies => GetComponentsInChildren<EnemyHolder>().ToList();
+    private readonly List<AssingBoss> currBosses = new List<AssingBoss>();
+    private List<BossHolder> AddedBosses => GetComponentsInChildren<BossHolder>().ToList();
     private readonly System.Random rnd = new System.Random();
 
     private void Start()
     {
-        Player = Player != null ? Player : PlayerMain.GetPlayer;
+        Player = Player != null ? Player : PlayerHolder.GetPlayerHolder;
         MapEvents.TileMapChange += DoorChanged;
         Movement.TriggerEnemy += RePosistion;
         DoorChanged(MapEvents.CurrentMap);
@@ -55,8 +56,8 @@ public class EnemySpawner : MonoBehaviour
 
     public bool AroundBoss(Vector3 vector3)
     {
-        if (addedBosses.Count < 1) { return false; }
-        foreach (Boss b in addedBosses)
+        if (AddedBosses.Count < 1) { return false; }
+        foreach (BossHolder b in AddedBosses)
         {
             if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
             {
@@ -68,8 +69,8 @@ public class EnemySpawner : MonoBehaviour
 
     public bool AroundOtherEnemy(Vector3 vector3)
     {
-        if (addedEnemies.Count < 1) { return false; }
-        foreach (EnemyPrefab b in addedEnemies)
+        if (AddedEnemies.Count < 1) { return false; }
+        foreach (EnemyHolder b in AddedEnemies)
         {
             if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
             {
@@ -104,7 +105,7 @@ public class EnemySpawner : MonoBehaviour
         return _empty[index];
     }
 
-    public void RePosistion(BasicChar toRePos) => toRePos.transform.position = GetPosistion();
+    public void RePosistion(CharHolder toRePos) => toRePos.transform.position = GetPosistion();
 
     private void DoorChanged(Tilemap _currMap)
     {
@@ -114,12 +115,15 @@ public class EnemySpawner : MonoBehaviour
         SetupEnemies();
     }
 
+    [SerializeField] private EnemyHolder enemyHolder = null;
+    [SerializeField] private BossHolder bossHolder = null;
+
     private void CurrentEnemies()
     {
         currEnemies.Clear();
         currBosses.Clear();
-        addedBosses.Clear();
-        addedEnemies.Clear();
+        AddedBosses.Clear();
+        AddedEnemies.Clear();
         if (MapEvents.CurMapScript != null)
         {
             if (MapEvents.CurMapScript.Enemies.Count > 0)
@@ -167,12 +171,13 @@ public class EnemySpawner : MonoBehaviour
         {
             for (int i = 0; i < enemyToAdd; i++)
             {
-                EnemyPrefab prefab = currEnemies[rnd.Next(currEnemies.Count)];
-                if (prefab != null)
+                AssingEnemy enemy = currEnemies[rnd.Next(currEnemies.Count)];
+
+                if (enemyHolder != null)
                 {
-                    EnemyPrefab newEnemy = Instantiate(prefab, GetPosistion(), Quaternion.identity, transform);
-                    newEnemy.name = prefab.name;
-                    addedEnemies.Add(newEnemy);
+                    EnemyHolder newEnemy = Instantiate(enemyHolder, GetPosistion(), Quaternion.identity, transform);
+                    newEnemy.Setup(enemy);
+                    newEnemy.name = enemy.name;
                 }
                 else
                 {
@@ -186,29 +191,26 @@ public class EnemySpawner : MonoBehaviour
     {
         if (currBosses.Count > 0)
         {
-            foreach (Boss b in currBosses)
+            foreach (AssingBoss boss in currBosses)
             {
-                if (b != null)
+                if (boss != null)
                 {
-                    if (b.LockedPosistion)
-                    {
-                        Boss boss = Instantiate(b, b.Pos, Quaternion.identity, transform);
-                        NameAndADDBoss(b, boss);
-                    }
-                    else
-                    {
-                        Boss boss = Instantiate(b, transform, true);
-                        NameAndADDBoss(b, boss);
-                        RePosistion(boss);
-                    }
+                    BossHolder newBoss = Instantiate(bossHolder, GetPosistion(), Quaternion.identity, transform);
+                    newBoss.Setup(boss);
+                    /*
+                     * TODO Fix
+                       if (newBoss.LockedPosistion)
+                       {
+                           newBoss.transform.position = newBoss.Pos;
+                       }*/
+                    newBoss.name = boss.name;
                 }
             }
         }
     }
 
-    private void NameAndADDBoss(Boss b, Boss boss)
+    private void NameAndADDBoss(Boss b, BossHolder boss)
     {
-        boss.name = b.name;
-        addedBosses.Add(boss);
+        boss.name = b.Identity.FullName;
     }
 }

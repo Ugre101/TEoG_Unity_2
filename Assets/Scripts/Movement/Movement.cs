@@ -120,37 +120,45 @@ public class Movement : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            if (collision.gameObject.GetComponent<Boss>() is Boss b)
+
+            if (collision.gameObject.GetComponent<CharHolder>() is CharHolder holder)
             {
-                HandleBoss(b);
-            }
-            else if (collision.gameObject.GetComponent<EnemyPrefab>() is EnemyPrefab e)
-            {
-                Debug.Log("Standard Enemy");
-                TriggerEnemy?.Invoke(e);
+                if (holder is BossHolder b)
+                {
+                    HandleBoss(b);
+                }
+                else if (holder is EnemyHolder e)
+                {
+                    Debug.Log("Standard Enemy");
+                    TriggerEnemy?.Invoke(e);
+                }
             }
         }
         else if (collision.CompareTag("Boss"))
         {
-            if (collision.gameObject.GetComponent<Boss>() is Boss b)
+            if (collision.gameObject.GetComponent<BossHolder>() is BossHolder b)
             {
                 HandleBoss(b);
             }
         }
     }
 
-    private void HandleBoss(Boss b)
+    private void HandleBoss(BossHolder boss)
     {
-        if (b.PreBattleDialog)
+        if (boss.BasicChar is Boss b)
         {
-            // TODO add pre battle dialog
-        }
-        else
-        {
-            TriggerEnemy?.Invoke(b);
+            if (b.PreBattleDialog)
+            {
+                // TODO add pre battle dialog
+                TriggerEnemy?.Invoke(boss);
+            }
+            else
+            {
+                TriggerEnemy?.Invoke(boss);
+            }
         }
         Debug.Log("Boss");
     }
 
-    public static event Action<BasicChar> TriggerEnemy;
+    public static event Action<CharHolder> TriggerEnemy;
 }

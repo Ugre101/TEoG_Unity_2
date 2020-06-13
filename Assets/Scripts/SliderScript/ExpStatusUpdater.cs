@@ -10,12 +10,23 @@ public class ExpStatusUpdater : MonoBehaviour
 
     [SerializeField] private Slider slider = null;
 
+    private bool started = false;
+
+    private void Start()
+    {
+        player = player != null ? player : PlayerHolder.Player;
+        slider = slider != null ? slider : GetComponent<Slider>();
+        started = true;
+        OnEnable();
+    }
+
     private void OnEnable()
     {
-        player = player != null ? player : PlayerMain.GetPlayer;
-        slider = slider != null ? slider : GetComponent<Slider>();
-        ExpSystem.ExpChangeEvent += ExpStatus;
-        ExpStatus();
+        if (started)
+        {
+            ExpSystem.ExpChangeEvent += ExpStatus;
+            ExpStatus();
+        }
     }
 
     private void OnDisable() => ExpSystem.ExpChangeEvent -= ExpStatus;

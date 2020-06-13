@@ -4,12 +4,12 @@ using Vore;
 [CreateAssetMenu(fileName = "OralVore", menuName = ("Sex/Vore/OralVore"))]
 public class OralVore : VoreScene
 {
-    public override bool CanDo(BasicChar player, ThePrey Other)
+    public override bool CanDo(BasicChar player, BasicChar Other)
     {
         return player.Vore.Stomach.CanVore(Other);
     }
 
-    public override string Vore(PlayerMain player, ThePrey other)
+    public override string Vore(PlayerMain player, BasicChar other)
     {
         if (player.Vore.Stomach.Vore(other))
         {

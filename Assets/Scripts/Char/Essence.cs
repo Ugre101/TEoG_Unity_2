@@ -17,24 +17,42 @@ public class Essence
     public void Gain(float toGain)
     {
         _amount += Mathf.Max(0, toGain);
-        EssenceSliderEvent?.Invoke();
+        ChangeEvent?.Invoke();
+        GainEvent?.Invoke();
     }
 
     public float Lose(float toLose)
     {
         float lose = Mathf.Min(_amount, toLose);
         _amount -= lose;
-        EssenceSliderEvent?.Invoke();
+        ChangeEvent?.Invoke();
         return lose;
     }
 
+    public delegate void Gained();
+
+    public event Gained GainEvent;
+
     public delegate void EssenceSlider();
 
-    public event EssenceSlider EssenceSliderEvent;
+    public event EssenceSlider ChangeEvent;
 }
 
 public static class EssenceExtension
 {
+    private static TransmuteFromTo transmuteOption = TransmuteFromTo.Off;
+
+    public enum TransmuteFromTo
+    {
+        Off,
+        MascToFemi,
+        FemiToMasc,
+    }
+
+    public static TransmuteFromTo TransmuteOption { get => transmuteOption; set => transmuteOption = Enum.IsDefined(typeof(TransmuteFromTo), value) ? value : 0; }
+
+    public static TransmuteFromTo ToggleTransmuteOption => TransmuteOption++;
+
     public static float TotalStableEssence(this BasicChar basicChar)
     {
         float baseStable = basicChar.Essence.StableEssence.Value;
@@ -50,13 +68,96 @@ public static class EssenceExtension
         return baseStable;
     }
 
-    public static float EssGive(this BasicChar basicChar) => 0;
+    public static float GiveEssence(this BasicChar giver)
+    {
+        float baseGive = 0;
+        Perks perks = giver.Perks;
+        baseGive = addPerkVal(PerksTypes.EssenceShaper, PerkEffects.EssenecePerks.EssShaper.ExtraGive(perks));
+        baseGive = addPerkVal(PerksTypes.EssenceTransformer, PerkEffects.EssenecePerks.EssTransformer.ExtrGive(perks));
+        baseGive = addPerkVal(PerksTypes.MasculineFlow, PerkEffects.EssenecePerks.EssMascFlow.EssGive(perks));
+        baseGive = addPerkVal(PerksTypes.FemenineFlow, PerkEffects.EssenecePerks.EssFemiFlow.EssGive(perks));
+        baseGive = addPerkVal(PerksTypes.HermaphroditeFlow, PerkEffects.EssenecePerks.EssHemiFlow.EssGive(perks));
+        return baseGive;
 
+        float addPerkVal(PerksTypes type, float gain)
+        {
+            if (perks.HasPerk(type))
+            {
+                baseGive += gain;
+            }
+            return baseGive;
+        }
+    }
+
+    public static void GiveMasc(this BasicChar giver, BasicChar reciver, bool giveAll = false)
+    {
+        if (giveAll)
+        {
+            reciver.Essence.Masc.Gain(giver.LoseMasc(giver.GiveEssence()));
+        }
+        else
+        {
+            reciver.Essence.Masc.Gain(giver.Essence.Masc.Lose(giver.GiveEssence()));
+        }
+    }
+
+    public static void GiveMasc(this BasicChar giver, BasicChar reciver, float bonus, bool giveAll = false)
+    {
+        if (giveAll)
+        {
+            reciver.Essence.Masc.Gain(giver.LoseMasc(giver.GiveEssence() + bonus));
+        }
+        else
+        {
+            reciver.Essence.Masc.Gain(giver.Essence.Masc.Lose(giver.GiveEssence() + bonus));
+        }
+    }
+
+    public static void GiveFemi(this BasicChar giver, BasicChar reciver, bool recyleOrgansIfNotEnough = false)
+    {
+        if (recyleOrgansIfNotEnough)
+        {
+            reciver.Essence.Femi.Gain(giver.LoseFemi(giver.GiveEssence()));
+        }
+        else
+        {
+            reciver.Essence.Femi.Gain(giver.Essence.Masc.Lose(giver.GiveEssence()));
+        }
+    }
+
+    public static void GiveFemi(this BasicChar giver, BasicChar reciver, float bonus, bool recyleOrgansIfNotEnough = false)
+    {
+        if (recyleOrgansIfNotEnough)
+        {
+            reciver.Essence.Femi.Gain(giver.LoseFemi(giver.GiveEssence() + bonus));
+        }
+        else
+        {
+            reciver.Essence.Femi.Gain(giver.Essence.Masc.Lose(giver.GiveEssence() + bonus));
+        }
+    }
+
+    /// <summary>Total drain amount with perks, if you gonna drain somebody use EssenceDrain instead of this </summary>
     private static float EssDrain(this BasicChar basicChar)
     {
         float baseDrain = 5f;
-        baseDrain += PerkEffects.EssenecePerks.EssFlow.ExtraDrain(basicChar.Perks);
+        Perks perks = basicChar.Perks;
+        baseDrain = addPerkVal(PerksTypes.EssenceFlow, PerkEffects.EssenecePerks.EssFlow.ExtraDrain(perks));
+        baseDrain = addPerkVal(PerksTypes.FemenineVacuum, PerkEffects.EssenecePerks.EssFemiVacuum.ExtraDrain(perks));
+        baseDrain = addPerkVal(PerksTypes.MasculineVacuum, PerkEffects.EssenecePerks.EssMascVacuum.ExtraDrain(perks));
+        baseDrain = addPerkVal(PerksTypes.HermaphroditeVacuum, PerkEffects.EssenecePerks.EssHemiVacuum.ExtraDrain(perks));
+        baseDrain = addPerkVal(PerksTypes.EssenceThief, PerkEffects.EssenecePerks.EssThief.ExtraDrain(perks));
+        baseDrain = addPerkVal(PerksTypes.EssenceBandit, PerkEffects.EssenecePerks.EssBandit.ExtraDrain(perks));
         return baseDrain;
+
+        float addPerkVal(PerksTypes type, float gain)
+        {
+            if (perks.HasPerk(type))
+            {
+                baseDrain += gain;
+            }
+            return baseDrain;
+        }
     }
 
     public static float EssenceDrain(this BasicChar drainer, BasicChar toDrain)
@@ -68,6 +169,10 @@ public static class EssenceExtension
         }
         return returnVal;
     }
+
+    public static void DrainMasc(this BasicChar drainer, BasicChar toDrain) => drainer.Essence.Masc.Gain(toDrain.LoseMasc(drainer.EssenceDrain(toDrain)));
+
+    public static void DrainFemi(this BasicChar drainer, BasicChar toDrain) => drainer.Essence.Femi.Gain(toDrain.LoseFemi(drainer.EssenceDrain(toDrain)));
 
     public static bool CanDrainMasc(this BasicChar who) => who.Essence.Masc.Amount > 0 || who.SexualOrgans.Balls.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
 

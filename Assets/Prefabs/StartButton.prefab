@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.43867922, g: 0.46545297, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -153,11 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af7feb99b5483e4a9b22f2cc7f39074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rectTrans: {fileID: 0}
-  normalWidth: 350
-  normalHeight: 55
-  enlargedWidth: 400
-  enlargedHeigth: 70
+  rectTrans: {fileID: 4330354340416306109}
+  enlarged: {x: 0, y: 0}
 --- !u!1 &2504812810464995954
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,6 +216,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

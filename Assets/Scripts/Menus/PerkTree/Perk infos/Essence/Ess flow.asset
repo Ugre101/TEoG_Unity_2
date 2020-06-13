@@ -16,13 +16,16 @@ MonoBehaviour:
   perkTitle: Essence flow
   perkInfo: Essence flows easier trough your body allowing you to siphon more, but
     it also allow other to siphon more from you.
-  perkEffects: '+ You siphon more.
+  perkEffects: '+ You siphon more. (10 * perk level)
 
-    - Others can siphon more from you.'
+    - Others can siphon more
+    from you. (10 * perk level)'
   maxLevel: 5
   perkCost: 1
   perk: 4
   needCharStat: 0
   neededCharStats: []
   needOtherPerks: 0
-  neededPerks: 
+  neededPerks: []
+  isExcluvsive: 0
+  exclusiveWith: 
