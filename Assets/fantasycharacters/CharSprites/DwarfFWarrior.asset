@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f6c954d524eb824c86f979e70dd64c2, type: 3}
-  m_Name: EMRogue
+  m_Name: DwarfFWarrior
   m_EditorClassIdentifier: 
-  gender: 1
-  race: 1
-  classType: 3
-  genderType: 1
-  sprite: {fileID: 21300000, guid: b01ec8e1e54e39644b6a3fa1ef1b5980, type: 3}
-  heightOfSprite: 1
+  gender: 5
+  race: 5
+  classType: 1
+  genderType: 0
+  sprite: {fileID: 21300000, guid: 678b47e2ee5f7e742aba6e74e09750f2, type: 3}
+  heightOfSprite: 1.2

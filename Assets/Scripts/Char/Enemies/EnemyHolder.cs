@@ -5,6 +5,6 @@
     public void Setup(AssingEnemy assingEnemy)
     {
         BasicChar = assingEnemy.Setup(BasicChar);
-        base.Setup();
+        Bind();
     }
 }

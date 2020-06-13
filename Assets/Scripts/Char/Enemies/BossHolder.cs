@@ -22,6 +22,6 @@ public class BossHolder : EnemyHolder
     public void Setup(AssingBoss assingBoss)
     {
         BasicChar = assingBoss.Setup(BasicChar);
-        base.Setup();
+        Bind();
     }
 }
