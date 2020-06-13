@@ -17,11 +17,13 @@ MonoBehaviour:
   NeedFirstName: 1
   NeedLastName: 1
   age: 18
-  startRaces: []
+  startRaces:
+  - races: 3
+    amount: 999
   startGender:
-    amount: 100
-    genderLock: 0
-    lockedGender: 5
+    amount: 2800
+    genderLock: 1
+    lockedGender: 1
     favoured: 0
     favouredGenderType: 0
   assingStr: 15
@@ -31,20 +33,28 @@ MonoBehaviour:
   assingInt: 15
   assingWill: 15
   statRngFactor: 0.4
-  assingHeight: 160
-  assingFat: 20
-  assingMuscle: 30
+  assingHeight: 220
+  assingFat: 40
+  assingMuscle: 70
   heightRng: 0.1
   fatRng: 0.1
   muscleRng: 0.1
   isQuest:
-    isQuest: 0
+    isQuest: 1
     quest: 0
   reward:
-    expReward: 0
-    goldReward: 0
+    expReward: 185
+    goldReward: 140
     rng: 0.3
-    drops: []
+    drops:
+    - item: 3
+      dropChance: 5
+    - item: 4
+      dropChance: 30
+    - item: 7
+      dropChance: 30
+    - item: 10
+      dropChance: 30
   canTakeToDorm: 1
   orgsNeeded: 3
   hasPreBattleDialog: 0
@@ -53,5 +63,5 @@ MonoBehaviour:
     haveCustomScenes: 0
     blockNormalScenes: 0
     customScenes: []
-  lockedPosistion: 0
-  pos: {x: 0, y: 0, z: 0}
+  lockedPosistion: 1
+  pos: {x: 104, y: 54, z: 0}

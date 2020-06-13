@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -21,9 +22,9 @@ public class EnemySpawner : MonoBehaviour
 
     private readonly List<Vector3> _empty = new List<Vector3>();
     private readonly List<AssingEnemy> currEnemies = new List<AssingEnemy>();
-    private readonly List<EnemyHolder> addedEnemies = new List<EnemyHolder>();
-    private readonly List<BossHolder> currBosses = new List<BossHolder>();
-    private readonly List<BossHolder> addedBosses = new List<BossHolder>();
+    private List<EnemyHolder> AddedEnemies => GetComponentsInChildren<EnemyHolder>().ToList();
+    private readonly List<AssingBoss> currBosses = new List<AssingBoss>();
+    private List<BossHolder> AddedBosses => GetComponentsInChildren<BossHolder>().ToList();
     private readonly System.Random rnd = new System.Random();
 
     private void Start()
@@ -55,8 +56,8 @@ public class EnemySpawner : MonoBehaviour
 
     public bool AroundBoss(Vector3 vector3)
     {
-        if (addedBosses.Count < 1) { return false; }
-        foreach (BossHolder b in addedBosses)
+        if (AddedBosses.Count < 1) { return false; }
+        foreach (BossHolder b in AddedBosses)
         {
             if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
             {
@@ -68,8 +69,8 @@ public class EnemySpawner : MonoBehaviour
 
     public bool AroundOtherEnemy(Vector3 vector3)
     {
-        if (addedEnemies.Count < 1) { return false; }
-        foreach (EnemyHolder b in addedEnemies)
+        if (AddedEnemies.Count < 1) { return false; }
+        foreach (EnemyHolder b in AddedEnemies)
         {
             if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
             {
@@ -115,13 +116,14 @@ public class EnemySpawner : MonoBehaviour
     }
 
     [SerializeField] private EnemyHolder enemyHolder = null;
+    [SerializeField] private BossHolder bossHolder = null;
 
     private void CurrentEnemies()
     {
         currEnemies.Clear();
         currBosses.Clear();
-        addedBosses.Clear();
-        addedEnemies.Clear();
+        AddedBosses.Clear();
+        AddedEnemies.Clear();
         if (MapEvents.CurMapScript != null)
         {
             if (MapEvents.CurMapScript.Enemies.Count > 0)
@@ -176,7 +178,6 @@ public class EnemySpawner : MonoBehaviour
                     EnemyHolder newEnemy = Instantiate(enemyHolder, GetPosistion(), Quaternion.identity, transform);
                     newEnemy.Setup(enemy);
                     newEnemy.name = enemy.name;
-                    addedEnemies.Add(newEnemy);
                 }
                 else
                 {
@@ -190,23 +191,19 @@ public class EnemySpawner : MonoBehaviour
     {
         if (currBosses.Count > 0)
         {
-            foreach (BossHolder boss in currBosses)
+            foreach (AssingBoss boss in currBosses)
             {
                 if (boss != null)
                 {
-                    if (boss.BasicChar is Boss b)
-                    {
-                        if (b.LockedPosistion)
-                        {
-                            Instantiate(boss, b.Pos, Quaternion.identity, transform);
-                            NameAndADDBoss(b, boss);
-                        }
-                        else
-                        {
-                            Instantiate(boss, GetPosistion(), Quaternion.identity, transform);
-                            NameAndADDBoss(b, boss);
-                        }
-                    }
+                    BossHolder newBoss = Instantiate(bossHolder, GetPosistion(), Quaternion.identity, transform);
+                    newBoss.Setup(boss);
+                    /*
+                     * TODO Fix
+                       if (newBoss.LockedPosistion)
+                       {
+                           newBoss.transform.position = newBoss.Pos;
+                       }*/
+                    newBoss.name = boss.name;
                 }
             }
         }
@@ -215,6 +212,5 @@ public class EnemySpawner : MonoBehaviour
     private void NameAndADDBoss(Boss b, BossHolder boss)
     {
         boss.name = b.Identity.FullName;
-        addedBosses.Add(boss);
     }
 }

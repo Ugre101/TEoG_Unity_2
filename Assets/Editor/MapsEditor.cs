@@ -72,12 +72,9 @@ namespace EditorStuff
 
         private void HandleDroppedBosses(Object obj)
         {
-            if (obj is GameObject go)
+            if (obj is AssingBoss boss)
             {
-                if (go.GetComponent<BossHolder>() is BossHolder boss)
-                {
-                    map.Bosses.Add(boss);
-                }
+                map.Bosses.Add(boss);
             }
         }
 
@@ -90,8 +87,13 @@ namespace EditorStuff
             DirectoryInfo toInclude = new DirectoryInfo(folderName);
             foreach (FileInfo fileInfo in toInclude.GetFiles())
             {
-                var temp = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(AssingEnemy));
-                if (temp is AssingEnemy enemy)
+                var tempEnemy = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(AssingEnemy));
+                var tempBoss = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(AssingBoss));
+                if (tempBoss is AssingBoss boss)
+                {
+                    map.Bosses.Add(boss);
+                }
+                else if (tempEnemy is AssingEnemy enemy)
                 {
                     map.Enemies.Add(enemy);
                 }

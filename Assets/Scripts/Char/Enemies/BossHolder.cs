@@ -16,7 +16,12 @@ public class BossHolder : EnemyHolder
     [SerializeField] private bool lockedPosistion = false;
     public bool LockedPosistion => lockedPosistion;
     [SerializeField] private Vector3 pos = new Vector3();
+    public Vector3 Pos => pos;
     public override BasicChar BasicChar { get; protected set; } = new BasicChar();
 
-    public void Setup(AssingBoss assingBoss) => BasicChar = assingBoss.Setup(BasicChar);
+    public void Setup(AssingBoss assingBoss)
+    {
+        BasicChar = assingBoss.Setup(BasicChar);
+        base.Setup();
+    }
 }

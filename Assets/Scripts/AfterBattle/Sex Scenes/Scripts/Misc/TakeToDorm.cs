@@ -18,6 +18,7 @@ public class TakeToDorm : SexScenes
         TakenToDorm?.Invoke();
         other.RelationshipTracker.MoveFromTemp(player);
         player.RelationshipTracker.MoveFromTemp(other);
+        other.IfHaveHolderDestoryIt();
         return $"";
     }
 

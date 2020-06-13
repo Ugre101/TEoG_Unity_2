@@ -17,7 +17,9 @@ MonoBehaviour:
   NeedFirstName: 1
   NeedLastName: 1
   age: 18
-  startRaces: []
+  startRaces:
+  - races: 6
+    amount: 999
   startGender:
     amount: 100
     genderLock: 0

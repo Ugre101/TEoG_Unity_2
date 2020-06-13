@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HomeMain : MonoBehaviour
 {
-    [SerializeField] private BasicChar owner = null;
+    private BasicChar Owner => PlayerHolder.Player;
     [SerializeField] private CanvasMain canvasMain = null;
     [SerializeField] private GameObject dormGameobject = null, telePortMenu = null;
     [SerializeField] private MapEvents mapEvents = null;
@@ -22,7 +22,6 @@ public class HomeMain : MonoBehaviour
     private void Start()
     {
         mapEvents = mapEvents != null ? mapEvents : MapEvents.GetMapEvents;
-        owner = owner != null ? owner : PlayerHolder.Player;
         leaveBtn.onClick.AddListener(LeaveHome);
         BuildButtons();
     }
@@ -43,7 +42,7 @@ public class HomeMain : MonoBehaviour
         {
             mapEvents.Teleport(worldMaps, toMap, toPlatform);
         }
-        GameManager.CurrentArea = GlobalArea.Map;
+        GameManager.SetCurrentArea(GlobalArea.Map);
         canvasMain.Resume();
     }
 
@@ -58,7 +57,7 @@ public class HomeMain : MonoBehaviour
 
     private void FirstPart(BuildCost buildCost, HomeUpgrade homeUpgrade, string buildingName)
     {
-        Instantiate(buildButtonPrefab, buildContainer).Setup(buildCost, homeUpgrade, owner, buildingName);
+        Instantiate(buildButtonPrefab, buildContainer).Setup(buildCost, homeUpgrade, Owner, buildingName);
     }
 
     public void UpgradeMainHouse()
@@ -69,13 +68,14 @@ public class HomeMain : MonoBehaviour
     public void EnterDorm()
     {
         dormGameobject.SetActive(true);
-        GameManager.CurState = GameState.InBuilding;
+        canvasMain.HideGameUI();
+        GameManager.SetCurState(GameState.InBuilding);
     }
 
     public void LeaveDorm()
     {
         dormGameobject.SetActive(false);
-        GameManager.CurState = GameState.Free;
+        GameManager.SetCurState(GameState.Free);
     }
 
     public void ToggleTeleportMenu()

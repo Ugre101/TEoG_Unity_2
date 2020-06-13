@@ -48,32 +48,31 @@ public class AssingEnemy : ScriptableObject
     {
         Body body = new Body(FinalHeight, FinalFat, FinalMuscle);
         BasicChar newChar = new EnemyPrefab(reward, isQuest, canTakeToDorm, orgsNeeded, new Age(age), body, new ExpSystem());
-        basicChar.Stats.SetBaseValues(FinalStat(assingStr), FinalStat(assingCharm), FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt), assingWill);
-        startRaces.ForEach(r => basicChar.RaceSystem.AddRace(r.Races, r.Amount));
-        startGender.Assing(basicChar);
-
+        newChar.Stats.SetBaseValues(FinalStat(assingStr), FinalStat(assingCharm), FinalStat(assingDex), FinalStat(assingEnd), FinalStat(assingInt), assingWill);
+        startRaces.ForEach(r => newChar.RaceSystem.AddRace(r.Races, r.Amount));
+        startGender.Assing(newChar);
         if (NeedFirstName)
         {
-            if (basicChar.GenderType == GenderTypes.Masculine)
+            if (newChar.GenderType == GenderTypes.Masculine)
             {
-                basicChar.Identity.FirstName = RandomName.MaleName;
+                newChar.Identity.FirstName = RandomName.MaleName;
             }
             else
             {
-                basicChar.Identity.FirstName = RandomName.FemaleName;
+                newChar.Identity.FirstName = RandomName.FemaleName;
             }
         }
         else
         {
-            basicChar.Identity.FirstName = firstName;
+            newChar.Identity.FirstName = firstName;
         }
         if (NeedLastName)
         {
-            basicChar.Identity.LastName = RandomName.LastName;
+            newChar.Identity.LastName = RandomName.LastName;
         }
         else
         {
-            basicChar.Identity.LastName = lastName;
+            newChar.Identity.LastName = lastName;
         }
         return newChar;
     }

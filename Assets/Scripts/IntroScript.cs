@@ -17,7 +17,7 @@ namespace Intro
         private string FirstName => firstName.text;
         private string LastName => lastName.text;
 
-        private void OnEnable() => GameManager.CurState = GameState.Intro;
+        private void OnEnable() => GameManager.SetCurState(GameState.Intro);
 
         private void Start()
         {

@@ -120,6 +120,7 @@ public class Movement : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
+
             if (collision.gameObject.GetComponent<CharHolder>() is CharHolder holder)
             {
                 if (holder is BossHolder b)
@@ -149,6 +150,7 @@ public class Movement : MonoBehaviour
             if (b.PreBattleDialog)
             {
                 // TODO add pre battle dialog
+                TriggerEnemy?.Invoke(boss);
             }
             else
             {

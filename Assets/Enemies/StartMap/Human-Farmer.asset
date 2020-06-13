@@ -17,9 +17,11 @@ MonoBehaviour:
   NeedFirstName: 1
   NeedLastName: 1
   age: 18
-  startRaces: []
+  startRaces:
+  - races: 1
+    amount: 999
   startGender:
-    amount: 100
+    amount: 200
     genderLock: 0
     lockedGender: 5
     favoured: 0
@@ -44,6 +46,8 @@ MonoBehaviour:
     expReward: 0
     goldReward: 0
     rng: 0.3
-    drops: []
+    drops:
+    - item: 17
+      dropChance: 20
   canTakeToDorm: 1
   orgsNeeded: 3

@@ -34,18 +34,22 @@ public abstract class CharHolder : MonoBehaviour
 
     public virtual void Setup() => Bind();
 
+    public void SelfDestroy() => Destroy(gameObject);
+
     protected virtual void Bind()
     {
         DateSystem.NewMinuteEvent += DoEveryMin;
         DateSystem.NewDayEvent += DoEveryDay;
         SexualOrgan.SomethingChanged += GenderChange;
         SpriteHandler.Setup(BasicChar);
+        BasicChar.DestroyHolderEvent += SelfDestroy;
     }
 
     protected virtual void OnDestroy()
     {
         Unbind();
         BeforeDestroy();
+        BasicChar.DestroyHolderEvent -= SelfDestroy;
     }
 
     protected virtual void Unbind()

@@ -135,6 +135,16 @@ public class CombatMain : MonoBehaviour
             }
             else if (etc is EnemyPrefab e)
             {
+                if (player.Perks.HasPerk(PerksTypes.Bully))
+                {
+                    e.HP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(player.Perks));
+                    e.WP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(player.Perks));
+                }
+                else
+                {
+                    e.HP.FullGain();
+                    e.WP.FullGain();
+                }
                 PostBattleReward(e);
             }
             // if something else

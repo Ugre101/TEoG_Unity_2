@@ -52,9 +52,9 @@ public class EventMain : MonoBehaviour
         }
     }
 
-    public void PlayQuedEvent()
+    public void PlayQuedEvent(GameState newState)
     {
-        if (GameManager.CurState == GameState.Free && quedEvents.Count > 0)
+        if (newState == GameState.Free && quedEvents.Count > 0)
         {
             quedEvents[0]?.Invoke();
             quedEvents.RemoveAt(0);
@@ -106,7 +106,7 @@ public class EventMain : MonoBehaviour
         }
         eventMenu.SetActive(true);
         gameUIWasActive = canvasMain.HideGameUI();
-        GameManager.CurState = GameState.Event;
+        GameManager.SetCurState(GameState.Event);
     }
 
     private void LeaveBtn() => Instantiate(optionBtn, optionContainer).Setup("Leave").onClick.AddListener(Leave);

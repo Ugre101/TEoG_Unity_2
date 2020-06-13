@@ -158,4 +158,10 @@ public class BasicChar
     public List<Skill> Skills => skills;
     private GameEventSystem gameEvent;
     public GameEventSystem Events => gameEvent;
+
+    public delegate void DestroyHolder();
+
+    public event DestroyHolder DestroyHolderEvent;
+
+    public void IfHaveHolderDestoryIt() => DestroyHolderEvent?.Invoke();
 }

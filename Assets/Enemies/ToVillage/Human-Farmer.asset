@@ -17,19 +17,21 @@ MonoBehaviour:
   NeedFirstName: 1
   NeedLastName: 1
   age: 18
-  startRaces: []
+  startRaces:
+  - races: 1
+    amount: 999
   startGender:
-    amount: 100
+    amount: 400
     genderLock: 0
     lockedGender: 5
     favoured: 0
     favouredGenderType: 0
   assingStr: 8
-  assingCharm: 7
+  assingCharm: 8
   assingEnd: 9
-  assingDex: 7
-  assingInt: 7
-  assingWill: 7
+  assingDex: 8
+  assingInt: 8
+  assingWill: 8
   statRngFactor: 0.4
   assingHeight: 160
   assingFat: 20
@@ -41,8 +43,8 @@ MonoBehaviour:
     isQuest: 0
     quest: 0
   reward:
-    expReward: 0
-    goldReward: 0
+    expReward: 30
+    goldReward: 20
     rng: 0.3
     drops: []
   canTakeToDorm: 1

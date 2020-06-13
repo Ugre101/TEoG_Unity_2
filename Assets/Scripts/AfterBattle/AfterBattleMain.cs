@@ -156,10 +156,14 @@ public class AfterBattleMain : MonoBehaviour
         {
             Instantiate(sexButton, MiscActions).Setup(sexScenes);
         }
+        Debug.Log("Refresh can drain" + Target.SexStats.CanDrain);
         DrainActions.KillChildren();
         if (Target.SexStats.CanDrain)
         {
-            essScenes.FindAll(ess => ess.CanDo(Target)).ForEach(ess => Instantiate(essSexButton, DrainActions).Setup(ess));
+            foreach (EssScene essScene in essScenes.FindAll(ess => ess.CanDo(Target)))
+            {
+                Instantiate(essSexButton, DrainActions).Setup(essScene);
+            }
         }
     }
 
@@ -197,8 +201,10 @@ public class AfterBattleMain : MonoBehaviour
 
     private void OtherOrgasmed()
     {
+        Debug.Log("Can drain berfore " + Target.SexStats.CanDrain);
         InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
         HandleAutoDrainEssence();
+        Debug.Log("Can drain after" + Target.SexStats.CanDrain);
     }
 
     private void HandleAutoDrainEssence()
@@ -209,18 +215,21 @@ public class AfterBattleMain : MonoBehaviour
             player.DrainFemi(Target);
             player.DrainMasc(Target);
             InsertToTextBox(drainChange.BothChanges);
+            player.SexStats.Drained();
         }
         else if (player.Perks.HasPerk(PerksTypes.FemenineVacuum))
         {
             DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
             player.DrainFemi(Target);
             InsertToTextBox(drainChange.BothChanges);
+            player.SexStats.Drained();
         }
         else if (player.Perks.HasPerk(PerksTypes.MasculineVacuum))
         {
             DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
             player.DrainMasc(Target);
             InsertToTextBox(drainChange.BothChanges);
+            player.SexStats.Drained();
         }
     }
 
@@ -314,6 +323,7 @@ public class AfterBattleMain : MonoBehaviour
     {
         AddToTextBox(voreScene.Vore(player, Target));
         LastScene = voreScene;
+        Target.IfHaveHolderDestoryIt();
         EnemyRemoved();
     }
 

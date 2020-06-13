@@ -13,12 +13,12 @@ public class Map : MonoBehaviour
     [SerializeField] private List<AssingEnemy> enemies = new List<AssingEnemy>();
 
     [Header("Bosses")]
-    [SerializeField] private List<BossHolder> bosses = new List<BossHolder>();
+    [SerializeField] private List<AssingBoss> bosses = new List<AssingBoss>();
 
     public string MapTitle => mapName;
 
     public List<AssingEnemy> Enemies => enemies;
-    public List<BossHolder> Bosses => bosses;
+    public List<AssingBoss> Bosses => bosses;
     public int EnemyCount => amountOfEnemies;
 
     private void Start()
@@ -31,7 +31,7 @@ public class Map : MonoBehaviour
                 break;
             }
         }
-        foreach (BossHolder boss in Bosses)
+        foreach (AssingBoss boss in Bosses)
         {
             if (boss == null)
             {

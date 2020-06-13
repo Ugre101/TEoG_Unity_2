@@ -1,5 +1,10 @@
 ﻿public static partial class PerkEffects
 {
+    public static class Bully
+    {
+        public static float HealthReGainReduction(Perks perks) => PerkFloatEffect(perks, PerksTypes.Bully, 0.1f);
+    }
+
     public static class Gluttony
     {
         public static float ExtraFatBurn(Perks perks) => perks.HasPerk(PerksTypes.Gluttony)

@@ -114,7 +114,8 @@ public class Health : IntStat
     }
 
     public void FullGain() => current = Value;
-
+    /// <summary> Set health to max by precent, min: 0f and max: 1f </summary>
+    public void SetToPrecent(float precent) => current = Value * Mathf.Clamp(precent, 0, 1);
     public float SliderValue => current / Value;
 
     public string Status => current < 999 ?

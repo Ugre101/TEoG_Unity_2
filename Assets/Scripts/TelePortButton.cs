@@ -20,7 +20,7 @@ public class TelePortButton : MonoBehaviour
     private void TeleportTo()
     {
         canTele.TelePortTo();
-        GameManager.CurrentArea = GlobalArea.Map;
+        GameManager.SetCurrentArea(GlobalArea.Map);
         CanvasMain.GetCanvasMain.Resume();
     }
 

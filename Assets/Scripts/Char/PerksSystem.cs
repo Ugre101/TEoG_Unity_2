@@ -29,6 +29,7 @@ public enum PerksTypes
     FemenineFlow,
     HermaphroditeVacuum,
     HermaphroditeFlow,
+    Bully,
 
     // Remember to always add new perks last in list to avoid breaking saves
 }

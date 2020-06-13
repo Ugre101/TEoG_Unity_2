@@ -31,14 +31,17 @@ public class AssingEnemyEditor : Editor
 
     private int TotalStats => assingStr.intValue + assingCharm.intValue + assingEnd.intValue + assingDex.intValue + assingInt.intValue + assingWillpower.intValue;
 
-    protected void SetAllStat(int setVal)
+    protected void SetBaseLevel(int setVal)
     {
-        assingStr.intValue = setVal;
-        assingCharm.intValue = setVal;
-        assingEnd.intValue = setVal;
-        assingDex.intValue = setVal;
-        assingInt.intValue = setVal;
-        assingWillpower.intValue = setVal;
+        assingStr.intValue = setVal + 6;
+        assingCharm.intValue = setVal + 6;
+        assingEnd.intValue = setVal + 6;
+        assingDex.intValue = setVal + 6;
+        assingInt.intValue = setVal + 6;
+        assingWillpower.intValue = setVal + 6;
+        genderAmount.floatValue = (setVal + setVal) * 100;
+        rewardExp.intValue = setVal * 15;
+        rewardGold.intValue = setVal * 10;
     }
 
     protected string StatEndResult(int stat, float rng)
@@ -95,6 +98,28 @@ public class AssingEnemyEditor : Editor
     {
         //GUILayout.Label("test");
         AssingEnemy myTarget = (AssingEnemy)target;
+        EditorGUILayout.LabelField("Set base stat for level", EditorStyles.boldLabel);
+        serializedObject.Update();
+        EditorGUILayout.BeginHorizontal();
+        for (int i = 1; i < 14; i++)
+        {
+            if (GUILayout.Button((i + (i - 1)).ToString()))
+            {
+                SetBaseLevel(i);
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.BeginHorizontal();
+        for (int i = 14; i < 27; i++)
+        {
+            if (GUILayout.Button((i + (i - 1)).ToString()))
+            {
+                SetBaseLevel(i + 6);
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+        serializedObject.ApplyModifiedProperties();
         NameFold = EditorGUILayout.Foldout(NameFold, "Name", true, EditorStyles.foldout);
         if (NameFold)
         {
@@ -179,17 +204,6 @@ public class AssingEnemyEditor : Editor
             int level = 1 + Mathf.CeilToInt((TotalStats - 42) / 3);
             EditorGUILayout.LabelField("Level: " + level);
             EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            serializedObject.Update();
-            for (int i = 1; i < 10; i++)
-            {
-                if (GUILayout.Button((i + (i - 1)).ToString()))
-                {
-                    SetAllStat(i + 6);
-                }
-            }
-            serializedObject.ApplyModifiedProperties();
-            EditorGUILayout.EndHorizontal();
             serializedObject.Update();
             UgreEditorTools.TwoBoldLabels("Assing str", "Assing charm");
             UgreEditorTools.TwoIntSliders(assingStr, assingCharm);
@@ -202,7 +216,7 @@ public class AssingEnemyEditor : Editor
             statRngFactor.floatValue = EditorGUILayout.Slider(statRngFactor.floatValue, 0, 0.99f);
             EditorGUILayout.EndHorizontal();
             serializedObject.ApplyModifiedProperties();
-            
+
             EditorGUILayout.BeginVertical("Box");
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Stats end result", EditorStyles.boldLabel);

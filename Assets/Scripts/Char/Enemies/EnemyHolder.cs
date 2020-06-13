@@ -2,5 +2,9 @@
 {
     public override BasicChar BasicChar { get; protected set; } = new BasicChar();
 
-    public void Setup(AssingEnemy assingEnemy) => BasicChar = assingEnemy.Setup(BasicChar);
+    public void Setup(AssingEnemy assingEnemy)
+    {
+        BasicChar = assingEnemy.Setup(BasicChar);
+        base.Setup();
+    }
 }
