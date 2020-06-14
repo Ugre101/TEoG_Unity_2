@@ -8,7 +8,7 @@ public class DoorScript : MonoBehaviour
 
     private string playerTag;
 
-    public Tilemap FronTilemap { get => _fronTilemap; set => _fronTilemap = value; }
+    public Tilemap FromTilemap { get => _fronTilemap; set => _fronTilemap = value; }
     public Tilemap ToTilemap { get => _toTilemap; set => _toTilemap = value; }
     public bool AutuAssingIfEmpty => autuAssingIfEmpty;
 
@@ -19,8 +19,13 @@ public class DoorScript : MonoBehaviour
     {
         if (collision.CompareTag(playerTag))
         {
-            bool direction = MapEvents.CurrentMap == FronTilemap;
-            MapEvents.MapChange(direction ? ToTilemap : FronTilemap);
+            bool direction = MapEvents.CurrentMap == FromTilemap;
+            MapEvents.MapChange(direction ? ToTilemap : FromTilemap);
         }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        
     }
 }

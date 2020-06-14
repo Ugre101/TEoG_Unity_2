@@ -31,11 +31,7 @@ public class CharSprites : ScriptableObject
         }
         else
         {
-            if (who.GenderType == GenderTypes.Feminine)
-            {
-                return defaultSpriteFemi;
-            }
-            return defaultSpriteMasc;
+            return who.GenderType == GenderTypes.Feminine ? defaultSpriteFemi : defaultSpriteMasc;
         }
     }
 }

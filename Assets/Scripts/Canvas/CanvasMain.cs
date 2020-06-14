@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class CanvasMain : MonoBehaviour
 {
@@ -26,12 +25,8 @@ public class CanvasMain : MonoBehaviour
 
     #region Properties
 
-    [SerializeField] private BigPanel Gameui = null;
     [SerializeField] private BigPanel Battle = null;
     [SerializeField] private BigPanel Menus = null;
-    [SerializeField] private BigPanel Buildings = null;
-    [SerializeField] private BuildingsMenu buildings = null;
-    [SerializeField] private GameObject PauseMenu = null;
 
     [SerializeField] private MenuPanels menuPanels = new MenuPanels();
 
@@ -65,13 +60,7 @@ public class CanvasMain : MonoBehaviour
         {
             EscapePause();
         }
-        else if (KeyBindings.HideAllKey.KeyDown)
-        {
-            if (GameManager.CurState.Equals(GameState.Free))
-            {
-                Gameui.gameObject.SetActive(!Gameui.gameObject.activeSelf);
-            }
-        }
+
         // if in menus or main game(not combat)
         if (GameManager.KeyBindsActive)
         {
@@ -108,7 +97,8 @@ public class CanvasMain : MonoBehaviour
     public void Resume()
     {
         Menus.transform.SleepChildren();
-        ToggleBigPanel(Gameui.gameObject);
+        transform.SleepChildren();
+        //     ToggleBigPanel(Gameui.gameObject);
         GameManager.SetCurState(GameState.Free);
     }
 
@@ -162,8 +152,6 @@ public class CanvasMain : MonoBehaviour
         }
     }
 
-
-
     public void EnterNpc(NpcMenuPage page)
     {
         GameManager.SetCurState(GameState.InBuilding);
@@ -171,7 +159,8 @@ public class CanvasMain : MonoBehaviour
         npcMenus.EnterNpc(page);
     }
 
-    public void EscapePause()
+
+    public void EscapePause()  // TODO Clean up
     {
         if (GameManager.CurState.Equals(GameState.Menu))
         {
@@ -185,54 +174,12 @@ public class CanvasMain : MonoBehaviour
             }
             else
             {
-                PauseMenu.SetActive(false);
                 GameManager.SetCurState(GameManager.LastState);
             }
         }
         else
         {
             GameManager.SetCurState(GameState.PauseMenu);
-            PauseMenu.SetActive(true);
-            if (Gameui.gameObject.activeSelf)
-            {
-                Gameui.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    public void EnterBuilding(GameObject buildingToEnter)
-    {
-        GameManager.SetCurState(GameState.InBuilding);
-        ToggleBigPanel(Buildings.gameObject);
-        // Disable all buildings expect the one to enter
-        Buildings.transform.SleepChildren(buildingToEnter.transform);
-    }
-
-    public void EnterBuilding(Building building)
-    {
-        GameManager.SetCurState(GameState.InBuilding);
-        transform.SleepChildren();
-        buildings.EnterBuilding(building);
-    }
-
-    [SerializeField] private GameObject teleportMenu = null;
-
-    public void TeleportMenu() => EnterBuilding(teleportMenu);
-
-    /// <summary> Hides gameUI and returns if gameUi was active before </summary>
-    /// <returns></returns>
-    public bool HideGameUI()
-    {
-        bool currState = Gameui.gameObject.activeSelf;
-        Gameui.gameObject.SetActive(false);
-        return currState;
-    }
-
-    public void ShowGameUI()
-    {
-        if (GameManager.CurState == GameState.Free)
-        {
-            Gameui.gameObject.SetActive(true);
         }
     }
 }

@@ -137,6 +137,7 @@ public static class Settings
 
     #endregion Unit bools
 
+    public static bool DefaultSpriteIsASquare { get; set; } = true;
     public static bool Vore =>PlayerHolder.Player.Vore.Active;
     public static bool Scat { get; private set; } = false;
 

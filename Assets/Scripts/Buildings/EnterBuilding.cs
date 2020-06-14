@@ -1,14 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class EnterBuilding : MonoBehaviour
 {
-    [SerializeField] private CanvasMain gameUI = null;
-
     [SerializeField] private Building building = null;
 
     public GameObject BuildingToEnter => building.gameObject;
-
-    private void Start() => gameUI = gameUI != null ? gameUI : CanvasMain.GetCanvasMain;
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
@@ -16,8 +13,11 @@ public class EnterBuilding : MonoBehaviour
         {
             if (building != null)
             {
-                gameUI.EnterBuilding(BuildingToEnter);
+                Enter?.Invoke(building);
+                // gameUI.EnterBuilding(BuildingToEnter);
             }
         }
     }
+
+    public static Action<Building> Enter;
 }

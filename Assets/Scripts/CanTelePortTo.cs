@@ -56,6 +56,11 @@ public class CanTelePortTo : MonoBehaviour
         {
             HandleSprite();
         }
+        else
+        {
+            animator.enabled = false;
+            spriteRenderer.sprite = deActivated;
+        }
     }
 
     private void HandleSprite()
@@ -88,7 +93,8 @@ public class CanTelePortTo : MonoBehaviour
             {
                 if (!justTeleportedTo && timeLoaded + 1f <= Time.unscaledTime)
                 {
-                    CanvasMain.GetCanvasMain.TeleportMenu();
+                    WalkedOnTeleport?.Invoke();
+                    // CanvasMain.GetCanvasMain.TeleportMenu();
                 }
             }
         }
@@ -117,6 +123,10 @@ public class CanTelePortTo : MonoBehaviour
             }
         }
     }
+
+    public delegate void WalktOnTeleport();
+
+    public static event WalktOnTeleport WalkedOnTeleport;
 }
 
 [System.Serializable]

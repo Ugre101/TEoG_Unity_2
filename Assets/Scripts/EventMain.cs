@@ -105,7 +105,6 @@ public class EventMain : MonoBehaviour
             LeaveBtn();
         }
         eventMenu.SetActive(true);
-        gameUIWasActive = canvasMain.HideGameUI();
         GameManager.SetCurState(GameState.Event);
     }
 
@@ -115,10 +114,6 @@ public class EventMain : MonoBehaviour
     {
         eventMenu.SetActive(false);
         canvasMain.Resume();
-        if (gameUIWasActive)
-        {
-            canvasMain.ShowGameUI();
-        }
     }
 
     public void SummonChangeName(Identity basicChar) => Instantiate(changeName, transform).Setup(basicChar);

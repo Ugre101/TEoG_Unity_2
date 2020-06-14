@@ -7,7 +7,7 @@ public class SystemOptions : MonoBehaviour
 {
     private FullScreenMode CurMode => Screen.fullScreenMode;
 
-    public TMP_Dropdown dropDown, screenMode;
+    [SerializeField] private TMP_Dropdown dropDown, screenMode;
 
     // Start is called before the first frame update
     private void Start()
