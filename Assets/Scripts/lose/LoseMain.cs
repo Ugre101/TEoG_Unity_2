@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LoseMain : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    private PlayerMain Player => PlayerHolder.Player;
 
     [SerializeField] private TextMeshProUGUI _textBox = null;
 
@@ -26,7 +26,7 @@ public class LoseMain : MonoBehaviour
     private BasicChar newTarget = null;
     public BasicChar Target => newTarget != null ? newTarget : enemies[0];
 
-    private List<LoseScene> CanDo(List<LoseScene> scenes) => scenes.Where(s => s.CanDo(player, Target)).Select(s => s).ToList();
+    private List<LoseScene> CanDo(List<LoseScene> scenes) => scenes.Where(s => s.CanDo(Player, Target)).Select(s => s).ToList();
 
     private readonly System.Random rnd = new System.Random();
 
@@ -34,7 +34,6 @@ public class LoseMain : MonoBehaviour
 
     private void Start()
     {
-        player = player ?? PlayerHolder.Player;
         LoseSexButton.PlayScene += HandleScene;
     }
 
@@ -44,7 +43,7 @@ public class LoseMain : MonoBehaviour
         enemies = parEnemies;
         _textBox.text = null;
 
-        playerChar.Setup(player);
+        playerChar.Setup(Player);
         enemyChar.Setup(Target);
         newTarget = null;
         Leave.SetActive(false);
@@ -70,7 +69,7 @@ public class LoseMain : MonoBehaviour
         {
             for (int i = 0; i < SceneOptionsAmount; i++)
             {
-                Instantiate(sexButton, sexButtonsContainer).Setup(player, Target, this, GetAScene(forcedCanDo));
+                Instantiate(sexButton, sexButtonsContainer).Setup(Player, Target, this, GetAScene(forcedCanDo));
             }
         }
         List<LoseScene> submitCanDo = CanDo(submit);
@@ -78,14 +77,14 @@ public class LoseMain : MonoBehaviour
         {
             for (int i = 0; i < SceneOptionsAmount; i++)
             {
-                Instantiate(sexButton, sexButtonsContainer).Setup(player, Target, this, GetAScene(submitCanDo));
+                Instantiate(sexButton, sexButtonsContainer).Setup(Player, Target, this, GetAScene(submitCanDo));
             }
         }
     }
 
     private void HandleScene(SexScenes scene)
     {
-        AddToTextBox(scene.StartScene(player, Target));
+        AddToTextBox(scene.StartScene(Player, Target));
         CanLeave();
     }
 }
