@@ -129,7 +129,6 @@ public class Movement : MonoBehaviour
                 }
                 else if (holder is EnemyHolder e)
                 {
-                    Debug.Log("Standard Enemy");
                     TriggerEnemy?.Invoke(e);
                 }
             }

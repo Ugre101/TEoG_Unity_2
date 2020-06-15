@@ -156,7 +156,6 @@ public class AfterBattleMain : MonoBehaviour
         {
             Instantiate(sexButton, MiscActions).Setup(sexScenes);
         }
-        Debug.Log("Refresh can drain" + Target.SexStats.CanDrain);
         DrainActions.KillChildren();
         if (Target.SexStats.CanDrain)
         {
@@ -193,44 +192,60 @@ public class AfterBattleMain : MonoBehaviour
     {
         InsertToTextBox("\n\n" + LastScene.PlayerOrgasmed(player, Target));
         HandleAutoGiveEssence();
-        if (player.Perks.HasPerk(PerksTypes.EssenceShaper) || player.Perks.HasPerk(PerksTypes.EssenceTransformer))
-        {
-            // TODO transmute essence
-        }
     }
 
     private void OtherOrgasmed()
     {
-        Debug.Log("Can drain berfore " + Target.SexStats.CanDrain);
         InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
         HandleAutoDrainEssence();
-        Debug.Log("Can drain after" + Target.SexStats.CanDrain);
+        HandleTransmuteEssence();
+    }
+
+    private void HandleTransmuteEssence()
+    {
+        if (HasPerk(PerksTypes.EssenceShaper) || HasPerk(PerksTypes.EssenceTransformer))
+        {
+            switch (EssenceExtension.ToggleTransmuteOption)
+            {
+                case EssenceExtension.TransmuteFromTo.Off:
+                    break;
+
+                case EssenceExtension.TransmuteFromTo.MascToFemi:
+                    EssenceExtension.TransmuteEssenceMascToFemi(player, Target);
+                    break;
+
+                case EssenceExtension.TransmuteFromTo.FemiToMasc:
+                    EssenceExtension.TransmuteEssenceFemiToMasc(player, Target);
+                    break;
+            }
+            // TODO transmute essence
+        }
+        bool HasPerk(PerksTypes type) => player.Perks.HasPerk(type);
     }
 
     private void HandleAutoDrainEssence()
     {
-        if ((player.Perks.HasPerk(PerksTypes.FemenineVacuum) && player.Perks.HasPerk(PerksTypes.MasculineVacuum)) || player.Perks.HasPerk(PerksTypes.HermaphroditeVacuum))
+        if (HasPerk(PerksTypes.FemenineVacuum) || HasPerk(PerksTypes.MasculineVacuum) || HasPerk(PerksTypes.HermaphroditeVacuum))
         {
             DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
-            player.DrainFemi(Target);
-            player.DrainMasc(Target);
+
+            if ((HasPerk(PerksTypes.FemenineVacuum) && HasPerk(PerksTypes.MasculineVacuum)) || HasPerk(PerksTypes.HermaphroditeVacuum))
+            {
+                player.DrainFemi(Target);
+                player.DrainMasc(Target);
+            }
+            else if (HasPerk(PerksTypes.FemenineVacuum))
+            {
+                player.DrainFemi(Target);
+            }
+            else if (HasPerk(PerksTypes.MasculineVacuum))
+            {
+                player.DrainMasc(Target);
+            }
             InsertToTextBox(drainChange.BothChanges);
             player.SexStats.Drained();
         }
-        else if (player.Perks.HasPerk(PerksTypes.FemenineVacuum))
-        {
-            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
-            player.DrainFemi(Target);
-            InsertToTextBox(drainChange.BothChanges);
-            player.SexStats.Drained();
-        }
-        else if (player.Perks.HasPerk(PerksTypes.MasculineVacuum))
-        {
-            DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
-            player.DrainMasc(Target);
-            InsertToTextBox(drainChange.BothChanges);
-            player.SexStats.Drained();
-        }
+        bool HasPerk(PerksTypes type) => player.Perks.HasPerk(type);
     }
 
     private void HandleAutoGiveEssence()

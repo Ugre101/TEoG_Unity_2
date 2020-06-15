@@ -87,6 +87,17 @@ public static class UgreTools
         }
         throw new ArgumentException("<T> must be enum");
     }
+
     public static T JsonClone<T>(T source) => JsonUtility.FromJson<T>(JsonUtility.ToJson(source));
 
+    public static T CycleThoughEnum<T>(T curValue)
+    {
+        if (typeof(T).IsEnum)
+        {
+            T[] array = (T[])Enum.GetValues(typeof(T));
+            int index = Array.FindIndex(array, s => s.Equals(curValue));
+            return array[index == array.Length - 1 ? 0 : index + 1];
+        }
+        throw new ArgumentException("Type must be a enum");
+    }
 }

@@ -42,12 +42,14 @@ public class CanTelePortTo : MonoBehaviour
         animator = animator != null ? animator : GetComponent<Animator>();
         HandleSprite();
         MapEvents.TileMapChange += NewMapIsThisMap;
-        Save.LoadEvent += () =>
-        {
-            NewMapIsThisMap(MapEvents.CurrentMap);
-            justTeleportedTo = false;
-            timeLoaded = Time.unscaledTime;
-        };
+        Save.LoadEvent += OnLoad;
+    }
+
+    private void OnLoad()
+    {
+        NewMapIsThisMap(MapEvents.CurrentMap);
+        justTeleportedTo = false;
+        timeLoaded = Time.unscaledTime;
     }
 
     private void NewMapIsThisMap(Tilemap tilemap)
@@ -58,8 +60,7 @@ public class CanTelePortTo : MonoBehaviour
         }
         else
         {
-            animator.enabled = false;
-            spriteRenderer.sprite = deActivated;
+            DisabledTeleport();
         }
     }
 
@@ -72,9 +73,14 @@ public class CanTelePortTo : MonoBehaviour
         }
         else
         {
-            animator.enabled = false;
-            spriteRenderer.sprite = deActivated;
+            DisabledTeleport();
         }
+    }
+
+    private void DisabledTeleport()
+    {
+        animator.enabled = false;
+        spriteRenderer.sprite = deActivated;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

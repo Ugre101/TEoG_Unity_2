@@ -171,7 +171,6 @@ public class CombatMain : MonoBehaviour
 
     public void SomeOneDead()
     {
-        Debug.Log(playerTeam.TeamDead + " : " + enemyTeam.TeamDead);
         if (playerTeam.TeamDead)
         {
             LoseBattle();

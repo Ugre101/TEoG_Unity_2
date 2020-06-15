@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class VoreToggleBtn : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
     [SerializeField] private Button btn = null;
     [SerializeField] private TextMeshProUGUI text = null;
 

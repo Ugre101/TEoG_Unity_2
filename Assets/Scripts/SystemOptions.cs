@@ -7,7 +7,7 @@ public class SystemOptions : MonoBehaviour
 {
     private FullScreenMode CurMode => Screen.fullScreenMode;
 
-    [SerializeField] private TMP_Dropdown dropDown, screenMode;
+    [SerializeField] private TMP_Dropdown dropDown = null, screenMode = null;
 
     // Start is called before the first frame update
     private void Start()
@@ -81,7 +81,6 @@ public static class ScreenSetting
         if (Enum.IsDefined(typeof(FullScreenMode), (FullScreenMode)parDrop))
         {
             FullScreenMode mode = (FullScreenMode)parDrop;
-            Debug.Log(mode);
             Screen.SetResolution(Screen.width, Screen.height, mode);
             PlayerPrefs.SetInt(ScreenKey, parDrop);
         }

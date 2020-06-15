@@ -2,8 +2,7 @@
 
 public class BuildingsCanvas : MonoBehaviour
 {
-    [SerializeField] private BigPanel Buildings = null;
-    [SerializeField] private BuildingsMenu buildings = null;
+    [SerializeField] private GameObject Buildings = null;
 
     // Start is called before the first frame update
     private void Start()
@@ -21,23 +20,18 @@ public class BuildingsCanvas : MonoBehaviour
         else
         {
             Buildings.transform.SleepChildren();
-            Buildings.gameObject.SetActive(false);
+            Buildings.SetActive(false);
         }
     }
-
-    public void EnterABuilding(Building building)
+    public void EnterABuilding(GameObject building)
     {
         GameManager.SetCurState(GameState.InBuilding);
-        Buildings.gameObject.SetActive(true);
+        Buildings.SetActive(true);
         Buildings.transform.SleepChildren(building.transform);
     }
+    public void EnterABuilding(Building building) => EnterABuilding(building.gameObject);
 
     [SerializeField] private GameObject teleportMenu = null;
 
-    public void TeleportMenu()
-    {
-        GameManager.SetCurState(GameState.InBuilding);
-        Buildings.gameObject.SetActive(true);
-        Buildings.transform.SleepChildren(teleportMenu.transform);
-    }
+    public void TeleportMenu() => EnterABuilding(teleportMenu);
 }

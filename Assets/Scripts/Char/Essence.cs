@@ -40,8 +40,6 @@ public class Essence
 
 public static class EssenceExtension
 {
-    private static TransmuteFromTo transmuteOption = TransmuteFromTo.Off;
-
     public enum TransmuteFromTo
     {
         Off,
@@ -49,9 +47,28 @@ public static class EssenceExtension
         FemiToMasc,
     }
 
-    public static TransmuteFromTo TransmuteOption { get => transmuteOption; set => transmuteOption = Enum.IsDefined(typeof(TransmuteFromTo), value) ? value : 0; }
+    public static TransmuteFromTo TransmuteOption { get; set; } = TransmuteFromTo.Off;
 
-    public static TransmuteFromTo ToggleTransmuteOption => TransmuteOption++;
+    public static TransmuteFromTo ToggleTransmuteOption => UgreTools.CycleThoughEnum(TransmuteOption);
+
+    public static void TransmuteEssenceMascToFemi(BasicChar caster, BasicChar changed) => changed.Essence.Femi.Gain(changed.LoseMasc(TotalTransmuteAmount(caster)));
+    public static void TransmuteEssenceMascToFemi(BasicChar caster) => caster.Essence.Femi.Gain(caster.LoseMasc(TotalTransmuteAmount(caster)));
+    public static void TransmuteEssenceFemiToMasc(BasicChar caster, BasicChar changed) =>
+        changed.Essence.Masc.Gain(changed.LoseFemi(TotalTransmuteAmount(caster)));
+    public static void TransmuteEssenceFemiToMasc(BasicChar caster) =>
+    caster.Essence.Masc.Gain(caster.LoseFemi(TotalTransmuteAmount(caster)));
+
+    public static float TotalTransmuteAmount(BasicChar basicChar)
+    {
+        float tot = 0;
+        if (basicChar.Perks.HasPerk(PerksTypes.EssenceTransformer))
+        {
+           
+            tot += PerkEffects.EssenecePerks.EssShaper.TransmuteAmount(basicChar.Perks);
+            tot += PerkEffects.EssenecePerks.EssTransformer.TransmuteAmount(basicChar.Perks);
+        }
+        return tot;
+    }
 
     public static float TotalStableEssence(this BasicChar basicChar)
     {

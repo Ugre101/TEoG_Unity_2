@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerHolder : CharHolder
 {
@@ -22,6 +21,11 @@ public class PlayerHolder : CharHolder
     {
         Setup();
         Player.Essence.Masc.Gain(1000);
+        Races test = Races.Bovine;
+        for (int i = 0; i < 5; i++)
+        {
+            Debug.Log(test = UgreTools.CycleThoughEnum<Races>(test));
+        }
     }
 
     public override void Load(string jsonSave)

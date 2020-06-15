@@ -18,7 +18,6 @@ public class TelePort : MonoBehaviour
     {
         if (collision.CompareTag(PlayerHolder.GetTag))
         {
-            Debug.Log(toWorld + "  " + toMap.name);
             if (toPlatform == null)
             {
                 mapEvents.Teleport(toWorld, toMap);
