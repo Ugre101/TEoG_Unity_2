@@ -13,7 +13,6 @@ public class EventMain : MonoBehaviour
     [SerializeField] private GameObject eventMenu = null;
 
     // Percipants
-    [SerializeField] private PlayerMain lplayer = null;
 
     [SerializeField] private ChangeName changeName = null;
     [SerializeField] private ChangeNames changeNames = null;
@@ -37,7 +36,7 @@ public class EventMain : MonoBehaviour
         GameManager.GameStateChangeEvent += PlayQuedEvent;
     }
 
-    private List<UnityAction> quedEvents = new List<UnityAction>();
+    private readonly List<UnityAction> quedEvents = new List<UnityAction>();
 
     public void QueEvent(UnityAction eventToQue)
     {
@@ -48,7 +47,6 @@ public class EventMain : MonoBehaviour
         else
         {
             quedEvents.Add(eventToQue);
-            Debug.Log(quedEvents.Count);
         }
     }
 
@@ -95,8 +93,6 @@ public class EventMain : MonoBehaviour
     {
         Setup(CanLeaveDiretly);
     }
-
-    private bool gameUIWasActive;
 
     private void Setup(bool canLeave)
     {

@@ -40,6 +40,39 @@ public class Essence
 
 public static class EssenceExtension
 {
+    private static bool HasOneOfNeededPerks(BasicChar basicChar, List<PerksTypes> perksTypes)
+    {
+        foreach (PerksTypes type in perksTypes)
+        {
+            if (HasPerk(type))
+            {
+                return true;
+            }
+        }
+        return false;
+        bool HasPerk(PerksTypes type) => basicChar.Perks.HasPerk(type);
+    }
+
+    public static bool CanTransmuteEssence(BasicChar basicChar)
+    {
+        // A bit overkill right now but it should make it easier in the long run.
+        List<PerksTypes> onOffPerks = new List<PerksTypes>()
+        { PerksTypes.EssenceShaper, PerksTypes.EssenceTransformer };
+        return HasOneOfNeededPerks(basicChar, onOffPerks);
+    }
+
+    public static bool CanAutoDrainEssence(BasicChar basicChar)
+    {
+        List<PerksTypes> onOffPerks = new List<PerksTypes>() { PerksTypes.MasculineVacuum, PerksTypes.FemenineVacuum, PerksTypes.HermaphroditeVacuum };
+        return HasOneOfNeededPerks(basicChar, onOffPerks);
+    }
+
+    public static bool CanAutoGiveEssence(BasicChar basicChar)
+    {
+        List<PerksTypes> onOffPerks = new List<PerksTypes>() { PerksTypes.FemenineFlow, PerksTypes.MasculineFlow, PerksTypes.HermaphroditeFlow };
+        return HasOneOfNeededPerks(basicChar, onOffPerks);
+    }
+
     public enum TransmuteFromTo
     {
         Off,
@@ -52,9 +85,12 @@ public static class EssenceExtension
     public static TransmuteFromTo ToggleTransmuteOption => UgreTools.CycleThoughEnum(TransmuteOption);
 
     public static void TransmuteEssenceMascToFemi(BasicChar caster, BasicChar changed) => changed.Essence.Femi.Gain(changed.LoseMasc(TotalTransmuteAmount(caster)));
+
     public static void TransmuteEssenceMascToFemi(BasicChar caster) => caster.Essence.Femi.Gain(caster.LoseMasc(TotalTransmuteAmount(caster)));
+
     public static void TransmuteEssenceFemiToMasc(BasicChar caster, BasicChar changed) =>
         changed.Essence.Masc.Gain(changed.LoseFemi(TotalTransmuteAmount(caster)));
+
     public static void TransmuteEssenceFemiToMasc(BasicChar caster) =>
     caster.Essence.Masc.Gain(caster.LoseFemi(TotalTransmuteAmount(caster)));
 
@@ -63,7 +99,6 @@ public static class EssenceExtension
         float tot = 0;
         if (basicChar.Perks.HasPerk(PerksTypes.EssenceTransformer))
         {
-           
             tot += PerkEffects.EssenecePerks.EssShaper.TransmuteAmount(basicChar.Perks);
             tot += PerkEffects.EssenecePerks.EssTransformer.TransmuteAmount(basicChar.Perks);
         }
