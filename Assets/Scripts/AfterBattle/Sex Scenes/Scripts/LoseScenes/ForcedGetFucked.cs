@@ -12,9 +12,9 @@ public class ForcedGetFucked : LoseScene
             ? "Moving your balls to the side, they thrust in to you."
             : "Spreading your lips with one hand, they thrust into you.";
 
-        System.Collections.Generic.List<Balls> Oballs = other.SexualOrgans.Balls;
+        System.Collections.Generic.List<Balls> Oballs = other.SexualOrgans.Balls.List;
         returnText += $"\n\nKnowing how to handle someone with as little experience as you, they pin your arms above your head and quickly bring you to orgasm, your shuddering walls causing them to cum{Settings.LorGal(Oballs.Cumming())} into you. ";
-        if (sexualOrgans.Vaginas.EmptyWomb())
+        if (sexualOrgans.Vaginas.List.EmptyWomb())
         {
             if (player.Impregnate(other))
             {

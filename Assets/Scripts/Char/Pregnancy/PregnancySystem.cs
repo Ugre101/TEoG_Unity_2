@@ -94,9 +94,9 @@ public static class PregnancyExtensions
         if (motherRoll < fatherRoll)
         {
             // if mother has empty womb then impregnate first empty womb
-            if (mother.SexualOrgans.Vaginas.Exists(v => !v.Womb.HasFetus))
+            if (mother.SexualOrgans.Vaginas.List.Exists(v => !v.Womb.HasFetus))
             {
-                mother.SexualOrgans.Vaginas.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(mother, parFather);
+                mother.SexualOrgans.Vaginas.List.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(mother, parFather);
                 return true;
             }
         }
@@ -105,7 +105,7 @@ public static class PregnancyExtensions
 
     public static void GrowFetuses(this BasicChar mother)
     {
-        foreach (Vagina v in mother.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus))
+        foreach (Vagina v in mother.SexualOrgans.Vaginas.List.FindAll(v => v.Womb.HasFetus))
         {
             PregnancySystem pregnancySystem = mother.PregnancySystem;
             if (v.Womb.Grow(pregnancySystem.FinalGrowthRate))

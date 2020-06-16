@@ -34,56 +34,56 @@ public abstract class SexScenes : ScriptableObject
     {
         if (PlayerDick)
         {
-            if (player.SexualOrgans.Dicks.Count < 1)
+            if (!player.SexualOrgans.HaveDick())
             {
                 return false;
             }
         }
         if (PlayerBalls)
         {
-            if (player.SexualOrgans.Balls.Count < 1)
+            if (!player.SexualOrgans.HaveBalls())
             {
                 return false;
             }
         }
         if (PlayerBoobs)
         {
-            if (player.SexualOrgans.Boobs.Count > 0 ? player.SexualOrgans.Boobs.Max(b => b.Size) < 3 : false)
+            if (!player.SexualOrgans.HaveBoobs(3))
             {
                 return false;
             }
         }
         if (PlayerVagina)
         {
-            if (player.SexualOrgans.Vaginas.Count < 1)
+            if (!player.SexualOrgans.HaveVagina())
             {
                 return false;
             }
         }
         if (Dick)
         {
-            if (Other.SexualOrgans.Dicks.Count < 1)
+            if (!Other.SexualOrgans.HaveDick())
             {
                 return false;
             }
         }
         if (Balls)
         {
-            if (Other.SexualOrgans.Balls.Count < 1)
+            if (!Other.SexualOrgans.HaveBalls())
             {
                 return false;
             }
         }
         if (Boobs)
         {
-            if (Other.SexualOrgans.Boobs.Count > 0 ? Other.SexualOrgans.Boobs.Max(b => b.Size) < 3 : false)
+            if (!Other.SexualOrgans.HaveBoobs(3))
             {
                 return false;
             }
         }
         if (Vagina)
         {
-            if (Other.SexualOrgans.Vaginas.Count < 1)
+            if (!Other.SexualOrgans.HaveVagina())
             {
                 return false;
             }
@@ -170,7 +170,6 @@ public abstract class SexScenes : ScriptableObject
         return multi;
     }
 
-    public string BiggestDick(BasicChar whom) => Settings.MorInch(whom.SexualOrgans.Dicks.BiggestSize());
 
     private class OrganAndItsExp
     {

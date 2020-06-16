@@ -11,7 +11,7 @@ namespace EssenceMenuStuff
         {
             transform.KillChildren();
             Instantiate(addVaginaPrefab, transform).Setup().onClick.AddListener(UpdateButtons);
-            foreach (Vagina v in player.SexualOrgans.Vaginas)
+            foreach (Vagina v in player.SexualOrgans.Vaginas.List)
             {
                 Instantiate(growVaginaPrefab, transform).Setup(player, v);
             }

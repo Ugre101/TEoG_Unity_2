@@ -129,13 +129,13 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.SexualOrgans.Balls.Sum(b => b.Size * ElasticMulti);
+            float cap = pred.SexualOrgans.Balls.List.Sum(b => b.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
         }
 
         protected override void DigestTo(float val)
         {
-            pred.SexualOrgans.Balls.ForEach(b =>
+            pred.SexualOrgans.Balls.List.ForEach(b =>
             {
                 if (!b.Fluid.IsFull)
                 {
@@ -159,13 +159,13 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.SexualOrgans.Boobs.Sum(b => b.Size * ElasticMulti);
+            float cap = pred.SexualOrgans.Boobs.List.Sum(b => b.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
         }
 
         protected override void DigestTo(float val)
         {
-            pred.SexualOrgans.Boobs.ForEach(b =>
+            pred.SexualOrgans.Boobs.List.ForEach(b =>
             {
                 if (!b.Fluid.IsFull)
                 {
@@ -250,7 +250,7 @@ namespace Vore
 
         public override float MaxCapacity()
         {
-            float cap = pred.SexualOrgans.Vaginas.Sum(v => v.Size * ElasticMulti);
+            float cap = pred.SexualOrgans.Vaginas.List.Sum(v => v.Size * ElasticMulti);
             return cap * VoreExpCapBonus;
         }
 
@@ -269,7 +269,7 @@ namespace Vore
 
         protected override void DigestTo(float val)
         {
-            pred.SexualOrgans.Vaginas.ForEach(v =>
+            pred.SexualOrgans.Vaginas.List.ForEach(v =>
             {
                 if (!v.Fluid.IsFull)
                 {

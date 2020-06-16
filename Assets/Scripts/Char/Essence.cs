@@ -226,9 +226,9 @@ public static class EssenceExtension
 
     public static void DrainFemi(this BasicChar drainer, BasicChar toDrain) => drainer.Essence.Femi.Gain(toDrain.LoseFemi(drainer.EssenceDrain(toDrain)));
 
-    public static bool CanDrainMasc(this BasicChar who) => who.Essence.Masc.Amount > 0 || who.SexualOrgans.Balls.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
+    public static bool CanDrainMasc(this BasicChar who) => who.Essence.Masc.Amount > 0 || who.SexualOrgans.HaveBalls() || who.SexualOrgans.HaveDick();
 
-    public static bool CanDrainFemi(this BasicChar who) => who.Essence.Femi.Amount > 0 || who.SexualOrgans.Boobs.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
+    public static bool CanDrainFemi(this BasicChar who) => who.Essence.Femi.Amount > 0 || who.SexualOrgans.HaveBoobs() || who.SexualOrgans.HaveDick();
 
     public static float LoseMasc(this BasicChar who, float mascToLose)
     {
@@ -237,24 +237,25 @@ public static class EssenceExtension
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            List<Dick> dicks = who.SexualOrgans.Dicks;
-            List<Balls> balls = who.SexualOrgans.Balls;
-            while (missing > fromOrgans && (dicks.Count > 0 || balls.Count > 0))// have needed organs
+            Organs so = who.SexualOrgans;
+            DickContainer dicks = so.Dicks;
+            List<Balls> balls = so.Balls.List;
+            while (missing > fromOrgans && (so.HaveDick() || so.HaveBalls()))// have needed organs
             {
-                if (balls.Count > 0 && dicks.Count > 0)
+                if (so.HaveBalls() && so.HaveDick())
                 {
-                    if (dicks.Total() >= balls.Total() * 2f + 1f)
+                    if (dicks.List.Total() >= balls.Total() * 2f + 1f)
                     {
                         fromOrgans += dicks.ReCycle();
                     }
                     else
                     {
-                        fromOrgans += balls.ReCycle();
+                        fromOrgans += so.Balls.ReCycle();
                     }
                 }
-                else if (balls.Count > 0)
+                else if (so.HaveBalls())
                 {
-                    fromOrgans += balls.ReCycle();
+                    fromOrgans += so.Balls.ReCycle();
                 }
                 else
                 {
@@ -278,8 +279,8 @@ public static class EssenceExtension
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            List<Vagina> vaginas = who.SexualOrgans.Vaginas;
-            List<Boobs> boobs = who.SexualOrgans.Boobs;
+            List<Vagina> vaginas = who.SexualOrgans.Vaginas.List;
+            List<Boobs> boobs = who.SexualOrgans.Boobs.List;
             while (missing > fromOrgans && (vaginas.Count > 0 || boobs.Count > 0))// have needed organs
             {
                 if (boobs.Count > 0 && vaginas.Count > 0)

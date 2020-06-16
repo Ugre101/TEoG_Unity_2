@@ -31,7 +31,7 @@ public class PregEffect : BaseEffect
 
     public void Status()
     {
-        List<Vagina> pregVags = mother.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus);
+        List<Vagina> pregVags = mother.SexualOrgans.Vaginas.List.FindAll(v => v.Womb.HasFetus);
         List<Fetus> fetus = pregVags.SelectMany(pv => pv.Womb.Fetuses).ToList();
         // probaly slower than foreach loop, but thats likely never relevant for perfomance
         Fetus closestToBeBorn = fetus.OrderBy(f => f.IncubationPeriod() - f.DaysOld).First();

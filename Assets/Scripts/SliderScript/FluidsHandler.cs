@@ -9,7 +9,7 @@ public class FluidsHandler : MonoBehaviour
     private void OnEnable()
     {
         cBar.SetActive(player.BasicChar.SexualOrgans.HaveBalls());
-        float milk = player.BasicChar.SexualOrgans.HaveBoobs() ? player.BasicChar.SexualOrgans.Boobs.FluidCurrentTotal() : 0;
+        float milk = player.BasicChar.SexualOrgans.HaveBoobs() ? player.BasicChar.SexualOrgans.Boobs.List.FluidCurrentTotal() : 0;
         mBar.SetActive(player.BasicChar.SexualOrgans.Lactating || milk > 0);
     }
 }

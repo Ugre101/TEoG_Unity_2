@@ -9,7 +9,7 @@ public class ForcedCunn : LoseScene
         Organs sexualOrgans = other.SexualOrgans;
         if (sexualOrgans.HaveBalls())
         {
-            System.Collections.Generic.List<Balls> balls = sexualOrgans.Balls;
+            System.Collections.Generic.List<Balls> balls = sexualOrgans.Balls.List;
             returnText += $" {other.HisHer(true)} { Settings.MorInch(balls.BiggestSize())} balls cover your face, forcing their musky scent into your nose. ";
         }
         returnText += " Despite your intentions, your body betrays you and orgasms as they cover your face in girlcum.";

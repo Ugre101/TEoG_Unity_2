@@ -46,19 +46,19 @@ public class LooksMenu : MonoBehaviour
         Organs so = player.SexualOrgans;
         if (so.HaveBoobs())
         {
-            toReturn += so.Boobs.Looks() + "\n\n";
+            toReturn += so.Boobs.Looks + "\n\n";
         }
         if (so.HaveVagina())
         {
-            toReturn += so.Vaginas.Looks() + "\n\n";
+            toReturn += so.Vaginas.Looks + "\n\n";
         }
         if (so.HaveDick())
         {
-            toReturn += so.Dicks.Looks() + "\n\n";
+            toReturn += so.Dicks.Looks + "\n\n";
         }
         if (so.HaveBalls())
         {
-            toReturn += so.Balls.Looks() + "\n\n";
+            toReturn += so.Balls.Looks + "\n\n";
         }
         return toReturn;
     }
@@ -70,7 +70,7 @@ public class LooksMenu : MonoBehaviour
             $"Fertility: {pregnancySystem.Fertility.Value}\n\n";
         if (player.Pregnant)
         {
-            player.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus).ForEach(vag => pregLook += FetusDesc(vag) + "\n");
+            player.SexualOrgans.Vaginas.List.FindAll(v => v.Womb.HasFetus).ForEach(vag => pregLook += FetusDesc(vag) + "\n");
         }
         List<Child> children = pregnancySystem.Children;
         if (children.Count > 0)
@@ -83,7 +83,7 @@ public class LooksMenu : MonoBehaviour
 
     private string FetusDesc(Vagina pregVag)
     {
-        int index = player.SexualOrgans.Vaginas.IndexOf(pregVag);
+        int index = player.SexualOrgans.Vaginas.List.IndexOf(pregVag);
         if (pregVag.Womb.Fetuses.Count > 1)
         {
             // TODO add text for multitude of children

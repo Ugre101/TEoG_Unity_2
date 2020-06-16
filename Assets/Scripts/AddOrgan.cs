@@ -11,8 +11,9 @@ namespace EssenceMenuStuff
         [SerializeField] protected Image image = null;
         [SerializeField] protected Color canAfford, cantAfford;
         protected PlayerMain Player => PlayerHolder.Player;
+        protected abstract OrganContainer OrganContainer { get; }
         protected abstract Essence Ess { get; }
-        protected abstract float Cost { get; }
+        protected float Cost => OrganContainer.AddCost;
         protected bool CanAfford => Ess.Amount >= Cost;
 
         protected void ShowIfCanAfford() => image.color = CanAfford ? canAfford : cantAfford;
@@ -31,6 +32,15 @@ namespace EssenceMenuStuff
 
         protected abstract void DisplayCost();
 
-        protected abstract void AddFunc();
+        protected void AddFunc()
+        {
+            if (CanAfford)
+            {
+                Ess.Lose(Cost);
+                OrganContainer.AddNew();
+                DisplayCost();
+                ShowIfCanAfford();
+            }
+        }
     }
 }

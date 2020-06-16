@@ -5,7 +5,7 @@ public class BreastVore : VoreScene
 {
     public override bool CanDo(BasicChar player, BasicChar Other)
     {
-        if (player.SexualOrgans.Boobs.BiggestSize() < 3)
+        if (!player.SexualOrgans.HaveBoobs())
         {
             return false;
         }

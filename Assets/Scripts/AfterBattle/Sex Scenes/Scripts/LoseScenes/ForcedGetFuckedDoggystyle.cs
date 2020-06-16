@@ -18,7 +18,7 @@ public class ForcedGetFuckedDoggystyle : LoseScene
             returnText += "Your balls refuse to be left out, and unload themselves onto your stomach and the ground. ";
         }
         returnText += "Your enemy cums soon after, quickly filling your pussy and collapses onto your back, spent. ";
-        if (PsexualOrgans.Vaginas.EmptyWomb())
+        if (PsexualOrgans.Vaginas.List.EmptyWomb())
         {
             if (player.Impregnate(other))
             {

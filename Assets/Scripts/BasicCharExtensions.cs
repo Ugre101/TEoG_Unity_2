@@ -104,16 +104,16 @@ public static class BasicCharExtensions
             {
                 int blessVal = pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.SpermFactory);
                 basicChar.Body.Fat.LoseFlat(blessVal / 100); // TODO is this balanced?
-                so.Balls.ForEach(b => b.Fluid.ReFill((so.BallsBunusRefillRate.Value + blessVal) * times));
+                so.Balls.List.ForEach(b => b.Fluid.ReFill((so.Balls.BallsBunusRefillRate.Value + blessVal) * times));
             }
             else
             {
-                so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value * times));
+                so.Balls.List.ForEach(b => b.Fluid.ReFill(so.Balls.BallsBunusRefillRate.Value * times));
             }
         }
         if (so.Lactating)
         {
-            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value * times));
+            so.Boobs.List.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value * times));
         }
     }
 

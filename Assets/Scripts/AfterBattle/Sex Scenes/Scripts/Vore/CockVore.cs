@@ -5,11 +5,11 @@ public class CockVore : VoreScene
 {
     public override bool CanDo(BasicChar player, BasicChar Other)
     {
-        if (player.SexualOrgans.Balls.Count < 1)
+        if (!player.SexualOrgans.HaveBalls())
         {
             return false;
         }
-        else if (player.SexualOrgans.Dicks.Count < 1)
+        else if (!player.SexualOrgans.HaveDick())
         {
             return false;
         }

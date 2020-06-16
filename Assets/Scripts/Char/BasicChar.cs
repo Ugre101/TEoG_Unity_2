@@ -93,7 +93,7 @@ public class BasicChar
     [SerializeField] private PregnancySystem pregnancySystem = new PregnancySystem();
 
     public PregnancySystem PregnancySystem => pregnancySystem;
-    public bool Pregnant => SexualOrgans.Vaginas.Exists(v => v.Womb.HasFetus);
+    public bool Pregnant => SexualOrgans.Vaginas.List.Exists(v => v.Womb.HasFetus);
 
     [Header("Organs")]
     [SerializeField] private Organs sexualOrgans = new Organs();

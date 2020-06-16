@@ -11,7 +11,7 @@ public class ForcedGetBlowjob : LoseScene
         {
             returnText += " They even tease your pussy a bit, all to make you cum quicker.";
         }
-        System.Collections.Generic.List<Balls> balls = sexualOrgans.Balls;
+        System.Collections.Generic.List<Balls> balls = sexualOrgans.Balls.List;
         returnText += $"\n\nUnable to put up more than a feeble struggle, you find yourself cumming {Settings.LorGal(balls.Cumming())} down their throat seconds after their lips meet your dick's head.";
         return returnText;
     }

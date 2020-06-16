@@ -46,8 +46,8 @@ namespace EnemyCreatorStuff
                 case Genders.Dickgirl:
                     who.SexualOrgans.SetGenderPrefActive = true;
                     who.SexualOrgans.SetGenderPref = Genders.Dickgirl;
-                    who.SexualOrgans.Dicks.AddDick();
-                    who.SexualOrgans.Boobs.AddBoobs();
+                    who.SexualOrgans.Dicks.AddNew();
+                    who.SexualOrgans.Boobs.AddNew();
                     Masc.Gain(amount / 2);
                     Femi.Gain(amount / 2);
                     break;
@@ -55,7 +55,7 @@ namespace EnemyCreatorStuff
                 case Genders.Cuntboy:
                     who.SexualOrgans.SetGenderPrefActive = true;
                     who.SexualOrgans.SetGenderPref = Genders.Cuntboy;
-                    who.SexualOrgans.Vaginas.AddVag();
+                    who.SexualOrgans.Vaginas.AddNew();
                     Femi.Gain(amount);
                     break;
 

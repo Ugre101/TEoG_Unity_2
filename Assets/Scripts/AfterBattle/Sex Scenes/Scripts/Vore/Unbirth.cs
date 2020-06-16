@@ -6,7 +6,7 @@ public class Unbirth : VoreScene
 {
     public override bool CanDo(BasicChar player, BasicChar Other)
     {
-        if (player.SexualOrgans.Vaginas.Count < 1)
+        if (!player.SexualOrgans.HaveVagina())
         {
             return false;
         }

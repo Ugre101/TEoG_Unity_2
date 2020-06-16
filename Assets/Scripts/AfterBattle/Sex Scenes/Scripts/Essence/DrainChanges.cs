@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 /// <summary>
 ///  Remember to constuct this before essence change
 /// </summary>
@@ -26,92 +27,92 @@ public static class DrainChanges
     {
         Organs ecurrent = enemy.SexualOrgans;
         string b = string.Empty;
-        if (eold.Dicks.Count > ecurrent.Dicks.Count)
+        if (eold.Dicks.List.Count > ecurrent.Dicks.List.Count)
         {
-            b += ecurrent.Dicks.Count < 1 ? $"You see their dick shrinking completely into their body, turning them into a {enemy.Gender()}." : "They lost a dick";
+            b += ecurrent.Dicks.List.Count < 1 ? $"You see their dick shrinking completely into their body, turning them into a {enemy.Gender()}." : "They lost a dick";
         }
-        else if (eold.Dicks.Count < ecurrent.Dicks.Count)
+        else if (eold.Dicks.List.Count < ecurrent.Dicks.List.Count)
         {
             b += "They have grown a dick";
         }
-        else if (ecurrent.Dicks.Count > 0)
+        else if (ecurrent.Dicks.List.Count > 0)
         {
-            for (int e = 0; e < eold.Dicks.Count; e++)
+            for (int e = 0; e < eold.Dicks.List.Count; e++)
             {
-                if (Mathf.Round(eold.Dicks[e].Size) > Mathf.Round(ecurrent.Dicks[e].Size))
+                if (Mathf.Round(eold.Dicks.List[e].BaseSize) > Mathf.Round(ecurrent.Dicks.List[e].BaseSize))
                 {
                     b = "You see their dick shrinking"; //Need to add what dick e.g. their second dick shrinks etc
                 }
-                else if (Mathf.Round(eold.Dicks[e].Size) > Mathf.Round(ecurrent.Dicks[e].Size))
+                else if (Mathf.Round(eold.Dicks.List[e].BaseSize) > Mathf.Round(ecurrent.Dicks.List[e].BaseSize))
                 {
                     b = "You see their dick growing";
                 }
             }
         }
 
-        if (eold.Balls.Count > ecurrent.Balls.Count)
+        if (eold.Balls.List.Count > ecurrent.Balls.List.Count)
         {
-            b += ecurrent.Balls.Count < 1 ? "\nThey lost a pair of balls" : "\nThey lost a pair of balls";
+            b += ecurrent.Balls.List.Count < 1 ? "\nThey lost a pair of balls" : "\nThey lost a pair of balls";
         }
-        else if (eold.Balls.Count < ecurrent.Balls.Count)
+        else if (eold.Balls.List.Count < ecurrent.Balls.List.Count)
         {
             b += "\nThey have grown a pair of balls";
         }
-        else if (ecurrent.Balls.Count > 0)
+        else if (ecurrent.Balls.List.Count > 0)
         {
-            for (int e = 0; e < ecurrent.Balls.Count; e++)
+            for (int e = 0; e < ecurrent.Balls.List.Count; e++)
             {
-                if (Mathf.Round(eold.Balls[e].Size) > Mathf.Round(ecurrent.Balls[e].Size))
+                if (Mathf.Round(eold.Balls.List[e].BaseSize) > Mathf.Round(ecurrent.Balls.List[e].BaseSize))
                 {
                     b += "\nYou see their balls shrinking";
                 }
-                else if (Mathf.Round(eold.Balls[e].Size) < Mathf.Round(ecurrent.Balls[e].Size))
+                else if (Mathf.Round(eold.Balls.List[e].BaseSize) < Mathf.Round(ecurrent.Balls.List[e].BaseSize))
                 {
                     b += "\nYou see their balls growing";
                 }
             }
         }
 
-        if (eold.Boobs.Count > ecurrent.Boobs.Count)
+        if (eold.Boobs.List.Count > ecurrent.Boobs.List.Count)
         {
             b += "\nThey loost a pair of breasts";
         }
-        else if (eold.Boobs.Count < ecurrent.Boobs.Count)
+        else if (eold.Boobs.List.Count < ecurrent.Boobs.List.Count)
         {
             b += "\nThey have grown a pair of breasts";
         }
         else
         {
-            for (int e = 0; e < eold.Boobs.Count; e++)
+            for (int e = 0; e < eold.Boobs.List.Count; e++)
             {
-                if (Mathf.Round(eold.Boobs[e].Size) > Mathf.Round(ecurrent.Boobs[e].Size))
+                if (Mathf.Round(eold.Boobs.List[e].BaseSize) > Mathf.Round(ecurrent.Boobs.List[e].BaseSize))
                 {
                     b += "\nYou see their breasts shrinking.";
                 }
-                else if (Mathf.Round(eold.Boobs[e].Size) < Mathf.Round(ecurrent.Boobs[e].Size))
+                else if (Mathf.Round(eold.Boobs.List[e].BaseSize) < Mathf.Round(ecurrent.Boobs.List[e].BaseSize))
                 {
                     b += "\nYou see their breasts growing.";
                 }
             }
         }
 
-        if (eold.Vaginas.Count > ecurrent.Vaginas.Count)
+        if (eold.Vaginas.List.Count > ecurrent.Vaginas.List.Count)
         {
-            b += ecurrent.Vaginas.Count < 1 ? $"\nYou see their pussy closing completely and disappear, turning them into a {enemy.Gender()}." : "\nThey a lost a pussy";
+            b += ecurrent.Vaginas.List.Count < 1 ? $"\nYou see their pussy closing completely and disappear, turning them into a {enemy.Gender()}." : "\nThey a lost a pussy";
         }
-        else if (eold.Vaginas.Count < ecurrent.Vaginas.Count)
+        else if (eold.Vaginas.List.Count < ecurrent.Vaginas.List.Count)
         {
             b += "\nThey a have grown a pussy";
         }
-        else if (ecurrent.Vaginas.Count > 0)
+        else if (ecurrent.Vaginas.List.Count > 0)
         {
-            for (int e = 0; e < eold.Vaginas.Count; e++)
+            for (int e = 0; e < eold.Vaginas.List.Count; e++)
             {
-                if (Mathf.Round(eold.Vaginas[e].Size) > Mathf.Round(ecurrent.Vaginas[e].Size))
+                if (Mathf.Round(eold.Vaginas.List[e].BaseSize) > Mathf.Round(ecurrent.Vaginas.List[e].BaseSize))
                 {
                     b += "You feel their pussy tightening";
                 }
-                else if (Mathf.Round(eold.Vaginas[e].Size) < Mathf.Round(ecurrent.Vaginas[e].Size))
+                else if (Mathf.Round(eold.Vaginas.List[e].BaseSize) < Mathf.Round(ecurrent.Vaginas.List[e].BaseSize))
                 {
                     b += "You feel their pussy growing"; //Need better word/phrase than growing
                 }
@@ -124,92 +125,92 @@ public static class DrainChanges
     {
         string a = string.Empty;
         Organs current = player.SexualOrgans;
-        if (old.Dicks.Count < current.Dicks.Count)
+        if (old.Dicks.List.Count < current.Dicks.List.Count)
         {
             a = "You have grown a dick!";
         }
-        else if (current.Dicks.Count < old.Dicks.Count)
+        else if (current.Dicks.List.Count < old.Dicks.List.Count)
         {
-            a = current.Dicks.Count < 1 ? $"You feel your dick shrinking completely into your body, turning you into a {player.Gender()}." : "You have lost a dick";
+            a = current.Dicks.List.Count < 1 ? $"You feel your dick shrinking completely into your body, turning you into a {player.Gender()}." : "You have lost a dick";
         }
-        else if (current.Dicks.Count > 0)
+        else if (current.Dicks.List.Count > 0)
         {
-            for (var e = 0; e < current.Dicks.Count; e++)
+            for (var e = 0; e < current.Dicks.List.Count; e++)
             {
-                if (Mathf.Round(old.Dicks[e].Size) < Mathf.Round(current.Dicks[e].Size))
+                if (Mathf.Round(old.Dicks.List[e].BaseSize) < Mathf.Round(current.Dicks.List[e].BaseSize))
                 {
                     a += "\nYou feel your dick growing.";
                 }
-                else if (Mathf.Round(current.Dicks[e].Size) < Mathf.Round(old.Dicks[e].Size))
+                else if (Mathf.Round(current.Dicks.List[e].BaseSize) < Mathf.Round(old.Dicks.List[e].BaseSize))
                 {
                     a += "\nYou feel your dick shrinking.";
                 }
             }
         }
 
-        if (old.Balls.Count < current.Balls.Count)
+        if (old.Balls.List.Count < current.Balls.List.Count)
         {
             a += "\nyou have grown a pair of balls";
         }
-        else if (current.Balls.Count < old.Balls.Count)
+        else if (current.Balls.List.Count < old.Balls.List.Count)
         {
-            a += current.Balls.Count < 1 ? $"Your balls shrink into your body until " : "\nyou have lost a pair of balls";
+            a += current.Balls.List.Count < 1 ? $"Your balls shrink into your body until " : "\nyou have lost a pair of balls";
         }
-        else if (current.Balls.Count > 0)
+        else if (current.Balls.List.Count > 0)
         {
-            for (var e = 0; e < current.Balls.Count; e++)
+            for (var e = 0; e < current.Balls.List.Count; e++)
             {
-                if (Mathf.Round(old.Balls[e].Size) < Mathf.Round(current.Balls[e].Size))
+                if (Mathf.Round(old.Balls.List[e].BaseSize) < Mathf.Round(current.Balls.List[e].BaseSize))
                 {
                     a += "\nyou feel you balls growing";
                 }
-                else if (Mathf.Round(current.Balls[e].Size) < Mathf.Round(old.Balls[e].Size))
+                else if (Mathf.Round(current.Balls.List[e].BaseSize) < Mathf.Round(old.Balls.List[e].BaseSize))
                 {
                     a += "\nyou feel you balls shrinking";
                 }
             }
         }
 
-        if (old.Boobs.Count < current.Boobs.Count)
+        if (old.Boobs.List.Count < current.Boobs.List.Count)
         {
             a += "\nYou have grown a new pair of breasts.";
         }
-        else if (current.Boobs.Count < old.Boobs.Count)
+        else if (current.Boobs.List.Count < old.Boobs.List.Count)
         {
             a += "\nYou have lost a pair of breasts";
         }
-        else if (current.Boobs.Count > 0)
+        else if (current.Boobs.List.Count > 0)
         {
-            for (var e = 0; e < current.Boobs.Count; e++)
+            for (var e = 0; e < current.Boobs.List.Count; e++)
             {
-                if (Mathf.Round(old.Boobs[e].Size) < Mathf.Round(current.Boobs[e].Size))
+                if (Mathf.Round(old.Boobs.List[e].BaseSize) < Mathf.Round(current.Boobs.List[e].BaseSize))
                 {
                     a += "\nYou feel your breasts grow bigger.";
                 }
-                else if (Mathf.Round(current.Boobs[e].Size) < Mathf.Round(old.Boobs[e].Size))
+                else if (Mathf.Round(current.Boobs.List[e].BaseSize) < Mathf.Round(old.Boobs.List[e].BaseSize))
                 {
                     a += "\nYou feel your breasts shrinking.";
                 }
             }
         }
 
-        if (old.Vaginas.Count < current.Vaginas.Count)
+        if (old.Vaginas.List.Count < current.Vaginas.List.Count)
         {
             a += "\nYou gave grown a pussy";
         }
-        else if (current.Vaginas.Count < old.Vaginas.Count)
+        else if (current.Vaginas.List.Count < old.Vaginas.List.Count)
         {
             a += "\nYou have lost a pussy";
         }
-        else if (current.Vaginas.Count > 0)
+        else if (current.Vaginas.List.Count > 0)
         {
-            for (var e = 0; e < current.Vaginas.Count; e++)
+            for (var e = 0; e < current.Vaginas.List.Count; e++)
             {
-                if (Mathf.Round(old.Vaginas[e].Size) < Mathf.Round(current.Vaginas[e].Size))
+                if (Mathf.Round(old.Vaginas.List[e].BaseSize) < Mathf.Round(current.Vaginas.List[e].BaseSize))
                 {
                     a += "\nYou feel your pussy grow";
                 }
-                else if (Mathf.Round(current.Vaginas[e].Size) < Mathf.Round(old.Vaginas[e].Size))
+                else if (Mathf.Round(current.Vaginas.List[e].BaseSize) < Mathf.Round(old.Vaginas.List[e].BaseSize))
                 {
                     a += "\nYou feel your pussy tighten";
                 }

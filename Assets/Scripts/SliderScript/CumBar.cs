@@ -21,10 +21,10 @@
 
     private void CumChange()
     {
-        slider.value = Player.SexualOrgans.CumSlider;
+        slider.value = Player.SexualOrgans.Balls.FluidSlider;
         if (statusText != null)
         {
-            statusText.text = Settings.LorGal(Player.SexualOrgans.Balls.FluidCurrentTotal() / 1000);
+            statusText.text = Player.SexualOrgans.Balls.FluidStatus;
         }
     }
 }
