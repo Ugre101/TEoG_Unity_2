@@ -10,10 +10,11 @@ namespace EssenceMenuStuff
         protected virtual void OnEnable()
         {
             UpdateButtons();
-            SexualOrgan.SomethingChanged += UpdateButtons;
+            player.SexualOrgans.AllOrgans.ForEach(o => o.Change += UpdateButtons);
         }
 
-        protected virtual void OnDisable() => SexualOrgan.SomethingChanged -= UpdateButtons;
+        protected virtual void OnDisable() => player.SexualOrgans.AllOrgans.ForEach(o => o.Change -= UpdateButtons);
+
 
         protected abstract void UpdateButtons();
     }

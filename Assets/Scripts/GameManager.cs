@@ -23,6 +23,7 @@ public static class GameManager
     public static GameState LastState { get; private set; }
 
     private static GlobalArea currentArea;
+
     public static GlobalArea CurrentArea
     {
         get => currentArea;
@@ -57,6 +58,7 @@ public static class GameManager
                 KeyBindsActive = true;
                 Time.timeScale = 0f;
                 break;
+
             case GameState.Free:
             default:
                 KeyBindsActive = true;
@@ -67,6 +69,8 @@ public static class GameManager
         GameStateChangeEvent?.Invoke(value);
     }
 
+    public static void ReturnToLastState() => SetCurState(LastState);
+
     public static GameManagerSaveState Save() => new GameManagerSaveState(CurState, CurrentArea, KeyBindsActive);
 
     public static void Load(GameManagerSaveState load)
@@ -76,8 +80,7 @@ public static class GameManager
         KeyBindsActive = load.KeyBindsActive;
     }
 
-
-    public static Action<GameState>  GameStateChangeEvent;
+    public static Action<GameState> GameStateChangeEvent;
     public static Action<GlobalArea> GloablAreaChange;
 }
 

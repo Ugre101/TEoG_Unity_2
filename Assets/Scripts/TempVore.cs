@@ -5,7 +5,7 @@ public class TempVore : BaseEffect
     public DisplayVore DisplayVore { get; private set; }
 
     private string Title => $"{DisplayVore.VoreOrgan.VoreContainers}";
-    private string Desc => $"{DisplayVore.Progress()}% digested";
+    private string Desc => $"{DisplayVore.Progress():0.##}% digested";
 
     public void Setup(DisplayVore parVore, GameUIHoverText hoverText)
     {

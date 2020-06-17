@@ -25,12 +25,10 @@ public class CanvasMain : MonoBehaviour
 
     #region Properties
 
-    [SerializeField] private BigPanel Battle = null;
     [SerializeField] private BigPanel Menus = null;
 
     [SerializeField] private MenuPanels menuPanels = new MenuPanels();
 
-    [SerializeField] private CombatMain combatMain = null;
     [SerializeField] private EventMain eventMain = null;
     [SerializeField] private NpcMenus npcMenus = null;
 
@@ -51,8 +49,6 @@ public class CanvasMain : MonoBehaviour
             eventMain.gameObject.SetActive(true);
         }
     }
-
-    private void Start() => Movement.TriggerEnemy += StartCombat;
 
     private void Update()
     {
@@ -123,15 +119,6 @@ public class CanvasMain : MonoBehaviour
         return false;
     }
 
-    public void StartCombat(CharHolder enemy)
-    {
-        GameManager.SetCurState(GameState.Battle);
-        Battle.transform.SleepChildren();
-        ToggleBigPanel(Battle.gameObject);
-        List<BasicChar> toAdd = new List<BasicChar> { enemy.BasicChar };
-        combatMain.SetUpCombat(toAdd);
-    }
-
     private void ToggleBigPanel(GameObject toActivate) => transform.SleepChildren(toActivate.transform);
 
     private void ToggleBigPanel(List<Transform> toActivate) => transform.SleepChildren(toActivate);
@@ -158,7 +145,6 @@ public class CanvasMain : MonoBehaviour
         ToggleBigPanel(npcMenus.gameObject);
         npcMenus.EnterNpc(page);
     }
-
 
     public void EscapePause()  // TODO Clean up
     {

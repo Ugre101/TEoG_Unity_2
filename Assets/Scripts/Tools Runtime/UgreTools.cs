@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 // A space for me to build tools for methods I often use.
 public static class UgreTools
@@ -99,5 +101,10 @@ public static class UgreTools
             return array[index == array.Length - 1 ? 0 : index + 1];
         }
         throw new ArgumentException("Type must be a enum");
+    }
+    public static IEnumerator waitAFrame(UnityAction action)
+    {
+        yield return new WaitForEndOfFrame();
+        action?.Invoke();
     }
 }

@@ -162,7 +162,7 @@ public abstract class SexualOrgan
 
     public delegate void Change();
 
-    public static event Change SomethingChanged;
+    public event Change SomethingChanged;
 }
 
 public static class SexOrganExtension
@@ -249,10 +249,10 @@ public static class SexOrganExtension
                         }
                     }
                 }
-                else if (femi.Amount >= vaginas.Cost())
+                else if (femi.Amount >= so.Vaginas.AddCost)
                 {
-                    femi.Lose(vaginas.Cost());
-                    vaginas.AddVag();
+                    femi.Lose(so.Vaginas.AddCost);
+                    so.Vaginas.AddNew();
                     return true;
                 }
             }

@@ -41,7 +41,7 @@ namespace Vore
         }
 
         /// <summary> Return weight of prey content</summary>
-        public virtual float Current => preys.Sum(p => p.Body.Weight * CompresionFactor);
+        public virtual float Current => preys.Sum(p => p.Prey.Body.Weight * CompresionFactor);
 
         /// <summary>Returns how full it is; 0.5 = 50%</summary>
         public virtual float FillPrecent => Current / MaxCapacity();
@@ -72,8 +72,9 @@ namespace Vore
             float totalDigest = (toDigest + (Perks.GetPerkLevel(VorePerks.DigestiveFluids) * 2f)) * times;
             for (int i = Preys.Count - 1; i >= 0; i--)
             {
-                ThePrey prey = Preys[i];
-                DigestTo(prey.Digest(totalDigest));
+                ThePrey thePrey = Preys[i];
+                BasicChar prey = thePrey.Prey;
+                DigestTo(thePrey.Digest(totalDigest));
                 // TODO test if working and implement way to toggle vore settings.
                 if (Perks.HasPerk(VorePerks.OrgasmicFluids))
                 {
@@ -101,8 +102,8 @@ namespace Vore
                 }
                 if (prey.Body.Weight <= 1)
                 {
-                    callBackDigested?.Invoke(prey);
-                    Preys.Remove(prey);
+                    callBackDigested?.Invoke(thePrey);
+                    Preys.Remove(thePrey);
                 }
                 GainExp(Mathf.FloorToInt(totalDigest));
             }
@@ -258,7 +259,7 @@ namespace Vore
         {
             foreach (ThePrey prey in Preys)
             {
-                Age age = prey.Age;
+                Age age = prey.Prey.Age;
                 age.AgeDown(times);
                 if (age.AgeYears < 1)
                 {
@@ -284,7 +285,7 @@ namespace Vore
             public PreyToChild(ThePrey parPrey)
             {
                 prey = parPrey;
-                startAge = prey.Age.AgeYears;
+                startAge = prey.Prey.Age.AgeYears;
                 lastAge = startAge;
             }
 
@@ -296,12 +297,12 @@ namespace Vore
 
             [SerializeField] private int lastAge;
 
-            public int CurAge => prey.Age.AgeYears;
+            public int CurAge => prey.Prey.Age.AgeYears;
             public int StartAge => startAge;
 
             public bool AgeDown()
             {
-                BasicChar bChar = prey;
+                BasicChar bChar = prey.Prey;
                 bChar.Age.AgeDown();
                 if (lastAge != CurAge)
                 {

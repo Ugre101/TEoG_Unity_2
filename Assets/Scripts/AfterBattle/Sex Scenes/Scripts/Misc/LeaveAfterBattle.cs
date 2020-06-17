@@ -10,7 +10,7 @@ public class LeaveAfterBattle : SexScenes
 
     public override string StartScene(PlayerMain player, BasicChar other)
     {
-        CanvasMain.GetCanvasMain.Resume();
+        GameManager.ReturnToLastState();
         return $"";
     }
 

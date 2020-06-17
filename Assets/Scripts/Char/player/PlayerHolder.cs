@@ -24,8 +24,8 @@ public class PlayerHolder : CharHolder
 
     public override void Load(string jsonSave)
     {
-        JsonUtility.FromJsonOverwrite(jsonSave, Player);
         Unbind();
+        JsonUtility.FromJsonOverwrite(jsonSave, Player);
         Bind();
     }
 

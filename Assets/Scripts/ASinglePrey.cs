@@ -7,6 +7,7 @@ namespace Vore
     public class ASinglePrey : MonoBehaviour
     {
         [SerializeField] private PlayerMain player = null;
+        [SerializeField] private CharHolder preyHolder = null;
         [SerializeField] private TextMeshProUGUI title = null, desc = null;
         [SerializeField] private Button backBtn = null, reguBtn = null;
         [SerializeField] private Transform optionContainer = null, enemyContainer = null;
@@ -14,8 +15,8 @@ namespace Vore
         private VoreContainers voreContainer = VoreContainers.Stomach;
         private ThePrey prey = null;
         private VoreBasic VoreOrgan => player.Vore.GetVoreOrgan(voreContainer);
-        private string PreyFName => prey.Identity.FirstName;
-        private Body PreyBody => prey.Body;
+        private string PreyFName => prey.Prey.Identity.FirstName;
+        private Body PreyBody => prey.Prey.Body;
         private bool DigestActive => VoreOrgan.Digestion;
         private float DigestionProgress => prey.Progress;
 
@@ -31,24 +32,24 @@ namespace Vore
             gameObject.SetActive(true);
             this.prey = prey;
             this.voreContainer = voreContainer;
-            title.text = prey.Identity.FullName;
+            title.text = prey.Prey.Identity.FullName;
             desc.text = prey.PreyDesc;
         }
 
         private void Regurgileta()
         {
             // TODO add instate
-            if (DigestionProgress < 0.5f)
+            if (DigestionProgress < 0.5)
             {
                 Vector3 middleOfMap = MapEvents.CurrentMap.cellBounds.center;
-
-              //  player.VoreChar.GetVoreContainer(voreContainer).ReleasePreyTo(prey, enemyContainer, player.transform.position);
+                Instantiate(preyHolder, enemyContainer).Load(prey.Prey);
+                //  player.VoreChar.GetVoreContainer(voreContainer).ReleasePreyTo(prey, enemyContainer, player.transform.position);
                 player.Vore.GetVoreOrgan(voreContainer).RemovePrey(prey);
                 Back();
             }
             else
             {
-              //  player.VoreChar.GetVoreContainer(voreContainer).PreyIsdigested(prey);
+                //  player.VoreChar.GetVoreContainer(voreContainer).PreyIsdigested(prey);
                 player.Vore.GetVoreOrgan(voreContainer).RemovePrey(prey);
                 Back();
                 // Dead

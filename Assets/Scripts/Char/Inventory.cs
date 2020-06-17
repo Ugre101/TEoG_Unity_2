@@ -39,7 +39,7 @@ public class Inventory
     private int FirstEmpty()
     {
         int First = 0;
-        while (Items.Exists(inv => inv.InvPos == First))
+        while (Items.Exists(inv => inv.InvPos == First && First < SlotsAmount))
         {
             First++;
         }

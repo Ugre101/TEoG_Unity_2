@@ -111,9 +111,9 @@ public static class BasicCharExtensions
                 so.Balls.List.ForEach(b => b.Fluid.ReFill(so.Balls.BallsBunusRefillRate.Value * times));
             }
         }
-        if (so.Lactating)
+        if (so.Boobs.Lactating)
         {
-            so.Boobs.List.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value * times));
+            so.Boobs.List.ForEach(b => b.Fluid.ReFill(so.Boobs.BoobsBonusRefillRate.Value * times));
         }
     }
 
@@ -139,5 +139,24 @@ public static class BasicCharExtensions
                 // TODO need to shit
             }
         });
+    }
+
+    public static BasicCharCustomSave Save(this BasicChar toSave)
+    {
+        BasicCharCustomSave newSave =
+            new BasicCharCustomSave(
+                toSave.Identity.Save(),
+                toSave.RelationshipTracker.Save()
+                );
+        return newSave;
+    }
+
+    public static void Load(this BasicChar toLoad, BasicCharCustomSave load)
+    {
+        toLoad.Identity.Load(load.IdentitySave);
+        if (load.ReletionShip.HasValue)
+        {
+            toLoad.RelationshipTracker.Load(load.ReletionShip.Value);
+        }
     }
 }

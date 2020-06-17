@@ -24,7 +24,10 @@ public class SexChar : MonoBehaviour
     public void OnDisable()
     {
         whom.SexStats.ArousalChangeEvent -= Arousal;
-        SexualOrgan.SomethingChanged -= Organs;
+        whom.SexualOrgans.Dicks.Change -= DickInfo;
+        whom.SexualOrgans.Balls.Change -= BallsInfo;
+        whom.SexualOrgans.Vaginas.Change -= VaginaInfo;
+        whom.SexualOrgans.Boobs.Change -= BoobsInfo;
     }
 
     public void Setup(BasicChar basicChar)
@@ -32,10 +35,13 @@ public class SexChar : MonoBehaviour
         whom = basicChar;
         mascSlider.Init(whom);
         femiSlider.Init(whom);
-        Organs();
+        AllOrgans();
         Arousal();
         whom.SexStats.ArousalChangeEvent += Arousal;
-        SexualOrgan.SomethingChanged += Organs;
+        whom.SexualOrgans.Dicks.Change += DickInfo;
+        whom.SexualOrgans.Balls.Change += BallsInfo;
+        whom.SexualOrgans.Vaginas.Change += VaginaInfo;
+        whom.SexualOrgans.Boobs.Change += BoobsInfo;
     }
 
     private void Arousal()
@@ -44,11 +50,19 @@ public class SexChar : MonoBehaviour
         OrgasmCounter.text = whom.SexStats.SessionOrgasm.ToString();
     }
 
-    private void Organs()
+    private void AllOrgans()
     {
-        dickInfo.Setup(whom);
-        ballsInfo.Setup(whom);
-        boobsInfo.Setup(whom);
-        vaginaInfo.Setup(whom);
+        DickInfo();
+        BallsInfo();
+        BoobsInfo();
+        VaginaInfo();
     }
+
+    private void VaginaInfo() => vaginaInfo.Setup(whom);
+
+    private void BoobsInfo() => boobsInfo.Setup(whom);
+
+    private void BallsInfo() => ballsInfo.Setup(whom);
+
+    private void DickInfo() => dickInfo.Setup(whom);
 }

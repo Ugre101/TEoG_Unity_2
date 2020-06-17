@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[System.Serializable]
 public abstract class CharHolder : MonoBehaviour
 {
     protected virtual void GenderChange()
@@ -40,7 +39,7 @@ public abstract class CharHolder : MonoBehaviour
     {
         DateSystem.NewMinuteEvent += DoEveryMin;
         DateSystem.NewDayEvent += DoEveryDay;
-        SexualOrgan.SomethingChanged += GenderChange;
+        BasicChar.SexualOrgans.AllOrgans.ForEach(so => so.Change += GenderChange);
         SpriteHandler.Setup(BasicChar);
         BasicChar.DestroyHolderEvent += SelfDestroy;
     }
@@ -56,7 +55,7 @@ public abstract class CharHolder : MonoBehaviour
     {
         DateSystem.NewMinuteEvent -= DoEveryMin;
         DateSystem.NewDayEvent -= DoEveryDay;
-        SexualOrgan.SomethingChanged -= GenderChange;
+        BasicChar.SexualOrgans.AllOrgans.ForEach(so => so.Change -= GenderChange);
     }
 
     public virtual void Load(BasicChar basicChar)

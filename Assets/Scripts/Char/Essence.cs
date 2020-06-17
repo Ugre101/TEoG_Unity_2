@@ -291,12 +291,12 @@ public static class EssenceExtension
                     }
                     else
                     {
-                        fromOrgans += vaginas.ReCycle();
+                        fromOrgans += who.SexualOrgans.Vaginas.ReCycle();
                     }
                 }
                 else if (vaginas.Count > 0)
                 {
-                    fromOrgans += vaginas.ReCycle();
+                    fromOrgans +=who.SexualOrgans.Vaginas.ReCycle();
                 }
                 else
                 {

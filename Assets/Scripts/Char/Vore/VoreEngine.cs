@@ -89,7 +89,7 @@ namespace Vore
             void AnalDigested(ThePrey thePrey) => PlayerPredEventLog($"{FullName(thePrey)} has been reduced to nothing in your bowels.");//  pred.VoreChar.Anal.PreyIsdigested(thePrey);
         }
 
-        private string FullName(ThePrey thePrey) => thePrey.Identity.FullName;
+        private string FullName(ThePrey thePrey) => thePrey.Prey.Identity.FullName;
 
         private void PlayerPredEventLog(string text)
         {
@@ -104,14 +104,18 @@ namespace Vore
     }
 
     [System.Serializable]
-    public class ThePrey : BasicChar
+    public class ThePrey
     {
         [SerializeField] private float startWeight;
+        [SerializeField] private BasicChar prey;
         public float StartWeight => startWeight;
+        public BasicChar Prey => prey;
 
-        public ThePrey(BasicChar basicChar) : base(basicChar.Identity, basicChar.RelationshipTracker, basicChar.Inventory, basicChar.EquiptItems, basicChar.RaceSystem, basicChar.Vore, basicChar.Age, basicChar.Body, basicChar.HP, basicChar.WP, basicChar.ExpSystem, basicChar.Perks, basicChar.Stats, basicChar.Essence, basicChar.Currency, basicChar.Flags, basicChar.PregnancySystem, basicChar.SexualOrgans, basicChar.SexStats, basicChar.Skills)
+        public ThePrey(BasicChar basicChar)
         {
+            //  JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(basicChar), this);
             startWeight = basicChar.Body.Weight;
+            prey = basicChar;
         }
 
         /// <summary> First digest the fat, then the muscle and last the bones(height). </summary>
@@ -119,7 +123,7 @@ namespace Vore
         /// <returns>Amount digested</returns>
         public float Digest(float toDigest)
         {
-            Body body = Body;
+            Body body = Prey.Body;
             float fatGain = Mathf.Min(toDigest, body.Weight);
             while (toDigest > 0 && (body.Fat.Value > 0 || body.Muscle.Value > 0 || body.Height.Value > 0))
             {
@@ -130,7 +134,7 @@ namespace Vore
             return fatGain;
         }
 
-        public float Progress => (StartWeight - Body.Weight) / StartWeight;
+        public float Progress => (StartWeight - Prey.Body.Weight) / StartWeight;
 
         public string PreyDesc
         {
@@ -139,7 +143,7 @@ namespace Vore
                 string desc = string.Empty;
                 if (Progress > 0)
                 {
-                    desc += Identity.FirstName;
+                    desc += Prey.Identity.FirstName;
                     if (Progress < 0.3f)
                     {
                         desc += $" has started to show signs of their digestion "; //Starting to digest
@@ -156,17 +160,17 @@ namespace Vore
                     {
                         desc += $""; // Almost fully digested
                     }
-                    if (Body.Fat.Value < 1 && Body.Muscle.Value < 1)
+                    if (Prey.Body.Fat.Value < 1 && Prey.Body.Muscle.Value < 1)
                     {
-                        desc += $" all of {this.HisHer()} fat and muscle has melted of their bones.";
+                        desc += $" all of {Prey.HisHer()} fat and muscle has melted of their bones.";
                     }
-                    else if (Body.Fat.Value < 1)
+                    else if (Prey.Body.Fat.Value < 1)
                     {
                         desc += " all fat has melted of ";
                     }
-                    else if (Body.Muscle.Value < 1)
+                    else if (Prey.Body.Muscle.Value < 1)
                     {
-                        desc += $" all muscle has melted of {this.HisHer()} body ";
+                        desc += $" all muscle has melted of {Prey.HisHer()} body ";
                     }
                 }
                 return desc;
