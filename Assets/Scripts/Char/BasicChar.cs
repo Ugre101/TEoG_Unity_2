@@ -129,30 +129,6 @@ public class BasicChar
         this.identity = identity;
     }
 
-    public BasicChar(Identity identity, RelationshipTracker relationshipTracker, Inventory inventory, EquiptItems equiptItems, RaceSystem raceSystem, VoreEngine vore, Age age, Body body, Health hp, Health wp, ExpSystem expSystem, Perks perk, StatsContainer stats, EssenceSystem essence, Currency currency, Flags flags, PregnancySystem pregnancySystem, Organs sexualOrgans, SexStats sexStats, List<Skill> skills)
-    {
-        this.identity = identity;
-        this.relationshipTracker = relationshipTracker;
-        this.inventory = inventory;
-        this.equiptItems = equiptItems;
-        this.raceSystem = raceSystem;
-        this.vore = vore;
-        this.age = age;
-        this.body = body;
-        this.hp = hp;
-        this.wp = wp;
-        this.expSystem = expSystem;
-        this.perk = perk;
-        this.stats = stats;
-        this.essence = essence;
-        this.currency = currency;
-        this.flags = flags;
-        this.pregnancySystem = pregnancySystem;
-        this.sexualOrgans = sexualOrgans;
-        this.sexStats = sexStats;
-        this.skills = skills;
-    }
-
     [SerializeField] private List<Skill> skills = new List<Skill>() { new Skill(SkillId.BasicAttack), new Skill(SkillId.BasicTease) };
 
     public List<Skill> Skills => skills;

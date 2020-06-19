@@ -148,19 +148,19 @@ public class CanvasMain : MonoBehaviour
 
     public void EscapePause()  // TODO Clean up
     {
-        if (GameManager.CurState.Equals(GameState.Menu))
+        if (GameManager.CurState == GameState.Menu)
         {
             Resume();
         }
-        else if (GameManager.CurState.Equals(GameState.PauseMenu))
+        else if (GameManager.CurState == GameState.PauseMenu)
         {
-            if (GameManager.LastState.Equals(GameState.Free) || GameManager.LastState.Equals(GameState.Menu) || GameManager.LastState.Equals(GameState.PauseMenu))
+            if (GameManager.LastState == GameState.Free || GameManager.LastState == GameState.Menu || GameManager.LastState == GameState.PauseMenu)
             {
                 Resume();
             }
             else
             {
-                GameManager.SetCurState(GameManager.LastState);
+                GameManager.ReturnToLastState();
             }
         }
         else

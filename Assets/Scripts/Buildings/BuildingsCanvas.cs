@@ -14,7 +14,11 @@ public class BuildingsCanvas : MonoBehaviour
 
     private void LeaveBuilding(GameState state)
     {
-        if (state == GameState.InBuilding || state == GameState.PauseMenu)
+        if (state == GameState.InBuilding)
+        {
+            Buildings.SetActive(true);
+        }
+        else if (state == GameState.PauseMenu)
         {
         }
         else
@@ -23,12 +27,14 @@ public class BuildingsCanvas : MonoBehaviour
             Buildings.SetActive(false);
         }
     }
+
     public void EnterABuilding(GameObject building)
     {
         GameManager.SetCurState(GameState.InBuilding);
         Buildings.SetActive(true);
         Buildings.transform.SleepChildren(building.transform);
     }
+
     public void EnterABuilding(Building building) => EnterABuilding(building.gameObject);
 
     [SerializeField] private GameObject teleportMenu = null;

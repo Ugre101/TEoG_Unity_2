@@ -2,14 +2,14 @@
 
 public class SexButton : AfterBattleButtonBase
 {
-    private SexScenes scene;
+    public SexScenes Scene { get; private set; }
 
-    private void Func() => PlayScene?.Invoke(scene);
+    private void Func() => PlayScene?.Invoke(Scene);
 
     public void Setup(SexScenes parScene)
     {
-        scene = parScene;
-        title.text = scene.name;
+        Scene = parScene;
+        title.text = Scene.name;
         btn.onClick.AddListener(Func);
     }
 
