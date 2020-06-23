@@ -14,7 +14,7 @@ public class ForcedGetRidden : LoseScene
         returnText += "\n\nIt doesn't take long before you cum, emptying your balls into their pussy. They're not satisfied yet, though, and continue to ride you for several orgasms. ";
         if (player.SexualOrgans.HaveBalls())
         {
-            if (other.Impregnate(player))
+            if (other.GetImpregnatedBy(player))
             {
                 returnText += "You see them rubbing their belly, looking content... They couldn't have gotten pregnant, could they?";
             }

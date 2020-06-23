@@ -7,27 +7,23 @@ public class TimedPopupText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textbox = null;
 
     private float timeBeforeDeSpawn = 3;
-    private float spawnTime;
 
     public void Setup(string text)
     {
         textbox = textbox != null ? textbox : GetComponentInChildren<TextMeshProUGUI>();
         textbox.text = text;
-        spawnTime = Time.unscaledTime;
+        StartCoroutine(DestroySelf());
     }
 
     public void Setup(string text, float time)
     {
-        Setup(text);
         timeBeforeDeSpawn = time;
+        Setup(text);
     }
 
-    private void Update()
+    private IEnumerator DestroySelf()
     {
-        if (spawnTime + timeBeforeDeSpawn < Time.unscaledTime)
-        {
-            Destroy(gameObject);
-        }
+        yield return new WaitForSecondsRealtime(timeBeforeDeSpawn);
+        Destroy(gameObject);
     }
-
 }

@@ -20,7 +20,7 @@ public class ForcedGetFuckedDoggystyle : LoseScene
         returnText += "Your enemy cums soon after, quickly filling your pussy and collapses onto your back, spent. ";
         if (PsexualOrgans.Vaginas.List.EmptyWomb())
         {
-            if (player.Impregnate(other))
+            if (player.GetImpregnatedBy(other))
             {
                 returnText += $" You feel an odd filling sensation in your belly... They couldn't have gotten you pregnant, could they?";
             }

@@ -85,7 +85,7 @@ public class PregnancySystem
 
 public static class PregnancyExtensions
 {
-    public static bool Impregnate(this BasicChar mother, BasicChar parFather)
+    public static bool GetImpregnatedBy(this BasicChar mother, BasicChar parFather)
     {
         float motherFet = mother.PregnancySystem.Fertility.Value,
             fatherVir = parFather.PregnancySystem.VirilityValue;

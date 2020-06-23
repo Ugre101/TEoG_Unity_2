@@ -139,13 +139,10 @@ public class AfterBattleMain : MonoBehaviour
         playerChar.Setup(player);
         enemyChar.Setup(Target);
 
-        player.SexStats.OrgasmedEvent += PlayerOrgasmed;
+        BindSexstats(player);
+
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += OtherOrgasmed);
-
-        player.SexStats.OrgasmedEvent += RefreshScenes;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += RefreshScenes);
-
-        player.SexStats.OrgasmedEvent += Impreg;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += GetImpreg);
 
         player.SexStats.Reset();
@@ -157,10 +154,17 @@ public class AfterBattleMain : MonoBehaviour
         RefreshScenes();
     }
 
-    private List<SexButton> addedSexButtons = new List<SexButton>();
-    private List<SexButton> addedMiscButtons = new List<SexButton>();
-    private List<VoreButton> addedVoreButtons = new List<VoreButton>();
-    private List<EssSexButton> addedEssSexButtons = new List<EssSexButton>();
+    private void BindSexstats(BasicChar basicChar)
+    {
+        basicChar.SexStats.OrgasmedEvent += PlayerOrgasmed;
+        basicChar.SexStats.OrgasmedEvent += RefreshScenes;
+        basicChar.SexStats.OrgasmedEvent += Impreg;
+    }
+
+    private readonly List<SexButton> addedSexButtons = new List<SexButton>();
+    private readonly List<SexButton> addedMiscButtons = new List<SexButton>();
+    private readonly List<VoreButton> addedVoreButtons = new List<VoreButton>();
+    private readonly List<EssSexButton> addedEssSexButtons = new List<EssSexButton>();
 
     private bool buttonsIsInstatiened = false;
 
@@ -225,7 +229,7 @@ public class AfterBattleMain : MonoBehaviour
     {
         if (LastScene.IImpregnate)
         {
-            if (Target.Impregnate(Caster))
+            if (Target.GetImpregnatedBy(Caster))
             {
                 InsertToTextBox($" {Target.Identity.FirstName} got pregnant!");
             }
@@ -236,7 +240,7 @@ public class AfterBattleMain : MonoBehaviour
     {
         if (LastScene.IGetImpregnated)
         {
-            if (Caster.Impregnate(Target))
+            if (Caster.GetImpregnatedBy(Target))
             {
                 InsertToTextBox($" You got pregnant!");
             }

@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PopupHandler : MonoBehaviour
 {
     public static PopupHandler GetPopupHandler { get; protected set; }
     [SerializeField] private TimedPopupText timedPopupText = null;
+    [SerializeField] private CloseButtonPoputText closeBtnPopupText = null;
 
     private void Awake()
     {
@@ -18,18 +18,11 @@ public class PopupHandler : MonoBehaviour
         }
     }
 
+    public void SpawnBtnPopup(string message) => Instantiate(closeBtnPopupText, transform).Setup(message);
+
     public void SpawnTimedPopup(string message) => Instantiate(timedPopupText, transform).Setup(message);
 
     public void SpawnTimedPopup(string message, float time) => Instantiate(timedPopupText, transform).Setup(message, time);
 
-    public void DelayedSpawnTimedPopup(string message, float time = 3f)
-    {
-        StartCoroutine(WaitAFrame(message, time));
-    }
-
-    private IEnumerator WaitAFrame(string text, float time)
-    {
-        yield return new WaitForEndOfFrame();
-        SpawnTimedPopup(text, time);
-    }
+    public void DelayedSpawnTimedPopup(string message, float time = 3f) => StartCoroutine(UgreTools.waitAFrame(() => SpawnTimedPopup(message, time)));//WaitAFrame(message, time));
 }

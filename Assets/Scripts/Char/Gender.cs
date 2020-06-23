@@ -115,7 +115,24 @@ public static class GenderExtensions
                 return capital ? "Them" : "them";
         }
     }
+    public static string HimHerSelf(this BasicChar basicChar, bool capital = false)
+    {
+        switch (Gender(basicChar))
+        {
+            case Genders.Male:
+            case Genders.Cuntboy:
+                return capital ? "Himself" : "himself";
 
+            case Genders.Female:
+            case Genders.Herm:
+            case Genders.Dickgirl:
+                return capital ? "Herself" : "herself";
+
+            case Genders.Doll:
+            default:
+                return capital ? "Themself" : "themself";
+        }
+    }
     public static string HeShe(this BasicChar basicChar, bool capital = false)
     {
         switch (Gender(basicChar))
@@ -134,4 +151,5 @@ public static class GenderExtensions
                 return capital ? "They" : "they";
         }
     }
+
 }

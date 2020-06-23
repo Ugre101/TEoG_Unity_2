@@ -16,7 +16,7 @@ public class ForcedGetFucked : LoseScene
         returnText += $"\n\nKnowing how to handle someone with as little experience as you, they pin your arms above your head and quickly bring you to orgasm, your shuddering walls causing them to cum{Settings.LorGal(Oballs.Cumming())} into you. ";
         if (sexualOrgans.Vaginas.List.EmptyWomb())
         {
-            if (player.Impregnate(other))
+            if (player.GetImpregnatedBy(other))
             {
                 returnText += $" You feel an odd filling sensation in your belly... They couldn't have gotten you pregnant, could they?";
             }
