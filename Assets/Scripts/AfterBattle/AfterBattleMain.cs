@@ -42,7 +42,7 @@ public class AfterBattleMain : MonoBehaviour
 
     [SerializeField] private List<VoreScene> voreScenes = new List<VoreScene>();
     [SerializeField] private List<SexScenes> miscScenes = new List<SexScenes>();
-    [SerializeField] private LeaveAfterBattle leaveScene = null;
+    //   [SerializeField] private LeaveAfterBattle leaveScene = null;
 
     #endregion Scenes
 
@@ -73,8 +73,6 @@ public class AfterBattleMain : MonoBehaviour
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
     public PlayerMain Caster => player;
 
-    private int MaxOrgasm => player.MaxOrgasm();
-
     private void Start()
     {
         sortAll.onClick.AddListener(() => SceneChecker(AllSexScenes, player.Vore.Active));
@@ -102,9 +100,10 @@ public class AfterBattleMain : MonoBehaviour
         enemies.Remove(Target);
         if (enemies.Count < 1)
         {
-            if (leaveScene != null)
+            SexButton leaveBtn = addedMiscButtons.Find(b => b.Scene.GetType() == typeof(LeaveAfterBattle));
+            if (!leaveBtn.gameObject.activeSelf)
             {
-                Instantiate(sexButton, MiscActions).Setup(leaveScene);
+                leaveBtn.gameObject.SetActive(true);
             }
         }
         else
@@ -252,7 +251,7 @@ public class AfterBattleMain : MonoBehaviour
         InsertToTextBox("\n\n" + LastScene.PlayerOrgasmed(player, Target));
 
         DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
-        HandleAutoGiveEssence();
+        EssenceExtension.HandleAutoGiveEssence(Caster, Target);
 
         string bothChanges = drainChange.BothChanges;
         if (bothChanges != string.Empty)
@@ -266,7 +265,7 @@ public class AfterBattleMain : MonoBehaviour
         InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
 
         DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
-        HandleAutoDrainEssence();
+        EssenceExtension.HandleAutoDrainEssence(Caster, Target);
         HandleTransmuteEssence();
 
         string bothChanges = drainChange.BothChanges;
@@ -296,51 +295,6 @@ public class AfterBattleMain : MonoBehaviour
             // TODO transmute essence
         }
         bool HasPerk(PerksTypes type) => player.Perks.HasPerk(type);
-    }
-
-    private void HandleAutoDrainEssence()
-    {
-        if (HasPerk(PerksTypes.FemenineVacuum) || HasPerk(PerksTypes.MasculineVacuum) || HasPerk(PerksTypes.HermaphroditeVacuum))
-        {
-            if ((HasPerk(PerksTypes.FemenineVacuum) && HasPerk(PerksTypes.MasculineVacuum)) || HasPerk(PerksTypes.HermaphroditeVacuum))
-            {
-                player.DrainFemi(Target);
-                player.DrainMasc(Target);
-            }
-            else if (HasPerk(PerksTypes.FemenineVacuum))
-            {
-                player.DrainFemi(Target);
-            }
-            else if (HasPerk(PerksTypes.MasculineVacuum))
-            {
-                player.DrainMasc(Target);
-            }
-            player.SexStats.Drained();
-        }
-        bool HasPerk(PerksTypes type) => player.Perks.HasPerk(type);
-    }
-
-    private void HandleAutoGiveEssence()
-    {
-        if ((player.Perks.HasPerk(PerksTypes.FemenineFlow) && player.Perks.HasPerk(PerksTypes.MasculineFlow)) || player.Perks.HasPerk(PerksTypes.HermaphroditeFlow))
-        {
-            float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(player.Perks) + PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(player.Perks) + PerkEffects.EssenecePerks.EssHemiFlow.EssGiveBonus(player.Perks);
-            player.GiveFemi(Target, bonus, true);
-            player.GiveMasc(Target, bonus, true);
-            player.SexStats.Drained();
-        }
-        else if (player.Perks.HasPerk(PerksTypes.FemenineFlow))
-        {
-            float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(player.Perks);
-            player.GiveFemi(Target, bonus, true);
-            player.SexStats.Drained();
-        }
-        else if (player.Perks.HasPerk(PerksTypes.MasculineFlow))
-        {
-            float bonus = PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(player.Perks);
-            player.GiveMasc(Target, bonus, true);
-            player.SexStats.Drained();
-        }
     }
 
     private void SceneChecker(List<SexScenes> scenes, bool showVore = false)

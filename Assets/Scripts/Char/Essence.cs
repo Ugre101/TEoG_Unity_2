@@ -296,7 +296,7 @@ public static class EssenceExtension
                 }
                 else if (vaginas.Count > 0)
                 {
-                    fromOrgans +=who.SexualOrgans.Vaginas.ReCycle();
+                    fromOrgans += who.SexualOrgans.Vaginas.ReCycle();
                 }
                 else
                 {
@@ -311,5 +311,50 @@ public static class EssenceExtension
             }
         }
         return have;
+    }
+
+    public static void HandleAutoDrainEssence(BasicChar Caster, BasicChar Target)
+    {
+        if (CanAutoDrainEssence(Caster))
+        {
+            if ((HasPerk(PerksTypes.FemenineVacuum) && HasPerk(PerksTypes.MasculineVacuum)) || HasPerk(PerksTypes.HermaphroditeVacuum))
+            {
+                Caster.DrainFemi(Target);
+                Caster.DrainMasc(Target);
+            }
+            else if (HasPerk(PerksTypes.FemenineVacuum))
+            {
+                Caster.DrainFemi(Target);
+            }
+            else if (HasPerk(PerksTypes.MasculineVacuum))
+            {
+                Caster.DrainMasc(Target);
+            }
+            Caster.SexStats.Drained();
+        }
+        bool HasPerk(PerksTypes type) => Caster.Perks.HasPerk(type);
+    }
+
+    public static void HandleAutoGiveEssence(BasicChar caster, BasicChar Target)
+    {
+        if (CanAutoGiveEssence(caster))
+        {
+            float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(caster.Perks) + PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(caster.Perks) + PerkEffects.EssenecePerks.EssHemiFlow.EssGiveBonus(caster.Perks);
+            if ((HasPerk(PerksTypes.FemenineFlow) && HasPerk(PerksTypes.MasculineFlow)) || HasPerk(PerksTypes.HermaphroditeFlow))
+            {
+                caster.GiveFemi(Target, bonus, true);
+                caster.GiveMasc(Target, bonus, true);
+            }
+            else if (HasPerk(PerksTypes.FemenineFlow))
+            {
+                caster.GiveFemi(Target, bonus, true);
+            }
+            else if (HasPerk(PerksTypes.MasculineFlow))
+            {
+                caster.GiveMasc(Target, bonus, true);
+            }
+            caster.SexStats.Drained();
+        }
+        bool HasPerk(PerksTypes perk) => caster.Perks.HasPerk(perk);
     }
 }

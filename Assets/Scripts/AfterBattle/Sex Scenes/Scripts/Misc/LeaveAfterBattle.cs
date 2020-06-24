@@ -3,10 +3,9 @@
 [CreateAssetMenu(fileName = "LeaveAfterBattle", menuName = ("Sex/Misc/LeaveAfterBattle"))]
 public class LeaveAfterBattle : SexScenes
 {
-    public override bool CanDo(BasicChar player, BasicChar Other)
-    {
-        return true;
-    }
+    public bool CanDo(BasicChar player) => true;
+
+    public override bool CanDo(BasicChar player, BasicChar Other) => true;
 
     public override string StartScene(PlayerMain player, BasicChar other)
     {

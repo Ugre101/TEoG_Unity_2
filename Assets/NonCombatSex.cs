@@ -32,6 +32,17 @@ public static class SexHander
     public static void Setup(List<BasicChar> partners)
     {
         Partners = partners;
+        BindSexStats(Player);
+        playerTeam.ForEach(pt => BindSexStats(pt));
+        Partners.ForEach(p => BindSexStats(p));
+    }
+
+    public static void Leave()
+    {
+        UnBindSexStats(Player);
+        playerTeam.ForEach(pt => UnBindSexStats(pt));
+        Partners.ForEach(p => UnBindSexStats(p));
+        SetEventsToNull();
     }
 
     private static void BindSexStats(BasicChar basicChar)
@@ -40,6 +51,8 @@ public static class SexHander
         basicChar.SexStats.OrgasmedEvent += InvokeRefresh;
         basicChar.SexStats.OrgasmedEvent += Impreg;
         basicChar.SexStats.OrgasmedEvent += GetImpreg;
+        basicChar.SexStats.OrgasmedEvent += CasterOrgasmed;
+        basicChar.SexStats.OrgasmedEvent += TargetOrgasmed;
     }
 
     public static void UnBindSexStats(BasicChar basicChar)
@@ -47,6 +60,8 @@ public static class SexHander
         basicChar.SexStats.OrgasmedEvent -= InvokeRefresh;
         basicChar.SexStats.OrgasmedEvent -= Impreg;
         basicChar.SexStats.OrgasmedEvent -= GetImpreg;
+        basicChar.SexStats.OrgasmedEvent -= CasterOrgasmed;
+        basicChar.SexStats.OrgasmedEvent -= TargetOrgasmed;
     }
 
     public static void SetEventsToNull()
@@ -97,6 +112,33 @@ public static class SexHander
             {
                 AddText($" {Target.Identity.FirstName} got {Caster.HimHerSelf()} pregnant by {Target.Identity.FirstName}!");
             }
+        }
+    }
+
+    private static void CasterOrgasmed() => EssenceExtension.HandleAutoGiveEssence(Caster, Target);
+
+    private static void TargetOrgasmed() => EssenceExtension.HandleAutoDrainEssence(Caster, Target);
+
+    private static void TurnManager()
+    {
+        // Called after player action
+        if (playerTeam.Count > 0)
+        {
+            for (int i = 0; i < playerTeam.Count; i++)
+            {
+                // Team member action if allowed / enabled
+            }
+        }
+        if (Partners.Count > 0)
+        {
+            for (int i = 0; i < Partners.Count; i++)
+            {
+                // Partner does action?
+            }
+        }
+        else
+        {
+            GameManager.ReturnToLastState(); // Break out as it should't be zero atm
         }
     }
 }
