@@ -5,7 +5,7 @@
 /// </summary>
 public class DrainChangeHandler
 {
-    private Organs playerOldOrgans, otherOldOrgans;
+    private SexualOrgans playerOldOrgans, otherOldOrgans;
     private BasicChar player, other;
 
     public DrainChangeHandler(BasicChar player, BasicChar other)
@@ -21,11 +21,11 @@ public class DrainChangeHandler
 
 public static class DrainChanges
 {
-    public static string BothChanges(BasicChar player, BasicChar enemy, Organs old, Organs eold) => PlayerDrainChanges(player, old) + "\n" + EnemyDrainChanges(enemy, eold);
+    public static string BothChanges(BasicChar player, BasicChar enemy, SexualOrgans old, SexualOrgans eold) => PlayerDrainChanges(player, old) + "\n" + EnemyDrainChanges(enemy, eold);
 
-    public static string EnemyDrainChanges(BasicChar enemy, Organs eold)
+    public static string EnemyDrainChanges(BasicChar enemy, SexualOrgans eold)
     {
-        Organs ecurrent = enemy.SexualOrgans;
+        SexualOrgans ecurrent = enemy.SexualOrgans;
         string b = string.Empty;
         if (eold.Dicks.List.Count > ecurrent.Dicks.List.Count)
         {
@@ -121,10 +121,10 @@ public static class DrainChanges
         return b;
     }
 
-    public static string PlayerDrainChanges(BasicChar player, Organs old)
+    public static string PlayerDrainChanges(BasicChar player, SexualOrgans old)
     {
         string a = string.Empty;
-        Organs current = player.SexualOrgans;
+        SexualOrgans current = player.SexualOrgans;
         if (old.Dicks.List.Count < current.Dicks.List.Count)
         {
             a = "You have grown a dick!";

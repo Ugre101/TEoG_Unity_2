@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameUICanvas : MonoBehaviour
 {
@@ -45,4 +46,40 @@ public class GameUICanvas : MonoBehaviour
             Gameui.gameObject.SetActive(false);
         }
     }
+}
+
+public static class GameUISettings
+{
+    public enum SliderType
+    {
+        Slider,
+        Sphere,
+    }
+
+    private const string FluidSliderTypeSaveName = "FluidSliderType";
+    private static SliderType fluidSliderType = SliderType.Sphere;
+    private static bool FluidFirstTimeGet = true;
+
+    public static SliderType FluidSliderType
+    {
+        get
+        {
+            if (FluidFirstTimeGet && PlayerPrefs.HasKey(FluidSliderTypeSaveName))
+            {
+                FluidSliderType = (SliderType)PlayerPrefs.GetInt(FluidSliderTypeSaveName);
+            }
+            return fluidSliderType;
+        }
+
+        private set
+        {
+            if (Enum.IsDefined(typeof(SliderType), value))
+            {
+                PlayerPrefs.SetInt(FluidSliderTypeSaveName, (int)value);
+                fluidSliderType = value;
+            }
+        }
+    }
+
+    public static SliderType ToggleSliderType => FluidSliderType = UgreTools.CycleThoughEnum(FluidSliderType);
 }

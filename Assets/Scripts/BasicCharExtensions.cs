@@ -96,7 +96,7 @@ public static class BasicCharExtensions
 
     private static void ReGainFluidsTick(this BasicChar basicChar, int times)
     {
-        Organs so = basicChar.SexualOrgans;
+        SexualOrgans so = basicChar.SexualOrgans;
         if (so.HaveBalls())
         {
             PregnancyBlessings pregnancyBlessings = basicChar.PregnancySystem.PregnancyBlessings;
@@ -128,7 +128,7 @@ public static class BasicCharExtensions
     public static void GainFatAndRefillScat(this BasicChar basicChar, float fatGain, float scatRatio = 0.1f)
     {
         basicChar.Body.Fat.GainFlat(fatGain);
-        basicChar.SexualOrgans.Anals.ForEach(a =>
+        basicChar.SexualOrgans.Anals.List.ForEach(a =>
         {
             if (!a.Fluid.IsFull)
             {

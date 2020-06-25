@@ -195,7 +195,7 @@ public static class SexOrganExtension
 
     private static bool RefreshOrgansFemi(BasicChar bc, float StableAmount)
     {
-        Organs so = bc.SexualOrgans;
+        SexualOrgans so = bc.SexualOrgans;
         List<Vagina> vaginas = so.Vaginas.List;
         List<Boobs> boobs = so.Boobs.List;
         vaginas.RemoveAll(v => v.BaseSize <= 0);
@@ -263,7 +263,7 @@ public static class SexOrganExtension
 
     private static bool RefreshOrgansMasc(BasicChar bc, float StableAmount)
     {
-        Organs so = bc.SexualOrgans;
+        SexualOrgans so = bc.SexualOrgans;
         DickContainer dicks1 = so.Dicks;
         List<Dick> dicks = dicks1.List;
         List<Balls> balls = so.Balls.List;

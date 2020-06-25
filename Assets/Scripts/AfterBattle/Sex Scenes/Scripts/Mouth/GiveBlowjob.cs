@@ -14,7 +14,7 @@ public class GiveBlowjob : SexScenes
     public override string ContinueScene(PlayerMain player, BasicChar other)
     {
         string toReturn = $"Your head continues to bob on their length as your tongue plays with their tip, electing soft moans from your opponent. As {other.Identity.FirstName} begins to softly hump into your throat, you meet each thrust by pushing your head down as far as you can.You emphasize their thrusts by sucking hard on their throbbing length.You feel their hand being placed on your head, pushing you deeper into their crotch.";
-        Organs sexualOrgans = other.SexualOrgans;
+        SexualOrgans sexualOrgans = other.SexualOrgans;
         if (sexualOrgans.HaveBalls(5))
         {
             DickContainer dicks = sexualOrgans.Dicks;

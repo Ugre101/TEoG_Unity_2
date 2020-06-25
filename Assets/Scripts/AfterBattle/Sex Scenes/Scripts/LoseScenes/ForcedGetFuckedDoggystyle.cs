@@ -7,7 +7,7 @@ public class ForcedGetFuckedDoggystyle : LoseScene
     {
         string returnText = $"{other.Identity.FirstName} forces your beaten body to its hands and knees; you can't even muster the energy to collapse. Your body, however, has other plans, and you feel your pussy start to drip. Your opponent wastes little time, and quickly gets into position, soon thrusting deeply into you. ";
 
-        Organs PsexualOrgans = player.SexualOrgans;
+        SexualOrgans PsexualOrgans = player.SexualOrgans;
         if (PsexualOrgans.HaveBalls())
         {
             returnText += "With every thrust, you feel their balls tapping into yours, sending little bursts of unintended pleasure through your dick. ";

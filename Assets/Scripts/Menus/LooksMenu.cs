@@ -43,7 +43,7 @@ public class LooksMenu : MonoBehaviour
     private string SexOrgans()
     {
         string toReturn = " ";
-        Organs so = player.SexualOrgans;
+        SexualOrgans so = player.SexualOrgans;
         if (so.HaveBoobs())
         {
             toReturn += so.Boobs.Looks + "\n\n";

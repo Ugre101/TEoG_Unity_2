@@ -31,61 +31,62 @@ public class OptionButtons : MonoBehaviour
     [SerializeField] private Button eventFontDown = null;
 
     [SerializeField] private TextMeshProUGUI currEventFontSize = null;
+
     [Header("Skipped events")]
     [SerializeField] private Button toggleSkippedMenu = null;
+
     [SerializeField] private GameObject skippedMenu = null;
+
     // Start is called before the first frame update
+    [Header("GameUI")]
+    [SerializeField] private GameObject fetishes = null;
+
+    [SerializeField] private Button fetishBtn = null;
+
     private void Start()
     {
         // PixelButton
         pixelToggle = UgreTools.GetPlayerPrefBool("pixelToggle");
-        if (pixelCameraButton != null && pixelPerfectCamera != null)
-        {
-            pixelCameraButton.onClick.AddListener(TogglePixelCamera);
-            pixelText = pixelText != null ? pixelText : pixelCameraButton.GetComponentInChildren<TextMeshProUGUI>();
-            SetPixelText();
-        }
-        if (impButton != null)
-        {
-            impButton.onClick.AddListener(ToggleImp);
-            impText = impText != null ? impText : impButton.GetComponentInChildren<TextMeshProUGUI>();
-            SetImpText();
-        }
-        if (inchBtn != null)
-        {
-            inchBtn.onClick.AddListener(ToggleInch);
-            inchText = inchText != null ? inchText : inchBtn.GetComponentInChildren<TextMeshProUGUI>();
-            SetInchText();
-        }
-        if (poundBtn != null)
-        {
-            poundBtn.onClick.AddListener(TooglePound);
-            poundText = poundText != null ? poundText : poundBtn.GetComponentInChildren<TextMeshProUGUI>();
-            SetPoundText();
-        }
-        if (gallonBtn != null)
-        {
-            gallonBtn.onClick.AddListener(ToogleGallon);
-            gallonText = gallonText != null ? gallonText : gallonBtn.GetComponentInChildren<TextMeshProUGUI>();
-            SetGallonText();
-        }
+
+        pixelCameraButton.onClick.AddListener(TogglePixelCamera);
+        pixelText = pixelText != null ? pixelText : pixelCameraButton.GetComponentInChildren<TextMeshProUGUI>();
+        SetPixelText();
+
+        impButton.onClick.AddListener(ToggleImp);
+        impText = impText != null ? impText : impButton.GetComponentInChildren<TextMeshProUGUI>();
+        SetImpText();
+
+        inchBtn.onClick.AddListener(ToggleInch);
+        inchText = inchText != null ? inchText : inchBtn.GetComponentInChildren<TextMeshProUGUI>();
+        SetInchText();
+
+        poundBtn.onClick.AddListener(TooglePound);
+        poundText = poundText != null ? poundText : poundBtn.GetComponentInChildren<TextMeshProUGUI>();
+        SetPoundText();
+
+        gallonBtn.onClick.AddListener(ToogleGallon);
+        gallonText = gallonText != null ? gallonText : gallonBtn.GetComponentInChildren<TextMeshProUGUI>();
+        SetGallonText();
+
         if (currEventFontSize != null) { currEventFontSize.text = Settings.EventLogFontSize.ToString(); }
-        if (eventFontUp != null && eventFontDown != null)
-        {
-            eventFontUp.onClick.AddListener(EventFontSizeUp);
-            eventFontDown.onClick.AddListener(EventFontSizeDown);
-        }
+
+        eventFontUp.onClick.AddListener(EventFontSizeUp);
+        eventFontDown.onClick.AddListener(EventFontSizeDown);
+
         setGenders.onClick.AddListener(OpenSetGenders);
-        if (toggleSkippedMenu != null && skippedMenu != null)
-        {
-            toggleSkippedMenu.onClick.AddListener(() => skippedMenu.SetActive(!skippedMenu.activeSelf));
-        }
+
+        toggleSkippedMenu.onClick.AddListener(() => skippedMenu.SetActive(!skippedMenu.activeSelf));
+
+        fetishBtn.onClick.AddListener(() => fetishes.SetActive(!fetishes.activeSelf));
     }
+
     private void OnEnable()
     {
         skippedMenu.SetActive(false);
         setGendersGameObj.SetActive(false);
+        fetishes.SetActive(false);
     }
+
     private void SetPixelText() => pixelText.text = $"Pixelperfect: {pixelToggle}";
 
     private void SetImpText() => impText.text = $"Imperial: {Settings.Imperial}";

@@ -96,9 +96,9 @@ public class BasicChar
     public bool Pregnant => SexualOrgans.Vaginas.List.Exists(v => v.Womb.HasFetus);
 
     [Header("Organs")]
-    [SerializeField] private Organs sexualOrgans = new Organs();
+    [SerializeField] private SexualOrgans sexualOrgans = new SexualOrgans();
 
-    public Organs SexualOrgans => sexualOrgans;
+    public SexualOrgans SexualOrgans => sexualOrgans;
 
     [SerializeField] private SexStats sexStats = new SexStats();
 

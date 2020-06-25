@@ -2,14 +2,19 @@
 
 public class FluidsHandler : MonoBehaviour
 {
-    [SerializeField] private PlayerHolder player = null;
+    private PlayerMain player => PlayerHolder.Player;
 
-    [SerializeField] private GameObject cBar = null, mBar = null;
+    [SerializeField] private GameObject cumBar = null, milkBar = null, scatBar = null;
 
     private void OnEnable()
     {
-        cBar.SetActive(player.BasicChar.SexualOrgans.HaveBalls());
-        float milk = player.BasicChar.SexualOrgans.HaveBoobs() ? player.BasicChar.SexualOrgans.Boobs.List.FluidCurrentTotal() : 0;
-        mBar.SetActive(player.BasicChar.SexualOrgans.Boobs.Lactating || milk > 0);
+        SexualOrgans so = player.SexualOrgans;
+
+        cumBar.SetActive(so.HaveBalls());
+
+        float milk = so.HaveBoobs() ? so.Boobs.List.FluidCurrentTotal() : 0;
+        milkBar.SetActive(so.Boobs.Lactating || milk > 0);
+
+        scatBar.SetActive(Settings.Scat);
     }
 }

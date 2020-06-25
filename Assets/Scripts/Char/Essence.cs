@@ -237,7 +237,7 @@ public static class EssenceExtension
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            Organs so = who.SexualOrgans;
+            SexualOrgans so = who.SexualOrgans;
             DickContainer dicks = so.Dicks;
             List<Balls> balls = so.Balls.List;
             while (missing > fromOrgans && (so.HaveDick() || so.HaveBalls()))// have needed organs

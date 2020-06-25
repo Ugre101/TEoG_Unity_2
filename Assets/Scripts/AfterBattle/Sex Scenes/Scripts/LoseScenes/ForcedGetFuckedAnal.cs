@@ -7,7 +7,7 @@ public class ForcedGetFuckedAnal : LoseScene
     {
         string returnText = $"{other.Identity.FirstName} forces your beaten body to its hands and knees; you can't even muster the energy to collapse. ";
 
-        Organs sexualOrgans = player.SexualOrgans;
+        SexualOrgans sexualOrgans = player.SexualOrgans;
         if (sexualOrgans.HaveVagina())
         {
             returnText += "Your body, however, has other plans, and you feel your pussy start to drip. Even with such a clear signal, though, your enemy positions themselves a little higher. ";

@@ -55,9 +55,9 @@ public class GameEventSystem
                 eventMain.EventSolo(new PortalIsLocked(player), true);
             }
         }
-        public void RaceChange(Races oldRace,Races newRace)
-        {
 
+        public void RaceChange(Races oldRace, Races newRace)
+        {
         }
 
         public class SoloVoreEvents : EventsContaier
@@ -132,6 +132,7 @@ public abstract class SoloSubEvent
     public abstract string Intro { get; }
     public abstract List<SoloSubEvent> SubEvents { get; }
 }
+
 public class RaceChange : SoloEvent
 {
     public RaceChange(PlayerMain player) : base(player)
@@ -151,6 +152,7 @@ public class RaceChange : SoloEvent
 
     public override List<SoloSubEvent> SubEvents => throw new System.NotImplementedException();
 }
+
 public class NeedToShit : SoloEvent
 {
     public NeedToShit(PlayerMain player) : base(player)
@@ -186,7 +188,7 @@ public class NeedToShit : SoloEvent
         {
             get
             {
-                string shit = player.SexualOrgans.Anals.DefecateAll();
+                string shit = player.SexualOrgans.Anals.List.DefecateAll();
                 return "" + shit;
             }
         }

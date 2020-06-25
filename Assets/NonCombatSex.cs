@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class NonCombatSex : MonoBehaviour
 {
-    [SerializeField] private SexChar player = null, partner = null;
+    private PlayerMain player => PlayerHolder.Player;
+    [SerializeField] private SexCharsHandler playerSexCharHandler = null, partnerSexCharHandler = null;
     [SerializeField] private TextLog textLog = null;
     [SerializeField] private Transform sexBtns = null, miscBtns = null, esenceBtn = null;
 
-    public void Setup(params BasicChar[] partners)
+    public void Setup(BasicChar partner) => Setup(new List<BasicChar>() { partner });
+
+    public void Setup(List<BasicChar> partners)
     {
+        SexHander.Setup(partners);
+        playerSexCharHandler.Setup(player);
+        partnerSexCharHandler.Setup(partners);
     }
 
     // Start is called before the first frame update
@@ -47,19 +53,12 @@ public static class SexHander
 
     private static void BindSexStats(BasicChar basicChar)
     {
-        //   basicChar.SexStats.OrgasmedEvent += PlayerOrgasmed;
-        basicChar.SexStats.OrgasmedEvent += InvokeRefresh;
-        basicChar.SexStats.OrgasmedEvent += Impreg;
-        basicChar.SexStats.OrgasmedEvent += GetImpreg;
         basicChar.SexStats.OrgasmedEvent += CasterOrgasmed;
         basicChar.SexStats.OrgasmedEvent += TargetOrgasmed;
     }
 
     public static void UnBindSexStats(BasicChar basicChar)
     {
-        basicChar.SexStats.OrgasmedEvent -= InvokeRefresh;
-        basicChar.SexStats.OrgasmedEvent -= Impreg;
-        basicChar.SexStats.OrgasmedEvent -= GetImpreg;
         basicChar.SexStats.OrgasmedEvent -= CasterOrgasmed;
         basicChar.SexStats.OrgasmedEvent -= TargetOrgasmed;
     }
@@ -78,8 +77,6 @@ public static class SexHander
     public delegate void Refresh();
 
     public static event Refresh RefreshScenes;
-
-    private static void InvokeRefresh() => RefreshScenes?.Invoke();
 
     public static Action<string> SetText;
 
@@ -115,9 +112,19 @@ public static class SexHander
         }
     }
 
-    private static void CasterOrgasmed() => EssenceExtension.HandleAutoGiveEssence(Caster, Target);
+    private static void CasterOrgasmed()
+    {
+        EssenceExtension.HandleAutoGiveEssence(Caster, Target);
+        Impreg();
+        RefreshScenes?.Invoke();
+    }
 
-    private static void TargetOrgasmed() => EssenceExtension.HandleAutoDrainEssence(Caster, Target);
+    private static void TargetOrgasmed()
+    {
+        EssenceExtension.HandleAutoDrainEssence(Caster, Target);
+        GetImpreg();
+        RefreshScenes?.Invoke();
+    }
 
     private static void TurnManager()
     {

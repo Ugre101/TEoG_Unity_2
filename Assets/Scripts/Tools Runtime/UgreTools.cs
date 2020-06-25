@@ -15,6 +15,8 @@ public static class UgreTools
 
     public static float GetFloatPref(float val, string saveName) => PlayerPrefs.HasKey(saveName) ? PlayerPrefs.GetFloat(saveName) : val;
 
+
+
     /// <summary> Destroy the children of gameobject calling it </summary>
     public static void KillChildren(this Transform parTransform)
     {
@@ -25,13 +27,7 @@ public static class UgreTools
     }
 
     /// <summary> Sets children of transform to inactive; (setActive(false)) </summary>
-    public static void SleepChildren(this Transform parTransform)
-    {
-        foreach (Transform child in parTransform)
-        {
-            child.gameObject.SetActive(false);
-        }
-    }
+    public static void SleepChildren(this Transform parTransform) => SetActiveChildren(parTransform, false);
 
     /// <summary> Sets all except except to inactive. </summary>
     public static void SleepChildren(this Transform parTransfrom, Transform except)
@@ -46,6 +42,14 @@ public static class UgreTools
         foreach (Transform transform in exceptions)
         {
             transform.gameObject.SetActive(true);
+        }
+    }
+
+    public static void SetActiveChildren(this Transform transform, bool setTo = true)
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(setTo);
         }
     }
 
@@ -102,6 +106,7 @@ public static class UgreTools
         }
         throw new ArgumentException("Type must be a enum");
     }
+
     public static IEnumerator waitAFrame(UnityAction action)
     {
         yield return new WaitForEndOfFrame();

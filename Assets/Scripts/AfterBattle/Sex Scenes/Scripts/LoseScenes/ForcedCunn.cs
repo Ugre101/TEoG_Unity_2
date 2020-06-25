@@ -6,7 +6,7 @@ public class ForcedCunn : LoseScene
     public override string StartScene(PlayerMain player, BasicChar other)
     {
         string returnText = $"{other.Identity.FirstName} forces your head to their crotch, forcing you to start eating them out.";
-        Organs sexualOrgans = other.SexualOrgans;
+        SexualOrgans sexualOrgans = other.SexualOrgans;
         if (sexualOrgans.HaveBalls())
         {
             System.Collections.Generic.List<Balls> balls = sexualOrgans.Balls.List;
