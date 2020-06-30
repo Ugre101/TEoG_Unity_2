@@ -15,8 +15,6 @@ public static class UgreTools
 
     public static float GetFloatPref(float val, string saveName) => PlayerPrefs.HasKey(saveName) ? PlayerPrefs.GetFloat(saveName) : val;
 
-
-
     /// <summary> Destroy the children of gameobject calling it </summary>
     public static void KillChildren(this Transform parTransform)
     {
@@ -52,6 +50,8 @@ public static class UgreTools
             child.gameObject.SetActive(setTo);
         }
     }
+
+    public static void ToggleGameObject(this GameObject go) => go.SetActive(!go.activeSelf);
 
     public static string FirstSecondEtc(this int parInt, bool capitalLetter = false)
     {
@@ -112,4 +112,6 @@ public static class UgreTools
         yield return new WaitForEndOfFrame();
         action?.Invoke();
     }
+
+    public static bool OnHotKeyDownIfKeybindsActive(this KeyCode key) => GameManager.KeyBindsActive ? Input.GetKeyDown(key) : false;
 }

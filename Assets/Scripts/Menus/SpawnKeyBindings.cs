@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnKeyBindings : MonoBehaviour
@@ -11,9 +9,7 @@ public class SpawnKeyBindings : MonoBehaviour
 
     private KeyBindingButton selectedBtn;
     private KeyBind selectedKey;
-    private KeyCode newKey;
-    private bool waitingForKey;
-    private bool AltKey = false;
+    private bool waitingForKey, altKey;
     private readonly List<KeyBindingButton> bindingButtons = new List<KeyBindingButton>();
 
     // Start is called before the first frame update
@@ -24,49 +20,57 @@ public class SpawnKeyBindings : MonoBehaviour
     private void SpawnButton(KeyBind parBind)
     {
         KeyBindingButton btn = Instantiate(prefab, spawnLocation);
-        btn.Setup(parBind, delegate { WaitFor(parBind, false, btn); }, delegate { WaitFor(parBind, true, btn); });
+        btn.Setup(parBind, () => WaitForMain(parBind, btn), () => WaitForAlt(parBind, btn));
         bindingButtons.Add(btn);
     }
 
-    private void WaitFor(KeyBind key, bool alt, KeyBindingButton btn)
+    private void WaitForShared(KeyBind key, KeyBindingButton btn)
     {
         selectedKey = key;
         selectedBtn = btn;
         waitingForKey = true;
-        AltKey = alt;
-        StartCoroutine(GetKey());
-    }
-
-    private void OnGUI()
-    {
-        if (waitingForKey)
-        {
-            Event keyPressed;
-            keyPressed = Event.current;
-            if (keyPressed.isKey)
-            {
-                newKey = keyPressed.keyCode;
-                waitingForKey = false;
-            }
-        }
-    }
-
-    public static Action<KeyBind> Affected;
-
-    private IEnumerator GetKey()
-    {
         GameManager.KeyBindsActive = false;
-        while (waitingForKey)
-        {
-            yield return null;
-        }
-        KeyBind effected = AltKey ? KeyBindings.AltReBind(selectedKey, newKey) : KeyBindings.ReBind(selectedKey, newKey); ;
-        selectedBtn.SetKeyText(newKey, AltKey);
-        if (effected != null)
-        {
-            Affected?.Invoke(effected);
-        }
+    }
 
+    private void WaitForMain(KeyBind key, KeyBindingButton btn)
+    {
+        WaitForShared(key, btn);
+        altKey = false;
+    }
+
+    private void WaitForAlt(KeyBind key, KeyBindingButton btn)
+    {
+        WaitForShared(key, btn);
+        altKey = true;
+    }
+
+    // Switched to update as I didn't like having an potential unresolved corutine and I want it to be possible to bind mouse keys expect mouse 0 & 1
+    private void Update()
+    {
+        if (waitingForKey && Input.anyKeyDown)
+        {
+            UgreTools.EnumToList<KeyCode>().ForEach(k => GetKey(k));
+        }
+    }
+
+    private List<KeyCode> notAllowed = new List<KeyCode>() { KeyCode.Mouse0, KeyCode.Mouse1 };
+
+    private void GetKey(KeyCode k)
+    {
+        if (!Input.GetKeyDown(k) || notAllowed.Contains(k))
+        {
+            return;
+        }
+        if (!altKey)
+        {
+            KeyBindings.AltReBind(selectedKey, k);
+            selectedBtn.SetAltKeyText(k);
+        }
+        else
+        {
+            KeyBindings.ReBind(selectedKey, k);
+            selectedBtn.SetKeyText(k);
+        }
         GameManager.KeyBindsActive = true;
     }
 }

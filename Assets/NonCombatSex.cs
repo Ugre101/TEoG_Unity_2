@@ -33,14 +33,15 @@ public static class SexHander
 {
     private static PlayerMain Player => PlayerHolder.Player;
     private static List<BasicChar> playerTeam;
-    private static List<BasicChar> Partners;
+
+    public static List<BasicChar> Partners { get; private set; }
 
     public static void Setup(List<BasicChar> partners)
     {
-        Partners = partners;
+        SexHander.Partners = partners;
         BindSexStats(Player);
         playerTeam.ForEach(pt => BindSexStats(pt));
-        Partners.ForEach(p => BindSexStats(p));
+        SexHander.Partners.ForEach(p => BindSexStats(p));
     }
 
     public static void Leave()

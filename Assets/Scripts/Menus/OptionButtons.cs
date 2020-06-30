@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class OptionButtons : MonoBehaviour
 {
+    [SerializeField] private Transform subOptionsContainer = null;
+
     [Header("Pixel perfect")]
     [SerializeField] private PixelPerfectCamera pixelPerfectCamera = null;
 
@@ -38,13 +40,14 @@ public class OptionButtons : MonoBehaviour
     [SerializeField] private GameObject skippedMenu = null;
 
     // Start is called before the first frame update
-    [Header("GameUI")]
-    [SerializeField] private GameObject fetishes = null;
+    [Header("Toggle extra menus")]
+    [SerializeField] private GameObject fetishesMenu = null, gameUIMenu = null;
 
-    [SerializeField] private Button fetishBtn = null;
+    [SerializeField] private Button fetishBtn = null, gameUIBtn = null;
 
     private void Start()
     {
+        // Got rid of null checks as I probably want it to break if something is missing.
         // PixelButton
         pixelToggle = UgreTools.GetPlayerPrefBool("pixelToggle");
 
@@ -68,24 +71,21 @@ public class OptionButtons : MonoBehaviour
         gallonText = gallonText != null ? gallonText : gallonBtn.GetComponentInChildren<TextMeshProUGUI>();
         SetGallonText();
 
-        if (currEventFontSize != null) { currEventFontSize.text = Settings.EventLogFontSize.ToString(); }
+        currEventFontSize.text = Settings.EventLogFontSize.ToString();
 
         eventFontUp.onClick.AddListener(EventFontSizeUp);
         eventFontDown.onClick.AddListener(EventFontSizeDown);
 
-        setGenders.onClick.AddListener(OpenSetGenders);
+        setGenders.onClick.AddListener(OpenCloseSetGenders);
 
-        toggleSkippedMenu.onClick.AddListener(() => skippedMenu.SetActive(!skippedMenu.activeSelf));
+        toggleSkippedMenu.onClick.AddListener(() => ToggleSubMenu(skippedMenu));
 
-        fetishBtn.onClick.AddListener(() => fetishes.SetActive(!fetishes.activeSelf));
+        fetishBtn.onClick.AddListener(() => ToggleSubMenu(fetishesMenu));
+
+        gameUIBtn.onClick.AddListener(() => ToggleSubMenu(gameUIMenu));
     }
 
-    private void OnEnable()
-    {
-        skippedMenu.SetActive(false);
-        setGendersGameObj.SetActive(false);
-        fetishes.SetActive(false);
-    }
+    private void OnEnable() => subOptionsContainer.SleepChildren();
 
     private void SetPixelText() => pixelText.text = $"Pixelperfect: {pixelToggle}";
 
@@ -147,9 +147,21 @@ public class OptionButtons : MonoBehaviour
 
     private void EventFontSizeDown() => currEventFontSize.text = Settings.EventLogFontSizeDown.ToString();
 
-    private void OpenSetGenders()
+    private void OpenCloseSetGenders()
     {
-        setGendersGameObj.SetActive(true);
-        GameManager.KeyBindsActive = false;
+        ToggleSubMenu(setGendersGameObj);
+        GameManager.KeyBindsActive = !setGendersGameObj.activeSelf;
+    }
+
+    private void ToggleSubMenu(GameObject toToggle)
+    {
+        if (toToggle.activeSelf)
+        {
+            toToggle.SetActive(false);
+        }
+        else
+        {
+            subOptionsContainer.SleepChildren(toToggle.transform);
+        }
     }
 }

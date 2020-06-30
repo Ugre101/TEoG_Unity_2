@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -67,15 +66,7 @@ public class CombatMain : MonoBehaviour
     private void ResetSkills(List<BasicChar> basicChars) =>
         basicChars.ForEach(bc => skillBook.Dict.OwnedSkills(bc.Skills).ForEach(us => us.ResetCoolDown()));
 
-    public void SetUpCombat(params BasicChar[] enemies)
-    {
-        gameObject.SetActive(true);
-        CombatHandler.SetUpCombat(enemies.ToList());
-        _ = enemyTeam.StartCoroutine(enemyTeam.StartFight(enemies.ToList()));
-        _ = playerTeam.StartCoroutine(playerTeam.StartFight(CombatHandler.PlayerTeamChars));
-        ResetSkills(CombatHandler.PlayerTeamChars);
-        ResetSkills(CombatHandler.EnemyTeamChars);
-    }
+    public void SetUpCombat(BasicChar enemy) => SetUpCombat(new List<BasicChar>() { enemy });
 
     public void SetUpCombat(List<BasicChar> enemies)
     {

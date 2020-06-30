@@ -21,12 +21,14 @@ public class TownHall : Building
         }
         foreach (QuestRewardButton q in questRewards.RewardButtons)
         {
-            q.Btn.onClick.AddListener(delegate
-            {
-                SetSetTextBox(QuestReward.GetReward(q.Quest));
-                q.Btn.gameObject.SetActive(false);
-            });
+            q.Btn.onClick.AddListener(() => GetReward(q));
         }
+    }
+
+    private void GetReward(QuestRewardButton q)
+    {
+        SetSetTextBox(QuestReward.GetReward(q.Quest));
+        q.Btn.gameObject.SetActive(false);
     }
 
     public override void OnEnable()
@@ -36,13 +38,13 @@ public class TownHall : Building
         giveQuests.AlreadyHasQuest();
         questRewards.RewardButtons.ForEach(q => q.Btn.gameObject.SetActive(QuestsSystem.QuestIsCompleted(q.Quest)));
         nameBox.SetActive(false);
+        SetChangeNameBtnText = "Change name";
     }
 
     public void ToggleNameChange()
     {
-        bool isActive = nameBox.activeSelf;
-        nameBox.SetActive(!isActive);
-        SetChangeNameBtnText = isActive ? "Change name" : "Back";
+        nameBox.ToggleGameObject();
+        SetChangeNameBtnText = !nameBox.activeSelf ? "Change name" : "Back";
         SetSetTextBox("");
     }
 }

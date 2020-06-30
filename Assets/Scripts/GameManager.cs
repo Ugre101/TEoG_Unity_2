@@ -69,17 +69,7 @@ public static class GameManager
         GameStateChangeEvent?.Invoke(value);
     }
 
-    public static void ReturnToLastState()
-    {
-        if (LastState != CurState)
-        {
-            SetCurState(LastState);
-        }
-        else
-        {
-            SetCurState(GameState.Free);
-        }
-    }
+    public static void ReturnToLastState() => SetCurState(LastState != CurState ? LastState : GameState.Free);
 
     public static GameManagerSaveState Save() => new GameManagerSaveState(CurState, CurrentArea, KeyBindsActive);
 

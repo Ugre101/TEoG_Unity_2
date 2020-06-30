@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class BattleCanvas : MonoBehaviour
 {
@@ -13,10 +14,10 @@ public class BattleCanvas : MonoBehaviour
     }
 
     public void StartCombat(CharHolder enemy) => StartCombat(enemy.BasicChar);
-
+    public void StartCombat(BasicChar enemy) => StartCombat(new List<BasicChar>() { enemy });
     /// <summary>Team of enemies </summary>
     /// <param name="enemies"></param>
-    public void StartCombat(params BasicChar[] enemies)
+    public void StartCombat(List<BasicChar> enemies)
     {
         GameManager.SetCurState(GameState.Battle);
         Battle.transform.SleepChildren();
