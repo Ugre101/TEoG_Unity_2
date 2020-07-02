@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -75,12 +74,12 @@ public class AfterBattleMain : MonoBehaviour
 
     private void Start()
     {
-        sortAll.onClick.AddListener(() => SceneChecker(AllSexScenes, player.Vore.Active));
-        sortMouth.onClick.AddListener(() => SceneChecker(mouthScenes));
-        sortAnal.onClick.AddListener(() => SceneChecker(analScenes));
-        sortDick.onClick.AddListener(() => SceneChecker(dickScenes));
-        sortVagina.onClick.AddListener(() => SceneChecker(vaginaScenes));
-        sortBreasts.onClick.AddListener(() => SceneChecker(boobScenes));
+        sortAll.onClick.AddListener(() => SexHander.SortScenes(buttons,addedSexButtons,AllSexScenes));
+        sortMouth.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, mouthScenes));
+        sortAnal.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, analScenes));
+        sortDick.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, dickScenes));
+        sortVagina.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, vaginaScenes));
+        sortBreasts.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, boobScenes));
         //  sortVore.onClick.AddListener(() => SceneChecker(voreScenes));
         TakeToDorm.TakenToDorm += EnemyRemoved;
         SexButton.PlayScene += HandleSexScene;
@@ -297,21 +296,6 @@ public class AfterBattleMain : MonoBehaviour
         bool HasPerk(PerksTypes type) => player.Perks.HasPerk(type);
     }
 
-    private void SceneChecker(List<SexScenes> scenes, bool showVore = false)
-    {
-        buttons.SleepChildren();
-        foreach (SexScenes scene in scenes.FindAll(s => s.CanDo(player, Target)))
-        {
-            foreach (SexButton btn in addedSexButtons)
-            {
-                if (btn.Scene.name == scene.name)
-                {
-                    btn.gameObject.SetActive(btn.Scene.CanDo(player, Target));
-                }
-            }
-        }
-    }
-
     public void AddToTextBox(string text) => textBox.text = text;
 
     // TODO fix to extra info comes after
@@ -353,64 +337,4 @@ public class AfterBattleMain : MonoBehaviour
             // TODO INSTATIXZXE
         }
     }
-}
-
-public static class AfterBattleHandler
-{
-    private static List<BasicChar> enemies = new List<BasicChar>();
-
-    // Test class to see if I can split out stuff from afterbattle to make it more like a view
-    public static void AddToTextBox(string text) => SetTextLog?.Invoke(text);
-
-    // TODO fix to extra info comes after
-    public static void InsertToTextBox(string text) => AddToTextlog?.Invoke(text);
-
-    public static Action<string> SetTextLog;
-    public static Action<string> AddToTextlog;
-
-    private static SexScenes LastScene;
-    public static BasicChar Target;
-    public static BasicChar newTarget;
-
-    public static void Setup(List<BasicChar> chars)
-    {
-        enemies = chars;
-        LastScene = null;
-        newTarget = null;
-
-        //    player.SexStats.OrgasmedEvent += PlayerOrgasmed;
-        //    enemies.ForEach(e => e.SexStats.OrgasmedEvent += OtherOrgasmed);
-
-        //    player.SexStats.OrgasmedEvent += () => NeedRefresh?.Invoke();
-        enemies.ForEach(e => e.SexStats.OrgasmedEvent += () => NeedRefresh?.Invoke());
-
-        //    player.SexStats.OrgasmedEvent += Impreg;
-        //    enemies.ForEach(e => e.SexStats.OrgasmedEvent += GetImpreg);
-
-        //   player.SexStats.Reset();
-        //    RefreshScenes();
-    }
-
-    private static void SceneBasics(SexScenes scene, PlayerMain player, BasicChar Target)
-    {
-        AddToTextBox(LastScene == scene ? scene.ContinueScene(player, Target) : scene.StartScene(player, Target));
-        LastScene = scene;
-    }
-
-    public static void HandleSexScene(SexScenes scene, PlayerMain player, BasicChar Target)
-    {
-        SceneBasics(scene, player, Target);
-        scene.ArousalGain(player, Target);
-    }
-
-    public static void HandleEssScene(EssScene scene, PlayerMain player, BasicChar Target)
-    {
-        SceneBasics(scene, player, Target);
-        Target.SexStats.Drained();
-        NeedRefresh?.Invoke();
-    }
-
-    public delegate void Refresh();
-
-    public static event Refresh NeedRefresh;
 }
