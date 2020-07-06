@@ -104,7 +104,7 @@ public static class UgreTools
             int index = Array.FindIndex(array, s => s.Equals(curValue));
             return array[index == array.Length - 1 ? 0 : index + 1];
         }
-        throw new ArgumentException("Type must be a enum");
+        throw new ArgumentException("Type must be of type enum");
     }
 
     public static IEnumerator waitAFrame(UnityAction action)

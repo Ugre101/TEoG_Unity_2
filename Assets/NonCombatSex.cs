@@ -5,6 +5,8 @@ using UnityEngine;
 
 public abstract class BaseSexMonoBehavior : MonoBehaviour
 {
+    [SerializeField] protected TextLog textLog = null;
+    [SerializeField] private SexCharsHandler playerSexCharHandler = null, partnerSexCharHandler = null;
     [SerializeField] protected SexButton sexButton = null;
     [SerializeField] protected VoreButton voreButton = null;
     [SerializeField] protected EssSexButton essSexButton = null;
@@ -32,16 +34,32 @@ public abstract class BaseSexMonoBehavior : MonoBehaviour
         }
     }
 
-    protected bool buttonsIsInstatiened;
+    protected PlayerMain player => PlayerHolder.Player;
+
+    protected bool firstTimeUsed = true;
 
     protected readonly List<SexButton> addedSexButtons = new List<SexButton>();
     protected readonly List<SexButton> addedMiscButtons = new List<SexButton>();
     protected readonly List<VoreButton> addedVoreButtons = new List<VoreButton>();
     protected readonly List<EssSexButton> addedEssSexButtons = new List<EssSexButton>();
 
-    protected void InstantiateScenes()
+    public virtual void Setup(List<BasicChar> partners)
     {
-        buttonsIsInstatiened = true;
+        if (firstTimeUsed)
+        {
+            InstantiateScenes();
+        }
+        SexHander.Setup(partners);
+
+        playerSexCharHandler.Setup(player);
+        partnerSexCharHandler.Setup(SexHander.Partners);
+        SexHander.SetText += textLog.SetText;
+        SexHander.AddText += textLog.AddText;
+    }
+
+    protected virtual void InstantiateScenes()
+    {
+        firstTimeUsed = false;
         buttons.transform.KillChildren();
         InstantiateAListOfScenes(AllSexScenes, buttons, addedSexButtons);
 
@@ -64,7 +82,7 @@ public abstract class BaseSexMonoBehavior : MonoBehaviour
         }
     }
 
-    private void InstantiateAListOfScenes(List<SexScenes> test, Transform temp, List<SexButton> addedBtns)
+    protected virtual void InstantiateAListOfScenes(List<SexScenes> test, Transform temp, List<SexButton> addedBtns)
     {
         foreach (SexScenes scene in test)
         {
@@ -73,39 +91,10 @@ public abstract class BaseSexMonoBehavior : MonoBehaviour
             addedBtns.Add(btn);
         }
     }
-}
 
-public class NonCombatSex : BaseSexMonoBehavior
-{
-    private PlayerMain player => PlayerHolder.Player;
-    [SerializeField] private SexCharsHandler playerSexCharHandler = null, partnerSexCharHandler = null;
-    [SerializeField] private TextLog textLog = null;
-    [SerializeField] private Transform sexBtns = null, miscBtns = null, esenceBtn = null;
-
-    public void Setup(BasicChar partner) => Setup(new List<BasicChar>() { partner });
-
-    public void Setup(List<BasicChar> partners)
-    {
-        SexHander.Setup(partners);
-        playerSexCharHandler.Setup(player);
-        partnerSexCharHandler.Setup(SexHander.Partners);
-        SexHander.SetText += textLog.SetText;
-        SexHander.AddText += textLog.AddText;
-    }
-
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         SexHander.SetEventsToNull();
-    }
-
-    // Start is called before the first frame update
-    private void Start()
-    {
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
     }
 }
 

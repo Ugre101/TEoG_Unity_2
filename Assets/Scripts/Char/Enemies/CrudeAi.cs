@@ -9,12 +9,13 @@ public class CrudeAi : MonoBehaviour
         Flee
     }
 
-    [SerializeField] private PlayerHolder target = null;
-
+    private PlayerHolder target = null;
+    [SerializeField] private CharHolder thisHolder = null;
     [SerializeField] private Rigidbody2D playerRigid = null, rb2d = null;
 
     private Vector2 Target => playerRigid.position;
-
+    private int TargetLevel => PlayerHolder.Player.Stats.CalcLevelByStatTotal();
+    private int ThisBasicCharsLevel => thisHolder.BasicChar.Stats.CalcLevelByStatTotal();
     private Vector2 CurPos { get => rb2d.position; set => rb2d.position = value; }
 
     [SerializeField] private float chaseDist = 30f, movementSpeed = 5f;
@@ -24,6 +25,7 @@ public class CrudeAi : MonoBehaviour
     private void Start()
     {
         target = target != null ? target : PlayerHolder.GetPlayerHolder;
+        thisHolder = thisHolder != null ? thisHolder : GetComponent<CharHolder>();
         playerRigid = playerRigid != null ? playerRigid : target.GetComponent<Rigidbody2D>();
         rb2d = rb2d != null ? rb2d : GetComponent<Rigidbody2D>();
         currentState = State.Idle;
@@ -34,7 +36,7 @@ public class CrudeAi : MonoBehaviour
         switch (currentState)
         {
             case State.Idle:
-                if (WithinChaseDist)
+                if (WithinChaseDist && ThisBasicCharsLevel + 10 > TargetLevel)
                 {
                     currentState = State.Chase;
                     // If player much stronger maybe flee?
@@ -49,11 +51,11 @@ public class CrudeAi : MonoBehaviour
                 }
                 else
                 {
-                    if (Physics.Linecast(CurPos, Target))
-                    {
-                        // doesn't work
-                        // Debug.Log("Blocked");
-                    }
+                    /*    if (Physics.Linecast(CurPos, Target))
+                        {
+                            // doesn't work
+                            // Debug.Log("Blocked");
+                        }*/
                     CurPos = Vector2.MoveTowards(CurPos, Target, movementSpeed * Time.deltaTime);
                 }
 
