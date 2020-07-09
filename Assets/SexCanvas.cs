@@ -12,10 +12,12 @@ public class SexCanvas : MonoBehaviour
 
     private bool inSex = false;
 
+    public void DormSex(BasicChar partner) => DormSex(new List<BasicChar>() { partner });
+
     public void DormSex(List<BasicChar> partners)
     {
         inSex = true;
-        GameManager.SetCurState(GameState.Battle);
+        GameManager.SetCurState(GameState.NonCombatSex);
 
         transform.SleepChildren(dormSex.transform);
         dormSex.Setup(partners);
@@ -23,7 +25,7 @@ public class SexCanvas : MonoBehaviour
 
     private void LeaveSex(GameState newState)
     {
-        if (inSex && newState != GameState.Battle)
+        if (inSex && newState != GameState.NonCombatSex)
         {
             inSex = false;
             transform.SleepChildren();

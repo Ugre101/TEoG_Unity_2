@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Forced Get Fucked", menuName = "Sex/LoseScenes/ForcedGetFucked")]
 public class ForcedGetFucked : LoseScene
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         string returnText = "Forcing you on your back, your enemy fondles your clit just enough for your body to betray you and your pussy to get wet. ";
 
@@ -24,7 +24,7 @@ public class ForcedGetFucked : LoseScene
         return returnText;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return StartScene(player, other);
     }

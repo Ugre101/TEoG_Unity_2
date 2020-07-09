@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Forced Get Blowjob", menuName = "Sex/LoseScenes/ForcedGetBlowjob")]
 public class ForcedGetBlowjob : LoseScene
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         string returnText = $"Forcing you onto your back, {other.Identity.FirstName} expertly massages your cock and balls, quickly bringing you erect. ";
         SexualOrgans sexualOrgans = player.SexualOrgans;
@@ -16,7 +16,7 @@ public class ForcedGetBlowjob : LoseScene
         return returnText;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return StartScene(player, other);
     }

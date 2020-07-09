@@ -91,15 +91,15 @@ public abstract class SexScenes : ScriptableObject
         return true;
     }
 
-    public virtual string StartScene(PlayerMain player, BasicChar other) => $"";
+    public virtual string StartScene(BasicChar player, BasicChar other) => $"";
 
-    public virtual string ContinueScene(PlayerMain player, BasicChar other) => $"";
+    public virtual string ContinueScene(BasicChar caster, BasicChar other) => $"";
 
     public virtual string PlayerOrgasmed(PlayerMain player, BasicChar other) => "You orgasmed";
 
     public virtual string OtherOrgasmed(PlayerMain player, BasicChar other) => "They orgasmed";
 
-    public virtual void ArousalGain(PlayerMain player, BasicChar other)
+    public virtual void ArousalGain(BasicChar player, BasicChar other)
     {
         float PlayerGain = CasterGain * Mathf.Pow(EnduranceMultiplier, player.Stats.End);
         float OtherGain = ReciverGain * Mathf.Pow(CharmMultiplier, player.Stats.Cha) *

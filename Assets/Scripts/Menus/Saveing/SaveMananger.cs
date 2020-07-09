@@ -30,7 +30,10 @@ public class SaveMananger : MonoBehaviour
         SaveFolder = Directory.Exists(SaveSettings.SaveFolder) ? new DirectoryInfo(SaveSettings.SaveFolder) : Directory.CreateDirectory(SaveSettings.SaveFolder);
         Settings.Load();
     }
-
+    private void OnApplicationQuit()
+    {
+        Settings.Save();
+    }
     private void Update()
     {
         if (GameManager.KeyBindsActive)

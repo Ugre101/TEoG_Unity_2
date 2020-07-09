@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Forced Get Fucked Anal", menuName = "Sex/LoseScenes/ForcedGetFuckedAnal")]
 public class ForcedGetFuckedAnal : LoseScene
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         string returnText = $"{other.Identity.FirstName} forces your beaten body to its hands and knees; you can't even muster the energy to collapse. ";
 
@@ -35,7 +35,7 @@ public class ForcedGetFuckedAnal : LoseScene
         return returnText;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return StartScene(player, other);
     }

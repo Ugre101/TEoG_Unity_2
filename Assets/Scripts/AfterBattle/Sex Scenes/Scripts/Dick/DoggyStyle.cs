@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Doggystyle", menuName = ("Sex/Dick/Doggystyle"))]
 public class DoggyStyle : SexScenes
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         DickContainer dicks = player.SexualOrgans.Dicks;
         return $"Commanding {other.Identity.FirstName} to get down on their all fours you fuck HisHer from behind.\n " +
@@ -11,7 +11,7 @@ public class DoggyStyle : SexScenes
         $" {dicks.Biggest().Race} dick.";
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return $"You continue fucking them from behind. Their {other.SexualOrgans.Vaginas.List[0].Race} pussy Tightness(player, enemies[EnemyIndex], A) +to your {player.SexualOrgans.Dicks.BiggestSizeValue} dick.";
     }

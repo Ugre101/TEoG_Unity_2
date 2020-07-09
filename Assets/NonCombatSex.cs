@@ -43,6 +43,14 @@ public abstract class BaseSexMonoBehavior : MonoBehaviour
     protected readonly List<VoreButton> addedVoreButtons = new List<VoreButton>();
     protected readonly List<EssSexButton> addedEssSexButtons = new List<EssSexButton>();
 
+    public virtual void Start()
+    {
+        //     TakeToDorm.TakenToDorm += EnemyRemoved;
+        SexButton.PlayScene += SexHander.HandleSexScene;
+        //   EssSexButton.PlayScene += HandleEssScene;
+        //   VoreButton.PlayerScene += HandleVoreScene;
+    }
+
     public virtual void Setup(List<BasicChar> partners)
     {
         if (firstTimeUsed)
@@ -100,23 +108,21 @@ public abstract class BaseSexMonoBehavior : MonoBehaviour
 
 public static class SexHander
 {
-    private static PlayerMain Player => PlayerHolder.Player;
-    private static List<BasicChar> playerTeam;
+    private static List<BasicChar> PlayerTeam { get; set; }
 
     public static List<BasicChar> Partners { get; private set; }
 
     public static void Setup(List<BasicChar> partners)
     {
+        PlayerTeam = new List<BasicChar>() { PlayerHolder.Player };
         Partners = partners;
-        BindSexStats(Player);
-        playerTeam.ForEach(pt => BindSexStats(pt));
+        PlayerTeam.ForEach(pt => BindSexStats(pt));
         Partners.ForEach(p => BindSexStats(p));
     }
 
     public static void Leave()
     {
-        UnBindSexStats(Player);
-        playerTeam.ForEach(pt => UnBindSexStats(pt));
+        PlayerTeam.ForEach(pt => UnBindSexStats(pt));
         Partners.ForEach(p => UnBindSexStats(p));
         SetEventsToNull();
     }
@@ -157,8 +163,8 @@ public static class SexHander
     public static SexScenes LastScene { get; private set; }
     public static bool PlayerTeamTurn = true;
 
-    public static BasicChar Caster => PlayerTeamTurn ? playerTeam[0] : Partners[0];
-    public static BasicChar Target => PlayerTeamTurn ? Partners[0] : playerTeam[0];
+    public static BasicChar Caster => PlayerTeamTurn ? PlayerTeam[0] : Partners[0];
+    public static BasicChar Target => PlayerTeamTurn ? Partners[0] : PlayerTeam[0];
 
     private static void Impreg()
     {
@@ -204,9 +210,9 @@ public static class SexHander
         }
 
         // Called after player action
-        if (playerTeam.Count > 0)
+        if (PlayerTeam.Count > 0)
         {
-            for (int i = 0; i < playerTeam.Count; i++)
+            for (int i = 0; i < PlayerTeam.Count; i++)
             {
                 // Team member action if allowed / enabled
             }
@@ -226,5 +232,17 @@ public static class SexHander
             SexButton btn = addedSexButtons.Find(sb => sb.Scene.name == scene.name);
             btn.gameObject.SetActive(Caster.CanOrgasmMore() ? btn.Scene.CanDo(Caster, Target) : false);
         }
+    }
+
+    public static void SceneBasics(SexScenes scene)
+    {
+        SetText(LastScene == scene ? scene.ContinueScene(Caster, Target) : scene.StartScene(Caster, Target));
+        LastScene = scene;
+    }
+
+    public static void HandleSexScene(SexScenes scene)
+    {
+        SceneBasics(scene);
+        scene.ArousalGain(Caster, Target);
     }
 }

@@ -6,9 +6,9 @@ public class ShowOneServant : MonoBehaviour
 {
     private BasicChar basicChar;
     [SerializeField] private ShowDorm showDorm = null;
-    [SerializeField] private Button backBtn = null, kickOutBtn = null;
+    [SerializeField] private Button backBtn = null, sexBtn = null, kickOutBtn = null;
     [SerializeField] private TextMeshProUGUI textBox = null;
-
+    [SerializeField] private SexCanvas sexCanvas = null;
     [SerializeField] private PromptYesNo prompt = null;
 
     // Start is called before the first frame update
@@ -17,6 +17,7 @@ public class ShowOneServant : MonoBehaviour
         showDorm = showDorm != null ? showDorm : GetComponentInParent<ShowDorm>();
         backBtn.onClick.AddListener(showDorm.ListServants);
         kickOutBtn.onClick.AddListener(KickOut);
+        sexBtn.onClick.AddListener(DormSex);
     }
 
     public void Setup(BasicChar basicChar)
@@ -40,4 +41,6 @@ public class ShowOneServant : MonoBehaviour
         Dorm.Followers.Remove(basicChar);
         showDorm.ListServants();
     }
+
+    private void DormSex() => sexCanvas.DormSex(basicChar);
 }

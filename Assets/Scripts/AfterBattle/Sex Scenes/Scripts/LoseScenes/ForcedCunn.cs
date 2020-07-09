@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Forced Cunn", menuName = "Sex/LoseScenes/ForcedCunn")]
 public class ForcedCunn : LoseScene
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         string returnText = $"{other.Identity.FirstName} forces your head to their crotch, forcing you to start eating them out.";
         SexualOrgans sexualOrgans = other.SexualOrgans;
@@ -20,7 +20,7 @@ public class ForcedCunn : LoseScene
         return returnText;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return StartScene(player, other);
     }

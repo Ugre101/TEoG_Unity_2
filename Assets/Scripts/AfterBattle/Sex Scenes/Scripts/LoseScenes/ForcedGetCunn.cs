@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Forced Get Cunn", menuName = "Sex/LoseScenes/ForcedGetCunn")]
 public class ForcedGetCunn : LoseScene
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         string returnText = $"Forcing you onto your back, {other.Identity.FirstName} expertly fingers your pussy, quickly making you wet. ";
         if (player.SexualOrgans.HaveBalls())
@@ -14,7 +14,7 @@ public class ForcedGetCunn : LoseScene
         return returnText;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return StartScene(player, other);
     }

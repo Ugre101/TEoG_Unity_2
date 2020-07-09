@@ -68,7 +68,7 @@ public class HomeMain : MonoBehaviour
     public void EnterDorm()
     {
         dormGameobject.SetActive(true);
-        GameManager.SetCurState(GameState.InBuilding);
+        GameManager.SetCurState(GameState.Dorm);
     }
 
     public void LeaveDorm()

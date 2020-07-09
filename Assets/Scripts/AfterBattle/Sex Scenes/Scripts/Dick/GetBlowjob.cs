@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Get blowjob", menuName = ("Sex/Dick/GetBlowjob"))]
 public class GetBlowjob : SexScenes
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         string dickSize = Settings.MorInch(player.SexualOrgans.Dicks.BiggestSizeValue);
         return $"You walk up to your defeated adversary as they attempt to get back on their feet.You stop them by catching their head and tilting it up to your face. You look back down at your crotch and nod to your {dickSize} cock expectantly. Just as your prize gets the idea and moves closer you eagerly thrust your hips into their mouth. You hold their head close starting a steady rhythm as you use their hole."
@@ -11,7 +11,7 @@ public class GetBlowjob : SexScenes
 ;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         // DocId("SexText").innerHTML = "You continue humping your new toy at a constant pace. Your rhythm doesn’t falter as you use your muscles to the best of their ability. You lean back as you hilt into the back of their throat, eliciting a moan from you as you start breeding deep."
         if (player.SexualOrgans.Balls.BiggestSizeValue > 5)

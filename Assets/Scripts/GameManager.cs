@@ -9,7 +9,9 @@ public enum GameState
     PauseMenu,
     Battle,
     InBuilding,
-    Event
+    Event,
+    Dorm,
+    NonCombatSex,
 }
 
 public enum GlobalArea
@@ -49,6 +51,8 @@ public static class GameManager
             case GameState.Intro:
             case GameState.Battle:
             case GameState.InBuilding:
+            case GameState.Dorm:
+            case GameState.NonCombatSex:
                 Time.timeScale = 0f;
                 KeyBindsActive = false;
                 break;
@@ -60,9 +64,13 @@ public static class GameManager
                 break;
 
             case GameState.Free:
-            default:
                 KeyBindsActive = true;
                 Time.timeScale = 1f;
+                break;
+
+            default:
+                Debug.LogError($"{value} isn't properly handled in SetcurState'a switch and got handled by default case.");
+                SetCurState(GameState.Free);
                 break;
         }
         CurState = value;

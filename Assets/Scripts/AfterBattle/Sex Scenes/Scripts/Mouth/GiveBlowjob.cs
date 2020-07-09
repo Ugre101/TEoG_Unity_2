@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Give blowjob", menuName = ("Sex/Mouth/Give blowjob"))]
 public class GiveBlowjob : SexScenes
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
        DickContainer dicks = other.SexualOrgans.Dicks;
         Identity identity = other.Identity;
@@ -11,7 +11,7 @@ public class GiveBlowjob : SexScenes
         // They still lies on their stomach still spent from the battle. You grab their torso and flip them on their back for your viewing pleasure. Their dick lays flat against their stomach twitching almost expectantly. You lower your head between their legs and just before the they has time to protest you begin tending to their cock causing them to gasp.
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         string toReturn = $"Your head continues to bob on their length as your tongue plays with their tip, electing soft moans from your opponent. As {other.Identity.FirstName} begins to softly hump into your throat, you meet each thrust by pushing your head down as far as you can.You emphasize their thrusts by sucking hard on their throbbing length.You feel their hand being placed on your head, pushing you deeper into their crotch.";
         SexualOrgans sexualOrgans = other.SexualOrgans;
