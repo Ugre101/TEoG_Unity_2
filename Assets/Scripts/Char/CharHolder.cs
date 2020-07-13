@@ -49,6 +49,8 @@ public abstract class CharHolder : MonoBehaviour
         Unbind();
         BeforeDestroy();
         BasicChar.DestroyHolderEvent -= SelfDestroy;
+        HolderIsDestroyed?.Invoke();
+        HolderIsDestroyed = null;
     }
 
     protected virtual void Unbind()
@@ -87,4 +89,8 @@ public abstract class CharHolder : MonoBehaviour
     }
 
     public abstract BasicChar BasicChar { get; protected set; }
+
+    public delegate void IsDestroyed();
+
+    public event IsDestroyed HolderIsDestroyed;
 }

@@ -10,9 +10,11 @@ public abstract class BaseEffect : MonoBehaviour, IPointerEnterHandler, IPointer
     [SerializeField] protected Image icon = null;
     protected GameUIHoverText hoverText = null;
 
-    public abstract void OnPointerClick(PointerEventData eventData);
+    public void OnPointerClick(PointerEventData eventData) => Hovering();
 
-    public abstract void OnPointerEnter(PointerEventData eventData);
+    public void OnPointerEnter(PointerEventData eventData) => Hovering();
 
-    public abstract void OnPointerExit(PointerEventData eventData);
+    public void OnPointerExit(PointerEventData eventData) => hoverText.StopHovering();
+
+    protected abstract void Hovering();
 }

@@ -6,12 +6,13 @@ public class EssSexButton : AfterBattleButtonBase
 
     public void Setup(EssScene parScene)
     {
+        BaseSetup();
         Scene = parScene;
         title.text = parScene.name;
         btn.onClick.AddListener(Func);
     }
 
-    private void Func() => PlayScene?.Invoke(Scene);
+    protected override void Func() => PlayScene?.Invoke(Scene);
 
     public static Action<EssScene> PlayScene;
 }

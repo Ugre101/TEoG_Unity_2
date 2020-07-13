@@ -1,33 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class PregEffect : BaseEffect
 {
     [SerializeField] private BasicChar mother = null;
-    private void Hovering()
-    {
-        hoverText.Hovering("Pregnant", "");
-    }
+
+    protected override void Hovering() => hoverText.Hovering("Pregnant", "");
 
     public void Setup(BasicChar parMother, GameUIHoverText hoverText)
     {
         this.hoverText = hoverText;
         mother = parMother;
+        DateSystem.NewDayEvent += Status;
     }
 
-    public override void OnPointerClick(PointerEventData eventData)
-    {
-    }
-
-    public override void OnPointerEnter(PointerEventData eventData)
-    {
-    }
-
-    public override void OnPointerExit(PointerEventData eventData)
-    {
-    }
+    private void OnDestroy() => DateSystem.NewDayEvent -= Status;
 
     public void Status()
     {

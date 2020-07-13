@@ -32,62 +32,18 @@ public abstract class SexScenes : ScriptableObject
 
     public virtual bool CanDo(BasicChar player, BasicChar Other)
     {
-        if (PlayerDick)
+        if ((PlayerDick && !player.SexualOrgans.HaveDick()) ||
+            (PlayerBalls && !player.SexualOrgans.HaveBalls()) || 
+            (PlayerBoobs && !player.SexualOrgans.HaveBoobs(3)) || 
+            (PlayerVagina && !player.SexualOrgans.HaveVagina()) || 
+            (Dick && !Other.SexualOrgans.HaveDick()) || 
+            (Balls && !Other.SexualOrgans.HaveBalls()) || 
+            (Boobs && !Other.SexualOrgans.HaveBoobs(3)) || 
+            (Vagina && !Other.SexualOrgans.HaveVagina()))
         {
-            if (!player.SexualOrgans.HaveDick())
-            {
-                return false;
-            }
+            return false;
         }
-        if (PlayerBalls)
-        {
-            if (!player.SexualOrgans.HaveBalls())
-            {
-                return false;
-            }
-        }
-        if (PlayerBoobs)
-        {
-            if (!player.SexualOrgans.HaveBoobs(3))
-            {
-                return false;
-            }
-        }
-        if (PlayerVagina)
-        {
-            if (!player.SexualOrgans.HaveVagina())
-            {
-                return false;
-            }
-        }
-        if (Dick)
-        {
-            if (!Other.SexualOrgans.HaveDick())
-            {
-                return false;
-            }
-        }
-        if (Balls)
-        {
-            if (!Other.SexualOrgans.HaveBalls())
-            {
-                return false;
-            }
-        }
-        if (Boobs)
-        {
-            if (!Other.SexualOrgans.HaveBoobs(3))
-            {
-                return false;
-            }
-        }
-        if (Vagina)
-        {
-            if (!Other.SexualOrgans.HaveVagina())
-            {
-                return false;
-            }
-        }
+
         return true;
     }
 

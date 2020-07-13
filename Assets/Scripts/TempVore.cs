@@ -1,6 +1,4 @@
-﻿using UnityEngine.EventSystems;
-
-public class TempVore : BaseEffect
+﻿public class TempVore : BaseEffect
 {
     public DisplayVore DisplayVore { get; private set; }
 
@@ -15,11 +13,5 @@ public class TempVore : BaseEffect
 
     private void Update() => icon.fillAmount = 1f - DisplayVore.Progress();
 
-    private void Hovering() => hoverText.Hovering(Title, Desc);
-
-    public override void OnPointerEnter(PointerEventData eventData) => Hovering();
-
-    public override void OnPointerClick(PointerEventData eventData) => Hovering();
-
-    public override void OnPointerExit(PointerEventData eventData) => hoverText.StopHovering();
+    protected override void Hovering() => hoverText.Hovering(Title, Desc);
 }

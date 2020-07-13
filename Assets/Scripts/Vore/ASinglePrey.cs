@@ -14,10 +14,7 @@ namespace Vore
         [SerializeField] private VoreMenuHandler voreMenu = null;
         private VoreContainers voreContainer = VoreContainers.Stomach;
         private ThePrey prey = null;
-        private VoreBasic VoreOrgan => player.Vore.GetVoreOrgan(voreContainer);
-        private string PreyFName => prey.Prey.Identity.FirstName;
-        private Body PreyBody => prey.Prey.Body;
-        private bool DigestActive => VoreOrgan.Digestion;
+
         private float DigestionProgress => prey.Progress;
 
         private void Start()
@@ -42,14 +39,12 @@ namespace Vore
             if (DigestionProgress < 0.5)
             {
                 Vector3 middleOfMap = MapEvents.CurrentMap.cellBounds.center;
-                Instantiate(preyHolder, enemyContainer).Load(prey.Prey);
-                //  player.VoreChar.GetVoreContainer(voreContainer).ReleasePreyTo(prey, enemyContainer, player.transform.position);
+                Instantiate(preyHolder, middleOfMap, Quaternion.identity, enemyContainer).Load(prey.Prey);
                 player.Vore.GetVoreOrgan(voreContainer).RemovePrey(prey);
                 Back();
             }
             else
             {
-                //  player.VoreChar.GetVoreContainer(voreContainer).PreyIsdigested(prey);
                 player.Vore.GetVoreOrgan(voreContainer).RemovePrey(prey);
                 Back();
                 // Dead
