@@ -58,8 +58,8 @@ public class InventoryHandler : MonoBehaviour
         Items.RemoveAll(i => i.Amount < 1);
         List<InventoryItem> sorted = (from item in items.ItemsDict
                                       join invItem in Items
-                                      on item.ItemId equals invItem.Id
-                                      where item.Type == parType
+                                      on item.Value.ItemId equals invItem.Id
+                                      where item.Value.Type == parType
                                       select invItem).ToList();
         ShowInventory(sorted);
     }

@@ -19,44 +19,18 @@ public static class GenderExtensions
 {
     public static Genders Gender(this BasicChar parWho)
     {
-        if (parWho.SexualOrgans.HaveDick() && parWho.SexualOrgans.HaveVagina())
-        {
-            return Genders.Herm;
-        }
-        else if (parWho.SexualOrgans.HaveDick() && parWho.SexualOrgans.HaveBoobs(3))
-        {
-            return Genders.Dickgirl;
-        }
+        if (parWho.SexualOrgans.HaveDick() && parWho.SexualOrgans.HaveVagina())  
+            return Genders.Herm;   
+        else if (parWho.SexualOrgans.HaveDick() && parWho.SexualOrgans.HaveBoobs(3))        
+            return Genders.Dickgirl;  
         else if (parWho.SexualOrgans.HaveDick())
-        {
             return Genders.Male;
-        }
         else if (parWho.SexualOrgans.HaveVagina() && parWho.SexualOrgans.HaveBoobs())
-        {
             return Genders.Female;
-        }
         else if (parWho.SexualOrgans.HaveVagina())
-        {
             return Genders.Cuntboy;
-        }
         else
-        {
             return Genders.Doll;
-        }
-    }
-
-    public static string GenderToString(Genders genders)
-    {
-        switch (genders)
-        {
-            case Genders.Doll: return Settings.Doll;
-            case Genders.Male: return Settings.Male;
-            case Genders.Cuntboy: return Settings.Cuntboy;
-            case Genders.Dickgirl: return Settings.Dickgirl;
-            case Genders.Herm: return Settings.Herm;
-            case Genders.Female: return Settings.Female;
-            default: return Settings.Doll;
-        }
     }
 
     public static GenderTypes GenderType(this BasicChar parWho)

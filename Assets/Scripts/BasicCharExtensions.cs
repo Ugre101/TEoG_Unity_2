@@ -55,21 +55,6 @@ public static class BasicCharExtensions
         }
     }
 
-    public static IEnumerator TickEverySecond(BasicChar basicChar)
-    {
-        // Time.time is affected by timescale so no pause check is needed
-        float time = Time.time;
-        while (true)
-        {
-            if (time + 1f < Time.time)
-            {
-                time = Time.time;
-                OverTimeTick(basicChar);
-            }
-            yield return null;
-        }
-    }
-
     /// <summary> Handles hp/wp recovery, fat burn, vore </summary>
     public static void OverTimeTick(this BasicChar basicChar, int times = 1)
     {

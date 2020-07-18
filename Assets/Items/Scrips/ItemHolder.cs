@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -7,21 +8,42 @@ public class ItemHolder : ScriptableObject
 {
     [SerializeField] private List<Item> items = new List<Item>();
 
-    public List<Item> ItemsDict => items;
+    private bool firstUse = true;
 
-    public void Add(Item toAdd) => ItemsDict.Add(toAdd);
+    public Dictionary<ItemIds, Item> ItemsDict
+    {
+        get
+        {
+            if (firstUse)
+            {
+                items1 = items.ToDictionary(id => id.ItemId);
+                firstUse = false;
+            }
+            return items1;
+        }
+    }
+
+    private Dictionary<ItemIds, Item> items1;
 
     public Item GetById(ItemIds parId)
     {
-        try
+        if (ItemsDict.ContainsKey(parId))
         {
-            return ItemsDict.Find(i => i.ItemId == parId);
+            return ItemsDict[parId];
         }
-        catch
+        else
         {
             throw new System.ArgumentException($"Item with id\"{parId}\" doesn't exist in itemholder.", "parId");
         }
     }
 
-    public bool HasItem(ItemIds id) => ItemsDict.Exists(i => i.ItemId == id);
+
+    public void Add(Item toAdd)
+    {
+        items.Add(toAdd);
+        items.Sort();// Make it easier to find stuff manually
+    }
+
+    public bool HasItem(ItemIds id) => items.Exists(i => i.ItemId == id);
+
 }

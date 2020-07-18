@@ -71,7 +71,7 @@ public class OptionButtons : MonoBehaviour
         gallonText = gallonText != null ? gallonText : gallonBtn.GetComponentInChildren<TextMeshProUGUI>();
         SetGallonText();
 
-        currEventFontSize.text = Settings.EventLogFontSize.ToString();
+        currEventFontSize.text = Settings.EventLogFont.Size.ToString();
 
         eventFontUp.onClick.AddListener(EventFontSizeUp);
         eventFontDown.onClick.AddListener(EventFontSizeDown);
@@ -91,11 +91,11 @@ public class OptionButtons : MonoBehaviour
 
     private void SetImpText() => impText.text = $"Imperial: {Settings.Imperial}";
 
-    private void SetInchText() => inchText.text = Settings.Inch ? "Inch" : "Metric";
+    private void SetInchText() => inchText.text = Settings.Inch.Imperial ? "Inch" : "Metric";
 
-    private void SetPoundText() => poundText.text = Settings.Pound ? "Pound" : "Kg";
+    private void SetPoundText() => poundText.text = Settings.Pound.Imperial ? "Pound" : "Kg";
 
-    private void SetGallonText() => gallonText.text = Settings.Gallon ? "Gallon" : "Liter";
+    private void SetGallonText() => gallonText.text = Settings.Gallon.Imperial ? "Gallon" : "Liter";
 
     private void TogglePixelCamera()
     {
@@ -119,33 +119,30 @@ public class OptionButtons : MonoBehaviour
 
     private void ToggleInch()
     {
-        Settings.ToogleInch();
-        UgreTools.SetPlayerPrefBool("Inch", Settings.Inch);
+        UgreTools.SetPlayerPrefBool("Inch", Settings.Inch.Toggle);
         SetInchText();
         SetImpText();
     }
 
     private void TooglePound()
     {
-        Settings.TooglePound();
-        UgreTools.SetPlayerPrefBool("Pound", Settings.Pound);
+        UgreTools.SetPlayerPrefBool("Pound", Settings.Pound.Toggle);
         SetPoundText();
         SetImpText();
     }
 
     private void ToogleGallon()
     {
-        Settings.ToogleGallon();
-        UgreTools.SetPlayerPrefBool("Gallon", Settings.Gallon);
+        UgreTools.SetPlayerPrefBool("Gallon", Settings.Gallon.Toggle);
         SetGallonText();
         SetImpText();
     }
 
     #endregion Toggle Units
 
-    private void EventFontSizeUp() => currEventFontSize.text = Settings.EventLogFontSizeUp.ToString();
+    private void EventFontSizeUp() => currEventFontSize.text = Settings.EventLogFont.Up.ToString();
 
-    private void EventFontSizeDown() => currEventFontSize.text = Settings.EventLogFontSizeDown.ToString();
+    private void EventFontSizeDown() => currEventFontSize.text = Settings.EventLogFont.Down.ToString();
 
     private void OpenCloseSetGenders()
     {

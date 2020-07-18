@@ -9,49 +9,39 @@ using UnityEngine.Events;
 // A space for me to build tools for methods I often use.
 public static class UgreTools
 {
-    public static bool GetPlayerPrefBool(string name) => PlayerPrefs.HasKey(name) ? PlayerPrefs.GetInt(name) == 1 : false;
-
-    public static void SetPlayerPrefBool(string name, bool boolVal) => PlayerPrefs.SetInt(name, boolVal ? 1 : 0);
-
-    public static float GetFloatPref(float val, string saveName) => PlayerPrefs.HasKey(saveName) ? PlayerPrefs.GetFloat(saveName) : val;
-
-    /// <summary> Destroy the children of gameobject calling it </summary>
-    public static void KillChildren(this Transform parTransform)
+    public static T CycleThoughEnum<T>(this T curValue) where T : Enum
     {
-        foreach (Transform child in parTransform)
+        if (typeof(T).IsEnum)
         {
-            GameObject.Destroy(child.gameObject);
+            T[] array = (T[])Enum.GetValues(typeof(T));
+            int index = Array.FindIndex(array, s => s.Equals(curValue));
+            return array[index == array.Length - 1 ? 0 : index + 1];
         }
+        throw new ArgumentException("Type must be of type enum");
     }
 
-    /// <summary> Sets children of transform to inactive; (setActive(false)) </summary>
-    public static void SleepChildren(this Transform parTransform) => SetActiveChildren(parTransform, false);
-
-    /// <summary> Sets all except except to inactive. </summary>
-    public static void SleepChildren(this Transform parTransfrom, Transform except)
+    public static List<T> EnumToList<T>() where T : Enum
     {
-        parTransfrom.SleepChildren();
-        except.gameObject.SetActive(true);
-    }
-
-    public static void SleepChildren(this Transform parTransfrom, List<Transform> exceptions)
-    {
-        parTransfrom.SleepChildren();
-        foreach (Transform transform in exceptions)
+        if (typeof(T).IsEnum)
         {
-            transform.gameObject.SetActive(true);
+            T[] array = (T[])Enum.GetValues(typeof(T));
+            List<T> list = array.ToList();
+            return list;
         }
+        throw new ArgumentException("<T> must be enum");
     }
 
-    public static void SetActiveChildren(this Transform transform, bool setTo = true)
+    public static List<TMP_Dropdown.OptionData> EnumToOptionDataList<T>() where T : Enum
     {
-        foreach (Transform child in transform)
+        if (typeof(T).IsEnum)
         {
-            child.gameObject.SetActive(setTo);
+            TMP_Dropdown.OptionDataList optionList = new TMP_Dropdown.OptionDataList();
+            List<T> list = EnumToList<T>();
+            list.ForEach(l => optionList.options.Add(new TMP_Dropdown.OptionData(l.ToString())));
+            return optionList.options;
         }
+        throw new ArgumentException("<T> must be enum");
     }
-
-    public static void ToggleGameObject(this GameObject go) => go.SetActive(!go.activeSelf);
 
     public static string FirstSecondEtc(this int parInt, bool capitalLetter = false)
     {
@@ -71,47 +61,55 @@ public static class UgreTools
         }
     }
 
-    public static List<T> EnumToList<T>()
-    {
-        if (typeof(T).IsEnum)
-        {
-            T[] array = (T[])Enum.GetValues(typeof(T));
-            List<T> list = array.ToList();
-            return list;
-        }
-        throw new ArgumentException("<T> must be enum");
-    }
+    public static float GetFloatPref(float val, string saveName) => PlayerPrefs.HasKey(saveName) ? PlayerPrefs.GetFloat(saveName) : val;
 
-    public static List<TMP_Dropdown.OptionData> EnumToOptionDataList<T>()
-    {
-        if (typeof(T).IsEnum)
-        {
-            TMP_Dropdown.OptionDataList optionList = new TMP_Dropdown.OptionDataList();
-            List<T> list = EnumToList<T>();
-            list.ForEach(l => optionList.options.Add(new TMP_Dropdown.OptionData(l.ToString())));
-            return optionList.options;
-        }
-        throw new ArgumentException("<T> must be enum");
-    }
+    public static bool GetPlayerPrefBool(string name) => PlayerPrefs.HasKey(name) ? PlayerPrefs.GetInt(name) == 1 : false;
 
     public static T JsonClone<T>(T source) => JsonUtility.FromJson<T>(JsonUtility.ToJson(source));
 
-    public static T CycleThoughEnum<T>(T curValue)
+    /// <summary> Destroy the children of gameobject calling it </summary>
+    public static void KillChildren(this Transform parTransform)
     {
-        if (typeof(T).IsEnum)
+        foreach (Transform child in parTransform)
         {
-            T[] array = (T[])Enum.GetValues(typeof(T));
-            int index = Array.FindIndex(array, s => s.Equals(curValue));
-            return array[index == array.Length - 1 ? 0 : index + 1];
+            GameObject.Destroy(child.gameObject);
         }
-        throw new ArgumentException("Type must be of type enum");
     }
 
+    public static bool OnHotKeyDownIfKeybindsActive(this KeyCode key) => GameManager.KeyBindsActive ? Input.GetKeyDown(key) : false;
+
+    public static void SetActiveChildren(this Transform transform, bool setTo = true)
+    {
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(setTo);
+        }
+    }
+
+    public static void SetPlayerPrefBool(string name, bool boolVal) => PlayerPrefs.SetInt(name, boolVal ? 1 : 0);
+    /// <summary> Sets children of transform to inactive; (setActive(false)) </summary>
+    public static void SleepChildren(this Transform parTransform) => SetActiveChildren(parTransform, false);
+
+    /// <summary> Sets all except except to inactive. </summary>
+    public static void SleepChildren(this Transform parTransfrom, Transform except)
+    {
+        parTransfrom.SleepChildren();
+        except.gameObject.SetActive(true);
+    }
+
+    public static void SleepChildren(this Transform parTransfrom, List<Transform> exceptions)
+    {
+        parTransfrom.SleepChildren();
+        foreach (Transform transform in exceptions)
+        {
+            transform.gameObject.SetActive(true);
+        }
+    }
+    public static void ToggleGameObject(this GameObject go) => go.SetActive(!go.activeSelf);
     public static IEnumerator waitAFrame(UnityAction action)
     {
         yield return new WaitForEndOfFrame();
         action?.Invoke();
     }
-
-    public static bool OnHotKeyDownIfKeybindsActive(this KeyCode key) => GameManager.KeyBindsActive ? Input.GetKeyDown(key) : false;
+ 
 }
