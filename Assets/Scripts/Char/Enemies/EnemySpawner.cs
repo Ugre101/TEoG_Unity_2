@@ -123,6 +123,8 @@ public class EnemySpawner : MonoBehaviour
         currEnemies.Clear();
         currBosses.Clear();
         AddedBosses.Clear();
+
+        AddedEnemies.ForEach(ae => CharHolderObjectPool.Instance.ReturnEnemyHolder(ae));
         AddedEnemies.Clear();
         if (MapEvents.CurMapScript != null)
         {
@@ -173,16 +175,12 @@ public class EnemySpawner : MonoBehaviour
             {
                 AssingEnemy enemy = currEnemies[rnd.Next(currEnemies.Count)];
 
-                if (enemyHolder != null)
-                {
-                    EnemyHolder newEnemy = Instantiate(enemyHolder, GetPosistion(), Quaternion.identity, transform);
-                    newEnemy.Setup(enemy);
-                    newEnemy.name = enemy.name;
-                }
-                else
-                {
-                    Debug.LogWarning(MapEvents.CurrentMap + " is missing enemies references");
-                }
+                EnemyHolder newEnemy = CharHolderObjectPool.Instance.GetEnemyHolder();
+                newEnemy.transform.SetParent(transform);
+                newEnemy.transform.position = GetPosistion();
+                newEnemy.gameObject.SetActive(true);
+                newEnemy.Setup(enemy);
+                newEnemy.name = enemy.name;
             }
         }
     }

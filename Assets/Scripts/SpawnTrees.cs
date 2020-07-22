@@ -78,7 +78,11 @@ public class SpawnTrees : MonoBehaviour
                     {
                         if (Random.value < spawnChance)
                         {
-                            smartTrees.Add(Instantiate(smartTree, spot, Quaternion.identity, transform));
+                            SmartTree tree = SmartTreeObjectPool.Instance.GetTree();
+                            tree.gameObject.SetActive(true);
+                            tree.transform.SetParent(transform);
+                            tree.transform.position = spot;
+                            smartTrees.Add(tree);
                         }
                     }
                 }
