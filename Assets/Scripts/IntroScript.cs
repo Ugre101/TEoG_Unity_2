@@ -17,7 +17,6 @@ namespace Intro
         private string FirstName => firstName.text;
         private string LastName => lastName.text;
 
-        private void OnEnable() => GameManager.SetCurState(GameState.Intro);
 
         private void Start()
         {
@@ -35,7 +34,7 @@ namespace Intro
 
         private void StartGame()
         {
-            CanvasMain.GetCanvasMain.Resume();
+            GameManager.SetCurState(GameState.Free);
             Destroy(gameObject);
         }
     }

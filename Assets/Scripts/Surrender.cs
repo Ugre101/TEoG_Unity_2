@@ -36,7 +36,7 @@ public class Surrender : MonoBehaviour
         }
         else
         {
-            CanvasMain.GetCanvasMain.Resume();
+            GameManager.ReturnToLastState();
         }
     }
 

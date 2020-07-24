@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class CombatTeam : MonoBehaviour
 {
-    [SerializeField] private CanvasMain gameUI = null;
     private List<BasicChar> Team = new List<BasicChar>();
     [SerializeField] private GameObject TeamContainer = null;
     [SerializeField] private CombatStatus CombatStatusPrefab = null;
@@ -22,7 +21,7 @@ public class CombatTeam : MonoBehaviour
         yield return null;
         if (Team.Count < 1) // if team is less than 1 an error must have occured
         {
-            gameUI.Resume();
+            GameManager.ReturnToLastState();
         }
         else
         {

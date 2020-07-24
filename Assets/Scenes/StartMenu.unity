@@ -582,7 +582,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1870520712}
+      objectReference: {fileID: 1438414003}
     - target: {fileID: 5410695262445394692, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
@@ -611,7 +611,7 @@ PrefabInstance:
     - target: {fileID: 5410695262445394692, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: StartIntro
+      value: StartNewGame
       objectReference: {fileID: 0}
     - target: {fileID: 5410695262445394692, guid: 63d8e061963d01546b5253e85beffa1c,
         type: 3}
@@ -641,6 +641,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 139189214}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &139189216 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5410695262445394692, guid: 63d8e061963d01546b5253e85beffa1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 139189214}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &270801139
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,6 +663,7 @@ GameObject:
   m_Component:
   - component: {fileID: 270801140}
   - component: {fileID: 270801141}
+  - component: {fileID: 270801142}
   m_Layer: 5
   m_Name: StartMenu
   m_TagString: Untagged
@@ -707,6 +720,23 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &270801142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270801139}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2bea9e9c49f9bf4dba338942aec49dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startBtn: {fileID: 139189216}
+  loadBtn: {fileID: 0}
+  optionsBtn: {fileID: 0}
+  quitBtn: {fileID: 0}
+  loader: {fileID: 0}
 --- !u!1 &297203852
 GameObject:
   m_ObjectHideFlags: 0
@@ -2216,6 +2246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 964104950}
   loadingScreen: {fileID: 1870520712}
+  loadProgress: {fileID: 1946811538}
 --- !u!1 &1702402047
 GameObject:
   m_ObjectHideFlags: 0
@@ -2269,7 +2300,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1870520711
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2302,7 +2333,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1271bda96b830044fa8338e3b22b6449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progresBar: {fileID: 1946811536}
 --- !u!1 &1870783303
 GameObject:
   m_ObjectHideFlags: 0
@@ -2403,6 +2433,7 @@ GameObject:
   - component: {fileID: 1946811535}
   - component: {fileID: 1946811537}
   - component: {fileID: 1946811536}
+  - component: {fileID: 1946811538}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -2548,6 +2579,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946811534}
   m_CullTransparentMesh: 0
+--- !u!114 &1946811538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1946811534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99485777996679245ad93342365e2013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progress: {fileID: 1946811536}
 --- !u!1 &2051372588
 GameObject:
   m_ObjectHideFlags: 0

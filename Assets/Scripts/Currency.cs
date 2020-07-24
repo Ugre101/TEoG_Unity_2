@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [System.Serializable]
 public class Currency
@@ -11,7 +12,7 @@ public class Currency
         set
         {
             gold = Mathf.Max(0, value);
-            GoldChanged?.Invoke();
+            GoldChanged?.Invoke(gold);
         }
     }
 
@@ -29,7 +30,5 @@ public class Currency
         return false;
     }
 
-    public delegate void GoldChange();
-
-    public event GoldChange GoldChanged;
+    public Action<float> GoldChanged;
 }

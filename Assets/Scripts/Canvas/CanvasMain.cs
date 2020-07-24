@@ -48,6 +48,19 @@ public class CanvasMain : MonoBehaviour
         {
             eventMain.gameObject.SetActive(true);
         }
+        GameManager.GameStateChangeEvent += CloseOnStateChange;
+    }
+
+    private void Start()
+    {
+    }
+
+    private void CloseOnStateChange(GameState newState)
+    {
+        if (GameManager.LastState == GameState.Menu && newState != GameState.Menu)
+        {
+            transform.SleepChildren();
+        }
     }
 
     private void Update()
@@ -82,12 +95,6 @@ public class CanvasMain : MonoBehaviour
         {
             ResumePause(panel);
         }
-    }
-
-    public void Intro()
-    {
-        transform.SleepChildren(transform.GetChild(0));
-        GameManager.SetCurState(GameState.Intro);
     }
 
     public void Resume()

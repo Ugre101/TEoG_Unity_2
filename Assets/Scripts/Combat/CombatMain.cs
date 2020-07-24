@@ -224,7 +224,7 @@ public static class CombatHandler
         {
             if (EnemyTeamChars.Count < 1)
             {
-                CanvasMain.GetCanvasMain.Resume(); // Error return to main game
+                GameManager.ReturnToLastState();  // Error return to main game
                 return null;
             }
             return EnemyTeamChars[indexCurrentEnemy];

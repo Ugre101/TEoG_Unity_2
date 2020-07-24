@@ -14,7 +14,7 @@ public class BuyItem : ShopWare
         desc.text = item.Desc;
         Cost = item.Value;
         displayCost.text = item.Value.ToString();
-        FrameCanAfford();
+        FrameCanAfford(buyer.Currency.Gold);
         buyer.Currency.GoldChanged += FrameCanAfford;
         BuyBtn.onClick.AddListener(Buy);
         if (item.Sprite != null)

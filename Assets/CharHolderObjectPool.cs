@@ -16,7 +16,9 @@ public class CharHolderObjectPool : MonoBehaviour
         {
             Instance = this;
             enemyHolders = new Queue<EnemyHolder>(enemyHoldersContainer.GetComponentsInChildren<EnemyHolder>());
+            enemyHoldersContainer.SleepChildren();
             bossHolders = new Queue<BossHolder>(bossHoldersContainer.GetComponentsInChildren<BossHolder>());
+            bossHoldersContainer.SleepChildren();
         }
         else
             Destroy(gameObject);

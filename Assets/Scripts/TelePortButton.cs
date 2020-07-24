@@ -21,7 +21,7 @@ public class TelePortButton : MonoBehaviour
     {
         canTele.TelePortTo();
         GameManager.SetCurrentArea(GlobalArea.Map);
-        CanvasMain.GetCanvasMain.Resume();
+        GameManager.ReturnToLastState();
     }
 
 

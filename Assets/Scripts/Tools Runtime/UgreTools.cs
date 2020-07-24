@@ -87,6 +87,7 @@ public static class UgreTools
     }
 
     public static void SetPlayerPrefBool(string name, bool boolVal) => PlayerPrefs.SetInt(name, boolVal ? 1 : 0);
+
     /// <summary> Sets children of transform to inactive; (setActive(false)) </summary>
     public static void SleepChildren(this Transform parTransform) => SetActiveChildren(parTransform, false);
 
@@ -105,11 +106,17 @@ public static class UgreTools
             transform.gameObject.SetActive(true);
         }
     }
+
     public static void ToggleGameObject(this GameObject go) => go.SetActive(!go.activeSelf);
+
     public static IEnumerator waitAFrame(UnityAction action)
     {
         yield return new WaitForEndOfFrame();
         action?.Invoke();
     }
- 
+
+    public static IEnumerator waitAFrame()
+    {
+        yield return new WaitForEndOfFrame();
+    }
 }

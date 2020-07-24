@@ -21,7 +21,7 @@
                 Cost = room.Cost;
                 SetTexts(room.Title, room.Desc, Cost.ToString());
                 BuyBtn.onClick.AddListener(Buy);
-                FrameCanAfford();
+                FrameCanAfford(buyer.Currency.Gold);
                 buyer.Currency.GoldChanged += FrameCanAfford;
             }
             else

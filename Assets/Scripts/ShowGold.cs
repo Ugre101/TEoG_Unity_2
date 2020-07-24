@@ -11,10 +11,10 @@ public class ShowGold : MonoBehaviour
     {
         owner = owner != null ? owner : PlayerHolder.Player;
         owner.Currency.GoldChanged += UpdateGold;
-        UpdateGold();
+        UpdateGold(owner.Currency.Gold);
     }
 
     private void OnDisable() => owner.Currency.GoldChanged -= UpdateGold;
 
-    private void UpdateGold() => amountOfGold.text = owner.Currency.Gold.ToString();
+    private void UpdateGold(float gold) => amountOfGold.text = gold.ToString();
 }

@@ -7,7 +7,8 @@ public static class DateSystem
     private static int day = 1;
     private static int week = 0;
     private static int month = 1;
-    private static int minute = 0;
+
+    public static int Minute { get; private set; } = 0;
     public static int Year { get; private set; } = 0;
 
     public static int Month
@@ -68,14 +69,12 @@ public static class DateSystem
         }
     }
 
-    public static int Minute => minute;
-
     private static void AddMinute(int value)
     {
-        minute += value;
-        while (minute > 60)
+        Minute += value;
+        while (Minute > 60)
         {
-            minute -= 60;
+            Minute -= 60;
             Hour++;
         }
         NewMinuteEvent?.Invoke(value);
@@ -113,21 +112,15 @@ public static class DateSystem
         Hour = toLoad.Hour;
     }
 
-    public delegate void NewHour();
+    public delegate void NewTime();
 
-    public static event NewHour NewHourEvent;
+    public static event NewTime NewHourEvent;
 
-    public delegate void NewDay();
+    public static event NewTime NewDayEvent;
 
-    public static event NewDay NewDayEvent;
+    public static event NewTime NewWeekEvent;
 
-    public delegate void NewWeek();
-
-    public static event NewWeek NewWeekEvent;
-
-    public delegate void NewMonth();
-
-    public static event NewMonth NewMonthEvent;
+    public static event NewTime NewMonthEvent;
 
     public delegate void NewMinute(int timesCalled);
 
@@ -176,11 +169,7 @@ public static class DateSystemExtensions
 [System.Serializable]
 public struct DateSave
 {
-    [SerializeField] private int hour;
-    [SerializeField] private int year;
-    [SerializeField] private int month;
-    [SerializeField] private int week;
-    [SerializeField] private int day;
+    [SerializeField] private int hour, day, week, month, year;
 
     public int Year => year;
     public int Month => month;

@@ -100,7 +100,7 @@ public static class StatExtensions
 
     public static int StatValueTotal(this StatsContainer stats) => stats.GetAll.Sum(s => s.Value);
 
-    public static int CalcLevelByStatTotal(this StatsContainer stats) => 1 + Mathf.CeilToInt((stats.StatBaseTotal() - 42) / 3);
+    public static int CalcLevelByStatTotal(this StatsContainer stats) => 1 + Mathf.CeilToInt((stats.StatValueTotal() - 42) / 3);
 
     // Seperated from container to make it easier to handle perks
     public static int Strength(this BasicChar basicChar)

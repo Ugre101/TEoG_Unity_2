@@ -17,7 +17,7 @@ namespace Bar
                 Cost = meal.Cost;
                 SetTexts(meal.Title, meal.Desc, meal.Cost.ToString());
                 BuyBtn.onClick.AddListener(Buy);
-                FrameCanAfford();
+                FrameCanAfford(buyer.Currency.Gold);
                 buyer.Currency.GoldChanged += FrameCanAfford;
                 if (meal.Img != null)
                 {

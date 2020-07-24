@@ -41,7 +41,7 @@ namespace StartMenuStuff
             {
                 string json = File.ReadAllText(path);
                 SaveMananger.Instance.NewSave.LoadData(json);
-                CanvasMain.GetCanvasMain.Resume();
+                GameManager.SetCurState(GameState.Free);
                 SceneManager.sceneLoaded -= OnSceneLoaded;
             }
             else

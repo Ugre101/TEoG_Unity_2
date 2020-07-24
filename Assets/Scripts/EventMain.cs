@@ -9,7 +9,6 @@ public class EventMain : MonoBehaviour
     [SerializeField] private TextLog textLog = null;
     [SerializeField] private EventMenuOptionButton optionBtn = null;
     [SerializeField] private Transform optionContainer = null;
-    [SerializeField] private CanvasMain canvasMain = null;
     [SerializeField] private GameObject eventMenu = null;
 
     // Percipants
@@ -32,7 +31,6 @@ public class EventMain : MonoBehaviour
 
     private void Start()
     {
-        canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
         GameManager.GameStateChangeEvent += PlayQuedEvent;
     }
 
@@ -109,7 +107,7 @@ public class EventMain : MonoBehaviour
     private void Leave()
     {
         eventMenu.SetActive(false);
-        canvasMain.Resume();
+        GameManager.ReturnToLastState();
     }
 
     public void SummonChangeName(Identity basicChar) => Instantiate(changeName, transform).Setup(basicChar);

@@ -16,7 +16,7 @@ public class PauseMenuCanvas : MonoBehaviour
         {
             transform.SleepChildren(PauseMenu.transform);
         }
-        else if (PauseMenu.activeSelf)
+        else if (GameManager.LastState == GameState.PauseMenu)
         {
             transform.SleepChildren();
         }

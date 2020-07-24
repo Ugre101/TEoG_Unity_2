@@ -43,7 +43,7 @@ public class HomeMain : MonoBehaviour
             mapEvents.Teleport(worldMaps, toMap, toPlatform);
         }
         GameManager.SetCurrentArea(GlobalArea.Map);
-        canvasMain.Resume();
+        GameManager.SetCurState(GameState.Free);
     }
 
     private void BuildButtons()
