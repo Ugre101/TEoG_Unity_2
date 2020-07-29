@@ -34,11 +34,7 @@ namespace Vore
 
         protected float VoreExpCapBonus => 1f + (voreExp / 100);
 
-        public virtual float MaxCapacity()
-        {
-            float cap = 0;
-            return cap * VoreExpCapBonus;
-        }
+        public abstract float MaxCapacity();
 
         /// <summary> Return weight of prey content</summary>
         public virtual float Current => preys.Sum(p => p.Prey.Body.Weight * CompresionFactor);
@@ -79,24 +75,21 @@ namespace Vore
                 if (Perks.HasPerk(VorePerks.OrgasmicFluids))
                 {
                     float arusalGain = 5 * Perks.GetPerkLevel(VorePerks.OrgasmicFluids);
-                    if (prey.SexStats.GainArousal(arusalGain))
+                    if (prey.SexStats.GainArousal(arusalGain) && Perks.HasPerk(VorePerks.DrainEssence))
                     {
-                        if (Perks.HasPerk(VorePerks.DrainEssence))
+                        float toDrain = 6 * Perks.GetPerkLevel(VorePerks.DrainEssence);
+                        if (prey.CanDrainFemi() && prey.CanDrainMasc() && VoreSettings.DrainEss == ChooseEssence.Both)
                         {
-                            float toDrain = 6 * Perks.GetPerkLevel(VorePerks.DrainEssence);
-                            if (prey.CanDrainFemi() && prey.CanDrainMasc() && VoreSettings.DrainEss == ChooseEssence.Both)
-                            {
-                                pred.Essence.Masc.Gain(prey.Essence.Masc.Lose(toDrain / 2));
-                                pred.Essence.Femi.Gain(prey.Essence.Femi.Lose(toDrain / 2));
-                            }
-                            else if (prey.CanDrainMasc() && (VoreSettings.DrainEss == ChooseEssence.Masc || VoreSettings.DrainEss == ChooseEssence.Both))
-                            {
-                                pred.Essence.Masc.Gain(prey.Essence.Masc.Lose(toDrain));
-                            }
-                            else if (prey.CanDrainFemi() && (VoreSettings.DrainEss == ChooseEssence.Femi || VoreSettings.DrainEss == ChooseEssence.Both))
-                            {
-                                pred.Essence.Femi.Gain(prey.Essence.Femi.Lose(toDrain));
-                            }
+                            pred.Essence.Masc.Gain(prey.Essence.Masc.Lose(toDrain / 2));
+                            pred.Essence.Femi.Gain(prey.Essence.Femi.Lose(toDrain / 2));
+                        }
+                        else if (prey.CanDrainMasc() && (VoreSettings.DrainEss == ChooseEssence.Masc || VoreSettings.DrainEss == ChooseEssence.Both))
+                        {
+                            pred.Essence.Masc.Gain(prey.Essence.Masc.Lose(toDrain));
+                        }
+                        else if (prey.CanDrainFemi() && (VoreSettings.DrainEss == ChooseEssence.Femi || VoreSettings.DrainEss == ChooseEssence.Both))
+                        {
+                            pred.Essence.Femi.Gain(prey.Essence.Femi.Lose(toDrain));
                         }
                     }
                 }
@@ -123,10 +116,7 @@ namespace Vore
         {
         }
 
-        public override bool Vore(BasicChar parPrey)
-        {
-            return base.Vore(parPrey);
-        }
+        public override bool Vore(BasicChar parPrey) => base.Vore(parPrey);
 
         public override float MaxCapacity()
         {
@@ -134,16 +124,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        protected override void DigestTo(float val)
-        {
-            pred.SexualOrgans.Balls.List.ForEach(b =>
-            {
-                if (!b.Fluid.IsFull)
-                {
-                    b.Fluid.ReFillWith(val);
-                }
-            });
-        }
+        protected override void DigestTo(float val) => pred.SexualOrgans.Balls.List.FindAll(b => !b.Fluid.IsFull).ForEach(b => b.Fluid.ReFillWith(val));
     }
 
     [Serializable]
@@ -153,10 +134,7 @@ namespace Vore
         {
         }
 
-        public override bool Vore(BasicChar parPrey)
-        {
-            return base.Vore(parPrey);
-        }
+        public override bool Vore(BasicChar parPrey) => base.Vore(parPrey);
 
         public override float MaxCapacity()
         {
@@ -164,16 +142,7 @@ namespace Vore
             return cap * VoreExpCapBonus;
         }
 
-        protected override void DigestTo(float val)
-        {
-            pred.SexualOrgans.Boobs.List.ForEach(b =>
-            {
-                if (!b.Fluid.IsFull)
-                {
-                    b.Fluid.ReFillWith(val);
-                }
-            });
-        }
+        protected override void DigestTo(float val) => pred.SexualOrgans.Boobs.List.FindAll(b => !b.Fluid.IsFull).ForEach(b => b.Fluid.ReFillWith(val));
     }
 
     [Serializable]
@@ -183,14 +152,11 @@ namespace Vore
         {
         }
 
-        public override bool Vore(BasicChar parPrey)
-        {
-            return base.Vore(parPrey);
-        }
+        public override bool Vore(BasicChar parPrey) => base.Vore(parPrey);
 
         public override float MaxCapacity()
         {
-            float cap = (pred.Body.Height.Value / 3) * ElasticMulti;
+            float cap = pred.Body.Height.Value / 3 * ElasticMulti;
             return cap * VoreExpCapBonus;
         }
 
@@ -204,10 +170,7 @@ namespace Vore
         {
         }
 
-        public override bool Vore(BasicChar parPrey)
-        {
-            return base.Vore(parPrey);
-        }
+        public override bool Vore(BasicChar parPrey) => base.Vore(parPrey);
 
         public override float MaxCapacity()
         {
@@ -225,10 +188,7 @@ namespace Vore
         {
         }
 
-        public override bool Vore(BasicChar parPrey)
-        {
-            return base.Vore(parPrey);
-        }
+        public override bool Vore(BasicChar parPrey) => base.Vore(parPrey);
 
         [SerializeField] private bool childTf = false;
 
@@ -268,16 +228,7 @@ namespace Vore
             }
         }
 
-        protected override void DigestTo(float val)
-        {
-            pred.SexualOrgans.Vaginas.List.ForEach(v =>
-            {
-                if (!v.Fluid.IsFull)
-                {
-                    v.Fluid.ReFillWith(val);
-                }
-            });
-        }
+        protected override void DigestTo(float val) => pred.SexualOrgans.Vaginas.List.FindAll(v => !v.Fluid.IsFull).ForEach(v => v.Fluid.ReFillWith(val));
 
         [Serializable]
         public class PreyToChild
@@ -293,9 +244,7 @@ namespace Vore
 
             public ThePrey Prey => prey;
 
-            [SerializeField] private int startAge;
-
-            [SerializeField] private int lastAge;
+            [SerializeField] private int startAge, lastAge;
 
             public int CurAge => prey.Prey.Age.AgeYears;
             public int StartAge => startAge;

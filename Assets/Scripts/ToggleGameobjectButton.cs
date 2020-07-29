@@ -9,7 +9,7 @@ public class ToggleGameobjectButton : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        btn = btn ?? GetComponent<Button>();
+        btn = btn != null ? btn : GetComponent<Button>();
         if (toToggle != null)
         {
             btn.onClick.AddListener(ToggleGameobject);

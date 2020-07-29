@@ -8,19 +8,24 @@ public static class BossEditorBools
 [CustomEditor(typeof(AssingBoss))]
 public class AssingBossEditor : AssingEnemyEditor
 {
+
+    private AssingBoss boss;
     private bool BossStuff { get => BossEditorBools.BossStuffFoldout; set => BossEditorBools.BossStuffFoldout = value; }
     private SerializedProperty hasPreBattleDialog, hasPostBattleDialog, hasCustomScene;
 
-    private void OnEnable()
+    private void OnEnable() => Init();
+
+    private void Init()
     {
         GetSerializedObjectsForEnemyPrefab();
+        hasCustomScene = serializedObject.FindProperty("hasCustomScene");
         hasPreBattleDialog = serializedObject.FindProperty("hasPreBattleDialog");
         hasPostBattleDialog = serializedObject.FindProperty("hasPostBattleDialog");
-        hasCustomScene = serializedObject.FindProperty("hasCustomScene");
     }
 
     public override void OnInspectorGUI()
     {
+        boss = (AssingBoss)target;
         BossStuff = EditorGUILayout.Foldout(BossStuff, "Boss stuff", true, EditorStyles.foldout);
         if (BossStuff)
         {

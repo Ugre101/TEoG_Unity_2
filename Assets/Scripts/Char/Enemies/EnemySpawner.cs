@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private PlayerHolder Player;
 
     [SerializeField] private List<Tilemap> dontSpawnOn = new List<Tilemap>();
-
+    [SerializeField] private CharHolderObjectPool charPool = null;
     private MapEvents MapEvents => MapEvents.GetMapEvents;
 
     [Header("Settings")]
@@ -30,6 +30,7 @@ public class EnemySpawner : MonoBehaviour
     private void Start()
     {
         Player = Player != null ? Player : PlayerHolder.GetPlayerHolder;
+        charPool = charPool != null ? charPool : CharHolderObjectPool.Instance;
         MapEvents.TileMapChange += DoorChanged;
         Movement.TriggerEnemy += RePosistion;
         DoorChanged(MapEvents.CurrentMap);
@@ -54,56 +55,36 @@ public class EnemySpawner : MonoBehaviour
 
     public bool AroundPlayer(Vector3 vector3) => Vector3.Distance(Player.transform.position, vector3) < distFromPlayer;
 
-    public bool AroundBoss(Vector3 vector3)
-    {
-        if (AddedBosses.Count < 1) { return false; }
-        foreach (BossHolder b in AddedBosses)
-        {
-            if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    public bool AroundBoss(Vector3 vector3) => AddedBosses.Exists(b => Vector3.Distance(b.transform.position, vector3) < distFromBoss);
 
-    public bool AroundOtherEnemy(Vector3 vector3)
-    {
-        if (AddedEnemies.Count < 1) { return false; }
-        foreach (EnemyHolder b in AddedEnemies)
-        {
-            if (Vector3.Distance(b.transform.position, vector3) < distFromBoss)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+    public bool AroundOtherEnemy(Vector3 pos) => AddedEnemies.Exists(e => Vector3.Distance(e.transform.position, pos) < distFromBoss);
 
     public Vector3 GetPosistion()
     {
         if (_empty.Count < 1)
-        {
             AvailblePos();
-        }
+
         int index = rnd.Next(_empty.Count);
         int tries = 0;
-        while (AroundPlayer(_empty[index]) || AroundBoss(_empty[index]) || AroundOtherEnemy(_empty[index]))
+        bool toClose = ToCloseToSomething(index);
+        while (toClose)
         {
             index = rnd.Next(_empty.Count);
+            toClose = ToCloseToSomething(index);
             tries++;
             if (tries > 100)
             {
                 if (Debug.isDebugBuild)
-                {
                     Debug.LogError("Spawner had to give up trying to posistion enemy");
-                }
+
                 break;
                 // Give up and just let is spawn whereever
             }
         }
         return _empty[index];
     }
+
+    private bool ToCloseToSomething(int index) => AroundPlayer(_empty[index]) || AroundBoss(_empty[index]) || AroundOtherEnemy(_empty[index]);
 
     public void RePosistion(CharHolder toRePos) => toRePos.transform.position = GetPosistion();
 
@@ -115,16 +96,13 @@ public class EnemySpawner : MonoBehaviour
         SetupEnemies();
     }
 
-    [SerializeField] private EnemyHolder enemyHolder = null;
-    [SerializeField] private BossHolder bossHolder = null;
-
     private void CurrentEnemies()
     {
         currEnemies.Clear();
         currBosses.Clear();
         AddedBosses.Clear();
 
-        AddedEnemies.ForEach(ae => CharHolderObjectPool.Instance.ReturnEnemyHolder(ae));
+        AddedEnemies.ForEach(ae => charPool.ReturnEnemyHolder(ae));
         AddedEnemies.Clear();
         if (MapEvents.CurMapScript != null)
         {
@@ -169,46 +147,35 @@ public class EnemySpawner : MonoBehaviour
 
     private void SpawnEnemies()
     {
-        if (currEnemies.Count > 0)
+        if (currEnemies.Count <= 0) { return; }
+        for (int i = 0; i < enemyToAdd; i++)
         {
-            for (int i = 0; i < enemyToAdd; i++)
-            {
-                AssingEnemy enemy = currEnemies[rnd.Next(currEnemies.Count)];
+            AssingEnemy enemy = currEnemies[rnd.Next(currEnemies.Count)];
 
-                EnemyHolder newEnemy = CharHolderObjectPool.Instance.GetEnemyHolder();
-                newEnemy.transform.SetParent(transform);
-                newEnemy.transform.position = GetPosistion();
-                newEnemy.gameObject.SetActive(true);
-                newEnemy.Setup(enemy);
-                newEnemy.name = enemy.name;
-            }
+            EnemyHolder newEnemy = charPool.GetEnemyHolder();
+            newEnemy.gameObject.SetActive(true);
+            newEnemy.Setup(enemy);
+            newEnemy.transform.SetParent(transform);
+            newEnemy.transform.position = GetPosistion();
+            newEnemy.name = enemy.name;
         }
     }
 
     private void SpawnBosses()
     {
-        if (currBosses.Count > 0)
+        if (currBosses.Count <= 0) { return; }
+        foreach (AssingBoss boss in currBosses)
         {
-            foreach (AssingBoss boss in currBosses)
+            if (boss != null)
             {
-                if (boss != null)
-                {
-                    BossHolder newBoss = Instantiate(bossHolder, GetPosistion(), Quaternion.identity, transform);
-                    newBoss.Setup(boss);
-                    /*
-                     * TODO Fix
-                       if (newBoss.LockedPosistion)
-                       {
-                           newBoss.transform.position = newBoss.Pos;
-                       }*/
-                    newBoss.name = boss.name;
-                }
+                BossHolder newBoss = charPool.GetBossHolder(); //Instantiate(bossHolder, GetPosistion(), Quaternion.identity, transform);
+
+                newBoss.gameObject.SetActive(true);
+                newBoss.Setup(boss);
+                newBoss.transform.SetParent(transform);
+                newBoss.transform.position = boss.LockedPosistion ? boss.Pos : GetPosistion();
+                newBoss.name = boss.name;
             }
         }
-    }
-
-    private void NameAndADDBoss(Boss b, BossHolder boss)
-    {
-        boss.name = b.Identity.FullName;
     }
 }

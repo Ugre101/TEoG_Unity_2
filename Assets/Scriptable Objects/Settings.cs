@@ -132,7 +132,11 @@ public static class Settings
         }
     }
 
+    public static string InKgorP(this float val) => KgorP(val);
+
     public static float KgorPWithOutSuffix(float kg) => Pound.Imperial ? Mathf.Round(kg * 2.20462262f) : Mathf.FloorToInt(kg);
+
+    public static float InKgorPNoSuffic(this float val) => KgorPWithOutSuffix(val);
 
     #endregion UnitConvetors
 

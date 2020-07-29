@@ -6,23 +6,29 @@ public class VorePerkPointsLeft : MonoBehaviour
     [SerializeField] private PlayerMain player = null;
     [SerializeField] private TextMeshProUGUI proUGUI = null;
     private int lastPoints;
-    private bool voreIsActive;
+    private bool voreIsActive, started = false;
 
     // Start is called before the first frame update
     private void Start()
     {
         proUGUI = proUGUI != null ? proUGUI : GetComponent<TextMeshProUGUI>();
+        player = player ?? PlayerHolder.Player;
         ShowPoints();
+        started = true;
+        OnEnable();
     }
 
     private void OnEnable()
     {
-        player = player != null ? player : PlayerHolder.Player;
-        voreIsActive = player.Vore.Active;
+        if (started)
+        {
+            voreIsActive = player.Vore.Active;
+            ShowPoints();
+            player.Vore.VoreExp.PerkPointsChange += ShowPoints;
+        }
     }
 
-    // Update is called once per frame
-    private void Update() => ShowPoints();
+    private void OnDisable() => player.Vore.VoreExp.PerkPointsChange -= ShowPoints;
 
     private void ShowPoints()
     {

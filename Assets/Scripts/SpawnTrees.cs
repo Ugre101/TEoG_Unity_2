@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 
 public class SpawnTrees : MonoBehaviour
 {
-    [SerializeField] private SmartTree smartTree = null;
     [SerializeField] private List<Tile> spawnOn = new List<Tile>();
     [SerializeField] private Tilemap map = null;
 
@@ -74,16 +73,13 @@ public class SpawnTrees : MonoBehaviour
                 if (UnderMaxAmount())
                 {
                     Vector3 spot = spwanSpot[rnd.Next(spwanSpot.Count)];
-                    if (NotToCloseToOtherTrees(spot))
+                    if (NotToCloseToOtherTrees(spot) && Random.value < spawnChance)
                     {
-                        if (Random.value < spawnChance)
-                        {
-                            SmartTree tree = SmartTreeObjectPool.Instance.GetTree();
-                            tree.gameObject.SetActive(true);
-                            tree.transform.SetParent(transform);
-                            tree.transform.position = spot;
-                            smartTrees.Add(tree);
-                        }
+                        SmartTree tree = SmartTreeObjectPool.Instance.GetTree();
+                        tree.gameObject.SetActive(true);
+                        tree.transform.SetParent(transform);
+                        tree.transform.position = spot;
+                        smartTrees.Add(tree);
                     }
                 }
                 else

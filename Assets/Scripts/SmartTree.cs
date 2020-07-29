@@ -2,7 +2,7 @@
 
 public class SmartTree : MonoBehaviour
 {
-    [SerializeField] private PlayerHolder player = null;
+    private PlayerHolder Player => PlayerHolder.GetPlayerHolder;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite stump = null, tree = null;
     [SerializeField] private CapsuleCollider2D capsule = null;
@@ -17,7 +17,6 @@ public class SmartTree : MonoBehaviour
     {
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
         capsule = capsule != null ? capsule : GetComponent<CapsuleCollider2D>();
-        player = player != null ? player : PlayerHolder.GetPlayerHolder;
 
         normalSize = capsule.size;
         SetSprite();
@@ -43,7 +42,7 @@ public class SmartTree : MonoBehaviour
     {
         if (KeyBindings.ActionKey.KeyDown)
         {
-            Action(player);
+            Action(Player);
         }
     }
 
@@ -53,13 +52,13 @@ public class SmartTree : MonoBehaviour
         capsule.size = chopped ? smallerSize : normalSize;
     }
 
-    private void OnMouseDown() => Action(player);
+    private void OnMouseDown() => Action(Player);
 
-    public void Action(CharHolder npc)
+    public void Action(CharHolder npc, int dmg = 25)
     {
         if (Vector2.Distance(npc.transform.position, transform.position) < 5f)
         {
-            hp -= 25;
+            hp -= dmg;
             if (hp <= 0)
             {
                 chopped = true;

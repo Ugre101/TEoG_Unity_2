@@ -6,6 +6,7 @@
         Anal,
         Vagina,
         Balls,
-        Boobs
+        Boobs,
+        Tail
     }
 }

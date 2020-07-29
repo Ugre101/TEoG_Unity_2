@@ -16,10 +16,11 @@ namespace Vore
             btn = btn != null ? btn : GetComponent<Button>();
             title = title != null ? title : GetComponentInChildren<TextMeshProUGUI>();
             btn.onClick.AddListener(Toggle);
-            title.text = $"Child tf: {voreVagina.ChildTf}";
+            SetText(voreVagina.ChildTf);
         }
 
-        private void Toggle() => title.text = $"Child tf: {voreVagina.ToggleChildTf()}";
-    }
+        private void SetText(bool val) => title.text = $"Child tf: {val}";
 
+        private void Toggle() => SetText(voreVagina.ToggleChildTf());
+    }
 }

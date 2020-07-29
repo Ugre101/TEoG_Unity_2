@@ -6,6 +6,7 @@ public class PerkPointsLeft : MonoBehaviour
     [SerializeField] private PlayerMain player = null;
     [SerializeField] private TextMeshProUGUI textUGUI = null;
     private int lastLeft;
+    private bool started = false;
 
     // Start is called before the first frame update
     private void Start()
@@ -13,10 +14,19 @@ public class PerkPointsLeft : MonoBehaviour
         textUGUI = textUGUI != null ? textUGUI : GetComponent<TextMeshProUGUI>();
         player = player != null ? player : PlayerHolder.Player;
         ShowPoints();
+        started = true;
+        OnEnable();
     }
 
-    // Update is called once per frame
-    private void Update() => ShowPoints();
+    private void OnEnable()
+    {
+        if (started)
+        {
+            player.ExpSystem.PerkPointsChange += ShowPoints;
+        }
+    }
+
+    private void OnDisable() => player.ExpSystem.PerkPointsChange -= ShowPoints;
 
     private void ShowPoints()
     {

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 public class DisplayLevel : MonoBehaviour
@@ -9,12 +8,14 @@ public class DisplayLevel : MonoBehaviour
     private BasicChar BasicChar => charHolder.BasicChar;
 
     private int Level => BasicChar.Stats.CalcLevelByStatTotal();
+
     // Start is called before the first frame update
     private void Start()
     {
         levelText = levelText != null ? levelText : GetComponentInChildren<TextMeshProUGUI>();
         charHolder = charHolder != null ? charHolder : GetComponentInParent<CharHolder>();
         BasicChar.Stats.GetAll.ForEach(s => s.ValueChanged += StatChange);
+        BasicChar.DestroyHolderEvent += OnDestroy;
         StatChange();
     }
 
