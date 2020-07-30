@@ -11,12 +11,13 @@ public static class Settings
         // Metrics & Units
         new List<MeasureUnit>() { Inch, Pound, Gallon }.ForEach(mu => mu.Save());
         // Gender names
-        GenderNames.Load();
+        GenderNames.Save();
         // Fontsizes
         new List<LogFontSize>() { EventLogFont, CombatLogFont, SexLogFont }.ForEach(lf => lf.Save());
         // Misc
         // UgreTools.SetPlayerPrefBool("Vore", Vore);
         UgreTools.SetPlayerPrefBool("Scat", Scat);
+        FollowersSettings.Save();
     }
 
     public static void Load()
@@ -24,12 +25,13 @@ public static class Settings
         // Units
         new List<MeasureUnit>() { Inch, Pound, Gallon }.ForEach(mu => mu.Load());
         // Genders
-        GenderNames.Save();
+        GenderNames.Load();
         // FontSizes
         new List<LogFontSize>() { EventLogFont, CombatLogFont, SexLogFont }.ForEach(lf => lf.Load());
         // Misc
         //  Vore = UgreTools.GetPlayerPrefBool("Vore");
         Scat = UgreTools.GetPlayerPrefBool("Scat");
+        FollowersSettings.Load();
     }
 
     #endregion Save&Load
@@ -150,7 +152,7 @@ public static class Settings
         public static string Dickgirl = "dickgirl";
         public static string Doll = "doll";
 
-        public static void Save()
+        public static void Load()
         {
             Male = PlayerPrefs.GetString("Male", Male);
             Female = PlayerPrefs.GetString("Female", Female);
@@ -160,7 +162,7 @@ public static class Settings
             Doll = PlayerPrefs.GetString("Doll", Doll);
         }
 
-        internal static void Load()
+        public static void Save()
         {
             PlayerPrefs.SetString("Male", Male);
             PlayerPrefs.SetString("Female", Female);
@@ -191,6 +193,50 @@ public static class Settings
     public static LogFontSize EventLogFont { get; } = new LogFontSize("EventlogFontSize");
     public static LogFontSize CombatLogFont { get; } = new LogFontSize("CombatlogFontSize");
     public static LogFontSize SexLogFont { get; } = new LogFontSize("SexlogFontSize");
+
+    public static class FollowersSettings
+    {
+        public static TitleName TheyCallYou = new TitleName("Leader");
+        public static TitleName YouCallThem = new TitleName("Follower");
+        public static TitleName WhenTakingThemYou = new TitleName("Bring home");
+
+        public static void Save()
+        {
+            TheyCallYou.Save();
+            YouCallThem.Save();
+            WhenTakingThemYou.Save();
+        }
+
+        public static void Load()
+        {
+            TheyCallYou.Load();
+            YouCallThem.Load();
+            WhenTakingThemYou.Load();
+        }
+    }
+}
+
+public class TitleName
+{
+    public string Title { get; private set; }
+
+    public void SetTitle(string newTitle)
+    {
+        Title = newTitle;
+        Save();
+    }
+
+    private readonly string SaveName;
+
+    public TitleName(string title)
+    {
+        Title = title;
+        SaveName = title;
+    }
+
+    public void Save() => PlayerPrefs.SetString(SaveName, Title);
+
+    public void Load() => Title = PlayerPrefs.GetString(SaveName, Title);
 }
 
 public class MeasureUnit
@@ -243,30 +289,5 @@ public static class VoreSettings
 {
     public static ChooseEssence DrainEss { get; private set; } = ChooseEssence.Both;
 
-    public static ChooseEssence ToggleDrainEss()
-    {
-        switch (DrainEss)
-        {
-            case ChooseEssence.Masc:
-                DrainEss = ChooseEssence.Femi;
-                break;
-
-            case ChooseEssence.Femi:
-                DrainEss = ChooseEssence.Both;
-                break;
-
-            case ChooseEssence.Both:
-                DrainEss = ChooseEssence.None;
-                break;
-
-            case ChooseEssence.None:
-                DrainEss = ChooseEssence.Masc;
-                break;
-
-            default:
-                DrainEss = ChooseEssence.Both;
-                break;
-        }
-        return DrainEss;
-    }
+    public static ChooseEssence ToggleDrainEss() => DrainEss = DrainEss.CycleThoughEnum();
 }

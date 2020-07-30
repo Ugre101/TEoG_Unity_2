@@ -109,13 +109,13 @@ public static class UgreTools
 
     public static void ToggleGameObject(this GameObject go) => go.SetActive(!go.activeSelf);
 
-    public static IEnumerator waitAFrame(UnityAction action)
+    public static IEnumerator WaitAFrame(UnityAction action)
     {
         yield return new WaitForEndOfFrame();
         action?.Invoke();
     }
 
-    public static IEnumerator waitAFrame()
+    public static IEnumerator WaitAFrame()
     {
         yield return new WaitForEndOfFrame();
     }

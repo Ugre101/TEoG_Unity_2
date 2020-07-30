@@ -59,7 +59,7 @@ namespace StartMenuStuff
 
                 yield return null;
             }
-            StartCoroutine(UgreTools.waitAFrame());
+            StartCoroutine(UgreTools.WaitAFrame());
             GameManager.SetCurState(GameState.Intro);
         }
 
