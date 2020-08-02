@@ -22,6 +22,6 @@ public static class DickExtensions
     public static float GrowCost(this Dick dick) => Mathf.Ceil(Mathf.Min(2000, 30 * Mathf.Pow(1.05f, dick.BaseSize)));
 
     public static string Look(this Dick parDick, bool capital = true)
-        => $"{(capital ? "A" : "a")} {Settings.MorInch(parDick.Size)} long {parDick.Race} dick";
+        => $"{(capital ? "A" : "a")} {parDick.Size.MorInch()} long {parDick.Race} dick";
 
 }

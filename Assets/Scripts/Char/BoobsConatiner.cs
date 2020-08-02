@@ -14,7 +14,7 @@ public class BoobsConatiner : OrganWithFluidContainer
     public bool Lactating => lactating;
     public override float FluidSlider => List.FluidCurrentTotal() / List.FluidMax();
 
-    public override string FluidStatus => Settings.LorGal(List.FluidCurrentTotal() / 1000);
+    public override string FluidStatus => (List.FluidCurrentTotal() / 1000).LorGal();
 
     public override string LooksWithOutFluids => throw new System.NotImplementedException();
 

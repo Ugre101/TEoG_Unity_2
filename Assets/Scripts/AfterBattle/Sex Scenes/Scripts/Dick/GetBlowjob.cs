@@ -5,7 +5,7 @@ public class GetBlowjob : SexScenes
 {
     public override string StartScene(BasicChar player, BasicChar other)
     {
-        string dickSize = Settings.MorInch(player.SexualOrgans.Dicks.BiggestSizeValue);
+        string dickSize = player.SexualOrgans.Dicks.BiggestSizeValue.MorInch();
         return $"You walk up to your defeated adversary as they attempt to get back on their feet.You stop them by catching their head and tilting it up to your face. You look back down at your crotch and nod to your {dickSize} cock expectantly. Just as your prize gets the idea and moves closer you eagerly thrust your hips into their mouth. You hold their head close starting a steady rhythm as you use their hole."
         // "Your last blow sends your foe recoiling back losing their footing and crashing to the floor. You make your way up to them until you cast a shadow of their body. Your adversary groans as they start to rise, only to be met with the sight of your (insert player dick size. small, average, hefty, enormous) member. Stunned by the position they are in you grab the back of their head and guide their mouth to its rightful place and begin to enjoy your prize"
 ;

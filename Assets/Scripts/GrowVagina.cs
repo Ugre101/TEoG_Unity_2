@@ -14,7 +14,7 @@
             BaseSetup(player);
         }
 
-        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(vagina.Size)} {Cost}Femi";
+        protected override void DisplayCost() => btnText.text = $"{vagina.Size.MorInch()} {Cost}Femi";
 
         protected override void Grow()
         {

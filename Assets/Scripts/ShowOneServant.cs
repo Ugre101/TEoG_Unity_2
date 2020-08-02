@@ -31,8 +31,7 @@ public class ShowOneServant : MonoBehaviour
     {
         if (Dorm.Followers.Exists(b => b == basicChar))
         {
-            BasicChar who = Dorm.Followers.Find(b => b == basicChar);
-            Instantiate(prompt, transform).Setup(() => KickASevantOut(who));
+            Instantiate(prompt, transform).Setup(() => KickASevantOut(Dorm.Followers.Find(b => b == basicChar)));
         }
     }
 

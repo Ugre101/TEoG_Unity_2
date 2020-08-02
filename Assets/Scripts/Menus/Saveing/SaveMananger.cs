@@ -29,11 +29,15 @@ public class SaveMananger : MonoBehaviour
         player = player != null ? player : PlayerHolder.Player;
         SaveFolder = Directory.Exists(SaveSettings.SaveFolder) ? new DirectoryInfo(SaveSettings.SaveFolder) : Directory.CreateDirectory(SaveSettings.SaveFolder);
         Settings.Load();
+        Measurements.Load();
     }
+
     private void OnApplicationQuit()
     {
         Settings.Save();
+        Measurements.Save();
     }
+
     private void Update()
     {
         if (GameManager.KeyBindsActive)

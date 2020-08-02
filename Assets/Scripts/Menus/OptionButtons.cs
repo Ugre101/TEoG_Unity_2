@@ -89,13 +89,13 @@ public class OptionButtons : MonoBehaviour
 
     private void SetPixelText() => pixelText.text = $"Pixelperfect: {pixelToggle}";
 
-    private void SetImpText() => impText.text = $"Imperial: {Settings.Imperial}";
+    private void SetImpText() => impText.text = $"Imperial: {Measurements.Imperial}";
 
-    private void SetInchText() => inchText.text = Settings.Inch.Imperial ? "Inch" : "Metric";
+    private void SetInchText() => inchText.text = Measurements.Inch.Imperial ? "Inch" : "Metric";
 
-    private void SetPoundText() => poundText.text = Settings.Pound.Imperial ? "Pound" : "Kg";
+    private void SetPoundText() => poundText.text = Measurements.Pound.Imperial ? "Pound" : "Kg";
 
-    private void SetGallonText() => gallonText.text = Settings.Gallon.Imperial ? "Gallon" : "Liter";
+    private void SetGallonText() => gallonText.text = Measurements.Gallon.Imperial ? "Gallon" : "Liter";
 
     private void TogglePixelCamera()
     {
@@ -109,8 +109,8 @@ public class OptionButtons : MonoBehaviour
 
     private void ToggleImp()
     {
-        Settings.ToogleImperial();
-        UgreTools.SetPlayerPrefBool("Imperial", Settings.Imperial);
+        Measurements.ToogleImperial();
+        UgreTools.SetPlayerPrefBool("Imperial", Measurements.Imperial);
         SetImpText();
         SetInchText();
         SetPoundText();
@@ -119,21 +119,21 @@ public class OptionButtons : MonoBehaviour
 
     private void ToggleInch()
     {
-        UgreTools.SetPlayerPrefBool("Inch", Settings.Inch.Toggle);
+        UgreTools.SetPlayerPrefBool("Inch", Measurements.Inch.Toggle);
         SetInchText();
         SetImpText();
     }
 
     private void TooglePound()
     {
-        UgreTools.SetPlayerPrefBool("Pound", Settings.Pound.Toggle);
+        UgreTools.SetPlayerPrefBool("Pound", Measurements.Pound.Toggle);
         SetPoundText();
         SetImpText();
     }
 
     private void ToogleGallon()
     {
-        UgreTools.SetPlayerPrefBool("Gallon", Settings.Gallon.Toggle);
+        UgreTools.SetPlayerPrefBool("Gallon", Measurements.Gallon.Toggle);
         SetGallonText();
         SetImpText();
     }

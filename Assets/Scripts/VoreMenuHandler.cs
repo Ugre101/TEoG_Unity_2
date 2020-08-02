@@ -115,6 +115,6 @@ namespace Vore
             }
         }
 
-        private string Capacity(VoreBasic organ) => $"{organ.VoreContainers.ToString()}: {Settings.KgorPWithOutSuffix(organ.Current)}/{Settings.KgorP(organ.MaxCapacity())}";
+        private string Capacity(VoreBasic organ) => $"{organ.VoreContainers.ToString()}: {organ.Current.KgorPWithOutSuffix()}/{organ.MaxCapacity().KgorP()}";
     }
 }

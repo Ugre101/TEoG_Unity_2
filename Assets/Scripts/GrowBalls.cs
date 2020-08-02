@@ -14,7 +14,7 @@
             BaseSetup(player);
         }
 
-        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(balls.Size)} {Cost}Masc";
+        protected override void DisplayCost() => btnText.text = $"{balls.Size.MorInch()} {Cost}Masc";
 
         protected override void Grow()
         {

@@ -226,7 +226,7 @@ public class Body
         }
         else
         {
-            return Settings.MorInch(val);
+            return val.MorInch();
         }
     }
 }

@@ -10,7 +10,7 @@ public class AnalsContainer : OrganWithFluidContainer
     public List<Anal> List => anals;
     public override float FluidSlider => List.FluidCurrentTotal() / List.FluidMax();
 
-    public override string FluidStatus => Settings.LorGal(List.FluidCurrentTotal() / 1000);
+    public override string FluidStatus => (List.FluidCurrentTotal() / 1000).LorGal();
 
     public override string Looks
     {
@@ -128,7 +128,7 @@ public class BallsContaier : OrganWithFluidContainer
 
     public override float FluidSlider => List.FluidCurrentTotal() / List.FluidMax();
 
-    public override string FluidStatus => Settings.LorGal(List.FluidCurrentTotal() / 1000);
+    public override string FluidStatus => (List.FluidCurrentTotal() / 1000).LorGal();
 
     public override string Looks
     {

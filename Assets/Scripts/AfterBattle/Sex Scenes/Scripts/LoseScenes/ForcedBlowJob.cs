@@ -7,7 +7,7 @@ public class ForcedBlowJob : LoseScene
     {
         DickContainer dicks = other.SexualOrgans.Dicks;
         System.Collections.Generic.List<Balls> balls = other.SexualOrgans.Balls.List;
-        return $"{other.Identity.FirstName} forces your head to their crotch, and starts thrusting their {dicks.BiggestSizeMorInch} dick into your mouth. Despite your intentions, your body betrays you and orgasms as they cum {Settings.LorGal(balls.Cumming())}.";
+        return $"{other.Identity.FirstName} forces your head to their crotch, and starts thrusting their {dicks.BiggestSizeMorInch} dick into your mouth. Despite your intentions, your body betrays you and orgasms as they cum {balls.Cumming().LorGal()}.";
     }
 
     public override string ContinueScene(BasicChar player, BasicChar other)

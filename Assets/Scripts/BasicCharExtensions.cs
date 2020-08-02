@@ -8,13 +8,13 @@ public static class BasicCharExtensions
         ? who.RaceSystem.CurrentRace().ToString()
         : who.RaceSystem.CurrentRace().ToString().ToLower();
 
-    public static string HeightMorInch(this Body body) => Settings.MorInch(body.Height.Value);
+    public static string HeightMorInch(this Body body) => body.Height.Value.MorInch();
 
-    public static string MuscleKgOrP(this Body body) => Settings.KgorP(body.Muscle.Value);
+    public static string MuscleKgOrP(this Body body) => body.Muscle.Value.KgorP();
 
-    public static string FatKgOrP(this Body body) => Settings.KgorP(body.Fat.Value);
+    public static string FatKgOrP(this Body body) => body.Fat.Value.KgorP();
 
-    public static string WeightKgOrP(this Body body) => Settings.KgorP(body.Weight);
+    public static string WeightKgOrP(this Body body) => body.Weight.KgorP();
 
     public static string Summary(this BasicChar who)
     {

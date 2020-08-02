@@ -18,7 +18,7 @@ public abstract class OrganContainer
     public abstract float AddCost { get; }
 
     public abstract float BiggestSizeValue { get; }
-    public string BiggestSizeMorInch => Settings.MorInch(BiggestSizeValue);
+    public string BiggestSizeMorInch => BiggestSizeValue.MorInch();
 
     public delegate void OrganChanged();
 

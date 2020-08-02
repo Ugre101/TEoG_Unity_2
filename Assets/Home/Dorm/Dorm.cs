@@ -4,16 +4,19 @@ using UnityEngine;
 public static class Dorm
 {
     public static List<BasicChar> Followers { get; private set; } = new List<BasicChar>();
-
-    public static void AddToDorm(BasicChar basicChar) => Followers.Add(basicChar);
+    public static Dictionary<string, BasicChar> DictFollowers { get; private set; } = new Dictionary<string, BasicChar>();
+    public static void AddToDorm(BasicChar basicChar)
+    {
+        Followers.Add(basicChar);
+        DictFollowers.Add(basicChar.Identity.Id, basicChar);
+    }
 
     public static List<DormSave> Save()
     {
         List<DormSave> dormSaves = new List<DormSave>();
         foreach (BasicChar basicChar in Followers)
         {
-            DormSave tempDorm = new DormSave(basicChar);
-            dormSaves.Add(tempDorm);
+            dormSaves.Add(new DormSave(basicChar));
         }
         return dormSaves;
     }
@@ -35,11 +38,7 @@ public struct DormSave
 {
     [SerializeField] private string who;
 
-    public string Who => who;
     public BasicChar BasicChar => JsonUtility.FromJson<BasicChar>(who);
 
-    public DormSave(BasicChar Who)
-    {
-        who = JsonUtility.ToJson(Who);
-    }
+    public DormSave(BasicChar Who) => who = JsonUtility.ToJson(Who);
 }

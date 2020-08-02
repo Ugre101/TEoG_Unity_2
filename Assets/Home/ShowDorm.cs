@@ -61,7 +61,6 @@ public class ShowDorm : MonoBehaviour
     {
         servantList.SetActive(true);
         aServant.gameObject.SetActive(false);
-
         bool hasSevants = Dorm.Followers.Count > 0;
         ifEmpty.SetActive(!hasSevants);
         container.KillChildren();

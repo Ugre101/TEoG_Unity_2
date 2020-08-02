@@ -10,7 +10,7 @@ public class ForcedCunn : LoseScene
         if (sexualOrgans.HaveBalls())
         {
             System.Collections.Generic.List<Balls> balls = sexualOrgans.Balls.List;
-            returnText += $" {other.HisHer(true)} { Settings.MorInch(balls.BiggestSize())} balls cover your face, forcing their musky scent into your nose. ";
+            returnText += $" {other.HisHer(true)} { balls.BiggestSize().MorInch()} balls cover your face, forcing their musky scent into your nose. ";
         }
         returnText += " Despite your intentions, your body betrays you and orgasms as they cover your face in girlcum.";
         if (sexualOrgans.HaveBalls() && sexualOrgans.HaveDick())

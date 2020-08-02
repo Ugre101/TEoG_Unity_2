@@ -29,9 +29,9 @@ public static class BallsExtensions
     public static float Cumming(this List<Balls> balls, float dischargePrecentage) => balls.Sum(b => b.Fluid.DisCharge(dischargePrecentage));
 
     public static string Look(this Balls parBalls, bool capital = true)
-        => $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls, with {Settings.LorGal(parBalls.Fluid.Current)}";
+        => $"{(capital ? "A" : "a")} pair of {parBalls.Size.MorInch()} wide balls, with {parBalls.Fluid.Current.LorGal()}";
 
     public static string LookWithOutFluid(this Balls parBalls, bool capital = true)
-        => $"{(capital ? "A" : "a")} pair of {Settings.MorInch(parBalls.Size)} wide balls";
+        => $"{(capital ? "A" : "a")} pair of {parBalls.Size.MorInch()} wide balls";
 
 }
