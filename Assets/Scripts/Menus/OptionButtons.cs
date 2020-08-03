@@ -1,5 +1,6 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
@@ -41,9 +42,9 @@ public class OptionButtons : MonoBehaviour
 
     // Start is called before the first frame update
     [Header("Toggle extra menus")]
-    [SerializeField] private GameObject fetishesMenu = null, gameUIMenu = null;
+    [SerializeField] private GameObject fetishesMenu = null, gameUIMenu = null, dormTitlesMenu = null;
 
-    [SerializeField] private Button fetishBtn = null, gameUIBtn = null;
+    [SerializeField] private Button fetishBtn = null, gameUIBtn = null, dormTitlesBtn = null;
 
     private void Start()
     {
@@ -51,25 +52,12 @@ public class OptionButtons : MonoBehaviour
         // PixelButton
         pixelToggle = UgreTools.GetPlayerPrefBool("pixelToggle");
 
-        pixelCameraButton.onClick.AddListener(TogglePixelCamera);
-        pixelText = pixelText != null ? pixelText : pixelCameraButton.GetComponentInChildren<TextMeshProUGUI>();
-        SetPixelText();
-
-        impButton.onClick.AddListener(ToggleImp);
-        impText = impText != null ? impText : impButton.GetComponentInChildren<TextMeshProUGUI>();
-        SetImpText();
-
-        inchBtn.onClick.AddListener(ToggleInch);
-        inchText = inchText != null ? inchText : inchBtn.GetComponentInChildren<TextMeshProUGUI>();
-        SetInchText();
-
-        poundBtn.onClick.AddListener(TooglePound);
-        poundText = poundText != null ? poundText : poundBtn.GetComponentInChildren<TextMeshProUGUI>();
-        SetPoundText();
-
-        gallonBtn.onClick.AddListener(ToogleGallon);
-        gallonText = gallonText != null ? gallonText : gallonBtn.GetComponentInChildren<TextMeshProUGUI>();
-        SetGallonText();
+        // Set toggle buttons
+        SetToogleBtn(pixelCameraButton, TogglePixelCamera, ref pixelText, SetPixelText);
+        SetToogleBtn(impButton, ToggleImp, ref impText, SetImpText);
+        SetToogleBtn(inchBtn, ToggleInch, ref inchText, SetInchText);
+        SetToogleBtn(poundBtn, TooglePound, ref poundText, SetPoundText);
+        SetToogleBtn(gallonBtn, ToogleGallon, ref gallonText, SetGallonText);
 
         currEventFontSize.text = Settings.EventLogFont.Size.ToString();
 
@@ -83,6 +71,15 @@ public class OptionButtons : MonoBehaviour
         fetishBtn.onClick.AddListener(() => ToggleSubMenu(fetishesMenu));
 
         gameUIBtn.onClick.AddListener(() => ToggleSubMenu(gameUIMenu));
+
+        dormTitlesBtn.onClick.AddListener(() => ToggleSubMenu(dormTitlesMenu));
+    }
+
+    private void SetToogleBtn(Button btn, UnityAction func, ref TextMeshProUGUI btnText, UnityAction setTextFunc)
+    {
+        btn.onClick.AddListener(func);
+        btnText = btnText != null ? btnText : btn.GetComponentInChildren<TextMeshProUGUI>();
+        setTextFunc?.Invoke();
     }
 
     private void OnEnable() => subOptionsContainer.SleepChildren();
@@ -153,12 +150,8 @@ public class OptionButtons : MonoBehaviour
     private void ToggleSubMenu(GameObject toToggle)
     {
         if (toToggle.activeSelf)
-        {
             toToggle.SetActive(false);
-        }
         else
-        {
             subOptionsContainer.SleepChildren(toToggle.transform);
-        }
     }
 }

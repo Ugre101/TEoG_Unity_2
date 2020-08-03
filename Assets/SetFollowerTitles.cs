@@ -14,14 +14,24 @@ public class SetFollowerTitles : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        closeBtn.onClick.AddListener(Close);
         theyCallYou.onValueChanged.AddListener(Settings.FollowersSettings.TheyCallYou.SetTitle);
         youCallThem.onValueChanged.AddListener(Settings.FollowersSettings.YouCallThem.SetTitle);
         takeHome.onValueChanged.AddListener(Settings.FollowersSettings.WhenTakingThemYou.SetTitle);
         dorm.onValueChanged.AddListener(Settings.FollowersSettings.TheyLiveIn.SetTitle);
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void OnEnable()
     {
+        SetField(theyCallYou, Settings.FollowersSettings.TheyCallYou.Title);
+        SetField(youCallThem, Settings.FollowersSettings.YouCallThem.Title);
+        SetField(takeHome, Settings.FollowersSettings.WhenTakingThemYou.Title);
+        SetField(dorm, Settings.FollowersSettings.TheyLiveIn.Title);
+    }
+
+    private void OnDisable()
+    {
+        gameObject.SetActive(false); // Ensure that this menu is closed when user exits options with "Esc"
+        GameManager.KeyBindsActive = true;
     }
 }

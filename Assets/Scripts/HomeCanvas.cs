@@ -23,10 +23,19 @@ public class HomeCanvas : MonoBehaviour
     {
         homeUI = homeUI != null ? homeUI : GetComponentInChildren<HomeMain>();
         GameManager.GloablAreaChange += EnableHomeUI;
+        GameManager.GameStateChangeEvent += StateChange;
         EnableHomeUI(GameManager.CurrentArea);
     }
 
     private bool homeUIisActive = true;
+
+    private void StateChange(GameState newState)
+    {
+        if (homeUIisActive)
+        {
+            homeUI.gameObject.SetActive(newState == GameState.Free || newState == GameState.Dorm);
+        }
+    }
 
     private void EnableHomeUI(GlobalArea newArea)
     {

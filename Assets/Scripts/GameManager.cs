@@ -39,7 +39,7 @@ public static class GameManager
     public static void SetCurrentArea(GlobalArea value) => CurrentArea = value;
 
     public static bool KeyBindsActive { get; set; } = true;
-
+    
     public static GameState CurState { get; private set; } = GameState.Free;
 
     public static void SetCurState(GameState value)
