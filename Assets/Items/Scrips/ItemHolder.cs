@@ -10,26 +10,26 @@ public class ItemHolder : ScriptableObject
 
     private bool firstUse = true;
 
+    private Dictionary<ItemIds, Item> itemsDict;
+
     public Dictionary<ItemIds, Item> ItemsDict
     {
         get
         {
             if (firstUse)
             {
-                items1 = items.ToDictionary(id => id.ItemId);
+                itemsDict = items.ToDictionary(id => id.ItemId);
                 firstUse = false;
             }
-            return items1;
+            return itemsDict;
         }
     }
 
-    private Dictionary<ItemIds, Item> items1;
-
     public Item GetById(ItemIds parId)
     {
-        if (ItemsDict.ContainsKey(parId))
+        if (ItemsDict.TryGetValue(parId, out Item item))
         {
-            return ItemsDict[parId];
+            return item;
         }
         else
         {
@@ -37,13 +37,11 @@ public class ItemHolder : ScriptableObject
         }
     }
 
-
     public void Add(Item toAdd)
     {
         items.Add(toAdd);
         items.Sort();// Make it easier to find stuff manually
     }
 
-    public bool HasItem(ItemIds id) => items.Exists(i => i.ItemId == id);
-
+    public bool HasItem(ItemIds id) => ItemsDict.ContainsKey(id);
 }

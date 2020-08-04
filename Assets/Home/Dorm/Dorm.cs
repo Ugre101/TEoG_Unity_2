@@ -3,18 +3,14 @@ using UnityEngine;
 
 public static class Dorm
 {
-    public static List<BasicChar> Followers { get; private set; } = new List<BasicChar>();
-    public static Dictionary<string, BasicChar> DictFollowers { get; private set; } = new Dictionary<string, BasicChar>();
-    public static void AddToDorm(BasicChar basicChar)
-    {
-        Followers.Add(basicChar);
-        DictFollowers.Add(basicChar.Identity.Id, basicChar);
-    }
+    public static Dictionary<string, BasicChar> Followers { get; private set; } = new Dictionary<string, BasicChar>();
+
+    public static void AddToDorm(BasicChar basicChar) => Followers.Add(basicChar.Identity.Id, basicChar);
 
     public static List<DormSave> Save()
     {
         List<DormSave> dormSaves = new List<DormSave>();
-        foreach (BasicChar basicChar in Followers)
+        foreach (BasicChar basicChar in Followers.Values)
         {
             dormSaves.Add(new DormSave(basicChar));
         }
@@ -26,7 +22,7 @@ public static class Dorm
         Followers.Clear();
         foreach (DormSave save in dormSaves)
         {
-            Followers.Add(save.BasicChar);
+            Followers.Add(save.BasicChar.Identity.Id, save.BasicChar);
         }
     }
 

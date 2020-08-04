@@ -29,15 +29,15 @@ public class ShowOneServant : MonoBehaviour
 
     private void KickOut()
     {
-        if (Dorm.Followers.Exists(b => b == basicChar))
+        if (Dorm.Followers.TryGetValue(basicChar.Identity.Id, out BasicChar b))
         {
-            Instantiate(prompt, transform).Setup(() => KickASevantOut(Dorm.Followers.Find(b => b == basicChar)));
+            Instantiate(prompt, transform).Setup(() => KickASevantOut(b));
         }
     }
 
     private void KickASevantOut(BasicChar basicChar)
     {
-        Dorm.Followers.Remove(basicChar);
+        Dorm.Followers.Remove(basicChar.Identity.Id);
         showDorm.ListServants();
     }
 

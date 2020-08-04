@@ -68,15 +68,21 @@ public class ShowDorm : MonoBehaviour
         {
             if (chooseRace.HasValue || chooseGender.HasValue || sortByStat.HasValue)
             {
-                List<BasicChar> sorted = Dorm.Followers;
-                if (chooseRace.HasValue) { sorted = sorted.FindAll(bc => bc.RaceSystem.CurrentRace() == chooseRace.Value); }
-                if (chooseGender.HasValue) { sorted = sorted.FindAll(bc => GenderExtensions.Gender(bc) == chooseGender.Value); }
-                if (sortByStat.HasValue) { sorted = SortSercantByRelationship(sorted); }
+                List<BasicChar> sorted = new List<BasicChar>(Dorm.Followers.Values);
+                if (chooseRace.HasValue)
+                    sorted = sorted.FindAll(bc => bc.RaceSystem.CurrentRace() == chooseRace.Value);
+                if (chooseGender.HasValue)
+                    sorted = sorted.FindAll(bc => GenderExtensions.Gender(bc) == chooseGender.Value);
+                if (sortByStat.HasValue)
+                    sorted = SortSercantByRelationship(sorted);
                 sorted.ForEach(s => Instantiate(ServantListPrefab, container).Init(s).onClick.AddListener(() => ShowAServant(s)));
             }
             else
             {
-                Dorm.Followers.ForEach(s => Instantiate(ServantListPrefab, container).Init(s).onClick.AddListener(() => ShowAServant(s)));
+                foreach (BasicChar follower in Dorm.Followers.Values)
+                {
+                    Instantiate(ServantListPrefab, container).Init(follower).onClick.AddListener(() => ShowAServant(follower));
+                }
             }
         }
     }
