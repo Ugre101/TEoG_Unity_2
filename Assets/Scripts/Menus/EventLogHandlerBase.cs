@@ -1,16 +1,27 @@
-﻿using TMPro;
+﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class EventLogHandlerBase : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] protected CanvasMain canvasMain = null;
-
+    [SerializeField] private List<SortButton> sortButtons = new List<SortButton>();
     [SerializeField] protected TextMeshProUGUI logText = null, emptyText = null;
     private bool oneClick = false;
     private float timeFirstClick;
 
-    protected virtual void Start() => canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
+    protected virtual void Start()
+    {
+        canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
+        List<SubjectClass> subjectClasses = UgreTools.EnumToList<SubjectClass>();
+        for (int i = 0; i < subjectClasses.Count && i < sortButtons.Count; i++)
+        {
+            SubjectClass subject = subjectClasses[i];
+            sortButtons[i].Setup(subject.ToString(), PrintSorted(subject));
+        }
+    }
 
     protected virtual void OnEnable()
     {
@@ -25,6 +36,14 @@ public class EventLogHandlerBase : MonoBehaviour, IPointerClickHandler
     private void PrintEventlog()
     {
         logText.text = EventLog.Print();
+        emptyText.gameObject.SetActive(EventLog.IsEmpty);
+    }
+
+    private UnityAction PrintSorted(SubjectClass subject) => () => PrintEventlogSorted(subject);
+
+    private void PrintEventlogSorted(SubjectClass subject)
+    {
+        logText.text = EventLog.Print(subject);
         emptyText.gameObject.SetActive(EventLog.IsEmpty);
     }
 

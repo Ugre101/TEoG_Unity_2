@@ -17,7 +17,7 @@ public class HomeMain : MonoBehaviour
     [Header("Build costs")]
     [SerializeField] private BuildCost mainHouse = new BuildCost();
 
-    [SerializeField] private BuildCost dorm = new BuildCost(), kitchen = new BuildCost(), gym = new BuildCost();
+    [SerializeField] private BuildCost dorm  = new BuildCost(), kitchen = new BuildCost(), gym = new BuildCost();
 
     private void Start()
     {

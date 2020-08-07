@@ -84,7 +84,7 @@ public static class DateSystem
 
     public static void PassHour(int toPass = 1) => AddMinute(toPass * 60);
 
-    public static void PassMinute(int toPass = 60) => AddMinute(toPass);
+    public static void PassMinutes(int toPass) => AddMinute(toPass);
 
     public static IEnumerator TickMinute()
     {

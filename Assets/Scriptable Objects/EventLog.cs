@@ -1,43 +1,61 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
+public enum SubjectClass
+{
+    All,
+    Misc,
+    Dorm,
+}
+
 public static class EventLog
 {
-    private static readonly List<string> text = new List<string>();
-    public static bool IsEmpty => text.Count < 1;
+    private static readonly List<EventLogText> logTexts = new List<EventLogText>();
+    public static bool IsEmpty => logTexts.Count < 1;
 
-    public static void AddTo(string addText)
+    public static void AddTo(string addText, SubjectClass subjectClass = SubjectClass.Misc)
     {
-        text.Insert(0, addText);
+        logTexts.Insert(0, new EventLogText(subjectClass, addText));
         EventTextEvent?.Invoke();
     }
 
-    public static string Print()
+    public static string Print(SubjectClass printOnly = SubjectClass.All)
     {
         if (!IsEmpty)
         {
             StringBuilder toPrint = new StringBuilder();
-            foreach (string line in text)
+            if (printOnly != SubjectClass.All)
             {
-                toPrint.Append(line + "\n\n");
+                foreach (EventLogText line in logTexts.FindAll(l => l.SubjectClass == printOnly))
+                {
+                    toPrint.Append($"{line.Text}\n\n");
+                }
+            }
+            else
+            {
+                foreach (EventLogText line in logTexts)
+                {
+                    toPrint.Append($"{line.Text}\n\n");
+                }
             }
             return toPrint.ToString();
         }
         return string.Empty;
     }
 
-    public static EventLogSave Save() => new EventLogSave(text);
+    public static EventLogSave Save() => new EventLogSave(logTexts);
 
     public static void Load(EventLogSave save)
     {
-        text.Clear();
-        text.AddRange(save.Logs);
+        logTexts.Clear();
+        logTexts.AddRange(save.EventLogTexts);
+
         EventTextEvent?.Invoke();
     }
 
     public static void ClearLog()
     {
-        text.Clear();
+        logTexts.Clear();
         EventTextEvent?.Invoke();
     }
 
@@ -46,12 +64,27 @@ public static class EventLog
     public static event EventText EventTextEvent;
 }
 
+public class EventLogText
+{
+    public EventLogText(SubjectClass subjectClass, string text)
+    {
+        SubjectClass = subjectClass;
+        Text = text;
+    }
+
+    public SubjectClass SubjectClass { get; }
+    public string Text { get; }
+}
+
 [System.Serializable]
 public struct EventLogSave
 {
-    [UnityEngine.SerializeField] private List<string> logs;
+    [UnityEngine.SerializeField] private List<EventLogText> eventLogTexts;
 
-    public EventLogSave(List<string> logs) => this.logs = logs;
+    public EventLogSave(List<EventLogText> eventLogTexts)
+    {
+        this.eventLogTexts = eventLogTexts;
+    }
 
-    public List<string> Logs => logs;
+    public List<EventLogText> EventLogTexts => eventLogTexts;
 }

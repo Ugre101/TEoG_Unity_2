@@ -20,6 +20,9 @@ public class PlayerHolder : CharHolder
     private void Start()
     {
         Setup();
+
+        EventLog.AddTo("Vas", SubjectClass.Dorm);
+        EventLog.AddTo("Bla");
     }
 
     public override void Load(string jsonSave)
