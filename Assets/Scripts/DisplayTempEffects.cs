@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace UI
+namespace Ugre.GameUITempEffects
 {
     public class DisplayTempEffects : MonoBehaviour
     {

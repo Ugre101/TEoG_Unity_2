@@ -3,6 +3,7 @@ using UnityEngine;
 
 public static class Dorm
 {
+    
     public static Dictionary<string, BasicChar> Followers { get; private set; } = new Dictionary<string, BasicChar>();
 
     public static void AddToDorm(BasicChar basicChar) => Followers.Add(basicChar.Identity.Id, basicChar);
