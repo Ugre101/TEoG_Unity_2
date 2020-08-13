@@ -44,13 +44,19 @@ public class SaveMananger : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                NewSaveGame();
+                QuickSave();
             }
             else if (Input.GetKeyDown(KeyCode.F9))
             {
                 QuickLoad();
             }
         }
+    }
+
+    private void QuickSave()
+    {
+        NewSaveGame();
+        PopupHandler.GetPopupHandler.SpawnTimedPopup("Saved", 1f);
     }
 
     public void NewSaveGame()
@@ -71,6 +77,7 @@ public class SaveMananger : MonoBehaviour
         }
         else
         {
+            PopupHandler.GetPopupHandler.SpawnTimedPopup("Failed to save, try again or quit without saving.");
         }
     }
 

@@ -153,11 +153,11 @@ public class EnemySpawner : MonoBehaviour
             AssingEnemy enemy = currEnemies[rnd.Next(currEnemies.Count)];
 
             EnemyHolder newEnemy = charPool.GetEnemyHolder();
-            newEnemy.gameObject.SetActive(true);
             newEnemy.Setup(enemy);
             newEnemy.transform.SetParent(transform);
             newEnemy.transform.position = GetPosistion();
             newEnemy.name = enemy.name;
+            newEnemy.gameObject.SetActive(true);
         }
     }
 
@@ -170,11 +170,11 @@ public class EnemySpawner : MonoBehaviour
             {
                 BossHolder newBoss = charPool.GetBossHolder(); //Instantiate(bossHolder, GetPosistion(), Quaternion.identity, transform);
 
-                newBoss.gameObject.SetActive(true);
                 newBoss.Setup(boss);
                 newBoss.transform.SetParent(transform);
                 newBoss.transform.position = boss.LockedPosistion ? boss.Pos : GetPosistion();
                 newBoss.name = boss.name;
+                newBoss.gameObject.SetActive(true);
             }
         }
     }
