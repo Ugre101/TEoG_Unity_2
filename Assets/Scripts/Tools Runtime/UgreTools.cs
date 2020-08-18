@@ -9,6 +9,8 @@ using UnityEngine.Events;
 // A space for me to build tools for methods I often use.
 public static class UgreTools
 {
+    private static readonly System.Random rnd = new System.Random();
+
     public static T CycleThoughEnum<T>(this T curValue) where T : Enum
     {
         if (typeof(T).IsEnum)
@@ -119,4 +121,6 @@ public static class UgreTools
     {
         yield return new WaitForEndOfFrame();
     }
+
+    public static T RandomListValue<T>(this List<T> list) => list[rnd.Next(list.Count)];
 }

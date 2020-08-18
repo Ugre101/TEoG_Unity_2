@@ -233,8 +233,8 @@ public class GiveBirth : SoloEvent
 
     public override void SkipAction()
     {
-        child.ForEach(c => c.ChildIdentity.FirstName = RandomName.FemaleName);
-        child.ForEach(c => c.ChildIdentity.LastName = player.Identity.LastName);
+        child.ForEach(c => c.ChildIdentity.SetFirstName(RandomName.FemaleName));
+        child.ForEach(c => c.ChildIdentity.SetLastName(player.Identity.LastName));
         base.SkipAction();
     }
 
@@ -278,8 +278,8 @@ public class GiveBirth : SoloEvent
         {
             get
             {
-                child.ForEach(c => c.ChildIdentity.FirstName = RandomName.FemaleName);
-                child.ForEach(c => c.ChildIdentity.LastName = player.Identity.LastName);
+                child.ForEach(c => c.ChildIdentity.SetFirstName(RandomName.FemaleName));
+                child.ForEach(c => c.ChildIdentity.SetLastName(player.Identity.LastName));
                 eventMain.EndEvent();
                 return "";
             }

@@ -49,10 +49,10 @@ public class HomeMain : MonoBehaviour
     private void BuildButtons()
     {
         buildContainer.KillChildren();
-        FirstPart(mainHouse, StartHomeStats.MainHouse, "Main house");
-        FirstPart(dorm, StartHomeStats.Dorm, "Dorm");
-        FirstPart(kitchen, StartHomeStats.Kitchen, "Kitchen");
-        FirstPart(gym, StartHomeStats.Gym, "Gym");
+        FirstPart(mainHouse, DormUpgrades.MainHouse, "Main house");
+        FirstPart(dorm, DormUpgrades.Dorm, "Dorm");
+        FirstPart(kitchen, DormUpgrades.Kitchen, "Kitchen");
+        FirstPart(gym, DormUpgrades.Gym, "Gym");
     }
 
     private void FirstPart(BuildCost buildCost, HomeUpgrade homeUpgrade, string buildingName)

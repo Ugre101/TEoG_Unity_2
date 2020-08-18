@@ -47,8 +47,8 @@ public class CharHolderEditor : Editor
         GUILayout.EndVertical();
         UgreEditorTools.TwoBoldLabels("First name", "Last name");
         GUILayout.BeginHorizontal();
-        BasicChar.Identity.FirstName = EditorGUILayout.TextField(BasicChar.Identity.FirstName);
-        BasicChar.Identity.LastName = EditorGUILayout.TextField(BasicChar.Identity.LastName);
+        BasicChar.Identity.SetFirstName(EditorGUILayout.TextField(BasicChar.Identity.FirstName));
+        BasicChar.Identity.SetLastName(EditorGUILayout.TextField(BasicChar.Identity.LastName));
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
         EditorGUILayout.LabelField("Id", EditorStyles.boldLabel);

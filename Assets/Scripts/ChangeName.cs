@@ -31,14 +31,14 @@ public class ChangeName : MonoBehaviour
         {
             if (firstName.text.Length > 0)
             {
-                whoms.FirstName = firstName.text;
+                whoms.SetFirstName(firstName.text);
             }
         }
         if (lastName != null)
         {
             if (lastName.text.Length > 0)
             {
-                whoms.LastName = lastName.text;
+                whoms.SetLastName(lastName.text);
             }
         }
     }

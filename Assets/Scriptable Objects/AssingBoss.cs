@@ -22,11 +22,11 @@ public class AssingBoss : AssingEnemy
         startRaces.ForEach(r => newChar.RaceSystem.AddRace(r.Races, r.Amount));
         startGender.Assing(newChar);
         if (NeedFirstName)
-            newChar.Identity.FirstName = newChar.GenderType == GenderTypes.Masculine ? RandomName.MaleName : RandomName.FemaleName;
+            newChar.Identity.SetFirstName(newChar.GenderType == GenderTypes.Masculine ? RandomName.MaleName : RandomName.FemaleName);
         else
-            newChar.Identity.FirstName = firstName;
+            newChar.Identity.SetFirstName(firstName);
 
-        newChar.Identity.LastName = NeedLastName ? RandomName.LastName : lastName;
+        newChar.Identity.SetLastName(NeedLastName ? RandomName.LastName : lastName);
         return newChar;
     }
 }

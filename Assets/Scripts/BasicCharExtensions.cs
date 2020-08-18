@@ -1,6 +1,4 @@
 ﻿using HealthRecovery;
-using System.Collections;
-using UnityEngine;
 
 public static class BasicCharExtensions
 {
@@ -129,10 +127,8 @@ public static class BasicCharExtensions
     public static BasicCharCustomSave Save(this BasicChar toSave)
     {
         BasicCharCustomSave newSave =
-            new BasicCharCustomSave(
-                toSave.Identity.Save(),
-                toSave.RelationshipTracker.Save()
-                );
+            new BasicCharCustomSave(toSave.Identity.Save(),
+                                    toSave.RelationshipTracker.Save());
         return newSave;
     }
 

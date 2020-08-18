@@ -69,3 +69,30 @@ public class Race
 
     public event RaceEssenceChange DirtyEvent;
 }
+
+public static class RaceExtensions
+{
+    public static int AwakeTimeModifer(this Races race)
+    {
+        switch (race)
+        {
+            case Races.Humanoid:
+            case Races.Human:
+            case Races.Elf:
+            case Races.Orc:
+            case Races.Troll:
+            case Races.Dwarf:
+            case Races.Halfling:
+            case Races.Fairy:
+            case Races.Incubus:
+            case Races.Succubus:
+            case Races.Equine:
+            case Races.Dragon:
+            case Races.DragonKin:
+            case Races.Amazon:
+            case Races.DarkElf:
+            case Races.Bovine:
+            default: return 0;
+        }
+    }
+}

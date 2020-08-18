@@ -2,7 +2,7 @@
 
 public class HomeMainHouse : MonoBehaviour
 {
-    private int Level => StartHomeStats.MainHouse.Level;
+    private int Level => DormUpgrades.MainHouse.Level;
 
     public void Sleep()
     {

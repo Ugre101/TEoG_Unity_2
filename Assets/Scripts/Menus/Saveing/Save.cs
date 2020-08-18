@@ -19,7 +19,7 @@ public class Save
         PlayerSave playerSave = new PlayerSave(Player);
         List<DormSave> dormSaves = Dorm.Save();
         PosSave playerPos = new PosSave(Pos.position);
-        HomeSave homeSave = StartHomeStats.Save();
+        HomeSave homeSave = DormUpgrades.Save();
         FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, MapEvents.GetMapEvents.GetTeleportSaves());
         //    Debug.Log(JsonUtility.ToJson(fullSave));
 
@@ -45,7 +45,7 @@ public class Save
         //  JsonUtility.FromJsonOverwrite(fullSave.PlayerPart.Who, Player);
         try
         {
-            StartHomeStats.Load(fullSave.HomePart);
+            DormUpgrades.Load(fullSave.HomePart);
         }
         catch
         {

@@ -55,24 +55,24 @@ public class AssingEnemy : ScriptableObject
         {
             if (newChar.GenderType == GenderTypes.Masculine)
             {
-                newChar.Identity.FirstName = RandomName.MaleName;
+                newChar.Identity.SetFirstName(RandomName.MaleName);
             }
             else
             {
-                newChar.Identity.FirstName = RandomName.FemaleName;
+                newChar.Identity.SetFirstName(RandomName.FemaleName);
             }
         }
         else
         {
-            newChar.Identity.FirstName = firstName;
+            newChar.Identity.SetFirstName(firstName);
         }
         if (NeedLastName)
         {
-            newChar.Identity.LastName = RandomName.LastName;
+            newChar.Identity.SetLastName(RandomName.LastName);
         }
         else
         {
-            newChar.Identity.LastName = lastName;
+            newChar.Identity.SetLastName(lastName);
         }
         return newChar;
     }

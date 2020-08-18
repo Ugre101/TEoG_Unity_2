@@ -28,8 +28,8 @@ namespace Intro
 
         private void NamePlayer()
         {
-            Player.Identity.FirstName = FirstName;
-            Player.Identity.LastName = LastName;
+            Player.Identity.SetFirstName(FirstName);
+            Player.Identity.SetLastName(LastName);
         }
 
         private void StartGame()

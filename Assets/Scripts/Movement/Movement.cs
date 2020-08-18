@@ -61,14 +61,10 @@ public class Movement : MonoBehaviour
         {
             // Mouse left hold
             if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
-            {
                 Target = MousePos;
-            }
             // Cancel mouse left hold
             else if (Input.GetMouseButtonUp(0))
-            {
                 Target = CurPos;
-            }
             // Mouse right click
             else if (Input.GetMouseButtonDown(1))
             {
@@ -78,18 +74,10 @@ public class Movement : MonoBehaviour
         }
         // WASD and Arrow keys
         if (Vertical != 0 || Horizontal != 0)
-        {
             Target = new Vector2(CurPos.x + Horizontal, CurPos.y + Vertical);
-        }
-        if (touchSupport || mobilePlatform)
-        {
-            // Not tested
-            if (Input.touchCount == 1)
-            {
-                Touch t = Input.GetTouch(0);
-                Target = Camera.main.WorldToScreenPoint(t.position);
-            }
-        }
+        // Not tested
+        if ((touchSupport || mobilePlatform) && Input.touchCount == 1)
+            Target = Camera.main.WorldToScreenPoint(Input.GetTouch(0).position);
     }
 
     // FixedUpdate for movement
@@ -118,27 +106,16 @@ public class Movement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy") && collision.gameObject.GetComponent<CharHolder>() is CharHolder holder)
         {
-
-            if (collision.gameObject.GetComponent<CharHolder>() is CharHolder holder)
-            {
-                if (holder is BossHolder b)
-                {
-                    HandleBoss(b);
-                }
-                else if (holder is EnemyHolder e)
-                {
-                    TriggerEnemy?.Invoke(e);
-                }
-            }
-        }
-        else if (collision.CompareTag("Boss"))
-        {
-            if (collision.gameObject.GetComponent<BossHolder>() is BossHolder b)
-            {
+            if (holder is BossHolder b)
                 HandleBoss(b);
-            }
+            else if (holder is EnemyHolder e)
+                TriggerEnemy?.Invoke(e);
+        }
+        else if (collision.CompareTag("Boss") && collision.gameObject.GetComponent<BossHolder>() is BossHolder b)
+        {
+            HandleBoss(b);
         }
     }
 

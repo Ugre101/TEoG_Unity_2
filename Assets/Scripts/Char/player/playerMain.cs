@@ -3,8 +3,8 @@
 
     public void PlayerInit(string first, string last)
     {
-        Identity.FirstName = first;
-        Identity.LastName = last;
+        Identity.SetFirstName(first);
+        Identity.SetLastName(last);
     }
 
     private void SubscribleToEvents()

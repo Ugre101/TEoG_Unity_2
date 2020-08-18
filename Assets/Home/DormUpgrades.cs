@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class StartHomeStats
+public static class DormUpgrades
 {
     public static HomeUpgrade MainHouse { get; } = new HomeUpgrade();
     public static HomeUpgrade Dorm { get; } = new HomeUpgrade();
