@@ -113,10 +113,14 @@ public static class PregnancyExtensions
                 List<Child> born = v.Womb.GiveBirth();
                 pregnancySystem.Children.AddRange(born);
                 mother.Events.SoloEvents.IGiveBirth(born);
-                string amount = born.Count > 1 ? $"a pair of twins babies" : "one baby"; // TODO add more
-                string addText = mother is PlayerMain
+                string amount = born.Count > 2 ? $"{born.Count} children" :
+                    born.Count
+                    > 1 ? $"a pair of twins" : "a child"; // TODO add more
+                string addText = born[0].PlayerMother
                     ? $"You have given birth to {amount}."
-                    : $"{mother.Identity.FullName} has given birth to {amount}";
+                    : born[0].PlayerFather
+                        ? $"{mother.Identity.FullName} has given birth to {amount}, whom you is the father to."
+                        : $"{mother.Identity.FullName} has given birth to {amount}.";
                 EventLog.AddTo(addText);
             }
         }

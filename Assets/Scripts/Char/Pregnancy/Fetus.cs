@@ -59,5 +59,5 @@ public class Fetus
         return ReadyToBeBorn;
     }
 
-    public Child GiveBirth() => new Child(Race, mother, father);
+    public Child GiveBirth() => new Child(Race, mother, father, PlayerFather, PlayerMother);
 }

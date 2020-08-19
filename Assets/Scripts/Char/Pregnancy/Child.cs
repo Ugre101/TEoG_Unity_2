@@ -8,10 +8,13 @@ public class Child
     [SerializeField] private Races race;
 
     [SerializeField] private Identity child, father, mother;
+    [SerializeField] private bool playerMother, playerFather;
+    public Identity Father => father;
+    public Identity Mother => mother;
     public Identity ChildIdentity => child;
     public string ChildName => child.FullName;
-    public string FatherName => father.FullName;
-    public string MotherName => mother.FullName;
+    public string FatherName => Father.FullName;
+    public string MotherName => Mother.FullName;
     public Races Race => race;
 
     public string Age
@@ -32,19 +35,22 @@ public class Child
             }
         }
     }
-    public Child(Races parRace, Identity parMother) // Single mother
+
+    public bool PlayerMother => playerMother;
+    public bool PlayerFather => playerFather;
+
+    public Child(Races parRace, Identity parMother) : this(parRace, parMother, new Identity()) // Single mother
     {
-        race = parRace;
-        child = new Identity();
-        father = new Identity();
-        mother = parMother;
     }
-    public Child(Races parRace, Identity parMother, Identity parFather)
+
+    public Child(Races parRace, Identity parMother, Identity parFather, bool playerFather = false, bool playerMother = false)
     {
         race = parRace;
         child = new Identity();
         father = parFather;
         mother = parMother;
+        this.playerMother = playerMother;
+        this.playerFather = playerFather;
     }
 
     public void Grow(float parDaysToGrow = 1f)
