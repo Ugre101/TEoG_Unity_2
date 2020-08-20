@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class ShowOneServant : MonoBehaviour
 {
-    private BasicChar basicChar;
+    private DormMate dormMate;
+    private BasicChar mate => dormMate.BasicChar;
     [SerializeField] private ShowDorm showDorm = null;
     [SerializeField] private Button backBtn = null, sexBtn = null, kickOutBtn = null;
     [SerializeField] private TextMeshProUGUI textBox = null;
@@ -20,26 +21,26 @@ public class ShowOneServant : MonoBehaviour
         sexBtn.onClick.AddListener(DormSex);
     }
 
-    public void Setup(BasicChar basicChar)
+    public void Setup(DormMate dormMate)
     {
         gameObject.SetActive(true);
-        this.basicChar = basicChar;
-        textBox.text = $"{basicChar.Identity.FullName}\n\n{basicChar.Summary()}\n\n{basicChar.BodyStats()}";
+        this.dormMate = dormMate;
+        textBox.text = $"{mate.Identity.FullName}\n\n{mate.Summary()}\n\n{mate.BodyStats()}";
     }
 
     private void KickOut()
     {
-        if (Dorm.Followers.TryGetValue(basicChar.Identity.Id, out BasicChar b))
+        if (Dorm.Followers.TryGetValue(mate.Identity.Id, out DormMate b))
         {
             Instantiate(prompt, transform).Setup(() => KickASevantOut(b));
         }
     }
 
-    private void KickASevantOut(BasicChar basicChar)
+    private void KickASevantOut(DormMate dormMate)
     {
-        Dorm.Followers.Remove(basicChar.Identity.Id);
+        Dorm.Followers.Remove(dormMate.BasicChar.Identity.Id);
         showDorm.ListServants();
     }
 
-    private void DormSex() => sexCanvas.DormSex(basicChar);
+    private void DormSex() => sexCanvas.DormSex(mate);
 }

@@ -3,14 +3,20 @@ using UnityEngine;
 
 public static class Dorm
 {
-    public static Dictionary<string, BasicChar> Followers { get; private set; } = new Dictionary<string, BasicChar>();
+    public static Dictionary<string, DormMate> Followers { get; private set; } = new Dictionary<string, DormMate>();
 
-    public static void AddToDorm(BasicChar basicChar) => Followers.Add(basicChar.Identity.Id, basicChar);
+    public static void AddToDorm(BasicChar basicChar)
+    {
+        DormMate newMate = new DormMate(basicChar);
+        newMate.BindToDateSystem();
+
+        Followers.Add(basicChar.Identity.Id, newMate);
+    }
 
     public static List<DormSave> Save()
     {
         List<DormSave> dormSaves = new List<DormSave>();
-        foreach (BasicChar basicChar in Followers.Values)
+        foreach (DormMate basicChar in Followers.Values)
         {
             dormSaves.Add(new DormSave(basicChar));
         }
@@ -19,10 +25,16 @@ public static class Dorm
 
     public static void Load(List<DormSave> dormSaves)
     {
+        foreach (DormMate dormMate in Followers.Values)
+        {
+            dormMate.UnBindToDateSystem();
+        }
         Followers.Clear();
+
         foreach (DormSave save in dormSaves)
         {
-            Followers.Add(save.BasicChar.Identity.Id, save.BasicChar);
+            Followers.Add(save.DormMate.BasicChar.Identity.Id, save.DormMate);
+            save.DormMate.BindToDateSystem();
         }
     }
 
@@ -34,9 +46,18 @@ public struct DormSave
 {
     [SerializeField] private string who;
 
-    public BasicChar BasicChar => JsonUtility.FromJson<BasicChar>(who);
+    public DormMate DormMate
+    {
+        get
+        {
+            DormMate mate = GameManager.LoadFromGameVersion <= 0.043f
+                ? new DormMate(JsonUtility.FromJson<BasicChar>(who))
+                : JsonUtility.FromJson<DormMate>(who);
+            return mate;
+        }
+    }
 
-    public DormSave(BasicChar Who) => who = JsonUtility.ToJson(Who);
+    public DormSave(DormMate Who) => who = JsonUtility.ToJson(Who);
 }
 
 public class DormMate
@@ -60,7 +81,28 @@ public class DormMate
 
     public void DecreaseMorale(int value) => morale -= Mathf.Abs(value);
 
-    private void EveryHour() => dormAI.HourlyTick(this);
+    private void EveryHour()
+    {
+        dormAI.HourlyTick(this);
+        basicChar.DoEveryHour();
+    }
+
+    private void EveryDay()
+    {
+        basicChar.DoEveryDay();
+    }
+
+    public void BindToDateSystem()
+    {
+        DateSystem.NewHourEvent += EveryHour;
+        DateSystem.NewDayEvent += EveryDay;
+    }
+
+    public void UnBindToDateSystem()
+    {
+        DateSystem.NewHourEvent -= EveryHour;
+        DateSystem.NewDayEvent -= EveryDay;
+    }
 }
 
 [System.Serializable]
@@ -113,7 +155,7 @@ public class DormAI
         }
     }
 }
+
 public static class DormRules
 {
-
 }

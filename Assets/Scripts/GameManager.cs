@@ -22,6 +22,12 @@ public enum GlobalArea
 
 public static class GameManager
 {
+    public const float GameVersion = 0.043f;
+
+    public static float LoadFromGameVersion { get; private set; }
+
+    public static void SetLoadFromGameVersion(float value) => LoadFromGameVersion = value;
+
     public static GameState LastState { get; private set; }
 
     private static GlobalArea currentArea;
@@ -39,7 +45,7 @@ public static class GameManager
     public static void SetCurrentArea(GlobalArea value) => CurrentArea = value;
 
     public static bool KeyBindsActive { get; set; } = true;
-    
+
     public static GameState CurState { get; private set; } = GameState.Free;
 
     public static void SetCurState(GameState value)

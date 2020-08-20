@@ -14,7 +14,7 @@ public abstract class CharHolder : MonoBehaviour
     {
         // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
         //   BasicChar.RefreshOrgans();
-        BasicChar.OverTimeTick(times);
+        BasicChar.DoEveryMin(times);
     }
 
     public virtual void DoEveryHour()
@@ -23,8 +23,7 @@ public abstract class CharHolder : MonoBehaviour
 
     public virtual void DoEveryDay()
     {
-        BasicChar.GrowFetuses();
-        BasicChar.PregnancySystem.GrowChild();
+        BasicChar.DoEveryDay();
     }
 
     public virtual void BeforeDestroy()

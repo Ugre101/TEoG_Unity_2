@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using SaveStuff;
+using System.Collections.Generic;
 using UnityEngine;
-using SaveStuff;
-using Newtonsoft.Json;
 
 public class Save
 {
@@ -35,8 +34,8 @@ public class Save
         // Reference
         try
         {
-         //   PlayerHolder.Player.Load(fullSave.PlayerPart);
-          PlayerHolder.GetPlayerHolder.Load(fullSave.PlayerPart.Who);
+            //   PlayerHolder.Player.Load(fullSave.PlayerPart);
+            PlayerHolder.GetPlayerHolder.Load(fullSave.PlayerPart.Who);
         }
         catch
         {
@@ -67,6 +66,7 @@ public class Save
         GameManager.Load(fullSave.GameManagerSave);
         EventLog.ClearLog();
         LoadEvent?.Invoke();
+        GameManager.SetLoadFromGameVersion(fullSave.GameVersion);
         if (errorMsg != string.Empty)
         {
             PopupHandler.GetPopupHandler.DelayedSpawnTimedPopup(errorMsg, 6f);
@@ -81,6 +81,7 @@ public class Save
 [System.Serializable]
 public class FullSave
 {
+    [SerializeField] private float gameVersion = GameManager.GameVersion;
     [SerializeField] private PlayerSave playerPart;
     [SerializeField] private PosSave posPart;
     [SerializeField] private List<DormSave> dormPart;
@@ -104,6 +105,8 @@ public class FullSave
     public List<TeleportSave> TeleportSaves => teleportSaves;
 
     public GameManagerSaveState GameManagerSave => gameManager;
+
+    public float GameVersion => gameVersion;
 
     public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, HomeSave parHome, List<TeleportSave> teleportSaves)
     {
