@@ -57,8 +57,8 @@ public class KnowTeleport
 
 public static class PlayerFlags
 {
-    public static FlagBool BeatBanditLord { get; private set; } = new FlagBool();
-    public static KnowMap BanditMap { get; private set; } = new KnowMap();
+    public static FlagBool BeatBanditLord { get; } = new FlagBool();
+    public static KnowMap BanditMap { get; } = new KnowMap();
 
     public static PlayerFlagsSave Save() => new PlayerFlagsSave(BeatBanditLord.Cleared, BanditMap.Know);
 
