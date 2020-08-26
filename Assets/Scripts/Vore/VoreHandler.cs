@@ -5,7 +5,7 @@ namespace Vore
 {
     public class VoreHandler : MonoBehaviour
     {
-        public PlayerMain player;
+        public BasicChar player;
         public List<BasicChar> otherPreds;
 
         public VoreChar prefab;

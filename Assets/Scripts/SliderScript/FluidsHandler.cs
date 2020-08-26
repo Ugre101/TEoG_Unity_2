@@ -2,7 +2,7 @@
 
 public class FluidsHandler : MonoBehaviour
 {
-    private PlayerMain player => PlayerHolder.Player;
+    private BasicChar player => PlayerMain.Player;
 
     [SerializeField] private GameObject cumBar = null, milkBar = null, scatBar = null;
 

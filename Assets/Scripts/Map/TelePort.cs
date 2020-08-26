@@ -16,7 +16,7 @@ public class TelePort : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(PlayerHolder.GetTag))
+        if (collision.HitPlayer())
         {
             if (toPlatform == null)
             {

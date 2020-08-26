@@ -10,7 +10,7 @@ namespace EssenceMenuStuff
         [SerializeField] protected TextMeshProUGUI btnText = null;
         [SerializeField] protected Image image = null;
         [SerializeField] protected Color canAfford, cantAfford;
-        protected PlayerMain Player => PlayerHolder.Player;
+        protected BasicChar Player => PlayerMain.Player;
         protected abstract OrganContainer OrganContainer { get; }
         protected abstract Essence Ess { get; }
         protected float Cost => OrganContainer.AddCost;

@@ -51,9 +51,9 @@ public abstract class SexScenes : ScriptableObject
 
     public virtual string ContinueScene(BasicChar caster, BasicChar other) => $"";
 
-    public virtual string PlayerOrgasmed(PlayerMain player, BasicChar other) => "You orgasmed";
+    public virtual string PlayerOrgasmed(BasicChar player, BasicChar other) => "You orgasmed";
 
-    public virtual string OtherOrgasmed(PlayerMain player, BasicChar other) => "They orgasmed";
+    public virtual string OtherOrgasmed(BasicChar player, BasicChar other) => "They orgasmed";
 
     public virtual void ArousalGain(BasicChar player, BasicChar other)
     {
@@ -160,7 +160,7 @@ public abstract class VoreScene : SexScenes
         return true;
     }
 
-    public virtual string Vore(PlayerMain player, BasicChar other)
+    public virtual string Vore(BasicChar player, BasicChar other)
     {
         return $"";
     }

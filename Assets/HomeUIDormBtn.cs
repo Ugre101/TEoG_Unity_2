@@ -19,6 +19,6 @@ namespace HomeStuff
             btn.onClick.AddListener(home.EnterDorm);
         }
 
-        private void OnEnable() => btnText.text = Settings.FollowersSettings.TheyLiveIn.Title;
+        private void OnEnable() => btnText.text = Settings.FollowersSettings.DormTitle.Title;
     }
 }

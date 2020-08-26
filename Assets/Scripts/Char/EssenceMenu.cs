@@ -5,7 +5,7 @@ namespace EssenceMenuStuff
 {
     public class EssenceMenu : MonoBehaviour
     {
-        private PlayerMain _player => PlayerHolder.Player;
+        private BasicChar _player => PlayerMain.Player;
         [SerializeField] private TextMeshProUGUI stableAmount = null;
 
         private void OnEnable()

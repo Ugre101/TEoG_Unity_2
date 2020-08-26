@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class AfterBattleMain : MonoBehaviour
 {
-    private PlayerMain player => PlayerHolder.Player;
+    private BasicChar Player => PlayerMain.Player;
 
     private List<BasicChar> enemies = new List<BasicChar>();
 
@@ -70,7 +70,7 @@ public class AfterBattleMain : MonoBehaviour
     public BasicChar Target => newTarget != null ? newTarget : enemies.Count > 0 ? enemies[0] : null;
 
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
-    public PlayerMain Caster => player;
+    public BasicChar Caster => Player;
 
     private void Start()
     {
@@ -113,13 +113,13 @@ public class AfterBattleMain : MonoBehaviour
 
     private void OnDisable()
     {
-        player.SexStats.OrgasmedEvent -= RefreshScenes;
+        Player.SexStats.OrgasmedEvent -= RefreshScenes;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent -= RefreshScenes);
 
-        player.SexStats.OrgasmedEvent -= Impreg;
+        Player.SexStats.OrgasmedEvent -= Impreg;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent -= GetImpreg);
 
-        player.SexStats.OrgasmedEvent -= PlayerOrgasmed;
+        Player.SexStats.OrgasmedEvent -= PlayerOrgasmed;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent -= OtherOrgasmed);
         enemies.Clear();
     }
@@ -134,16 +134,16 @@ public class AfterBattleMain : MonoBehaviour
         newTarget = null;
         // in future make it so several statuses spawn if team har more than one member.
         // if enemies more than one, make selector view next to status
-        playerChar.Setup(player);
+        playerChar.Setup(Player);
         enemyChar.Setup(Target);
 
-        BindSexstats(player);
+        BindSexstats(Player);
 
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += OtherOrgasmed);
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += RefreshScenes);
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += GetImpreg);
 
-        player.SexStats.Reset();
+        Player.SexStats.Reset();
 
         if (!buttonsIsInstatiened)
         {
@@ -204,22 +204,22 @@ public class AfterBattleMain : MonoBehaviour
     {
         foreach (SexButton btn in addedSexButtons)
         {
-            btn.gameObject.SetActive(player.CanOrgasmMore() ? btn.Scene.CanDo(player, Target) : false);
+            btn.gameObject.SetActive(Player.CanOrgasmMore() ? btn.Scene.CanDo(Player, Target) : false);
         }
 
         foreach (EssSexButton btn in addedEssSexButtons)
         {
-            btn.gameObject.SetActive(Target.SexStats.CanDrain ? btn.Scene.CanDo(player, Target) : false);
+            btn.gameObject.SetActive(Target.SexStats.CanDrain ? btn.Scene.CanDo(Player, Target) : false);
         }
 
         foreach (VoreButton btn in addedVoreButtons)
         {
-            btn.gameObject.SetActive(Settings.Vore ? btn.voreScene.CanDo(player, Target) : false);
+            btn.gameObject.SetActive(Settings.Vore ? btn.voreScene.CanDo(Player, Target) : false);
         }
 
         foreach (SexButton btn in addedMiscButtons)
         {
-            btn.gameObject.SetActive(btn.Scene.CanDo(player, Target));
+            btn.gameObject.SetActive(btn.Scene.CanDo(Player, Target));
         }
     }
 
@@ -247,9 +247,9 @@ public class AfterBattleMain : MonoBehaviour
 
     private void PlayerOrgasmed()
     {
-        InsertToTextBox("\n\n" + LastScene.PlayerOrgasmed(player, Target));
+        InsertToTextBox("\n\n" + LastScene.PlayerOrgasmed(Player, Target));
 
-        DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+        DrainChangeHandler drainChange = new DrainChangeHandler(Player, Target);
         EssenceExtension.HandleAutoGiveEssence(Caster, Target);
 
         string bothChanges = drainChange.BothChanges;
@@ -261,9 +261,9 @@ public class AfterBattleMain : MonoBehaviour
 
     private void OtherOrgasmed()
     {
-        InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(player, Target));
+        InsertToTextBox("\n\n" + LastScene.OtherOrgasmed(Player, Target));
 
-        DrainChangeHandler drainChange = new DrainChangeHandler(player, Target);
+        DrainChangeHandler drainChange = new DrainChangeHandler(Player, Target);
         EssenceExtension.HandleAutoDrainEssence(Caster, Target);
         HandleTransmuteEssence();
 
@@ -284,16 +284,16 @@ public class AfterBattleMain : MonoBehaviour
                     break;
 
                 case EssenceExtension.TransmuteFromTo.MascToFemi:
-                    EssenceExtension.TransmuteEssenceMascToFemi(player, Target);
+                    EssenceExtension.TransmuteEssenceMascToFemi(Player, Target);
                     break;
 
                 case EssenceExtension.TransmuteFromTo.FemiToMasc:
-                    EssenceExtension.TransmuteEssenceFemiToMasc(player, Target);
+                    EssenceExtension.TransmuteEssenceFemiToMasc(Player, Target);
                     break;
             }
             // TODO transmute essence
         }
-        bool HasPerk(PerksTypes type) => player.Perks.HasPerk(type);
+        bool HasPerk(PerksTypes type) => Player.Perks.HasPerk(type);
     }
 
     public void AddToTextBox(string text) => textBox.text = text;
@@ -303,14 +303,14 @@ public class AfterBattleMain : MonoBehaviour
 
     private void SceneBasics(SexScenes scene)
     {
-        AddToTextBox(LastScene == scene ? scene.ContinueScene(player, Target) : scene.StartScene(player, Target));
+        AddToTextBox(LastScene == scene ? scene.ContinueScene(Player, Target) : scene.StartScene(Player, Target));
         LastScene = scene;
     }
 
     private void HandleSexScene(SexScenes scene)
     {
         SceneBasics(scene);
-        scene.ArousalGain(player, Target);
+        scene.ArousalGain(Player, Target);
     }
 
     private void HandleEssScene(EssScene scene)
@@ -322,7 +322,7 @@ public class AfterBattleMain : MonoBehaviour
 
     private void HandleVoreScene(VoreScene voreScene)
     {
-        AddToTextBox(voreScene.Vore(player, Target));
+        AddToTextBox(voreScene.Vore(Player, Target));
         LastScene = voreScene;
         Target.IfHaveHolderDestoryIt();
         EnemyRemoved();
@@ -332,7 +332,7 @@ public class AfterBattleMain : MonoBehaviour
 
     private void SexSpells()
     {
-        foreach (Skill s in player.Skills.SexSkills(skillDict))
+        foreach (Skill s in Player.Skills.SexSkills(skillDict))
         {
             // TODO INSTATIXZXE
         }

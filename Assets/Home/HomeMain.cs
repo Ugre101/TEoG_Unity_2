@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HomeMain : MonoBehaviour
 {
-    private BasicChar Owner => PlayerHolder.Player;
+    private BasicChar Owner => PlayerMain.Player;
     [SerializeField] private CanvasMain canvasMain = null;
     [SerializeField] private GameObject dormGameobject = null, telePortMenu = null;
     [SerializeField] private MapEvents mapEvents = null;

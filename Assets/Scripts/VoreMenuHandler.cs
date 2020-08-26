@@ -6,7 +6,7 @@ namespace Vore
 {
     public class VoreMenuHandler : MonoBehaviour
     {
-        [SerializeField] private PlayerMain player = null;
+        [SerializeField] private BasicChar player = null;
 
         [SerializeField] private TextMeshProUGUI organText = null, capacityText = null;
 
@@ -26,7 +26,7 @@ namespace Vore
 
         private void Start()
         {
-            player = player ?? PlayerHolder.Player;
+            player = player ?? PlayerMain.Player;
             VoreEngine vore = player.Vore;
             sortAll.onClick.AddListener(ShowAll);
             sortStomach.onClick.AddListener(() => SortPrey(vore.Stomach));

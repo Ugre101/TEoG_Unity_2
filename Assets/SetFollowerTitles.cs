@@ -15,18 +15,18 @@ public class SetFollowerTitles : MonoBehaviour
     private void Start()
     {
         closeBtn.onClick.AddListener(Close);
-        theyCallYou.onValueChanged.AddListener(Settings.FollowersSettings.TheyCallYou.SetTitle);
-        youCallThem.onValueChanged.AddListener(Settings.FollowersSettings.YouCallThem.SetTitle);
-        takeHome.onValueChanged.AddListener(Settings.FollowersSettings.WhenTakingThemYou.SetTitle);
-        dorm.onValueChanged.AddListener(Settings.FollowersSettings.TheyLiveIn.SetTitle);
+        theyCallYou.onValueChanged.AddListener(Settings.FollowersSettings.LeaderTitle.SetTitle);
+        youCallThem.onValueChanged.AddListener(Settings.FollowersSettings.FollowerTitle.SetTitle);
+        takeHome.onValueChanged.AddListener(Settings.FollowersSettings.TakeHomeBtnTitle.SetTitle);
+        dorm.onValueChanged.AddListener(Settings.FollowersSettings.DormTitle.SetTitle);
     }
 
     private void OnEnable()
     {
-        SetField(theyCallYou, Settings.FollowersSettings.TheyCallYou.Title);
-        SetField(youCallThem, Settings.FollowersSettings.YouCallThem.Title);
-        SetField(takeHome, Settings.FollowersSettings.WhenTakingThemYou.Title);
-        SetField(dorm, Settings.FollowersSettings.TheyLiveIn.Title);
+        SetField(theyCallYou, Settings.FollowersSettings.LeaderTitle.Title);
+        SetField(youCallThem, Settings.FollowersSettings.FollowerTitle.Title);
+        SetField(takeHome, Settings.FollowersSettings.TakeHomeBtnTitle.Title);
+        SetField(dorm, Settings.FollowersSettings.DormTitle.Title);
     }
 
     private void OnDisable()

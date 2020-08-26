@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ExpStatusUpdater : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private BasicChar player = null;
 
     [SerializeField] private TextMeshProUGUI _statusExp = null, _statusLevel = null;
 
@@ -14,7 +14,7 @@ public class ExpStatusUpdater : MonoBehaviour
 
     private void Start()
     {
-        player = player ?? PlayerHolder.Player;
+        player = player ?? PlayerMain.Player;
         slider = slider != null ? slider : GetComponent<Slider>();
         started = true;
         OnEnable();

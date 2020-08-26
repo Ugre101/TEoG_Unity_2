@@ -24,5 +24,5 @@ public class PopupHandler : MonoBehaviour
 
     public void SpawnTimedPopup(string message, float time) => Instantiate(timedPopupText, transform).Setup(message, time);
 
-    public void DelayedSpawnTimedPopup(string message, float time = 3f) => StartCoroutine(UgreTools.WaitAFrame(() => SpawnTimedPopup(message, time)));//WaitAFrame(message, time));
+    public void DelayedSpawnTimedPopup(string message, float time = 3f) => StartCoroutine(UgreTools.WaitAFrameAndExecute(() => SpawnTimedPopup(message, time)));//WaitAFrame(message, time));
 }

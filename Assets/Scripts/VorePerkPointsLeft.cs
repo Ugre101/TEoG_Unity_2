@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class VorePerkPointsLeft : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    private BasicChar player = null;
     [SerializeField] private TextMeshProUGUI proUGUI = null;
     private int lastPoints;
     private bool voreIsActive, started = false;
@@ -12,7 +12,7 @@ public class VorePerkPointsLeft : MonoBehaviour
     private void Start()
     {
         proUGUI = proUGUI != null ? proUGUI : GetComponent<TextMeshProUGUI>();
-        player = player ?? PlayerHolder.Player;
+        player = player ?? PlayerMain.Player;
         ShowPoints();
         started = true;
         OnEnable();

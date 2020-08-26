@@ -26,9 +26,9 @@ public class HealthSliderGameUI : BasicSlider
     protected override void Start()
     {
         base.Start();
-        basicChar = basicChar != null ? basicChar : PlayerHolder.Player;
+        basicChar = basicChar != null ? basicChar : PlayerMain.Player;
         started = true;
-        StartCoroutine("WaitToStart");
+        StartCoroutine(WaitToStart());
     }
 
     private IEnumerator WaitToStart()

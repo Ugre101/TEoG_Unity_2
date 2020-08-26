@@ -13,12 +13,12 @@ public class GetCunnilingus : SexScenes
         return $"Keeping them in place, you force them to continue eating you out, electing soft moans from your throat. Barely able to move, all {other.Identity.FirstName} can do is continue eating you out. You reach one hand to their head and gently pet it, telling them they're doing a good job.";
     }
 
-    public override string OtherOrgasmed(PlayerMain player, BasicChar other)
+    public override string OtherOrgasmed(BasicChar player, BasicChar other)
     {
         return base.OtherOrgasmed(player, other);
     }
 
-    public override string PlayerOrgasmed(PlayerMain player, BasicChar other)
+    public override string PlayerOrgasmed(BasicChar player, BasicChar other)
     {
         return base.PlayerOrgasmed(player, other);
     }

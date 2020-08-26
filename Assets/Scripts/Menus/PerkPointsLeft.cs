@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PerkPointsLeft : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private BasicChar player = null;
     [SerializeField] private TextMeshProUGUI textUGUI = null;
     private int lastLeft;
     private bool started = false;
@@ -12,7 +12,7 @@ public class PerkPointsLeft : MonoBehaviour
     private void Start()
     {
         textUGUI = textUGUI != null ? textUGUI : GetComponent<TextMeshProUGUI>();
-        player = player != null ? player : PlayerHolder.Player;
+        player = player != null ? player : PlayerMain.Player;
         ShowPoints();
         started = true;
         OnEnable();

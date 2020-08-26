@@ -18,41 +18,41 @@ public class GameEventSystem
 
         public SoloVoreEvents VoreEvents { get; }
 
-        public void IGiveBirth(List<Child> child)
+        public void IGiveBirth(List<Child> child,bool player = false)
         {
-            if (basicChar is PlayerMain player)
+            if (player)
             {
                 if (GiveBirth.skipEvent.Skip)
                 {
-                    new GiveBirth(player, child).SkipAction();
+                    new GiveBirth(basicChar, child).SkipAction();
                 }
                 else
                 {
-                    eventMain.QueEvent(() => eventMain.EventSolo(new GiveBirth(player, child)));
+                    eventMain.QueEvent(() => eventMain.EventSolo(new GiveBirth(basicChar, child)));
                 }
             }
         }
 
-        public void INeedToShit()
+        public void INeedToShit(bool player = false)
         {
-            if (basicChar is PlayerMain player)
+            if ( player)
             {
                 if (NeedToShit.skipEvent.Skip)
                 {
-                    new NeedToShit(player).SkipAction();
+                    new NeedToShit(basicChar).SkipAction();
                 }
                 else
                 {
-                    eventMain.QueEvent(() => eventMain.EventSolo(new NeedToShit(player)));
+                    eventMain.QueEvent(() => eventMain.EventSolo(new NeedToShit(basicChar)));
                 }
             }
         }
 
-        public void TeleportIsLocked()
+        public void TeleportIsLocked(bool player = false)
         {
-            if (basicChar is PlayerMain player)
+            if (player)
             {
-                eventMain.EventSolo(new PortalIsLocked(player), true);
+                eventMain.EventSolo(new PortalIsLocked(basicChar), true);
             }
         }
 
@@ -100,13 +100,13 @@ public class GameEventSystem
 
 public abstract class SoloEvent
 {
-    public SoloEvent(PlayerMain player)
+    public SoloEvent(BasicChar player)
     {
         this.player = player;
         eventMain = EventMain.GetEventMain;
     }
 
-    protected PlayerMain player;
+    protected BasicChar player;
     protected EventMain eventMain;
     public abstract string Title { get; }
     public abstract string Intro { get; }
@@ -119,13 +119,13 @@ public abstract class SoloEvent
 
 public abstract class SoloSubEvent
 {
-    public SoloSubEvent(PlayerMain player)
+    public SoloSubEvent(BasicChar player)
     {
         this.player = player;
         eventMain = EventMain.GetEventMain;
     }
 
-    protected PlayerMain player;
+    protected BasicChar player;
     protected EventMain eventMain;
     public abstract bool CanLeave { get; }
     public abstract string Title { get; }
@@ -135,7 +135,7 @@ public abstract class SoloSubEvent
 
 public class RaceChange : SoloEvent
 {
-    public RaceChange(PlayerMain player) : base(player)
+    public RaceChange(BasicChar player) : base(player)
     {
     }
 
@@ -155,7 +155,7 @@ public class RaceChange : SoloEvent
 
 public class NeedToShit : SoloEvent
 {
-    public NeedToShit(PlayerMain player) : base(player)
+    public NeedToShit(BasicChar player) : base(player)
     {
         SubEvents.Add(new NeedToShitSub(player));
         SubEvents.Add(new NeedToShitSub2(player));
@@ -178,7 +178,7 @@ public class NeedToShit : SoloEvent
 
     private class NeedToShitSub : SoloSubEvent
     {
-        public NeedToShitSub(PlayerMain player) : base(player)
+        public NeedToShitSub(BasicChar player) : base(player)
         {
         }
 
@@ -200,7 +200,7 @@ public class NeedToShit : SoloEvent
 
     private class NeedToShitSub2 : SoloSubEvent
     {
-        public NeedToShitSub2(PlayerMain player) : base(player)
+        public NeedToShitSub2(BasicChar player) : base(player)
         {
         }
 
@@ -216,7 +216,7 @@ public class NeedToShit : SoloEvent
 
 public class GiveBirth : SoloEvent
 {
-    public GiveBirth(PlayerMain player, List<Child> child) : base(player)
+    public GiveBirth(BasicChar player, List<Child> child) : base(player)
     {
         this.child = child;
         SubEvents.Add(new GiveBirthSub(player, child));
@@ -240,7 +240,7 @@ public class GiveBirth : SoloEvent
 
     private class GiveBirthSub : SoloSubEvent
     {
-        public GiveBirthSub(PlayerMain player, List<Child> child) : base(player)
+        public GiveBirthSub(BasicChar player, List<Child> child) : base(player)
         {
             this.child = child;
         }
@@ -266,7 +266,7 @@ public class GiveBirth : SoloEvent
 
     private class GiveBirthSub2 : SoloSubEvent
     {
-        public GiveBirthSub2(PlayerMain player, List<Child> child) : base(player)
+        public GiveBirthSub2(BasicChar player, List<Child> child) : base(player)
         {
             this.child = child;
         }
@@ -293,7 +293,7 @@ public class GiveBirth : SoloEvent
 
 public class PortalIsLocked : SoloEvent
 {
-    public PortalIsLocked(PlayerMain player) : base(player)
+    public PortalIsLocked(BasicChar player) : base(player)
     {
     }
 

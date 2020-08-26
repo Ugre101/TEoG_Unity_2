@@ -85,13 +85,15 @@ public static class GameManager
 
     public static void ReturnToLastState() => SetCurState(LastState != CurState ? LastState : GameState.Free);
 
-    public static GameManagerSaveState Save() => new GameManagerSaveState(CurState, CurrentArea, KeyBindsActive);
+    public static GameManagerSaveState Save() => new GameManagerSaveState(CurState, CurrentArea, KeyBindsActive, GameVersion);
 
     public static void Load(GameManagerSaveState load)
     {
         SetCurState(load.CurState);
         SetCurrentArea(load.CurrentArea);
         KeyBindsActive = load.KeyBindsActive;
+        Debug.Log(load.GameVersion);
+        LoadFromGameVersion = load.GameVersion;
     }
 
     public static Action<GameState> GameStateChangeEvent;
@@ -104,15 +106,18 @@ public struct GameManagerSaveState
     [SerializeField] private GameState curState;
     [SerializeField] private GlobalArea currentArea;
     [SerializeField] private bool keyBindsActive;
+    [SerializeField] private float gameVersion;
 
-    public GameManagerSaveState(GameState curState, GlobalArea currentArea, bool keyBindsActive)
+    public GameManagerSaveState(GameState curState, GlobalArea currentArea, bool keyBindsActive, float gameVersion)
     {
         this.curState = curState;
         this.currentArea = currentArea;
         this.keyBindsActive = keyBindsActive;
+        this.gameVersion = gameVersion;
     }
 
     public GameState CurState => curState;
     public GlobalArea CurrentArea => currentArea;
     public bool KeyBindsActive => keyBindsActive;
+    public float GameVersion => gameVersion;
 }

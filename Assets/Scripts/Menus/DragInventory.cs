@@ -11,7 +11,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public Item Item { get; private set; }
     private int slotId;
-    private PlayerMain Player => PlayerHolder.Player;
+    private BasicChar Player => PlayerMain.Player;
 
     private InventoryHandler invHandler;
     private InventoryHoverText hoverText;

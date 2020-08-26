@@ -4,20 +4,11 @@ using UnityEngine;
 
 public class Save
 {
-    private readonly PlayerMain Player;
-    private readonly Transform Pos;
-
-    public Save(PlayerMain player, PlayerHolder playerHolder)
-    {
-        Player = player;
-        Pos = playerHolder.transform;
-    }
-
     public string SaveData()
     {
-        PlayerSave playerSave = new PlayerSave(Player);
+        PlayerSave playerSave = new PlayerSave(PlayerMain.Player);
         List<DormSave> dormSaves = Dorm.Save();
-        PosSave playerPos = new PosSave(Pos.position);
+        PosSave playerPos = new PosSave(PlayerSprite.Instance.transform.position);
         HomeSave homeSave = DormUpgrades.Save();
         FullSave fullSave = new FullSave(playerSave, playerPos, dormSaves, homeSave, MapEvents.GetMapEvents.GetTeleportSaves());
         //    Debug.Log(JsonUtility.ToJson(fullSave));
@@ -35,7 +26,7 @@ public class Save
         try
         {
             //   PlayerHolder.Player.Load(fullSave.PlayerPart);
-            PlayerHolder.GetPlayerHolder.Load(fullSave.PlayerPart.Who);
+            PlayerMain.Load(fullSave.PlayerPart);
         }
         catch
         {
@@ -66,7 +57,6 @@ public class Save
         GameManager.Load(fullSave.GameManagerSave);
         EventLog.ClearLog();
         LoadEvent?.Invoke();
-        GameManager.SetLoadFromGameVersion(fullSave.GameVersion);
         if (errorMsg != string.Empty)
         {
             PopupHandler.GetPopupHandler.DelayedSpawnTimedPopup(errorMsg, 6f);
@@ -81,44 +71,41 @@ public class Save
 [System.Serializable]
 public class FullSave
 {
-    [SerializeField] private float gameVersion = GameManager.GameVersion;
-    [SerializeField] private PlayerSave playerPart;
-    [SerializeField] private PosSave posPart;
-    [SerializeField] private List<DormSave> dormPart;
-    [SerializeField] private DateSave datePart;
-    [SerializeField] private HomeSave homePart;
+    [SerializeField] private PlayerSave playerSave;
+    [SerializeField] private PosSave posSave;
+    [SerializeField] private List<DormSave> dormSave;
+    [SerializeField] private DateSave dateSave;
+    [SerializeField] private HomeSave homeSave;
 
     [SerializeField] private QuestSave questSave;
 
-    [SerializeField] private PlayerFlagsSave playerFlags;
+    [SerializeField] private PlayerFlagsSave playerFlagsSave;
     [SerializeField] private List<TeleportSave> teleportSaves;
-    [SerializeField] private GameManagerSaveState gameManager;
-    public PlayerSave PlayerPart => playerPart;
-    public PosSave PosPart => posPart;
-    public List<DormSave> DormPart => dormPart;
-    public DateSave DatePart => datePart;
-    public HomeSave HomePart => homePart;
+    [SerializeField] private GameManagerSaveState gameManagerSave;
+    public PlayerSave PlayerPart => playerSave;
+    public PosSave PosPart => posSave;
+    public List<DormSave> DormPart => dormSave;
+    public DateSave DatePart => dateSave;
+    public HomeSave HomePart => homeSave;
 
     public QuestSave QuestSave => questSave;
 
-    public PlayerFlagsSave PlayerFlagsSave => playerFlags;
+    public PlayerFlagsSave PlayerFlagsSave => playerFlagsSave;
     public List<TeleportSave> TeleportSaves => teleportSaves;
 
-    public GameManagerSaveState GameManagerSave => gameManager;
+    public GameManagerSaveState GameManagerSave => gameManagerSave;
 
-    public float GameVersion => gameVersion;
-
-    public FullSave(PlayerSave player, PosSave pos, List<DormSave> dorm, HomeSave parHome, List<TeleportSave> teleportSaves)
+    public FullSave(PlayerSave playerSave, PosSave posSave, List<DormSave> dormSave, HomeSave homeSave, List<TeleportSave> teleportSaves)
     {
-        this.playerPart = player;
-        this.posPart = pos;
-        this.dormPart = dorm;
-        this.datePart = DateSystem.Save;
-        this.homePart = parHome;
+        this.playerSave = playerSave;
+        this.posSave = posSave;
+        this.dormSave = dormSave;
+        this.dateSave = DateSystem.Save;
+        this.homeSave = homeSave;
         this.questSave = QuestsSystem.Save;
-        this.playerFlags = PlayerFlags.Save();
+        this.playerFlagsSave = PlayerFlags.Save();
         this.teleportSaves = teleportSaves;
-        this.gameManager = GameManager.Save();
+        this.gameManagerSave = GameManager.Save();
     }
 }
 

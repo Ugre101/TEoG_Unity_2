@@ -8,7 +8,7 @@ public class ChooseSkillMain : MonoBehaviour
 {
     #region Properties
 
-    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private BasicChar player = null;
 
     [SerializeField] private GameObject container = null;
 
@@ -42,7 +42,7 @@ public class ChooseSkillMain : MonoBehaviour
 
     public void Toggle(CombatButton parCombatBtn)
     {
-        player = player != null ? player : PlayerHolder.Player;
+        player = player != null ? player : PlayerMain.Player;
         gameObject.SetActive(true);
         combatButton = parCombatBtn;
         // Clean container

@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] private PlayerHolder Player;
+    [SerializeField] private PlayerSprite Player;
 
     [SerializeField] private List<Tilemap> dontSpawnOn = new List<Tilemap>();
     [SerializeField] private CharHolderObjectPool charPool = null;
@@ -29,7 +29,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        Player = Player != null ? Player : PlayerHolder.GetPlayerHolder;
+        Player = Player != null ? Player : PlayerSprite.Instance;
         charPool = charPool != null ? charPool : CharHolderObjectPool.Instance;
         MapEvents.TileMapChange += DoorChanged;
         Movement.TriggerEnemy += RePosistion;

@@ -169,17 +169,17 @@ public static class QuestReward
         switch (quests)
         {
             case Quests.Bandit:
-                return BanditLordReward(PlayerHolder.Player);
+                return BanditLordReward(PlayerMain.Player);
 
             case Quests.ElfsHunt:
-                return ElfHuntReward(PlayerHolder.Player);
+                return ElfHuntReward(PlayerMain.Player);
 
             default:
                 return "";
         }
     }
 
-    private static string ElfHuntReward(PlayerMain player)
+    private static string ElfHuntReward(BasicChar player)
     {
         TieredQuest quest = QuestsSystem.GetTieredQuest(Quests.ElfsHunt);
         float tierMulti = Mathf.Pow(2, quest.Tier - 1);
@@ -191,7 +191,7 @@ public static class QuestReward
         return $"You are rewarded: {expGain}Exp and {goldGain}gold";
     }
 
-    private static string BanditLordReward(PlayerMain player)
+    private static string BanditLordReward(BasicChar player)
     {
         BasicQuest quest = QuestsSystem.GetBasicQuest(Quests.Bandit);
         player.ExpSystem.GainExp(300);

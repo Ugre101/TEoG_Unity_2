@@ -2,16 +2,16 @@
 {
     public class GrowDick : GrowOrgan
     {
-        protected override Essence Ess => player.Essence.Masc;
+        protected override Essence Ess => Player.Essence.Masc;
 
         protected override float Cost => dick.Cost;
 
         private Dick dick;
 
-        public void Setup(PlayerMain player, Dick dick)
+        public void Setup(Dick dick)
         {
             this.dick = dick;
-            BaseSetup(player);
+            BaseSetup();
         }
 
         protected override void DisplayCost() => btnText.text = $"{dick.Size.MorInch()} {Cost}Masc";

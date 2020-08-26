@@ -2,7 +2,7 @@
 
 public class SmartTree : MonoBehaviour
 {
-    private PlayerHolder Player => PlayerHolder.GetPlayerHolder;
+    private PlayerSprite Player => PlayerSprite.Instance;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite stump = null, tree = null;
     [SerializeField] private CapsuleCollider2D capsule = null;
@@ -65,6 +65,21 @@ public class SmartTree : MonoBehaviour
                 timeChoppedDown = DateSystem.Save;
                 SetSprite();
                 npc.BasicChar.Inventory.AddItem(ItemIds.Wood);
+            }
+        }
+    }
+
+    public void Action(PlayerSprite player, int dmg = 25)
+    {
+        if (Vector2.Distance(player.transform.position, transform.position) < 5f)
+        {
+            hp -= dmg;
+            if (hp <= 0)
+            {
+                chopped = true;
+                timeChoppedDown = DateSystem.Save;
+                SetSprite();
+                PlayerMain.Player.Inventory.AddItem(ItemIds.Wood);
             }
         }
     }

@@ -6,7 +6,7 @@ public abstract class FluidSliders : MonoBehaviour
 {
     [SerializeField] protected TextMeshProUGUI statusText = null;
     [SerializeField] protected Slider slider = null;
-    protected PlayerMain Player => PlayerHolder.Player;
+    protected BasicChar Player => PlayerMain.Player;
 
     public abstract void Setup();
 }

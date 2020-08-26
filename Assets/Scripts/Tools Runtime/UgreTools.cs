@@ -111,7 +111,7 @@ public static class UgreTools
 
     public static void ToggleGameObject(this GameObject go) => go.SetActive(!go.activeSelf);
 
-    public static IEnumerator WaitAFrame(UnityAction action)
+    public static IEnumerator WaitAFrameAndExecute(UnityAction action)
     {
         yield return new WaitForEndOfFrame();
         action?.Invoke();
@@ -123,4 +123,5 @@ public static class UgreTools
     }
 
     public static T RandomListValue<T>(this List<T> list) => list[rnd.Next(list.Count)];
+    public static bool HitPlayer(this Collider2D collider) => collider.CompareTag(PlayerSprite.Tag);
 }

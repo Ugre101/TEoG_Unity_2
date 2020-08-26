@@ -34,7 +34,7 @@ public abstract class BaseSexMonoBehavior : MonoBehaviour
         }
     }
 
-    protected PlayerMain player => PlayerHolder.Player;
+    protected BasicChar player => PlayerMain.Player;
 
     protected bool firstTimeUsed = true;
 
@@ -114,7 +114,7 @@ public static class SexHander
 
     public static void Setup(List<BasicChar> partners)
     {
-        PlayerTeam = new List<BasicChar>() { PlayerHolder.Player };
+        PlayerTeam = new List<BasicChar>() { PlayerMain.Player };
         Partners = partners;
         PlayerTeam.ForEach(pt => BindSexStats(pt));
         Partners.ForEach(p => BindSexStats(p));

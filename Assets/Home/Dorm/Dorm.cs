@@ -46,16 +46,9 @@ public struct DormSave
 {
     [SerializeField] private string who;
 
-    public DormMate DormMate
-    {
-        get
-        {
-            DormMate mate = GameManager.LoadFromGameVersion <= 0.043f
+    public DormMate DormMate => GameManager.LoadFromGameVersion <= 0.043f
                 ? new DormMate(JsonUtility.FromJson<BasicChar>(who))
                 : JsonUtility.FromJson<DormMate>(who);
-            return mate;
-        }
-    }
 
     public DormSave(DormMate Who) => who = JsonUtility.ToJson(Who);
 }

@@ -6,7 +6,7 @@ namespace Intro
 {
     public class IntroScript : MonoBehaviour
     {
-        private PlayerMain Player => PlayerHolder.Player;
+        private BasicChar Player => PlayerMain.Player;
 
         [SerializeField] private Button firstAccept = null, secondAccept = null;
 

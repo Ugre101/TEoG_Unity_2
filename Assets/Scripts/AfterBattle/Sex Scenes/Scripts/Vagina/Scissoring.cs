@@ -13,12 +13,12 @@ public class Scissoring : SexScenes
         return $"As you continue to grind your pussy against {other.HisHer()} {other.SexualOrgans.Vaginas.List.Biggest().Race} pussy, you reach down and toy with their clit, bringing more pleasure-filled moans to your ears.";
     }
 
-    public override string OtherOrgasmed(PlayerMain player, BasicChar other)
+    public override string OtherOrgasmed(BasicChar player, BasicChar other)
     {
         return base.OtherOrgasmed(player, other);
     }
 
-    public override string PlayerOrgasmed(PlayerMain player, BasicChar other)
+    public override string PlayerOrgasmed(BasicChar player, BasicChar other)
     {
         return base.PlayerOrgasmed(player, other);
     }

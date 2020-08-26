@@ -34,10 +34,10 @@ public static class Settings
     #endregion Save&Load
 
     public static bool DefaultSpriteIsASquare { get; set; } = true;
-    public static bool Vore => PlayerHolder.Player.Vore.Active;
+    public static bool Vore => PlayerMain.Player.Vore.Active;
     public static bool Scat { get; private set; } = false;
 
-    public static bool ToogleVore() => PlayerHolder.Player.Vore.ToogleVore;
+    public static bool ToogleVore() => PlayerMain.Player.Vore.ToogleVore;
 
     public static bool ToogleScat() => Scat = !Scat;
 
@@ -95,10 +95,10 @@ public static class Settings
 
     public static class FollowersSettings
     {
-        public static TitleName TheyCallYou = new TitleName("Leader");
-        public static TitleName YouCallThem = new TitleName("Follower");
-        public static TitleName WhenTakingThemYou = new TitleName("Bring home");
-        public static TitleName TheyLiveIn = new TitleName("Dorm");
+        public static TitleName LeaderTitle = new TitleName("Leader");
+        public static TitleName FollowerTitle = new TitleName("Follower");
+        public static TitleName TakeHomeBtnTitle = new TitleName("Bring home");
+        public static TitleName DormTitle = new TitleName("Dorm");
         private static List<TitleName> titleNames;
 
         public static List<TitleName> TitleNames
@@ -107,7 +107,7 @@ public static class Settings
             {
                 if (titleNames == null)
                 {
-                    titleNames = new List<TitleName>() { TheyCallYou, YouCallThem, WhenTakingThemYou, TheyLiveIn };
+                    titleNames = new List<TitleName>() { LeaderTitle, FollowerTitle, TakeHomeBtnTitle, DormTitle };
                 }
                 return titleNames;
             }

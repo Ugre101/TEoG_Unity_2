@@ -10,13 +10,16 @@ public class MapEvents : MonoBehaviour
 
     public static event Action<Tilemap> TileMapChange;
 
-    private PlayerHolder gottenPlayer;
+    private PlayerSprite gottenPlayer;
 
-    private PlayerHolder Player
+    private PlayerSprite Player
     {
         get
         {
-            if (gottenPlayer == null) { gottenPlayer = PlayerHolder.GetPlayerHolder; }
+            if (gottenPlayer == null)
+            {
+                gottenPlayer = PlayerSprite.Instance;
+            }
             return gottenPlayer;
         }
     }

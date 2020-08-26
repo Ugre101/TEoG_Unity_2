@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    protected PlayerMain Player => PlayerHolder.Player;
+    protected BasicChar Player => PlayerMain.Player;
 
     [SerializeField] protected TextMeshProUGUI amount = null;
 

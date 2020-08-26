@@ -15,12 +15,12 @@ public class GiveCunnilingus : SexScenes
         return $"Keeping them in place, you continue your tongue-lashing, electing soft moans from your opponent. Barely able to move, all {other.Identity.FirstName} can do is rest their hand on your head. You reach one hand to their clit and gently pinch it, sending a fresh wave of pleasure through their body.";
     }
 
-    public override string OtherOrgasmed(PlayerMain player, BasicChar other)
+    public override string OtherOrgasmed(BasicChar player, BasicChar other)
     {
         return base.OtherOrgasmed(player, other);
     }
 
-    public override string PlayerOrgasmed(PlayerMain player, BasicChar other)
+    public override string PlayerOrgasmed(BasicChar player, BasicChar other)
     {
         return base.PlayerOrgasmed(player, other);
     }

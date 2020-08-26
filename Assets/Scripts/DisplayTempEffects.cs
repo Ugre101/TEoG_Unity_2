@@ -5,7 +5,7 @@ namespace Ugre.GameUITempEffects
 {
     public class DisplayTempEffects : MonoBehaviour
     {
-        private PlayerMain player => PlayerHolder.Player;
+        private BasicChar player => PlayerMain.Player;
 
         [SerializeField] private TempEffect tempEffectPrefab = null;
         [SerializeField] private PregEffect pregEffectPrefab = null;

@@ -13,7 +13,7 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] private Button sortAll = null, sortEatDrink = null, sortMisc = null;
     [SerializeField] private PromptYesNo yesNo = null;
     [SerializeField] private int AmountOfSlots = 40;
-    private PlayerMain Player => PlayerHolder.Player;
+    private BasicChar Player => PlayerMain.Player;
 
     private List<InventoryItem> Items => Player.Inventory.Items;
 

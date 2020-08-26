@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ShowDorm : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    private BasicChar Player => PlayerMain.Player;
     [SerializeField] private Transform container = null;
     [SerializeField] private ShowServant ServantListPrefab = null;
     [SerializeField] private GameObject servantList = null;
@@ -120,19 +120,19 @@ public class ShowDorm : MonoBehaviour
                 // TODO make this working
                 case SortByEnum.AffectionAcc:
                     dorMates.Sort((DormMate a, DormMate b)
-                        => a.BasicChar.RelationshipTracker.GetReleationWith(player).AffectionValue.CompareTo(b.BasicChar.RelationshipTracker.GetReleationWith(player).AffectionValue));
+                        => a.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue.CompareTo(b.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue));
                     break;
 
                 case SortByEnum.AffectionDec:
-                    dorMates.OrderByDescending(s => s.BasicChar.RelationshipTracker.GetReleationWith(player).AffectionValue);
+                    dorMates.OrderByDescending(s => s.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue);
                     break;
 
                 case SortByEnum.ObedianceAcc:
-                    dorMates.OrderBy(s => s.BasicChar.RelationshipTracker.GetReleationWith(player).ObedienceValue);
+                    dorMates.OrderBy(s => s.BasicChar.RelationshipTracker.GetReleationWith(Player).ObedienceValue);
                     break;
 
                 case SortByEnum.ObedianceDec:
-                    dorMates.OrderByDescending(s => s.BasicChar.RelationshipTracker.GetReleationWith(player).AffectionValue);
+                    dorMates.OrderByDescending(s => s.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue);
                     break;
             }
         }

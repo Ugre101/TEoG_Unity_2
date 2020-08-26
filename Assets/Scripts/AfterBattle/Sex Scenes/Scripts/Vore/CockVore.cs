@@ -16,7 +16,7 @@ public class CockVore : VoreScene
         return player.Vore.Balls.CanVore(Other);
     }
 
-    public override string Vore(PlayerMain player, BasicChar other)
+    public override string Vore(BasicChar player, BasicChar other)
     {
         if (player.Vore.Balls.Vore(other))
         {

@@ -6,7 +6,7 @@ public class LoseSexButton : AfterBattleButtonBase
 
     protected override void Func() => PlayScene?.Invoke(scene);
 
-    public void Setup(PlayerMain playerMain, BasicChar basicChar, LoseMain loseMain, LoseScene loseScene)
+    public void Setup(LoseScene loseScene)
     {
         BaseSetup();
         this.scene = loseScene;

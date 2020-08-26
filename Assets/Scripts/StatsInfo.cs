@@ -8,7 +8,7 @@ public class StatsInfo : MonoBehaviour
 
     private void OnEnable()
     {
-        basicChar = basicChar ?? PlayerHolder.Player;
+        basicChar = basicChar ?? PlayerMain.Player;
         basicChar.Stats.GetAll.ForEach(s => s.ValueChanged += DisplayStats);
         DisplayStats();
     }

@@ -57,7 +57,7 @@ namespace Vore
         {
             if (!playerIsPred.HasValue)
             {
-                playerIsPred = pred is PlayerMain;
+                playerIsPred = pred.Identity.Id == PlayerMain.PlayerID;
             }
             return playerIsPred.Value;
         }

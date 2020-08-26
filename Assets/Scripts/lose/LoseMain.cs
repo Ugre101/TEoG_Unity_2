@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class LoseMain : MonoBehaviour
 {
-    private PlayerMain Player => PlayerHolder.Player;
+    private BasicChar Player => PlayerMain.Player;
 
     [SerializeField] private TextMeshProUGUI _textBox = null;
 
@@ -28,14 +28,7 @@ public class LoseMain : MonoBehaviour
 
     private List<LoseScene> CanDo(List<LoseScene> scenes) => scenes.Where(s => s.CanDo(Player, Target)).Select(s => s).ToList();
 
-    private readonly System.Random rnd = new System.Random();
-
-    private LoseScene GetAScene(List<LoseScene> scenes) => scenes[rnd.Next(scenes.Count)];
-
-    private void Start()
-    {
-        LoseSexButton.PlayScene += HandleScene;
-    }
+    private void Start() => LoseSexButton.PlayScene += HandleScene;
 
     public void Setup(List<BasicChar> parEnemies)
     {
@@ -69,7 +62,7 @@ public class LoseMain : MonoBehaviour
         {
             for (int i = 0; i < SceneOptionsAmount; i++)
             {
-                Instantiate(sexButton, sexButtonsContainer).Setup(Player, Target, this, GetAScene(forcedCanDo));
+                Instantiate(sexButton, sexButtonsContainer).Setup(forcedCanDo.RandomListValue());
             }
         }
         List<LoseScene> submitCanDo = CanDo(submit);
@@ -77,7 +70,7 @@ public class LoseMain : MonoBehaviour
         {
             for (int i = 0; i < SceneOptionsAmount; i++)
             {
-                Instantiate(sexButton, sexButtonsContainer).Setup(Player, Target, this, GetAScene(submitCanDo));
+                Instantiate(sexButton, sexButtonsContainer).Setup(submitCanDo.RandomListValue());
             }
         }
     }
