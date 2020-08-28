@@ -14,7 +14,6 @@ public class FlagInt
 public class FlagBool
 {
     [SerializeField] private bool cleared = false;
-
     public bool Cleared => cleared;
 
     /// <summary>Marks flag as completed</summary>
@@ -50,15 +49,16 @@ public class KnowMap
     public event KnowThis KnowThisMap;
 }
 
-public class KnowTeleport
-{
-    private bool know = false;
-}
-
 public static class PlayerFlags
 {
     public static FlagBool BeatBanditLord { get; } = new FlagBool();
     public static KnowMap BanditMap { get; } = new KnowMap();
+
+    // Count times beaten certain enemies
+    public static FlagInt ElfsBeaten { get; } = new FlagInt();
+
+    public static FlagInt FairiesBeaten { get; } = new FlagInt();
+    public static FlagInt TimesBeatenBanditLord { get; } = new FlagInt(); // Maybe he just gives up
 
     public static PlayerFlagsSave Save() => new PlayerFlagsSave(BeatBanditLord.Cleared, BanditMap.Know);
 
@@ -66,6 +66,18 @@ public static class PlayerFlags
     {
         BeatBanditLord.Load(playerFlagsSave.BeatBanditLord);
         BanditMap.Know = playerFlagsSave.BanditMap;
+    }
+
+    public static void CountTimesBeatingEnemy(BasicChar enemy)
+    {
+        if (enemy.RaceSystem.CurrentRace() == Races.Elf)
+        {
+            ElfsBeaten.Increase();
+        }
+        else if (enemy.RaceSystem.CurrentRace() == Races.Fairy)
+        {
+            FairiesBeaten.Increase();
+        }
     }
 }
 

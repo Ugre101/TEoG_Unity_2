@@ -10,16 +10,19 @@ public static class PlayerMain
         Player.Identity.SetLastName(last);
     }
 
-    private static void SubscribleToEvents()
-    {
-        Player.RaceSystem.RaceChange += Player.Events.SoloEvents.RaceChange;
-    }
-
     public static string PlayerID => Player.Identity.Id;
 
     public static PlayerSave Save() => new PlayerSave(Player);
 
-    public static void Load(PlayerSave save) => JsonUtility.FromJsonOverwrite(save.Who, Player);
+    public static void Load(PlayerSave save)
+    {
+        Unbind();
+        if (save.Who != null)
+            JsonUtility.FromJsonOverwrite(save.Who, Player);
+        else
+            Debug.LogError("Player save was null");
+        Bind();
+    }
 
     public static void GenderChange()
     {
@@ -29,23 +32,23 @@ public static class PlayerMain
         }
     }
 
-    public static void DoEveryMin(int times)
+    private static void DoEveryMin(int times)
     {
         // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
         //   BasicChar.RefreshOrgans();
         Player.DoEveryMin(times);
     }
 
-    public static void DoEveryHour()
+    private static void DoEveryHour()
     {
     }
 
-    public static void DoEveryDay()
+    private static void DoEveryDay()
     {
         Player.DoEveryDay();
     }
 
-    public static void BeforeDestroy()
+    private static void BeforeDestroy()
     {
     }
 
@@ -54,6 +57,8 @@ public static class PlayerMain
         DateSystem.NewMinuteEvent += DoEveryMin;
         DateSystem.NewDayEvent += DoEveryDay;
         Player.SexualOrgans.AllOrgans.ForEach(so => so.Change += GenderChange);
+        Player.RaceSystem.RaceChange += Player.Events.SoloEvents.RaceChange;
+
         // SpriteHandler.Setup(BasicChar);
     }
 
@@ -62,5 +67,6 @@ public static class PlayerMain
         DateSystem.NewMinuteEvent -= DoEveryMin;
         DateSystem.NewDayEvent -= DoEveryDay;
         Player.SexualOrgans.AllOrgans.ForEach(so => so.Change -= GenderChange);
+        Player.RaceSystem.RaceChange -= Player.Events.SoloEvents.RaceChange;
     }
 }

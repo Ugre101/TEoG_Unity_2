@@ -35,11 +35,10 @@ public class Boss : EnemyPrefab
 [System.Serializable]
 public class HasCustomScenes
 {
-    [SerializeField] private bool haveCustomScenes = false;
-    public bool HaveCustomScenes => haveCustomScenes;
-    [SerializeField] private bool blockNormalScenes = false;
-    public bool BlockNormalScenes => blockNormalScenes;
+    [SerializeField] private bool haveCustomScenes = false, blockNormalScenes = false;
     [SerializeField] private List<SexScenes> customScenes = new List<SexScenes>();
+    public bool HaveCustomScenes => haveCustomScenes;
+    public bool BlockNormalScenes => blockNormalScenes;
     public List<SexScenes> CustomScenes => customScenes;
 }
 

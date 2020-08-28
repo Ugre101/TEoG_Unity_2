@@ -123,5 +123,7 @@ public static class UgreTools
     }
 
     public static T RandomListValue<T>(this List<T> list) => list[rnd.Next(list.Count)];
+
     public static bool HitPlayer(this Collider2D collider) => collider.CompareTag(PlayerSprite.Tag);
+
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class ExpStatusUpdater : MonoBehaviour
 {
-    [SerializeField] private BasicChar player = null;
+    private BasicChar player = null;
 
     [SerializeField] private TextMeshProUGUI _statusExp = null, _statusLevel = null;
 

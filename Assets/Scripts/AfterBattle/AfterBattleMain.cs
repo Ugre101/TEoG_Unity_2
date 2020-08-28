@@ -67,14 +67,14 @@ public class AfterBattleMain : MonoBehaviour
     [SerializeField] private Button sortAll = null, sortMouth = null, sortAnal = null, sortDick = null, sortVagina = null, sortBreasts = null, sortVore = null;
 
     private BasicChar newTarget;
-    public BasicChar Target => newTarget != null ? newTarget : enemies.Count > 0 ? enemies[0] : null;
+    public BasicChar Target => newTarget ?? (enemies.Count > 0 ? enemies[0] : null);
 
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
     public BasicChar Caster => Player;
 
     private void Start()
     {
-        sortAll.onClick.AddListener(() => SexHander.SortScenes(buttons,addedSexButtons,AllSexScenes));
+        sortAll.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, AllSexScenes));
         sortMouth.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, mouthScenes));
         sortAnal.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, analScenes));
         sortDick.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, dickScenes));
@@ -87,6 +87,8 @@ public class AfterBattleMain : MonoBehaviour
         VoreButton.PlayerScene += HandleVoreScene;
     }
 
+    private SexButton leaveBtn;
+
     private void EnemyRemoved()
     {
         if (newTarget == Target)
@@ -97,13 +99,11 @@ public class AfterBattleMain : MonoBehaviour
         Target.SexStats.OrgasmedEvent -= GetImpreg;
         Target.SexStats.OrgasmedEvent -= OtherOrgasmed;
         enemies.Remove(Target);
-        if (enemies.Count < 1)
+
+        leaveBtn = leaveBtn != null ? leaveBtn : addedMiscButtons.Find(b => b.Scene.GetType() == typeof(LeaveAfterBattle));
+        if (enemies.Count < 1 && !leaveBtn.gameObject.activeSelf)
         {
-            SexButton leaveBtn = addedMiscButtons.Find(b => b.Scene.GetType() == typeof(LeaveAfterBattle));
-            if (!leaveBtn.gameObject.activeSelf)
-            {
-                leaveBtn.gameObject.SetActive(true);
-            }
+            leaveBtn.gameObject.SetActive(true);
         }
         else
         {
@@ -204,17 +204,17 @@ public class AfterBattleMain : MonoBehaviour
     {
         foreach (SexButton btn in addedSexButtons)
         {
-            btn.gameObject.SetActive(Player.CanOrgasmMore() ? btn.Scene.CanDo(Player, Target) : false);
+            btn.gameObject.SetActive(Player.CanOrgasmMore() && btn.Scene.CanDo(Player, Target));
         }
 
         foreach (EssSexButton btn in addedEssSexButtons)
         {
-            btn.gameObject.SetActive(Target.SexStats.CanDrain ? btn.Scene.CanDo(Player, Target) : false);
+            btn.gameObject.SetActive(Target.SexStats.CanDrain && btn.Scene.CanDo(Player, Target));
         }
 
         foreach (VoreButton btn in addedVoreButtons)
         {
-            btn.gameObject.SetActive(Settings.Vore ? btn.voreScene.CanDo(Player, Target) : false);
+            btn.gameObject.SetActive(Settings.Vore && btn.voreScene.CanDo(Player, Target));
         }
 
         foreach (SexButton btn in addedMiscButtons)
@@ -225,23 +225,17 @@ public class AfterBattleMain : MonoBehaviour
 
     private void Impreg()
     {
-        if (LastScene.IImpregnate)
+        if (LastScene.IImpregnate && Target.GetImpregnatedBy(Caster))
         {
-            if (Target.GetImpregnatedBy(Caster))
-            {
-                InsertToTextBox($" {Target.Identity.FirstName} got pregnant!");
-            }
+            InsertToTextBox($" {Target.Identity.FirstName} got pregnant!");
         }
     }
 
     private void GetImpreg()
     {
-        if (LastScene.IGetImpregnated)
+        if (LastScene.IGetImpregnated && Caster.GetImpregnatedBy(Target))
         {
-            if (Caster.GetImpregnatedBy(Target))
-            {
-                InsertToTextBox($" You got pregnant!");
-            }
+            InsertToTextBox($" You got pregnant!");
         }
     }
 

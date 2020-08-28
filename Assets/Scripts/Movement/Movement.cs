@@ -108,6 +108,7 @@ public class Movement : MonoBehaviour
     {
         if (collision.CompareTag("Enemy") && collision.gameObject.GetComponent<CharHolder>() is CharHolder holder)
         {
+            MarkEnemyBecauseYouAreABully(holder);
             if (holder is BossHolder b)
                 HandleBoss(b);
             else if (holder is EnemyHolder e)
@@ -134,6 +135,23 @@ public class Movement : MonoBehaviour
             }
         }
         Debug.Log("Boss");
+    }
+
+    [SerializeField] private BullyMark bullyMark = null;
+
+    private void MarkEnemyBecauseYouAreABully(CharHolder charHolder)
+    {
+        if (PlayerMain.Player.Perks.HasPerk(PerksTypes.Bully) && bullyMark != null)
+        {
+            if (BullyMark.Instance != null)
+            {
+                BullyMark.Instance.transform.SetParent(charHolder.transform);
+            }
+            else
+            {
+                Instantiate(bullyMark, charHolder.transform);
+            }
+        }
     }
 
     public static event Action<CharHolder> TriggerEnemy;

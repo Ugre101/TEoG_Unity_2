@@ -107,9 +107,9 @@ public class BasicChar
     public BasicChar()
     {
         identity = new Identity();
-        vore = new VoreEngine(this);
         expSystem = new ExpSystem(1);
-        gameEvent = new GameEventSystem(this);
+        vore = new VoreEngine(this);
+        Events = new GameEventSystem(this);
         hp = new Health(this, new AffectedByStat(StatTypes.End, 5));
         wp = new Health(this, new AffectedByStat(StatTypes.Will, 5));
         Essence.Femi.GainEvent += this.RefreshOrgans;
@@ -118,22 +118,15 @@ public class BasicChar
 
     public BasicChar(Age age, Body body, ExpSystem expSystem) : this()
     {
-        this.vore = new VoreEngine(this);
         this.age = age;
         this.body = body;
         this.expSystem = expSystem;
     }
-
-    public BasicChar(Identity identity, Age age, Body body, ExpSystem expSystem) : this(age, body, expSystem)
-    {
-        this.identity = identity;
-    }
-
     [SerializeField] private List<Skill> skills = new List<Skill>() { new Skill(SkillId.BasicAttack), new Skill(SkillId.BasicTease) };
 
     public List<Skill> Skills => skills;
-    private GameEventSystem gameEvent;
-    public GameEventSystem Events => gameEvent;
+
+    public GameEventSystem Events { get; }
 
     public delegate void DestroyHolder();
 

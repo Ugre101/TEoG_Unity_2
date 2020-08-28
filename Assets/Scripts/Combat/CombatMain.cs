@@ -9,19 +9,13 @@ public class CombatMain : MonoBehaviour
     /// <summary>Can only be used by children of this as it isn't defined before first enable</summary>
     public static CombatMain GetCombatMain { get; private set; }
 
-    private BasicChar Player => PlayerMain.Player;
-
     [SerializeField] private TextMeshProUGUI _textbox = null;
 
     [SerializeField] private GameObject skillButtonsContainer = null;
 
-    private List<CombatButton> skillButtons = new List<CombatButton>();
-
     [SerializeField] private SkillBook skillBook = null;
 
-    [SerializeField] private CombatTeam playerTeam = null;
-
-    [SerializeField] private CombatTeam enemyTeam = null;
+    [SerializeField] private CombatTeam playerTeam = null, enemyTeam = null;
 
     [Header("Win")]
     [SerializeField] private AfterBattleMain afterBattle = null;
@@ -29,6 +23,8 @@ public class CombatMain : MonoBehaviour
     [Header("Lose")]
     [SerializeField] private LoseMain loseBattle = null;
 
+    private BasicChar Player => PlayerMain.Player;
+    private List<CombatButton> skillButtons = new List<CombatButton>();
     private string PlayerTeamAttacks { get => CombatHandler.PlayerTeamAttacks; set => CombatHandler.PlayerTeamAttacks = value; }
     private string EnemyTeamAttacks { get => CombatHandler.EnemyTeamAttacks; set => CombatHandler.SetEnemyTeamAttacks(value); }
     private int Turn { get => CombatHandler.Turn; set => CombatHandler.Turn = value; }
@@ -36,13 +32,9 @@ public class CombatMain : MonoBehaviour
     private void Awake()
     {
         if (GetCombatMain == null)
-        {
             GetCombatMain = this;
-        }
         else if (GetCombatMain != this)
-        {
             Destroy(gameObject);
-        }
     }
 
     private void Start()
@@ -70,8 +62,8 @@ public class CombatMain : MonoBehaviour
     {
         gameObject.SetActive(true);
         CombatHandler.SetUpCombat(enemies);
-        _ = enemyTeam.StartCoroutine(enemyTeam.StartFight(enemies));
-        _ = playerTeam.StartCoroutine(playerTeam.StartFight(CombatHandler.PlayerTeamChars));
+        enemyTeam.StartFight(enemies);
+        playerTeam.StartFight(CombatHandler.PlayerTeamChars);
         ResetSkills(CombatHandler.PlayerTeamChars);
         ResetSkills(CombatHandler.EnemyTeamChars);
     }
@@ -161,24 +153,23 @@ public class CombatMain : MonoBehaviour
         // Losing enemy gain obedince and loses affection towards player
         b.RelationshipTracker.GetTempRelationshipWith(Player).ObedienceStat.BaseValue++;
         b.RelationshipTracker.GetTempRelationshipWith(Player).AffectionStat.BaseValue--;
+        // Exp, gold and loot
         Player.ExpSystem.GainExp(Player.ExpSystem.Exp + b.Reward.ExpReward);
         b.Reward.HandleDrops(Player);
         Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
             ? b.Reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
             : b.Reward.GoldReward;
+        // Is enemy a quest?
         b.IsQuest.CheckQuest();
+        PlayerFlags.CountTimesBeatingEnemy(b);
     }
 
     public void SomeOneDead()
     {
         if (playerTeam.TeamDead)
-        {
             LoseBattle();
-        }
         else if (enemyTeam.TeamDead)
-        {
             WinBattle();
-        }
     }
 
     public void SelectNewTarget(BasicChar target)

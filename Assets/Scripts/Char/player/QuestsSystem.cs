@@ -29,8 +29,8 @@ public static class QuestsSystem
     public static TieredQuest GetTieredQuest(Quests quests) => TieredQuests[quests];
 
     public static bool HasQuest(Quests parQuest) => BasicQuests.ContainsKey(parQuest)
-        || CountQuests.ContainsKey(parQuest)
-        || TieredQuests.ContainsKey(parQuest);
+                                                    || CountQuests.ContainsKey(parQuest)
+                                                    || TieredQuests.ContainsKey(parQuest);
 
     public static bool QuestIsCompleted(Quests quests)
     {
@@ -83,17 +83,6 @@ public static class QuestsSystem
 
     public static event GotQuest GotQuestEvent;
 
-    public static void WinBattleCheck(BasicChar enemy)
-    {
-        if (HasQuest(Quests.ElfsHunt))
-        {
-            if (enemy.RaceSystem.CurrentRace() == Races.Elf)
-            {
-                GetTieredQuest(Quests.ElfsHunt).Count++;
-            }
-        }
-    }
-
     public static void ProgressQuests(Quests quest, int count = 1)
     {
         switch (quest)
@@ -102,14 +91,17 @@ public static class QuestsSystem
                 if (HasQuest(quest))
                 {
                     GetBasicQuest(quest).SetCompleted();
+                    PlayerFlags.TimesBeatenBanditLord.Increase();
                 }
                 break;
 
             case Quests.ElfsHunt:
                 if (HasQuest(quest))
-                {
                     GetTieredQuest(quest).Count += count;
-                }
+                break;
+
+            default:
+                Debug.LogWarning($"{quest.ToString()} isn't handled in progressQuests switch.");
                 break;
         }
     }

@@ -8,21 +8,11 @@ public class ItemHolder : ScriptableObject
 {
     [SerializeField] private List<Item> items = new List<Item>();
 
-    private bool firstUse = true;
+    public Dictionary<ItemIds, Item> ItemsDict { get; private set; }
 
-    private Dictionary<ItemIds, Item> itemsDict;
-
-    public Dictionary<ItemIds, Item> ItemsDict
+    private void OnValidate()
     {
-        get
-        {
-            if (firstUse)
-            {
-                itemsDict = items.ToDictionary(id => id.ItemId);
-                firstUse = false;
-            }
-            return itemsDict;
-        }
+        ItemsDict = items.ToDictionary(id => id.ItemId);
     }
 
     public Item GetById(ItemIds parId)
@@ -43,5 +33,5 @@ public class ItemHolder : ScriptableObject
         items.Sort();// Make it easier to find stuff manually
     }
 
-    public bool HasItem(ItemIds id) => ItemsDict.ContainsKey(id);
+    public bool HasItem(ItemIds id) => items.Exists(i => i.ItemId == id);
 }
