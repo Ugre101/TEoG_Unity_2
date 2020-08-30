@@ -14,17 +14,17 @@ public enum Quests
 
 public static class QuestsSystem
 {
-    public static Dictionary<Quests, BasicQuest> BasicQuests { get; } = new Dictionary<Quests, BasicQuest>();
+    public static Dictionary<Quests, BasicQuest> BasicQuests { get; private set; } = new Dictionary<Quests, BasicQuest>();
 
     public static BasicQuest GetBasicQuest(Quests quests) => BasicQuests[quests];
 
     public static bool TryGetBasicQuest(Quests quests, out BasicQuest basicQuest) => BasicQuests.TryGetValue(quests, out basicQuest); // Not tested
 
-    public static Dictionary<Quests, CountQuest> CountQuests { get; } = new Dictionary<Quests, CountQuest>();
+    public static Dictionary<Quests, CountQuest> CountQuests { get; private set; } = new Dictionary<Quests, CountQuest>();
 
     public static CountQuest GetCountQuest(Quests quests) => CountQuests[quests];
 
-    public static Dictionary<Quests, TieredQuest> TieredQuests { get; } = new Dictionary<Quests, TieredQuest>();
+    public static Dictionary<Quests, TieredQuest> TieredQuests { get; private set; } = new Dictionary<Quests, TieredQuest>();
 
     public static TieredQuest GetTieredQuest(Quests quests) => TieredQuests[quests];
 
@@ -73,9 +73,9 @@ public static class QuestsSystem
 
     public static void Load(QuestSave toLoad)
     {
-        toLoad.BasicQuests.ForEach(bq => BasicQuests.Add(bq.Type, bq));
-        toLoad.CountQuests.ForEach(cq => CountQuests.Add(cq.Type, cq));
-        toLoad.TieredQuests.ForEach(tq => TieredQuests.Add(tq.Type, tq));
+        BasicQuests = toLoad.BasicQuests.ToDictionary(id => id.Type);
+        CountQuests = toLoad.CountQuests.ToDictionary(id => id.Type);
+        TieredQuests = toLoad.TieredQuests.ToDictionary(id => id.Type);
         GotQuestEvent?.Invoke();
     }
 

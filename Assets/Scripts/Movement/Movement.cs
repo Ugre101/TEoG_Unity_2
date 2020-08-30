@@ -141,14 +141,18 @@ public class Movement : MonoBehaviour
 
     private void MarkEnemyBecauseYouAreABully(CharHolder charHolder)
     {
+        Debug.Log("Mark Part 1");
         if (PlayerMain.Player.Perks.HasPerk(PerksTypes.Bully) && bullyMark != null)
         {
+            Debug.Log("Mark Part 2: Had perk");
             if (BullyMark.Instance != null)
             {
+                Debug.Log("Mark Part 3: Already instanced");
                 BullyMark.Instance.transform.SetParent(charHolder.transform);
             }
             else
             {
+                Debug.Log("Mark Part 3: Instantitate");
                 Instantiate(bullyMark, charHolder.transform);
             }
         }

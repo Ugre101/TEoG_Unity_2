@@ -18,7 +18,7 @@ public class ItemHolder : ScriptableObject
     public Item GetById(ItemIds parId)
     {
         if (ItemsDict.TryGetValue(parId, out Item item))
-        {
+        {  
             return item;
         }
         else
