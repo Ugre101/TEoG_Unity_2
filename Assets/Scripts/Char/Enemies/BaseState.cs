@@ -11,9 +11,10 @@ public abstract class BaseState
 
     protected GameObject gameObject;
     protected Transform transform;
-    public PlayerMain Player { get; private set; }
+
     public abstract Type Tick();
 }
+
 public class IdleState : BaseState
 {
     public IdleState(GameObject parGameObject) : base(parGameObject)
@@ -25,6 +26,7 @@ public class IdleState : BaseState
         throw new NotImplementedException();
     }
 }
+
 public class ChaseState : BaseState
 {
     public ChaseState(GameObject parGameObject) : base(parGameObject)

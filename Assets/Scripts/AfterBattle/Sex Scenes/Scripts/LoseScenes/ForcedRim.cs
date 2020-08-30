@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Forced Rimjob", menuName = "Sex/LoseScenes/ForcedRimjob")]
 public class ForcedRim : LoseScene
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         string returnText;
         if (GenderExtensions.Gender(other) != Genders.Doll)
@@ -20,7 +20,7 @@ public class ForcedRim : LoseScene
         return returnText;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return StartScene(player, other);
     }

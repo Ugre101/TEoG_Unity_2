@@ -38,19 +38,13 @@ public class Fetus
         }
     }
 
-    public Fetus(Races parRace, BasicChar parFather, BasicChar parMother)
+    public Fetus(Races parRace, BasicChar parFather, BasicChar parMother, bool playerFather = false, bool playerMother = false)
     {
         race = parRace;
         father = parFather.Identity;
-        if (parFather is PlayerMain)
-        {
-            playerFather = true;
-        }
         mother = parMother.Identity;
-        if (parMother is PlayerMain)
-        {
-            playerMother = true;
-        }
+        this.playerFather = playerFather;
+        this.playerMother = playerMother;
     }
 
     public bool Grow(float parDaysToGrow = 1f)
@@ -59,5 +53,5 @@ public class Fetus
         return ReadyToBeBorn;
     }
 
-    public Child GiveBirth() => new Child(Race, mother, father);
+    public Child GiveBirth() => new Child(Race, mother, father, PlayerFather, PlayerMother);
 }

@@ -8,8 +8,9 @@ public abstract class AfterBattleButtonBase : MonoBehaviour
 
     [SerializeField] protected TextMeshProUGUI title = null;
 
-    public virtual void Start()
+    public void BaseSetup()
     {
         btn = btn != null ? btn : GetComponent<Button>();
     }
+    protected abstract void Func();
 }

@@ -2,8 +2,7 @@
 
 public class TownHallButtons : MonoBehaviour
 {
-    public GameObject buyHouse, banditQuest, elfQuest;
-    public PlayerMain player;
+    [SerializeField] private GameObject buyHouse = null, banditQuest = null, elfQuest = null;
 
     private void OnEnable()
     {

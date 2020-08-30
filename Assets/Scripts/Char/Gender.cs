@@ -19,44 +19,18 @@ public static class GenderExtensions
 {
     public static Genders Gender(this BasicChar parWho)
     {
-        if (parWho.SexualOrgans.Dicks.Count > 0 && parWho.SexualOrgans.Vaginas.Count > 0)
-        {
-            return Genders.Herm;
-        }
-        else if (parWho.SexualOrgans.Dicks.Count > 0 && parWho.SexualOrgans.Boobs.Total() > 2)
-        {
-            return Genders.Dickgirl;
-        }
-        else if (parWho.SexualOrgans.Dicks.Count > 0)
-        {
+        if (parWho.SexualOrgans.HaveDick() && parWho.SexualOrgans.HaveVagina())  
+            return Genders.Herm;   
+        else if (parWho.SexualOrgans.HaveDick() && parWho.SexualOrgans.HaveBoobs(3))        
+            return Genders.Dickgirl;  
+        else if (parWho.SexualOrgans.HaveDick())
             return Genders.Male;
-        }
-        else if (parWho.SexualOrgans.Vaginas.Count > 0 && parWho.SexualOrgans.Boobs.Total() > 2)
-        {
+        else if (parWho.SexualOrgans.HaveVagina() && parWho.SexualOrgans.HaveBoobs())
             return Genders.Female;
-        }
-        else if (parWho.SexualOrgans.Vaginas.Count > 0)
-        {
+        else if (parWho.SexualOrgans.HaveVagina())
             return Genders.Cuntboy;
-        }
         else
-        {
             return Genders.Doll;
-        }
-    }
-
-    public static string GenderToString(Genders genders)
-    {
-        switch (genders)
-        {
-            case Genders.Doll: return Settings.Doll;
-            case Genders.Male: return Settings.Male;
-            case Genders.Cuntboy: return Settings.Cuntboy;
-            case Genders.Dickgirl: return Settings.Dickgirl;
-            case Genders.Herm: return Settings.Herm;
-            case Genders.Female: return Settings.Female;
-            default: return Settings.Doll;
-        }
     }
 
     public static GenderTypes GenderType(this BasicChar parWho)
@@ -115,7 +89,24 @@ public static class GenderExtensions
                 return capital ? "Them" : "them";
         }
     }
+    public static string HimHerSelf(this BasicChar basicChar, bool capital = false)
+    {
+        switch (Gender(basicChar))
+        {
+            case Genders.Male:
+            case Genders.Cuntboy:
+                return capital ? "Himself" : "himself";
 
+            case Genders.Female:
+            case Genders.Herm:
+            case Genders.Dickgirl:
+                return capital ? "Herself" : "herself";
+
+            case Genders.Doll:
+            default:
+                return capital ? "Themself" : "themself";
+        }
+    }
     public static string HeShe(this BasicChar basicChar, bool capital = false)
     {
         switch (Gender(basicChar))
@@ -134,4 +125,5 @@ public static class GenderExtensions
                 return capital ? "They" : "they";
         }
     }
+
 }

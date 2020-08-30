@@ -1,18 +1,72 @@
-﻿public class PlayerMain : BasicChar
+﻿using UnityEngine;
+
+public static class PlayerMain
 {
+    public static BasicChar Player { get; private set; } = new BasicChar();
 
-    public void PlayerInit(string first, string last)
+    public static void PlayerInit(string first, string last)
     {
-        Identity.FirstName = first;
-        Identity.LastName = last;
+        Player.Identity.SetFirstName(first);
+        Player.Identity.SetLastName(last);
     }
 
-    private void SubscribleToEvents()
+    public static string PlayerID => Player.Identity.Id;
+
+    public static PlayerSave Save() => new PlayerSave(Player);
+
+    public static void Load(PlayerSave save)
     {
-        RaceSystem.RaceChange += Events.SoloEvents.RaceChange;
+        Unbind();
+        if (save.Who != null)
+            JsonUtility.FromJsonOverwrite(save.Who, Player);
+        else
+            Debug.LogError("Player save was null");
+        Bind();
     }
 
-    public PlayerMain(Age age, Body body, ExpSystem expSystem, Perks perk) : base(age, body, expSystem)
+    public static void GenderChange()
     {
+        if (Player.DidGenderChange())
+        {
+            // SpriteHandler.ChangeSprite();
+        }
+    }
+
+    private static void DoEveryMin(int times)
+    {
+        // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
+        //   BasicChar.RefreshOrgans();
+        Player.DoEveryMin(times);
+    }
+
+    private static void DoEveryHour()
+    {
+    }
+
+    private static void DoEveryDay()
+    {
+        Player.DoEveryDay();
+    }
+
+    private static void BeforeDestroy()
+    {
+    }
+
+    public static void Bind()
+    {
+        DateSystem.NewMinuteEvent += DoEveryMin;
+        DateSystem.NewDayEvent += DoEveryDay;
+        Player.SexualOrgans.AllOrgans.ForEach(so => so.Change += GenderChange);
+        Player.RaceSystem.RaceChange += Player.Events.SoloEvents.RaceChange;
+
+        // SpriteHandler.Setup(BasicChar);
+    }
+
+    public static void Unbind()
+    {
+        DateSystem.NewMinuteEvent -= DoEveryMin;
+        DateSystem.NewDayEvent -= DoEveryDay;
+        Player.SexualOrgans.AllOrgans.ForEach(so => so.Change -= GenderChange);
+        Player.RaceSystem.RaceChange -= Player.Events.SoloEvents.RaceChange;
     }
 }

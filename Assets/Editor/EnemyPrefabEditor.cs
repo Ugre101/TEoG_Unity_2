@@ -95,8 +95,8 @@ public class EnemyPrefabEditor : CharHolderEditor
             UgreEditorTools.TwoBoldLabels("First name", "Last name");
             GUILayout.BeginHorizontal();
             Identity identity = myTarget.BasicChar.Identity;
-            identity.FirstName = EditorGUILayout.TextArea(identity.FirstName);
-            identity.LastName = EditorGUILayout.TextArea(identity.LastName);
+            identity.SetFirstName(EditorGUILayout.TextArea(identity.FirstName));
+            identity.SetLastName(EditorGUILayout.TextArea(identity.LastName));
             GUILayout.EndHorizontal();
             GUILayout.BeginVertical("Box");
             GUILayout.BeginHorizontal();

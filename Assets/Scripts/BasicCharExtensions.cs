@@ -1,6 +1,4 @@
 ﻿using HealthRecovery;
-using System.Collections;
-using UnityEngine;
 
 public static class BasicCharExtensions
 {
@@ -8,13 +6,13 @@ public static class BasicCharExtensions
         ? who.RaceSystem.CurrentRace().ToString()
         : who.RaceSystem.CurrentRace().ToString().ToLower();
 
-    public static string HeightMorInch(this Body body) => Settings.MorInch(body.Height.Value);
+    public static string HeightMorInch(this Body body) => body.Height.Value.MorInch();
 
-    public static string MuscleKgOrP(this Body body) => Settings.KgorP(body.Muscle.Value);
+    public static string MuscleKgOrP(this Body body) => body.Muscle.Value.KgorP();
 
-    public static string FatKgOrP(this Body body) => Settings.KgorP(body.Fat.Value);
+    public static string FatKgOrP(this Body body) => body.Fat.Value.KgorP();
 
-    public static string WeightKgOrP(this Body body) => Settings.KgorP(body.Weight);
+    public static string WeightKgOrP(this Body body) => body.Weight.KgorP();
 
     public static string Summary(this BasicChar who)
     {
@@ -55,21 +53,6 @@ public static class BasicCharExtensions
         }
     }
 
-    public static IEnumerator TickEverySecond(BasicChar basicChar)
-    {
-        // Time.time is affected by timescale so no pause check is needed
-        float time = Time.time;
-        while (true)
-        {
-            if (time + 1f < Time.time)
-            {
-                time = Time.time;
-                OverTimeTick(basicChar);
-            }
-            yield return null;
-        }
-    }
-
     /// <summary> Handles hp/wp recovery, fat burn, vore </summary>
     public static void OverTimeTick(this BasicChar basicChar, int times = 1)
     {
@@ -96,7 +79,7 @@ public static class BasicCharExtensions
 
     private static void ReGainFluidsTick(this BasicChar basicChar, int times)
     {
-        Organs so = basicChar.SexualOrgans;
+        SexualOrgans so = basicChar.SexualOrgans;
         if (so.HaveBalls())
         {
             PregnancyBlessings pregnancyBlessings = basicChar.PregnancySystem.PregnancyBlessings;
@@ -104,16 +87,16 @@ public static class BasicCharExtensions
             {
                 int blessVal = pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.SpermFactory);
                 basicChar.Body.Fat.LoseFlat(blessVal / 100); // TODO is this balanced?
-                so.Balls.ForEach(b => b.Fluid.ReFill((so.BallsBunusRefillRate.Value + blessVal) * times));
+                so.Balls.List.ForEach(b => b.Fluid.ReFill((so.Balls.BallsBunusRefillRate.Value + blessVal) * times));
             }
             else
             {
-                so.Balls.ForEach(b => b.Fluid.ReFill(so.BallsBunusRefillRate.Value * times));
+                so.Balls.List.ForEach(b => b.Fluid.ReFill(so.Balls.BallsBunusRefillRate.Value * times));
             }
         }
-        if (so.Lactating)
+        if (so.Boobs.Lactating)
         {
-            so.Boobs.ForEach(b => b.Fluid.ReFill(so.BoobsBonusRefillRate.Value * times));
+            so.Boobs.List.ForEach(b => b.Fluid.ReFill(so.Boobs.BoobsBonusRefillRate.Value * times));
         }
     }
 
@@ -128,7 +111,7 @@ public static class BasicCharExtensions
     public static void GainFatAndRefillScat(this BasicChar basicChar, float fatGain, float scatRatio = 0.1f)
     {
         basicChar.Body.Fat.GainFlat(fatGain);
-        basicChar.SexualOrgans.Anals.ForEach(a =>
+        basicChar.SexualOrgans.Anals.List.ForEach(a =>
         {
             if (!a.Fluid.IsFull)
             {
@@ -139,5 +122,22 @@ public static class BasicCharExtensions
                 // TODO need to shit
             }
         });
+    }
+
+    public static BasicCharCustomSave Save(this BasicChar toSave)
+    {
+        BasicCharCustomSave newSave =
+            new BasicCharCustomSave(toSave.Identity.Save(),
+                                    toSave.RelationshipTracker.Save());
+        return newSave;
+    }
+
+    public static void Load(this BasicChar toLoad, BasicCharCustomSave load)
+    {
+        toLoad.Identity.Load(load.IdentitySave);
+        if (load.ReletionShip.HasValue)
+        {
+            toLoad.RelationshipTracker.Load(load.ReletionShip.Value);
+        }
     }
 }

@@ -26,10 +26,9 @@ public class WillSliderGameUI : BasicSlider
     protected override void Start()
     {
         base.Start();
-        basicChar = basicChar != null ? basicChar : PlayerHolder.Player;
+        basicChar = basicChar != null ? basicChar : PlayerMain.Player;
         Started = true;
-        StartCoroutine("WaitToStart");
-
+        StartCoroutine(WaitToStart());
     }
 
     private IEnumerator WaitToStart()

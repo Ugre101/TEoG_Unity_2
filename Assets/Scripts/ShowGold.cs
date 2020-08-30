@@ -3,18 +3,18 @@ using UnityEngine;
 
 public class ShowGold : MonoBehaviour
 {
-    [SerializeField] private PlayerMain owner = null;
+    [SerializeField] private BasicChar owner = null;
 
     [SerializeField] private TextMeshProUGUI amountOfGold = null;
 
     private void OnEnable()
     {
-        owner = owner != null ? owner : PlayerHolder.Player;
+        owner = owner != null ? owner : PlayerMain.Player;
         owner.Currency.GoldChanged += UpdateGold;
-        UpdateGold();
+        UpdateGold(owner.Currency.Gold);
     }
 
     private void OnDisable() => owner.Currency.GoldChanged -= UpdateGold;
 
-    private void UpdateGold() => amountOfGold.text = owner.Currency.Gold.ToString();
+    private void UpdateGold(float gold) => amountOfGold.text = gold.ToString();
 }

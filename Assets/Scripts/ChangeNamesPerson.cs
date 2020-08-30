@@ -24,7 +24,7 @@ public class ChangeNamesPerson : MonoBehaviour
         lastName.onValueChanged.AddListener(ChangeLastName);
     }
 
-    private void ChangeFirstName(string input) => identity.FirstName = input;
+    private void ChangeFirstName(string input) => identity.SetFirstName(input);
 
-    private void ChangeLastName(string input) => identity.LastName = input;
+    private void ChangeLastName(string input) => identity.SetLastName(input);
 }

@@ -269,231 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelText: {fileID: 2871883300029853529}
-  basicChar:
-    identity:
-      firstName: 
-      lastName: 
-      id: 20200602215833
-    relationshipTracker:
-      relationshipWiths: []
-    inventory:
-      bonusAmount: 0
-      items: []
-    equiptItems:
-      head:
-        item: 0
-        slot: 0
-        hasItem: 0
-      chest:
-        item: 0
-        slot: 1
-        hasItem: 0
-      leftHand:
-        item: 0
-        slot: 2
-        hasItem: 0
-      rightHand:
-        item: 0
-        slot: 3
-        hasItem: 0
-      pants:
-        item: 0
-        slot: 4
-        hasItem: 0
-      boots:
-        item: 0
-        slot: 5
-        hasItem: 0
-    raceSystem:
-      raceList: []
-      dirty: 1
-      lastCurrent: 0
-      secondaryLastCurrent: 0
-    vore:
-      active: 0
-      voreExp:
-        level: 1
-        exp: 0
-        perkPoints: 0
-      balls:
-        preys: []
-        voreExp: 0
-        digestion: 1
-      boobs:
-        preys: []
-        voreExp: 0
-        digestion: 1
-      stomach:
-        preys: []
-        voreExp: 0
-        digestion: 1
-      anal:
-        preys: []
-        voreExp: 0
-        digestion: 1
-      vagina:
-        preys: []
-        voreExp: 0
-        digestion: 1
-        childTf: 0
-      perks:
-        vorePerks: []
-    age:
-      ageYears: 18
-      ageDays: 0
-    body:
-      height:
-        baseValue: 160
-        statMods: []
-        tempStatMods: []
-      fat:
-        baseValue: 20
-        statMods: []
-        tempStatMods: []
-      muscle:
-        baseValue: 20
-        statMods: []
-        tempStatMods: []
-    hp:
-      baseValue: 100
-      current: 0
-      healthMods: []
-      tempHealthMods: []
-      recovery:
-        baseValue: 5
-        healthMods: []
-        tempHealthMods: []
-    wp:
-      baseValue: 100
-      current: 0
-      healthMods: []
-      tempHealthMods: []
-      recovery:
-        baseValue: 5
-        healthMods: []
-        tempHealthMods: []
-    expSystem:
-      level: 1
-      exp: 0
-      perkPoints: 0
-    perk:
-      perkList: []
-    stats:
-      strength:
-        baseValue: 10
-        statMods: []
-        tempMods: []
-      charm:
-        baseValue: 10
-        statMods: []
-        tempMods: []
-      endurance:
-        baseValue: 10
-        statMods: []
-        tempMods: []
-      dexterity:
-        baseValue: 10
-        statMods: []
-        tempMods: []
-      intelligence:
-        baseValue: 10
-        statMods: []
-        tempMods: []
-      willpower:
-        baseValue: 10
-        statMods: []
-        tempMods: []
-    essence:
-      masc:
-        _amount: 0
-      femi:
-        _amount: 0
-      stableEssence:
-        baseValue: 0
-        statMods: []
-        tempMods: []
-    currency:
-      gold: 0
-    pregnancySystem:
-      children: []
-      virility:
-        baseValue: 1
-        statMods: []
-        tempMods: []
-      fertility:
-        baseValue: 1
-        statMods: []
-        tempMods: []
-      fetusGrowthRate:
-        baseValue: 1
-        statMods: []
-        tempMods: []
-      pregnancyBlessings:
-        pregnancyBlessings: []
-      lastTimePregnant:
-        hour: 0
-        year: 0
-        month: 0
-        week: 0
-        day: 0
-      lastTimeImpregnatedSomeOne:
-        hour: 0
-        year: 0
-        month: 0
-        week: 0
-        day: 0
-      pregnant:
-        value: 0
-      imPregnated:
-        value: 0
-      fertilityShrinePoints: 0
-    sexualOrgans:
-      genderPrefActive: 0
-      genderPref: 1
-      dicks: []
-      balls: []
-      ballsBunusRefillRate:
-        baseValue: 0
-        statMods: []
-        tempMods: []
-      boobs: []
-      boobsBonusRefillRate:
-        baseValue: 10
-        statMods: []
-        tempMods: []
-      lactating: 0
-      vaginas: []
-      anals: []
-    sexStats:
-      dickExp:
-        level: 0
-        exp: 0
-        perkPoints: 0
-      vagExp:
-        level: 0
-        exp: 0
-        perkPoints: 0
-      handExp:
-        level: 0
-        exp: 0
-        perkPoints: 0
-      mouthExp:
-        level: 0
-        exp: 0
-        perkPoints: 0
-      analExp:
-        level: 0
-        exp: 0
-        perkPoints: 0
-      breastsExp:
-        level: 0
-        exp: 0
-        perkPoints: 0
-      maxArousal:
-        baseValue: 100
-        statMods: []
-        tempMods: []
-    skills: []
+  charHolder: {fileID: 0}
 --- !u!1 &7881557006123378903
 GameObject:
   m_ObjectHideFlags: 0
@@ -654,7 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16ff6270a2c6514dbe862567a141b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
+  thisHolder: {fileID: 0}
   playerRigid: {fileID: 7881557006123378900}
   rb2d: {fileID: 7881557006123378900}
   chaseDist: 13
@@ -671,3 +447,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9499fa6b3d5e04b808d32c89495d3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasPreBattleDialog: 0
+  hasPostBattleDialog: 0
+  hasCustomScene:
+    haveCustomScenes: 0
+    blockNormalScenes: 0
+    customScenes: []
+  lockedPosistion: 0
+  pos: {x: 0, y: 0, z: 0}

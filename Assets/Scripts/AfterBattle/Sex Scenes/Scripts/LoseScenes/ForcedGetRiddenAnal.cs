@@ -3,7 +3,7 @@
 [CreateAssetMenu(fileName = "Forced Get RiddenAnal", menuName = "Sex/LoseScenes/ForcedGetRiddenAnal")]
 public class ForcedGetRiddenAnal : LoseScene
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         string returnText = $"Pushing you over, {other.Identity.FirstName} fondles your balls, quickly giving you an erection. Straddling your groin, they quickly thrust down, riding your dick. ";
         if (player.SexualOrgans.HaveBoobs() && other.SexualOrgans.HaveBoobs())
@@ -15,7 +15,7 @@ public class ForcedGetRiddenAnal : LoseScene
         return returnText;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return StartScene(player, other);
     }

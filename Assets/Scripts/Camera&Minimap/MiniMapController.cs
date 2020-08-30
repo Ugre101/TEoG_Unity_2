@@ -34,14 +34,8 @@ public class MiniMapController : MonoBehaviour
     {
         get
         {
-            if (curState == MiniCamStates.Big)
-            {
-                curState = MiniCamStates.Hidden;
-            }
-            else
-            {
-                curState++;
-            }
+            // TODO check so this statement works
+            curState = curState == MiniCamStates.Big ? MiniCamStates.Hidden : curState + 1;
             return curState;
         }
     }
@@ -49,10 +43,7 @@ public class MiniMapController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        if (_player == null)
-        {
-            _player = PlayerHolder.GetPlayerHolder.transform;
-        }
+        _player = _player != null ? _player : PlayerSprite.Instance.transform;
         cam = GetComponent<Camera>();
         cam.orthographicSize = 80f;
         // add event to change main map.

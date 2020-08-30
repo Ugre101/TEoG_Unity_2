@@ -16,19 +16,19 @@
     public override void Setup()
     {
         SexualFluid.FluidSlider += MilkChange;
-        if (Player.SexualOrgans.Lactating && Player.SexualOrgans.HaveBoobs())
+        if (Player.SexualOrgans.Boobs.Lactating && Player.SexualOrgans.HaveBoobs())
         {
-            slider.value = Player.SexualOrgans.MilkSlider;
+            slider.value = Player.SexualOrgans.Boobs.FluidSlider;
             MilkChange();
         }
     }
 
     private void MilkChange()
     {
-        slider.value = Player.SexualOrgans.MilkSlider;
+        slider.value = Player.SexualOrgans.Boobs.FluidSlider;
         if (statusText != null)
         {
-            statusText.text = Settings.LorGal(Player.SexualOrgans.Boobs.FluidCurrentTotal() / 1000);
+            statusText.text = Player.SexualOrgans.Boobs.FluidStatus;
         }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class HomeMain : MonoBehaviour
 {
-    private BasicChar Owner => PlayerHolder.Player;
+    private BasicChar Owner => PlayerMain.Player;
     [SerializeField] private CanvasMain canvasMain = null;
     [SerializeField] private GameObject dormGameobject = null, telePortMenu = null;
     [SerializeField] private MapEvents mapEvents = null;
@@ -17,7 +17,7 @@ public class HomeMain : MonoBehaviour
     [Header("Build costs")]
     [SerializeField] private BuildCost mainHouse = new BuildCost();
 
-    [SerializeField] private BuildCost dorm = new BuildCost(), kitchen = new BuildCost(), gym = new BuildCost();
+    [SerializeField] private BuildCost dorm  = new BuildCost(), kitchen = new BuildCost(), gym = new BuildCost();
 
     private void Start()
     {
@@ -43,16 +43,16 @@ public class HomeMain : MonoBehaviour
             mapEvents.Teleport(worldMaps, toMap, toPlatform);
         }
         GameManager.SetCurrentArea(GlobalArea.Map);
-        canvasMain.Resume();
+        GameManager.SetCurState(GameState.Free);
     }
 
     private void BuildButtons()
     {
         buildContainer.KillChildren();
-        FirstPart(mainHouse, StartHomeStats.MainHouse, "Main house");
-        FirstPart(dorm, StartHomeStats.Dorm, "Dorm");
-        FirstPart(kitchen, StartHomeStats.Kitchen, "Kitchen");
-        FirstPart(gym, StartHomeStats.Gym, "Gym");
+        FirstPart(mainHouse, DormUpgrades.MainHouse, "Main house");
+        FirstPart(dorm, DormUpgrades.Dorm, "Dorm");
+        FirstPart(kitchen, DormUpgrades.Kitchen, "Kitchen");
+        FirstPart(gym, DormUpgrades.Gym, "Gym");
     }
 
     private void FirstPart(BuildCost buildCost, HomeUpgrade homeUpgrade, string buildingName)
@@ -68,8 +68,7 @@ public class HomeMain : MonoBehaviour
     public void EnterDorm()
     {
         dormGameobject.SetActive(true);
-        canvasMain.HideGameUI();
-        GameManager.SetCurState(GameState.InBuilding);
+        GameManager.SetCurState(GameState.Dorm);
     }
 
     public void LeaveDorm()

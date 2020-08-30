@@ -100,7 +100,7 @@ public class SexualFluid
 [System.Serializable]
 public abstract class SexualOrgan
 {
-    [SerializeField] protected int baseSize;
+    [SerializeField] protected int baseSize = 1;
 
     public int BaseSize
     {
@@ -162,7 +162,7 @@ public abstract class SexualOrgan
 
     public delegate void Change();
 
-    public static event Change SomethingChanged;
+    public event Change SomethingChanged;
 }
 
 public static class SexOrganExtension
@@ -190,20 +190,16 @@ public static class SexOrganExtension
 
         bool MascChange = RefreshOrgansMasc(bc, StableAmount);
         bool FemiChange = RefreshOrgansFemi(bc, StableAmount);
-        if (MascChange || FemiChange)
-        {
-            return true;
-        }
-        return false;
+        return MascChange || FemiChange;
     }
 
     private static bool RefreshOrgansFemi(BasicChar bc, float StableAmount)
     {
-        Organs so = bc.SexualOrgans;
-        List<Vagina> vaginas = so.Vaginas;
-        List<Boobs> boobs = so.Boobs;
-        vaginas.RemoveAll(v => v.Size <= 0);
-        boobs.RemoveAll(b => b.Size <= 0);
+        SexualOrgans so = bc.SexualOrgans;
+        List<Vagina> vaginas = so.Vaginas.List;
+        List<Boobs> boobs = so.Boobs.List;
+        vaginas.RemoveAll(v => v.BaseSize <= 0);
+        boobs.RemoveAll(b => b.BaseSize <= 0);
 
         Essence femi = bc.Essence.Femi;
         if (femi.Amount > StableAmount)
@@ -253,10 +249,10 @@ public static class SexOrganExtension
                         }
                     }
                 }
-                else if (femi.Amount >= vaginas.Cost())
+                else if (femi.Amount >= so.Vaginas.AddCost)
                 {
-                    femi.Lose(vaginas.Cost());
-                    vaginas.AddVag();
+                    femi.Lose(so.Vaginas.AddCost);
+                    so.Vaginas.AddNew();
                     return true;
                 }
             }
@@ -267,11 +263,12 @@ public static class SexOrganExtension
 
     private static bool RefreshOrgansMasc(BasicChar bc, float StableAmount)
     {
-        Organs so = bc.SexualOrgans;
-        List<Dick> dicks = so.Dicks;
-        List<Balls> balls = so.Balls;
-        dicks.RemoveAll(d => d.Size <= 0);
-        balls.RemoveAll(b => b.Size <= 0);
+        SexualOrgans so = bc.SexualOrgans;
+        DickContainer dicks1 = so.Dicks;
+        List<Dick> dicks = dicks1.List;
+        List<Balls> balls = so.Balls.List;
+        dicks.RemoveAll(d => d.BaseSize <= 0);
+        balls.RemoveAll(b => b.BaseSize <= 0);
 
         Essence masc = bc.Essence.Masc;
         if (masc.Amount > StableAmount)
@@ -290,10 +287,10 @@ public static class SexOrganExtension
                         }
                     }
                 }
-                else if (masc.Amount >= dicks.Cost())
+                else if (masc.Amount >= dicks1.AddCost)
                 {
-                    masc.Lose(dicks.Cost());
-                    dicks.AddDick();
+                    masc.Lose(dicks1.AddCost);
+                    dicks1.AddNew();
                     return true;
                 }
             }
@@ -310,10 +307,10 @@ public static class SexOrganExtension
                         }
                     }
                 }
-                else if (masc.Amount >= balls.Cost())
+                else if (masc.Amount >= so.Balls.AddCost)
                 {
-                    masc.Lose(balls.Cost());
-                    balls.AddBalls();
+                    masc.Lose(so.Balls.AddCost);
+                    so.Balls.AddNew();
                     return true;
                 }
             }

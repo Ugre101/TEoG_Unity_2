@@ -10,13 +10,16 @@ public class MapEvents : MonoBehaviour
 
     public static event Action<Tilemap> TileMapChange;
 
-    private PlayerHolder gottenPlayer;
+    private PlayerSprite gottenPlayer;
 
-    private PlayerHolder Player
+    private PlayerSprite Player
     {
         get
         {
-            if (gottenPlayer == null) { gottenPlayer = PlayerHolder.GetPlayerHolder; }
+            if (gottenPlayer == null)
+            {
+                gottenPlayer = PlayerSprite.Instance;
+            }
             return gottenPlayer;
         }
     }
@@ -165,19 +168,21 @@ public class MapEvents : MonoBehaviour
         if (WorldChildren.Find(m => m.name == save.Map) != null && WorldChildren.Find(m => m.name == save.Map).GetComponent<Map>() is Map saveMap)
         {
             WorldChange(save.World, saveMap.GetComponent<Tilemap>());
+            Player.transform.position = save.Pos;
         }
         else
         {
+            // TODO add real fail load destination instead of random
             foreach (Transform isMap in WorldChildren)
             {
                 if (isMap.GetComponent<Map>() is Map map)
                 {
                     WorldChange(save.World, map.GetComponent<Tilemap>());
+                    Player.transform.position = map.transform.position;
                     break;
                 }
             }
         }
-        Player.transform.position = save.Pos;
         foreach (TeleportSave teleSave in teleportSaves)
         {
             foreach (TelePortLocation teleLocation in TelePortLocations)

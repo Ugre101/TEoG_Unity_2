@@ -85,19 +85,18 @@ public class PregnancySystem
 
 public static class PregnancyExtensions
 {
-    public static bool Impregnate(this BasicChar mother, BasicChar parFather)
+    public static bool GetImpregnatedBy(this BasicChar mother, BasicChar parFather)
     {
         float motherFet = mother.PregnancySystem.Fertility.Value,
             fatherVir = parFather.PregnancySystem.VirilityValue;
         float motherRoll = Random.Range(0 - motherFet, 200 - motherFet),
             fatherRoll = Random.Range(0 + fatherVir, 50 + fatherVir);
-        Debug.Log(motherRoll + " " + fatherRoll);
         if (motherRoll < fatherRoll)
         {
             // if mother has empty womb then impregnate first empty womb
-            if (mother.SexualOrgans.Vaginas.Exists(v => !v.Womb.HasFetus))
+            if (mother.SexualOrgans.Vaginas.List.Exists(v => !v.Womb.HasFetus))
             {
-                mother.SexualOrgans.Vaginas.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(mother, parFather);
+                mother.SexualOrgans.Vaginas.List.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(mother, parFather);
                 return true;
             }
         }
@@ -106,7 +105,7 @@ public static class PregnancyExtensions
 
     public static void GrowFetuses(this BasicChar mother)
     {
-        foreach (Vagina v in mother.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus))
+        foreach (Vagina v in mother.SexualOrgans.Vaginas.List.FindAll(v => v.Womb.HasFetus))
         {
             PregnancySystem pregnancySystem = mother.PregnancySystem;
             if (v.Womb.Grow(pregnancySystem.FinalGrowthRate))
@@ -114,10 +113,14 @@ public static class PregnancyExtensions
                 List<Child> born = v.Womb.GiveBirth();
                 pregnancySystem.Children.AddRange(born);
                 mother.Events.SoloEvents.IGiveBirth(born);
-                string amount = born.Count > 1 ? $"a pair of twins babies" : "one baby"; // TODO add more
-                string addText = mother is PlayerMain
+                string amount = born.Count > 2 ? $"{born.Count} children" :
+                    born.Count
+                    > 1 ? $"a pair of twins" : "a child"; // TODO add more
+                string addText = born[0].PlayerMother
                     ? $"You have given birth to {amount}."
-                    : $"{mother.Identity.FullName} has given birth to {amount}";
+                    : born[0].PlayerFather
+                        ? $"{mother.Identity.FullName} has given birth to {amount}, whom you is the father to."
+                        : $"{mother.Identity.FullName} has given birth to {amount}.";
                 EventLog.AddTo(addText);
             }
         }

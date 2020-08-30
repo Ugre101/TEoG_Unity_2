@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class KeyBindings
@@ -34,38 +35,39 @@ public static class KeyBindings
     public static KeyBind QuickSave { get; } = new KeyBind(KeyCode.F5, "Quick save");
     public static KeyBind QuickLoad { get; } = new KeyBind(KeyCode.F9, "Quick load");
     public static KeyBind ActionKey { get; } = new KeyBind(KeyCode.F, "Action");
+    public static Action<KeyBind> Affected, AltAffected;
 
-    public static KeyBind ReBind(KeyBind toReBind, KeyCode newKeyCode)
+    public static void ReBind(KeyBind toReBind, KeyCode newKeyCode)
     {
-        KeyBind effected = null;
         if (Keys.Exists(k => k.Key == newKeyCode))
         {
-            effected = Keys.Find(k => k.Key == newKeyCode);
+            KeyBind effected = Keys.Find(k => k.Key == newKeyCode);
             effected.ReBind(KeyCode.None);
+            Affected?.Invoke(effected);
         }
         else if (Keys.Exists(k => k.AltKey == newKeyCode))
         {
-            effected = Keys.Find(k => k.AltKey == newKeyCode);
+            KeyBind effected = Keys.Find(k => k.AltKey == newKeyCode);
             effected.ReBindAlt(KeyCode.None);
+            AltAffected?.Invoke(effected);
         }
         toReBind.ReBind(newKeyCode);
-        return effected;
     }
 
-    public static KeyBind AltReBind(KeyBind toReBind, KeyCode newKeyCode)
+    public static void AltReBind(KeyBind toReBind, KeyCode newKeyCode)
     {
-        KeyBind effected = null;
         if (Keys.Exists(k => k.Key == newKeyCode))
         {
-            effected = Keys.Find(k => k.Key == newKeyCode);
+            KeyBind effected = Keys.Find(k => k.Key == newKeyCode);
             effected.ReBind(KeyCode.None);
+            Affected?.Invoke(effected);
         }
         else if (Keys.Exists(k => k.AltKey == newKeyCode))
         {
-            effected = Keys.Find(k => k.AltKey == newKeyCode);
+          KeyBind  effected = Keys.Find(k => k.AltKey == newKeyCode);
             effected.ReBindAlt(KeyCode.None);
+            AltAffected?.Invoke(effected);
         }
         toReBind.ReBindAlt(newKeyCode);
-        return effected;
     }
 }

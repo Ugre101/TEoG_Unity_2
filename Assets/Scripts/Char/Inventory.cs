@@ -1,6 +1,15 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public static class PlayerInventory
+{
+    public static Currency Currency { get; } = new Currency();
+
+    public static Inventory Inventory { get; private set; } = new Inventory();
+
+    public static void Load(Inventory inventory) => Inventory = inventory;
+}
+
 [System.Serializable]
 public class Inventory
 {
@@ -39,7 +48,7 @@ public class Inventory
     private int FirstEmpty()
     {
         int First = 0;
-        while (Items.Exists(inv => inv.InvPos == First))
+        while (Items.Exists(inv => inv.InvPos == First && First < SlotsAmount))
         {
             First++;
         }

@@ -6,7 +6,7 @@ namespace Intro
 {
     public class IntroScript : MonoBehaviour
     {
-        private PlayerMain Player => PlayerHolder.Player;
+        private BasicChar Player => PlayerMain.Player;
 
         [SerializeField] private Button firstAccept = null, secondAccept = null;
 
@@ -17,7 +17,6 @@ namespace Intro
         private string FirstName => firstName.text;
         private string LastName => lastName.text;
 
-        private void OnEnable() => GameManager.SetCurState(GameState.Intro);
 
         private void Start()
         {
@@ -29,13 +28,13 @@ namespace Intro
 
         private void NamePlayer()
         {
-            Player.Identity.FirstName = FirstName;
-            Player.Identity.LastName = LastName;
+            Player.Identity.SetFirstName(FirstName);
+            Player.Identity.SetLastName(LastName);
         }
 
         private void StartGame()
         {
-            CanvasMain.GetCanvasMain.Resume();
+            GameManager.SetCurState(GameState.Free);
             Destroy(gameObject);
         }
     }

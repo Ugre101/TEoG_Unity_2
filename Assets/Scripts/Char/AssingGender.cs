@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace EnemyCreatorStuff
 {
@@ -15,15 +14,13 @@ namespace EnemyCreatorStuff
             {
                 if (startGenders == null)
                 {
-                    startGenders = new List<Genders>(allGenders);
+                    startGenders = UgreTools.EnumToList<Genders>();
                     // add some extra of all expect doll, so doll gets very small chance and extra male and female so they are more common that others
                     startGenders.AddRange(new List<Genders>() { Genders.Cuntboy, Genders.Dickgirl, Genders.Female, Genders.Female, Genders.Herm, Genders.Male, Genders.Male });
                 }
-                return startGenders[rnd.Next(startGenders.Count)];
+                return startGenders.RandomListValue();
             }
         }
-
-        private static readonly System.Random rnd = new System.Random();
 
         private static void GenderSwitch(Genders genders, float amount, BasicChar who)
         {
@@ -46,8 +43,8 @@ namespace EnemyCreatorStuff
                 case Genders.Dickgirl:
                     who.SexualOrgans.SetGenderPrefActive = true;
                     who.SexualOrgans.SetGenderPref = Genders.Dickgirl;
-                    who.SexualOrgans.Dicks.AddDick();
-                    who.SexualOrgans.Boobs.AddBoobs();
+                    who.SexualOrgans.Dicks.AddNew();
+                    who.SexualOrgans.Boobs.AddNew();
                     Masc.Gain(amount / 2);
                     Femi.Gain(amount / 2);
                     break;
@@ -55,7 +52,7 @@ namespace EnemyCreatorStuff
                 case Genders.Cuntboy:
                     who.SexualOrgans.SetGenderPrefActive = true;
                     who.SexualOrgans.SetGenderPref = Genders.Cuntboy;
-                    who.SexualOrgans.Vaginas.AddVag();
+                    who.SexualOrgans.Vaginas.AddNew();
                     Femi.Gain(amount);
                     break;
 
@@ -85,7 +82,7 @@ namespace EnemyCreatorStuff
             weightedList.AddRange(favourGenderType == GenderTypes.Feminine
                 ? new List<Genders>() { Genders.Dickgirl, Genders.Female, Genders.Herm, Genders.Female }
                 : new List<Genders>() { Genders.Cuntboy, Genders.Male, Genders.Male });
-            Genders gender = weightedList[rnd.Next(weightedList.Count)];
+            Genders gender = weightedList.RandomListValue();
             GenderSwitch(gender, amount, who);
         }
     }

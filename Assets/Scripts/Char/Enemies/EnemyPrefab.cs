@@ -8,14 +8,6 @@ public class EnemyPrefab : BasicChar
 
     private int orgsNeeded = 3;
 
-    public EnemyPrefab(Reward reward, IsQuest isQuest, bool canTakeToDorm, int orgsNeeded, Identity identity, Age age, Body body, ExpSystem expSystem) : base(identity, age, body, expSystem)
-    {
-        this.Reward = reward;
-        this.IsQuest = isQuest;
-        this.canTakeToDorm = canTakeToDorm;
-        this.orgsNeeded = orgsNeeded;
-    }
-
     public EnemyPrefab(Reward reward, IsQuest isQuest, bool canTakeToDorm, int orgsNeeded, Age age, Body body, ExpSystem expSystem) : base(age, body, expSystem)
     {
         this.Reward = reward;
@@ -25,5 +17,4 @@ public class EnemyPrefab : BasicChar
     }
 
     public bool CanTake => canTakeToDorm ? SexStats.SessionOrgasm >= orgsNeeded : false;
-
 }

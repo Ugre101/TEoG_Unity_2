@@ -6,7 +6,7 @@ namespace Vore
 {
     public class VoreMenuHandler : MonoBehaviour
     {
-        [SerializeField] private PlayerMain player = null;
+        [SerializeField] private BasicChar player = null;
 
         [SerializeField] private TextMeshProUGUI organText = null, capacityText = null;
 
@@ -26,7 +26,7 @@ namespace Vore
 
         private void Start()
         {
-            player = player != null ? player : PlayerHolder.Player;
+            player = player ?? PlayerMain.Player;
             VoreEngine vore = player.Vore;
             sortAll.onClick.AddListener(ShowAll);
             sortStomach.onClick.AddListener(() => SortPrey(vore.Stomach));
@@ -73,12 +73,9 @@ namespace Vore
             Instantiate(optionBtn, optionContainer).Setup(voreOrgan);
             organText.text = voreOrgan.VoreContainers.ToString();
             SetupPrey(voreOrgan);
-            if (voreOrgan is VoreVagina voreVagina)
+            if (voreOrgan is VoreVagina voreVagina && player.Vore.Perks.HasPerk(VorePerks.ReBirth))
             {
-                if (player.Vore.Perks.HasPerk(VorePerks.ReBirth))
-                {
-                    Instantiate(rebithBtn, optionContainer).Setup(voreVagina);
-                }
+                Instantiate(rebithBtn, optionContainer).Setup(voreVagina);
             }
             ChangeDrainEss();
         }
@@ -96,20 +93,18 @@ namespace Vore
         {
             VoreEngine vore = player.Vore;
             string capaText = Capacity(vore.Stomach);
-            if (vore.Balls.MaxCapacity() > 0)
-            {
-                capaText += "\n" + Capacity(vore.Balls);
-            }
-            if (vore.Boobs.MaxCapacity() > 0)
-            {
-                capaText += "\n" + Capacity(vore.Boobs);
-            }
-            if (vore.Vagina.MaxCapacity() > 0)
-            {
-                capaText += "\n" + Capacity(vore.Vagina);
-            }
-            capaText += "\n" + Capacity(vore.Anal);
+            HasAdd(vore.Balls.MaxCapacity() > 0, Capacity(vore.Balls));
+            HasAdd(vore.Boobs.MaxCapacity() > 0, Capacity(vore.Boobs));
+            HasAdd(vore.Vagina.MaxCapacity() > 0, Capacity(vore.Vagina));
+            capaText += $"\n{Capacity(vore.Anal)}";
             capacityText.text = capaText;
+            void HasAdd(bool has, string add)
+            {
+                if (has)
+                {
+                    capaText += $"\n{add}";
+                }
+            }
         }
 
         private void ChangeDrainEss()
@@ -120,6 +115,6 @@ namespace Vore
             }
         }
 
-        private string Capacity(VoreBasic organ) => $"{organ.VoreContainers.ToString()}: {Settings.KgorPWithOutSuffix(organ.Current)}/{Settings.KgorP(organ.MaxCapacity())}";
+        private string Capacity(VoreBasic organ) => $"{organ.VoreContainers.ToString()}: {organ.Current.KgorPWithOutSuffix()}/{organ.MaxCapacity().KgorP()}";
     }
 }

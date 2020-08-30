@@ -4,11 +4,9 @@ using UnityEngine.UI;
 
 public class TakeQuest : MonoBehaviour
 {
-    [SerializeField]
-    private TextMeshProUGUI title = null, textBox = null;
+    [SerializeField] private TextMeshProUGUI title = null, textBox = null;
 
-    [SerializeField]
-    private Button accept = null, decline = null;
+    [SerializeField] private Button accept = null, decline = null;
 
     private Button callBtn = null;
 

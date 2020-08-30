@@ -2,19 +2,19 @@
 {
     public class GrowBalls : GrowOrgan
     {
-        protected override Essence Ess => player.Essence.Masc;
+        protected override Essence Ess => Player.Essence.Masc;
 
         protected override float Cost => balls.Cost;
 
         private Balls balls;
 
-        public void Setup(PlayerMain player, Balls balls)
+        public void Setup(Balls balls)
         {
             this.balls = balls;
-            BaseSetup(player);
+            BaseSetup();
         }
 
-        protected override void DisplayCost() => btnText.text = $"{Settings.MorInch(balls.Size)} {Cost}Masc";
+        protected override void DisplayCost() => btnText.text = $"{balls.Size.MorInch()} {Cost}Masc";
 
         protected override void Grow()
         {

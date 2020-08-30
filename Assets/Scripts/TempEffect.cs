@@ -1,24 +1,21 @@
-﻿using UnityEngine.EventSystems;
-
-public class TempEffect : BaseEffect
+﻿namespace Ugre.GameUITempEffects
 {
-    private DisplayMod mod;
-
-    public override void OnPointerClick(PointerEventData eventData) => hoverText.Hovering(mod.Source, mod.Desc());
-
-    public override void OnPointerEnter(PointerEventData eventData) => hoverText.Hovering(mod.Source, mod.Desc());
-
-    public override void OnPointerExit(PointerEventData eventData) => hoverText.StopHovering();
-
-    public void Setup(DisplayMod parMod, GameUIHoverText hoverText)
+    public class TempEffect : BaseEffect
     {
-        this.hoverText = hoverText;
-        mod = parMod;
-        DisplayTimeLeft();
-        DateSystem.NewHourEvent += DisplayTimeLeft;
+        private DisplayMod mod;
+
+        public void Setup(DisplayMod parMod, GameUIHoverText hoverText)
+        {
+            this.hoverText = hoverText;
+            mod = parMod;
+            DisplayTimeLeft();
+            DateSystem.NewHourEvent += DisplayTimeLeft;
+        }
+
+        private void OnDestroy() => DateSystem.NewHourEvent -= DisplayTimeLeft;
+
+        private void DisplayTimeLeft() => text.text = $"{mod.Duration}";
+
+        protected override void Hovering() => hoverText.Hovering(mod.Source, mod.Desc());
     }
-
-    private void OnDestroy() => DateSystem.NewHourEvent -= DisplayTimeLeft;
-
-    private void DisplayTimeLeft() => text.text = $"{mod.Duration}";
 }

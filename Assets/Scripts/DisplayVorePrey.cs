@@ -12,12 +12,13 @@ namespace Vore
         [SerializeField]
         private Button btn = null;
 
-        private ThePrey prey;
+        private ThePrey thePrey;
+        private BasicChar prey => thePrey.Prey;
         private VoreContainers voreContainers;
 
-        public Button Setup(ThePrey prey, VoreContainers voreContainers)
+        public Button Setup(ThePrey thePrey, VoreContainers voreContainers)
         {
-            this.prey = prey;
+            this.thePrey = thePrey;
             this.voreContainers = voreContainers;
             DisplayPrey();
             return btn = btn != null ? btn : GetComponent<Button>();

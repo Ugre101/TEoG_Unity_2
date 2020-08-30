@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace UI
+namespace Ugre.GameUITempEffects
 {
     public class DisplayTempEffects : MonoBehaviour
     {
-        [SerializeField] private PlayerMain player = null;
+        private BasicChar player => PlayerMain.Player;
 
         [SerializeField] private TempEffect tempEffectPrefab = null;
-
+        [SerializeField] private PregEffect pregEffectPrefab = null;
         [SerializeField] private TempVore tempVorePrefab = null;
 
         [SerializeField] private Transform container = null;
@@ -17,36 +17,34 @@ namespace UI
         private readonly List<DisplayVore> displayVores = new List<DisplayVore>();
 
         // Start is called before the first frame update
-        private void Start()
-        {
-            player = player ?? PlayerHolder.Player;
-            Save.LoadEvent += DisplayEffects;
-            player.Stats.GetAll.ForEach(s => { s.AddedTempEvent += DisplayEffects; });
-            player.HP.AddedTempEvent += DisplayEffects;
-            player.WP.AddedTempEvent += DisplayEffects;
-            DisplayEffects();
-        }
 
         private int lastPreyCount = 0;
 
         private void OnEnable()
         {
-            if (player != null)
-            {
-                DisplayEffects();
-                lastPreyCount = player.Vore.TotalPreyCount;
-            }
+            Save.LoadEvent += DisplayEffects;
+            player.Stats.GetAll.ForEach(s => { s.AddedTempEvent += DisplayEffects; });
+            player.HP.AddedTempEvent += DisplayEffects;
+            player.WP.AddedTempEvent += DisplayEffects;
+
+            DisplayEffects();
+            lastPreyCount = player.Vore.TotalPreyCount;
+        }
+
+        private void OnDisable()
+        {
+            Save.LoadEvent -= DisplayEffects;
+            player.Stats.GetAll.ForEach(s => { s.AddedTempEvent -= DisplayEffects; });
+            player.HP.AddedTempEvent -= DisplayEffects;
+            player.WP.AddedTempEvent -= DisplayEffects;
         }
 
         private void Update()
         {
-            if (player.Vore.Active)
+            if (player.Vore.Active && lastPreyCount != player.Vore.TotalPreyCount)
             {
-                if (lastPreyCount != player.Vore.TotalPreyCount)
-                {
-                    DisplayEffects();
-                    lastPreyCount = player.Vore.TotalPreyCount;
-                }
+                DisplayEffects();
+                lastPreyCount = player.Vore.TotalPreyCount;
             }
         }
 

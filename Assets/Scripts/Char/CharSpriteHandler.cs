@@ -2,10 +2,10 @@
 
 public class CharSpriteHandler : MonoBehaviour
 {
-    [SerializeField] private CharSprites sprites = null;
-    private CharSprite currentSprite = null;
-    [SerializeField] private SpriteRenderer spriteRenderer = null;
-    private BasicChar whom;
+    [SerializeField] protected CharSprites sprites = null;
+    [SerializeField] protected SpriteRenderer spriteRenderer = null;
+    protected CharSprite currentSprite = null;
+    protected BasicChar whom;
 
     public void Setup(BasicChar whom)
     {
@@ -25,7 +25,7 @@ public class CharSpriteHandler : MonoBehaviour
         Height();
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         if (whom != null)
         {
@@ -33,7 +33,7 @@ public class CharSpriteHandler : MonoBehaviour
         }
     }
 
-    private void Height()
+    protected void Height()
     {
         float heightRatio = 0.5f + ((whom.Body.Height.Value / 160f) / 2);
         float newSize = Mathf.Clamp(0.1f * heightRatio * currentSprite.HeightOfSprite, 0.05f, 0.5f);

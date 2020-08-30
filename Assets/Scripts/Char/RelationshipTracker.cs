@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SaveStuff;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -72,6 +73,10 @@ public class RelationshipTracker
     private bool Exists(BasicChar basicChar) => Relationships.Exists(r => r.With.Id == basicChar.Identity.Id);
 
     private bool TempExist(BasicChar basicChar) => TempRelations.Exists(r => r.With.Id == basicChar.Identity.Id);
+
+    public ReletionShipSave Save() => new ReletionShipSave(Relationships);
+
+    public void Load(ReletionShipSave load) => relationshipWiths = load.Relationships;
 }
 
 public enum Affection
@@ -161,5 +166,21 @@ public class RelationshipWith
                 return Obedience.Slave;
             }
         }
+    }
+}
+
+namespace SaveStuff
+{
+    [System.Serializable]
+    public struct ReletionShipSave
+    {
+        [SerializeField] private List<RelationshipWith> relationshipWiths;
+
+        public ReletionShipSave(List<RelationshipWith> relationshipWiths)
+        {
+            this.relationshipWiths = relationshipWiths;
+        }
+
+        public List<RelationshipWith> Relationships => relationshipWiths;
     }
 }

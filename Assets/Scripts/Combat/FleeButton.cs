@@ -54,7 +54,7 @@ public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         int toBeat = 50; // Mod value dependent on enemies
         if (myRoll >= toBeat)
         {
-            CanvasMain.GetCanvasMain.Resume();
+            GameManager.ReturnToLastState();
         }
         else
         {

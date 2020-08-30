@@ -35,11 +35,11 @@ public abstract class ShopWare : MonoBehaviour
 
     [SerializeField] protected Color affordColor = Color.green, cantAffordColor = Color.red;
 
-    public virtual void FrameCanAfford()
+    public virtual void FrameCanAfford(float gold)
     {
         if (buyer != null)
         {
-            frame.color = buyer.Currency.CanAfford(Cost) ? affordColor : cantAffordColor;
+            frame.color = gold >= Cost ? affordColor : cantAffordColor;
         }
     }
 }

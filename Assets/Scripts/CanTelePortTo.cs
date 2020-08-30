@@ -42,12 +42,14 @@ public class CanTelePortTo : MonoBehaviour
         animator = animator != null ? animator : GetComponent<Animator>();
         HandleSprite();
         MapEvents.TileMapChange += NewMapIsThisMap;
-        Save.LoadEvent += () =>
-        {
-            NewMapIsThisMap(MapEvents.CurrentMap);
-            justTeleportedTo = false;
-            timeLoaded = Time.unscaledTime;
-        };
+        Save.LoadEvent += OnLoad;
+    }
+
+    private void OnLoad()
+    {
+        NewMapIsThisMap(MapEvents.CurrentMap);
+        justTeleportedTo = false;
+        timeLoaded = Time.unscaledTime;
     }
 
     private void NewMapIsThisMap(Tilemap tilemap)
@@ -55,6 +57,10 @@ public class CanTelePortTo : MonoBehaviour
         if (tilemap == map)
         {
             HandleSprite();
+        }
+        else
+        {
+            DisabledTeleport();
         }
     }
 
@@ -67,14 +73,19 @@ public class CanTelePortTo : MonoBehaviour
         }
         else
         {
-            animator.enabled = false;
-            spriteRenderer.sprite = deActivated;
+            DisabledTeleport();
         }
+    }
+
+    private void DisabledTeleport()
+    {
+        animator.enabled = false;
+        spriteRenderer.sprite = deActivated;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(PlayerHolder.GetTag))
+        if (collision.gameObject.CompareTag(PlayerSprite.Tag))
         {
             if (!Know && walkOnToUnlock)
             {
@@ -82,13 +93,14 @@ public class CanTelePortTo : MonoBehaviour
             }
             else if (!Know && !walkOnToUnlock)
             {
-                PlayerHolder.Player.Events.SoloEvents.TeleportIsLocked();
+                PlayerMain.Player.Events.SoloEvents.TeleportIsLocked(true);
             }
             if (Know)
             {
                 if (!justTeleportedTo && timeLoaded + 1f <= Time.unscaledTime)
                 {
-                    CanvasMain.GetCanvasMain.TeleportMenu();
+                    WalkedOnTeleport?.Invoke();
+                    // CanvasMain.GetCanvasMain.TeleportMenu();
                 }
             }
         }
@@ -96,7 +108,7 @@ public class CanTelePortTo : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag(PlayerHolder.GetTag))
+        if (collision.HitPlayer())
         {
             if (justTeleportedTo)
             {
@@ -117,6 +129,10 @@ public class CanTelePortTo : MonoBehaviour
             }
         }
     }
+
+    public delegate void WalktOnTeleport();
+
+    public static event WalktOnTeleport WalkedOnTeleport;
 }
 
 [System.Serializable]

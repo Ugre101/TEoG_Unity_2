@@ -10,7 +10,10 @@ public static class UniqueId
     {
         get
         {
-            string newId = DateTime.Now.ToString().Replace(" ", string.Empty).Replace("-", string.Empty).Replace(":", string.Empty);
+            string newId = DateTime.Now.ToString()
+                .Replace(" ", string.Empty)
+                .Replace("-", string.Empty)
+                .Replace(":", string.Empty);
             while (taken.Exists(id => id.Equals(newId)))
             {
                 newId += i;

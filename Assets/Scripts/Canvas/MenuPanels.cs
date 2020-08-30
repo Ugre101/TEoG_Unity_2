@@ -3,17 +3,17 @@ using UnityEngine;
 using Vore;
 
 [System.Serializable]
-public struct MenuPanels
+public class MenuPanels
 {
-    [SerializeField] private SaveSrollListControl savemenu;
-    [SerializeField] private OptionButtons options;
-    [SerializeField] private EventLogHandlerBase bigeventlog;
-    [SerializeField] private QuestMenuHandler questMenu;
-    [SerializeField] private InventoryHandler inventory;
-    [SerializeField] private VoreMenuHandler vore;
-    [SerializeField] private EssenceMenu essence;
-    [SerializeField] private PerkTreeController levelUp;
-    [SerializeField] private LooksMenu looks;
+    [SerializeField] private SaveSrollListControl savemenu = null;
+    [SerializeField] private OptionButtons options = null;
+    [SerializeField] private EventLogHandlerBase bigeventlog = null;
+    [SerializeField] private QuestMenuHandler questMenu = null;
+    [SerializeField] private InventoryHandler inventory = null;
+    [SerializeField] private VoreMenuHandler vore = null;
+    [SerializeField] private EssenceMenu essence = null;
+    [SerializeField] private PerkTreeController levelUp = null;
+    [SerializeField] private LooksMenu looks = null;
 
     public GameObject Savemenu => savemenu.gameObject;
     public GameObject Options => options.gameObject;

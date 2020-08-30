@@ -9,11 +9,9 @@ public class EventMain : MonoBehaviour
     [SerializeField] private TextLog textLog = null;
     [SerializeField] private EventMenuOptionButton optionBtn = null;
     [SerializeField] private Transform optionContainer = null;
-    [SerializeField] private CanvasMain canvasMain = null;
     [SerializeField] private GameObject eventMenu = null;
 
     // Percipants
-    [SerializeField] private PlayerMain lplayer = null;
 
     [SerializeField] private ChangeName changeName = null;
     [SerializeField] private ChangeNames changeNames = null;
@@ -33,11 +31,10 @@ public class EventMain : MonoBehaviour
 
     private void Start()
     {
-        canvasMain = canvasMain != null ? canvasMain : CanvasMain.GetCanvasMain;
         GameManager.GameStateChangeEvent += PlayQuedEvent;
     }
 
-    private List<UnityAction> quedEvents = new List<UnityAction>();
+    private readonly List<UnityAction> quedEvents = new List<UnityAction>();
 
     public void QueEvent(UnityAction eventToQue)
     {
@@ -48,7 +45,6 @@ public class EventMain : MonoBehaviour
         else
         {
             quedEvents.Add(eventToQue);
-            Debug.Log(quedEvents.Count);
         }
     }
 
@@ -96,8 +92,6 @@ public class EventMain : MonoBehaviour
         Setup(CanLeaveDiretly);
     }
 
-    private bool gameUIWasActive;
-
     private void Setup(bool canLeave)
     {
         if (canLeave)
@@ -105,7 +99,6 @@ public class EventMain : MonoBehaviour
             LeaveBtn();
         }
         eventMenu.SetActive(true);
-        gameUIWasActive = canvasMain.HideGameUI();
         GameManager.SetCurState(GameState.Event);
     }
 
@@ -114,11 +107,7 @@ public class EventMain : MonoBehaviour
     private void Leave()
     {
         eventMenu.SetActive(false);
-        canvasMain.Resume();
-        if (gameUIWasActive)
-        {
-            canvasMain.ShowGameUI();
-        }
+        GameManager.ReturnToLastState();
     }
 
     public void SummonChangeName(Identity basicChar) => Instantiate(changeName, transform).Setup(basicChar);

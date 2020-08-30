@@ -3,13 +3,12 @@ using UnityEngine.UI;
 
 public class CheatMenu : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private BasicChar player => PlayerMain.Player;
     [SerializeField] private Button closeBtn = null, goldCheat = null, femiCheat = null, mascCheat = null, expCheat = null, stableEssCheat = null, unlockAllTeleports = null;
 
     // Start is called before the first frame update
     private void Start()
     {
-        player = player != null ? player : PlayerHolder.Player;
         closeBtn.onClick.AddListener(CanvasMain.GetCanvasMain.Resume);
         if (goldCheat != null)
         {

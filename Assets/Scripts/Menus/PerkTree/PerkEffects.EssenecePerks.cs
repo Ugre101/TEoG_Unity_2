@@ -33,11 +33,14 @@
             public static float ExtraGive(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceShaper, 5f);
 
             public static int ImproveCapacity(Perks perks) => PerkIntEffect(perks, PerksTypes.EssenceShaper, 100);
+            public static float TransmuteAmount(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceTransformer, 30f);
+
         }
 
         public static class EssTransformer
         {
             public static float ExtrGive(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceTransformer, 15f);
+            public static float TransmuteAmount(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceTransformer, 100f);
         }
 
         public static class EssMascVacuum

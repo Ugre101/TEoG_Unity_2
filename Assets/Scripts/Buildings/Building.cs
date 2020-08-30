@@ -3,11 +3,10 @@ using UnityEngine;
 
 public abstract class Building : MonoBehaviour
 {
-    [SerializeField] protected PlayerMain player;
+     protected BasicChar player => PlayerMain.Player;
 
     public virtual void OnEnable()
     {
-        player = player != null ? player : PlayerHolder.Player;
     }
 }
 
@@ -34,7 +33,6 @@ public abstract class Shop : Building
 
     public new virtual void OnEnable()
     {
-        player = player != null ? player : PlayerHolder.Player;
         Wares.ClearContainer();
         if (buyItems.Count > 0)
         {

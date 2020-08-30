@@ -32,74 +32,30 @@ public abstract class SexScenes : ScriptableObject
 
     public virtual bool CanDo(BasicChar player, BasicChar Other)
     {
-        if (PlayerDick)
+        if ((PlayerDick && !player.SexualOrgans.HaveDick()) ||
+            (PlayerBalls && !player.SexualOrgans.HaveBalls()) || 
+            (PlayerBoobs && !player.SexualOrgans.HaveBoobs(3)) || 
+            (PlayerVagina && !player.SexualOrgans.HaveVagina()) || 
+            (Dick && !Other.SexualOrgans.HaveDick()) || 
+            (Balls && !Other.SexualOrgans.HaveBalls()) || 
+            (Boobs && !Other.SexualOrgans.HaveBoobs(3)) || 
+            (Vagina && !Other.SexualOrgans.HaveVagina()))
         {
-            if (player.SexualOrgans.Dicks.Count < 1)
-            {
-                return false;
-            }
+            return false;
         }
-        if (PlayerBalls)
-        {
-            if (player.SexualOrgans.Balls.Count < 1)
-            {
-                return false;
-            }
-        }
-        if (PlayerBoobs)
-        {
-            if (player.SexualOrgans.Boobs.Count > 0 ? player.SexualOrgans.Boobs.Max(b => b.Size) < 3 : false)
-            {
-                return false;
-            }
-        }
-        if (PlayerVagina)
-        {
-            if (player.SexualOrgans.Vaginas.Count < 1)
-            {
-                return false;
-            }
-        }
-        if (Dick)
-        {
-            if (Other.SexualOrgans.Dicks.Count < 1)
-            {
-                return false;
-            }
-        }
-        if (Balls)
-        {
-            if (Other.SexualOrgans.Balls.Count < 1)
-            {
-                return false;
-            }
-        }
-        if (Boobs)
-        {
-            if (Other.SexualOrgans.Boobs.Count > 0 ? Other.SexualOrgans.Boobs.Max(b => b.Size) < 3 : false)
-            {
-                return false;
-            }
-        }
-        if (Vagina)
-        {
-            if (Other.SexualOrgans.Vaginas.Count < 1)
-            {
-                return false;
-            }
-        }
+
         return true;
     }
 
-    public virtual string StartScene(PlayerMain player, BasicChar other) => $"";
+    public virtual string StartScene(BasicChar player, BasicChar other) => $"";
 
-    public virtual string ContinueScene(PlayerMain player, BasicChar other) => $"";
+    public virtual string ContinueScene(BasicChar caster, BasicChar other) => $"";
 
-    public virtual string PlayerOrgasmed(PlayerMain player, BasicChar other) => "You orgasmed";
+    public virtual string PlayerOrgasmed(BasicChar player, BasicChar other) => "You orgasmed";
 
-    public virtual string OtherOrgasmed(PlayerMain player, BasicChar other) => "They orgasmed";
+    public virtual string OtherOrgasmed(BasicChar player, BasicChar other) => "They orgasmed";
 
-    public virtual void ArousalGain(PlayerMain player, BasicChar other)
+    public virtual void ArousalGain(BasicChar player, BasicChar other)
     {
         float PlayerGain = CasterGain * Mathf.Pow(EnduranceMultiplier, player.Stats.End);
         float OtherGain = ReciverGain * Mathf.Pow(CharmMultiplier, player.Stats.Cha) *
@@ -170,7 +126,6 @@ public abstract class SexScenes : ScriptableObject
         return multi;
     }
 
-    public string BiggestDick(BasicChar whom) => Settings.MorInch(whom.SexualOrgans.Dicks.BiggestSize());
 
     private class OrganAndItsExp
     {
@@ -205,7 +160,7 @@ public abstract class VoreScene : SexScenes
         return true;
     }
 
-    public virtual string Vore(PlayerMain player, BasicChar other)
+    public virtual string Vore(BasicChar player, BasicChar other)
     {
         return $"";
     }

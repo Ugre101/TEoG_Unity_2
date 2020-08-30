@@ -7,7 +7,7 @@ public class LooksMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI looksText = null;
 
-    [SerializeField] private PlayerMain player = null;
+    private BasicChar Player => PlayerMain.Player;
     //  [SerializeField] private Button toggleExact = null;
 
     //    private bool exactDetails = false;
@@ -16,7 +16,6 @@ public class LooksMenu : MonoBehaviour
 
     private void Start()
     {
-        player = player != null ? player : PlayerHolder.Player;
         // toggleExact.onClick.AddListener(() => exactDetails = !exactDetails);
         sortAllBtn.onClick.AddListener(() => looksText.text = Summary);
         sortBodyBtn.onClick.AddListener(() => looksText.text = BodyLook());
@@ -26,13 +25,13 @@ public class LooksMenu : MonoBehaviour
 
     private void OnEnable()
     {
-        if (looksText != null && player != null)
+        if (looksText != null && Player != null)
         {
             looksText.text = Summary;
         }
     }
 
-    private string Summary => player.Summary() + "\n\n" + BodyLook() + "\n\n" + SexOrgans() + "\n\n" + PregnancyLook();
+    private string Summary => Player.Summary() + "\n\n" + BodyLook() + "\n\n" + SexOrgans() + "\n\n" + PregnancyLook();
 
     private string BodyLook()
     {
@@ -43,34 +42,34 @@ public class LooksMenu : MonoBehaviour
     private string SexOrgans()
     {
         string toReturn = " ";
-        Organs so = player.SexualOrgans;
+        SexualOrgans so = Player.SexualOrgans;
         if (so.HaveBoobs())
         {
-            toReturn += so.Boobs.Looks() + "\n\n";
+            toReturn += so.Boobs.Looks + "\n\n";
         }
         if (so.HaveVagina())
         {
-            toReturn += so.Vaginas.Looks() + "\n\n";
+            toReturn += so.Vaginas.Looks + "\n\n";
         }
         if (so.HaveDick())
         {
-            toReturn += so.Dicks.Looks() + "\n\n";
+            toReturn += so.Dicks.Looks + "\n\n";
         }
         if (so.HaveBalls())
         {
-            toReturn += so.Balls.Looks() + "\n\n";
+            toReturn += so.Balls.Looks + "\n\n";
         }
         return toReturn;
     }
 
     private string PregnancyLook()
     {
-        PregnancySystem pregnancySystem = player.PregnancySystem;
+        PregnancySystem pregnancySystem = Player.PregnancySystem;
         string pregLook = $"Virility: {pregnancySystem.Virility.Value}\n" +
             $"Fertility: {pregnancySystem.Fertility.Value}\n\n";
-        if (player.Pregnant)
+        if (Player.Pregnant)
         {
-            player.SexualOrgans.Vaginas.FindAll(v => v.Womb.HasFetus).ForEach(vag => pregLook += FetusDesc(vag) + "\n");
+            Player.SexualOrgans.Vaginas.List.FindAll(v => v.Womb.HasFetus).ForEach(vag => pregLook += FetusDesc(vag) + "\n");
         }
         List<Child> children = pregnancySystem.Children;
         if (children.Count > 0)
@@ -83,7 +82,7 @@ public class LooksMenu : MonoBehaviour
 
     private string FetusDesc(Vagina pregVag)
     {
-        int index = player.SexualOrgans.Vaginas.IndexOf(pregVag);
+        int index = Player.SexualOrgans.Vaginas.List.IndexOf(pregVag);
         if (pregVag.Womb.Fetuses.Count > 1)
         {
             // TODO add text for multitude of children

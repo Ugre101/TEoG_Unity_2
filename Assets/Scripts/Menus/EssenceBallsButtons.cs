@@ -11,9 +11,9 @@ namespace EssenceMenuStuff
         {
             transform.KillChildren();
             Instantiate(addBallsPrefab, transform).Setup().onClick.AddListener(UpdateButtons);
-            foreach (Balls b in player.SexualOrgans.Balls)
+            foreach (Balls b in Player.SexualOrgans.Balls.List)
             {
-                Instantiate(growBallsPrefab, transform).Setup(player, b);
+                Instantiate(growBallsPrefab, transform).Setup(b);
             }
         }
     }

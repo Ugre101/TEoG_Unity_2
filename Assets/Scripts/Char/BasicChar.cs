@@ -93,12 +93,12 @@ public class BasicChar
     [SerializeField] private PregnancySystem pregnancySystem = new PregnancySystem();
 
     public PregnancySystem PregnancySystem => pregnancySystem;
-    public bool Pregnant => SexualOrgans.Vaginas.Exists(v => v.Womb.HasFetus);
+    public bool Pregnant => SexualOrgans.Vaginas.List.Exists(v => v.Womb.HasFetus);
 
     [Header("Organs")]
-    [SerializeField] private Organs sexualOrgans = new Organs();
+    [SerializeField] private SexualOrgans sexualOrgans = new SexualOrgans();
 
-    public Organs SexualOrgans => sexualOrgans;
+    public SexualOrgans SexualOrgans => sexualOrgans;
 
     [SerializeField] private SexStats sexStats = new SexStats();
 
@@ -107,9 +107,9 @@ public class BasicChar
     public BasicChar()
     {
         identity = new Identity();
-        vore = new VoreEngine(this);
         expSystem = new ExpSystem(1);
-        gameEvent = new GameEventSystem(this);
+        vore = new VoreEngine(this);
+        Events = new GameEventSystem(this);
         hp = new Health(this, new AffectedByStat(StatTypes.End, 5));
         wp = new Health(this, new AffectedByStat(StatTypes.Will, 5));
         Essence.Femi.GainEvent += this.RefreshOrgans;
@@ -118,50 +118,36 @@ public class BasicChar
 
     public BasicChar(Age age, Body body, ExpSystem expSystem) : this()
     {
-        this.vore = new VoreEngine(this);
         this.age = age;
         this.body = body;
         this.expSystem = expSystem;
     }
-
-    public BasicChar(Identity identity, Age age, Body body, ExpSystem expSystem) : this(age, body, expSystem)
-    {
-        this.identity = identity;
-    }
-
-    public BasicChar(Identity identity, RelationshipTracker relationshipTracker, Inventory inventory, EquiptItems equiptItems, RaceSystem raceSystem, VoreEngine vore, Age age, Body body, Health hp, Health wp, ExpSystem expSystem, Perks perk, StatsContainer stats, EssenceSystem essence, Currency currency, Flags flags, PregnancySystem pregnancySystem, Organs sexualOrgans, SexStats sexStats, List<Skill> skills)
-    {
-        this.identity = identity;
-        this.relationshipTracker = relationshipTracker;
-        this.inventory = inventory;
-        this.equiptItems = equiptItems;
-        this.raceSystem = raceSystem;
-        this.vore = vore;
-        this.age = age;
-        this.body = body;
-        this.hp = hp;
-        this.wp = wp;
-        this.expSystem = expSystem;
-        this.perk = perk;
-        this.stats = stats;
-        this.essence = essence;
-        this.currency = currency;
-        this.flags = flags;
-        this.pregnancySystem = pregnancySystem;
-        this.sexualOrgans = sexualOrgans;
-        this.sexStats = sexStats;
-        this.skills = skills;
-    }
-
     [SerializeField] private List<Skill> skills = new List<Skill>() { new Skill(SkillId.BasicAttack), new Skill(SkillId.BasicTease) };
 
     public List<Skill> Skills => skills;
-    private GameEventSystem gameEvent;
-    public GameEventSystem Events => gameEvent;
+
+    public GameEventSystem Events { get; }
 
     public delegate void DestroyHolder();
 
     public event DestroyHolder DestroyHolderEvent;
 
     public void IfHaveHolderDestoryIt() => DestroyHolderEvent?.Invoke();
+
+    public virtual void DoEveryMin(int times)
+    {
+        // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
+        //   BasicChar.RefreshOrgans();
+        this.OverTimeTick(times);
+    }
+
+    public virtual void DoEveryHour()
+    {
+    }
+
+    public virtual void DoEveryDay()
+    {
+        this.GrowFetuses();
+        PregnancySystem.GrowChild();
+    }
 }

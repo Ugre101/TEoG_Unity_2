@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f05337f363ff3a848a0bf1b5479466e6, type: 3}
   m_Name: PocketPortal
   m_EditorClassIdentifier: 
-  itemId: 27
+  itemId: 17
   title: Pocket portal
   useName: Use
   sprite: {fileID: 21300000, guid: b784f1f2861a70e41818fd8c74564421, type: 3}

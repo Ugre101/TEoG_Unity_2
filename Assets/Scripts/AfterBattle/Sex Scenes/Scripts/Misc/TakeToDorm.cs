@@ -12,7 +12,7 @@ public class TakeToDorm : SexScenes
         return false;
     }
 
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         Dorm.AddToDorm(other);
         TakenToDorm?.Invoke();
@@ -22,9 +22,9 @@ public class TakeToDorm : SexScenes
         return $"";
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other) => StartScene(player, other);
+    public override string ContinueScene(BasicChar player, BasicChar other) => StartScene(player, other);
 
-    public override void ArousalGain(PlayerMain player, BasicChar other)
+    public override void ArousalGain(BasicChar player, BasicChar other)
     {
     }
 

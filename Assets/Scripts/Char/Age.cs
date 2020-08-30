@@ -19,11 +19,7 @@ public class Age
         ageYears = AgeInYears;
     }
 
-    [SerializeField]
-    private int ageYears;
-
-    [SerializeField]
-    private int ageDays;
+    [SerializeField] private int ageYears, ageDays;
 
     public int AgeDays => ageDays;
     public int Agemonth => Mathf.FloorToInt(ageDays / 30);
@@ -36,6 +32,7 @@ public class Age
         {
             ageYears++;
             ageDays -= 365;
+            BithdDay?.Invoke(AgeYears);
             return true;
         }
         return false;
@@ -63,22 +60,29 @@ public class Age
                 if (AgeYears < 5)
                 {
                     return AgeClass.Baby;
-                }else if (AgeYears < 13)
+                }
+                else if (AgeYears < 13)
                 {
                     return AgeClass.Child;
-                }else if (AgeYears < 18)
+                }
+                else if (AgeYears < 18)
                 {
                     return AgeClass.Teenager;
-                }else if (AgeYears < 25)
+                }
+                else if (AgeYears < 25)
                 {
                     return AgeClass.YoungAdult;
-                }else if (AgeYears < 65)
+                }
+                else if (AgeYears < 65)
                 {
                     return AgeClass.Adult;
-                }else
+                }
+                else
                 {
                     return AgeClass.Senior;
                 }
         }
     }
+
+    public Action<int> BithdDay;
 }

@@ -40,7 +40,38 @@ public class Essence
 
 public static class EssenceExtension
 {
-    private static TransmuteFromTo transmuteOption = TransmuteFromTo.Off;
+    private static bool HasOneOfNeededPerks(BasicChar basicChar, List<PerksTypes> perksTypes)
+    {
+        foreach (PerksTypes type in perksTypes)
+        {
+            if (HasPerk(type))
+            {
+                return true;
+            }
+        }
+        return false;
+        bool HasPerk(PerksTypes type) => basicChar.Perks.HasPerk(type);
+    }
+
+    public static bool CanTransmuteEssence(BasicChar basicChar)
+    {
+        // A bit overkill right now but it should make it easier in the long run.
+        List<PerksTypes> onOffPerks = new List<PerksTypes>()
+        { PerksTypes.EssenceShaper, PerksTypes.EssenceTransformer };
+        return HasOneOfNeededPerks(basicChar, onOffPerks);
+    }
+
+    public static bool CanAutoDrainEssence(BasicChar basicChar)
+    {
+        List<PerksTypes> onOffPerks = new List<PerksTypes>() { PerksTypes.MasculineVacuum, PerksTypes.FemenineVacuum, PerksTypes.HermaphroditeVacuum };
+        return HasOneOfNeededPerks(basicChar, onOffPerks);
+    }
+
+    public static bool CanAutoGiveEssence(BasicChar basicChar)
+    {
+        List<PerksTypes> onOffPerks = new List<PerksTypes>() { PerksTypes.FemenineFlow, PerksTypes.MasculineFlow, PerksTypes.HermaphroditeFlow };
+        return HasOneOfNeededPerks(basicChar, onOffPerks);
+    }
 
     public enum TransmuteFromTo
     {
@@ -49,9 +80,30 @@ public static class EssenceExtension
         FemiToMasc,
     }
 
-    public static TransmuteFromTo TransmuteOption { get => transmuteOption; set => transmuteOption = Enum.IsDefined(typeof(TransmuteFromTo), value) ? value : 0; }
+    public static TransmuteFromTo TransmuteOption { get; set; } = TransmuteFromTo.Off;
 
-    public static TransmuteFromTo ToggleTransmuteOption => TransmuteOption++;
+    public static TransmuteFromTo ToggleTransmuteOption => UgreTools.CycleThoughEnum(TransmuteOption);
+
+    public static void TransmuteEssenceMascToFemi(BasicChar caster, BasicChar changed) => changed.Essence.Femi.Gain(changed.LoseMasc(TotalTransmuteAmount(caster)));
+
+    public static void TransmuteEssenceMascToFemi(BasicChar caster) => caster.Essence.Femi.Gain(caster.LoseMasc(TotalTransmuteAmount(caster)));
+
+    public static void TransmuteEssenceFemiToMasc(BasicChar caster, BasicChar changed) =>
+        changed.Essence.Masc.Gain(changed.LoseFemi(TotalTransmuteAmount(caster)));
+
+    public static void TransmuteEssenceFemiToMasc(BasicChar caster) =>
+    caster.Essence.Masc.Gain(caster.LoseFemi(TotalTransmuteAmount(caster)));
+
+    public static float TotalTransmuteAmount(BasicChar basicChar)
+    {
+        float tot = 0;
+        if (basicChar.Perks.HasPerk(PerksTypes.EssenceTransformer))
+        {
+            tot += PerkEffects.EssenecePerks.EssShaper.TransmuteAmount(basicChar.Perks);
+            tot += PerkEffects.EssenecePerks.EssTransformer.TransmuteAmount(basicChar.Perks);
+        }
+        return tot;
+    }
 
     public static float TotalStableEssence(this BasicChar basicChar)
     {
@@ -174,9 +226,9 @@ public static class EssenceExtension
 
     public static void DrainFemi(this BasicChar drainer, BasicChar toDrain) => drainer.Essence.Femi.Gain(toDrain.LoseFemi(drainer.EssenceDrain(toDrain)));
 
-    public static bool CanDrainMasc(this BasicChar who) => who.Essence.Masc.Amount > 0 || who.SexualOrgans.Balls.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
+    public static bool CanDrainMasc(this BasicChar who) => who.Essence.Masc.Amount > 0 || who.SexualOrgans.HaveBalls() || who.SexualOrgans.HaveDick();
 
-    public static bool CanDrainFemi(this BasicChar who) => who.Essence.Femi.Amount > 0 || who.SexualOrgans.Boobs.Count > 0 || who.SexualOrgans.Dicks.Count > 0;
+    public static bool CanDrainFemi(this BasicChar who) => who.Essence.Femi.Amount > 0 || who.SexualOrgans.HaveBoobs() || who.SexualOrgans.HaveDick();
 
     public static float LoseMasc(this BasicChar who, float mascToLose)
     {
@@ -185,24 +237,25 @@ public static class EssenceExtension
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            List<Dick> dicks = who.SexualOrgans.Dicks;
-            List<Balls> balls = who.SexualOrgans.Balls;
-            while (missing > fromOrgans && (dicks.Count > 0 || balls.Count > 0))// have needed organs
+            SexualOrgans so = who.SexualOrgans;
+            DickContainer dicks = so.Dicks;
+            List<Balls> balls = so.Balls.List;
+            while (missing > fromOrgans && (so.HaveDick() || so.HaveBalls()))// have needed organs
             {
-                if (balls.Count > 0 && dicks.Count > 0)
+                if (so.HaveBalls() && so.HaveDick())
                 {
-                    if (dicks.Total() >= balls.Total() * 2f + 1f)
+                    if (dicks.List.Total() >= balls.Total() * 2f + 1f)
                     {
                         fromOrgans += dicks.ReCycle();
                     }
                     else
                     {
-                        fromOrgans += balls.ReCycle();
+                        fromOrgans += so.Balls.ReCycle();
                     }
                 }
-                else if (balls.Count > 0)
+                else if (so.HaveBalls())
                 {
-                    fromOrgans += balls.ReCycle();
+                    fromOrgans += so.Balls.ReCycle();
                 }
                 else
                 {
@@ -226,8 +279,8 @@ public static class EssenceExtension
         if (missing > 0)
         {
             float fromOrgans = 0f;
-            List<Vagina> vaginas = who.SexualOrgans.Vaginas;
-            List<Boobs> boobs = who.SexualOrgans.Boobs;
+            List<Vagina> vaginas = who.SexualOrgans.Vaginas.List;
+            List<Boobs> boobs = who.SexualOrgans.Boobs.List;
             while (missing > fromOrgans && (vaginas.Count > 0 || boobs.Count > 0))// have needed organs
             {
                 if (boobs.Count > 0 && vaginas.Count > 0)
@@ -238,12 +291,12 @@ public static class EssenceExtension
                     }
                     else
                     {
-                        fromOrgans += vaginas.ReCycle();
+                        fromOrgans += who.SexualOrgans.Vaginas.ReCycle();
                     }
                 }
                 else if (vaginas.Count > 0)
                 {
-                    fromOrgans += vaginas.ReCycle();
+                    fromOrgans += who.SexualOrgans.Vaginas.ReCycle();
                 }
                 else
                 {
@@ -258,5 +311,50 @@ public static class EssenceExtension
             }
         }
         return have;
+    }
+
+    public static void HandleAutoDrainEssence(BasicChar Caster, BasicChar Target)
+    {
+        if (CanAutoDrainEssence(Caster))
+        {
+            if ((HasPerk(PerksTypes.FemenineVacuum) && HasPerk(PerksTypes.MasculineVacuum)) || HasPerk(PerksTypes.HermaphroditeVacuum))
+            {
+                Caster.DrainFemi(Target);
+                Caster.DrainMasc(Target);
+            }
+            else if (HasPerk(PerksTypes.FemenineVacuum))
+            {
+                Caster.DrainFemi(Target);
+            }
+            else if (HasPerk(PerksTypes.MasculineVacuum))
+            {
+                Caster.DrainMasc(Target);
+            }
+            Caster.SexStats.Drained();
+        }
+        bool HasPerk(PerksTypes type) => Caster.Perks.HasPerk(type);
+    }
+
+    public static void HandleAutoGiveEssence(BasicChar caster, BasicChar Target)
+    {
+        if (CanAutoGiveEssence(caster))
+        {
+            float bonus = PerkEffects.EssenecePerks.EssFemiFlow.EssGiveBonus(caster.Perks) + PerkEffects.EssenecePerks.EssMascFlow.EssGiveBonus(caster.Perks) + PerkEffects.EssenecePerks.EssHemiFlow.EssGiveBonus(caster.Perks);
+            if ((HasPerk(PerksTypes.FemenineFlow) && HasPerk(PerksTypes.MasculineFlow)) || HasPerk(PerksTypes.HermaphroditeFlow))
+            {
+                caster.GiveFemi(Target, bonus, true);
+                caster.GiveMasc(Target, bonus, true);
+            }
+            else if (HasPerk(PerksTypes.FemenineFlow))
+            {
+                caster.GiveFemi(Target, bonus, true);
+            }
+            else if (HasPerk(PerksTypes.MasculineFlow))
+            {
+                caster.GiveMasc(Target, bonus, true);
+            }
+            caster.SexStats.Drained();
+        }
+        bool HasPerk(PerksTypes perk) => caster.Perks.HasPerk(perk);
     }
 }

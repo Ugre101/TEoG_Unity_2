@@ -24,21 +24,29 @@ public class ExpSystem
         {
             exp -= MaxExp;
             level++;
-            perkPoints += 3;
+            PerkPoints += 3;
         }
         ExpChangeEvent?.Invoke();
     }
 
     [SerializeField] private int perkPoints = 0;
 
+    public int PerkPoints
+    {
+        get => perkPoints; private set
+        {
+            perkPoints = value;
+            PerkPointsChange?.Invoke();
+        }
+    }
+
     /// <summary> Show amount of parkpoints, note you can only add extra perkpoints not remove. This is to avoid getting negative amount of points. All </summary>
-    public int PerkPoints => perkPoints;
 
     public bool PerkBool(int parCost = 1)
     {
         if (PerkPoints >= parCost)
         {
-            perkPoints -= parCost;
+            PerkPoints -= parCost;
             return true;
         }
         return false;
@@ -54,7 +62,9 @@ public class ExpSystem
 
     public delegate void ExpChange();
 
-    public static event ExpChange ExpChangeEvent;
+    public event ExpChange ExpChangeEvent;
+
+    public event ExpChange PerkPointsChange;
 
     public void ManualExpUpdate() => ExpChangeEvent?.Invoke();
 }

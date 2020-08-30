@@ -1,47 +1,45 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum Quests
 {
     Bandit,
-    ElfsHunt
+    ElfsHunt,
+    ImpregnateMaidens,
+    GetImpregnated, // Children birthed in name of shrine gets raised at shrine not home
+    TheExperimentalPotion,
+    FairyQueen, // After beating certain amount of faires special area opens
 }
 
 public static class QuestsSystem
 {
-    public static List<BasicQuest> BasicQuests { get; private set; } = new List<BasicQuest>();
+    public static Dictionary<Quests, BasicQuest> BasicQuests { get; private set; } = new Dictionary<Quests, BasicQuest>();
 
-    public static BasicQuest GetBasicQuest(Quests quests) => BasicQuests.Find(q => q.Type == quests);
+    public static BasicQuest GetBasicQuest(Quests quests) => BasicQuests[quests];
 
-    public static List<CountQuest> CountQuests { get; private set; } = new List<CountQuest>();
+    public static bool TryGetBasicQuest(Quests quests, out BasicQuest basicQuest) => BasicQuests.TryGetValue(quests, out basicQuest); // Not tested
 
-    public static CountQuest GetCountQuest(Quests quests) => CountQuests.Find(q => q.Type == quests);
+    public static Dictionary<Quests, CountQuest> CountQuests { get; private set; } = new Dictionary<Quests, CountQuest>();
 
-    public static List<TieredQuest> TieredQuests { get; private set; } = new List<TieredQuest>();
+    public static CountQuest GetCountQuest(Quests quests) => CountQuests[quests];
 
-    public static TieredQuest GetTieredQuest(Quests quests) => TieredQuests.Find(q => q.Type == quests);
+    public static Dictionary<Quests, TieredQuest> TieredQuests { get; private set; } = new Dictionary<Quests, TieredQuest>();
 
-    public static bool HasQuest(Quests parQuest) => BasicQuests.Exists(q => q.Type == parQuest)
-        || CountQuests.Exists(q => q.Type == parQuest)
-        || TieredQuests.Exists(q => q.Type == parQuest);
+    public static TieredQuest GetTieredQuest(Quests quests) => TieredQuests[quests];
+
+    public static bool HasQuest(Quests parQuest) => BasicQuests.ContainsKey(parQuest)
+                                                    || CountQuests.ContainsKey(parQuest)
+                                                    || TieredQuests.ContainsKey(parQuest);
 
     public static bool QuestIsCompleted(Quests quests)
     {
-        if (HasQuest(quests))
-        {
-            if (BasicQuests.Exists(q => q.Type == quests))
-            {
-                return GetBasicQuest(quests).Completed;
-            }
-            else if (CountQuests.Exists(q => q.Type == quests))
-            {
-                return GetCountQuest(quests).Completed;
-            }
-            else if (TieredQuests.Exists(q => q.Type == quests))
-            {
-                return GetTieredQuest(quests).Completed;
-            }
-        }
+        if (BasicQuests.TryGetValue(quests, out BasicQuest quest))
+            return quest.Completed;
+        else if (CountQuests.TryGetValue(quests, out CountQuest countQuest))
+            return countQuest.Completed;
+        else if (TieredQuests.TryGetValue(quests, out TieredQuest tieredQuest))
+            return tieredQuest.Completed;
         return false;
     }
 
@@ -52,7 +50,7 @@ public static class QuestsSystem
             case Quests.Bandit:
                 if (!HasQuest(Quests.Bandit))
                 {
-                    BasicQuests.Add(new BanditQuest());
+                    BasicQuests.Add(Quests.Bandit, new BanditQuest());
                     PlayerFlags.BanditMap.Know = true;
                 }
                 break;
@@ -60,40 +58,30 @@ public static class QuestsSystem
             case Quests.ElfsHunt:
                 if (!HasQuest(Quests.ElfsHunt))
                 {
-                    TieredQuests.Add(new ElfQuest());
+                    TieredQuests.Add(Quests.ElfsHunt, new ElfQuest());
                 }
                 break;
 
             default:
+                Debug.LogWarning($"The quest {which} isn't added in switch.");
                 break;
         }
         GotQuestEvent?.Invoke();
     }
 
-    public static QuestSave Save => new QuestSave(BasicQuests, CountQuests, TieredQuests);
+    public static QuestSave Save => new QuestSave(BasicQuests.Values.ToList(), CountQuests.Values.ToList(), TieredQuests.Values.ToList());
 
     public static void Load(QuestSave toLoad)
     {
-        BasicQuests = toLoad.BasicQuests;
-        CountQuests = toLoad.CountQuests;
-        TieredQuests = toLoad.TieredQuests;
+        BasicQuests = toLoad.BasicQuests.ToDictionary(id => id.Type);
+        CountQuests = toLoad.CountQuests.ToDictionary(id => id.Type);
+        TieredQuests = toLoad.TieredQuests.ToDictionary(id => id.Type);
         GotQuestEvent?.Invoke();
     }
 
     public delegate void GotQuest();
 
     public static event GotQuest GotQuestEvent;
-
-    public static void WinBattleCheck(BasicChar basicChar)
-    {
-        if (HasQuest(Quests.ElfsHunt))
-        {
-            if (basicChar.RaceSystem.CurrentRace() == Races.Elf)
-            {
-                GetTieredQuest(Quests.ElfsHunt).Count++;
-            }
-        }
-    }
 
     public static void ProgressQuests(Quests quest, int count = 1)
     {
@@ -103,14 +91,17 @@ public static class QuestsSystem
                 if (HasQuest(quest))
                 {
                     GetBasicQuest(quest).SetCompleted();
+                    PlayerFlags.TimesBeatenBanditLord.Increase();
                 }
                 break;
 
             case Quests.ElfsHunt:
                 if (HasQuest(quest))
-                {
                     GetTieredQuest(quest).Count += count;
-                }
+                break;
+
+            default:
+                Debug.LogWarning($"{quest.ToString()} isn't handled in progressQuests switch.");
                 break;
         }
     }
@@ -169,17 +160,17 @@ public static class QuestReward
         switch (quests)
         {
             case Quests.Bandit:
-                return BanditLordReward(PlayerHolder.Player);
+                return BanditLordReward(PlayerMain.Player);
 
             case Quests.ElfsHunt:
-                return ElfHuntReward(PlayerHolder.Player);
+                return ElfHuntReward(PlayerMain.Player);
 
             default:
                 return "";
         }
     }
 
-    private static string ElfHuntReward(PlayerMain player)
+    private static string ElfHuntReward(BasicChar player)
     {
         TieredQuest quest = QuestsSystem.GetTieredQuest(Quests.ElfsHunt);
         float tierMulti = Mathf.Pow(2, quest.Tier - 1);
@@ -187,24 +178,18 @@ public static class QuestReward
         int goldGain = Mathf.FloorToInt(150 * tierMulti);
         player.ExpSystem.GainExp(expGain);
         player.Currency.Gold += goldGain;
-        QuestsSystem.TieredQuests.Remove(quest);
+        QuestsSystem.TieredQuests.Remove(Quests.ElfsHunt);
         return $"You are rewarded: {expGain}Exp and {goldGain}gold";
     }
 
-    private static string BanditLordReward(PlayerMain player)
+    private static string BanditLordReward(BasicChar player)
     {
-        BasicQuest quest = QuestsSystem.GetBasicQuest(Quests.Bandit);
         player.ExpSystem.GainExp(300);
         player.Currency.Gold += 500;
-        QuestsSystem.BasicQuests.Remove(quest);
-        if (PlayerFlags.BeatBanditLord.Cleared)
-        {
-            return "You are rewared: 300Exp and 500gold";
-        }
-        else
-        {
-            PlayerFlags.BeatBanditLord.Clear();
-            return $"We can not thank you enough, as an token of our gratitude we have transfered you the rights of the propery around your home. \n\nYou are rewared: 300Exp and 500gold";
-        }
+        QuestsSystem.BasicQuests.Remove(Quests.Bandit);
+        PlayerFlags.BeatBanditLord.Clear();
+        return PlayerFlags.BeatBanditLord.Cleared
+            ? "You are rewared: 300Exp and 500gold"
+            : $"We can not thank you enough, as an token of our gratitude we have transfered you the rights of the propery around your home. \n\nYou are rewared: 300Exp and 500gold";
     }
 }

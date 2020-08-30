@@ -11,5 +11,5 @@ public class ChangeNamePlayer : ChangeName
         closeBtn.onClick.AddListener(() => gameObject.SetActive(false));
     }
 
-    private void OnEnable() => Setup(PlayerHolder.Player.Identity);
+    private void OnEnable() => Setup(PlayerMain.Player.Identity);
 }

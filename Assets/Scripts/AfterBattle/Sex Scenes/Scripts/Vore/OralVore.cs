@@ -9,7 +9,7 @@ public class OralVore : VoreScene
         return player.Vore.Stomach.CanVore(Other);
     }
 
-    public override string Vore(PlayerMain player, BasicChar other)
+    public override string Vore(BasicChar player, BasicChar other)
     {
         if (player.Vore.Stomach.Vore(other))
         {

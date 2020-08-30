@@ -11,9 +11,9 @@ namespace EssenceMenuStuff
         {
             transform.KillChildren();
             Instantiate(addDickPrefab, transform).Setup().onClick.AddListener(UpdateButtons);
-            foreach (Dick d in player.SexualOrgans.Dicks)
+            foreach (Dick d in Player.SexualOrgans.Dicks.List)
             {
-                Instantiate(growDickPrefab, transform).Setup(player, d);
+                Instantiate(growDickPrefab, transform).Setup(d);
             }
         }
     }

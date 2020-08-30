@@ -16,7 +16,7 @@ public class EventLogHandler : EventLogHandlerBase
     protected override void OnEnable()
     {
         base.OnEnable();
-        SetFontSize(Settings.EventLogFontSize);
+        SetFontSize(Settings.EventLogFont.Size);
     }
 
     protected override void Start()

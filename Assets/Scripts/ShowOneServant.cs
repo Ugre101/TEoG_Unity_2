@@ -4,11 +4,12 @@ using UnityEngine.UI;
 
 public class ShowOneServant : MonoBehaviour
 {
-    private BasicChar basicChar;
+    private DormMate dormMate;
+    private BasicChar mate => dormMate.BasicChar;
     [SerializeField] private ShowDorm showDorm = null;
-    [SerializeField] private Button backBtn = null, kickOutBtn = null;
+    [SerializeField] private Button backBtn = null, sexBtn = null, kickOutBtn = null;
     [SerializeField] private TextMeshProUGUI textBox = null;
-
+    [SerializeField] private SexCanvas sexCanvas = null;
     [SerializeField] private PromptYesNo prompt = null;
 
     // Start is called before the first frame update
@@ -17,27 +18,29 @@ public class ShowOneServant : MonoBehaviour
         showDorm = showDorm != null ? showDorm : GetComponentInParent<ShowDorm>();
         backBtn.onClick.AddListener(showDorm.ListServants);
         kickOutBtn.onClick.AddListener(KickOut);
+        sexBtn.onClick.AddListener(DormSex);
     }
 
-    public void Setup(BasicChar basicChar)
+    public void Setup(DormMate dormMate)
     {
         gameObject.SetActive(true);
-        this.basicChar = basicChar;
-        textBox.text = $"{basicChar.Identity.FullName}\n\n{basicChar.Summary()}\n\n{basicChar.BodyStats()}";
+        this.dormMate = dormMate;
+        textBox.text = $"{mate.Identity.FullName}\n\n{mate.Summary()}\n\n{mate.BodyStats()}";
     }
 
     private void KickOut()
     {
-        if (Dorm.Followers.Exists(b => b == basicChar))
+        if (Dorm.Followers.TryGetValue(mate.Identity.Id, out DormMate b))
         {
-            BasicChar who = Dorm.Followers.Find(b => b == basicChar);
-            Instantiate(prompt, transform).Setup(() => KickASevantOut(who));
+            Instantiate(prompt, transform).Setup(() => KickASevantOut(b));
         }
     }
 
-    private void KickASevantOut(BasicChar basicChar)
+    private void KickASevantOut(DormMate dormMate)
     {
-        Dorm.Followers.Remove(basicChar);
+        Dorm.Followers.Remove(dormMate.BasicChar.Identity.Id);
         showDorm.ListServants();
     }
+
+    private void DormSex() => sexCanvas.DormSex(mate);
 }

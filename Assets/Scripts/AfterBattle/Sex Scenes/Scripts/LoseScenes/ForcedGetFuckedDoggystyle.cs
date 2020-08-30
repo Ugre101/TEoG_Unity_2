@@ -3,11 +3,11 @@
 [CreateAssetMenu(fileName = "Forced Get Fucked Doggystyle", menuName = "Sex/LoseScenes/ForcedGetFuckedDoggystyle")]
 public class ForcedGetFuckedDoggystyle : LoseScene
 {
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         string returnText = $"{other.Identity.FirstName} forces your beaten body to its hands and knees; you can't even muster the energy to collapse. Your body, however, has other plans, and you feel your pussy start to drip. Your opponent wastes little time, and quickly gets into position, soon thrusting deeply into you. ";
 
-        Organs PsexualOrgans = player.SexualOrgans;
+        SexualOrgans PsexualOrgans = player.SexualOrgans;
         if (PsexualOrgans.HaveBalls())
         {
             returnText += "With every thrust, you feel their balls tapping into yours, sending little bursts of unintended pleasure through your dick. ";
@@ -18,9 +18,9 @@ public class ForcedGetFuckedDoggystyle : LoseScene
             returnText += "Your balls refuse to be left out, and unload themselves onto your stomach and the ground. ";
         }
         returnText += "Your enemy cums soon after, quickly filling your pussy and collapses onto your back, spent. ";
-        if (PsexualOrgans.Vaginas.EmptyWomb())
+        if (PsexualOrgans.Vaginas.List.EmptyWomb())
         {
-            if (player.Impregnate(other))
+            if (player.GetImpregnatedBy(other))
             {
                 returnText += $" You feel an odd filling sensation in your belly... They couldn't have gotten you pregnant, could they?";
             }
@@ -28,7 +28,7 @@ public class ForcedGetFuckedDoggystyle : LoseScene
         return returnText;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return StartScene(player, other);
     }

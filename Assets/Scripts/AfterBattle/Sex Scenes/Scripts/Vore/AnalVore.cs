@@ -9,7 +9,7 @@ public class AnalVore : VoreScene
         return player.Vore.Anal.CanVore(Other);
     }
 
-    public override string Vore(PlayerMain player, BasicChar other)
+    public override string Vore(BasicChar player, BasicChar other)
     {
         if (player.Vore.Anal.Vore(other))
         {

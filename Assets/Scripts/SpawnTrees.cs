@@ -1,13 +1,18 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class SpawnTrees : MonoBehaviour
 {
-    [SerializeField] private SmartTree smartTree = null;
     [SerializeField] private List<Tile> spawnOn = new List<Tile>();
     [SerializeField] private Tilemap map = null;
-    [SerializeField] private int distFromBorder = 1,maxAmountTrees = 50;
+
+    [Range(0, 10)]
+    [SerializeField] private int distFromBorder = 1;
+
+    [Range(0, 200)]
+    [SerializeField] private int maxAmountTrees = 50;
 
     [Header("Precentage change of spawning a tree on empty spot")]
     [Range(0f, 0.1f)]
@@ -16,7 +21,7 @@ public class SpawnTrees : MonoBehaviour
     [Range(1f, 10f)]
     [SerializeField] private float distFromOtherTress = 3f;
 
-    private List<Vector3> emptySpots = new List<Vector3>();
+    private readonly List<Vector3> spwanSpot = new List<Vector3>();
     private List<SmartTree> smartTrees = new List<SmartTree>();
 
     // Start is called before the first frame update
@@ -25,8 +30,11 @@ public class SpawnTrees : MonoBehaviour
         map = map != null ? map : GetComponent<Tilemap>();
         GetSpawnTiles();
         Spawn();
+        DateSystem.NewWeekEvent += ReCount;
         DateSystem.NewWeekEvent += Spawn;
     }
+
+    private void ReCount() => smartTrees = GetComponentsInChildren<SmartTree>().ToList();
 
     private void GetSpawnTiles()
     {
@@ -44,7 +52,7 @@ public class SpawnTrees : MonoBehaviour
                         {
                             if (tileBase.sprite == tile.sprite)
                             {
-                                emptySpots.Add(localPlace);
+                                spwanSpot.Add(localPlace);
                                 break;
                             }
                         }
@@ -54,18 +62,33 @@ public class SpawnTrees : MonoBehaviour
         }
     }
 
+    private readonly System.Random rnd = new System.Random();
+
     private void Spawn()
     {
-        foreach (Vector3 spot in emptySpots)
+        if (UnderMaxAmount())
         {
-            if (NotToCloseToOtherTrees(spot))
+            for (int i = 0; i < spwanSpot.Count; i++)
             {
-                if (Random.value < spawnChance)
+                if (UnderMaxAmount())
                 {
-                    smartTrees.Add(Instantiate(smartTree, spot, Quaternion.identity, transform));
+                    Vector3 spot = spwanSpot[rnd.Next(spwanSpot.Count)];
+                    if (NotToCloseToOtherTrees(spot) && Random.value < spawnChance)
+                    {
+                        SmartTree tree = SmartTreeObjectPool.Instance.GetTree();
+                        tree.gameObject.SetActive(true);
+                        tree.transform.SetParent(transform);
+                        tree.transform.position = spot;
+                        smartTrees.Add(tree);
+                    }
+                }
+                else
+                {
+                    break;
                 }
             }
         }
+        bool UnderMaxAmount() => smartTrees.Count < maxAmountTrees;
     }
 
     private bool NotToCloseToOtherTrees(Vector3 spot)

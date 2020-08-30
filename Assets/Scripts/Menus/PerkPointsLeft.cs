@@ -3,20 +3,30 @@ using UnityEngine;
 
 public class PerkPointsLeft : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
+    [SerializeField] private BasicChar player = null;
     [SerializeField] private TextMeshProUGUI textUGUI = null;
     private int lastLeft;
+    private bool started = false;
 
     // Start is called before the first frame update
     private void Start()
     {
         textUGUI = textUGUI != null ? textUGUI : GetComponent<TextMeshProUGUI>();
-        player = player != null ? player : PlayerHolder.Player;
+        player = player != null ? player : PlayerMain.Player;
         ShowPoints();
+        started = true;
+        OnEnable();
     }
 
-    // Update is called once per frame
-    private void Update() => ShowPoints();
+    private void OnEnable()
+    {
+        if (started)
+        {
+            player.ExpSystem.PerkPointsChange += ShowPoints;
+        }
+    }
+
+    private void OnDisable() => player.ExpSystem.PerkPointsChange -= ShowPoints;
 
     private void ShowPoints()
     {

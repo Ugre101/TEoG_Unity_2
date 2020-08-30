@@ -5,7 +5,7 @@ public class LeaveHomeTrigger : MonoBehaviour
     [SerializeField] private HomeMain home = null;
     private string playerTag;
 
-    private void Start() => playerTag = PlayerHolder.GetTag;
+    private void Start() => playerTag = PlayerSprite.Tag;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

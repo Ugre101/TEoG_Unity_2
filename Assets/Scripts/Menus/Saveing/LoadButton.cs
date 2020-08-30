@@ -57,7 +57,7 @@ public class LoadButton : LoadButtonBase
         {
             string json = File.ReadAllText(path);
             SaveMananger.Instance.NewSave.LoadData(json);
-            CanvasMain.GetCanvasMain.Resume();
+            GameManager.SetCurState(GameState.Free);
         }
         else
         {

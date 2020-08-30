@@ -1,10 +1,13 @@
 ﻿using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
 public class OptionButtons : MonoBehaviour
 {
+    [SerializeField] private Transform subOptionsContainer = null;
+
     [Header("Pixel perfect")]
     [SerializeField] private PixelPerfectCamera pixelPerfectCamera = null;
 
@@ -31,70 +34,65 @@ public class OptionButtons : MonoBehaviour
     [SerializeField] private Button eventFontDown = null;
 
     [SerializeField] private TextMeshProUGUI currEventFontSize = null;
+
     [Header("Skipped events")]
     [SerializeField] private Button toggleSkippedMenu = null;
+
     [SerializeField] private GameObject skippedMenu = null;
+
     // Start is called before the first frame update
+    [Header("Toggle extra menus")]
+    [SerializeField] private GameObject fetishesMenu = null, gameUIMenu = null, dormTitlesMenu = null;
+
+    [SerializeField] private Button fetishBtn = null, gameUIBtn = null, dormTitlesBtn = null;
+
     private void Start()
     {
+        // Got rid of null checks as I probably want it to break if something is missing.
         // PixelButton
         pixelToggle = UgreTools.GetPlayerPrefBool("pixelToggle");
-        if (pixelCameraButton != null && pixelPerfectCamera != null)
-        {
-            pixelCameraButton.onClick.AddListener(TogglePixelCamera);
-            pixelText = pixelText != null ? pixelText : pixelCameraButton.GetComponentInChildren<TextMeshProUGUI>();
-            SetPixelText();
-        }
-        if (impButton != null)
-        {
-            impButton.onClick.AddListener(ToggleImp);
-            impText = impText != null ? impText : impButton.GetComponentInChildren<TextMeshProUGUI>();
-            SetImpText();
-        }
-        if (inchBtn != null)
-        {
-            inchBtn.onClick.AddListener(ToggleInch);
-            inchText = inchText != null ? inchText : inchBtn.GetComponentInChildren<TextMeshProUGUI>();
-            SetInchText();
-        }
-        if (poundBtn != null)
-        {
-            poundBtn.onClick.AddListener(TooglePound);
-            poundText = poundText != null ? poundText : poundBtn.GetComponentInChildren<TextMeshProUGUI>();
-            SetPoundText();
-        }
-        if (gallonBtn != null)
-        {
-            gallonBtn.onClick.AddListener(ToogleGallon);
-            gallonText = gallonText != null ? gallonText : gallonBtn.GetComponentInChildren<TextMeshProUGUI>();
-            SetGallonText();
-        }
-        if (currEventFontSize != null) { currEventFontSize.text = Settings.EventLogFontSize.ToString(); }
-        if (eventFontUp != null && eventFontDown != null)
-        {
-            eventFontUp.onClick.AddListener(EventFontSizeUp);
-            eventFontDown.onClick.AddListener(EventFontSizeDown);
-        }
-        setGenders.onClick.AddListener(OpenSetGenders);
-        if (toggleSkippedMenu != null && skippedMenu != null)
-        {
-            toggleSkippedMenu.onClick.AddListener(() => skippedMenu.SetActive(!skippedMenu.activeSelf));
-        }
+
+        // Set toggle buttons
+        SetToogleBtn(pixelCameraButton, TogglePixelCamera, ref pixelText, SetPixelText);
+        SetToogleBtn(impButton, ToggleImp, ref impText, SetImpText);
+        SetToogleBtn(inchBtn, ToggleInch, ref inchText, SetInchText);
+        SetToogleBtn(poundBtn, TooglePound, ref poundText, SetPoundText);
+        SetToogleBtn(gallonBtn, ToogleGallon, ref gallonText, SetGallonText);
+
+        currEventFontSize.text = Settings.EventLogFont.Size.ToString();
+
+        eventFontUp.onClick.AddListener(EventFontSizeUp);
+        eventFontDown.onClick.AddListener(EventFontSizeDown);
+
+        setGenders.onClick.AddListener(OpenCloseSetGenders);
+
+        toggleSkippedMenu.onClick.AddListener(() => ToggleSubMenu(skippedMenu));
+
+        fetishBtn.onClick.AddListener(() => ToggleSubMenu(fetishesMenu));
+
+        gameUIBtn.onClick.AddListener(() => ToggleSubMenu(gameUIMenu));
+
+        dormTitlesBtn.onClick.AddListener(() => ToggleSubMenu(dormTitlesMenu));
     }
-    private void OnEnable()
+
+    private void SetToogleBtn(Button btn, UnityAction func, ref TextMeshProUGUI btnText, UnityAction setTextFunc)
     {
-        skippedMenu.SetActive(false);
-        setGendersGameObj.SetActive(false);
+        btn.onClick.AddListener(func);
+        btnText = btnText != null ? btnText : btn.GetComponentInChildren<TextMeshProUGUI>();
+        setTextFunc?.Invoke();
     }
+
+    private void OnEnable() => subOptionsContainer.SleepChildren();
+
     private void SetPixelText() => pixelText.text = $"Pixelperfect: {pixelToggle}";
 
-    private void SetImpText() => impText.text = $"Imperial: {Settings.Imperial}";
+    private void SetImpText() => impText.text = $"Imperial: {Measurements.Imperial}";
 
-    private void SetInchText() => inchText.text = Settings.Inch ? "Inch" : "Metric";
+    private void SetInchText() => inchText.text = Measurements.Inch.Imperial ? "Inch" : "Metric";
 
-    private void SetPoundText() => poundText.text = Settings.Pound ? "Pound" : "Kg";
+    private void SetPoundText() => poundText.text = Measurements.Pound.Imperial ? "Pound" : "Kg";
 
-    private void SetGallonText() => gallonText.text = Settings.Gallon ? "Gallon" : "Liter";
+    private void SetGallonText() => gallonText.text = Measurements.Gallon.Imperial ? "Gallon" : "Liter";
 
     private void TogglePixelCamera()
     {
@@ -108,8 +106,8 @@ public class OptionButtons : MonoBehaviour
 
     private void ToggleImp()
     {
-        Settings.ToogleImperial();
-        UgreTools.SetPlayerPrefBool("Imperial", Settings.Imperial);
+        Measurements.ToogleImperial();
+        UgreTools.SetPlayerPrefBool("Imperial", Measurements.Imperial);
         SetImpText();
         SetInchText();
         SetPoundText();
@@ -118,37 +116,42 @@ public class OptionButtons : MonoBehaviour
 
     private void ToggleInch()
     {
-        Settings.ToogleInch();
-        UgreTools.SetPlayerPrefBool("Inch", Settings.Inch);
+        UgreTools.SetPlayerPrefBool("Inch", Measurements.Inch.Toggle);
         SetInchText();
         SetImpText();
     }
 
     private void TooglePound()
     {
-        Settings.TooglePound();
-        UgreTools.SetPlayerPrefBool("Pound", Settings.Pound);
+        UgreTools.SetPlayerPrefBool("Pound", Measurements.Pound.Toggle);
         SetPoundText();
         SetImpText();
     }
 
     private void ToogleGallon()
     {
-        Settings.ToogleGallon();
-        UgreTools.SetPlayerPrefBool("Gallon", Settings.Gallon);
+        UgreTools.SetPlayerPrefBool("Gallon", Measurements.Gallon.Toggle);
         SetGallonText();
         SetImpText();
     }
 
     #endregion Toggle Units
 
-    private void EventFontSizeUp() => currEventFontSize.text = Settings.EventLogFontSizeUp.ToString();
+    private void EventFontSizeUp() => currEventFontSize.text = Settings.EventLogFont.Up.ToString();
 
-    private void EventFontSizeDown() => currEventFontSize.text = Settings.EventLogFontSizeDown.ToString();
+    private void EventFontSizeDown() => currEventFontSize.text = Settings.EventLogFont.Down.ToString();
 
-    private void OpenSetGenders()
+    private void OpenCloseSetGenders()
     {
-        setGendersGameObj.SetActive(true);
-        GameManager.KeyBindsActive = false;
+        ToggleSubMenu(setGendersGameObj);
+        GameManager.KeyBindsActive = !setGendersGameObj.activeSelf;
+    }
+
+    private void ToggleSubMenu(GameObject toToggle)
+    {
+        if (toToggle.activeSelf)
+            toToggle.SetActive(false);
+        else
+            subOptionsContainer.SleepChildren(toToggle.transform);
     }
 }

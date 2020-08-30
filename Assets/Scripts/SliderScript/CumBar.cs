@@ -1,9 +1,6 @@
 ﻿public class CumBar : FluidSliders
 {
-    private void OnEnable()
-    {
-        Setup();
-    }
+    private void OnEnable() => Setup();
 
     public override void Setup()
     {
@@ -14,17 +11,14 @@
         }
     }
 
-    private void OnDisable()
-    {
-        SexualFluid.FluidSlider -= CumChange;
-    }
+    private void OnDisable() => SexualFluid.FluidSlider -= CumChange;
 
     private void CumChange()
     {
-        slider.value = Player.SexualOrgans.CumSlider;
+        slider.value = Player.SexualOrgans.Balls.FluidSlider;
         if (statusText != null)
         {
-            statusText.text = Settings.LorGal(Player.SexualOrgans.Balls.FluidCurrentTotal() / 1000);
+            statusText.text = Player.SexualOrgans.Balls.FluidStatus;
         }
     }
 }

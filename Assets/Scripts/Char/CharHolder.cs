@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[System.Serializable]
 public abstract class CharHolder : MonoBehaviour
 {
     protected virtual void GenderChange()
@@ -15,7 +14,7 @@ public abstract class CharHolder : MonoBehaviour
     {
         // Do this in a central timemanger instead of indvidualy so that sleeping speeds up digesion & pregnancy etc.
         //   BasicChar.RefreshOrgans();
-        BasicChar.OverTimeTick(times);
+        BasicChar.DoEveryMin(times);
     }
 
     public virtual void DoEveryHour()
@@ -24,8 +23,7 @@ public abstract class CharHolder : MonoBehaviour
 
     public virtual void DoEveryDay()
     {
-        BasicChar.GrowFetuses();
-        BasicChar.PregnancySystem.GrowChild();
+        BasicChar.DoEveryDay();
     }
 
     public virtual void BeforeDestroy()
@@ -40,7 +38,7 @@ public abstract class CharHolder : MonoBehaviour
     {
         DateSystem.NewMinuteEvent += DoEveryMin;
         DateSystem.NewDayEvent += DoEveryDay;
-        SexualOrgan.SomethingChanged += GenderChange;
+        BasicChar.SexualOrgans.AllOrgans.ForEach(so => so.Change += GenderChange);
         SpriteHandler.Setup(BasicChar);
         BasicChar.DestroyHolderEvent += SelfDestroy;
     }
@@ -50,13 +48,15 @@ public abstract class CharHolder : MonoBehaviour
         Unbind();
         BeforeDestroy();
         BasicChar.DestroyHolderEvent -= SelfDestroy;
+        HolderIsDestroyed?.Invoke();
+        HolderIsDestroyed = null;
     }
 
     protected virtual void Unbind()
     {
         DateSystem.NewMinuteEvent -= DoEveryMin;
         DateSystem.NewDayEvent -= DoEveryDay;
-        SexualOrgan.SomethingChanged -= GenderChange;
+        BasicChar.SexualOrgans.AllOrgans.ForEach(so => so.Change -= GenderChange);
     }
 
     public virtual void Load(BasicChar basicChar)
@@ -88,4 +88,8 @@ public abstract class CharHolder : MonoBehaviour
     }
 
     public abstract BasicChar BasicChar { get; protected set; }
+
+    public delegate void IsDestroyed();
+
+    public event IsDestroyed HolderIsDestroyed;
 }

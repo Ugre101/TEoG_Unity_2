@@ -2,43 +2,39 @@
 
 public class SmartTree : MonoBehaviour
 {
-    [SerializeField] private PlayerHolder player = null;
+    private PlayerSprite Player => PlayerSprite.Instance;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite stump = null, tree = null;
     [SerializeField] private CapsuleCollider2D capsule = null;
     private Vector2 normalSize = new Vector2(), smallerSize = new Vector2(0.1f, 0.1f);
     private bool chopped = false;
 
-    private bool started = false;
     private int hp = 100;
+    private DateSave timeChoppedDown;
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
         spriteRenderer = spriteRenderer != null ? spriteRenderer : GetComponent<SpriteRenderer>();
         capsule = capsule != null ? capsule : GetComponent<CapsuleCollider2D>();
-        player = player != null ? player : PlayerHolder.GetPlayerHolder;
-        if (stump == null || tree == null)
-        {
-            Debug.LogError("A tree is missing sprites and was DESTROYED");
-            Destroy(gameObject);
-        }
+
         normalSize = capsule.size;
-        started = true;
+        SetSprite();
     }
 
     private void OnEnable()
     {
-        if (started)
+        DateSystem.NewDayEvent += RemoveTreeStumpAfterTwoDays;
+        RemoveTreeStumpAfterTwoDays();
+    }
+
+    private void OnDisable() => DateSystem.NewDayEvent -= RemoveTreeStumpAfterTwoDays;
+
+    private void RemoveTreeStumpAfterTwoDays()
+    {
+        if (chopped && timeChoppedDown.CompareDateDays() > 2)
         {
-            SetSprite();
-        }
-        if (chopped && timeChoppedDown.HasValue)
-        {
-            if (timeChoppedDown.Value.CompareDateDays() > 2)
-            {
-                Destroy(gameObject);
-            }
+            SmartTreeObjectPool.Instance.ReturnTree(this);
         }
     }
 
@@ -46,7 +42,7 @@ public class SmartTree : MonoBehaviour
     {
         if (KeyBindings.ActionKey.KeyDown)
         {
-            Action();
+            Action(Player);
         }
     }
 
@@ -56,21 +52,34 @@ public class SmartTree : MonoBehaviour
         capsule.size = chopped ? smallerSize : normalSize;
     }
 
-    private DateSave? timeChoppedDown;
+    private void OnMouseDown() => Action(Player);
 
-    private void OnMouseDown() => Action();
-
-    private void Action()
+    public void Action(CharHolder npc, int dmg = 25)
     {
-        if (Vector2.Distance(player.transform.position, transform.position) < 5f)
+        if (Vector2.Distance(npc.transform.position, transform.position) < 5f)
         {
-            hp -= 25;
+            hp -= dmg;
             if (hp <= 0)
             {
                 chopped = true;
                 timeChoppedDown = DateSystem.Save;
                 SetSprite();
-                player.BasicChar.Inventory.AddItem(ItemIds.Wood);
+                npc.BasicChar.Inventory.AddItem(ItemIds.Wood);
+            }
+        }
+    }
+
+    public void Action(PlayerSprite player, int dmg = 25)
+    {
+        if (Vector2.Distance(player.transform.position, transform.position) < 5f)
+        {
+            hp -= dmg;
+            if (hp <= 0)
+            {
+                chopped = true;
+                timeChoppedDown = DateSystem.Save;
+                SetSprite();
+                PlayerMain.Player.Inventory.AddItem(ItemIds.Wood);
             }
         }
     }

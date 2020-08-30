@@ -4,16 +4,16 @@ namespace EssenceMenuStuff
 {
     public abstract class EssenceOrganButtons : MonoBehaviour
     {
-        [SerializeField] protected PlayerMain player => PlayerHolder.Player;
+        protected BasicChar Player => PlayerMain.Player;
 
         // Start is called before the first frame update
         protected virtual void OnEnable()
         {
             UpdateButtons();
-            SexualOrgan.SomethingChanged += UpdateButtons;
+            Player.SexualOrgans.AllOrgans.ForEach(o => o.Change += UpdateButtons);
         }
 
-        protected virtual void OnDisable() => SexualOrgan.SomethingChanged -= UpdateButtons;
+        protected virtual void OnDisable() => Player.SexualOrgans.AllOrgans.ForEach(o => o.Change -= UpdateButtons);
 
         protected abstract void UpdateButtons();
     }

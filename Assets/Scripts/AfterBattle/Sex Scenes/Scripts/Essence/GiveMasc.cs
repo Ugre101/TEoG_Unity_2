@@ -8,14 +8,14 @@ public class GiveMasc : EssScene
         return basicChar.GiveEssence() > 0;
     }
 
-    public override string StartScene(PlayerMain player, BasicChar other)
+    public override string StartScene(BasicChar player, BasicChar other)
     {
         DrainChangeHandler drainChange = new DrainChangeHandler(player, other);
         player.GiveMasc(other);
         return "Give masc" + drainChange.BothChanges;
     }
 
-    public override string ContinueScene(PlayerMain player, BasicChar other)
+    public override string ContinueScene(BasicChar player, BasicChar other)
     {
         return StartScene(player, other);
     }

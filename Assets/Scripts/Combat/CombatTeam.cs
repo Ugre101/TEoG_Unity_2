@@ -1,34 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class CombatTeam : MonoBehaviour
 {
-    [SerializeField] private CanvasMain gameUI = null;
     private List<BasicChar> Team = new List<BasicChar>();
     [SerializeField] private GameObject TeamContainer = null;
     [SerializeField] private CombatStatus CombatStatusPrefab = null;
     [SerializeField] private CombatMain combatMain = null;
+
     private List<CombatStatus> combatStatuses = new List<CombatStatus>();
+    private readonly Queue<CombatStatus> combatStatusesPool = new Queue<CombatStatus>();
+
+    private CombatStatus GetCombatStatus
+    {
+        get
+        {
+            if (combatStatusesPool.Count > 0)
+            {
+                CombatStatus combatStatus = combatStatusesPool.Dequeue();
+                combatStatus.gameObject.SetActive(true);
+                return combatStatus;
+            }
+            else
+            {
+                return Instantiate(CombatStatusPrefab, TeamContainer.transform);
+            }
+        }
+    }
 
     // if nobody is alive return true else false
     public bool TeamDead => !combatStatuses.Exists(s => s.Dead == false);
 
-    public IEnumerator StartFight(List<BasicChar> EnemyTeam)
+    public void StartFight(List<BasicChar> EnemyTeam)
     {
-        TeamContainer.transform.KillChildren();
         Team = EnemyTeam;
-        // Wait one frame so all children are properly dead...
-        yield return null;
         if (Team.Count < 1) // if team is less than 1 an error must have occured
-        {
-            gameUI.Resume();
-        }
+            GameManager.ReturnToLastState();
         else
         {
             foreach (BasicChar combatant in Team)
             {
-                Instantiate(CombatStatusPrefab, TeamContainer.transform).Setup(combatant, this, combatMain);
+                GetCombatStatus.Setup(combatant, this, combatMain);
             }
             combatStatuses = new List<CombatStatus>(TeamContainer.GetComponentsInChildren<CombatStatus>());
         }
@@ -48,5 +60,12 @@ public class CombatTeam : MonoBehaviour
         {
             cs.DeSelect();
         }
+    }
+
+    private void OnDisable()
+    {
+        combatStatuses.ForEach(cs => combatStatusesPool.Enqueue(cs));
+        TeamContainer.transform.SleepChildren();
+        combatStatuses.Clear();
     }
 }

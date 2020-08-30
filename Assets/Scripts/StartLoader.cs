@@ -12,12 +12,13 @@ namespace StartMenuStuff
         [SerializeField] private GameObject canvas = null;
 
         [SerializeField] private LoadingScreen loadingScreen = null;
+        [SerializeField] private StartLoadProgress loadProgress = null;
 
-        private void Start()
+        private void Start() => DontDestroyOnLoad(gameObject);
+        public void StartNewGame()
         {
-            DontDestroyOnLoad(gameObject);
+            StartCoroutine(StartGame());
         }
-
         public void StartLoading(FileInfo parFile)
         {
             file = parFile;
@@ -34,7 +35,7 @@ namespace StartMenuStuff
             string json = File.ReadAllText(path);
             while (!asyncLoad.isDone)
             {
-                loadingScreen.progresBar.text = $"Loading progess: {asyncLoad.progress * 100}%";
+                loadProgress.SetProgress(asyncLoad.progress);
                 yield return null;
             }
             // wait so everything is loaded
@@ -43,8 +44,24 @@ namespace StartMenuStuff
             Save save = saveMananger.NewSave;
             save.LoadData(json);
             Debug.Log(json);
-            CanvasMain.GetCanvasMain.Resume();
+            GameManager.SetCurState(GameState.Free);
             Destroy(gameObject);
         }
+
+        private IEnumerator StartGame()
+        {
+            loadingScreen.StartLoad();
+
+            AsyncOperation async = SceneManager.LoadSceneAsync("MainGame");
+            while (!async.isDone)
+            {
+                loadProgress.SetProgress(async.progress);
+
+                yield return null;
+            }
+            StartCoroutine(UgreTools.WaitAFrame());
+            GameManager.SetCurState(GameState.Intro);
+        }
+
     }
 }

@@ -9,17 +9,17 @@ public class SetGenderNames : MonoBehaviour
 
     private void SetField(TMP_InputField field, string val) => field.placeholder.GetComponent<TextMeshProUGUI>().text = val;
 
-    private void MaleBind(string call) => Settings.Male = call;
+    private void MaleBind(string call) => Settings.GenderNames.Male = call;
 
-    private void FemaleBind(string call) => Settings.Female = call;
+    private void FemaleBind(string call) => Settings.GenderNames.Female = call;
 
-    private void DickgirlBind(string call) => Settings.Dickgirl = call;
+    private void DickgirlBind(string call) => Settings.GenderNames.Dickgirl = call;
 
-    private void CuntBoyBind(string call) => Settings.Cuntboy = call;
+    private void CuntBoyBind(string call) => Settings.GenderNames.Cuntboy = call;
 
-    private void HermBind(string call) => Settings.Herm = call;
+    private void HermBind(string call) => Settings.GenderNames.Herm = call;
 
-    private void DollBind(string call) => Settings.Doll = call;
+    private void DollBind(string call) => Settings.GenderNames.Doll = call;
 
     private void Close() => gameObject.SetActive(false);
 
@@ -37,12 +37,12 @@ public class SetGenderNames : MonoBehaviour
 
     private void OnEnable()
     {
-        SetField(male, Settings.Male);
-        SetField(female, Settings.Female);
-        SetField(dickGirl, Settings.Dickgirl);
-        SetField(cuntBoy, Settings.Cuntboy);
-        SetField(herm, Settings.Herm);
-        SetField(doll, Settings.Doll);
+        SetField(male, Settings.GenderNames.Male);
+        SetField(female, Settings.GenderNames.Female);
+        SetField(dickGirl, Settings.GenderNames.Dickgirl);
+        SetField(cuntBoy, Settings.GenderNames.Cuntboy);
+        SetField(herm, Settings.GenderNames.Herm);
+        SetField(doll, Settings.GenderNames.Doll);
     }
 
     private void OnDisable()

@@ -71,7 +71,7 @@ public static class SexStatsExtensions
     public static int MaxOrgasm(this BasicChar basicChar)
     {
         int baseOrg = 1;
-        baseOrg += Mathf.FloorToInt(basicChar.Stats.End / 20);
+        baseOrg += Mathf.FloorToInt(basicChar.Stats.End / 15);
         // TODO perks and stuff
         return baseOrg;
     }

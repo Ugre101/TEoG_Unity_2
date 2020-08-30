@@ -54,9 +54,9 @@ namespace Vore
             LoadPreys(Balls, parSaves.Balls, vore.Balls.Preys);
         }
 
-        [SerializeField] private List<BasicChar> preyPrefabs = new List<BasicChar>();
+        // [SerializeField] private List<BasicChar> preyPrefabs = new List<BasicChar>();
 
-        [SerializeField] private BasicChar defaultPrefab = null;
+        //     [SerializeField] private BasicChar defaultPrefab = null;
 
         private void LoadPreys(VoreContainer container, List<VoreSave> saves, List<ThePrey> preys)
         {

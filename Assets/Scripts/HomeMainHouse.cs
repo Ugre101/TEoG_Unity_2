@@ -2,13 +2,7 @@
 
 public class HomeMainHouse : MonoBehaviour
 {
-    [SerializeField] private PlayerMain player = null;
-    private int Level => StartHomeStats.MainHouse.Level;
-
-    public void Start()
-    {
-        player = player != null ? player : PlayerHolder.Player;
-    }
+    private int Level => DormUpgrades.MainHouse.Level;
 
     public void Sleep()
     {

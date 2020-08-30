@@ -6,10 +6,6 @@ public class TimeManger : MonoBehaviour
     private void Start()
     {
         StartCoroutine(DateSystem.TickMinute());
-    }
-
-    private void Update()
-    {
-        
+        PlayerMain.Bind();
     }
 }

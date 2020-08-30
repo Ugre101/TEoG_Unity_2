@@ -5,8 +5,7 @@ using UnityEngine;
 public class SaveMananger : MonoBehaviour
 {
     public static SaveMananger Instance { get; private set; }
-    [SerializeField] private PlayerHolder playerHolder = null;
-    [SerializeField] private PlayerMain player = null;
+    private BasicChar Player => PlayerMain.Player;
 
     private DirectoryInfo SaveFolder;
 
@@ -26,9 +25,15 @@ public class SaveMananger : MonoBehaviour
 
     private void Start()
     {
-        player = player != null ? player : PlayerHolder.Player;
         SaveFolder = Directory.Exists(SaveSettings.SaveFolder) ? new DirectoryInfo(SaveSettings.SaveFolder) : Directory.CreateDirectory(SaveSettings.SaveFolder);
         Settings.Load();
+        Measurements.Load();
+    }
+
+    private void OnApplicationQuit()
+    {
+        Settings.Save();
+        Measurements.Save();
     }
 
     private void Update()
@@ -37,7 +42,7 @@ public class SaveMananger : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.F5))
             {
-                NewSaveGame();
+                QuickSave();
             }
             else if (Input.GetKeyDown(KeyCode.F9))
             {
@@ -46,9 +51,15 @@ public class SaveMananger : MonoBehaviour
         }
     }
 
+    private void QuickSave()
+    {
+        NewSaveGame();
+        PopupHandler.GetPopupHandler.SpawnTimedPopup("Saved", 1f);
+    }
+
     public void NewSaveGame()
     {
-        SaveName saveName = new SaveName(player, DateTime.Now);
+        SaveName saveName = new SaveName(Player, DateTime.Now);
         newSavePath = SaveFolder.FullName + saveName.CleanSave + ".json";
         File.WriteAllText(newSavePath, NewSave.SaveData());
         SavedEvent?.Invoke();
@@ -64,6 +75,7 @@ public class SaveMananger : MonoBehaviour
         }
         else
         {
+            PopupHandler.GetPopupHandler.SpawnTimedPopup("Failed to save, try again or quit without saving.");
         }
     }
 
@@ -76,7 +88,7 @@ public class SaveMananger : MonoBehaviour
         }
     }
 
-    public Save NewSave => new Save(player, playerHolder);
+    public Save NewSave => new Save();
 
     public delegate void SavedGame();
 
@@ -85,7 +97,7 @@ public class SaveMananger : MonoBehaviour
 
 public class SaveName
 {
-    public SaveName(PlayerMain player, DateTime parDate)
+    public SaveName(BasicChar player, DateTime parDate)
     {
         Name = player.Identity.FullName;
         Lvl = player.ExpSystem.Level.ToString();

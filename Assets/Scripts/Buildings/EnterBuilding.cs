@@ -1,23 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class EnterBuilding : MonoBehaviour
 {
-    [SerializeField] private CanvasMain gameUI = null;
-
     [SerializeField] private Building building = null;
 
     public GameObject BuildingToEnter => building.gameObject;
 
-    private void Start() => gameUI = gameUI != null ? gameUI : CanvasMain.GetCanvasMain;
-
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag(PlayerHolder.GetTag))
+        if (collider.CompareTag(PlayerSprite.Instance.gameObject.tag))
         {
             if (building != null)
             {
-                gameUI.EnterBuilding(BuildingToEnter);
+                Enter?.Invoke(building);
+                // gameUI.EnterBuilding(BuildingToEnter);
             }
         }
     }
+
+    public static Action<Building> Enter;
 }

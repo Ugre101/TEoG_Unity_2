@@ -12,6 +12,8 @@ public static class ImgPackHandler
     private static DirectoryInfo dictInfo;
     private static readonly List<DictPair> subDictsInfos = new List<DictPair>();
     private static readonly List<SceneFolder> sceneFolders = new List<SceneFolder>();
+    private static readonly List<GenderFolder> genderFolders = new List<GenderFolder>();
+    private static readonly List<RaceFolder> raceFolders = new List<RaceFolder>();
     private static readonly List<string> acceptedEndSuffix = new List<string>() { ".jpg", ".png" };
     public static List<SceneInfo> FileInfos { get; private set; } = new List<SceneInfo>();
 
@@ -21,48 +23,61 @@ public static class ImgPackHandler
         path = Application.dataPath + "/ImgPack";
         dictInfo = !Directory.Exists(path) ? Directory.CreateDirectory(path) : new DirectoryInfo(path);
         // taken from stackoverflow
-        Type[] listOfBs = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
-                           from assemblyType in domainAssembly.GetTypes()
-                           where typeof(SexScenes).IsAssignableFrom(assemblyType)
-                           select assemblyType).ToArray();
+        Type[] listOfScenes = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                               from assemblyType in domainAssembly.GetTypes()
+                               where typeof(SexScenes).IsAssignableFrom(assemblyType)
+                               select assemblyType).ToArray();
 
-        foreach (Type t in listOfBs.Where(t => t.IsAbstract).Select(t => t))
+        foreach (Type abstractBaseClass in listOfScenes.Where(t => t.IsAbstract).Select(t => t))
         {
-            string subPath = path + "/" + t.FullName;
-            subDictsInfos.Add(new DictPair(Directory.Exists(subPath) ? new DirectoryInfo(subPath) : dictInfo.CreateSubdirectory(subPath), t));
+            string subPath = path + "/" + abstractBaseClass.FullName;
+            subDictsInfos.Add(new DictPair(Directory.Exists(subPath) ? new DirectoryInfo(subPath) : dictInfo.CreateSubdirectory(subPath), abstractBaseClass));
         }
-        GetRaceFolders();
-        GetSceneFolders(listOfBs);
-        GetImages();
-    }
 
-    private static void GetRaceFolders()
-    {
-        List<Races> racesList = Enum.GetValues(typeof(Races)).OfType<Races>().ToList();
-        subDictsInfos.ForEach(sd =>
-        {
-            racesList.ForEach(r =>
-            {
-                string racePath = sd.DirectoryInfo.FullName + "/" + r.ToString();
-                sd.RaceFolders.Add(new RaceFolder(Directory.Exists(racePath) ? new DirectoryInfo(racePath) : sd.DirectoryInfo.CreateSubdirectory(racePath), r));
-            });
-            string defaultPath = sd.DirectoryInfo.FullName + "/Default";
-            sd.RaceFolders.Add(new RaceFolder(Directory.Exists(defaultPath) ? new DirectoryInfo(defaultPath) : sd.DirectoryInfo.CreateSubdirectory(defaultPath), null));
-        });
+        GetSceneFolders(listOfScenes);
+        GetGenderFolders();
+        GetRaceFolders();
+        GetImages();
     }
 
     private static void GetSceneFolders(Type[] listOfBs)
     {
-        foreach (Type t in listOfBs.Where(t => !t.IsAbstract).Select(t => t))
+        foreach (DictPair subInfo in subDictsInfos)
         {
-            DictPair subDict = subDictsInfos.Find(sd => sd.Type == t.BaseType);
-            if (subDict != null)
+            foreach (Type t in listOfBs.Where(t => !t.IsAbstract).Select(t => t))
             {
-                subDict.RaceFolders.ForEach(rf =>
+                DictPair subDict = subDictsInfos.Find(sd => sd.Type == t.BaseType);
+                if (subDict != null)
                 {
-                    string subPath = rf.Dir.FullName + "/" + t.FullName;
-                    sceneFolders.Add(new SceneFolder(Directory.Exists(subPath) ? new DirectoryInfo(subPath) : rf.Dir.CreateSubdirectory(subPath), rf.Race ?? null, t));
-                });
+                    string scenePath = subDict.DirectoryInfo.FullName + "/" + t.FullName; // rf.Dir.FullName + "/" + t.FullName;
+                    sceneFolders.Add(new SceneFolder(Directory.Exists(scenePath) ? new DirectoryInfo(scenePath) : subDict.DirectoryInfo.CreateSubdirectory(scenePath), t));
+                }
+            }
+        }
+    }
+
+    private static void GetGenderFolders()
+    {
+        List<Genders> genders = UgreTools.EnumToList<Genders>();
+        foreach (SceneFolder sI in sceneFolders)
+        {
+            foreach (Genders g in genders)
+            {
+                string genderPath = sI.Dir.FullName + "/" + g.ToString();
+                genderFolders.Add(new GenderFolder(Directory.Exists(genderPath) ? new DirectoryInfo(genderPath) : sI.Dir.CreateSubdirectory(genderPath), sI.Type, g));
+            }
+        }
+    }
+
+    private static void GetRaceFolders()
+    {
+        List<Races> racesList = UgreTools.EnumToList<Races>();
+        foreach (GenderFolder folder in genderFolders)
+        {
+            foreach (Races race in racesList)
+            {
+                string racePath = folder.Dir.FullName + "/" + race.ToString();
+                raceFolders.Add(new RaceFolder(Directory.Exists(racePath) ? new DirectoryInfo(racePath) : folder.Dir.CreateSubdirectory(racePath), folder.Type, folder.Gender, race));
             }
         }
     }
@@ -73,7 +88,7 @@ public static class ImgPackHandler
         {
             acceptedEndSuffix.ForEach(aes =>
             {
-                sd.Dir.GetFiles("*" + aes).ToList().ForEach(fi => FileInfos.Add(new SceneInfo(fi, sd.Race, sd.Type)));
+                sd.Dir.GetFiles("*" + aes).ToList().ForEach(fi => FileInfos.Add(new SceneInfo(fi, null, sd.Type)));
             });
         });
     }
@@ -110,16 +125,20 @@ public class DictPair
     }
 }
 
-public class RaceFolder
+public struct RaceFolder
 {
-    public DirectoryInfo Dir { get; private set; }
-    public Races? Race { get; private set; }
-
-    public RaceFolder(DirectoryInfo dir, Races? race)
+    public RaceFolder(DirectoryInfo dir, Type type, Genders gender, Races race)
     {
-        this.Dir = dir;
-        this.Race = race;
+        Dir = dir;
+        Type = type;
+        Gender = gender;
+        Race = race;
     }
+
+    public DirectoryInfo Dir { get; }
+    public Type Type { get; }
+    public Genders Gender { get; }
+    public Races Race { get; }
 }
 
 public class ImagePair
@@ -134,16 +153,28 @@ public class ImagePair
     }
 }
 
+public struct GenderFolder
+{
+    public GenderFolder(DirectoryInfo dir, Type type, Genders gender)
+    {
+        Dir = dir;
+        Type = type;
+        Gender = gender;
+    }
+
+    public DirectoryInfo Dir { get; }
+    public Type Type { get; }
+    public Genders Gender { get; }
+}
+
 public class SceneFolder
 {
     public DirectoryInfo Dir { get; private set; }
-    public Races? Race { get; private set; }
     public Type Type { get; private set; }
 
-    public SceneFolder(DirectoryInfo dir, Races? race, Type type)
+    public SceneFolder(DirectoryInfo dir, Type type)
     {
         this.Dir = dir;
-        this.Race = race;
         this.Type = type;
     }
 }

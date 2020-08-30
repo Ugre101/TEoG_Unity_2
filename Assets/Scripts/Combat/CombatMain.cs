@@ -9,21 +9,13 @@ public class CombatMain : MonoBehaviour
     /// <summary>Can only be used by children of this as it isn't defined before first enable</summary>
     public static CombatMain GetCombatMain { get; private set; }
 
-    private PlayerMain player;
-
-    private PlayerMain Player => player = player != null ? player : PlayerHolder.Player;
-
     [SerializeField] private TextMeshProUGUI _textbox = null;
 
     [SerializeField] private GameObject skillButtonsContainer = null;
 
-    private List<CombatButton> skillButtons = new List<CombatButton>();
-
     [SerializeField] private SkillBook skillBook = null;
 
-    [SerializeField] private CombatTeam playerTeam = null;
-
-    [SerializeField] private CombatTeam enemyTeam = null;
+    [SerializeField] private CombatTeam playerTeam = null, enemyTeam = null;
 
     [Header("Win")]
     [SerializeField] private AfterBattleMain afterBattle = null;
@@ -31,6 +23,8 @@ public class CombatMain : MonoBehaviour
     [Header("Lose")]
     [SerializeField] private LoseMain loseBattle = null;
 
+    private BasicChar Player => PlayerMain.Player;
+    private List<CombatButton> skillButtons = new List<CombatButton>();
     private string PlayerTeamAttacks { get => CombatHandler.PlayerTeamAttacks; set => CombatHandler.PlayerTeamAttacks = value; }
     private string EnemyTeamAttacks { get => CombatHandler.EnemyTeamAttacks; set => CombatHandler.SetEnemyTeamAttacks(value); }
     private int Turn { get => CombatHandler.Turn; set => CombatHandler.Turn = value; }
@@ -38,13 +32,9 @@ public class CombatMain : MonoBehaviour
     private void Awake()
     {
         if (GetCombatMain == null)
-        {
             GetCombatMain = this;
-        }
         else if (GetCombatMain != this)
-        {
             Destroy(gameObject);
-        }
     }
 
     private void Start()
@@ -66,12 +56,14 @@ public class CombatMain : MonoBehaviour
     private void ResetSkills(List<BasicChar> basicChars) =>
         basicChars.ForEach(bc => skillBook.Dict.OwnedSkills(bc.Skills).ForEach(us => us.ResetCoolDown()));
 
+    public void SetUpCombat(BasicChar enemy) => SetUpCombat(new List<BasicChar>() { enemy });
+
     public void SetUpCombat(List<BasicChar> enemies)
     {
         gameObject.SetActive(true);
         CombatHandler.SetUpCombat(enemies);
-        _ = enemyTeam.StartCoroutine(enemyTeam.StartFight(enemies));
-        _ = playerTeam.StartCoroutine(playerTeam.StartFight(CombatHandler.PlayerTeamChars));
+        enemyTeam.StartFight(enemies);
+        playerTeam.StartFight(CombatHandler.PlayerTeamChars);
         ResetSkills(CombatHandler.PlayerTeamChars);
         ResetSkills(CombatHandler.EnemyTeamChars);
     }
@@ -84,11 +76,11 @@ public class CombatMain : MonoBehaviour
         // TODO check highest avg dmg amoung owned skills in future
         if (charm < str)
         {
-            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicAttack).skill.Action(Enemy, player);
+            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicAttack).skill.Action(Enemy, Player);
         }
         else
         {
-            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicTease).skill.Action(Enemy, player);
+            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicTease).skill.Action(Enemy, Player);
         }
     }
 
@@ -135,10 +127,10 @@ public class CombatMain : MonoBehaviour
             }
             else if (etc is EnemyPrefab e)
             {
-                if (player.Perks.HasPerk(PerksTypes.Bully))
+                if (Player.Perks.HasPerk(PerksTypes.Bully))
                 {
-                    e.HP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(player.Perks));
-                    e.WP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(player.Perks));
+                    e.HP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(Player.Perks));
+                    e.WP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(Player.Perks));
                 }
                 else
                 {
@@ -157,29 +149,27 @@ public class CombatMain : MonoBehaviour
     private void PostBattleReward(EnemyPrefab b)
     {
         // Player loses obedince towards losing enemy
-        player.RelationshipTracker.GetTempRelationshipWith(b).ObedienceStat.BaseValue--;
+        Player.RelationshipTracker.GetTempRelationshipWith(b).ObedienceStat.BaseValue--;
         // Losing enemy gain obedince and loses affection towards player
-        b.RelationshipTracker.GetTempRelationshipWith(player).ObedienceStat.BaseValue++;
-        b.RelationshipTracker.GetTempRelationshipWith(player).AffectionStat.BaseValue--;
+        b.RelationshipTracker.GetTempRelationshipWith(Player).ObedienceStat.BaseValue++;
+        b.RelationshipTracker.GetTempRelationshipWith(Player).AffectionStat.BaseValue--;
+        // Exp, gold and loot
         Player.ExpSystem.GainExp(Player.ExpSystem.Exp + b.Reward.ExpReward);
         b.Reward.HandleDrops(Player);
         Player.Currency.Gold += Player.Perks.HasPerk(PerksTypes.Greedy)
             ? b.Reward.GoldReward * PerkEffects.Greedy.ExtraGold(Player.Perks)
             : b.Reward.GoldReward;
+        // Is enemy a quest?
         b.IsQuest.CheckQuest();
+        PlayerFlags.CountTimesBeatingEnemy(b);
     }
 
     public void SomeOneDead()
     {
-        Debug.Log(playerTeam.TeamDead + " : " + enemyTeam.TeamDead);
         if (playerTeam.TeamDead)
-        {
             LoseBattle();
-        }
         else if (enemyTeam.TeamDead)
-        {
             WinBattle();
-        }
     }
 
     public void SelectNewTarget(BasicChar target)
@@ -223,7 +213,7 @@ public static class CombatHandler
         {
             if (EnemyTeamChars.Count < 1)
             {
-                CanvasMain.GetCanvasMain.Resume(); // Error return to main game
+                GameManager.ReturnToLastState();  // Error return to main game
                 return null;
             }
             return EnemyTeamChars[indexCurrentEnemy];
@@ -253,7 +243,7 @@ public static class CombatHandler
 
         if (PlayerTeamChars.Count < 1)
         {
-            PlayerTeamChars.Add(PlayerHolder.GetPlayerHolder.BasicChar);
+            PlayerTeamChars.Add(PlayerMain.Player);
         }
 
         EnemyTeamChars.Clear();

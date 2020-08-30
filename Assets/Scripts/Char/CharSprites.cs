@@ -10,7 +10,6 @@ public class CharSprites : ScriptableObject
 
     [SerializeField] private List<CharSprite> charSprites = new List<CharSprite>();
     public List<CharSprite> List => charSprites;
-    private readonly System.Random rnd = new System.Random();
 
     public CharSprite BestMatch(BasicChar who)
     {
@@ -19,23 +18,15 @@ public class CharSprites : ScriptableObject
         {
             List<CharSprite> genderMatch = matches.FindAll(c => c.Gender == GenderExtensions.Gender(who));
             if (genderMatch.Count > 0)
-            {
-                return genderMatch[rnd.Next(genderMatch.Count)];
-            }
+                return genderMatch.RandomListValue();
             List<CharSprite> genderTypeMatch = matches.FindAll(c => c.GenderType == who.GenderType);
             if (genderTypeMatch.Count > 0)
-            {
-                return genderTypeMatch[rnd.Next(genderTypeMatch.Count)];
-            }
-            return matches[rnd.Next(matches.Count)];
+                return genderTypeMatch.RandomListValue();
+            return matches.RandomListValue();
         }
         else
         {
-            if (who.GenderType == GenderTypes.Feminine)
-            {
-                return defaultSpriteFemi;
-            }
-            return defaultSpriteMasc;
+            return who.GenderType == GenderTypes.Feminine ? defaultSpriteFemi : defaultSpriteMasc;
         }
     }
 }
