@@ -53,6 +53,7 @@ public struct DormSave
     public DormSave(DormMate Who) => who = JsonUtility.ToJson(Who);
 }
 
+[System.Serializable]
 public class DormMate
 {
     [SerializeField] private BasicChar basicChar;

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class CheatMenu : MonoBehaviour
 {
-    [SerializeField] private BasicChar player => PlayerMain.Player;
+    private BasicChar Player => PlayerMain.Player;
     [SerializeField] private Button closeBtn = null, goldCheat = null, femiCheat = null, mascCheat = null, expCheat = null, stableEssCheat = null, unlockAllTeleports = null;
 
     // Start is called before the first frame update
@@ -36,15 +36,15 @@ public class CheatMenu : MonoBehaviour
         }
     }
 
-    private void Gold() => player.Currency.Gold += 1000;
+    private void Gold() => Player.Currency.Gold += 1000;
 
-    private void StableEssence() => player.Essence.StableEssence.BaseValue += 1000;
+    private void StableEssence() => Player.Essence.StableEssence.BaseValue += 1000;
 
-    private void Femi() => player.Essence.Femi.Gain(1000);
+    private void Femi() => Player.Essence.Femi.Gain(1000);
 
-    private void Masc() => player.Essence.Masc.Gain(1000);
+    private void Masc() => Player.Essence.Masc.Gain(1000);
 
-    private void Exp() => player.ExpSystem.GainExp(1000);
+    private void Exp() => Player.ExpSystem.GainExp(1000);
 
     private void UnlockTeleports() => MapEvents.GetMapEvents.UnlockTeleports();
 }

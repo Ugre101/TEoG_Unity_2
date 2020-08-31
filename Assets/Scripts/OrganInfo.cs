@@ -6,7 +6,7 @@ namespace SexCharStuff
     public abstract class OrganInfo : MonoBehaviour
     {
         [SerializeField] protected TextMeshProUGUI text = null;
-        [SerializeField] protected BasicChar whom = null;
+        protected BasicChar whom = null;
         protected bool detailed = false;
         protected SexualOrgans Organs => whom.SexualOrgans;
 

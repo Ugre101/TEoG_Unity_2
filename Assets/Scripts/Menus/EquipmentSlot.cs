@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class EquipmentSlot : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private BasicChar wearer = null;
+    private BasicChar wearer = null;
     [SerializeField] private EquipSlot slot = EquipSlot.Boots;
     [SerializeField] private ItemHolder itemHolder = null;
     [SerializeField] private Image icon = null;
@@ -13,7 +13,7 @@ public class EquipmentSlot : MonoBehaviour, IPointerClickHandler
 
     private void OnEnable()
     {
-        wearer = wearer != null ? wearer : PlayerMain.Player;
+        wearer = wearer ?? PlayerMain.Player;
         btn = btn != null ? btn : GetComponent<Button>();
         wearer.EquiptItems.GetSlot(slot).GotItem += HasItem;
         HasItem();

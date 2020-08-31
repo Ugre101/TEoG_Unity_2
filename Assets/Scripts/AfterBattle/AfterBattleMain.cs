@@ -101,8 +101,9 @@ public class AfterBattleMain : MonoBehaviour
         enemies.Remove(Target);
 
         leaveBtn = leaveBtn != null ? leaveBtn : addedMiscButtons.Find(b => b.Scene.GetType() == typeof(LeaveAfterBattle));
-        if (enemies.Count < 1 && !leaveBtn.gameObject.activeSelf)
+        if (enemies.Count < 1)
         {
+            SetSexScenesInactive();
             leaveBtn.gameObject.SetActive(true);
         }
         else
@@ -220,6 +221,26 @@ public class AfterBattleMain : MonoBehaviour
         foreach (SexButton btn in addedMiscButtons)
         {
             btn.gameObject.SetActive(btn.Scene.CanDo(Player, Target));
+        }
+    }
+
+    private void SetSexScenesInactive()
+    {
+        foreach (SexButton btn in addedSexButtons)
+        {
+            btn.gameObject.SetActive(false);
+        }
+        foreach (EssSexButton btn in addedEssSexButtons)
+        {
+            btn.gameObject.SetActive(false);
+        }
+        foreach (VoreButton btn in addedVoreButtons)
+        {
+            btn.gameObject.SetActive(false);
+        }
+        foreach (SexButton btn in addedMiscButtons)
+        {
+            btn.gameObject.SetActive(false);
         }
     }
 

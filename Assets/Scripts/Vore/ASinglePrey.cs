@@ -6,7 +6,7 @@ namespace Vore
 {
     public class ASinglePrey : MonoBehaviour
     {
-        [SerializeField] private BasicChar player = null;
+        private BasicChar player = null;
         [SerializeField] private CharHolder preyHolder = null;
         [SerializeField] private TextMeshProUGUI title = null, desc = null;
         [SerializeField] private Button backBtn = null, reguBtn = null;
@@ -19,7 +19,7 @@ namespace Vore
 
         private void Start()
         {
-            player = player != null ? player : PlayerMain.Player;
+            player = player ?? PlayerMain.Player;
             backBtn.onClick.AddListener(Back);
             reguBtn.onClick.AddListener(Regurgileta);
         }

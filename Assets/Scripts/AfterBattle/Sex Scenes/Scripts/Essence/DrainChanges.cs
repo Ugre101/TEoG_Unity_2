@@ -5,8 +5,10 @@
 /// </summary>
 public class DrainChangeHandler
 {
-    private SexualOrgans playerOldOrgans, otherOldOrgans;
-    private BasicChar player, other;
+    private readonly SexualOrgans playerOldOrgans;
+    private readonly SexualOrgans otherOldOrgans;
+    private readonly BasicChar player;
+    private readonly BasicChar other;
 
     public DrainChangeHandler(BasicChar player, BasicChar other)
     {

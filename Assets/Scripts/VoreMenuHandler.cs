@@ -6,7 +6,7 @@ namespace Vore
 {
     public class VoreMenuHandler : MonoBehaviour
     {
-        [SerializeField] private BasicChar player = null;
+        private BasicChar Player => PlayerMain.Player;
 
         [SerializeField] private TextMeshProUGUI organText = null, capacityText = null;
 
@@ -26,8 +26,7 @@ namespace Vore
 
         private void Start()
         {
-            player = player ?? PlayerMain.Player;
-            VoreEngine vore = player.Vore;
+            VoreEngine vore = Player.Vore;
             sortAll.onClick.AddListener(ShowAll);
             sortStomach.onClick.AddListener(() => SortPrey(vore.Stomach));
             sortAnal.onClick.AddListener(() => SortPrey(vore.Anal));
@@ -50,9 +49,9 @@ namespace Vore
         {
             optionContainer.KillChildren();
             preyContainer.KillChildren();
-            if (player != null)
+            if (Player != null)
             {
-                VoreEngine vore = player.Vore;
+                VoreEngine vore = Player.Vore;
                 if (vore.Active)
                 {
                     SetupPrey(vore.Stomach);
@@ -73,7 +72,7 @@ namespace Vore
             Instantiate(optionBtn, optionContainer).Setup(voreOrgan);
             organText.text = voreOrgan.VoreContainers.ToString();
             SetupPrey(voreOrgan);
-            if (voreOrgan is VoreVagina voreVagina && player.Vore.Perks.HasPerk(VorePerks.ReBirth))
+            if (voreOrgan is VoreVagina voreVagina && Player.Vore.Perks.HasPerk(VorePerks.ReBirth))
             {
                 Instantiate(rebithBtn, optionContainer).Setup(voreVagina);
             }
@@ -91,7 +90,7 @@ namespace Vore
 
         private void ShowCapacityAll()
         {
-            VoreEngine vore = player.Vore;
+            VoreEngine vore = Player.Vore;
             string capaText = Capacity(vore.Stomach);
             HasAdd(vore.Balls.MaxCapacity() > 0, Capacity(vore.Balls));
             HasAdd(vore.Boobs.MaxCapacity() > 0, Capacity(vore.Boobs));
@@ -109,7 +108,7 @@ namespace Vore
 
         private void ChangeDrainEss()
         {
-            if (player.Vore.Perks.HasPerk(VorePerks.DrainEssence))
+            if (Player.Vore.Perks.HasPerk(VorePerks.DrainEssence))
             {
                 Instantiate(drainEssBtn, optionContainer).Setup();
             }

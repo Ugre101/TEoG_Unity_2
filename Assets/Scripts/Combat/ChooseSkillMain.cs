@@ -8,7 +8,7 @@ public class ChooseSkillMain : MonoBehaviour
 {
     #region Properties
 
-    [SerializeField] private BasicChar player = null;
+    private BasicChar Player => PlayerMain.Player;
 
     [SerializeField] private GameObject container = null;
 
@@ -42,14 +42,13 @@ public class ChooseSkillMain : MonoBehaviour
 
     public void Toggle(CombatButton parCombatBtn)
     {
-        player = player != null ? player : PlayerMain.Player;
         gameObject.SetActive(true);
         combatButton = parCombatBtn;
         // Clean container
         container.transform.KillChildren();
         Instantiate(chooseNone, container.transform).onClick.AddListener(() => { combatButton.Clean(); skillButtons.ToogleButtons(); });
         // Add all skills
-        foreach (Skill skill in player.Skills)
+        foreach (Skill skill in Player.Skills)
         {
             Instantiate(prefab, container.transform).Setup(skillBook.Dict.Match(skill.Id), combatButton, hoverBlock, hoverText, skillButtons.ToogleButtons);
         }
@@ -61,7 +60,7 @@ public class ChooseSkillMain : MonoBehaviour
         container.transform.KillChildren();
         if (knowSkills.Exists(s => s.Type == skillType))
         {
-            List<UserSkill> mySkills = skillBook.Dict.OwnedSkills(player.Skills);
+            List<UserSkill> mySkills = skillBook.Dict.OwnedSkills(Player.Skills);
             foreach (UserSkill skill in mySkills.FindAll(s => s.skill.Type == skillType))
             {
                 ChooseSkill choose = Instantiate(prefab, container.transform);

@@ -10,15 +10,12 @@ public class ItemHolder : ScriptableObject
 
     public Dictionary<ItemIds, Item> ItemsDict { get; private set; }
 
-    private void OnValidate()
-    {
-        ItemsDict = items.ToDictionary(id => id.ItemId);
-    }
+    private void OnValidate() => ItemsDict = items.ToDictionary(id => id.ItemId);
 
     public Item GetById(ItemIds parId)
     {
         if (ItemsDict.TryGetValue(parId, out Item item))
-        {  
+        {
             return item;
         }
         else
@@ -29,8 +26,14 @@ public class ItemHolder : ScriptableObject
 
     public void Add(Item toAdd)
     {
-        items.Add(toAdd);
-        items.Sort();// Make it easier to find stuff manually
+        if (!HasItem(toAdd.ItemId))
+        {
+            items.Add(toAdd);
+            items.Sort();// Make it easier to find stuff manually
+        }else
+        {
+            Debug.Log("Already has item.");
+        }
     }
 
     public bool HasItem(ItemIds id) => items.Exists(i => i.ItemId == id);

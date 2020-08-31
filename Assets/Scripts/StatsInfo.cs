@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StatsInfo : MonoBehaviour
 {
-    [SerializeField] private BasicChar basicChar = null;
+    private BasicChar basicChar = null;
     [SerializeField] private TextMeshProUGUI str = null, charm = null, end = null, will = null, dex = null, intel = null, hp = null, wp = null;
 
     private void OnEnable()

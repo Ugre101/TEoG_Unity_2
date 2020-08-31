@@ -1,5 +1,4 @@
-﻿[System.Serializable]
-public class EnemyPrefab : BasicChar
+﻿public class EnemyPrefab : BasicChar
 {
     public Reward Reward { get; } = new Reward();
     public IsQuest IsQuest { get; } = new IsQuest();

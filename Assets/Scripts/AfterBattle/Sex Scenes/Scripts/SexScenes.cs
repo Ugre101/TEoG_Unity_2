@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Sex scene", menuName = ("Sex/Test"))]
@@ -30,22 +28,15 @@ public abstract class SexScenes : ScriptableObject
     [field: SerializeField] public bool IImpregnate { get; private set; } = false;
     [field: SerializeField] public bool IGetImpregnated { get; private set; } = false;
 
-    public virtual bool CanDo(BasicChar player, BasicChar Other)
-    {
-        if ((PlayerDick && !player.SexualOrgans.HaveDick()) ||
-            (PlayerBalls && !player.SexualOrgans.HaveBalls()) || 
-            (PlayerBoobs && !player.SexualOrgans.HaveBoobs(3)) || 
-            (PlayerVagina && !player.SexualOrgans.HaveVagina()) || 
-            (Dick && !Other.SexualOrgans.HaveDick()) || 
-            (Balls && !Other.SexualOrgans.HaveBalls()) || 
-            (Boobs && !Other.SexualOrgans.HaveBoobs(3)) || 
-            (Vagina && !Other.SexualOrgans.HaveVagina()))
-        {
-            return false;
-        }
-
-        return true;
-    }
+    public virtual bool CanDo(BasicChar player, BasicChar Other) =>
+            (!PlayerDick || player.SexualOrgans.HaveDick()) &&
+            (!PlayerBalls || player.SexualOrgans.HaveBalls()) &&
+            (!PlayerBoobs || player.SexualOrgans.HaveBoobs(3)) &&
+            (!PlayerVagina || player.SexualOrgans.HaveVagina()) &&
+            (!Dick || Other.SexualOrgans.HaveDick()) &&
+            (!Balls || Other.SexualOrgans.HaveBalls()) &&
+            (!Boobs || Other.SexualOrgans.HaveBoobs(3)) &&
+            (!Vagina || Other.SexualOrgans.HaveVagina());
 
     public virtual string StartScene(BasicChar player, BasicChar other) => $"";
 
@@ -125,7 +116,6 @@ public abstract class SexScenes : ScriptableObject
         }
         return multi;
     }
-
 
     private class OrganAndItsExp
     {

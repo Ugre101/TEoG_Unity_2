@@ -122,6 +122,7 @@ public class BasicChar
         this.body = body;
         this.expSystem = expSystem;
     }
+
     [SerializeField] private List<Skill> skills = new List<Skill>() { new Skill(SkillId.BasicAttack), new Skill(SkillId.BasicTease) };
 
     public List<Skill> Skills => skills;

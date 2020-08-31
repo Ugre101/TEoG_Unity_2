@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace Ugre.GameUITempEffects
 {
     public class PregEffect : BaseEffect
     {
-        [SerializeField] private BasicChar mother = null;
+        private BasicChar mother = null;
 
         protected override void Hovering() => hoverText.Hovering("Pregnant", "");
 

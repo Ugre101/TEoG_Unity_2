@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class Boss : EnemyPrefab
 {
     // talk before fight?
@@ -40,19 +39,4 @@ public class HasCustomScenes
     public bool HaveCustomScenes => haveCustomScenes;
     public bool BlockNormalScenes => blockNormalScenes;
     public List<SexScenes> CustomScenes => customScenes;
-}
-
-[System.Serializable]
-public class IsQuest
-{
-    [SerializeField] private bool isQuest = false;
-    [SerializeField] private Quests quest = Quests.Bandit;
-
-    public void CheckQuest()
-    {
-        if (isQuest)
-        {
-            QuestsSystem.ProgressQuests(quest);
-        }
-    }
 }
