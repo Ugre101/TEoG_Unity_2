@@ -30,8 +30,6 @@ public abstract class CharHolder : MonoBehaviour
     {
     }
 
-    public virtual void Setup() => Bind();
-
     public void SelfDestroy() => Destroy(gameObject);
 
     protected virtual void Bind()
@@ -61,19 +59,19 @@ public abstract class CharHolder : MonoBehaviour
 
     public virtual void Load(BasicChar basicChar)
     {
-        BasicChar = basicChar;
         Unbind();
+        BasicChar = basicChar;
         Bind();
     }
 
     public virtual void Load(string jsonSave)
     {
-        JsonUtility.FromJsonOverwrite(jsonSave, BasicChar);
         Unbind();
+        JsonUtility.FromJsonOverwrite(jsonSave, BasicChar);
         Bind();
     }
 
-    private CharSpriteHandler spriteHandler = null;
+    [SerializeField] private CharSpriteHandler spriteHandler = null;
 
     public CharSpriteHandler SpriteHandler
     {
@@ -87,7 +85,7 @@ public abstract class CharHolder : MonoBehaviour
         }
     }
 
-    public abstract BasicChar BasicChar { get; protected set; }
+    public BasicChar BasicChar { get; protected set; } = new BasicChar();
 
     public delegate void IsDestroyed();
 

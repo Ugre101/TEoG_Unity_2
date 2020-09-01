@@ -447,11 +447,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc9499fa6b3d5e04b808d32c89495d3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteHandler: {fileID: 680149497345038482}
   hasPreBattleDialog: 0
   hasPostBattleDialog: 0
+  lockedPosistion: 0
   hasCustomScene:
     haveCustomScenes: 0
     blockNormalScenes: 0
     customScenes: []
-  lockedPosistion: 0
   pos: {x: 0, y: 0, z: 0}

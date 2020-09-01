@@ -153,7 +153,7 @@ public class EnemySpawner : MonoBehaviour
             AssingEnemy enemy = currEnemies[rnd.Next(currEnemies.Count)];
 
             EnemyHolder newEnemy = charPool.GetEnemyHolder();
-            newEnemy.Setup(enemy);
+            newEnemy.SetupEnemy(enemy);
             newEnemy.transform.SetParent(transform);
             newEnemy.transform.position = GetPosistion();
             newEnemy.name = enemy.name;
@@ -170,7 +170,7 @@ public class EnemySpawner : MonoBehaviour
             {
                 BossHolder newBoss = charPool.GetBossHolder(); //Instantiate(bossHolder, GetPosistion(), Quaternion.identity, transform);
 
-                newBoss.Setup(boss);
+                newBoss.SetupBoss(boss);
                 newBoss.transform.SetParent(transform);
                 newBoss.transform.position = boss.LockedPosistion ? boss.Pos : GetPosistion();
                 newBoss.name = boss.name;
