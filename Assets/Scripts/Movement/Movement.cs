@@ -20,9 +20,9 @@ public class Movement : MonoBehaviour
     [SerializeField] private Rigidbody2D _rb2d = null;
 
     private Vector2 CurPos { get => _rb2d.position; set => _rb2d.position = value; }
-    private float Vertical => Input.GetAxis("Vertical");
-    private float Horizontal => Input.GetAxis("Horizontal");
-    private Vector3 MousePos => Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    private static float Vertical => Input.GetAxis("Vertical");
+    private static float Horizontal => Input.GetAxis("Horizontal");
+    private static Vector3 MousePos => Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
     private bool clickedOnce = false;
     private Vector2 target;
@@ -39,7 +39,8 @@ public class Movement : MonoBehaviour
 
     private float _xMax, _xMin, _yMin, _yMax;
     private bool mobilePlatform, touchSupport, mousePresent;
-    private Vector3 lookRight = new Vector3(0, 0, 0), lookLeft = new Vector3(0, 180, 0);
+    private readonly Vector3 lookRight = new Vector3(0, 0, 0);
+    private readonly Vector3 lookLeft = new Vector3(0, 180, 0);
 
     // Start is called before the first frame update
     private void Start()
@@ -73,7 +74,7 @@ public class Movement : MonoBehaviour
             }
         }
         // WASD and Arrow keys
-        if (Vertical != 0 || Horizontal != 0)
+        if (Math.Abs(Vertical) > 0.1f || Math.Abs(Horizontal) > 0.1f)
             Target = new Vector2(CurPos.x + Horizontal, CurPos.y + Vertical);
         // Not tested
         if ((touchSupport || mobilePlatform) && Input.touchCount == 1)
@@ -93,10 +94,10 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void TilemapLimits(Tilemap _map)
+    private void TilemapLimits(Tilemap map)
     {
-        Vector3 minTile = _map.CellToWorld(_map.cellBounds.min);
-        Vector3 maxTile = _map.CellToWorld(_map.cellBounds.max);
+        Vector3 minTile = map.CellToWorld(map.cellBounds.min);
+        Vector3 maxTile = map.CellToWorld(map.cellBounds.max);
         _xMin = minTile.x;
         _xMax = maxTile.x;
 
@@ -120,7 +121,7 @@ public class Movement : MonoBehaviour
         }
     }
 
-    private void HandleBoss(BossHolder boss)
+    private static void HandleBoss(BossHolder boss)
     {
         if (boss.BasicChar is Boss b)
         {
@@ -141,20 +142,12 @@ public class Movement : MonoBehaviour
 
     private void MarkEnemyBecauseYouAreABully(CharHolder charHolder)
     {
-        Debug.Log("Mark Part 1");
         if (PlayerMain.Player.Perks.HasPerk(PerksTypes.Bully) && bullyMark != null)
         {
-            Debug.Log("Mark Part 2: Had perk");
             if (BullyMark.Instance != null)
-            {
-                Debug.Log("Mark Part 3: Already instanced");
                 BullyMark.Instance.transform.SetParent(charHolder.transform);
-            }
             else
-            {
-                Debug.Log("Mark Part 3: Instantitate");
                 Instantiate(bullyMark, charHolder.transform);
-            }
         }
     }
 

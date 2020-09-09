@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum AgeClass
 {
@@ -14,9 +15,9 @@ public enum AgeClass
 [Serializable]
 public class Age
 {
-    public Age(int AgeInYears = 18)
+    public Age(int ageInYears = 18)
     {
-        ageYears = AgeInYears;
+        ageYears = ageInYears;
     }
 
     [SerializeField] private int ageYears, ageDays;
@@ -28,61 +29,83 @@ public class Age
     public bool AgeUp(int byDays = 1)
     {
         ageDays += byDays;
-        if (ageDays > 365)
-        {
-            ageYears++;
-            ageDays -= 365;
-            BithdDay?.Invoke(AgeYears);
-            return true;
-        }
-        return false;
+        if (ageDays <= 365) return false;
+        ageYears++;
+        ageDays -= 365;
+        BirthdDay?.Invoke(AgeYears);
+        return true;
     }
 
     public bool AgeDown(int byDays = 1)
     {
         ageDays -= byDays;
-        if (ageDays <= 0)
-        {
-            ageYears--;
-            ageDays += 365;
-            return true;
-        }
-        return false;
+        if (ageDays > 0) return false;
+        ageYears--;
+        ageDays += 365;
+        return true;
     }
 
     // Diffent races age different a 100 years old elf is quite young, while a 100 years old human is dying.
     public AgeClass AgeByRace(BasicChar who)
     {
+        int babyAge = 5, childAge = 13, teenAge = 18, youngAdultAge = 25, adultAge = 65;
         switch (who.RaceSystem.CurrentRace())
         {
+            case Races.Humanoid:
+            case Races.Elf:
+                babyAge = 7; // This is not set in stone can change
+                childAge = 18;
+                teenAge = 25;
+                youngAdultAge = 100;
+                adultAge = 200;
+                break;
+            case Races.Orc:
+            case Races.Troll:
+            case Races.Dwarf:
+                youngAdultAge = 35;
+                adultAge = 100;
+                break;
+            case Races.Halfling:
+            case Races.Fairy:
+            case Races.Incubus:
+            case Races.Succubus:
+            case Races.Equine:
+            case Races.Dragon:
+            case Races.DragonKin:
+            case Races.Amazon:
+            case Races.DarkElf:
+            case Races.Bovine:
             case Races.Human:
             default:
-                if (AgeYears < 5)
-                {
-                    return AgeClass.Baby;
-                }
-                else if (AgeYears < 13)
-                {
-                    return AgeClass.Child;
-                }
-                else if (AgeYears < 18)
-                {
-                    return AgeClass.Teenager;
-                }
-                else if (AgeYears < 25)
-                {
-                    return AgeClass.YoungAdult;
-                }
-                else if (AgeYears < 65)
-                {
-                    return AgeClass.Adult;
-                }
-                else
-                {
-                    return AgeClass.Senior;
-                }
+                break;
+        }
+
+        if (AgeYears < babyAge)
+        {
+            return AgeClass.Baby;
+        }
+        else if (AgeYears < childAge)
+        {
+            return AgeClass.Child;
+        }
+        else if (AgeYears < teenAge)
+        {
+            return AgeClass.Teenager;
+        }
+        else if (AgeYears < youngAdultAge)
+        {
+            return AgeClass.YoungAdult;
+        }
+        else if (AgeYears < adultAge)
+        {
+            return AgeClass.Adult;
+        }
+        else
+        {
+            return AgeClass.Senior;
         }
     }
 
-    public Action<int> BithdDay;
+
+    public Action<int> BirthdDay;
 }

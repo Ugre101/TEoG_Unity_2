@@ -2,14 +2,15 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LoseMain : MonoBehaviour
 {
-    private BasicChar Player => PlayerMain.Player;
+    private static BasicChar Player => PlayerMain.Player;
 
-    [SerializeField] private TextMeshProUGUI _textBox = null;
+    [FormerlySerializedAs("_textBox")] [SerializeField] private TextMeshProUGUI textBox = null;
 
-    [SerializeField] private GameObject Leave = null;
+    [FormerlySerializedAs("Leave")] [SerializeField] private GameObject leave = null;
 
     [SerializeField] private SexChar playerChar = null, enemyChar = null;
 
@@ -24,9 +25,9 @@ public class LoseMain : MonoBehaviour
     private List<BasicChar> enemies = new List<BasicChar>();
 
     private BasicChar newTarget = null;
-    public BasicChar Target => newTarget != null ? newTarget : enemies[0];
+    private BasicChar Target => newTarget ?? enemies[0];
 
-    private List<LoseScene> CanDo(List<LoseScene> scenes) => scenes.Where(s => s.CanDo(Player, Target)).Select(s => s).ToList();
+    private List<LoseScene> CanDo(IEnumerable<LoseScene> scenes) => scenes.Where(s => s.CanDo(Player, Target)).Select(s => s).ToList();
 
     private void Start() => LoseSexButton.PlayScene += HandleScene;
 
@@ -34,22 +35,22 @@ public class LoseMain : MonoBehaviour
     {
         gameObject.SetActive(true);
         enemies = parEnemies;
-        _textBox.text = null;
+        textBox.text = null;
 
         playerChar.Setup(Player);
         enemyChar.Setup(Target);
         newTarget = null;
-        Leave.SetActive(false);
+        leave.SetActive(false);
 
         sexButtonsContainer.KillChildren();
         GetScenesForTarget();
     }
 
-    public void AddToTextBox(string text) => _textBox.text = text;
+    private void AddToTextBox(string text) => textBox.text = text;
 
-    public void CanLeave()
+    private void CanLeave()
     {
-        Leave.SetActive(true);
+        leave.SetActive(true);
         sexButtonsContainer.KillChildren();
     }
 

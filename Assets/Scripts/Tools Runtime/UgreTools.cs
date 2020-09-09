@@ -9,7 +9,7 @@ using UnityEngine.Events;
 // A space for me to build tools for methods I often use.
 public static class UgreTools
 {
-    private static readonly System.Random rnd = new System.Random();
+    private static readonly System.Random Rnd = new System.Random();
 
     public static T CycleThoughEnum<T>(this T curValue) where T : Enum
     {
@@ -65,7 +65,7 @@ public static class UgreTools
 
     public static float GetFloatPref(float val, string saveName) => PlayerPrefs.HasKey(saveName) ? PlayerPrefs.GetFloat(saveName) : val;
 
-    public static bool GetPlayerPrefBool(string name) => PlayerPrefs.HasKey(name) ? PlayerPrefs.GetInt(name) == 1 : false;
+    public static bool GetPlayerPrefBool(string name) => PlayerPrefs.HasKey(name) && PlayerPrefs.GetInt(name) == 1;
 
     public static T JsonClone<T>(T source) => JsonUtility.FromJson<T>(JsonUtility.ToJson(source));
 
@@ -78,7 +78,7 @@ public static class UgreTools
         }
     }
 
-    public static bool OnHotKeyDownIfKeybindsActive(this KeyCode key) => GameManager.KeyBindsActive ? Input.GetKeyDown(key) : false;
+    public static bool OnHotKeyDownIfKeybindsActive(this KeyCode key) => GameManager.KeyBindsActive && Input.GetKeyDown(key);
 
     public static void SetActiveChildren(this Transform transform, bool setTo = true)
     {
@@ -100,7 +100,7 @@ public static class UgreTools
         except.gameObject.SetActive(true);
     }
 
-    public static void SleepChildren(this Transform parTransfrom, List<Transform> exceptions)
+    public static void SleepChildren(this Transform parTransfrom, IEnumerable<Transform> exceptions)
     {
         parTransfrom.SleepChildren();
         foreach (Transform transform in exceptions)
@@ -122,7 +122,7 @@ public static class UgreTools
         yield return new WaitForEndOfFrame();
     }
 
-    public static T RandomListValue<T>(this List<T> list) => list[rnd.Next(list.Count)];
+    public static T RandomListValue<T>(this List<T> list) => list[Rnd.Next(list.Count)];
 
     public static bool HitPlayer(this Collider2D collider) => collider.CompareTag(PlayerSprite.Tag);
 

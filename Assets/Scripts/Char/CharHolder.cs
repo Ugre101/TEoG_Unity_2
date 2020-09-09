@@ -2,6 +2,11 @@
 
 public abstract class CharHolder : MonoBehaviour
 {
+    private void Start()
+    {
+        spriteHandler = GetComponent<CharSpriteHandler>();
+    }
+
     protected virtual void GenderChange()
     {
         if (BasicChar.DidGenderChange())

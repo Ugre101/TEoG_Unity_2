@@ -33,8 +33,8 @@ public class SkillDict
         return new UserSkill(BasicSkills.Find(s => s.Id == parId));
     }
 
-    public List<UserSkill> OwnedSkills(List<Skill> skills) => (from basicSkill in BasicSkills
-                                                               from skill in skills
+    public List<UserSkill> OwnedSkills(IEnumerable<Skill> parSkills) => (from basicSkill in BasicSkills
+                                                               from skill in parSkills
                                                                where Equals(basicSkill.Id, skill.Id)
                                                                select new UserSkill(basicSkill)).ToList();
 }

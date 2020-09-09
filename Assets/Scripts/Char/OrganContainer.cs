@@ -1,7 +1,7 @@
 ﻿[System.Serializable]
 public abstract class OrganContainer
 {
-    public OrganContainer() => Save.LoadEvent += ReBind;
+    protected OrganContainer() => Save.LoadEvent += ReBind;
 
     public abstract void ReBind();
 

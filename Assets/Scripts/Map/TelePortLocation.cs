@@ -3,8 +3,8 @@ using UnityEngine.Tilemaps;
 
 public class TelePortLocation
 {
-    private Vector3 landPlatform;
-    public Tilemap Map => CanTelePortTo.Map;
+    private readonly Vector3 landPlatform;
+    private Tilemap Map => CanTelePortTo.Map;
     public WorldMaps World => CanTelePortTo.World;
     private readonly MapEvents mapEvents;
 

@@ -14,13 +14,9 @@ public class SaveMananger : MonoBehaviour
     private void Awake()
     {
         if (Instance == null)
-        {
             Instance = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
     }
 
     private void Start()
@@ -38,17 +34,11 @@ public class SaveMananger : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.KeyBindsActive)
-        {
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
-                QuickSave();
-            }
-            else if (Input.GetKeyDown(KeyCode.F9))
-            {
-                QuickLoad();
-            }
-        }
+        if (!GameManager.KeyBindsActive) return;
+
+        if (Input.GetKeyDown(KeyCode.F5))
+            QuickSave();
+        else if (Input.GetKeyDown(KeyCode.F9)) QuickLoad();
     }
 
     private void QuickSave()
@@ -57,11 +47,11 @@ public class SaveMananger : MonoBehaviour
         PopupHandler.GetPopupHandler.SpawnTimedPopup("Saved", 1f);
     }
 
-    public void NewSaveGame()
+    private void NewSaveGame()
     {
         SaveName saveName = new SaveName(Player, DateTime.Now);
         newSavePath = SaveFolder.FullName + saveName.CleanSave + ".json";
-        File.WriteAllText(newSavePath, NewSave.SaveData());
+        File.WriteAllText(newSavePath, Save.SaveData());
         SavedEvent?.Invoke();
         lastSavePath = newSavePath;
     }
@@ -70,25 +60,20 @@ public class SaveMananger : MonoBehaviour
     {
         NewSaveGame();
         if (File.Exists(lastSavePath))
-        {
             Application.Quit();
-        }
         else
-        {
             PopupHandler.GetPopupHandler.SpawnTimedPopup("Failed to save, try again or quit without saving.");
-        }
     }
 
-    public void QuickLoad()
+    private void QuickLoad()
     {
-        if (!string.IsNullOrEmpty(lastSavePath))
-        {
-            string json = File.ReadAllText(lastSavePath);
-            NewSave.LoadData(json);
-        }
+        if (string.IsNullOrEmpty(lastSavePath)) return;
+        
+        string json = File.ReadAllText(lastSavePath);
+        Save.LoadData(json);
     }
 
-    public Save NewSave => new Save();
+    public static Save NewSave => new Save();
 
     public delegate void SavedGame();
 

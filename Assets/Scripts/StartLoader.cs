@@ -41,8 +41,8 @@ namespace StartMenuStuff
             // wait so everything is loaded
             yield return new WaitForEndOfFrame();
             SaveMananger saveMananger = SaveMananger.Instance;
-            Save save = saveMananger.NewSave;
-            save.LoadData(json);
+            Save save = SaveMananger.NewSave;
+            Save.LoadData(json);
             Debug.Log(json);
             GameManager.SetCurState(GameState.Free);
             Destroy(gameObject);

@@ -6,13 +6,11 @@ public class PerkTree : MonoBehaviour
 
     public void SetRuneIMGs()
     {
-        if (runeIMG != null)
+        if (runeIMG == null) return;
+        PerkTreeBasicBtn[] perkButtons = GetComponentsInChildren<PerkTreeBasicBtn>();
+        foreach (PerkTreeBasicBtn btn in perkButtons)
         {
-            PerkTreeBasicBtn[] perkButtons = GetComponentsInChildren<PerkTreeBasicBtn>();
-            foreach (PerkTreeBasicBtn btn in perkButtons)
-            {
-                btn.SetRune(runeIMG);
-            }
+            btn.SetRune(runeIMG);
         }
     }
 }

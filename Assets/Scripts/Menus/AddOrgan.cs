@@ -34,13 +34,11 @@ namespace EssenceMenuStuff
 
         protected void AddFunc()
         {
-            if (CanAfford)
-            {
-                Ess.Lose(Cost);
-                OrganContainer.AddNew();
-                DisplayCost();
-                ShowIfCanAfford();
-            }
+            if (!CanAfford) return;
+            Ess.Lose(Cost);
+            OrganContainer.AddNew();
+            DisplayCost();
+            ShowIfCanAfford();
         }
     }
 }

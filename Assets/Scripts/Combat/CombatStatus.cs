@@ -31,11 +31,11 @@ public class CombatStatus : MonoBehaviour
         team = combatTeam;
         combatMain = main;
         btn.onClick.AddListener(Select);
-        whom.HP.DeadEvent += HasDied;
-        whom.WP.DeadEvent += HasDied;
+        whom.Hp.DeadEvent += HasDied;
+        whom.Wp.DeadEvent += HasDied;
     }
 
-    public void HasDied()
+    private void HasDied()
     {
         Dead = true;
         team.WeLost();
@@ -43,14 +43,14 @@ public class CombatStatus : MonoBehaviour
 
     public void OnDisable()
     {
-        whom.HP.DeadEvent -= HasDied;
-        whom.WP.DeadEvent -= HasDied;
+        whom.Hp.DeadEvent -= HasDied;
+        whom.Wp.DeadEvent -= HasDied;
     }
 
     private void OnDestroy()
     {
-        whom.HP.DeadEvent -= HasDied;
-        whom.WP.DeadEvent -= HasDied;
+        whom.Hp.DeadEvent -= HasDied;
+        whom.Wp.DeadEvent -= HasDied;
     }
 
     /// <summary>

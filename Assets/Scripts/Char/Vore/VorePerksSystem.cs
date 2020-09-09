@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum VorePerks
@@ -31,14 +32,6 @@ public static class VorePerksExtensions
 {
     public static void GainPerk(this BasicChar basicChar, VorePerks type)
     {
-        switch (type)
-        {
-            case VorePerks.Elastic:
-                break;
-
-            case VorePerks.Compression:
-                break;
-        }
         if (basicChar.Vore.Perks.HasPerk(type))
         {
             basicChar.Vore.Perks.GetPerk(type).LevelUp();

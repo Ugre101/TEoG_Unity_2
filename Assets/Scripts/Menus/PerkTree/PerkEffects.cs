@@ -32,7 +32,7 @@
 
     public static class Seductress
     {
-        public static StatMod CharmMod => new StatMod(5f, typeof(Seductress).Name, ModTypes.Flat);
+        public static StatMod CharmMod => new StatMod(5f, nameof(Seductress), ModTypes.Flat);
     }
 
     public static class StoneSkin
@@ -41,8 +41,8 @@
 
     public static class Delicate
     {
-        public static StatMod CharmModFlat = new StatMod(5, typeof(Delicate).Name, ModTypes.Flat);
-        public static StatMod CharmModPre = new StatMod(0.1f, typeof(Delicate).Name, ModTypes.Precent);
+        public static StatMod CharmModFlat = new StatMod(5, nameof(Delicate), ModTypes.Flat);
+        public static StatMod CharmModPre = new StatMod(0.1f, nameof(Delicate), ModTypes.Precent);
 
         public static float ExtraSensitive(Perks perks) => perks.HasPerk(PerksTypes.Delicate)
             ? 0.2f * perks.GetPerkLevel(PerksTypes.Delicate)
@@ -51,15 +51,15 @@
 
     public static class HealtyBody
     {
-        public static HealthMod HealthFlat => new HealthMod(20, ModTypes.Flat, typeof(HealtyBody).Name, HealthTypes.Health);
-        public static HealthMod HealthPre => new HealthMod(0.1f, ModTypes.Precent, typeof(HealtyBody).Name, HealthTypes.Health);
-        public static HealthMod RecoveryFlat => new HealthMod(3, ModTypes.Flat, typeof(HealtyBody).Name, HealthTypes.Health);
-        public static HealthMod RecoveryPre => new HealthMod(0.1f, ModTypes.Precent, typeof(HealtyBody).Name, HealthTypes.Health);
+        public static HealthMod HealthFlat => new HealthMod(20, ModTypes.Flat, nameof(HealtyBody), HealthTypes.Health);
+        public static HealthMod HealthPre => new HealthMod(0.1f, ModTypes.Precent, nameof(HealtyBody), HealthTypes.Health);
+        public static HealthMod RecoveryFlat => new HealthMod(3, ModTypes.Flat, nameof(HealtyBody), HealthTypes.Health);
+        public static HealthMod RecoveryPre => new HealthMod(0.1f, ModTypes.Precent, nameof(HealtyBody), HealthTypes.Health);
     }
 
     public static class Thug
     {
-        public static StatMod StrFlat => new StatMod(5, typeof(Thug).Name, ModTypes.Flat);
+        public static StatMod StrFlat => new StatMod(5, nameof(Thug), ModTypes.Flat);
 
         public static float AfterbattleHealPenalty(Perks perks) => perks.HasPerk(PerksTypes.Thug)
             ? 0.1f * perks.GetPerkLevel(PerksTypes.Thug)

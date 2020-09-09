@@ -36,23 +36,16 @@ public class Womb
     public bool Grow(float parDaysToGrow = 1f)
     {
         bool waitingToBeBorn = false;
-        foreach (Fetus f in fetuses)
+        foreach (Fetus f in fetuses.Where(f => f.Grow(parDaysToGrow)))
         {
-            if (f.Grow(parDaysToGrow))
-            {
-                waitingToBeBorn = true;
-            }
+            waitingToBeBorn = true;
         }
         return waitingToBeBorn;
     }
 
     public List<Child> GiveBirth()
     {
-        List<Child> children = new List<Child>();
-        foreach (Fetus f in fetuses.FindAll(c => c.ReadyToBeBorn))
-        {
-            children.Add(f.GiveBirth());
-        }
+        List<Child> children = fetuses.FindAll(c => c.ReadyToBeBorn).Select(f => f.GiveBirth()).ToList();
         Fetuses.RemoveAll(c => c.ReadyToBeBorn);
         return children;
     }

@@ -17,14 +17,7 @@ public class VaginaContainer : OrganContainer
             for (int i = 0; i < List.Count; i++)
             {
                 Vagina vag = List[i];
-                if (i == 0)
-                {
-                    builder.Append(vag.Look());
-                }
-                else
-                {
-                    builder.Append(vag.Look(false));
-                }
+                builder.Append(i == 0 ? vag.Look() : vag.Look(false));
                 if (i == List.Count - 2)
                 {
                     builder.Append(" and ");
@@ -67,12 +60,10 @@ public class VaginaContainer : OrganContainer
     public override float ReCycle()
     {
         Vagina toShrink = List[vaginas.Count - 1];
-        if (toShrink.Shrink())
-        {
-            Remove(toShrink);
-            return 30f;
-        }
-        return toShrink.Cost;
+        if (!toShrink.Shrink()) return toShrink.Cost;
+        
+        Remove(toShrink);
+        return 30f;
     }
 
     public void Remove(Vagina toRemove)

@@ -38,10 +38,8 @@ public class HomeMapHandler : MonoBehaviour
     {
         if (PlayerFlags.BeatBanditLord.Cleared)
         {
-            Debug.Log("Grow");
             if (grownHome.AddedTiles.Count < 1)
             {
-                Debug.Log("Grow; step 2");
                 for (int i = 0; i < 10; i++)
                 {
                     grownHome.GrowLawn();

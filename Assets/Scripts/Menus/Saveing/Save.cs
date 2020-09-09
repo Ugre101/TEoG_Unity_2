@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Save
 {
-    public string SaveData()
+    public static string SaveData()
     {
         PlayerSave playerSave = new PlayerSave(PlayerMain.Player);
         List<DormSave> dormSaves = Dorm.Save();
@@ -16,12 +16,17 @@ public class Save
         return JsonUtility.ToJson(fullSave);
     }
 
-    public void LoadData(string json)
+    public static void LoadData(string json)
     {
         FullSave fullSave = JsonUtility.FromJson<FullSave>(json);
-        Debug.Log(json);
-        Debug.Log(fullSave.PlayerSave);
-        Debug.Log(fullSave.PlayerSave.Who);
+
+        if (Application.isEditor)
+        {
+            Debug.Log(json);
+        }
+
+
+
 
         //  Debug.Log($"Length: {json.Length} Json string: {json}");
         string errorMsg = string.Empty;
@@ -61,11 +66,9 @@ public class Save
         GameManager.Load(fullSave.GameManagerSave);
         EventLog.ClearLog();
         LoadEvent?.Invoke();
-        if (errorMsg != string.Empty)
-        {
-            PopupHandler.GetPopupHandler.DelayedSpawnTimedPopup(errorMsg, 6f);
-            Debug.LogWarning(errorMsg); 
-        }
+        if (errorMsg == string.Empty) return;
+        PopupHandler.GetPopupHandler.DelayedSpawnTimedPopup(errorMsg, 6f);
+        Debug.LogWarning(errorMsg);
     }
 
     public delegate void DelegateLoad();

@@ -5,12 +5,12 @@ namespace EssenceMenuStuff
 {
     public class EssenceMenu : MonoBehaviour
     {
-        private BasicChar _player => PlayerMain.Player;
+        private static BasicChar Player => PlayerMain.Player;
         [SerializeField] private TextMeshProUGUI stableAmount = null;
 
         private void OnEnable()
         {
-            stableAmount.text = $"Stable essence: {_player.TotalStableEssence()}";
+            stableAmount.text = $"Stable essence: {Player.TotalStableEssence()}";
         }
     }
 }

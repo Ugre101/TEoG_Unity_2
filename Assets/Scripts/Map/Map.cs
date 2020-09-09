@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Map : MonoBehaviour
@@ -23,21 +24,14 @@ public class Map : MonoBehaviour
 
     private void Start()
     {
-        foreach (AssingEnemy enemyPrefab in Enemies)
+        if (Enemies.Any(enemyPrefab => enemyPrefab == null))
         {
-            if (enemyPrefab == null)
-            {
-                Debug.LogWarning(name + " is missing enemys refs");
-                break;
-            }
+            Debug.LogWarning(name + " is missing enemys refs");
         }
-        foreach (AssingBoss boss in Bosses)
+
+        if (Bosses.Any(boss => boss == null))
         {
-            if (boss == null)
-            {
-                Debug.LogWarning(name + " is missing boss refs");
-                break;
-            }
+            Debug.LogWarning(name + " is missing boss refs");
         }
     }
 }

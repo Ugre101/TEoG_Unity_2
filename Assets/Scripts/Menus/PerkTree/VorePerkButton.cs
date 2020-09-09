@@ -34,28 +34,21 @@ public class VorePerkButton : PerkTreeBasicBtn
 
     protected override void OnEnable()
     {
-        if (started)
-        {
-            Taken = Player.Vore.Perks.HasPerk(perkInfo.Perk);
-            amount.text = PerkLevel.ToString();
-            base.OnEnable();
-        }
+        if (!started) return;
+        Taken = Player.Vore.Perks.HasPerk(perkInfo.Perk);
+        amount.text = PerkLevel.ToString();
+        base.OnEnable();
     }
 
     protected override void Use()
     {
-        if (perkInfo.Unlocked(Player))
-        {
-            if (Player.Vore.Perks.HasPerk(perkInfo.Perk) ? Player.Vore.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
-            {
-                if (Player.Vore.VoreExp.PerkBool(perkInfo.PerkCost))
-                {
-                    Taken = true;
-                    Player.GainPerk(perkInfo.Perk);
-                    amount.text = PerkLevel.ToString();
-                }
-            }
-        }
+        if (!perkInfo.Unlocked(Player) ||
+            (Player.Vore.Perks.HasPerk(perkInfo.Perk) &&
+             !Player.Vore.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel)) ||
+            !Player.Vore.VoreExp.PerkBool(perkInfo.PerkCost)) return;
+        Taken = true;
+        Player.GainPerk(perkInfo.Perk);
+        amount.text = PerkLevel.ToString();
     }
 
     protected override void Hovering()

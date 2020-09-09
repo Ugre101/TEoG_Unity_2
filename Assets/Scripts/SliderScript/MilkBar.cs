@@ -1,11 +1,10 @@
 ﻿public class MilkBar : FluidSliders
 {
+    private bool _isstatusTextNotNull;
+
     private void OnEnable()
     {
-        if (Player != null)
-        {
-            Setup();
-        }
+        if (Player != null) Setup();
     }
 
     private void OnDisable()
@@ -15,6 +14,7 @@
 
     public override void Setup()
     {
+        _isstatusTextNotNull = statusText != null;
         SexualFluid.FluidSlider += MilkChange;
         if (Player.SexualOrgans.Boobs.Lactating && Player.SexualOrgans.HaveBoobs())
         {
@@ -26,9 +26,6 @@
     private void MilkChange()
     {
         slider.value = Player.SexualOrgans.Boobs.FluidSlider;
-        if (statusText != null)
-        {
-            statusText.text = Player.SexualOrgans.Boobs.FluidStatus;
-        }
+        if (_isstatusTextNotNull) statusText.text = Player.SexualOrgans.Boobs.FluidStatus;
     }
 }

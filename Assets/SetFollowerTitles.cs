@@ -35,3 +35,6 @@ public class SetFollowerTitles : MonoBehaviour
         GameManager.KeyBindsActive = true;
     }
 }
+
+
+

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    protected BasicChar Player => PlayerMain.Player;
+    protected static BasicChar Player => PlayerMain.Player;
 
     [SerializeField] protected TextMeshProUGUI amount = null;
 
@@ -19,10 +19,10 @@ public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IP
 
     private bool taken = false;
 
-    public bool Taken
+    protected bool Taken
     {
         get => taken;
-        protected set
+        set
         {
             taken = value;
             RuneOpacity();
@@ -31,12 +31,10 @@ public abstract class PerkTreeBasicBtn : MonoBehaviour, IPointerEnterHandler, IP
 
     protected void SetRuneColor(float value)
     {
-        if (rune != null)
-        {
-            color = rune.color;
-            color.a = value;
-            rune.color = color;
-        }
+        if (rune == null) return;
+        color = rune.color;
+        color.a = value;
+        rune.color = color;
     }
 
     protected virtual void Start()

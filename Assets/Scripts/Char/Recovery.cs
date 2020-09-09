@@ -66,40 +66,40 @@ namespace HealthRecovery
             IsDirty = true;
         }
 
-        public bool RemoveFromSource(string Source)
+        public bool RemoveFromSource(string source)
         {
-            if (string.IsNullOrEmpty(Source))
+            if (string.IsNullOrEmpty(source))
             {
                 return false;
             }
-            if (Mods.Exists(sm => sm.Source.Equals(Source)))
+
+            if (!Mods.Exists(sm => sm.Source.Equals(source))) return false;
+            
+            foreach (HealthMod sm in Mods.FindAll(s => s.Source.Equals(source)))
             {
-                foreach (HealthMod sm in Mods.FindAll(s => s.Source.Equals(Source)))
-                {
-                    Mods.Remove(sm);
-                }
-                IsDirty = true;
-                return true;
+                Mods.Remove(sm);
             }
-            return false;
+
+            IsDirty = true;
+            return true;
         }
 
-        public bool RemoveTempFromSource(string Source)
+        public bool RemoveTempFromSource(string source)
         {
-            if (string.IsNullOrEmpty(Source))
+            if (string.IsNullOrEmpty(source))
             {
                 return false;
             }
-            if (TempMods.Exists(sm => sm.Source.Equals(Source)))
+
+            if (!TempMods.Exists(sm => sm.Source.Equals(source))) return false;
+            
+            foreach (TempHealthMod sm in TempMods.FindAll(s => s.Source.Equals(source)))
             {
-                foreach (TempHealthMod sm in TempMods.FindAll(s => s.Source.Equals(Source)))
-                {
-                    TempMods.Remove(sm);
-                }
-                IsDirty = true;
-                return true;
+                TempMods.Remove(sm);
             }
-            return false;
+
+            IsDirty = true;
+            return true;
         }
 
         #endregion AddAndRemoveMods
@@ -109,7 +109,7 @@ namespace HealthRecovery
     {
         public static int HpRecoveryTotal(this BasicChar basicChar, int times = 1)
         {
-            int baseVal = basicChar.HP.Recovery.Value;
+            int baseVal = basicChar.Hp.Recovery.Value;
             if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
             {
                 baseVal += PerkEffects.Gluttony.ExtraRecovery(basicChar.Perks);
@@ -119,7 +119,7 @@ namespace HealthRecovery
 
         public static int WpRecoveryTotal(this BasicChar basicChar, int times = 1)
         {
-            int baseVal = basicChar.WP.Recovery.Value;
+            int baseVal = basicChar.Wp.Recovery.Value;
             if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
             {
                 baseVal += PerkEffects.Gluttony.ExtraRecovery(basicChar.Perks);

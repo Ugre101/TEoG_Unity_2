@@ -28,14 +28,7 @@ public class AssingRace
             weighted.Weight = acc;
         }
         int rnd = Random.Range(0, max);
-        foreach (WeightedRace weighted in Options)
-        {
-            if (rnd < weighted.Weight)
-            {
-                return weighted.Race;
-            }
-        }
-        return Races.Humanoid;
+        return (from weighted in Options where rnd < weighted.Weight select weighted.Race).FirstOrDefault();
     }
 }
 

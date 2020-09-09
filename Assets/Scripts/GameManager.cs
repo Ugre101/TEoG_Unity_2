@@ -22,7 +22,7 @@ public enum GlobalArea
 
 public static class GameManager
 {
-    public const float GameVersion = 0.043f;
+    public const float GameVersion = 0.044f;
 
     public static float LoadFromGameVersion { get; private set; }
 

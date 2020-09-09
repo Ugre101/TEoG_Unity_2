@@ -7,7 +7,7 @@ public class BackToHomeStart : MonoBehaviour
     private HomeMain homeMain;
     private Button btn;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         homeMain = GetComponentInParent<HomeMain>();
         btn = GetComponent<Button>();

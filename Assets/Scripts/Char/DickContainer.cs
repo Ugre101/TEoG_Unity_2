@@ -17,14 +17,7 @@ public class DickContainer : OrganContainer
             for (int i = 0; i < List.Count; i++)
             {
                 Dick dick = List[i];
-                if (i == 0)
-                {
-                    builder.Append(dick.Look());
-                }
-                else
-                {
-                    builder.Append(dick.Look(false));
-                }
+                builder.Append(i == 0 ? dick.Look() : dick.Look(false));
                 if (i == List.Count - 2)
                 {
                     builder.Append(" and ");

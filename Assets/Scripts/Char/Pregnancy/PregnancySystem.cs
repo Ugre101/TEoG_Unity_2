@@ -22,10 +22,12 @@ public class PregnancySystem
                 // TODO decide moderfier for blessing; blessing * mod.
                 baseVal += pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.VirileLoad);
             }
+
             if (pregnancyBlessings.HasBlessing(PregnancyBlessingsIds.PrenancyFreak))
             {
                 baseVal += PregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.PrenancyFreak);
             }
+
             return baseVal;
         }
     }
@@ -41,6 +43,7 @@ public class PregnancySystem
             {
                 baseVal += pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.PrenancyFreak);
             }
+
             return baseVal;
         }
     }
@@ -61,6 +64,7 @@ public class PregnancySystem
             {
                 growthRate += pregnancyBlessings.GetBlessingValue(PregnancyBlessingsIds.Incubator);
             }
+
             return growthRate;
         }
     }
@@ -91,16 +95,13 @@ public static class PregnancyExtensions
             fatherVir = parFather.PregnancySystem.VirilityValue;
         float motherRoll = Random.Range(0 - motherFet, 200 - motherFet),
             fatherRoll = Random.Range(0 + fatherVir, 50 + fatherVir);
-        if (motherRoll < fatherRoll)
-        {
-            // if mother has empty womb then impregnate first empty womb
-            if (mother.SexualOrgans.Vaginas.List.Exists(v => !v.Womb.HasFetus))
-            {
-                mother.SexualOrgans.Vaginas.List.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(mother, parFather);
-                return true;
-            }
-        }
-        return false;
+        
+        if (!(motherRoll < fatherRoll)) return false;
+        // if mother has empty womb then impregnate first empty womb
+        if (!mother.SexualOrgans.Vaginas.List.Exists(v => !v.Womb.HasFetus)) return false;
+
+        mother.SexualOrgans.Vaginas.List.Find(v => !v.Womb.HasFetus).Womb.GetImpregnated(mother, parFather);
+        return true;
     }
 
     public static void GrowFetuses(this BasicChar mother)
@@ -108,21 +109,20 @@ public static class PregnancyExtensions
         foreach (Vagina v in mother.SexualOrgans.Vaginas.List.FindAll(v => v.Womb.HasFetus))
         {
             PregnancySystem pregnancySystem = mother.PregnancySystem;
-            if (v.Womb.Grow(pregnancySystem.FinalGrowthRate))
-            {
-                List<Child> born = v.Womb.GiveBirth();
-                pregnancySystem.Children.AddRange(born);
-                mother.Events.SoloEvents.IGiveBirth(born);
-                string amount = born.Count > 2 ? $"{born.Count} children" :
-                    born.Count
-                    > 1 ? $"a pair of twins" : "a child"; // TODO add more
-                string addText = born[0].PlayerMother
-                    ? $"You have given birth to {amount}."
-                    : born[0].PlayerFather
-                        ? $"{mother.Identity.FullName} has given birth to {amount}, whom you is the father to."
-                        : $"{mother.Identity.FullName} has given birth to {amount}.";
-                EventLog.AddTo(addText);
-            }
+            if (!v.Womb.Grow(pregnancySystem.FinalGrowthRate)) continue;
+           
+            List<Child> born = v.Womb.GiveBirth();
+            pregnancySystem.Children.AddRange(born);
+            mother.Events.SoloEvents.IGiveBirth(born);
+            string amount = born.Count > 2 ? $"{born.Count} children" :
+                born.Count
+                > 1 ? $"a pair of twins" : "a child"; // TODO add more
+            string addText = born[0].PlayerMother
+                ? $"You have given birth to {amount}."
+                : born[0].PlayerFather
+                    ? $"{mother.Identity.FullName} has given birth to {amount}, whom you is the father to."
+                    : $"{mother.Identity.FullName} has given birth to {amount}.";
+            EventLog.AddTo(addText);
         }
     }
 }

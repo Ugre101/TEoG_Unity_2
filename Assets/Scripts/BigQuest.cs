@@ -54,7 +54,7 @@ public class BigQuest : MonoBehaviour
         returnTo.text = $"Return to:\n{QuestDesc.QuestReturnTo(basicQuest.Type)}";
     }
 
-    private string SpaceAtUpper(string text)
+    private static string SpaceAtUpper(string text)
     {
         if (!string.IsNullOrEmpty(text))
         {

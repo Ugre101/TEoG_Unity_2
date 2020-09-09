@@ -9,7 +9,7 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private List<Tilemap> dontSpawnOn = new List<Tilemap>();
     [SerializeField] private CharHolderObjectPool charPool = null;
-    private MapEvents MapEvents => MapEvents.GetMapEvents;
+    private static MapEvents MapEvents => MapEvents.GetMapEvents;
 
     [Header("Settings")]
     [Range(0, 50)]
@@ -53,13 +53,13 @@ public class EnemySpawner : MonoBehaviour
         }
     }
 
-    public bool AroundPlayer(Vector3 vector3) => Vector3.Distance(Player.transform.position, vector3) < distFromPlayer;
+    private bool AroundPlayer(Vector3 vector3) => Vector3.Distance(Player.transform.position, vector3) < distFromPlayer;
 
-    public bool AroundBoss(Vector3 vector3) => AddedBosses.Exists(b => Vector3.Distance(b.transform.position, vector3) < distFromBoss);
+    private bool AroundBoss(Vector3 vector3) => AddedBosses.Exists(b => Vector3.Distance(b.transform.position, vector3) < distFromBoss);
 
-    public bool AroundOtherEnemy(Vector3 pos) => AddedEnemies.Exists(e => Vector3.Distance(e.transform.position, pos) < distFromBoss);
+    private bool AroundOtherEnemy(Vector3 pos) => AddedEnemies.Exists(e => Vector3.Distance(e.transform.position, pos) < distFromBoss);
 
-    public Vector3 GetPosistion()
+    private Vector3 GetPosistion()
     {
         if (_empty.Count < 1)
             AvailblePos();
@@ -72,21 +72,19 @@ public class EnemySpawner : MonoBehaviour
             index = rnd.Next(_empty.Count);
             toClose = ToCloseToSomething(index);
             tries++;
-            if (tries > 100)
-            {
-                if (Debug.isDebugBuild)
-                    Debug.LogError("Spawner had to give up trying to posistion enemy");
+            if (tries <= 100) continue;
+            if (Debug.isDebugBuild)
+                Debug.LogError("Spawner had to give up trying to posistion enemy");
 
-                break;
-                // Give up and just let is spawn whereever
-            }
+            break;
+            // Give up and just let is spawn whereever
         }
         return _empty[index];
     }
 
     private bool ToCloseToSomething(int index) => AroundPlayer(_empty[index]) || AroundBoss(_empty[index]) || AroundOtherEnemy(_empty[index]);
 
-    public void RePosistion(CharHolder toRePos) => toRePos.transform.position = GetPosistion();
+    private void RePosistion(CharHolder toRePos) => toRePos.transform.position = GetPosistion();
 
     private void DoorChanged(Tilemap _currMap)
     {
@@ -104,17 +102,15 @@ public class EnemySpawner : MonoBehaviour
 
         AddedEnemies.ForEach(ae => charPool.ReturnEnemyHolder(ae));
         AddedEnemies.Clear();
-        if (MapEvents.CurMapScript != null)
+        if (MapEvents.CurMapScript == null) return;
+        if (MapEvents.CurMapScript.Enemies.Count > 0)
         {
-            if (MapEvents.CurMapScript.Enemies.Count > 0)
-            {
-                currEnemies.AddRange(MapEvents.CurMapScript.Enemies);
-                enemyToAdd = MapEvents.CurMapScript.EnemyCount;
-            }
-            if (MapEvents.CurMapScript.Bosses.Count > 0)
-            {
-                currBosses.AddRange(MapEvents.CurMapScript.Bosses);
-            }
+            currEnemies.AddRange(MapEvents.CurMapScript.Enemies);
+            enemyToAdd = MapEvents.CurMapScript.EnemyCount;
+        }
+        if (MapEvents.CurMapScript.Bosses.Count > 0)
+        {
+            currBosses.AddRange(MapEvents.CurMapScript.Bosses);
         }
 
         #region old code
@@ -166,16 +162,14 @@ public class EnemySpawner : MonoBehaviour
         if (currBosses.Count <= 0) { return; }
         foreach (AssingBoss boss in currBosses)
         {
-            if (boss != null)
-            {
-                BossHolder newBoss = charPool.GetBossHolder(); //Instantiate(bossHolder, GetPosistion(), Quaternion.identity, transform);
+            if (boss == null) continue;
+            BossHolder newBoss = charPool.GetBossHolder(); //Instantiate(bossHolder, GetPosistion(), Quaternion.identity, transform);
 
-                newBoss.SetupBoss(boss);
-                newBoss.transform.SetParent(transform);
-                newBoss.transform.position = boss.LockedPosistion ? boss.Pos : GetPosistion();
-                newBoss.name = boss.name;
-                newBoss.gameObject.SetActive(true);
-            }
+            newBoss.SetupBoss(boss);
+            newBoss.transform.SetParent(transform);
+            newBoss.transform.position = boss.LockedPosistion ? boss.Pos : GetPosistion();
+            newBoss.name = boss.name;
+            newBoss.gameObject.SetActive(true);
         }
     }
 }

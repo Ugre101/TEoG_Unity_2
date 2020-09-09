@@ -1,19 +1,20 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SkillButtons : MonoBehaviour
 {
     [SerializeField] private GameObject buttons = null;
-    [SerializeField] private ChooseSkillMain ChooseSkillMain = null;
+    [FormerlySerializedAs("ChooseSkillMain")] [SerializeField] private ChooseSkillMain chooseSkillMain = null;
 
-    public void ToogleChooseSkill(CombatButton target)
+    public void ToggleChooseSkill(CombatButton target)
     {
-        ChooseSkillMain.Toggle(target);
+        chooseSkillMain.Toggle(target);
         buttons.SetActive(false);
     }
 
-    public void ToogleButtons()
+    public void ToggleButtons()
     {
-        ChooseSkillMain.gameObject.SetActive(false);
+        chooseSkillMain.gameObject.SetActive(false);
         buttons.SetActive(true);
     }
 }

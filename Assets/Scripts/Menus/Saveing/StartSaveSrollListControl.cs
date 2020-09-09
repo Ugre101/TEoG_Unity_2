@@ -13,30 +13,25 @@ namespace StartMenuStuff
 
         private DirectoryInfo _dirInfo;
         private FileInfo[] _fileInfo;
-        private string SaveFolder => SaveSettings.SaveFolder;
+        private static string SaveFolder => SaveSettings.SaveFolder;
 
         // Start is called before the first frame update
         private void Start()
         {
-            if (!Directory.Exists(SaveFolder))
-            {
-                Directory.CreateDirectory(SaveFolder);
-            }
+            if (!Directory.Exists(SaveFolder)) Directory.CreateDirectory(SaveFolder);
+          
             _dirInfo = new DirectoryInfo(SaveFolder);
             RefreshSaveList();
             LoadButtonBase.SaveDeleted += RefreshSaveList;
             LoadButtonBase.FailEvent += Failed;
         }
 
-        public void RefreshSaveList()
+        private void RefreshSaveList()
         {
-            _fileInfo = _dirInfo.GetFiles("*.json").
-            OrderBy(f => f.LastWriteTime).ToArray();
+            _fileInfo = _dirInfo.GetFiles("*.json").OrderBy(f => f.LastWriteTime).ToArray();
             // Destroy buttons
-            if (transform.childCount > 0)
-            {
-                container.transform.KillChildren();
-            }
+            if (transform.childCount > 0) container.transform.KillChildren();
+
             // Add buttons
             foreach (FileInfo f in _fileInfo)
             {
@@ -46,7 +41,7 @@ namespace StartMenuStuff
             }
         }
 
-        public void Failed()
+        private void Failed()
         {
             TimedPopupText popupText = Instantiate(timedPopup, transform);
             popupText.Setup("Failed to load...");

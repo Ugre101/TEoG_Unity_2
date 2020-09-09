@@ -22,17 +22,16 @@ public class Health : IntStat
     public List<TempHealthMod> TempHealthMods => tempHealthMods;
     public Recovery Recovery => recovery;
 
-    public override int Value
+    public sealed override int Value
     {
         get
         {
-            if (IsDirty)
-            {
-                lastValue = GetCalcValue();
-                IsDirty = false;
-                UpdateSliderEvent?.Invoke();
-                current = Mathf.Clamp(current, 0, lastValue);
-            }
+            if (!IsDirty) return lastValue;
+            
+            lastValue = GetCalcValue();
+            IsDirty = false;
+            UpdateSliderEvent?.Invoke();
+            current = Mathf.Clamp(current, 0, lastValue);
             return lastValue;
         }
     }
@@ -56,11 +55,9 @@ public class Health : IntStat
 
     public void TickTempMods()
     {
-        if (TempHealthMods.RemoveAll(tm => tm.Duration < 1) > 0)
-        {
-            AddedTempEvent?.Invoke();
-            IsDirty = true;
-        }
+        if (TempHealthMods.RemoveAll(tm => tm.Duration < 1) <= 0) return;
+        AddedTempEvent?.Invoke();
+        IsDirty = true;
     }
 
     protected override int GetCalcValue()
@@ -99,12 +96,9 @@ public class Health : IntStat
     {
         current = Mathf.Max(0, current - dmg);
         UpdateSliderEvent?.Invoke();
-        if (current <= 0)
-        {
-            DeadEvent?.Invoke();
-            return true;
-        }
-        return false;
+        if (!(current <= 0)) return false;
+        DeadEvent?.Invoke();
+        return true;
     }
 
     public void Gain(float gain)
@@ -115,7 +109,7 @@ public class Health : IntStat
 
     public void FullGain() => current = Value;
     /// <summary> Set health to max by precent, min: 0f and max: 1f </summary>
-    public void SetToPrecent(float precent) => current = Value * Mathf.Clamp(precent, 0, 1);
+    public void SetToPercent(float percent) => current = Value * Mathf.Clamp(percent, 0, 1);
     public float SliderValue => current / Value;
 
     public string Status => current < 999 ?
@@ -175,41 +169,41 @@ public class Health : IntStat
         AddedTempEvent?.Invoke();
     }
 
-    public bool RemoveFromSource(string Source)
+    public bool RemoveFromSource(string source)
     {
-        if (string.IsNullOrEmpty(Source))
+        if (string.IsNullOrEmpty(source))
         {
             return false;
         }
-        if (HealthMods.Exists(sm => sm.Source.Equals(Source)))
+
+        if (!HealthMods.Exists(sm => sm.Source.Equals(source))) return false;
+        
+        foreach (HealthMod sm in HealthMods.FindAll(s => s.Source.Equals(source)))
         {
-            foreach (HealthMod sm in HealthMods.FindAll(s => s.Source.Equals(Source)))
-            {
-                HealthMods.Remove(sm);
-            }
-            IsDirty = true;
-            return true;
+            HealthMods.Remove(sm);
         }
-        return false;
+
+        IsDirty = true;
+        return true;
     }
 
-    public bool RemoveTempFromSource(string Source)
+    public bool RemoveTempFromSource(string source)
     {
-        if (string.IsNullOrEmpty(Source))
+        if (string.IsNullOrEmpty(source))
         {
             return false;
         }
-        if (TempHealthMods.Exists(sm => sm.Source.Equals(Source)))
+
+        if (!TempHealthMods.Exists(sm => sm.Source.Equals(source))) return false;
+        
+        foreach (TempHealthMod sm in TempHealthMods.FindAll(s => s.Source.Equals(source)))
         {
-            foreach (TempHealthMod sm in TempHealthMods.FindAll(s => s.Source.Equals(Source)))
-            {
-                TempHealthMods.Remove(sm);
-            }
-            IsDirty = true;
-            AddedTempEvent?.Invoke();
-            return true;
+            TempHealthMods.Remove(sm);
         }
-        return false;
+
+        IsDirty = true;
+        AddedTempEvent?.Invoke();
+        return true;
     }
 
     #endregion AddAndRemoveMods
@@ -223,6 +217,6 @@ public class AffectedByStat
         this.Multiplier = multiplier;
     }
 
-    public StatTypes Stat;
+    public readonly StatTypes Stat;
     public float Multiplier { get; }
 }

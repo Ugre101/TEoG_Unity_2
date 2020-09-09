@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 
 public class PerkTreeController : MonoBehaviour, IScrollHandler
 {
-    private BasicChar player => PlayerMain.Player;
+    private static BasicChar player => PlayerMain.Player;
 
     [SerializeField] private RectTransform zoomRect = null;
 
@@ -17,7 +17,7 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
 
     private bool hasTouch = false;
 
-    public float SetZoom
+    private float SetZoom
     {
         get => zoom;
         set
@@ -48,28 +48,26 @@ public class PerkTreeController : MonoBehaviour, IScrollHandler
         {
             SetZoom -= keyZooomSen;
         }
-        if (hasTouch)
+        // Easier to read this way
+        if (hasTouch && Input.touchCount == 2)
         {
-            if (Input.touchCount == 2)
-            {
-                Touch touchZero = Input.GetTouch(0);
-                Touch touchOne = Input.GetTouch(1);
+            Touch touchZero = Input.GetTouch(0);
+            Touch touchOne = Input.GetTouch(1);
 
-                // Find the position in the previous frame of each touch.
-                Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-                Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+            // Find the position in the previous frame of each touch.
+            Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+            Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
 
-                // Find the magnitude of the vector (the distance) between the touches in each frame.
-                float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-                float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+            // Find the magnitude of the vector (the distance) between the touches in each frame.
+            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
 
-                // Find the difference in the distances between each frame.
-                float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+            // Find the difference in the distances between each frame.
+            float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
 
-                // ... change the orthographic size based on the change in distance between the touches.
-                //  TODO Test is works
-                SetZoom += deltaMagnitudeDiff * touchpadZoomSen;
-            }
+            // ... change the orthographic size based on the change in distance between the touches.
+            //  TODO Test is works
+            SetZoom += deltaMagnitudeDiff * touchpadZoomSen;
         }
     }
 

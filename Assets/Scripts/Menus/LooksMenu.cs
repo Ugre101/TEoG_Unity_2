@@ -7,7 +7,7 @@ public class LooksMenu : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI looksText = null;
 
-    private BasicChar Player => PlayerMain.Player;
+    private static BasicChar Player => PlayerMain.Player;
     //  [SerializeField] private Button toggleExact = null;
 
     //    private bool exactDetails = false;
@@ -33,13 +33,13 @@ public class LooksMenu : MonoBehaviour
 
     private string Summary => Player.Summary() + "\n\n" + BodyLook() + "\n\n" + SexOrgans() + "\n\n" + PregnancyLook();
 
-    private string BodyLook()
+    private static string BodyLook()
     {
         string body = $"";
         return body;
     }
 
-    private string SexOrgans()
+    private static string SexOrgans()
     {
         string toReturn = " ";
         SexualOrgans so = Player.SexualOrgans;
@@ -80,7 +80,7 @@ public class LooksMenu : MonoBehaviour
         return pregLook;
     }
 
-    private string FetusDesc(Vagina pregVag)
+    private static string FetusDesc(Vagina pregVag)
     {
         int index = Player.SexualOrgans.Vaginas.List.IndexOf(pregVag);
         if (pregVag.Womb.Fetuses.Count > 1)

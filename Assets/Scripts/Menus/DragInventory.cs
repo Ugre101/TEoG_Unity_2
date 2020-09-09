@@ -9,9 +9,9 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     [SerializeField] private TextMeshProUGUI amountText = null;
 
-    public Item Item { get; private set; }
+    private Item Item { get; set; }
     private int slotId;
-    private BasicChar Player => PlayerMain.Player;
+    private static BasicChar Player => PlayerMain.Player;
 
     private InventoryHandler invHandler;
     private InventoryHoverText hoverText;
@@ -87,13 +87,9 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         Hovering();
         if (Time.realtimeSinceStartup <= firstClick + 1)
-        {
             UseItem();
-        }
         else
-        {
             firstClick = Time.realtimeSinceStartup;
-        }
     }
 
     private bool isHovering = false, hoverTextActive = false;
@@ -107,14 +103,10 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     private void Update()
     {
-        if (isHovering && !hoverTextActive)
-        {
-            if (timeStartedHovering + 0.8f < Time.realtimeSinceStartup)
-            {
-                Hovering();
-                hoverTextActive = true;
-            }
-        }
+        if (!isHovering || hoverTextActive || !(timeStartedHovering + 0.8f < Time.realtimeSinceStartup)) return;
+        
+        Hovering();
+        hoverTextActive = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -124,27 +116,25 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         hoverText.StopHovering();
     }
 
-    public void UseItem()
+    private void UseItem()
     {
-        if (Item is IEquip toEquip)
+        switch (Item)
         {
-            Player.AutoEquipItem(Item);
-        }
-        else if (Item is IHaveStatMods haveMods)
-        {
-            haveMods.StatMods.ForEach(m => Player.Stats.GetStat(m.StatTypes).AddMods(m.StatMod));
+            case IEquip toEquip:
+                Player.AutoEquipItem(Item);
+                break;
+            case IHaveStatMods haveMods:
+                haveMods.StatMods.ForEach(m => Player.Stats.GetStat(m.StatTypes).AddMods(m.StatMod));
+                break;
         }
         Item.Use(Player);
         //amount.text = Item.Amount.ToString();
-        if (!invItem.Reusable)
-        {
-            Amount--;
-        }
-        if (Amount < 1)
-        {
-            UsedEvent?.Invoke();
-            hoverText.StopHovering();
-        }
+        if (!invItem.Reusable) Amount--;
+
+        if (Amount >= 1) return;
+        
+        UsedEvent?.Invoke();
+        hoverText.StopHovering();
     }
 
     public void NewItem(InventoryHandler inventoryHandler, InventoryItem inventoryItem, Item item, InventoryHoverText inventoryHoverText)
@@ -156,7 +146,7 @@ public class DragInventory : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         this.Item = item;
         _ = Amount;
         //Invitem.item;
-        if (item != null ? item.Sprite != null : false)
+        if (item != null && item.Sprite != null)
         {
             GetImage.sprite = item.Sprite;
         }

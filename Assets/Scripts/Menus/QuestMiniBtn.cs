@@ -39,7 +39,7 @@ public class QuestMiniBtn : MonoBehaviour
         icon.sprite = null;
     }
 
-    private string SpaceAtUpper(string text)
+    private static string SpaceAtUpper(string text)
     {
         if (!string.IsNullOrEmpty(text))
         {
@@ -59,5 +59,5 @@ public class QuestMiniBtn : MonoBehaviour
         return string.Empty;
     }
 
-    public void ToBigText() => bigQuest.Setup(quest);
+    private void ToBigText() => bigQuest.Setup(quest);
 }

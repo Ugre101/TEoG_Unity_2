@@ -20,9 +20,7 @@ public class CharSprites : ScriptableObject
             if (genderMatch.Count > 0)
                 return genderMatch.RandomListValue();
             List<CharSprite> genderTypeMatch = matches.FindAll(c => c.GenderType == who.GenderType);
-            if (genderTypeMatch.Count > 0)
-                return genderTypeMatch.RandomListValue();
-            return matches.RandomListValue();
+            return genderTypeMatch.Count > 0 ? genderTypeMatch.RandomListValue() : matches.RandomListValue();
         }
         else
         {

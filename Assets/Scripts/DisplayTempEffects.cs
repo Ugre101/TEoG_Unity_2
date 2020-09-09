@@ -24,8 +24,8 @@ namespace Ugre.GameUITempEffects
         {
             Save.LoadEvent += DisplayEffects;
             player.Stats.GetAll.ForEach(s => { s.AddedTempEvent += DisplayEffects; });
-            player.HP.AddedTempEvent += DisplayEffects;
-            player.WP.AddedTempEvent += DisplayEffects;
+            player.Hp.AddedTempEvent += DisplayEffects;
+            player.Wp.AddedTempEvent += DisplayEffects;
 
             DisplayEffects();
             lastPreyCount = player.Vore.TotalPreyCount;
@@ -35,8 +35,8 @@ namespace Ugre.GameUITempEffects
         {
             Save.LoadEvent -= DisplayEffects;
             player.Stats.GetAll.ForEach(s => { s.AddedTempEvent -= DisplayEffects; });
-            player.HP.AddedTempEvent -= DisplayEffects;
-            player.WP.AddedTempEvent -= DisplayEffects;
+            player.Hp.AddedTempEvent -= DisplayEffects;
+            player.Wp.AddedTempEvent -= DisplayEffects;
         }
 
         private void Update()
@@ -77,7 +77,7 @@ namespace Ugre.GameUITempEffects
                     });
                 }
             }
-            List<Health> healths = new List<Health>() { player.HP, player.WP };
+            List<Health> healths = new List<Health>() { player.Hp, player.Wp };
             foreach (Health health in healths)
             {
                 List<TempHealthMod> tempMods = health.TempHealthMods;

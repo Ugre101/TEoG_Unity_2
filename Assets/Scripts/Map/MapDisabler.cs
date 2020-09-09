@@ -6,6 +6,6 @@ public class MapDisabler : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        tilemap.SetActive(tilemap.activeSelf ? false : true);
+        tilemap.SetActive(!tilemap.activeSelf);
     }
 }

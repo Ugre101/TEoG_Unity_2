@@ -46,8 +46,8 @@ namespace SaveStuff
             this.id = id;
         }
 
-        public string FirstName { get => firstName; }
-        public string LastName { get => lastName; }
-        public string Id { get => id; }
+        public string FirstName => firstName;
+        public string LastName => lastName;
+        public string Id => id;
     }
 }

@@ -11,10 +11,10 @@ namespace ItemScripts
 
         public override string Use(BasicChar user)
         {
-            float toHeal = user.WP.Value / 10;
-            if (!user.WP.IsMax)
+            float toHeal = user.Wp.Value / 10;
+            if (!user.Wp.IsMax)
             {
-                user.WP.Gain(toHeal);
+                user.Wp.Gain(toHeal);
             }
             return $"Bottoms up!\nYou gained {toHeal} willpower back!";
         }

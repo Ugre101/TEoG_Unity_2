@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BasicSlider : MonoBehaviour
+public abstract class BasicSlider : MonoBehaviour
 {
     protected BasicChar basicChar;
 
@@ -13,7 +13,7 @@ public class BasicSlider : MonoBehaviour
     [SerializeField] protected bool endSuffix = false;
 
     [SerializeField] protected string suffix = "";
-    protected virtual Health Health { get; }
+    protected abstract Health Health { get; }
 
     protected virtual void Start()
     {

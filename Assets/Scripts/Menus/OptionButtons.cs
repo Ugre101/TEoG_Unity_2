@@ -75,7 +75,7 @@ public class OptionButtons : MonoBehaviour
         dormTitlesBtn.onClick.AddListener(() => ToggleSubMenu(dormTitlesMenu));
     }
 
-    private void SetToogleBtn(Button btn, UnityAction func, ref TextMeshProUGUI btnText, UnityAction setTextFunc)
+    private static void SetToogleBtn(Button btn, UnityAction func, ref TextMeshProUGUI btnText, UnityAction setTextFunc)
     {
         btn.onClick.AddListener(func);
         btnText = btnText != null ? btnText : btn.GetComponentInChildren<TextMeshProUGUI>();

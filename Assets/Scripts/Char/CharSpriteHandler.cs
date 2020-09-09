@@ -4,8 +4,8 @@ public class CharSpriteHandler : MonoBehaviour
 {
     [SerializeField] protected CharSprites sprites = null;
     [SerializeField] protected SpriteRenderer spriteRenderer = null;
-    protected CharSprite currentSprite = null;
-    protected BasicChar whom;
+    private CharSprite currentSprite = null;
+    private BasicChar whom;
 
     public void Setup(BasicChar whom)
     {
@@ -33,7 +33,7 @@ public class CharSpriteHandler : MonoBehaviour
         }
     }
 
-    protected void Height()
+    private void Height()
     {
         float heightRatio = 0.5f + ((whom.Body.Height.Value / 160f) / 2);
         float newSize = Mathf.Clamp(0.1f * heightRatio * currentSprite.HeightOfSprite, 0.05f, 0.5f);

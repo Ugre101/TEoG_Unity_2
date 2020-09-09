@@ -8,7 +8,7 @@ namespace SkillsAndSpells
         public override string Action(BasicChar user, BasicChar target)
         {
             float dmg = ValueWithRng(user);
-            target.HP.TakeDmg(dmg);
+            target.Hp.TakeDmg(dmg);
             return $"{user.Identity.FirstName} dealt {dmg}dmg to {target.Identity.FirstName}'s health.";
         }
 

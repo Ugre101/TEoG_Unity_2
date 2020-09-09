@@ -5,7 +5,7 @@ namespace SkillsAndSpells
     [CreateAssetMenu(fileName = "Minor temp shrink", menuName = BasicSkillExtension.MenuName + "MinorTempShrink")]
     public class MinorTempShrink : BasicSkill
     {
-        private TempStatMod ShrinkMod => new TempStatMod(-0.1f, ModTypes.Precent, typeof(MinorTempShrink).Name, 8);
+        private static TempStatMod ShrinkMod => new TempStatMod(-0.1f, ModTypes.Precent, nameof(MinorTempShrink), 8);
 
         public override string Action(BasicChar user, BasicChar target)
         {

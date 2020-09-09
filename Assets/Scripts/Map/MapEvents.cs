@@ -10,19 +10,7 @@ public class MapEvents : MonoBehaviour
 
     public static event Action<Tilemap> TileMapChange;
 
-    private PlayerSprite gottenPlayer;
-
-    private PlayerSprite Player
-    {
-        get
-        {
-            if (gottenPlayer == null)
-            {
-                gottenPlayer = PlayerSprite.Instance;
-            }
-            return gottenPlayer;
-        }
-    }
+    private PlayerSprite Player { get; set; }
 
     public static Tilemap CurrentMap { get; private set; }
 
@@ -47,6 +35,7 @@ public class MapEvents : MonoBehaviour
             {
                 lastMaps = CurrentWorld.Maps;
             }
+
             return lastMaps;
         }
     }
@@ -58,11 +47,10 @@ public class MapEvents : MonoBehaviour
     {
         get
         {
-            if (mapDirty)
-            {
-                lastMap = GetMaps.Find(m => m.name == CurrentMap.name);
-                mapDirty = false;
-            }
+            if (!mapDirty) return lastMap;
+            
+            lastMap = GetMaps.Find(m => m.name == CurrentMap.name);
+            mapDirty = false;
             return lastMap;
         }
     }
@@ -79,6 +67,7 @@ public class MapEvents : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         if (startMap != null)
         {
             CurrentMap = startMap;
@@ -88,10 +77,19 @@ public class MapEvents : MonoBehaviour
             Debug.LogError("MapEvents had to pick random startmap, not good...");
             CurrentMap = GetComponent<Tilemap>();
         }
+
         worldMaps = new List<WorldMap>(GetComponentsInChildren<WorldMap>());
         _ = TelePortLocations;
         mapDirty = true;
         StartCoroutine(waitAFrame());
+    }
+
+    private void Start()
+    {
+        if (Player == null)
+        {
+            Player = PlayerSprite.Instance;
+        }
     }
 
     private IEnumerator waitAFrame()
@@ -106,14 +104,14 @@ public class MapEvents : MonoBehaviour
     {
         get
         {
-            if (telePortLocations == null)
+            if (telePortLocations != null) return telePortLocations;
+            
+            telePortLocations = new List<TelePortLocation>();
+            foreach (CanTelePortTo canTele in GetComponentsInChildren<CanTelePortTo>())
             {
-                telePortLocations = new List<TelePortLocation>();
-                foreach (CanTelePortTo canTele in GetComponentsInChildren<CanTelePortTo>())
-                {
-                    telePortLocations.Add(new TelePortLocation(canTele, this));
-                }
+                telePortLocations.Add(new TelePortLocation(canTele, this));
             }
+
             return telePortLocations;
         }
     }
@@ -125,7 +123,7 @@ public class MapEvents : MonoBehaviour
         TileMapChange?.Invoke(CurrentMap);
     }
 
-    public void WorldChange(WorldMaps newWorld, Tilemap newMap)
+    private void WorldChange(WorldMaps newWorld, Tilemap newMap)
     {
         transform.SleepChildren();
         ActiveMap = newWorld;
@@ -147,7 +145,8 @@ public class MapEvents : MonoBehaviour
 
     public void Teleport(WorldMaps toWorld, Tilemap toMap, Tilemap teleportPlatform)
     {
-        Player.transform.position = teleportPlatform == null ? toMap.cellBounds.center : teleportPlatform.cellBounds.center;
+        Player.transform.position =
+            teleportPlatform == null ? toMap.cellBounds.center : teleportPlatform.cellBounds.center;
         WorldChange(toWorld, toMap);
     }
 
@@ -160,12 +159,13 @@ public class MapEvents : MonoBehaviour
 
     [SerializeField] private PlayerKnowMap knowMap = null;
 
-    public void Load(PosSave save, List<TeleportSave> teleportSaves)
+    public void Load(PosSave save, IEnumerable<TeleportSave> teleportSaves)
     {
         knowMap.BanditMap();
         ActiveMap = save.World;
 
-        if (WorldChildren.Find(m => m.name == save.Map) != null && WorldChildren.Find(m => m.name == save.Map).GetComponent<Map>() is Map saveMap)
+        if (WorldChildren.Find(m => m.name == save.Map) != null &&
+            WorldChildren.Find(m => m.name == save.Map).GetComponent<Map>() is Map saveMap)
         {
             WorldChange(save.World, saveMap.GetComponent<Tilemap>());
             Player.transform.position = save.Pos;
@@ -175,14 +175,14 @@ public class MapEvents : MonoBehaviour
             // TODO add real fail load destination instead of random
             foreach (Transform isMap in WorldChildren)
             {
-                if (isMap.GetComponent<Map>() is Map map)
-                {
-                    WorldChange(save.World, map.GetComponent<Tilemap>());
-                    Player.transform.position = map.transform.position;
-                    break;
-                }
+                if (!(isMap.GetComponent<Map>() is Map map)) continue;
+                
+                WorldChange(save.World, map.GetComponent<Tilemap>());
+                Player.transform.position = map.transform.position;
+                break;
             }
         }
+
         foreach (TeleportSave teleSave in teleportSaves)
         {
             foreach (TelePortLocation teleLocation in TelePortLocations)

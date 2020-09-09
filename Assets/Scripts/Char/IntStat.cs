@@ -13,11 +13,10 @@ public abstract class IntStat
     {
         get
         {
-            if (IsDirty)
-            {
-                lastValue = GetCalcValue();
-                IsDirty = false;
-            }
+            if (!IsDirty) return lastValue;
+            
+            lastValue = GetCalcValue();
+            IsDirty = false;
             return lastValue;
         }
     }

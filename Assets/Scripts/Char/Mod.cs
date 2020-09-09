@@ -7,7 +7,7 @@ public abstract class Mod
     [SerializeField] private ModTypes modType;
     [SerializeField] private string source;
 
-    public Mod(float parValue, ModTypes parType, string parSource)
+    protected Mod(float parValue, ModTypes parType, string parSource)
     {
         this.value = parValue;
         this.modType = parType;

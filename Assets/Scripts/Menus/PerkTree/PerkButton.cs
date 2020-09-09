@@ -2,8 +2,7 @@
 
 public class PerkButton : PerkTreeBasicBtn
 {
-    [Space]
-    [SerializeField] private PerkInfo perkInfo = null;
+    [Space] [SerializeField] private PerkInfo perkInfo = null;
     [SerializeField] private DrawLineBetweenObejcts drawLine = null;
     private int PerkLevel => Player.Perks.GetPerkLevel(perkInfo.Perk);
 
@@ -25,10 +24,6 @@ public class PerkButton : PerkTreeBasicBtn
             SetRuntSprite();
             started = true;
             OnEnable();
-            if (drawLine != null)
-            {
-                
-            }
         }
         else
         {
@@ -39,28 +34,20 @@ public class PerkButton : PerkTreeBasicBtn
 
     protected override void OnEnable()
     {
-        if (started)
-        {
-            Taken = Player.Perks.HasPerk(perkInfo.Perk);
-            amount.text = PerkLevel.ToString();
-            base.OnEnable();
-        }
+        if (!started) return;
+        Taken = Player.Perks.HasPerk(perkInfo.Perk);
+        amount.text = PerkLevel.ToString();
+        base.OnEnable();
     }
 
     protected override void Use()
     {
-        if (perkInfo.Unlocked(Player))
-        {
-            if (Player.Perks.HasPerk(perkInfo.Perk) ? Player.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel) : true)
-            {
-                if (Player.ExpSystem.PerkBool(perkInfo.PerkCost))
-                {
-                    Taken = true;
-                    Player.GainPerk(perkInfo.Perk);
-                    amount.text = PerkLevel.ToString();
-                }
-            }
-        }
+        if (!perkInfo.Unlocked(Player) ||
+            (Player.Perks.HasPerk(perkInfo.Perk) && !Player.Perks.NotMaxLevel(perkInfo.Perk, perkInfo.MaxLevel)) ||
+            !Player.ExpSystem.PerkBool(perkInfo.PerkCost)) return;
+        Taken = true;
+        Player.GainPerk(perkInfo.Perk);
+        amount.text = PerkLevel.ToString();
     }
 
     protected override void Hovering()

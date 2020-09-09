@@ -46,11 +46,11 @@ public class ChooseSkillMain : MonoBehaviour
         combatButton = parCombatBtn;
         // Clean container
         container.transform.KillChildren();
-        Instantiate(chooseNone, container.transform).onClick.AddListener(() => { combatButton.Clean(); skillButtons.ToogleButtons(); });
+        Instantiate(chooseNone, container.transform).onClick.AddListener(() => { combatButton.Clean(); skillButtons.ToggleButtons(); });
         // Add all skills
         foreach (Skill skill in Player.Skills)
         {
-            Instantiate(prefab, container.transform).Setup(skillBook.Dict.Match(skill.Id), combatButton, hoverBlock, hoverText, skillButtons.ToogleButtons);
+            Instantiate(prefab, container.transform).Setup(skillBook.Dict.Match(skill.Id), combatButton, hoverBlock, hoverText, skillButtons.ToggleButtons);
         }
     }
 
@@ -58,14 +58,13 @@ public class ChooseSkillMain : MonoBehaviour
     {
         // Clean container
         container.transform.KillChildren();
-        if (knowSkills.Exists(s => s.Type == skillType))
+        if (!knowSkills.Exists(s => s.Type == skillType)) return;
+        
+        List<UserSkill> mySkills = skillBook.Dict.OwnedSkills(Player.Skills);
+        foreach (UserSkill skill in mySkills.FindAll(s => s.skill.Type == skillType))
         {
-            List<UserSkill> mySkills = skillBook.Dict.OwnedSkills(Player.Skills);
-            foreach (UserSkill skill in mySkills.FindAll(s => s.skill.Type == skillType))
-            {
-                ChooseSkill choose = Instantiate(prefab, container.transform);
-                choose.Setup(skill, combatButton, hoverBlock, hoverText, skillButtons.ToogleButtons);
-            }
+            ChooseSkill choose = Instantiate(prefab, container.transform);
+            choose.Setup(skill, combatButton, hoverBlock, hoverText, skillButtons.ToggleButtons);
         }
     }
 }

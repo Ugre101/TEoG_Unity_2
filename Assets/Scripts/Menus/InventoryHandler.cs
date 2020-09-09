@@ -13,24 +13,25 @@ public class InventoryHandler : MonoBehaviour
     [SerializeField] private Button sortAll = null, sortEatDrink = null, sortMisc = null;
     [SerializeField] private PromptYesNo yesNo = null;
     [SerializeField] private int AmountOfSlots = 40;
-    private BasicChar Player => PlayerMain.Player;
+    private static BasicChar Player => PlayerMain.Player;
 
-    private List<InventoryItem> Items => Player.Inventory.Items;
+    private static List<InventoryItem> Items => Player.Inventory.Items;
 
     //  public List<Item> Items;
     private InventorySlot[] Slots;
 
-    private Color selected = new Color(0.5f, 0.5f, 0.5f, 1f), notSelected = new Color(0, 0, 0, 1);
+    private readonly Color selected = new Color(0.5f, 0.5f, 0.5f, 1f);
+    private readonly Color notSelected = new Color(0, 0, 0, 1);
 
     private void Awake() => DragInventory.UsedEvent += UpdateInventory;
 
     private void OnEnable()
     {
         ToggleButtons(sortAll);
-        int SlotCount = SlotsHolder.transform.childCount;
-        if (SlotCount < AmountOfSlots)
+        int slotCount = SlotsHolder.transform.childCount;
+        if (slotCount < AmountOfSlots)
         {
-            for (int i = SlotCount; i < AmountOfSlots; i++)
+            for (int i = slotCount; i < AmountOfSlots; i++)
             {
                 Instantiate(SlotPrefab, SlotsHolder.transform).SetId(i);
             }
@@ -47,13 +48,13 @@ public class InventoryHandler : MonoBehaviour
         Player.EquiptItems.GetAll.ForEach(e => e.GotItem += UpdateInventory);
     }
 
-    public void UpdateInventory()
+    private void UpdateInventory()
     {
         Items.RemoveAll(i => i.Amount < 1);
         ShowInventory(Items);
     }
 
-    public void UpdateInventory(ItemTypes parType)
+    private void UpdateInventory(ItemTypes parType)
     {
         Items.RemoveAll(i => i.Amount < 1);
         List<InventoryItem> sorted = (from item in items.ItemsDict
@@ -77,29 +78,27 @@ public class InventoryHandler : MonoBehaviour
             Instantiate(ItemPrefab, Slots[i.InvPos].transform).NewItem(this, i, items.GetById(i.Id), inventoryHoverText));
     }
 
-    public void ToggleButtons(Button selectedBtn)
+    private void ToggleButtons(Button selectedBtn)
     {
         sortAll.image.color = sortAll.name == selectedBtn.name ? selected : notSelected;
         sortEatDrink.image.color = sortEatDrink.name == selectedBtn.name ? selected : notSelected;
         sortMisc.image.color = sortMisc.name == selectedBtn.name ? selected : notSelected;
     }
 
-    public void Move(int startSlot, int EndSlot)
+    public void Move(int startSlot, int endSlot)
     {
-        if (Slots[EndSlot].Empty && !Items.ExistByPos(EndSlot))
+        if (Slots[endSlot].Empty && !Items.ExistByPos(endSlot))
         {
-            Items.FindByPos(startSlot).InvPos = EndSlot;
+            Items.FindByPos(startSlot).InvPos = endSlot;
             //UpdateInventory();
         }
     }
 
     public void Move(int startSlot)
     {
-        if (Items.ExistByPos(startSlot))
-        {
-            InventoryItem inv = Items.FindByPos(startSlot);
-            Instantiate(yesNo, transform).Setup(() => RemoveItem(inv), "Do you want to delete item?");
-        }
+        if (!Items.ExistByPos(startSlot)) return;
+        InventoryItem inv = Items.FindByPos(startSlot);
+        Instantiate(yesNo, transform).Setup(() => RemoveItem(inv), "Do you want to delete item?");
     }
 
     private void RemoveItem(InventoryItem itemToRemove)

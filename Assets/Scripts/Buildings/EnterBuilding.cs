@@ -9,13 +9,10 @@ public class EnterBuilding : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag(PlayerSprite.Instance.gameObject.tag))
+        if (collider.CompareTag(PlayerSprite.Instance.gameObject.tag) && building != null)
         {
-            if (building != null)
-            {
-                Enter?.Invoke(building);
-                // gameUI.EnterBuilding(BuildingToEnter);
-            }
+            Enter?.Invoke(building);
+            // gameUI.EnterBuilding(BuildingToEnter);
         }
     }
 

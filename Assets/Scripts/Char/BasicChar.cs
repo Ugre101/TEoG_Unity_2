@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Vore;
 
-[System.Serializable]
+[Serializable]
 public class BasicChar
 {
-    [SerializeField] protected Identity identity = new Identity();
+    [SerializeField] protected Identity identity;
 
     public Identity Identity => identity;
     [SerializeField] protected RelationshipTracker relationshipTracker = new RelationshipTracker();
@@ -27,15 +28,13 @@ public class BasicChar
 
     public bool DidGenderChange()
     {
-        if (lastGender != GenderExtensions.Gender(this))
-        {
-            lastGender = GenderExtensions.Gender(this);
-            return true;
-        }
-        return false;
+        if (lastGender == GenderExtensions.Gender(this)) return false;
+        
+        lastGender = GenderExtensions.Gender(this);
+        return true;
     }
 
-    public string Gender(bool capital = false) => Settings.GetGender(this, capital);
+    public string Gender(bool capital = false) => this.GetGender(capital);
 
     public GenderTypes GenderType => this.GenderType();
 
@@ -55,12 +54,12 @@ public class BasicChar
 
     [SerializeField] private Health hp, wp;
 
-    public Health HP => hp;
+    public Health Hp => hp;
 
-    public Health WP => wp;
+    public Health Wp => wp;
 
     [Header("Level,exp, stats & perks")]
-    [SerializeField] private ExpSystem expSystem = new ExpSystem();
+    [SerializeField] private ExpSystem expSystem;
 
     public ExpSystem ExpSystem => expSystem;
 
@@ -123,7 +122,7 @@ public class BasicChar
         this.expSystem = expSystem;
     }
 
-    [SerializeField] private List<Skill> skills = new List<Skill>() { new Skill(SkillId.BasicAttack), new Skill(SkillId.BasicTease) };
+    [SerializeField] private List<Skill> skills = new List<Skill> { new Skill(SkillId.BasicAttack), new Skill(SkillId.BasicTease) };
 
     public List<Skill> Skills => skills;
 

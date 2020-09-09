@@ -40,7 +40,7 @@ namespace StartMenuStuff
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
-                SaveMananger.Instance.NewSave.LoadData(json);
+                Save.LoadData(json);
                 GameManager.SetCurState(GameState.Free);
                 SceneManager.sceneLoaded -= OnSceneLoaded;
             }

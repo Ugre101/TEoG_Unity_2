@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PerkPointsLeft : MonoBehaviour
 {
-    private BasicChar player => PlayerMain.Player;
+    private static BasicChar player => PlayerMain.Player;
     [SerializeField] private TextMeshProUGUI textUGUI = null;
     private int lastLeft;
     private bool started = false;
@@ -30,10 +30,8 @@ public class PerkPointsLeft : MonoBehaviour
     private void ShowPoints()
     {
         int perkPoints = player.ExpSystem.PerkPoints;
-        if (lastLeft != perkPoints)
-        {
-            lastLeft = perkPoints;
-            textUGUI.text = $"Perkpoints: {lastLeft}";
-        }
+        if (lastLeft == perkPoints) return;
+        lastLeft = perkPoints;
+        textUGUI.text = $"Perkpoints: {lastLeft}";
     }
 }

@@ -8,7 +8,7 @@ namespace SkillsAndSpells
         public override string Action(BasicChar user, BasicChar target)
         {
             float toHeal = ValueWithRng(user);
-            user.HP.Gain(toHeal);
+            user.Hp.Gain(toHeal);
             return $"{user.Identity.FirstName} heals themself for {toHeal}hp.";
         }
 

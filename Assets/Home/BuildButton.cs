@@ -26,10 +26,9 @@ public class BuildButton : MonoBehaviour
 
     private void Upgrade()
     {
-        if (owner.Currency.TryToBuy(buildCost.GetCost(homeUpgrade.Level)))
-        {
-            homeUpgrade.Upgrade();
-            DisplayCost();
-        }
+        if (!owner.Currency.TryToBuy(buildCost.GetCost(homeUpgrade.Level))) return;
+        
+        homeUpgrade.Upgrade();
+        DisplayCost();
     }
 }

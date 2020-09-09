@@ -1,7 +1,4 @@
 ﻿public class PlayerFemiSlider : FemiSlider
 {
-    private void Start()
-    {
-        Init(PlayerMain.Player);
-    }
+    private void Start() => Init(PlayerMain.Player);
 }

@@ -10,7 +10,7 @@ public static class PlayerMain
         Player.Identity.SetLastName(last);
     }
 
-    public static string PlayerID => Player.Identity.Id;
+    public static string PlayerId => Player.Identity.Id;
 
     public static PlayerSave Save() => new PlayerSave(Player);
 
@@ -24,7 +24,7 @@ public static class PlayerMain
         Bind();
     }
 
-    public static void GenderChange()
+    private static void GenderChange()
     {
         if (Player.DidGenderChange())
         {
@@ -62,7 +62,7 @@ public static class PlayerMain
         // SpriteHandler.Setup(BasicChar);
     }
 
-    public static void Unbind()
+    private static void Unbind()
     {
         DateSystem.NewMinuteEvent -= DoEveryMin;
         DateSystem.NewDayEvent -= DoEveryDay;

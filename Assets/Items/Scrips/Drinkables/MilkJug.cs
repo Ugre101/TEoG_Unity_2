@@ -14,8 +14,8 @@ namespace ItemScripts
         public override string Use(BasicChar user)
         {
             // TODO milk extra effect/Tfs
-            user.HP.Gain(70);
-            user.WP.Gain(70);
+            user.Hp.Gain(70);
+            user.Wp.Gain(70);
             return base.Use(user);
         }
     }

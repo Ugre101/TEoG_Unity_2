@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MiniMapController : MonoBehaviour
 {
     // Public
-    [SerializeField] private Transform _player = null;
+    [FormerlySerializedAs("_player")] [SerializeField] private Transform player = null;
 
     [SerializeField] private GameObject miniMap = null, bigMap = null;
 
@@ -16,7 +17,7 @@ public class MiniMapController : MonoBehaviour
     // Private
     private bool mini = true, big = false;
 
-    [SerializeField] private Vector3 _offset = new Vector3(1f, 0, -10);
+    [FormerlySerializedAs("_offset")] [SerializeField] private Vector3 offset = new Vector3(1f, 0, -10);
 
     private Camera cam;
     //  private float _down;
@@ -43,7 +44,7 @@ public class MiniMapController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        _player = _player != null ? _player : PlayerSprite.Instance.transform;
+        player = player != null ? player : PlayerSprite.Instance.transform;
         cam = GetComponent<Camera>();
         cam.orthographicSize = 80f;
         // add event to change main map.
@@ -54,8 +55,8 @@ public class MiniMapController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        Vector3 _target = _player.transform.position + _offset;
-        transform.position = Vector3.Lerp(transform.position, _target, smoothing);
+        Vector3 target = player.transform.position + offset;
+        transform.position = Vector3.Lerp(transform.position, target, smoothing);
         if (KeyBindings.MapKey.KeyDown)
         {
             UpdateMapState(NewState);

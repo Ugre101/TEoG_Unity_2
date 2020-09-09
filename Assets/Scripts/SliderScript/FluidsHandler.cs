@@ -2,13 +2,13 @@
 
 public class FluidsHandler : MonoBehaviour
 {
-    private BasicChar player => PlayerMain.Player;
+    private static BasicChar Player => PlayerMain.Player;
 
     [SerializeField] private GameObject cumBar = null, milkBar = null, scatBar = null;
 
     private void OnEnable()
     {
-        SexualOrgans so = player.SexualOrgans;
+        SexualOrgans so = Player.SexualOrgans;
 
         cumBar.SetActive(so.HaveBalls());
 

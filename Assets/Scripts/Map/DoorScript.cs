@@ -17,11 +17,10 @@ public class DoorScript : MonoBehaviour
     // Simple door script, handles trigger to switch tilemap for movement and camera.
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(playerTag))
-        {
-            bool direction = MapEvents.CurrentMap == FromTilemap;
-            MapEvents.MapChange(direction ? ToTilemap : FromTilemap);
-        }
+        if (!collision.CompareTag(playerTag)) return;
+        
+        bool direction = MapEvents.CurrentMap == FromTilemap;
+        MapEvents.MapChange(direction ? ToTilemap : FromTilemap);
     }
 
     private void OnTriggerStay2D(Collider2D collision)

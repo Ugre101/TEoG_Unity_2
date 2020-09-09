@@ -1,5 +1,8 @@
 ﻿public class ScatBar : FluidSliders
 {
+    private bool _isstatusTextNotNull;
+
+
     private void OnEnable() => Setup();
 
     public override void Setup()
@@ -10,9 +13,9 @@
             ScatChange();
         }
         else
-        {
             gameObject.SetActive(false);
-        }
+
+        _isstatusTextNotNull = statusText != null;
     }
 
     private void OnDisable() => SexualFluid.FluidSlider -= ScatChange;
@@ -20,9 +23,6 @@
     private void ScatChange()
     {
         slider.value = Player.SexualOrgans.Anals.FluidSlider;
-        if (statusText != null)
-        {
-            statusText.text = Player.SexualOrgans.Anals.FluidStatus;
-        }
+        if (_isstatusTextNotNull) statusText.text = Player.SexualOrgans.Anals.FluidStatus;
     }
 }

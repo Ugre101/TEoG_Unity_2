@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CombatMain : MonoBehaviour
 {
     /// <summary>Can only be used by children of this as it isn't defined before first enable</summary>
     public static CombatMain GetCombatMain { get; private set; }
 
-    [SerializeField] private TextMeshProUGUI _textbox = null;
+    [FormerlySerializedAs("_textbox")] [SerializeField] private TextMeshProUGUI textbox = null;
 
     [SerializeField] private GameObject skillButtonsContainer = null;
 
@@ -23,11 +24,11 @@ public class CombatMain : MonoBehaviour
     [Header("Lose")]
     [SerializeField] private LoseMain loseBattle = null;
 
-    private BasicChar Player => PlayerMain.Player;
+    private static BasicChar Player => PlayerMain.Player;
     private List<CombatButton> skillButtons = new List<CombatButton>();
-    private string PlayerTeamAttacks { get => CombatHandler.PlayerTeamAttacks; set => CombatHandler.PlayerTeamAttacks = value; }
-    private string EnemyTeamAttacks { get => CombatHandler.EnemyTeamAttacks; set => CombatHandler.SetEnemyTeamAttacks(value); }
-    private int Turn { get => CombatHandler.Turn; set => CombatHandler.Turn = value; }
+    private static string PlayerTeamAttacks { get => CombatHandler.PlayerTeamAttacks; set => CombatHandler.PlayerTeamAttacks = value; }
+    private static string EnemyTeamAttacks { get => CombatHandler.EnemyTeamAttacks; set => CombatHandler.SetEnemyTeamAttacks(value); }
+    private static int Turn { get => CombatHandler.Turn; set => CombatHandler.Turn = value; }
 
     private void Awake()
     {
@@ -42,16 +43,15 @@ public class CombatMain : MonoBehaviour
         CombatHandler.PrintActionLog += SetTextBox;
         CombatHandler.EndTurnEvent += TurnManager;
         skillButtons = new List<CombatButton>(skillButtonsContainer.GetComponentsInChildren<CombatButton>());
-        if (!skillButtons.Exists(s => s.Skill != null))
+        if (skillButtons.Exists(s => s.Skill != null)) return;
+        
+        for (int i = 0; i < Mathf.Min(Player.Skills.Count, skillButtons.Count - 1); i++)
         {
-            for (int i = 0; i < Mathf.Min(Player.Skills.Count, skillButtons.Count - 1); i++)
-            {
-                skillButtons[i].Setup(skillBook.Dict.Match(Player.Skills[i].Id));
-            }
+            skillButtons[i].Setup(skillBook.Dict.Match(Player.Skills[i].Id));
         }
     }
 
-    private void SetTextBox(string text) => _textbox.text = text;
+    private void SetTextBox(string text) => textbox.text = text;
 
     private void ResetSkills(List<BasicChar> basicChars) =>
         basicChars.ForEach(bc => skillBook.Dict.OwnedSkills(bc.Skills).ForEach(us => us.ResetCoolDown()));
@@ -68,20 +68,16 @@ public class CombatMain : MonoBehaviour
         ResetSkills(CombatHandler.EnemyTeamChars);
     }
 
-    public void EnemyAI(BasicChar Enemy)
+    private void EnemyAi(BasicChar enemy)
     {
-        float str = Enemy.Stats.Str, charm = Enemy.Stats.Cha;
+        float str = enemy.Stats.Str, charm = enemy.Stats.Cha;
         //  List<string> strAttack = new List<string> { "Hits you", "Kicks you", "Grapples you down to the ground" };
         //  List<string> charmAttack = new List<string> { $"Teases you" };
         // TODO check highest avg dmg amoung owned skills in future
         if (charm < str)
-        {
-            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicAttack).skill.Action(Enemy, Player);
-        }
+            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicAttack).skill.Action(enemy, Player);
         else
-        {
-            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicTease).skill.Action(Enemy, Player);
-        }
+            EnemyTeamAttacks += skillBook.Dict.Match(SkillId.BasicTease).skill.Action(enemy, Player);
     }
 
     private void TurnManager()
@@ -89,7 +85,7 @@ public class CombatMain : MonoBehaviour
         // PlayerTeam
 
         // EnemyTeam
-        CombatHandler.EnemyTeamChars.ForEach(e => EnemyAI(e));
+        CombatHandler.EnemyTeamChars.ForEach(EnemyAi);
         // Formay textlog
         string textToAdd = $"Turn: {Turn}\nPlayer team\n" + PlayerTeamAttacks + "\nEnemy team\n" + EnemyTeamAttacks + "\n";
         CombatHandler.AddToCombatLog(textToAdd);
@@ -112,7 +108,7 @@ public class CombatMain : MonoBehaviour
         loseBattle.Setup(CombatHandler.EnemyTeamChars);
     }
 
-    public void WinBattle()
+    private void WinBattle()
     {
         CombatHandler.EnemyTeamChars.ForEach(etc =>
         {
@@ -129,13 +125,13 @@ public class CombatMain : MonoBehaviour
             {
                 if (Player.Perks.HasPerk(PerksTypes.Bully))
                 {
-                    e.HP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(Player.Perks));
-                    e.WP.SetToPrecent(1f - PerkEffects.Bully.HealthReGainReduction(Player.Perks));
+                    e.Hp.SetToPercent(1f - PerkEffects.Bully.HealthReGainReduction(Player.Perks));
+                    e.Wp.SetToPercent(1f - PerkEffects.Bully.HealthReGainReduction(Player.Perks));
                 }
                 else
                 {
-                    e.HP.FullGain();
-                    e.WP.FullGain();
+                    e.Hp.FullGain();
+                    e.Wp.FullGain();
                 }
                 PostBattleReward(e);
             }
@@ -146,7 +142,7 @@ public class CombatMain : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    private void PostBattleReward(EnemyPrefab b)
+    private static void PostBattleReward(EnemyPrefab b)
     {
         // Player loses obedince towards losing enemy
         Player.RelationshipTracker.GetTempRelationshipWith(b).ObedienceStat.BaseValue--;
@@ -182,20 +178,20 @@ public class CombatMain : MonoBehaviour
 
 public static class CombatHandler
 {
-    private static readonly List<string> battleLog = new List<string>();
+    private static readonly List<string> BattleLog = new List<string>();
 
     public static void ClearBattleLog()
     {
-        battleLog.Clear();
+        BattleLog.Clear();
         PrintActionLog?.Invoke(string.Empty);
     }
 
     public static void AddToCombatLog(string addText)
     {
-        battleLog.Insert(0, addText + "\n");
+        BattleLog.Insert(0, addText + "\n");
 
         StringBuilder sb = new StringBuilder();
-        foreach (string s in battleLog)
+        foreach (string s in BattleLog)
         {
             sb.Append(s);
         }
@@ -211,12 +207,10 @@ public static class CombatHandler
     {
         get
         {
-            if (EnemyTeamChars.Count < 1)
-            {
-                GameManager.ReturnToLastState();  // Error return to main game
-                return null;
-            }
-            return EnemyTeamChars[indexCurrentEnemy];
+            if (EnemyTeamChars.Count >= 1) return EnemyTeamChars[indexCurrentEnemy];
+            
+            GameManager.ReturnToLastState();  // Error return to main game
+            return null;
         }
     }
 
@@ -227,15 +221,13 @@ public static class CombatHandler
 
     public static string PlayerTeamAttacks { get; set; }
 
-    private static string enemyTeamAttacks;
+    public static string EnemyTeamAttacks { get; private set; }
 
-    public static string EnemyTeamAttacks => enemyTeamAttacks;
-
-    public static void SetEnemyTeamAttacks(string value) => enemyTeamAttacks = value;
+    public static void SetEnemyTeamAttacks(string value) => EnemyTeamAttacks = value;
 
     public static int Turn { get; set; }
 
-    public static void SetUpCombat(List<BasicChar> enemies)
+    public static void SetUpCombat(IEnumerable<BasicChar> enemies)
     {
         // Clear battle log
         ClearBattleLog();

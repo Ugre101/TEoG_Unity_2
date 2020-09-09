@@ -13,11 +13,9 @@ public abstract class FloatStat
     {
         get
         {
-            if (IsDirty)
-            {
-                lastValue = CalcValue();
-                IsDirty = false;
-            }
+            if (!IsDirty) return lastValue;
+            lastValue = CalcValue();
+            IsDirty = false;
             return lastValue;
         }
     }

@@ -20,14 +20,7 @@ public class AnalsContainer : OrganWithFluidContainer
             for (int i = 0; i < List.Count; i++)
             {
                 Anal anal = List[i];
-                if (i == 0)
-                {
-                    builder.Append(anal.Look());
-                }
-                else
-                {
-                    builder.Append(anal.Look(false));
-                }
+                builder.Append(i == 0 ? anal.Look() : anal.Look(false));
                 if (i == List.Count - 2)
                 {
                     builder.Append(" and ");
@@ -103,12 +96,9 @@ public class AnalsContainer : OrganWithFluidContainer
     public override float ReCycle()
     {
         Anal toShrink = List[List.Count - 1];
-        if (toShrink.Shrink())
-        {
-            Remove(toShrink);
-            return 30f;
-        }
-        return toShrink.Cost;
+        if (!toShrink.Shrink()) return toShrink.Cost;
+        Remove(toShrink);
+        return 30f;
     }
 
     public override void ReBind()
@@ -138,14 +128,7 @@ public class BallsContaier : OrganWithFluidContainer
             for (int i = 0; i < List.Count; i++)
             {
                 Balls balls = List[i];
-                if (i == 0)
-                {
-                    builder.Append(balls.Look());
-                }
-                else
-                {
-                    builder.Append(balls.Look(false));
-                }
+                builder.Append(i == 0 ? balls.Look() : balls.Look(false));
                 if (i == List.Count - 2)
                 {
                     builder.Append(" and ");
@@ -171,14 +154,7 @@ public class BallsContaier : OrganWithFluidContainer
             for (int i = 0; i < List.Count; i++)
             {
                 Balls balls = List[i];
-                if (i == 0)
-                {
-                    builder.Append(balls.LookWithOutFluid());
-                }
-                else
-                {
-                    builder.Append(balls.LookWithOutFluid(false));
-                }
+                builder.Append(i == 0 ? balls.LookWithOutFluid() : balls.LookWithOutFluid(false));
                 if (i == List.Count - 2)
                 {
                     builder.Append(" and ");
@@ -221,12 +197,9 @@ public class BallsContaier : OrganWithFluidContainer
     public override float ReCycle()
     {
         Balls toShrink = List[balls.Count - 1];
-        if (toShrink.Shrink())
-        {
-            Remove(toShrink);
-            return 30f;
-        }
-        return toShrink.Cost;
+        if (!toShrink.Shrink()) return toShrink.Cost;
+        Remove(toShrink);
+        return 30f;
     }
 
     public override void ReBind()

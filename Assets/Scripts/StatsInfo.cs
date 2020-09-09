@@ -24,7 +24,7 @@ public class StatsInfo : MonoBehaviour
         will.text = $"Willpower: {stats.Will}";
         dex.text = $"Dexterity: {stats.Dex}";
         intel.text = $"Intelligence: {stats.Int}";
-        hp.text = $"Health: {basicChar.HP.Value}";
-        wp.text = $"Will health: {basicChar.WP.Value}";
+        hp.text = $"Health: {basicChar.Hp.Value}";
+        wp.text = $"Will health: {basicChar.Wp.Value}";
     }
 }

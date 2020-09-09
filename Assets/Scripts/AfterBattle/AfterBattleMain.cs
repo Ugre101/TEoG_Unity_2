@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class AfterBattleMain : MonoBehaviour
 {
-    private BasicChar Player => PlayerMain.Player;
+    private static BasicChar Player => PlayerMain.Player;
 
     private List<BasicChar> enemies = new List<BasicChar>();
 
@@ -24,32 +26,37 @@ public class AfterBattleMain : MonoBehaviour
 
     #region Button containers
 
-    [Header("Buttons containers")]
-    [SerializeField]
-    private Transform buttons = null, DrainActions = null, MiscActions = null;
+    [Header("Buttons containers")] [SerializeField]
+    private Transform buttons = null;
+
+    [SerializeField] private Transform drainActions = null, miscActions = null;
 
     #endregion Button containers
 
     #region Scenes
 
-    [Header("ScriptableObject Scenes")]
-    [SerializeField] private List<SexScenes> dickScenes = new List<SexScenes>();
+    [Header("ScriptableObject Scenes")] [SerializeField]
+    private List<SexScenes> dickScenes = new List<SexScenes>();
 
-    [SerializeField] private List<SexScenes> boobScenes = new List<SexScenes>(), mouthScenes = new List<SexScenes>(), vaginaScenes = new List<SexScenes>(), analScenes = new List<SexScenes>();
+    [SerializeField] private List<SexScenes> boobScenes = new List<SexScenes>(),
+        mouthScenes = new List<SexScenes>(),
+        vaginaScenes = new List<SexScenes>(),
+        analScenes = new List<SexScenes>();
 
     [SerializeField] private List<EssScene> essScenes = new List<EssScene>();
 
     [SerializeField] private List<VoreScene> voreScenes = new List<VoreScene>();
+
     [SerializeField] private List<SexScenes> miscScenes = new List<SexScenes>();
     //   [SerializeField] private LeaveAfterBattle leaveScene = null;
 
     #endregion Scenes
 
-    public SexScenes LastScene { get; set; }
+    private SexScenes LastScene { get; set; }
 
     private List<SexScenes> allSexScenes = new List<SexScenes>();
 
-    public List<SexScenes> AllSexScenes
+    private List<SexScenes> AllSexScenes
     {
         get
         {
@@ -58,19 +65,26 @@ public class AfterBattleMain : MonoBehaviour
                 allSexScenes = dickScenes.Concat(mouthScenes).Concat(boobScenes)
                     .Concat(vaginaScenes).Concat(analScenes).ToList();
             }
+
             return allSexScenes;
         }
     }
 
     [SerializeField] private SexChar playerChar = null, enemyChar = null;
 
-    [SerializeField] private Button sortAll = null, sortMouth = null, sortAnal = null, sortDick = null, sortVagina = null, sortBreasts = null, sortVore = null;
+    [SerializeField] private Button sortAll = null,
+        sortMouth = null,
+        sortAnal = null,
+        sortDick = null,
+        sortVagina = null,
+        sortBreasts = null,
+        sortVore = null;
 
     private BasicChar newTarget;
-    public BasicChar Target => newTarget ?? (enemies.Count > 0 ? enemies[0] : null);
+    private BasicChar Target => newTarget ?? (enemies.Count > 0 ? enemies[0] : null);
 
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
-    public BasicChar Caster => Player;
+    private BasicChar Caster => Player;
 
     private void Start()
     {
@@ -95,12 +109,12 @@ public class AfterBattleMain : MonoBehaviour
         {
             newTarget = null;
         }
+
         Target.SexStats.OrgasmedEvent -= RefreshScenes;
         Target.SexStats.OrgasmedEvent -= GetImpreg;
         Target.SexStats.OrgasmedEvent -= OtherOrgasmed;
         enemies.Remove(Target);
 
-        leaveBtn = leaveBtn != null ? leaveBtn : addedMiscButtons.Find(b => b.Scene.GetType() == typeof(LeaveAfterBattle));
         if (enemies.Count < 1)
         {
             SetSexScenesInactive();
@@ -149,7 +163,12 @@ public class AfterBattleMain : MonoBehaviour
         if (!buttonsIsInstatiened)
         {
             InstantiateScenes();
+            if (leaveBtn == null)
+            {
+                leaveBtn = addedMiscButtons.Find(b => b.Scene.GetType() == typeof(LeaveAfterBattle));
+            }
         }
+
         RefreshScenes();
     }
 
@@ -177,6 +196,7 @@ public class AfterBattleMain : MonoBehaviour
             btn.Setup(scene);
             addedSexButtons.Add(btn);
         }
+
         foreach (VoreScene vore in voreScenes)
         {
             VoreButton btn = Instantiate(voreButton, buttons.transform);
@@ -184,24 +204,24 @@ public class AfterBattleMain : MonoBehaviour
             addedVoreButtons.Add(btn);
         }
 
-        MiscActions.KillChildren();
+        miscActions.KillChildren();
         foreach (SexScenes sexScenes in miscScenes)
         {
-            SexButton btn = Instantiate(sexButton, MiscActions);
+            SexButton btn = Instantiate(sexButton, miscActions);
             btn.Setup(sexScenes);
             addedMiscButtons.Add(btn);
         }
 
-        DrainActions.KillChildren();
+        drainActions.KillChildren();
         foreach (EssScene essScene in essScenes)
         {
-            EssSexButton btn = Instantiate(essSexButton, DrainActions);
+            EssSexButton btn = Instantiate(essSexButton, drainActions);
             btn.Setup(essScene);
             addedEssSexButtons.Add(btn);
         }
     }
 
-    public void RefreshScenes()
+    private void RefreshScenes()
     {
         foreach (SexButton btn in addedSexButtons)
         {
@@ -230,14 +250,17 @@ public class AfterBattleMain : MonoBehaviour
         {
             btn.gameObject.SetActive(false);
         }
+
         foreach (EssSexButton btn in addedEssSexButtons)
         {
             btn.gameObject.SetActive(false);
         }
+
         foreach (VoreButton btn in addedVoreButtons)
         {
             btn.gameObject.SetActive(false);
         }
+
         foreach (SexButton btn in addedMiscButtons)
         {
             btn.gameObject.SetActive(false);
@@ -305,16 +328,20 @@ public class AfterBattleMain : MonoBehaviour
                 case EssenceExtension.TransmuteFromTo.FemiToMasc:
                     EssenceExtension.TransmuteEssenceFemiToMasc(Player, Target);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+
             // TODO transmute essence
         }
+
         bool HasPerk(PerksTypes type) => Player.Perks.HasPerk(type);
     }
 
-    public void AddToTextBox(string text) => textBox.text = text;
+    private void AddToTextBox(string text) => textBox.text = text;
 
     // TODO fix to extra info comes after
-    public void InsertToTextBox(string text) => textBox.text += text;
+    private void InsertToTextBox(string text) => textBox.text += text;
 
     private void SceneBasics(SexScenes scene)
     {

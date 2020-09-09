@@ -21,15 +21,16 @@ public class Reward
 
     public void HandleDrops(BasicChar basicChar)
     {
-        drops.ForEach(d =>
+        foreach (ItemDrop d in drops)
         {
-            float minChance = 0, maxChance = 1f;
+            const float minChance = 0;
+            const float maxChance = 1f;
             // if perks that helps drops chance add it here.
             if (d.DropChance >= Random.Range(minChance, maxChance))
             {
                 basicChar.Inventory.AddItem(d.Item);
             }
-        });
+        }
     }
 }
 

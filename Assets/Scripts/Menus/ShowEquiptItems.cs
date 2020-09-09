@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -135,10 +136,10 @@ public static class EquiptItemsExtensions
     private static void CleanModsFromItem(BasicChar basicChar, EquiptItem equipt)
     {
         basicChar.Stats.GetAll.ForEach(s => s.RemoveFromSource(equipt.Slot.ToString()));
-        basicChar.WP.RemoveFromSource(equipt.Slot.ToString());
-        basicChar.HP.RemoveFromSource(equipt.Slot.ToString());
-        basicChar.WP.Recovery.RemoveFromSource(equipt.Slot.ToString());
-        basicChar.HP.Recovery.RemoveFromSource(equipt.Slot.ToString());
+        basicChar.Wp.RemoveFromSource(equipt.Slot.ToString());
+        basicChar.Hp.RemoveFromSource(equipt.Slot.ToString());
+        basicChar.Wp.Recovery.RemoveFromSource(equipt.Slot.ToString());
+        basicChar.Hp.Recovery.RemoveFromSource(equipt.Slot.ToString());
         basicChar.PregnancySystem.Fertility.RemoveFromSource(equipt.Slot.ToString());
         basicChar.PregnancySystem.Virility.RemoveFromSource(equipt.Slot.ToString());
     }
@@ -159,19 +160,19 @@ public static class EquiptItemsExtensions
     {
         if (item is IHaveHealthMods mods)
         {
-            foreach (HealthMod mod in mods.HealthMods)
+            foreach (var newMod in mods.HealthMods.Select(mod => new HealthMod(mod.Value, mod.ModType, equipt.Slot.ToString(), mod.HealthType)))
             {
-                HealthMod newMod = new HealthMod(mod.Value, mod.ModType, equipt.Slot.ToString(), mod.HealthType);
                 if (newMod.HealthType == HealthTypes.Health)
                 {
-                    basicChar.HP.AddMods(newMod);
+                    basicChar.Hp.AddMods(newMod);
                 }
                 else
                 {
-                    basicChar.WP.AddMods(newMod);
+                    basicChar.Wp.AddMods(newMod);
                 }
             }
         }
+        
         if (item is IHaveRecoveryMods recoveryMods)
         {
             foreach (HealthMod mod in recoveryMods.RecoveryMods)
@@ -179,11 +180,11 @@ public static class EquiptItemsExtensions
                 HealthMod newMod = new HealthMod(mod.Value, mod.ModType, equipt.Slot.ToString(), mod.HealthType);
                 if (newMod.HealthType == HealthTypes.Health)
                 {
-                    basicChar.HP.Recovery.AddMods(mod);
+                    basicChar.Hp.Recovery.AddMods(mod);
                 }
                 else
                 {
-                    basicChar.WP.Recovery.AddMods(mod);
+                    basicChar.Wp.Recovery.AddMods(mod);
                 }
             }
         }

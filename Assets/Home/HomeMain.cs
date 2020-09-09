@@ -10,7 +10,7 @@ public class HomeMain : MonoBehaviour
     [SerializeField] private MapEvents mapEvents = null;
     [SerializeField] private Button leaveBtn = null;
     [SerializeField] private Tilemap toMap = null, toPlatform = null;
-    private readonly WorldMaps worldMaps = WorldMaps.StartMap;
+    private const WorldMaps LeaveToWorld = WorldMaps.StartMap;
     [SerializeField] private BuildButton buildButtonPrefab = null;
     [SerializeField] private Transform buildContainer = null;
 
@@ -36,11 +36,11 @@ public class HomeMain : MonoBehaviour
     {
         if (toPlatform == null)
         {
-            mapEvents.Teleport(worldMaps, toMap);
+            mapEvents.Teleport(LeaveToWorld, toMap);
         }
         else
         {
-            mapEvents.Teleport(worldMaps, toMap, toPlatform);
+            mapEvents.Teleport(LeaveToWorld, toMap, toPlatform);
         }
         GameManager.SetCurrentArea(GlobalArea.Map);
         GameManager.SetCurState(GameState.Free);

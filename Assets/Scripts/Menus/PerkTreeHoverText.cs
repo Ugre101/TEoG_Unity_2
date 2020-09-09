@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class PerkTreeHoverText : MonoBehaviour
 {
-    public static PerkTreeHoverText GetPerkTreeHoverText { get; private set; } = null;
+    private static PerkTreeHoverText GetPerkTreeHoverText { get; set; } = null;
 
     private static void SetActive(bool isActive) => GetPerkTreeHoverText.gameObject.SetActive(isActive);
 
@@ -13,13 +13,9 @@ public class PerkTreeHoverText : MonoBehaviour
     private void Start()
     {
         if (GetPerkTreeHoverText == null)
-        {
             GetPerkTreeHoverText = this;
-        }
         else
-        {
             Destroy(gameObject);
-        }
         staticTitleText = titleText != null ? titleText : GetComponentsInChildren<TextMeshProUGUI>()[0];
         staticInfoText = infoText != null ? infoText : GetComponentsInChildren<TextMeshProUGUI>()[1];
         staticEffectText = effectText != null ? effectText : GetComponentsInChildren<TextMeshProUGUI>()[2];

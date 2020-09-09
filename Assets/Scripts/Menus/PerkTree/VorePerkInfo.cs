@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /*
  *store perk info in a ScriptableObject so that it's consistent
@@ -15,31 +16,29 @@ public class VorePerkInfo : BaseInfo
     [SerializeField] private VorePerks perk = VorePerks.Compression;
     public VorePerks Perk => perk;
     [SerializeField] private bool needCharStat = false;
-    public bool NeedCharStat => needCharStat;
+    private bool NeedCharStat => needCharStat;
     [SerializeField] private List<NeededCharStat> neededCharStats = new List<NeededCharStat>();
-    public List<NeededCharStat> NeededCharStats => neededCharStats;
+    private IEnumerable<NeededCharStat> NeededCharStats => neededCharStats;
     [SerializeField] private bool needOtherPerks = false;
-    public bool NeedOtherPerks => needOtherPerks;
+    private bool NeedOtherPerks => needOtherPerks;
     [SerializeField] private List<NeededPerk> neededPerks = new List<NeededPerk>();
-    private List<NeededPerk> NeededPerks => neededPerks;
-    [SerializeField] private bool isExcluvsive = false;
-    public bool IsExcluvsive => isExcluvsive;
+    private IEnumerable<NeededPerk> NeededPerks => neededPerks;
+    [FormerlySerializedAs("isExcluvsive")] [SerializeField] private bool isExclusive = false;
+    private bool IsExclusive => isExclusive;
     [SerializeField] private List<VorePerks> exclusiveWith = new List<VorePerks>();
-    public List<VorePerks> ExclusiveWith => exclusiveWith;
+    private IEnumerable<VorePerks> ExclusiveWith => exclusiveWith;
     public override string Effects => base.Effects + GetExclusiveInfo();
 
     private string GetExclusiveInfo()
     {
-        if (IsExcluvsive)
+        if (!IsExclusive) return string.Empty;
+        
+        StringBuilder sb = new StringBuilder("\n");
+        foreach (VorePerks perksTypes in ExclusiveWith)
         {
-            StringBuilder sb = new StringBuilder("\n");
-            foreach (VorePerks perksTypes in ExclusiveWith)
-            {
-                sb.Append($"* Exclusive with {perksTypes}\n");
-            }
-            return sb.ToString();
+            sb.Append($"* Exclusive with {perksTypes}\n");
         }
-        return string.Empty;
+        return sb.ToString();
     }
 
     public bool Unlocked(BasicChar basicChar)
@@ -59,27 +58,12 @@ public class VorePerkInfo : BaseInfo
                 }
             }
         }
-        if (NeedCharStat)
-        {
-            foreach (NeededCharStat charStat in NeededCharStats)
-            {
-                if (basicChar.Stats.GetStat(charStat.Stat).BaseValue < charStat.Amount)
-                {
-                    return false;
-                }
-            }
-        }
-        if (IsExcluvsive)
-        {
-            foreach (PerksTypes perks in ExclusiveWith)
-            {
-                if (basicChar.Perks.HasPerk(perks))
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
+
+        if (!NeedCharStat)
+            return !IsExclusive || ExclusiveWith.Cast<PerksTypes>().All(perks => !basicChar.Perks.HasPerk(perks));
+        if (NeededCharStats.Any(charStat => basicChar.Stats.GetStat(charStat.Stat).BaseValue < charStat.Amount))
+            return false;
+        return !IsExclusive || ExclusiveWith.Cast<PerksTypes>().All(perks => !basicChar.Perks.HasPerk(perks));
     }
 
     public string MissingReqs(BasicChar basicChar)
@@ -90,14 +74,7 @@ public class VorePerkInfo : BaseInfo
             List<Perk> myPerks = basicChar.Perks.List;
             foreach (NeededPerk perks in NeededPerks.Where(perks => !myPerks.Exists(p => p.Type == perks.Perk)).Select(perks => perks))
             {
-                if (perks.Amount == 1)
-                {
-                    sb.Append($"Need: {perks.Perk}\n");
-                }
-                else
-                {
-                    sb.Append($"Need: {perks.Amount} {perks.Perk}\n");
-                }
+                sb.Append(perks.Amount == 1 ? $"Need: {perks.Perk}\n" : $"Need: {perks.Amount} {perks.Perk}\n");
             }
             foreach (NeededPerk perks in NeededPerks.Where(perks => myPerks.Exists(p => p.Type == perks.Perk)).Select(perks => perks).Where(perks => myPerks.Find(p => p.Type == perks.Perk).Level < perks.Amount).Select(perks => perks))
             {
@@ -111,16 +88,17 @@ public class VorePerkInfo : BaseInfo
                 sb.Append("Need: " + charStat.Stat.ToString() + charStat.Amount + "\n");
             }
         }
-        if (IsExcluvsive)
+
+        if (!IsExclusive) return sb.ToString();
+        
+        foreach (PerksTypes perks in ExclusiveWith)
         {
-            foreach (PerksTypes perks in ExclusiveWith)
+            if (basicChar.Perks.HasPerk(perks))
             {
-                if (basicChar.Perks.HasPerk(perks))
-                {
-                    sb.Append($"Is excluvsive with {perks}\n");
-                }
+                sb.Append($"Is exclusive with {perks}\n");
             }
         }
+
         return sb.ToString();
     }
 

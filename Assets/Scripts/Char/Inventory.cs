@@ -47,12 +47,12 @@ public class Inventory
 
     private int FirstEmpty()
     {
-        int First = 0;
-        while (Items.Exists(inv => inv.InvPos == First && First < SlotsAmount))
+        int first = 0;
+        while (Items.Exists(inv => inv.InvPos == first && first < SlotsAmount))
         {
-            First++;
+            first++;
         }
-        return First;
+        return first;
     }
 }
 
@@ -76,7 +76,7 @@ public class InventoryItem
 
     [SerializeField] private int amount;
 
-    [SerializeField] private int invPos = -1;
+    [SerializeField] private int invPos;
     [SerializeField] private bool reusable = false;
     public ItemIds Id => id;
     public int Amount { get => amount; set => amount = value; }

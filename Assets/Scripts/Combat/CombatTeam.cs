@@ -31,9 +31,9 @@ public class CombatTeam : MonoBehaviour
     // if nobody is alive return true else false
     public bool TeamDead => !combatStatuses.Exists(s => s.Dead == false);
 
-    public void StartFight(List<BasicChar> EnemyTeam)
+    public void StartFight(List<BasicChar> enemyTeam)
     {
-        Team = EnemyTeam;
+        Team = enemyTeam;
         if (Team.Count < 1) // if team is less than 1 an error must have occured
             GameManager.ReturnToLastState();
         else

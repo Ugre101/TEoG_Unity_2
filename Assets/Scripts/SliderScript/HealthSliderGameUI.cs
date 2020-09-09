@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class HealthSliderGameUI : BasicSlider
 {
-    protected override Health Health => basicChar.HP;
+    protected override Health Health => basicChar.Hp;
     private bool started = false;
 
     private void OnEnable()
@@ -17,16 +17,13 @@ public class HealthSliderGameUI : BasicSlider
 
     private void OnDisable()
     {
-        if (started)
-        {
-            Health.UpdateSliderEvent -= ChangeHealth;
-        }
+        if (started) Health.UpdateSliderEvent -= ChangeHealth;
     }
 
     protected override void Start()
     {
         base.Start();
-        basicChar = basicChar != null ? basicChar : PlayerMain.Player;
+        basicChar = basicChar ?? PlayerMain.Player;
         started = true;
         StartCoroutine(WaitToStart());
     }

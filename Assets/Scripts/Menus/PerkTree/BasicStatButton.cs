@@ -22,12 +22,10 @@ public class BasicStatButton : PerkTreeBasicBtn
 
     protected override void Use()
     {
-        if (Player.ExpSystem.PerkBool())
-        {
-            Taken = true;
-            BaseValue++;
-            amount.text = BaseValue.ToString();
-        }
+        if (!Player.ExpSystem.PerkBool()) return;
+        Taken = true;
+        BaseValue++;
+        amount.text = BaseValue.ToString();
     }
 
     protected override void Hovering() => PerkTreeHoverText.Hovering(statInfo.Title, statInfo.Info, statInfo.Effects);

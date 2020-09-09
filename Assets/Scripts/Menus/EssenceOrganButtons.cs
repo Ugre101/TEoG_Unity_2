@@ -4,7 +4,7 @@ namespace EssenceMenuStuff
 {
     public abstract class EssenceOrganButtons : MonoBehaviour
     {
-        protected BasicChar Player => PlayerMain.Player;
+        protected static BasicChar Player => PlayerMain.Player;
 
         // Start is called before the first frame update
         protected virtual void OnEnable()

@@ -13,11 +13,11 @@ public class BattleCanvas : MonoBehaviour
         GameManager.GameStateChangeEvent += LeaveCombat;
     }
 
-    public void StartCombat(CharHolder enemy) => StartCombat(enemy.BasicChar);
-    public void StartCombat(BasicChar enemy) => StartCombat(new List<BasicChar>() { enemy });
+    private void StartCombat(CharHolder enemy) => StartCombat(enemy.BasicChar);
+    private void StartCombat(BasicChar enemy) => StartCombat(new List<BasicChar>() { enemy });
     /// <summary>Team of enemies </summary>
     /// <param name="enemies"></param>
-    public void StartCombat(List<BasicChar> enemies)
+    private void StartCombat(List<BasicChar> enemies)
     {
         GameManager.SetCurState(GameState.Battle);
         Battle.transform.SleepChildren();
@@ -26,12 +26,11 @@ public class BattleCanvas : MonoBehaviour
         inBattle = true;
     }
 
-    public void LeaveCombat(GameState gameState)
+    private void LeaveCombat(GameState gameState)
     {
-        if (inBattle && (gameState != GameState.Battle))
-        {
-            inBattle = false;
-            transform.SleepChildren();
-        }
+        if (!inBattle || (gameState == GameState.Battle)) return;
+        
+        inBattle = false;
+        transform.SleepChildren();
     }
 }

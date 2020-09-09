@@ -12,12 +12,10 @@ namespace EnemyCreatorStuff
         {
             get
             {
-                if (startGenders == null)
-                {
-                    startGenders = UgreTools.EnumToList<Genders>();
-                    // add some extra of all expect doll, so doll gets very small chance and extra male and female so they are more common that others
-                    startGenders.AddRange(new List<Genders>() { Genders.Cuntboy, Genders.Dickgirl, Genders.Female, Genders.Female, Genders.Herm, Genders.Male, Genders.Male });
-                }
+                if (startGenders != null) return startGenders.RandomListValue();
+                startGenders = UgreTools.EnumToList<Genders>();
+                // add some extra of all expect doll, so doll gets very small chance and extra male and female so they are more common that others
+                startGenders.AddRange(new List<Genders>() { Genders.Cuntboy, Genders.Dickgirl, Genders.Female, Genders.Female, Genders.Herm, Genders.Male, Genders.Male });
                 return startGenders.RandomListValue();
             }
         }

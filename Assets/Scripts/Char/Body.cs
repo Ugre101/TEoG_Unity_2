@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class BodyStat : FloatStat
+public sealed class BodyStat : FloatStat
 {
     public BodyStat(float val)
     {
@@ -40,9 +40,9 @@ public class BodyStat : FloatStat
     protected override float CalcValue()
     {
         float flat = BaseValue + StatMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(m => m.Value)
-            + TempMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(m => m.Value);
+                               + TempMods.FindAll(sm => sm.ModType == ModTypes.Flat).Sum(m => m.Value);
         float precent = 1f + StatMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(m => m.Value)
-            + TempMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(m => m.Value);
+                           + TempMods.FindAll(sm => sm.ModType == ModTypes.Precent).Sum(m => m.Value);
         return flat * precent;
     }
 
@@ -64,7 +64,7 @@ public class BodyStat : FloatStat
         if (TempMods.Exists(tm => tm.Source.Equals(mod.Source)))
         {
             TempStatMod toChange = TempMods.Find(tm => tm.Source.Equals(mod.Source));
-            float diminishingReturn = (float)toChange.Duration / mod.Duration;
+            float diminishingReturn = (float) toChange.Duration / mod.Duration;
             int toIncrease = Mathf.Max(0, Mathf.FloorToInt(mod.Duration / Mathf.Max(1, 2 * diminishingReturn)));
             toChange.IncreaseDuration(toIncrease);
         }
@@ -73,6 +73,7 @@ public class BodyStat : FloatStat
             // Clone otherwise diminishingReturn doesn't work as duration increase on both.
             TempMods.Add(new TempStatMod(mod.Value, mod.ModType, mod.Source, mod.Duration));
         }
+
         IsDirty = true;
         AddedTempEvent?.Invoke();
     }
@@ -93,51 +94,47 @@ public class BodyStat : FloatStat
         IsDirty = true;
     }
 
-    public bool RemoveFromSource(string Source)
+    public bool RemoveFromSource(string source)
     {
-        if (string.IsNullOrEmpty(Source))
+        if (string.IsNullOrEmpty(source))
         {
             return false;
         }
-        if (StatMods.Exists(sm => sm.Source.Equals(Source)))
+
+        if (!StatMods.Exists(sm => sm.Source.Equals(source))) return false;
+        foreach (StatMod sm in StatMods.FindAll(s => s.Source.Equals(source)))
         {
-            foreach (StatMod sm in StatMods.FindAll(s => s.Source.Equals(Source)))
-            {
-                StatMods.Remove(sm);
-            }
-            IsDirty = true;
-            return true;
+            StatMods.Remove(sm);
         }
-        return false;
+
+        IsDirty = true;
+        return true;
     }
 
-    public bool RemoveTempFromSource(string Source)
+    public bool RemoveTempFromSource(string source)
     {
-        if (string.IsNullOrEmpty(Source))
+        if (string.IsNullOrEmpty(source))
         {
             return false;
         }
-        if (TempMods.Exists(sm => sm.Source.Equals(Source)))
+
+        if (!TempMods.Exists(sm => sm.Source.Equals(source))) return false;
+        foreach (TempStatMod sm in TempMods.FindAll(s => s.Source.Equals(source)))
         {
-            foreach (TempStatMod sm in TempMods.FindAll(s => s.Source.Equals(Source)))
-            {
-                TempMods.Remove(sm);
-            }
-            IsDirty = true;
-            return true;
+            TempMods.Remove(sm);
         }
-        return false;
+
+        IsDirty = true;
+        return true;
     }
 
     #endregion AddRemoveMods
 
     public void TickTempMods()
     {
-        if (TempMods.RemoveAll(tm => tm.Duration < 1) > 0)
-        {
-            AddedTempEvent?.Invoke();
-            IsDirty = true;
-        }
+        if (TempMods.RemoveAll(tm => tm.Duration < 1) <= 0) return;
+        AddedTempEvent?.Invoke();
+        IsDirty = true;
     }
 
     public delegate void ValueChange();
@@ -180,27 +177,27 @@ public class Body
     public string Fitness()
     {
         string a = FatPerLowerThan(2f) ? "You look malnourished " :
-        FatPerLowerThan(14f) ? "You have an athletic body " :
-        FatPerLowerThan(18f) ? "You have a fit body " :
-        FatPerLowerThan(26f) ? "You have a healthy body " :
-        FatPerLowerThan(31f) ? "You have an pudgy body " :
-        FatPerLowerThan(36f) ? "You have a plump body " :
-        "You are an mountain of flesh ";  // morbidly obese
+            FatPerLowerThan(14f) ? "You have an athletic body " :
+            FatPerLowerThan(18f) ? "You have a fit body " :
+            FatPerLowerThan(26f) ? "You have a healthy body " :
+            FatPerLowerThan(31f) ? "You have an pudgy body " :
+            FatPerLowerThan(36f) ? "You have a plump body " :
+            "You are an mountain of flesh "; // morbidly obese
 
-        string b = MuscleLessHeight(0.18f) ? "with unnoticable muscle" :
-        MuscleLessHeight(0.20f) ? "with some defined muscle" :
-        MuscleLessHeight(0.22f) ? "with well-defined muscle" :
-        MuscleLessHeight(0.26f) ? "with bulky muscle" :
-        MuscleLessHeight(0.30f) ? "with hulking muscle" :
-        MuscleLessHeight(0.34f) ? "with enormous muscle" :
-        "with colossal muscle"; // This is relative does a fairy ever have colossal muscle?
+        string b = MuscleLessHeight(0.18f) ? "with unnoticeable muscle" :
+            MuscleLessHeight(0.20f) ? "with some defined muscle" :
+            MuscleLessHeight(0.22f) ? "with well-defined muscle" :
+            MuscleLessHeight(0.26f) ? "with bulky muscle" :
+            MuscleLessHeight(0.30f) ? "with hulking muscle" :
+            MuscleLessHeight(0.34f) ? "with enormous muscle" :
+            "with colossal muscle"; // This is relative does a fairy ever have colossal muscle?
 
         string c = FatPerLowerThan(25f) ? "." :
-        FatPerLowerThan(31f) && MuscleLessHeight(0.18f) ? " covered in fat." :
-        FatPerLowerThan(38f) && MuscleLessHeight(0.20f) ? " buried in fat." :
-        FatPerLowerThan(55f) && MuscleMoreHeight(0.22f) ? "... Otherwise, you couldn't move." :
-        FatPerLowerThan(55f) && MuscleLessHeight(0.22f) ? "... Your weight is a burden to your ability to move." :
-         "... No-one knows how you move.";
+            FatPerLowerThan(31f) && MuscleLessHeight(0.18f) ? " covered in fat." :
+            FatPerLowerThan(38f) && MuscleLessHeight(0.20f) ? " buried in fat." :
+            FatPerLowerThan(55f) && MuscleMoreHeight(0.22f) ? "... Otherwise, you couldn't move." :
+            FatPerLowerThan(55f) && MuscleLessHeight(0.22f) ? "... Your weight is a burden to your ability to move." :
+            "... No-one knows how you move.";
 
         return a + b + c;
     }
@@ -209,25 +206,15 @@ public class Body
     {
         float val = Height.Value;
         if (val < 10)
-        {
             return "Pixie sized";
-        }
         else if (val < 40)
-        {
             return "Gnome sized";
-        }
         else if (val < 100)
-        {
             return "Dwarf sized";
-        }
         else if (val < 160)
-        {
             return "Short sized";
-        }
         else
-        {
             return val.MorInch();
-        }
     }
 }
 
@@ -239,42 +226,24 @@ public static class BodyExtension
         float avg = AvgRaceSizes.GetAvgSize(race);
         float ratio = basicChar.Body.Height.Value / avg;
         if (ratio < 0.3f)
-        {
             return $" pixie sized among {basicChar.Race()}'s";
-        }
         else if (ratio < 0.5f)
-        {
             // height is 50cm, which is
             return $" half the height of your average {basicChar.Race()}"; // Race + "'s"
-        }
         else if (ratio < 0.7f)
-        {
             return $" short for a {basicChar.Race()}";
-        }
         else if (ratio < 0.9f)
-        {
             return $" shorter than average for a {basicChar.Race()}";
-        }
         else if (ratio < 1.1f)
-        {
             return $" average height for a {basicChar.Race()}";
-        }
         else if (ratio < 1.3f)
-        {
             return $" taller than your average {basicChar.Race()}";
-        }
         else if (ratio < 1.5f)
-        {
             return $" very tall for a {basicChar.Race()}";
-        }
         else if (ratio < 2f)
-        {
             return $" almost double the height of your average {basicChar.Race()}";
-        }
         else
-        {
             return $" a giant among {basicChar.Race()}'s";
-        }
     }
 
     public static class AvgRaceSizes
@@ -284,7 +253,7 @@ public static class BodyExtension
         private const float Elf = 160f;
         private const float Orc = 180f;
         private const float Troll = 185f;
-        private const float Dward = 130f;
+        private const float Dwarf = 130f;
         private const float Halfling = 105f;
         private const float Fairy = 20f;
         private const float Incubus = 165f;
@@ -303,7 +272,7 @@ public static class BodyExtension
                 case Races.Elf: return Elf;
                 case Races.Orc: return Orc;
                 case Races.Troll: return Troll;
-                case Races.Dwarf: return Dward;
+                case Races.Dwarf: return Dwarf;
                 case Races.Halfling: return Halfling;
                 case Races.Fairy: return Fairy;
                 case Races.Incubus: return Incubus;
@@ -325,15 +294,14 @@ public static class BodyExtension
         if (basicChar.Vore.Active)
         {
             VorePerksSystem perks = basicChar.Vore.Perks;
-            if (perks.HasPerk(VorePerks.PredatoryMetabolism))
+            if (perks.HasPerk(VorePerks.PredatoryMetabolism) && body.FatPrecent > 0.18f)
             {
                 // TODO test pred metabol
-                if (body.FatPrecent > 0.18f)
-                {
-                    fatBurnRate += body.Fat.BaseValue * (0.0001f * perks.GetPerkLevel(VorePerks.PredatoryMetabolism)) * body.FatPrecent;
-                }
+                fatBurnRate += body.Fat.BaseValue * (0.0001f * perks.GetPerkLevel(VorePerks.PredatoryMetabolism)) *
+                               body.FatPrecent;
             }
         }
+
         if (basicChar.Perks.HasPerk(PerksTypes.Gluttony))
         {
             fatBurnRate += PerkEffects.Gluttony.ExtraFatBurn(basicChar.Perks);
@@ -342,6 +310,7 @@ public static class BodyExtension
         {
             fatBurnRate -= PerkEffects.LowMetabolism.LowerBurn(basicChar.Perks);
         }
+
         return fatBurnRate;
     }
 }

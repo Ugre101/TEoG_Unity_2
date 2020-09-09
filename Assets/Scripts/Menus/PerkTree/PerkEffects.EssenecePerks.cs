@@ -39,7 +39,7 @@
 
         public static class EssTransformer
         {
-            public static float ExtrGive(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceTransformer, 15f);
+            public static float ExtraGive(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceTransformer, 15f);
             public static float TransmuteAmount(Perks perks) => PerkFloatEffect(perks, PerksTypes.EssenceTransformer, 100f);
         }
 
@@ -83,7 +83,7 @@
 
     private static float PerkFloatEffect(Perks perks, PerksTypes type, float multiplier) => perks.HasPerk(type) ? multiplier * perks.GetPerkLevel(type) : 0;
 
-    private static int PerkIntEffect(Perks perks, PerksTypes type, int mutliplier) => perks.HasPerk(type) ? mutliplier * perks.GetPerkLevel(type) : 0;
+    private static int PerkIntEffect(Perks perks, PerksTypes type, int multiplier) => perks.HasPerk(type) ? multiplier * perks.GetPerkLevel(type) : 0;
 }
 
 /*

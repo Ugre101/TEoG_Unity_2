@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
-public class CharStats : IntStat
+public sealed class CharStats : IntStat
 {
     [SerializeField] private List<StatMod> statMods = new List<StatMod>();
 
@@ -85,40 +85,38 @@ public class CharStats : IntStat
         IsDirty = true;
     }
 
-    public bool RemoveFromSource(string Source)
+    public bool RemoveFromSource(string source)
     {
-        if (string.IsNullOrEmpty(Source))
+        if (string.IsNullOrEmpty(source))
         {
             return false;
         }
-        if (StatMods.Exists(sm => sm.Source.Equals(Source)))
+
+        if (!StatMods.Exists(sm => sm.Source.Equals(source))) return false;
+        foreach (StatMod sm in StatMods.FindAll(s => s.Source.Equals(source)))
         {
-            foreach (StatMod sm in StatMods.FindAll(s => s.Source.Equals(Source)))
-            {
-                StatMods.Remove(sm);
-            }
-            IsDirty = true;
-            return true;
+            StatMods.Remove(sm);
         }
-        return false;
+
+        IsDirty = true;
+        return true;
     }
 
-    public bool RemoveTempFromSource(string Source)
+    public bool RemoveTempFromSource(string source)
     {
-        if (string.IsNullOrEmpty(Source))
+        if (string.IsNullOrEmpty(source))
         {
             return false;
         }
-        if (TempMods.Exists(sm => sm.Source.Equals(Source)))
+
+        if (!TempMods.Exists(sm => sm.Source.Equals(source))) return false;
+        foreach (TempStatMod sm in TempMods.FindAll(s => s.Source.Equals(source)))
         {
-            foreach (TempStatMod sm in TempMods.FindAll(s => s.Source.Equals(Source)))
-            {
-                TempMods.Remove(sm);
-            }
-            IsDirty = true;
-            return true;
+            TempMods.Remove(sm);
         }
-        return false;
+
+        IsDirty = true;
+        return true;
     }
 
     #endregion AddAndRemoveMods
@@ -136,11 +134,9 @@ public class CharStats : IntStat
 
     public void TickTempMods()
     {
-        if (TempMods.RemoveAll(tm => tm.Duration < 1) > 0)
-        {
-            AddedTempEvent?.Invoke();
-            IsDirty = true;
-        }
+        if (TempMods.RemoveAll(tm => tm.Duration < 1) <= 0) return;
+        AddedTempEvent?.Invoke();
+        IsDirty = true;
     }
 
     public delegate void ValueChange();

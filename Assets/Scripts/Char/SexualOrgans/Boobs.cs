@@ -39,19 +39,17 @@ public static class BoobExtensions
     public static float ReCycle(this List<Boobs> boobs)
     {
         Boobs toShrink = boobs[boobs.Count - 1];
-        if (toShrink.Shrink())
-        {
-            boobs.Remove(toShrink);
-            return 30f;
-        }
-        return toShrink.Cost;
+        if (!toShrink.Shrink()) return toShrink.Cost;
+        
+        boobs.Remove(toShrink);
+        return 30f;
     }
 
-    public static float Milking(this List<Boobs> boobs) => boobs.Sum(b => b.Fluid.DisCharge());
+    public static float Milking(this IEnumerable<Boobs> boobs) => boobs.Sum(b => b.Fluid.DisCharge());
 
-    public static float Milking(this List<Boobs> boobs, float dischargePrecentage) => boobs.Sum(b => b.Fluid.DisCharge(dischargePrecentage));
+    public static float Milking(this IEnumerable<Boobs> boobs, float dischargePrecentage) => boobs.Sum(b => b.Fluid.DisCharge(dischargePrecentage));
 
-    public static string BoobSizeConvertor(this Boobs boob)
+    private static string BoobSizeConvertor(this Boobs boob)
     {
         List<string> Bra = new List<string>
         {
@@ -75,14 +73,7 @@ public static class BoobExtensions
             .Count; i++)
         {
             Boobs b = boobs[i];
-            if (i == 0)
-            {
-                builder.Append(b.Look());
-            }
-            else
-            {
-                builder.Append(b.Look(false));
-            }
+            builder.Append(i == 0 ? b.Look() : b.Look(false));
             if (i == boobs.Count - 2)
             {
                 builder.Append(" and ");

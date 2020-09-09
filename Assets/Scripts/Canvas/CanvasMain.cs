@@ -71,20 +71,19 @@ public class CanvasMain : MonoBehaviour
         }
 
         // if in menus or main game(not combat)
-        if (GameManager.KeyBindsActive)
+        if (!GameManager.KeyBindsActive) return;
+        
+        KeyDown(KeyBindings.SaveKey, menuPanels.Savemenu);
+        KeyDown(KeyBindings.OptionsKey, menuPanels.Options);
+        KeyDown(KeyBindings.QuestKey, menuPanels.QuestMenu);
+        KeyDown(KeyBindings.InventoryKey, menuPanels.Inventory);
+        KeyDown(KeyBindings.VoreKey, menuPanels.Vore);
+        KeyDown(KeyBindings.EssenceKey, menuPanels.Essence);
+        KeyDown(KeyBindings.LvlKey, menuPanels.LevelUp);
+        KeyDown(KeyBindings.LookKey, menuPanels.Looks);
+        if (KeyBindings.EventKey.KeyDown)
         {
-            KeyDown(KeyBindings.SaveKey, menuPanels.Savemenu);
-            KeyDown(KeyBindings.OptionsKey, menuPanels.Options);
-            KeyDown(KeyBindings.QuestKey, menuPanels.QuestMenu);
-            KeyDown(KeyBindings.InventoryKey, menuPanels.Inventory);
-            KeyDown(KeyBindings.VoreKey, menuPanels.Vore);
-            KeyDown(KeyBindings.EssenceKey, menuPanels.Essence);
-            KeyDown(KeyBindings.LvlKey, menuPanels.LevelUp);
-            KeyDown(KeyBindings.LookKey, menuPanels.Looks);
-            if (KeyBindings.EventKey.KeyDown)
-            {
-                BigEventLog();
-            }
+            BigEventLog();
         }
     }
 
@@ -105,7 +104,7 @@ public class CanvasMain : MonoBehaviour
         GameManager.SetCurState(GameState.Free);
     }
 
-    public void Pause()
+    private void Pause()
     {
         ToggleBigPanel(Menus.gameObject);
         Menus.transform.SleepChildren();
@@ -134,7 +133,7 @@ public class CanvasMain : MonoBehaviour
 
     public void ResumePause(GameObject toBeActivated)
     {
-        if (GameManager.CurState.Equals(GameState.Menu) && (activeGameObject != null ? activeGameObject.GetInstanceID() == toBeActivated.GetInstanceID() : true))
+        if (GameManager.CurState.Equals(GameState.Menu) && (activeGameObject == null || activeGameObject.GetInstanceID() == toBeActivated.GetInstanceID()))
         {
             Resume();
         }
@@ -155,24 +154,18 @@ public class CanvasMain : MonoBehaviour
 
     public void EscapePause()  // TODO Clean up
     {
-        if (GameManager.CurState == GameState.Menu)
+        switch (GameManager.CurState)
         {
-            Resume();
-        }
-        else if (GameManager.CurState == GameState.PauseMenu)
-        {
-            if (GameManager.LastState == GameState.Free || GameManager.LastState == GameState.Menu || GameManager.LastState == GameState.PauseMenu)
-            {
+            case GameState.Menu:
+            case GameState.PauseMenu when GameManager.LastState == GameState.Free || GameManager.LastState == GameState.Menu || GameManager.LastState == GameState.PauseMenu:
                 Resume();
-            }
-            else
-            {
+                break;
+            case GameState.PauseMenu:
                 GameManager.ReturnToLastState();
-            }
-        }
-        else
-        {
-            GameManager.SetCurState(GameState.PauseMenu);
+                break;
+            default:
+                GameManager.SetCurState(GameState.PauseMenu);
+                break;
         }
     }
 }

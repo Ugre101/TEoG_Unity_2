@@ -16,7 +16,7 @@ public abstract class LoadButtonBase : MonoBehaviour
     {
     }
 
-    public void DeleteSave()
+    protected void DeleteSave()
     {
         string path = file.FullName;
         if (File.Exists(path))
@@ -34,7 +34,7 @@ public abstract class LoadButtonBase : MonoBehaviour
 
     public static event Failed FailEvent;
 
-    public void SaveFailed() => FailEvent?.Invoke();
+    protected static void SaveFailed() => FailEvent?.Invoke();
 }
 
 public class LoadButton : LoadButtonBase
@@ -50,13 +50,13 @@ public class LoadButton : LoadButtonBase
         del.onClick.AddListener(DeleteSave);
     }
 
-    public void LoadGame()
+    private void LoadGame()
     {
         string path = file.FullName;
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            SaveMananger.Instance.NewSave.LoadData(json);
+            Save.LoadData(json);
             GameManager.SetCurState(GameState.Free);
         }
         else

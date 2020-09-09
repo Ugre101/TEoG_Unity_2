@@ -16,16 +16,11 @@ public class TelePort : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.HitPlayer())
-        {
-            if (toPlatform == null)
-            {
-                mapEvents.Teleport(toWorld, toMap);
-            }
-            else
-            {
-                mapEvents.Teleport(toWorld, toMap, toPlatform);
-            }
-        }
+        if (!collision.HitPlayer()) return;
+
+        if (toPlatform == null)
+            mapEvents.Teleport(toWorld, toMap);
+        else
+            mapEvents.Teleport(toWorld, toMap, toPlatform);
     }
 }

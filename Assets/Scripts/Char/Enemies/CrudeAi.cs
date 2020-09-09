@@ -14,7 +14,7 @@ public class CrudeAi : MonoBehaviour
     [SerializeField] private Rigidbody2D playerRigid = null, rb2d = null;
 
     private Vector2 Target => playerRigid.position;
-    private int TargetLevel => PlayerMain.Player.Stats.CalcLevelByStatTotal();
+    private static int TargetLevel => PlayerMain.Player.Stats.CalcLevelByStatTotal();
     private int ThisBasicCharsLevel => thisHolder.BasicChar.Stats.CalcLevelByStatTotal();
     private Vector2 CurPos { get => rb2d.position; set => rb2d.position = value; }
 

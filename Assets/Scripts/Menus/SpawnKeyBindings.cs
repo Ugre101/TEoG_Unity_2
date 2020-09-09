@@ -13,7 +13,7 @@ public class SpawnKeyBindings : MonoBehaviour
     private readonly List<KeyBindingButton> bindingButtons = new List<KeyBindingButton>();
 
     // Start is called before the first frame update
-    private void Start() => KeyBindings.Keys.ForEach(k => SpawnButton(k));
+    private void Start() => KeyBindings.Keys.ForEach(SpawnButton);
 
     private void OnEnable() => waitingForKey = false;
 
@@ -49,11 +49,11 @@ public class SpawnKeyBindings : MonoBehaviour
     {
         if (waitingForKey && Input.anyKeyDown)
         {
-            UgreTools.EnumToList<KeyCode>().ForEach(k => GetKey(k));
+            UgreTools.EnumToList<KeyCode>().ForEach(GetKey);
         }
     }
 
-    private List<KeyCode> notAllowed = new List<KeyCode>() { KeyCode.Mouse0, KeyCode.Mouse1 };
+    private readonly List<KeyCode> notAllowed = new List<KeyCode>() { KeyCode.Mouse0, KeyCode.Mouse1 };
 
     private void GetKey(KeyCode k)
     {

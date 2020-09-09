@@ -57,7 +57,7 @@ namespace Vore
         {
             if (!playerIsPred.HasValue)
             {
-                playerIsPred = pred.Identity.Id == PlayerMain.PlayerID;
+                playerIsPred = pred.Identity.Id == PlayerMain.PlayerId;
             }
             return playerIsPred.Value;
         }
@@ -141,37 +141,35 @@ namespace Vore
             get
             {
                 string desc = string.Empty;
-                if (Progress > 0)
+                if (!(Progress > 0)) return desc;
+                desc += Prey.Identity.FirstName;
+                if (Progress < 0.3f)
                 {
-                    desc += Prey.Identity.FirstName;
-                    if (Progress < 0.3f)
-                    {
-                        desc += $" has started to show signs of their digestion "; //Starting to digest
-                    }
-                    else if (Progress < 0.5f)
-                    {
-                        desc += $" is halfway trough their digestion "; // Almost half digested check amount fat & muscle
-                    }
-                    else if (Progress < 0.8f)
-                    {
-                        desc += $"  "; // More than half way digested
-                    }
-                    else
-                    {
-                        desc += $""; // Almost fully digested
-                    }
-                    if (Prey.Body.Fat.Value < 1 && Prey.Body.Muscle.Value < 1)
-                    {
-                        desc += $" all of {Prey.HisHer()} fat and muscle has melted of their bones.";
-                    }
-                    else if (Prey.Body.Fat.Value < 1)
-                    {
-                        desc += " all fat has melted of ";
-                    }
-                    else if (Prey.Body.Muscle.Value < 1)
-                    {
-                        desc += $" all muscle has melted of {Prey.HisHer()} body ";
-                    }
+                    desc += $" has started to show signs of their digestion "; //Starting to digest
+                }
+                else if (Progress < 0.5f)
+                {
+                    desc += $" is halfway trough their digestion "; // Almost half digested check amount fat & muscle
+                }
+                else if (Progress < 0.8f)
+                {
+                    desc += $"  "; // More than half way digested
+                }
+                else
+                {
+                    desc += $""; // Almost fully digested
+                }
+                if (Prey.Body.Fat.Value < 1 && Prey.Body.Muscle.Value < 1)
+                {
+                    desc += $" all of {Prey.HisHer()} fat and muscle has melted of their bones.";
+                }
+                else if (Prey.Body.Fat.Value < 1)
+                {
+                    desc += " all fat has melted of ";
+                }
+                else if (Prey.Body.Muscle.Value < 1)
+                {
+                    desc += $" all muscle has melted of {Prey.HisHer()} body ";
                 }
                 return desc;
             }

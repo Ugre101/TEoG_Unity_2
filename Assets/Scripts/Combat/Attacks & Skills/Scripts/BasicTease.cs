@@ -8,7 +8,7 @@ namespace SkillsAndSpells
         public override string Action(BasicChar user, BasicChar target)
         {
             float dmg = ValueWithRng(user);
-            target.WP.TakeDmg(dmg);
+            target.Wp.TakeDmg(dmg);
             return $"{user.Identity.FirstName} teases {target.Identity.FirstName}, causing {target.Identity.FirstName} to lose {dmg} willpower.";
         }
 

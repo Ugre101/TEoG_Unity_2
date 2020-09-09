@@ -45,24 +45,19 @@ public class RaceSystem
 
     public bool RemoveRace(Races race)
     {
-        if (RaceList.Exists(r => r.Name == race))
-        {
-            RaceList.Remove(RaceList.Find(r => r.Name == race));
-            Dirty = true;
-            return true;
-        }
-        return false;
+        if (!RaceList.Exists(r => r.Name == race)) return false;
+        
+        RaceList.Remove(RaceList.Find(r => r.Name == race));
+        Dirty = true;
+        return true;
     }
 
     public bool RemoveRace(Races race, int toRemove)
     {
-        if (RaceList.Exists(r => r.Name == race))
+        if (RaceList.Exists(r => r.Name == race) && RaceList.Find(r => r.Name == race).Lose(toRemove))
         {
-            if (RaceList.Find(r => r.Name == race).Lose(toRemove))
-            {
-                RaceList.Remove(RaceList.Find(r => r.Name == race));
-                return true;
-            }
+            RaceList.Remove(RaceList.Find(r => r.Name == race));
+            return true;
         }
         Dirty = true;
         return false;
@@ -109,15 +104,13 @@ public class RaceSystem
     {
         get
         {
-            if (RaceList.Count > 0)
+            if (RaceList.Count <= 0) return Races.Humanoid;
+            
+            if (RaceList.Count > 1)
             {
-                if (RaceList.Count > 1)
-                {
-                    return RaceList[1].Amount >= 50 ? RaceList[1].Name : RaceList[0].Amount >= 50 ? RaceList[0].Name : Races.Humanoid;
-                }
-                return RaceList[0].Amount >= 50 ? RaceList[0].Name : Races.Humanoid;
+                return RaceList[1].Amount >= 50 ? RaceList[1].Name : RaceList[0].Amount >= 50 ? RaceList[0].Name : Races.Humanoid;
             }
-            return Races.Humanoid;
+            return RaceList[0].Amount >= 50 ? RaceList[0].Name : Races.Humanoid;
         }
     }
 
@@ -130,7 +123,7 @@ public class RaceSystem
     }
     
     // Maybe overkill but I prefer to have the parameters named
-    public delegate void RaceChanged<in t1, in t2>(t1 oldRace, t2 newRace);
+    public delegate void RaceChanged<in TT1, in TT2>(TT1 oldRace, TT2 newRace);
 
     public event RaceChanged<Races, Races> RaceChange;
 

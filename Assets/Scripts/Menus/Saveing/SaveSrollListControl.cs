@@ -12,7 +12,7 @@ public class SaveSrollListControl : MonoBehaviour
 
     private DirectoryInfo _dirInfo;
     private FileInfo[] _fileInfo;
-    private string Path => SaveSettings.SaveFolder;
+    private static string Path => SaveSettings.SaveFolder;
 
     private void Start()
     {
@@ -23,7 +23,7 @@ public class SaveSrollListControl : MonoBehaviour
         LoadButtonBase.FailEvent += Failed;
     }
 
-    public void RefreshSaveList()
+    private void RefreshSaveList()
     {
         _fileInfo = _dirInfo.GetFiles("*.json").OrderByDescending(f => f.LastWriteTime).ToArray();
         // Destroy buttons
@@ -35,8 +35,5 @@ public class SaveSrollListControl : MonoBehaviour
         }
     }
 
-    public void Failed()
-    {
-        Instantiate(timedPopup, transform).Setup("Failed to load...");
-    }
+    private void Failed() => Instantiate(timedPopup, transform).Setup("Failed to load...");
 }

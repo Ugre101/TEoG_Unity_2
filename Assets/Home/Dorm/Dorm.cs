@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class Dorm
@@ -13,17 +14,9 @@ public static class Dorm
         Followers.Add(basicChar.Identity.Id, newMate);
     }
 
-    public static List<DormSave> Save()
-    {
-        List<DormSave> dormSaves = new List<DormSave>();
-        foreach (DormMate basicChar in Followers.Values)
-        {
-            dormSaves.Add(new DormSave(basicChar));
-        }
-        return dormSaves;
-    }
+    public static List<DormSave> Save() => Followers.Values.Select(dormMate => new DormSave(dormMate)).ToList();
 
-    public static void Load(List<DormSave> dormSaves)
+    public static void Load(IEnumerable<DormSave> dormSaves)
     {
         foreach (DormMate dormMate in Followers.Values)
         {
@@ -50,21 +43,23 @@ public struct DormSave
                 ? new DormMate(JsonUtility.FromJson<BasicChar>(who))
                 : JsonUtility.FromJson<DormMate>(who);
 
-    public DormSave(DormMate Who) => who = JsonUtility.ToJson(Who);
+    public DormSave(DormMate who) => this.who = JsonUtility.ToJson(who);
 }
 
 [System.Serializable]
 public class DormMate
 {
-    [SerializeField] private BasicChar basicChar;
-    [SerializeField] private DormAI dormAI;
+    [SerializeField] private BasicChar basicChar = new BasicChar() ;
+    [SerializeField] private DormAI dormAI = new DormAI();
     [SerializeField] private int morale = 100;
+
+    public DormMate()
+    {
+    }
 
     public DormMate(BasicChar basicChar)
     {
         this.BasicChar = basicChar;
-        this.dormAI = new DormAI();
-        DateSystem.NewHourEvent += EveryHour;
     }
 
     public int Morale => morale;
@@ -102,7 +97,7 @@ public class DormMate
 [System.Serializable]
 public class DormAI
 {
-    private bool awake = true, dayPerson = true;
+    [SerializeField] private bool awake = true, dayPerson = true;
     [SerializeField] private int beenAwake = 0, allowedSleepTime = 8, ruledAwakeTime = 16;
 
     public int GetBiologicalAwakeTime(DormMate dormMate)
@@ -126,25 +121,24 @@ public class DormAI
             beenAwake -= 2;
         }
 
-        if (awake && beenAwake >= GetBiologicalAwakeTime(dormMate))
+        if (!awake || beenAwake < GetBiologicalAwakeTime(dormMate)) return;
+        
+        if (beenAwake >= ruledAwakeTime)
         {
-            if (beenAwake >= ruledAwakeTime)
+            awake = false;
+        }
+        else
+        {
+            // Try to stay awake
+            dormMate.DecreaseMorale(1);
+            float chanceToStayAwake = 1f / 1f + (beenAwake - GetBiologicalAwakeTime(dormMate));
+            if (Random.value < chanceToStayAwake)
             {
-                awake = false;
+                // Stays awake
             }
             else
             {
-                // Try to stay awake
-                dormMate.DecreaseMorale(1);
-                float chanceToStayAwake = 1f / 1f + (beenAwake - GetBiologicalAwakeTime(dormMate));
-                if (Random.value < chanceToStayAwake)
-                {
-                    // Stays awake
-                }
-                else
-                {
-                    awake = false;
-                }
+                awake = false;
             }
         }
     }

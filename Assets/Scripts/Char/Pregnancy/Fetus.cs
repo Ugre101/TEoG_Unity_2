@@ -28,6 +28,17 @@ public class Fetus
     {
         switch (Race)
         {
+            case Races.Troll:
+            case Races.Halfling:
+            case Races.Fairy:
+            case Races.Incubus:
+            case Races.Succubus:
+            case Races.Equine:
+            case Races.Dragon:
+            case Races.DragonKin:
+            case Races.Amazon:
+            case Races.DarkElf:
+            case Races.Bovine:
             case Races.Humanoid:
             case Races.Human:
             case Races.Elf:

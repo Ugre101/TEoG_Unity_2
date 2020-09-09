@@ -22,7 +22,7 @@ public class UserSkill
 
     public float CoolDownPercent => skill.CoolDown != 0 ? TurnsLeft / (float)skill.CoolDown : 1;
 
-    public bool Ready => skill.HasCoolDown ? TurnsLeft < 1 : true;
+    public bool Ready => !skill.HasCoolDown || TurnsLeft < 1;
 
     public void StartCoolDown() => TurnsLeft = skill.CoolDown;
 

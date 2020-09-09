@@ -27,8 +27,8 @@ public static class BasicCharExtensions
 
     public static void Eat(this BasicChar eater, Meal meal)
     {
-        eater.HP.Gain(meal.HpGain);
-        eater.WP.Gain(meal.WpGain);
+        eater.Hp.Gain(meal.HpGain);
+        eater.Wp.Gain(meal.WpGain);
         eater.GainFatAndRefillScat(meal.FatGain);
         if (meal is MealWithBuffs buffs)
         {
@@ -42,11 +42,11 @@ public static class BasicCharExtensions
                 {
                     if (m.HealthType == HealthTypes.Health)
                     {
-                        eater.HP.AddTempMod(m);
+                        eater.Hp.AddTempMod(m);
                     }
                     else if (m.HealthType == HealthTypes.WillPower)
                     {
-                        eater.WP.AddTempMod(m);
+                        eater.Wp.AddTempMod(m);
                     }
                 });
             }
@@ -56,13 +56,13 @@ public static class BasicCharExtensions
     /// <summary> Handles hp/wp recovery, fat burn, vore </summary>
     public static void OverTimeTick(this BasicChar basicChar, int times = 1)
     {
-        if (!basicChar.HP.IsMax)
+        if (!basicChar.Hp.IsMax)
         {
-            basicChar.HP.Gain(basicChar.HpRecoveryTotal(times));
+            basicChar.Hp.Gain(basicChar.HpRecoveryTotal(times));
         }
-        if (!basicChar.WP.IsMax)
+        if (!basicChar.Wp.IsMax)
         {
-            basicChar.WP.Gain(basicChar.WpRecoveryTotal(times));
+            basicChar.Wp.Gain(basicChar.WpRecoveryTotal(times));
         }
         if (basicChar.Vore.Active)
         {

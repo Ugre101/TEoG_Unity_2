@@ -44,12 +44,9 @@ public class ExpSystem
 
     public bool PerkBool(int parCost = 1)
     {
-        if (PerkPoints >= parCost)
-        {
-            PerkPoints -= parCost;
-            return true;
-        }
-        return false;
+        if (PerkPoints < parCost) return false;
+        PerkPoints -= parCost;
+        return true;
     }
 
     public float ExpSlider => Exp / (float)MaxExp;

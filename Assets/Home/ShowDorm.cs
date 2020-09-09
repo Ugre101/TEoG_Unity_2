@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ShowDorm : MonoBehaviour
 {
-    private BasicChar Player => PlayerMain.Player;
+    private static BasicChar Player => PlayerMain.Player;
     [SerializeField] private Transform container = null;
     [SerializeField] private ShowServant ServantListPrefab = null;
     [SerializeField] private GameObject servantList = null;
@@ -22,8 +22,8 @@ public class ShowDorm : MonoBehaviour
     {
         AffectionAcc,
         AffectionDec,
-        ObedianceAcc,
-        ObedianceDec,
+        ObedienceAcc,
+        ObedienceDec,
     }
 
     private void Start()
@@ -61,28 +61,27 @@ public class ShowDorm : MonoBehaviour
     {
         servantList.SetActive(true);
         aServant.gameObject.SetActive(false);
-        bool hasSevants = Dorm.Followers.Count > 0;
-        ifEmpty.SetActive(!hasSevants);
+        bool hasServants = Dorm.Followers.Count > 0;
+        ifEmpty.SetActive(!hasServants);
         container.KillChildren();
-        if (hasSevants)
+        if (!hasServants) return;
+       
+        if (chooseRace.HasValue || chooseGender.HasValue || sortByStat.HasValue)
         {
-            if (chooseRace.HasValue || chooseGender.HasValue || sortByStat.HasValue)
+            List<DormMate> sorted = new List<DormMate>(Dorm.Followers.Values);
+            if (chooseRace.HasValue)
+                sorted = sorted.FindAll(bc => bc.BasicChar.RaceSystem.CurrentRace() == chooseRace.Value);
+            if (chooseGender.HasValue)
+                sorted = sorted.FindAll(bc => GenderExtensions.Gender(bc.BasicChar) == chooseGender.Value);
+            if (sortByStat.HasValue)
+                sorted = SortServantByRelationship(sorted);
+            sorted.ForEach(s => Instantiate(ServantListPrefab, container).Init(s).onClick.AddListener(() => ShowAServant(s)));
+        }
+        else
+        {
+            foreach (DormMate follower in Dorm.Followers.Values)
             {
-                List<DormMate> sorted = new List<DormMate>(Dorm.Followers.Values);
-                if (chooseRace.HasValue)
-                    sorted = sorted.FindAll(bc => bc.BasicChar.RaceSystem.CurrentRace() == chooseRace.Value);
-                if (chooseGender.HasValue)
-                    sorted = sorted.FindAll(bc => GenderExtensions.Gender(bc.BasicChar) == chooseGender.Value);
-                if (sortByStat.HasValue)
-                    sorted = SortSercantByRelationship(sorted);
-                sorted.ForEach(s => Instantiate(ServantListPrefab, container).Init(s).onClick.AddListener(() => ShowAServant(s)));
-            }
-            else
-            {
-                foreach (DormMate follower in Dorm.Followers.Values)
-                {
-                    Instantiate(ServantListPrefab, container).Init(follower).onClick.AddListener(() => ShowAServant(follower));
-                }
+                Instantiate(ServantListPrefab, container).Init(follower).onClick.AddListener(() => ShowAServant(follower));
             }
         }
     }
@@ -111,30 +110,35 @@ public class ShowDorm : MonoBehaviour
         ListServants();
     }
 
-    private List<DormMate> SortSercantByRelationship(List<DormMate> dorMates)
+    private List<DormMate> SortServantByRelationship(List<DormMate> dorMates)
     {
-        if (sortByStat.HasValue)
+        if (!sortByStat.HasValue) return dorMates;
+        
+        switch (sortByStat.Value)
         {
-            switch (sortByStat.Value)
-            {
-                // TODO make this working
-                case SortByEnum.AffectionAcc:
-                    dorMates.Sort((DormMate a, DormMate b)
-                        => a.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue.CompareTo(b.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue));
-                    break;
+            // TODO make this working
+            case SortByEnum.AffectionAcc:
+                dorMates.Sort((DormMate a, DormMate b)
+                    => a.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue.CompareTo(b.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue));
+                break;
 
-                case SortByEnum.AffectionDec:
-                    dorMates.OrderByDescending(s => s.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue);
-                    break;
+            case SortByEnum.AffectionDec:
+                dorMates.Sort((DormMate a, DormMate b)
+                    => b.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue.CompareTo(a.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue));
 
-                case SortByEnum.ObedianceAcc:
-                    dorMates.OrderBy(s => s.BasicChar.RelationshipTracker.GetReleationWith(Player).ObedienceValue);
-                    break;
+                break;
 
-                case SortByEnum.ObedianceDec:
-                    dorMates.OrderByDescending(s => s.BasicChar.RelationshipTracker.GetReleationWith(Player).AffectionValue);
-                    break;
-            }
+            case SortByEnum.ObedienceAcc:
+                dorMates.Sort((DormMate a ,DormMate b) 
+                    => a.BasicChar.RelationshipTracker.GetReleationWith(Player).ObedienceValue.CompareTo((b.BasicChar.RelationshipTracker.GetReleationWith(Player).ObedienceValue)));
+                break;
+
+            case SortByEnum.ObedienceDec:
+                dorMates.Sort((DormMate a ,DormMate b) 
+                    => b.BasicChar.RelationshipTracker.GetReleationWith(Player).ObedienceValue.CompareTo((a.BasicChar.RelationshipTracker.GetReleationWith(Player).ObedienceValue)));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
         return dorMates;
     }

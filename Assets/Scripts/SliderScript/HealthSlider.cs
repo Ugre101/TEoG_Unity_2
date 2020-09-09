@@ -1,21 +1,15 @@
 ﻿public class HealthSlider : BasicSlider
 {
-    protected override Health Health => basicChar.HP;
+    protected override Health Health => basicChar.Hp;
 
     private void OnDisable()
     {
-        if (basicChar != null)
-        {
-            Health.UpdateSliderEvent -= ChangeHealth;
-        }
+        if (basicChar != null) Health.UpdateSliderEvent -= ChangeHealth;
     }
 
     private void OnDestroy()
     {
-        if (basicChar != null)
-        {
-            Health.UpdateSliderEvent -= ChangeHealth;
-        }
+        if (basicChar != null) Health.UpdateSliderEvent -= ChangeHealth;
     }
 
     public override void Setup(BasicChar who)

@@ -33,12 +33,9 @@ public static class VaginaExtensions
         List<string> deepth = new List<string>()
         {
         };
-        if (deepth.Count > 0)
-        {
-            int i = Mathf.Clamp(Mathf.FloorToInt(vag.Size / 2), 0, deepth.Count - 1);
-            return deepth[i];
-        }
-        return vag.Size.ToString();
+        if (deepth.Count <= 0) return vag.Size.ToString();
+        int i = Mathf.Clamp(Mathf.FloorToInt(vag.Size / 2), 0, deepth.Count - 1);
+        return deepth[i];
     }
 
     public static string Look(this Vagina vag, bool capital = true) => $"{(capital ? "A" : "a")} {vag.VagSizeConventor()} {vag.Race}";

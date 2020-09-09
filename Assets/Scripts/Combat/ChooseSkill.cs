@@ -21,7 +21,7 @@ public class ChooseSkill : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     // Start is called before the first frame update
     private void Start() => btn.onClick.AddListener(Click);
 
-    public void Click() => target.Setup(userSkill);
+    private void Click() => target.Setup(userSkill);
 
     public void Setup(UserSkill basicSkill, CombatButton combatButton, GameObject hover, TextMeshProUGUI text, UnityEngine.Events.UnityAction func)
     {

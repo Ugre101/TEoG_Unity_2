@@ -19,11 +19,14 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
     [SerializeField] private KeyCode quickKey = KeyCode.None;
 
     [SerializeField] private SkillButtons skillButtons = null;
-    private BasicChar Player => PlayerMain.Player;
-    private BasicChar Target => CombatHandler.Target;
+    private static BasicChar Player => PlayerMain.Player;
+    private static BasicChar Target => CombatHandler.Target;
     private bool hovering = false;
     private bool hoverBlockActive = false;
     private float timeStarted;
+
+    private bool _isSkillNotNull;
+
     // CoolDown
 
     // Start is called before the first frame update
@@ -41,21 +44,22 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
             img.gameObject.SetActive(false);
             coolDownImg.fillAmount = 0;
         }
+
+        _isSkillNotNull = Skill != null;
     }
 
     private void Click()
     {
-        if (Skill != null)
+        if (_isSkillNotNull)
         {
             if (Skill.HasCoolDown)
             {
-                if (userSkill.Ready)
-                {
-                    CombatHandler.PlayerAttack(Skill.Action(Player, Target));
-                    userSkill.StartCoolDown();
-                    CoolDownHandler();
-                    // code to put dim on skill to show it's on cooldown
-                }
+                if (!userSkill.Ready) return;
+
+                CombatHandler.PlayerAttack(Skill.Action(Player, Target));
+                userSkill.StartCoolDown();
+                CoolDownHandler();
+                // code to put dim on skill to show it's on cooldown
             }
             else
             {
@@ -64,7 +68,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         }
         else
         {
-            skillButtons.ToogleChooseSkill(this);
+            skillButtons.ToggleChooseSkill(this);
         }
     }
 
@@ -74,16 +78,11 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         {
             Click();
         }
+
         // Delay before starting hoverText
-        if (hovering)
+        if (hovering && timeStarted + 0.8f <= Time.unscaledTime && !hoverBlockActive && _isSkillNotNull)
         {
-            if (timeStarted + 0.8f <= Time.unscaledTime)
-            {
-                if (!hoverBlockActive && Skill != null)
-                {
-                    StartHovering();
-                }
-            }
+            StartHovering();
         }
     }
 
@@ -94,6 +93,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
         img.gameObject.SetActive(true);
         img.sprite = Skill.Icon;
         CoolDownHandler();
+        _isSkillNotNull = Skill != null;
     }
 
     public void Clean()
@@ -105,20 +105,18 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right)
-        {
-            StopHoverText();
-            skillButtons.ToogleChooseSkill(this);
-        }
+        if (eventData.button != PointerEventData.InputButton.Right) return;
+
+        StopHoverText();
+        skillButtons.ToggleChooseSkill(this);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (Skill != null)
-        {
-            hovering = true;
-            timeStarted = Time.unscaledTime;
-        }
+        if (!_isSkillNotNull) return;
+
+        hovering = true;
+        timeStarted = Time.unscaledTime;
     }
 
     public void OnPointerExit(PointerEventData eventData) => StopHoverText();
@@ -134,6 +132,7 @@ public class CombatButton : MonoBehaviour, IPointerClickHandler, IPointerEnterHa
                 toSend += $"\n{userSkill.TurnsLeft} turns left";
             }
         }
+
         SkillButtonsHoverText.HoverText(toSend);
         hoverBlockActive = true;
     }

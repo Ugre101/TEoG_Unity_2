@@ -11,7 +11,7 @@ public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     [SerializeField] private KeyCode quickKey = KeyCode.Alpha0;
 
-    private int Roll => Random.Range(0, 100);
+    private static int Roll => Random.Range(0, 100);
     private bool hovering = false;
     private bool hoverBlockActive = false;
     private float timeStartedHovering;
@@ -22,32 +22,20 @@ public class FleeButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         btn = btn != null ? btn : GetComponent<Button>();
 
         btn.onClick.AddListener(Flee);
-        if (quickText != null)
-        {
-            if (quickKey != KeyCode.None)
-            {
-                quickText.text = quickKey.ToString().Replace("Alpha", string.Empty).Replace(" ", string.Empty);
-            }
-            else
-            {
-                quickText.text = string.Empty;
-            }
-        }
+        if (quickText == null) return;
+        
+        quickText.text = quickKey != KeyCode.None ? quickKey.ToString().Replace("Alpha", string.Empty).Replace(" ", string.Empty) : string.Empty;
     }
 
     private void Update()
     {
-        if (hovering)
-        {
-            if (!hoverBlockActive && timeStartedHovering + 0.8f <= Time.unscaledTime)
-            {
-                SkillButtonsHoverText.HoverText("Flee\n50% success chance");
-                hoverBlockActive = true;
-            }
-        }
+        if (!hovering || hoverBlockActive || !(timeStartedHovering + 0.8f <= Time.unscaledTime)) return;
+        
+        SkillButtonsHoverText.HoverText("Flee\n50% success chance");
+        hoverBlockActive = true;
     }
 
-    public void Flee()
+    private static void Flee()
     {
         // TODO add modifers to flee chance
         int myRoll = Roll; // + relevant player skills & perks

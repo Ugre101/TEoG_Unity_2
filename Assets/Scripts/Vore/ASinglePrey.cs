@@ -21,7 +21,7 @@ namespace Vore
         {
             player = player ?? PlayerMain.Player;
             backBtn.onClick.AddListener(Back);
-            reguBtn.onClick.AddListener(Regurgileta);
+            reguBtn.onClick.AddListener(Regurgitate);
         }
 
         public void Setup(ThePrey prey, VoreContainers voreContainer)
@@ -33,7 +33,7 @@ namespace Vore
             desc.text = prey.PreyDesc;
         }
 
-        private void Regurgileta()
+        private void Regurgitate()
         {
             // TODO add instate
             if (DigestionProgress < 0.5)

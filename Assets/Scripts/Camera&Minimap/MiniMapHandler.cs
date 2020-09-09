@@ -7,7 +7,7 @@ public class MiniMapHandler : MonoBehaviour
     public GameObject miniMap, bigMap;
     private bool mini = true, big = false;
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         if (miniMap == null || bigMap == null)
         {
@@ -19,7 +19,7 @@ public class MiniMapHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.M))
         {

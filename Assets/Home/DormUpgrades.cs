@@ -27,7 +27,8 @@ public class HomeUpgrade
 
     public int Level
     {
-        get => level; set
+        get => level;
+        private set
         {
             level = value;
             Refresh?.Invoke();
