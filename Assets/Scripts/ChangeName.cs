@@ -25,21 +25,15 @@ public class ChangeName : MonoBehaviour
         }
     }
 
-    public void AcceptNameChange()
+    private void AcceptNameChange()
     {
-        if (firstName != null)
+        if (firstName != null && firstName.text.Length > 0)
         {
-            if (firstName.text.Length > 0)
-            {
-                whoms.SetFirstName(firstName.text);
-            }
+            whoms.SetFirstName(firstName.text);
         }
-        if (lastName != null)
+        if (lastName != null && lastName.text.Length > 0)
         {
-            if (lastName.text.Length > 0)
-            {
-                whoms.SetLastName(lastName.text);
-            }
+            whoms.SetLastName(lastName.text);
         }
     }
 }

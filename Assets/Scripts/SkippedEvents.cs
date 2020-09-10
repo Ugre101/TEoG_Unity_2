@@ -20,8 +20,8 @@ public class SkippedEvents : MonoBehaviour
     private void ListEvents()
     {
         container.KillChildren();
-        ToggleEvent("Need to shit", NeedToShit.skipEvent);
-        ToggleEvent("Give birth", GiveBirth.skipEvent);
+        ToggleEvent("Need to shit", NeedToShit.SkipEvent);
+        ToggleEvent("Give birth", GiveBirth.SkipEvent);
     }
 
     private void ToggleEvent(string title, SkipEvent skipEvent) => Instantiate(skippedEvent, container).Setup(title, skipEvent);

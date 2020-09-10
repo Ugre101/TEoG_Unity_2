@@ -48,7 +48,7 @@ public class EventMain : MonoBehaviour
         }
     }
 
-    public void PlayQuedEvent(GameState newState)
+    private void PlayQuedEvent(GameState newState)
     {
         if (newState == GameState.Free && quedEvents.Count > 0)
         {
@@ -82,15 +82,9 @@ public class EventMain : MonoBehaviour
         Setup(subEvent.CanLeave);
     }
 
-    public void EventWith(BasicChar whom, bool CanLeaveDiretly)
-    {
-        Setup(CanLeaveDiretly);
-    }
+    public void EventWith(BasicChar whom, bool CanLeaveDiretly) => Setup(CanLeaveDiretly);
 
-    public void EventWithSeveral(List<BasicChar> basicChars, bool CanLeaveDiretly = true)
-    {
-        Setup(CanLeaveDiretly);
-    }
+    public void EventWithSeveral(List<BasicChar> basicChars, bool CanLeaveDiretly = true) => Setup(CanLeaveDiretly);
 
     private void Setup(bool canLeave)
     {
@@ -122,9 +116,9 @@ public class EventMain : MonoBehaviour
 public abstract class EventsContaier
 {
     protected readonly BasicChar basicChar;
-    protected EventMain eventMain => EventMain.GetEventMain;
+    protected static EventMain EventMain => EventMain.GetEventMain;
 
-    public EventsContaier(BasicChar basicChar)
+    protected EventsContaier(BasicChar basicChar)
     {
         this.basicChar = basicChar;
     }

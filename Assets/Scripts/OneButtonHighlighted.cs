@@ -38,9 +38,9 @@ public class OneButtonHighlighted : MonoBehaviour
 
     private void Highlight()
     {
-        btns.ForEach(btn =>
+        foreach (Button btn in btns)
         {
             btn.image.color = btn == highlighted ? selected : notSelected;
-        });
+        }
     }
 }

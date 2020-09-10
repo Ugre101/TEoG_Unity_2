@@ -20,9 +20,6 @@ public class LeaveBuilding : MonoBehaviour
     }
     private void Update()
     {
-       if(Input.GetKeyDown(hotKey))
-        {
-            btn.onClick?.Invoke();
-        }
+       if(Input.GetKeyDown(hotKey)) btn.onClick?.Invoke();
     }
 }

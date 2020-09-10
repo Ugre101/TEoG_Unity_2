@@ -22,7 +22,7 @@ public class HomeCanvas : MonoBehaviour
     private void Start()
     {
         homeUI = homeUI != null ? homeUI : GetComponentInChildren<HomeMain>();
-        GameManager.GloablAreaChange += EnableHomeUI;
+        GameManager.GlobalAreaChange += EnableHomeUI;
         GameManager.GameStateChangeEvent += StateChange;
         EnableHomeUI(GameManager.CurrentArea);
     }

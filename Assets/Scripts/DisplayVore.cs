@@ -7,7 +7,7 @@ public class DisplayVore
 {
     public DisplayVore(VoreBasic organ) => VoreOrgan = organ;
 
-    public List<ThePrey> Preys => VoreOrgan.Preys;
+    private IEnumerable<ThePrey> Preys => VoreOrgan.Preys;
     public VoreBasic VoreOrgan { get; }
 
     public float Progress()

@@ -9,9 +9,6 @@ public class LeaveHomeTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(playerTag))
-        {
-            home.LeaveHome();
-        }
+        if (collision.CompareTag(playerTag)) home.LeaveHome();
     }
 }

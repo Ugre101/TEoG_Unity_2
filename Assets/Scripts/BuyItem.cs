@@ -29,18 +29,12 @@ public class BuyItem : ShopWare
 
     private void OnDestroy()
     {
-        if (buyer != null)
-        {
-            buyer.Currency.GoldChanged -= FrameCanAfford;
-        }
+        if (buyer != null) buyer.Currency.GoldChanged -= FrameCanAfford;
         BuyBtn.onClick.RemoveAllListeners();
     }
 
     public override void Buy()
     {
-        if (buyer.Currency.TryToBuy(Cost))
-        {
-            buyer.Inventory.AddItem(item.ItemId);
-        }
+        if (buyer.Currency.TryToBuy(Cost)) buyer.Inventory.AddItem(item.ItemId);
     }
 }

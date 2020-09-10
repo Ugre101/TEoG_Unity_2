@@ -26,35 +26,30 @@ namespace StartMenuStuff
 
             _bottom = new Color(191, 0, 191);
             _top = new Color(0, 0, 191);
-            InvokeRepeating("gradshift", 0.0f, 1.0f);
+            InvokeRepeating(nameof(Gradshift), 0.0f, 1.0f);
         }
         
-        private void gradshift()
+        private void Gradshift()
         {
             _counter++;
-            _title.colorGradient = aStepaTime();
+            _title.colorGradient = AStepATime();
             Debug.Log(_counter);
         }
 
-        private VertexGradient aStepaTime()
+        private VertexGradient AStepATime()
         {
             switch (_counter)
             {
                 case 1:
                     return new VertexGradient(_top, _top, _top, _top);
-
                 case 2:
                     return new VertexGradient(_bottom, _top, _top, _top);
-
                 case 3:
                     return new VertexGradient(_bottom, _bottom, _top, _top);
-
                 case 4:
                     return new VertexGradient(_bottom, _bottom, _bottom, _top);
-
                 case 5:
                     return new VertexGradient(_bottom, _bottom, _bottom, _bottom);
-
                 default:
                     _counter = 0;
                     return new VertexGradient(_top, _top, _top, _top);

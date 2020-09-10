@@ -113,7 +113,7 @@ public static class PregnancyExtensions
            
             List<Child> born = v.Womb.GiveBirth();
             pregnancySystem.Children.AddRange(born);
-            mother.Events.SoloEvents.IGiveBirth(born);
+            mother.Events.SoloEvents.GiveBirth(born);
             string amount = born.Count > 2 ? $"{born.Count} children" :
                 born.Count
                 > 1 ? $"a pair of twins" : "a child"; // TODO add more

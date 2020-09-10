@@ -38,7 +38,7 @@ public static class GameManager
         private set
         {
             currentArea = value;
-            GloablAreaChange?.Invoke(value);
+            GlobalAreaChange?.Invoke(value);
         }
     }
 
@@ -97,7 +97,7 @@ public static class GameManager
     }
 
     public static Action<GameState> GameStateChangeEvent;
-    public static Action<GlobalArea> GloablAreaChange;
+    public static Action<GlobalArea> GlobalAreaChange;
 }
 
 [System.Serializable]

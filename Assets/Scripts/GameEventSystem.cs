@@ -18,32 +18,32 @@ public class GameEventSystem
 
         public SoloVoreEvents VoreEvents { get; }
 
-        public void IGiveBirth(List<Child> child,bool player = false)
+        public void GiveBirth(List<Child> child,bool player = false)
         {
             if (player)
             {
-                if (GiveBirth.skipEvent.Skip)
+                if (global::GiveBirth.SkipEvent.Skip)
                 {
                     new GiveBirth(basicChar, child).SkipAction();
                 }
                 else
                 {
-                    eventMain.QueEvent(() => eventMain.EventSolo(new GiveBirth(basicChar, child)));
+                    EventMain.QueEvent(() => EventMain.EventSolo(new GiveBirth(basicChar, child)));
                 }
             }
         }
 
-        public void INeedToShit(bool player = false)
+        public void NeedToShit(bool player = false)
         {
             if ( player)
             {
-                if (NeedToShit.skipEvent.Skip)
+                if (global::NeedToShit.SkipEvent.Skip)
                 {
                     new NeedToShit(basicChar).SkipAction();
                 }
                 else
                 {
-                    eventMain.QueEvent(() => eventMain.EventSolo(new NeedToShit(basicChar)));
+                    EventMain.QueEvent(() => EventMain.EventSolo(new NeedToShit(basicChar)));
                 }
             }
         }
@@ -52,7 +52,7 @@ public class GameEventSystem
         {
             if (player)
             {
-                eventMain.EventSolo(new PortalIsLocked(basicChar), true);
+                EventMain.EventSolo(new PortalIsLocked(basicChar), true);
             }
         }
 
@@ -100,13 +100,13 @@ public class GameEventSystem
 
 public abstract class SoloEvent
 {
-    public SoloEvent(BasicChar player)
+    protected SoloEvent(BasicChar player)
     {
-        this.player = player;
+        this.Player = player;
         eventMain = EventMain.GetEventMain;
     }
 
-    protected BasicChar player;
+    protected readonly BasicChar Player;
     protected EventMain eventMain;
     public abstract string Title { get; }
     public abstract string Intro { get; }
@@ -119,14 +119,14 @@ public abstract class SoloEvent
 
 public abstract class SoloSubEvent
 {
-    public SoloSubEvent(BasicChar player)
+    protected SoloSubEvent(BasicChar player)
     {
-        this.player = player;
-        eventMain = EventMain.GetEventMain;
+        this.Player = player;
+        EventMain = EventMain.GetEventMain;
     }
 
-    protected BasicChar player;
-    protected EventMain eventMain;
+    protected readonly BasicChar Player;
+    protected readonly EventMain EventMain;
     public abstract bool CanLeave { get; }
     public abstract string Title { get; }
     public abstract string Intro { get; }
@@ -145,7 +145,7 @@ public class RaceChange : SoloEvent
     {
         get
         {
-            Races newRace = player.RaceSystem.FirstRace;
+            Races newRace = Player.RaceSystem.FirstRace;
             return "";
         }
     }
@@ -163,8 +163,8 @@ public class NeedToShit : SoloEvent
 
     public override string Title => "Need to shit";
     public override string Intro => intro();
-    public override List<SoloSubEvent> SubEvents { get; } = new List<SoloSubEvent>();
-    public static SkipEvent skipEvent = new SkipEvent();
+    public sealed override List<SoloSubEvent> SubEvents { get; } = new List<SoloSubEvent>();
+    public static readonly SkipEvent SkipEvent = new SkipEvent();
 
     public override void SkipAction()
     {
@@ -188,7 +188,7 @@ public class NeedToShit : SoloEvent
         {
             get
             {
-                string shit = player.SexualOrgans.Anals.List.DefecateAll();
+                string shit = Player.SexualOrgans.Anals.List.DefecateAll();
                 return "" + shit;
             }
         }
@@ -223,18 +223,18 @@ public class GiveBirth : SoloEvent
         SubEvents.Add(new GiveBirthSub2(player, child));
     }
 
-    private List<Child> child;
+    private readonly List<Child> child;
     public override string Title => "Give birth";
 
     public override string Intro => "The water has gobe";
 
-    public override List<SoloSubEvent> SubEvents { get; } = new List<SoloSubEvent>();
-    public static SkipEvent skipEvent = new SkipEvent();
+    public sealed override List<SoloSubEvent> SubEvents { get; } = new List<SoloSubEvent>();
+    public static readonly SkipEvent SkipEvent = new SkipEvent();
 
     public override void SkipAction()
     {
         child.ForEach(c => c.ChildIdentity.SetFirstName(RandomName.FemaleName));
-        child.ForEach(c => c.ChildIdentity.SetLastName(player.Identity.LastName));
+        child.ForEach(c => c.ChildIdentity.SetLastName(Player.Identity.LastName));
         base.SkipAction();
     }
 
@@ -245,7 +245,7 @@ public class GiveBirth : SoloEvent
             this.child = child;
         }
 
-        private List<Child> child;
+        private readonly List<Child> child;
         public override string Title => "Name child";
 
         public override string Intro
@@ -254,7 +254,7 @@ public class GiveBirth : SoloEvent
             {
                 List<Identity> identities = new List<Identity>();
                 child.ForEach(c => identities.Add(c.ChildIdentity));
-                eventMain.SummonChangeNames(identities, player.Identity.LastName).Done += eventMain.EndEvent;
+                EventMain.SummonChangeNames(identities, Player.Identity.LastName).Done += EventMain.EndEvent;
                 return "";
             }
         }
@@ -271,7 +271,7 @@ public class GiveBirth : SoloEvent
             this.child = child;
         }
 
-        private List<Child> child;
+        private readonly List<Child> child;
         public override string Title => "Skip & auto name";
 
         public override string Intro
@@ -279,8 +279,8 @@ public class GiveBirth : SoloEvent
             get
             {
                 child.ForEach(c => c.ChildIdentity.SetFirstName(RandomName.FemaleName));
-                child.ForEach(c => c.ChildIdentity.SetLastName(player.Identity.LastName));
-                eventMain.EndEvent();
+                child.ForEach(c => c.ChildIdentity.SetLastName(Player.Identity.LastName));
+                EventMain.EndEvent();
                 return "";
             }
         }
@@ -302,5 +302,5 @@ public class PortalIsLocked : SoloEvent
     public override string Intro => "For some reason you couldn't sync with this portal, maybe if you look around you will find a way.";
 
     public override List<SoloSubEvent> SubEvents => new List<SoloSubEvent>();
-    public static SkipEvent skipEvent = new SkipEvent();
+    public static SkipEvent SkipEvent = new SkipEvent();
 }

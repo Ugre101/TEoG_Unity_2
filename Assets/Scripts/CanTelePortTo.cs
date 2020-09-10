@@ -21,7 +21,7 @@ public class CanTelePortTo : MonoBehaviour
     }
 
     public Tilemap Map { get => map; private set => map = value; }
-    public Vector3 LandCordinations => transform.position;
+    public Vector3 LandPosition => transform.position;
     public WorldMaps World { get => worldMaps; private set => worldMaps = value; }
 
     public void Load(bool know) => Know = know;
@@ -55,13 +55,9 @@ public class CanTelePortTo : MonoBehaviour
     private void NewMapIsThisMap(Tilemap tilemap)
     {
         if (tilemap == map)
-        {
             HandleSprite();
-        }
         else
-        {
             DisabledTeleport();
-        }
     }
 
     private void HandleSprite()
@@ -95,25 +91,19 @@ public class CanTelePortTo : MonoBehaviour
             {
                 PlayerMain.Player.Events.SoloEvents.TeleportIsLocked(true);
             }
-            if (Know)
+            if (Know && !justTeleportedTo && timeLoaded + 1f <= Time.unscaledTime)
             {
-                if (!justTeleportedTo && timeLoaded + 1f <= Time.unscaledTime)
-                {
-                    WalkedOnTeleport?.Invoke();
-                    // CanvasMain.GetCanvasMain.TeleportMenu();
-                }
+                WalkedOnTeleport?.Invoke();
+                // CanvasMain.GetCanvasMain.TeleportMenu();
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.HitPlayer())
+        if (collision.HitPlayer() && justTeleportedTo)
         {
-            if (justTeleportedTo)
-            {
-                justTeleportedTo = false;
-            }
+            justTeleportedTo = false;
         }
     }
 
@@ -121,18 +111,15 @@ public class CanTelePortTo : MonoBehaviour
 
     public void LoadThis(TeleportSave save)
     {
-        if (World == save.World)
+        if (World == save.World && Map.name == save.MapName)
         {
-            if (Map.name == save.MapName)
-            {
-                Know = save.Know;
-            }
+            Know = save.Know;
         }
     }
 
-    public delegate void WalktOnTeleport();
+    public delegate void WalkOnTeleport();
 
-    public static event WalktOnTeleport WalkedOnTeleport;
+    public static event WalkOnTeleport WalkedOnTeleport;
 }
 
 [System.Serializable]

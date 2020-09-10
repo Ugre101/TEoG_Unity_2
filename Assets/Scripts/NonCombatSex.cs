@@ -12,16 +12,20 @@ public abstract class BaseSexMonoBehavior : MonoBehaviour
     [SerializeField] protected EssSexButton essSexButton = null;
     [SerializeField] protected Transform buttons = null, MiscActions = null, DrainActions = null;
 
-    [Header("ScriptableObject Scenes")]
-    [SerializeField] private List<SexScenes> dickScenes = new List<SexScenes>();
+    [Header("ScriptableObject Scenes")] [SerializeField]
+    private List<SexScenes> dickScenes = new List<SexScenes>();
 
-    [SerializeField] private List<SexScenes> boobScenes = new List<SexScenes>(), mouthScenes = new List<SexScenes>(), vaginaScenes = new List<SexScenes>(), analScenes = new List<SexScenes>();
+    [SerializeField] private List<SexScenes> boobScenes = new List<SexScenes>(),
+        mouthScenes = new List<SexScenes>(),
+        vaginaScenes = new List<SexScenes>(),
+        analScenes = new List<SexScenes>();
+
     [SerializeField] private List<EssScene> essScenes = new List<EssScene>();
     [SerializeField] private List<VoreScene> voreScenes = new List<VoreScene>();
     [SerializeField] private List<SexScenes> miscScenes = new List<SexScenes>();
     private List<SexScenes> allSexScenes = new List<SexScenes>();
 
-    public List<SexScenes> AllSexScenes
+    protected List<SexScenes> AllSexScenes
     {
         get
         {
@@ -30,11 +34,12 @@ public abstract class BaseSexMonoBehavior : MonoBehaviour
                 allSexScenes = dickScenes.Concat(mouthScenes).Concat(boobScenes)
                     .Concat(vaginaScenes).Concat(analScenes).ToList();
             }
+
             return allSexScenes;
         }
     }
 
-    protected BasicChar player => PlayerMain.Player;
+    protected static BasicChar Player => PlayerMain.Player;
 
     protected bool firstTimeUsed = true;
 
@@ -57,9 +62,10 @@ public abstract class BaseSexMonoBehavior : MonoBehaviour
         {
             InstantiateScenes();
         }
+
         SexHander.Setup(partners);
 
-        playerSexCharHandler.Setup(player);
+        playerSexCharHandler.Setup(Player);
         partnerSexCharHandler.Setup(SexHander.Partners);
         SexHander.SetText += textLog.SetText;
         SexHander.AddText += textLog.AddText;
@@ -114,7 +120,7 @@ public static class SexHander
 
     public static void Setup(List<BasicChar> partners)
     {
-        PlayerTeam = new List<BasicChar>() { PlayerMain.Player };
+        PlayerTeam = new List<BasicChar>() {PlayerMain.Player};
         Partners = partners;
         PlayerTeam.ForEach(pt => BindSexStats(pt));
         Partners.ForEach(p => BindSexStats(p));
@@ -146,7 +152,7 @@ public static class SexHander
         SetText = null;
     }
 
-    public static void Setup(BasicChar partner) => Setup(new List<BasicChar>() { partner });
+    public static void Setup(BasicChar partner) => Setup(new List<BasicChar>() {partner});
 
     public static void SetTextLog(string text) => SetText?.Invoke(text);
 
@@ -168,23 +174,18 @@ public static class SexHander
 
     private static void Impreg()
     {
-        if (LastScene.IImpregnate)
+        if (LastScene.IImpregnate && Target.GetImpregnatedBy(Caster))
         {
-            if (Target.GetImpregnatedBy(Caster))
-            {
-                AddText($" {Caster.Identity.FirstName} impregnated {Target.Identity.FirstName}!");
-            }
+            AddText($" {Caster.Identity.FirstName} impregnated {Target.Identity.FirstName}!");
         }
     }
 
     private static void GetImpreg()
     {
-        if (LastScene.IGetImpregnated)
+        if (LastScene.IGetImpregnated && Caster.GetImpregnatedBy(Target))
         {
-            if (Caster.GetImpregnatedBy(Target))
-            {
-                AddText($" {Target.Identity.FirstName} got {Caster.HimHerSelf()} pregnant by {Target.Identity.FirstName}!");
-            }
+            AddText(
+                $" {Target.Identity.FirstName} got {Caster.HimHerSelf()} pregnant by {Target.Identity.FirstName}!");
         }
     }
 
@@ -227,10 +228,9 @@ public static class SexHander
     public static void SortScenes(Transform allScenesConatiner, List<SexButton> addedSexButtons, List<SexScenes> scenes)
     {
         allScenesConatiner.SleepChildren();
-        foreach (SexScenes scene in scenes.FindAll(s => s.CanDo(Caster, Target)))
+        foreach (SexButton btn in scenes.FindAll(s => s.CanDo(Caster, Target)).Select(scene => addedSexButtons.Find(sb => sb.Scene.name == scene.name)))
         {
-            SexButton btn = addedSexButtons.Find(sb => sb.Scene.name == scene.name);
-            btn.gameObject.SetActive(Caster.CanOrgasmMore() ? btn.Scene.CanDo(Caster, Target) : false);
+            btn.gameObject.SetActive(Caster.CanOrgasmMore() && btn.Scene.CanDo(Caster, Target));
         }
     }
 

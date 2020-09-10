@@ -10,10 +10,7 @@ public class HoverText : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     private void OnEnable()
     {
-        if (hoverText == null)
-        {
-            enabled = false;
-        }
+        if (hoverText == null) enabled = false;
         HoverEnabled = false;
     }
 

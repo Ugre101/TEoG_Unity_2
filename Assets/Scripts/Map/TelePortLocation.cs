@@ -13,7 +13,7 @@ public class TelePortLocation
     public TelePortLocation(CanTelePortTo canTele, MapEvents mapEvents)
     {
         CanTelePortTo = canTele;
-        landPlatform = canTele.LandCordinations;
+        landPlatform = canTele.LandPosition;
         this.mapEvents = mapEvents;
     }
 

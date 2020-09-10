@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Vore;
 
 namespace Ugre.GameUITempEffects
 {
     public class DisplayTempEffects : MonoBehaviour
     {
-        private BasicChar player => PlayerMain.Player;
+        private static BasicChar Player => PlayerMain.Player;
 
         [SerializeField] private TempEffect tempEffectPrefab = null;
         [SerializeField] private PregEffect pregEffectPrefab = null;
@@ -23,28 +25,28 @@ namespace Ugre.GameUITempEffects
         private void OnEnable()
         {
             Save.LoadEvent += DisplayEffects;
-            player.Stats.GetAll.ForEach(s => { s.AddedTempEvent += DisplayEffects; });
-            player.Hp.AddedTempEvent += DisplayEffects;
-            player.Wp.AddedTempEvent += DisplayEffects;
+            Player.Stats.GetAll.ForEach(s => { s.AddedTempEvent += DisplayEffects; });
+            Player.Hp.AddedTempEvent += DisplayEffects;
+            Player.Wp.AddedTempEvent += DisplayEffects;
 
             DisplayEffects();
-            lastPreyCount = player.Vore.TotalPreyCount;
+            lastPreyCount = Player.Vore.TotalPreyCount;
         }
 
         private void OnDisable()
         {
             Save.LoadEvent -= DisplayEffects;
-            player.Stats.GetAll.ForEach(s => { s.AddedTempEvent -= DisplayEffects; });
-            player.Hp.AddedTempEvent -= DisplayEffects;
-            player.Wp.AddedTempEvent -= DisplayEffects;
+            Player.Stats.GetAll.ForEach(s => { s.AddedTempEvent -= DisplayEffects; });
+            Player.Hp.AddedTempEvent -= DisplayEffects;
+            Player.Wp.AddedTempEvent -= DisplayEffects;
         }
 
         private void Update()
         {
-            if (player.Vore.Active && lastPreyCount != player.Vore.TotalPreyCount)
+            if (Player.Vore.Active && lastPreyCount != Player.Vore.TotalPreyCount)
             {
                 DisplayEffects();
-                lastPreyCount = player.Vore.TotalPreyCount;
+                lastPreyCount = Player.Vore.TotalPreyCount;
             }
         }
 
@@ -60,36 +62,25 @@ namespace Ugre.GameUITempEffects
         private void TempMods()
         {
             displayMods.Clear();
-            foreach (CharStats stat in player.Stats.GetAll)
+            foreach (List<TempStatMod> tempMods in Player.Stats.GetAll.Select(stat => stat.TempMods).Where(tempMods => tempMods.Count > 0))
             {
-                List<TempStatMod> tempMods = stat.TempMods;
-                if (tempMods.Count > 0)
+                foreach (TempStatMod m in tempMods)
                 {
-                    tempMods.ForEach(m =>
+                    if (!displayMods.Exists(dp => dp.Source == m.Source))
                     {
-                        if (!displayMods.Exists(dp => dp.Source == m.Source))
-                        {
-                            displayMods.Add(new DisplayMod(m));
-                        }
-                        else
-                        {
-                        }
-                    });
+                        displayMods.Add(new DisplayMod(m));
+                    }
+                    else
+                    {
+                    }
                 }
             }
-            List<Health> healths = new List<Health>() { player.Hp, player.Wp };
-            foreach (Health health in healths)
+            List<Health> healths = new List<Health>() { Player.Hp, Player.Wp };
+            foreach (List<TempHealthMod> tempMods in healths.Select(health => health.TempHealthMods).Where(tempMods => tempMods.Count > 0))
             {
-                List<TempHealthMod> tempMods = health.TempHealthMods;
-                if (tempMods.Count > 0)
+                foreach (TempHealthMod m in tempMods.Where(m => !displayMods.Exists(dp => dp.Source == m.Source)))
                 {
-                    tempMods.ForEach(m =>
-                    {
-                        if (!displayMods.Exists(dp => dp.Source == m.Source))
-                        {
-                            displayMods.Add(new DisplayMod(m));
-                        }
-                    });
+                    displayMods.Add(new DisplayMod(m));
                 }
             }
             PrintDisplayMods();
@@ -98,13 +89,11 @@ namespace Ugre.GameUITempEffects
         private void VorePreys()
         {
             displayVores.Clear();
-            player.Vore.VoreOrgans.ForEach(vo =>
+            foreach (VoreBasic vo in Player.Vore.VoreOrgans.Where(vo => vo.PreyCount > 0))
             {
-                if (vo.PreyCount > 0)
-                {
-                    displayVores.Add(new DisplayVore(vo));
-                }
-            });
+                displayVores.Add(new DisplayVore(vo));
+            }
+
             PrintDisplayVores();
         }
 

@@ -28,11 +28,11 @@ public class Wares : MonoBehaviour
         }
     }
 
-    public void BuyServices(BuySerciveInfo serciveInfo) => Instantiate(service, container).Setup(serciveInfo);
+    public void BuyServices(BuyServiceInfo serviceInfo) => Instantiate(service, container).Setup(serviceInfo);
 
-    public void BuyServices(List<BuySerciveInfo> serciveInfos)
+    public void BuyServices(List<BuyServiceInfo> serciveInfos)
     {
-        foreach (BuySerciveInfo serciveInfo in serciveInfos)
+        foreach (BuyServiceInfo serciveInfo in serciveInfos)
         {
             BuyServices(serciveInfo);
         }

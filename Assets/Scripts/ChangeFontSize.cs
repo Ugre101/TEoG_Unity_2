@@ -18,8 +18,5 @@ public abstract class ChangeFontSize : MonoBehaviour
         downBtn.onClick.AddListener(DownFunc);
     }
 
-    protected virtual void OnEnable()
-    {
-        textLog.fontSize = CurrFont.Size;
-    }
+    protected virtual void OnEnable() => textLog.fontSize = CurrFont.Size;
 }

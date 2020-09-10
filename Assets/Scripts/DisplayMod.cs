@@ -13,9 +13,9 @@ public class DisplayMod
         }
     }
 
-    public List<Mod> Mods { get; }
+    private List<Mod> Mods { get; }
     private readonly IDuration iDur;
-    public int Duration => iDur != null ? iDur.Duration : 0;
+    public int Duration => iDur?.Duration ?? 0;
 
     public string Source { get; }
 
@@ -24,13 +24,14 @@ public class DisplayMod
         StringBuilder builder = new StringBuilder();
         Mods.ForEach(m =>
         {
-            if (m is TempHealthMod thm)
+            switch (m)
             {
-                builder.Append(string.Format("{0} {1} {2} {3}", thm.HealthType, thm.Value, thm.ModType, thm.Source));
-            }
-            else if (m is TempStatMod tsm)
-            {
-                builder.Append(string.Format("{0} {1} {2}", tsm.Value, tsm.ModType, tsm.Source));
+                case TempHealthMod thm:
+                    builder.Append($"{thm.HealthType} {thm.Value} {thm.ModType} {thm.Source}");
+                    break;
+                case TempStatMod tsm:
+                    builder.Append($"{tsm.Value} {tsm.ModType} {tsm.Source}");
+                    break;
             }
         });
         return builder.ToString();

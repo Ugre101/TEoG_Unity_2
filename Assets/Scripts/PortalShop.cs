@@ -25,8 +25,8 @@ public class PortalShop : Shop
                     OnEnable();
                 }
 
-                BuySerciveInfo buySercive = new BuySerciveInfo("Teleport location", desc, 1000f, Action);
-                wares.BuyServices(buySercive);
+                BuyServiceInfo buyService = new BuyServiceInfo("Teleport location", desc, 1000f, Action);
+                wares.BuyServices(buyService);
             }
         }
     }

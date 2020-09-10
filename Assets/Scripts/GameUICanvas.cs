@@ -1,12 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-public class GameUICanvas : MonoBehaviour
+public class 
+    
+    
+    GameUICanvas : MonoBehaviour
 {
     [SerializeField] private BigPanel Gameui = null;
 
     // Start is called before the first frame update
-    private void Start() => GameManager.GameStateChangeEvent += ShowGameUI;
+    private void Start() => GameManager.GameStateChangeEvent += ShowGameUi;
 
     // Update is called once per frame
     private void Update()
@@ -15,21 +18,16 @@ public class GameUICanvas : MonoBehaviour
         {
             if (GameManager.CurState.Equals(GameState.Free))
             {
-                Gameui.gameObject.SetActive(!Gameui.gameObject.activeSelf);
-                gameUI_Active = Gameui.gameObject.activeSelf;
+                GameObject gameUiObject = Gameui.gameObject;
+                gameUiObject.SetActive(!gameUiObject.activeSelf);
+                gameUI_Active = gameUiObject.activeSelf;
             }
         }
     }
 
     private bool gameUI_Active = true;
 
-    public void ShowGameUI(GameState state)
-    {
-        if (state == GameState.Free)
-            Gameui.gameObject.SetActive(gameUI_Active);
-        else
-            Gameui.gameObject.SetActive(false);
-    }
+    private void ShowGameUi(GameState state) => Gameui.gameObject.SetActive(state == GameState.Free && gameUI_Active);
 }
 
 public static class GameUISettings
@@ -66,5 +64,5 @@ public static class GameUISettings
         }
     }
 
-    public static SliderType ToggleSliderType => FluidSliderType = UgreTools.CycleThoughEnum(FluidSliderType);
+    public static SliderType ToggleSliderType => FluidSliderType = FluidSliderType.CycleThoughEnum();
 }

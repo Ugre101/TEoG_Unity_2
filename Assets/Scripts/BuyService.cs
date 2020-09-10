@@ -16,12 +16,12 @@ public class BuyService : MonoBehaviour
         btn.onClick.AddListener(useAction);
     }
 
-    public void Setup(BuySerciveInfo serciveInfo) => Setup(serciveInfo.Title, serciveInfo.Desc, serciveInfo.Price, serciveInfo.Action);
+    public void Setup(BuyServiceInfo serviceInfo) => Setup(serviceInfo.Title, serviceInfo.Desc, serviceInfo.Price, serviceInfo.Action);
 }
 
-public struct BuySerciveInfo
+public readonly struct BuyServiceInfo
 {
-    public BuySerciveInfo(string title, string desc, float price, UnityAction action)
+    public BuyServiceInfo(string title, string desc, float price, UnityAction action)
     {
         Title = title;
         Desc = desc;

@@ -19,7 +19,7 @@ namespace StartMenuStuff
         {
             rectTrans = rectTrans != null ? rectTrans : GetComponent<RectTransform>();
             normal = rectTrans.sizeDelta;
-            if (enlarged.x == 0 || enlarged.y == 0)
+            if (enlarged.x <= 0 || enlarged.y <= 0)
             {
                 enlarged = normal;
             }

@@ -125,7 +125,7 @@ public class DictPair
     }
 }
 
-public struct RaceFolder
+public readonly struct RaceFolder
 {
     public RaceFolder(DirectoryInfo dir, Type type, Genders gender, Races race)
     {
@@ -153,7 +153,7 @@ public class ImagePair
     }
 }
 
-public struct GenderFolder
+public readonly struct GenderFolder
 {
     public GenderFolder(DirectoryInfo dir, Type type, Genders gender)
     {

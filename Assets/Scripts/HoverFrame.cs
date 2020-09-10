@@ -5,24 +5,15 @@ public class HoverFrame : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 {
     public GameObject frame;
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        frame.SetActive(true);
-    }
+    public void OnPointerEnter(PointerEventData eventData) => frame.SetActive(true);
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        frame.SetActive(false);
-    }
+    public void OnPointerExit(PointerEventData eventData) => frame.SetActive(false);
 
     private void OnEnable()
     {
         if (frame == null)
-        {
             enabled = false;
-        }else
-        {
+        else
             frame.SetActive(false);
-        }
     }
 }

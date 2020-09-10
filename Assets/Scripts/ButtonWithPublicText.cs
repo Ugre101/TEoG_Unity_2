@@ -22,9 +22,6 @@ public class ButtonWithPublicText : Button
 
     private void GetTextMeshProUGUI()
     {
-        if (text == null)
-        {
-            text = GetComponentInChildren<TextMeshProUGUI>();
-        }
+        if (text == null) text = GetComponentInChildren<TextMeshProUGUI>();
     }
 }
