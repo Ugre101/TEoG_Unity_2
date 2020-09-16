@@ -7,7 +7,7 @@ public class SetFollowerTitles : MonoBehaviour
     [SerializeField] private TMP_InputField theyCallYou = null, youCallThem = null, takeHome = null, dorm = null;
     [SerializeField] private Button closeBtn = null;
 
-    private void SetField(TMP_InputField field, string val) => field.placeholder.GetComponent<TextMeshProUGUI>().text = val;
+    private static void SetField(TMP_InputField field, string val) => field.placeholder.GetComponent<TextMeshProUGUI>().text = val;
 
     private void Close() => gameObject.SetActive(false);
 

@@ -13,31 +13,22 @@ public class TabBetweenSelectables : MonoBehaviour
     private void Start()
     {
         selectables = GetComponentsInChildren<Selectable>().ToList();
-        if (startSelected)
-        {
-            SelectSelectable();
-        }
+        if (startSelected) SelectSelectable();
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyDown(tabKey))
-        {
-            SelectSelectable();
-        }
+        if (Input.GetKeyDown(tabKey)) SelectSelectable();
     }
 
     private int i = 0;
 
-    public int I
+    private int I
     {
         get
         {
-            if (i == selectables.Count)
-            {
-                i = 0;
-            }
+            if (i == selectables.Count) i = 0;
             return i;
         }
         set => i = value;

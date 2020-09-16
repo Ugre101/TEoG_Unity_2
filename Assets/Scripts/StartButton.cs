@@ -15,8 +15,6 @@ public class StartButton : MonoBehaviour
     {
 
     }
-    public void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
+
+    private static void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode) => SceneManager.sceneLoaded -= OnSceneLoaded;
 }

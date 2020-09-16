@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ToggleGameobjectButton : MonoBehaviour
+public class ToggleGameObjectButton : MonoBehaviour
 {
     [SerializeField] private Button btn = null;
     [SerializeField] private GameObject toToggle = null;
@@ -12,10 +12,10 @@ public class ToggleGameobjectButton : MonoBehaviour
         btn = btn != null ? btn : GetComponent<Button>();
         if (toToggle != null)
         {
-            btn.onClick.AddListener(ToggleGameobject);
+            btn.onClick.AddListener(ToggleGameObject);
         }
     }
 
-    private void ToggleGameobject() => toToggle.SetActive(!toToggle.activeSelf);
+    private void ToggleGameObject() => toToggle.SetActive(!toToggle.activeSelf);
 
 }

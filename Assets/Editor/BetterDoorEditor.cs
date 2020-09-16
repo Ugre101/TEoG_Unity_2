@@ -21,26 +21,20 @@ public class BetterDoorEditor : Editor
                 int doorIndex = door.transform.GetSiblingIndex();
                 if (door.FromTilemap == null)
                 {
-                    if (world.transform.GetChild(doorIndex - 1).gameObject.GetComponent<Map>() is Map map)
+                    if (world.transform.GetChild(doorIndex - 1).gameObject.GetComponent<Map>() is Map map && map.GetComponent<Tilemap>() is Tilemap tilemap)
                     {
-                        if (map.GetComponent<Tilemap>() is Tilemap tilemap)
-                        {
-                            door.FromTilemap = tilemap;
-                            EditorUtility.SetDirty(door);
-                            AssetDatabase.SaveAssets();
-                        }
+                        door.FromTilemap = tilemap;
+                        EditorUtility.SetDirty(door);
+                        AssetDatabase.SaveAssets();
                     }
                 }
                 if (door.ToTilemap == null)
                 {
-                    if (world.transform.GetChild(doorIndex + 1).GetComponent<Map>() is Map map)
+                    if (world.transform.GetChild(doorIndex + 1).GetComponent<Map>() is Map map && map.GetComponent<Tilemap>() is Tilemap tilemap)
                     {
-                        if (map.GetComponent<Tilemap>() is Tilemap tilemap)
-                        {
-                            door.ToTilemap = tilemap;
-                            EditorUtility.SetDirty(door);
-                            AssetDatabase.SaveAssets();
-                        }
+                        door.ToTilemap = tilemap;
+                        EditorUtility.SetDirty(door);
+                        AssetDatabase.SaveAssets();
                     }
                 }
             }

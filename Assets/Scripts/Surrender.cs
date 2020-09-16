@@ -18,26 +18,15 @@ public class Surrender : MonoBehaviour
     {
         btn = btn != null ? btn : GetComponent<Button>();
         btn.onClick.AddListener(SurrenderBattle);
-        if (keyCode != KeyCode.None)
-        {
-            quickText.text = keyCode.ToString();
-        }
-        else
-        {
-            quickText.text = string.Empty;
-        }
+        quickText.text = keyCode != KeyCode.None ? keyCode.ToString() : string.Empty;
     }
 
-    private void SurrenderBattle()
+    private static void SurrenderBattle()
     {
         if (CombatHandler.Target != null)
-        {
             CombatMain.GetCombatMain.LoseBattle();
-        }
         else
-        {
             GameManager.ReturnToLastState();
-        }
     }
 
     // Update is called once per frame

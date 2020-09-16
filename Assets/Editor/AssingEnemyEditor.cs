@@ -6,14 +6,14 @@ public class AssingEnemyEditor : Editor
 {
     #region FoldsShortcut
 
-    private bool NameFold { get => EnemyPrefabEditorFoldouts.NameFold; set => EnemyPrefabEditorFoldouts.NameFold = value; }
-    private bool RaceFold { get => EnemyPrefabEditorFoldouts.RaceFold; set => EnemyPrefabEditorFoldouts.RaceFold = value; }
-    private bool GenderFold { get => EnemyPrefabEditorFoldouts.GenderFold; set => EnemyPrefabEditorFoldouts.GenderFold = value; }
-    private bool StatsFold { get => EnemyPrefabEditorFoldouts.StatsFold; set => EnemyPrefabEditorFoldouts.StatsFold = value; }
-    private bool BodyFold { get => EnemyPrefabEditorFoldouts.BodyFold; set => EnemyPrefabEditorFoldouts.BodyFold = value; }
-    private bool RewardFold { get => EnemyPrefabEditorFoldouts.RewardFold; set => EnemyPrefabEditorFoldouts.RewardFold = value; }
-    private bool IsQuestFold { get => EnemyPrefabEditorFoldouts.IsQuestFold; set => EnemyPrefabEditorFoldouts.IsQuestFold = value; }
-    private bool showStandard { get => EnemyPrefabEditorFoldouts.ShowStandardEditor; set => EnemyPrefabEditorFoldouts.ShowStandardEditor = value; }
+    private static bool NameFold { get => EnemyPrefabEditorFoldouts.NameFold; set => EnemyPrefabEditorFoldouts.NameFold = value; }
+    private static bool RaceFold { get => EnemyPrefabEditorFoldouts.RaceFold; set => EnemyPrefabEditorFoldouts.RaceFold = value; }
+    private static bool GenderFold { get => EnemyPrefabEditorFoldouts.GenderFold; set => EnemyPrefabEditorFoldouts.GenderFold = value; }
+    private static bool StatsFold { get => EnemyPrefabEditorFoldouts.StatsFold; set => EnemyPrefabEditorFoldouts.StatsFold = value; }
+    private static bool BodyFold { get => EnemyPrefabEditorFoldouts.BodyFold; set => EnemyPrefabEditorFoldouts.BodyFold = value; }
+    private static bool RewardFold { get => EnemyPrefabEditorFoldouts.RewardFold; set => EnemyPrefabEditorFoldouts.RewardFold = value; }
+    private static bool IsQuestFold { get => EnemyPrefabEditorFoldouts.IsQuestFold; set => EnemyPrefabEditorFoldouts.IsQuestFold = value; }
+    private static bool ShowStandard { get => EnemyPrefabEditorFoldouts.ShowStandardEditor; set => EnemyPrefabEditorFoldouts.ShowStandardEditor = value; }
 
     #endregion FoldsShortcut
 
@@ -44,7 +44,7 @@ public class AssingEnemyEditor : Editor
         rewardGold.intValue = setVal * 10;
     }
 
-    protected string StatEndResult(int stat, float rng)
+    protected static string StatEndResult(int stat, float rng)
     {
         int min = Mathf.FloorToInt(stat * (1f - rng));
         int max = Mathf.FloorToInt(stat * (1f + rng));
@@ -282,8 +282,8 @@ public class AssingEnemyEditor : Editor
             EditorGUILayout.EndVertical();
         }
         GUILayout.Label("Standard editor and end of custom editor", EditorStyles.boldLabel);
-        showStandard = EditorGUILayout.Foldout(showStandard, "Show standard editor view", true, EditorStyles.foldout);
-        if (showStandard)
+        ShowStandard = EditorGUILayout.Foldout(ShowStandard, "Show standard editor view", true, EditorStyles.foldout);
+        if (ShowStandard)
         {
             GUILayout.Space(20);
             base.OnInspectorGUI();

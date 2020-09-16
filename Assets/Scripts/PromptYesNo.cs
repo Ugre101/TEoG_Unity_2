@@ -22,7 +22,7 @@ public class PromptYesNo : MonoBehaviour
         this.title.text = title;
     }
 
-    public void Setup(UnityAction yesFunc, UnityAction noFunc)
+    private void Setup(UnityAction yesFunc, UnityAction noFunc)
     {
         Setup(yesFunc);
         noBtn.onClick.AddListener(noFunc);
@@ -34,7 +34,7 @@ public class PromptYesNo : MonoBehaviour
         this.title.text = title;
     }
 
-    public void SelfDestroy() => Destroy(gameObject);
+    private void SelfDestroy() => Destroy(gameObject);
 
     private void BindYes(UnityAction yesFunc)
     {

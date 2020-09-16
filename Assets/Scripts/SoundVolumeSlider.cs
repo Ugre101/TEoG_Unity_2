@@ -6,34 +6,33 @@ public class SoundVolumeSlider : MonoBehaviour
 {
     [SerializeField] private Slider slider = null;
     [SerializeField] private TextMeshProUGUI soundPrecent = null;
-    private float GameVolume { get => AudioListener.volume; set => AudioListener.volume = value; }
+
+    private static float GameVolume
+    {
+        get => AudioListener.volume;
+        set => AudioListener.volume = value;
+    }
 
     // Start is called before the first frame update
     private void Start()
     {
         slider = slider != null ? slider : GetComponent<Slider>();
         soundPrecent = soundPrecent != null ? soundPrecent : GetComponentInChildren<TextMeshProUGUI>();
-        SetSoundPrecent();
+        SetSoundPercent();
         slider.onValueChanged.AddListener(SetSound);
         slider.value = GameVolume;
     }
 
-    private void OnEnable()
-    {
-        SetSoundPrecent();
-    }
+    private void OnEnable() => SetSoundPercent();
 
-    private void SetSoundPrecent()
+    private void SetSoundPercent()
     {
-        if (soundPrecent != null)
-        {
-            soundPrecent.text = $"{Mathf.FloorToInt(GameVolume * 100)}%";
-        }
+        if (soundPrecent != null) soundPrecent.text = $"{Mathf.FloorToInt(GameVolume * 100)}%";
     }
 
     private void SetSound(float val)
     {
         GameVolume = val;
-        SetSoundPrecent();
+        SetSoundPercent();
     }
 }

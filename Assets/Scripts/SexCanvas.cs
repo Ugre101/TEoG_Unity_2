@@ -5,16 +5,13 @@ public class SexCanvas : MonoBehaviour
 {
     [SerializeField] private DormSex dormSex = null;
 
-    private void Start()
-    {
-        GameManager.GameStateChangeEvent += LeaveSex;
-    }
+    private void Start() => GameManager.GameStateChangeEvent += LeaveSex;
 
     private bool inSex = false;
 
     public void DormSex(BasicChar partner) => DormSex(new List<BasicChar>() { partner });
 
-    public void DormSex(List<BasicChar> partners)
+    private void DormSex(List<BasicChar> partners)
     {
         inSex = true;
         GameManager.SetCurState(GameState.NonCombatSex);

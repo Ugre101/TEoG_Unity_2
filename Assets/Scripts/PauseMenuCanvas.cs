@@ -5,12 +5,9 @@ public class PauseMenuCanvas : MonoBehaviour
     [SerializeField] private GameObject PauseMenu = null;
 
     // Start is called before the first frame update
-    private void Start()
-    {
-        GameManager.GameStateChangeEvent += EscapePause;
-    }
+    private void Start() => GameManager.GameStateChangeEvent += EscapePause;
 
-    public void EscapePause(GameState state)
+    private void EscapePause(GameState state)
     {
         if (state == GameState.PauseMenu)
         {

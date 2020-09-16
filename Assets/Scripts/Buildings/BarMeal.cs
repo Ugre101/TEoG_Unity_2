@@ -31,7 +31,7 @@ namespace Bar
             else { Destroy(gameObject); }
         }
 
-        public override void Buy()
+        protected override void Buy()
         {
             if (buyer.Currency.TryToBuy(Cost))
             {

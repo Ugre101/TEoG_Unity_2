@@ -10,7 +10,7 @@ namespace Vore
     {
         public VoreContainers VoreContainers { get; }
 
-        public VoreBasic(BasicChar parPred, VoreContainers voreContainer)
+        protected VoreBasic(BasicChar parPred, VoreContainers voreContainer)
         {
             pred = parPred;
             VoreContainers = voreContainer;
@@ -32,7 +32,7 @@ namespace Vore
             PassOnExp?.Invoke(gain);
         }
 
-        protected float VoreExpCapBonus => 1f + (voreExp / 100);
+        protected float VoreExpCapBonus => 1f + voreExp / 100;
 
         public abstract float MaxCapacity();
 
@@ -40,7 +40,7 @@ namespace Vore
         public virtual float Current => preys.Sum(p => p.Prey.Body.Weight * CompresionFactor);
 
         /// <summary>Returns how full it is; 0.5 = 50%</summary>
-        public virtual float FillPrecent => Current / MaxCapacity();
+        public virtual float FillPercent => Current / MaxCapacity();
 
         public virtual bool CanVore(BasicChar parPrey) => Current + parPrey.Body.Weight <= MaxCapacity();
 

@@ -7,19 +7,19 @@ public class SetGenderNames : MonoBehaviour
     [SerializeField] private TMP_InputField male = null, female = null, dickGirl = null, cuntBoy = null, herm = null, doll = null;
     [SerializeField] private Button closeBtn = null;
 
-    private void SetField(TMP_InputField field, string val) => field.placeholder.GetComponent<TextMeshProUGUI>().text = val;
+    private static void SetField(TMP_InputField field, string val) => field.placeholder.GetComponent<TextMeshProUGUI>().text = val;
 
-    private void MaleBind(string call) => Settings.GenderNames.Male = call;
+    private static void MaleBind(string call) => Settings.GenderNames.Male = call;
 
-    private void FemaleBind(string call) => Settings.GenderNames.Female = call;
+    private static void FemaleBind(string call) => Settings.GenderNames.Female = call;
 
-    private void DickgirlBind(string call) => Settings.GenderNames.Dickgirl = call;
+    private static void DickgirlBind(string call) => Settings.GenderNames.Dickgirl = call;
 
-    private void CuntBoyBind(string call) => Settings.GenderNames.Cuntboy = call;
+    private static void CuntBoyBind(string call) => Settings.GenderNames.Cuntboy = call;
 
-    private void HermBind(string call) => Settings.GenderNames.Herm = call;
+    private static void HermBind(string call) => Settings.GenderNames.Herm = call;
 
-    private void DollBind(string call) => Settings.GenderNames.Doll = call;
+    private static void DollBind(string call) => Settings.GenderNames.Doll = call;
 
     private void Close() => gameObject.SetActive(false);
 

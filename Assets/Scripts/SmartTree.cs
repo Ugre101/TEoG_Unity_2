@@ -2,7 +2,7 @@
 
 public class SmartTree : MonoBehaviour
 {
-    private PlayerSprite Player => PlayerSprite.Instance;
+    private static PlayerSprite Player => PlayerSprite.Instance;
     [SerializeField] private SpriteRenderer spriteRenderer = null;
     [SerializeField] private Sprite stump = null, tree = null;
     [SerializeField] private CapsuleCollider2D capsule = null;
@@ -69,7 +69,7 @@ public class SmartTree : MonoBehaviour
         }
     }
 
-    public void Action(PlayerSprite player, int dmg = 25)
+    private void Action(PlayerSprite player, int dmg = 25)
     {
         if (Vector2.Distance(player.transform.position, transform.position) < 5f)
         {

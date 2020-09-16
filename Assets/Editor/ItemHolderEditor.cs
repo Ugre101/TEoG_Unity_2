@@ -47,14 +47,11 @@ public class ItemHolderEditor : Editor
         foreach (FileInfo fileInfo in toInclude.GetFiles())
         {
             var temp = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(Item));
-            if (temp is Item item)
+            if (temp is Item item && !items.HasItem(item.ItemId))
             {
-                if (!items.HasItem(item.ItemId))
-                {
-                    items.Add(item);
-                    EditorUtility.SetDirty(items); // I hope this makes added items stick trough builds
-                    AssetDatabase.SaveAssets();
-                }
+                items.Add(item);
+                EditorUtility.SetDirty(items); // I hope this makes added items stick trough builds
+                AssetDatabase.SaveAssets();
             }
         }
     }

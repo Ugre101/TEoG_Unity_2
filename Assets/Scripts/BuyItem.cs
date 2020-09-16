@@ -33,7 +33,7 @@ public class BuyItem : ShopWare
         BuyBtn.onClick.RemoveAllListeners();
     }
 
-    public override void Buy()
+    protected override void Buy()
     {
         if (buyer.Currency.TryToBuy(Cost)) buyer.Inventory.AddItem(item.ItemId);
     }

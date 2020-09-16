@@ -6,15 +6,8 @@
 
         public static event ManangerEvents NewGame, LoadGame;
 
-        public static void StartNewGame()
-        {
-            NewGame?.Invoke();
-     
-        }
+        public static void StartNewGame() => NewGame?.Invoke();
 
-        public static void StartLoadGame()
-        {
-            LoadGame?.Invoke();
-        }
+        public static void StartLoadGame() => LoadGame?.Invoke();
     }
 }

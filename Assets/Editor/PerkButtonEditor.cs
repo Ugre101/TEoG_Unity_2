@@ -20,12 +20,9 @@ public class PerkButtonEditor : Editor
     }
     public override void OnInspectorGUI()
     {
-        if (perkInfo.objectReferenceValue is PerkInfo perk)
+        if (perkInfo.objectReferenceValue is PerkInfo perk && perk.Icon != null)
         {
-            if (perk.Icon != null)
-            {
-                myTarget.SetRune(perk.Icon);
-            }        
+            myTarget.SetRune(perk.Icon);
         }
         base.OnInspectorGUI();
     }

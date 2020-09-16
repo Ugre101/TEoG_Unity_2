@@ -60,13 +60,11 @@ namespace EditorStuff
 
         private void HandleDroppedEnemies(Object obj)
         {
-            if (obj is GameObject go)
+            if (obj is GameObject go && go.GetComponent<AssingEnemy>() is AssingEnemy test)
             {
                 // skipt gettype so stuff derived from prefab can be added.
-                if (go.GetComponent<AssingEnemy>() is AssingEnemy test) //  && test.GetType() == typeof(EnemyPrefab)
-                {
-                    map.Enemies.Add(test);
-                }
+                //  && test.GetType() == typeof(EnemyPrefab)
+                map.Enemies.Add(test);
             }
         }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SkillButtonsHoverText : MonoBehaviour
 {
-    public static SkillButtonsHoverText GetSkillButtonsHoverText { get; private set; }
+    private static SkillButtonsHoverText GetSkillButtonsHoverText { get; set; }
     private static TextMeshProUGUI TextBox;
 
     public static void HoverText(string content)
@@ -12,10 +12,8 @@ public class SkillButtonsHoverText : MonoBehaviour
         GetSkillButtonsHoverText.gameObject.SetActive(true);
     }
 
-    public static void StopHovering()
-    {
-        GetSkillButtonsHoverText.gameObject.SetActive(false);
-    }
+    public static void StopHovering() => GetSkillButtonsHoverText.gameObject.SetActive(false);
+
     [SerializeField]
     private TextMeshProUGUI textbox = null;
 

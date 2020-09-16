@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class SystemOptions : MonoBehaviour
 {
-    private FullScreenMode CurMode => Screen.fullScreenMode;
+    private static FullScreenMode CurMode => Screen.fullScreenMode;
 
     [SerializeField] private TMP_Dropdown dropDown = null, screenMode = null;
 
@@ -18,7 +19,7 @@ public class SystemOptions : MonoBehaviour
         screenMode.onValueChanged.AddListener(delegate { ScreenSetting.ChangeScreenMode(screenMode); });
     }
 
-    public void GetScreenModes()
+    private void GetScreenModes()
     {
         screenMode.ClearOptions();
         Array screenModes = Enum.GetValues(typeof(FullScreenMode));
@@ -31,11 +32,7 @@ public class SystemOptions : MonoBehaviour
     {
         Resolution[] resolutions = Screen.resolutions;
         dropDown.ClearOptions();
-        List<TMP_Dropdown.OptionData> options = new List<TMP_Dropdown.OptionData>();
-        foreach (Resolution rs in resolutions)
-        {
-            options.Add(new TMP_Dropdown.OptionData($"{rs.height}x{rs.width}"));
-        }
+        List<TMP_Dropdown.OptionData> options = resolutions.Select(rs => new TMP_Dropdown.OptionData($"{rs.height}x{rs.width}")).ToList();
         dropDown.AddOptions(options);
         dropDown.value = options.Count - 1;
     }
@@ -45,7 +42,7 @@ public static class ScreenSetting
 {
     private static FullScreenMode CurMode => Screen.fullScreenMode;
 
-    public static Resolution[] Resolutions { get; } = Screen.resolutions;
+    private static Resolution[] Resolutions { get; } = Screen.resolutions;
 
     public static Array ScreenModes { get; } = Enum.GetValues(typeof(FullScreenMode));
 
@@ -54,19 +51,13 @@ public static class ScreenSetting
 
     public static void Load()
     {
-        if (PlayerPrefs.HasKey(ResKey))
-        {
-            SetResolution(PlayerPrefs.GetInt(ResKey));
-        }
-        if (PlayerPrefs.HasKey(ScreenKey))
-        {
-            ChangeScreenMode(PlayerPrefs.GetInt(ScreenKey));
-        }
+        if (PlayerPrefs.HasKey(ResKey)) SetResolution(PlayerPrefs.GetInt(ResKey));
+        if (PlayerPrefs.HasKey(ScreenKey)) ChangeScreenMode(PlayerPrefs.GetInt(ScreenKey));
     }
 
     public static void SetResolution(TMP_Dropdown parDrop) => SetResolution(parDrop.value);
 
-    public static void SetResolution(int parDrop)
+    private static void SetResolution(int parDrop)
     {
         int i = Mathf.Clamp(parDrop, 0, Resolutions.Length - 1);
         Resolution rs = Resolutions[i];
@@ -76,7 +67,7 @@ public static class ScreenSetting
 
     public static void ChangeScreenMode(TMP_Dropdown parDrop) => ChangeScreenMode(parDrop.value);
 
-    public static void ChangeScreenMode(int parDrop)
+    private static void ChangeScreenMode(int parDrop)
     {
         if (Enum.IsDefined(typeof(FullScreenMode), (FullScreenMode)parDrop))
         {

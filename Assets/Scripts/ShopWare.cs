@@ -18,14 +18,12 @@ public abstract class ShopWare : MonoBehaviour
 
     [SerializeField] protected int Cost;
     [SerializeField] private Button buyBtn = null;
-    public Button BuyBtn => buyBtn;
+    protected Button BuyBtn => buyBtn;
 
-    public virtual void Buy()
+    protected virtual void Buy()
     {
         if (!buyer.Currency.CanAfford(Cost))
-        {
             return;
-        }
     }
 
     public virtual void Setup(Ware item, BasicChar buyer)
@@ -35,12 +33,9 @@ public abstract class ShopWare : MonoBehaviour
 
     [SerializeField] protected Color affordColor = Color.green, cantAffordColor = Color.red;
 
-    public virtual void FrameCanAfford(float gold)
+    protected virtual void FrameCanAfford(float gold)
     {
-        if (buyer != null)
-        {
-            frame.color = gold >= Cost ? affordColor : cantAffordColor;
-        }
+        if (buyer != null) frame.color = gold >= Cost ? affordColor : cantAffordColor;
     }
 }
 
@@ -57,7 +52,7 @@ public abstract class Ware
     public string Title => title;
     public string Desc => desc;
 
-    public Ware(int cost, string title, string desc)
+    protected Ware(int cost, string title, string desc)
     {
         this.cost = cost;
         this.title = title;
@@ -75,13 +70,7 @@ public class ItemWare : Ware
     [SerializeField] private ItemIds itemId;
     public ItemIds ItemId => itemId;
 
-    public ItemWare(int cost, string title, string desc, ItemIds itemId) : base(cost, title, desc)
-    {
-        this.itemId = itemId;
-    }
+    public ItemWare(int cost, string title, string desc, ItemIds itemId) : base(cost, title, desc) => this.itemId = itemId;
 
-    public override void OnBuy(BasicChar basicChar)
-    {
-        basicChar.Inventory.AddItem(ItemId);
-    }
+    public override void OnBuy(BasicChar basicChar) => basicChar.Inventory.AddItem(ItemId);
 }

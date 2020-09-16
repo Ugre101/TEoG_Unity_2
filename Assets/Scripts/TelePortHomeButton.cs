@@ -15,5 +15,5 @@ public class TelePortHomeButton : MonoBehaviour
         btnText.text = $"World: {WorldMaps.Home}\nMap: House";
     }
 
-    private void TeleportTo() => HomeCanvas.GetHomeCanvas.EnterHome();
+    private static void TeleportTo() => HomeCanvas.GetHomeCanvas.EnterHome();
 }

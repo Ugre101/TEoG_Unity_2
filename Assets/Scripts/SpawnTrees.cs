@@ -8,18 +8,14 @@ public class SpawnTrees : MonoBehaviour
     [SerializeField] private List<Tile> spawnOn = new List<Tile>();
     [SerializeField] private Tilemap map = null;
 
-    [Range(0, 10)]
-    [SerializeField] private int distFromBorder = 1;
+    [Range(0, 10)] [SerializeField] private int distFromBorder = 1;
 
-    [Range(0, 200)]
-    [SerializeField] private int maxAmountTrees = 50;
+    [Range(0, 200)] [SerializeField] private int maxAmountTrees = 50;
 
-    [Header("Precentage change of spawning a tree on empty spot")]
-    [Range(0f, 0.1f)]
-    [SerializeField] private float spawnChance = 0.1f;
+    [Header("Percentage change of spawning a tree on empty spot")] [Range(0f, 0.1f)] [SerializeField]
+    private float spawnChance = 0.1f;
 
-    [Range(1f, 10f)]
-    [SerializeField] private float distFromOtherTress = 3f;
+    [Range(1f, 10f)] [SerializeField] private float distFromOtherTress = 3f;
 
     private readonly List<Vector3> spwanSpot = new List<Vector3>();
     private List<SmartTree> smartTrees = new List<SmartTree>();
@@ -42,19 +38,15 @@ public class SpawnTrees : MonoBehaviour
         {
             for (int p = map.cellBounds.yMin + distFromBorder; p < map.cellBounds.yMax - distFromBorder; p++)
             {
-                Vector3Int localPlace = new Vector3Int(n, p, (int)map.transform.position.z);
+                Vector3Int localPlace = new Vector3Int(n, p, (int) map.transform.position.z);
                 if (map.HasTile(localPlace))
                 {
                     Tile tileBase = map.GetTile<Tile>(localPlace);
                     if (tileBase != null)
                     {
-                        foreach (Tile tile in spawnOn)
+                        if (spawnOn.Any(tile => tileBase.sprite == tile.sprite))
                         {
-                            if (tileBase.sprite == tile.sprite)
-                            {
-                                spwanSpot.Add(localPlace);
-                                break;
-                            }
+                            spwanSpot.Add(localPlace);
                         }
                     }
                 }
@@ -68,7 +60,7 @@ public class SpawnTrees : MonoBehaviour
     {
         if (UnderMaxAmount())
         {
-            for (int i = 0; i < spwanSpot.Count; i++)
+            foreach (Vector3 t in spwanSpot)
             {
                 if (UnderMaxAmount())
                 {
@@ -77,30 +69,20 @@ public class SpawnTrees : MonoBehaviour
                     {
                         SmartTree tree = SmartTreeObjectPool.Instance.GetTree();
                         tree.gameObject.SetActive(true);
-                        tree.transform.SetParent(transform);
-                        tree.transform.position = spot;
+                        Transform treeTransform = tree.transform;
+                        treeTransform.SetParent(transform);
+                        treeTransform.position = spot;
                         smartTrees.Add(tree);
                     }
                 }
                 else
-                {
                     break;
-                }
             }
         }
+
         bool UnderMaxAmount() => smartTrees.Count < maxAmountTrees;
     }
 
-    private bool NotToCloseToOtherTrees(Vector3 spot)
-    {
-        foreach (SmartTree tree in smartTrees)
-        {
-            Vector3 treeSpot = map.LocalToWorld(spot);
-            if (Vector3.Distance(tree.transform.position, treeSpot) < distFromOtherTress)
-            {
-                return false;
-            }
-        }
-        return true;
-    }
+    private bool NotToCloseToOtherTrees(Vector3 spot) 
+        => !(from tree in smartTrees let treeSpot = map.LocalToWorld(spot) where Vector3.Distance(tree.transform.position, treeSpot) < distFromOtherTress select tree).Any();
 }

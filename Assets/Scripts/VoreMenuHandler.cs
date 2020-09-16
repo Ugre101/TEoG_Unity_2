@@ -6,7 +6,7 @@ namespace Vore
 {
     public class VoreMenuHandler : MonoBehaviour
     {
-        private BasicChar Player => PlayerMain.Player;
+        private static BasicChar Player => PlayerMain.Player;
 
         [SerializeField] private TextMeshProUGUI organText = null, capacityText = null;
 
@@ -114,6 +114,6 @@ namespace Vore
             }
         }
 
-        private string Capacity(VoreBasic organ) => $"{organ.VoreContainers.ToString()}: {organ.Current.KgorPWithOutSuffix()}/{organ.MaxCapacity().KgorP()}";
+        private static string Capacity(VoreBasic organ) => $"{organ.VoreContainers.ToString()}: {organ.Current.KgorPWithOutSuffix()}/{organ.MaxCapacity().KgorP()}";
     }
 }

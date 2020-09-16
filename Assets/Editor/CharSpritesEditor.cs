@@ -49,12 +49,9 @@ public class CharSpritesEditor : Editor
         foreach (FileInfo fileInfo in toInclude.GetFiles())
         {
             var temp = AssetDatabase.LoadAssetAtPath(folderName + "/" + fileInfo.Name, typeof(CharSprite));
-            if (temp is CharSprite charSprite)
+            if (temp is CharSprite charSprite && !myTarget.List.Exists(cs => cs == charSprite))
             {
-                if (!myTarget.List.Exists(cs => cs == charSprite))
-                {
-                    myTarget.List.Add(charSprite);
-                }
+                myTarget.List.Add(charSprite);
             }
         }
     }

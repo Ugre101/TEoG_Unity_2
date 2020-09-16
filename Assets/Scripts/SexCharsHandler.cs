@@ -33,8 +33,5 @@ public class SexCharsHandler : MonoBehaviour
     {
     }
 
-    private void ChoosePartner(BasicChar partner)
-    {
-        sexChar.Setup(partner);
-    }
+    private void ChoosePartner(BasicChar partner) => sexChar.Setup(partner);
 }

@@ -10,7 +10,7 @@ public class AssingBossEditor : AssingEnemyEditor
 {
 
     private AssingBoss boss;
-    private bool BossStuff { get => BossEditorBools.BossStuffFoldout; set => BossEditorBools.BossStuffFoldout = value; }
+    private static bool BossStuff { get => BossEditorBools.BossStuffFoldout; set => BossEditorBools.BossStuffFoldout = value; }
     private SerializedProperty hasPreBattleDialog, hasPostBattleDialog, hasCustomScene;
 
     private void OnEnable() => Init();

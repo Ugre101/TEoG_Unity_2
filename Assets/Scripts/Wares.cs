@@ -20,7 +20,7 @@ public class Wares : MonoBehaviour
 
     public void ClearContainer() => container.KillChildren();
 
-    public void BuyItems(BasicChar buyer, List<ItemIds> ids)
+    public void BuyItems(BasicChar buyer, IEnumerable<ItemIds> ids)
     {
         foreach (ItemIds id in ids)
         {
@@ -30,11 +30,11 @@ public class Wares : MonoBehaviour
 
     public void BuyServices(BuyServiceInfo serviceInfo) => Instantiate(service, container).Setup(serviceInfo);
 
-    public void BuyServices(List<BuyServiceInfo> serciveInfos)
+    public void BuyServices(IEnumerable<BuyServiceInfo> serviceInfos)
     {
-        foreach (BuyServiceInfo serciveInfo in serciveInfos)
+        foreach (BuyServiceInfo serviceInfo in serviceInfos)
         {
-            BuyServices(serciveInfo);
+            BuyServices(serviceInfo);
         }
     }
 
@@ -55,7 +55,7 @@ public class Wares : MonoBehaviour
     }
 
     /// <summary>Sell specific items</summary>
-    public void SellItem(BasicChar seller, List<InventoryItem> inventoryItems)
+    public void SellItem(BasicChar seller, IEnumerable<InventoryItem> inventoryItems)
     {
         foreach (InventoryItem item in inventoryItems)
         {
