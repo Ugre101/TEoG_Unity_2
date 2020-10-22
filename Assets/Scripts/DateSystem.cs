@@ -88,16 +88,10 @@ public static class DateSystem
 
     public static IEnumerator TickMinute()
     {
-        // Time.time is affected by timescale so no pause check is needed
-        float time = Time.time;
         while (true)
         {
-            if (time + 1f < Time.time)
-            {
-                time = Time.time;
-                AddMinute(1);
-            }
-            yield return null;
+            AddMinute(1);
+            yield return new WaitForSeconds(1f);
         }
     }
 

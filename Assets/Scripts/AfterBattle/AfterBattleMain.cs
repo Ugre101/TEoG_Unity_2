@@ -72,7 +72,7 @@ public class AfterBattleMain : MonoBehaviour
 
     [SerializeField] private SexChar playerChar = null, enemyChar = null;
 
-    [SerializeField] private Button sortAll = null,
+    [SerializeField] private SortButton sortAll = null,
         sortMouth = null,
         sortAnal = null,
         sortDick = null,
@@ -85,15 +85,18 @@ public class AfterBattleMain : MonoBehaviour
 
     // this only exist to make it easier in future if I want to add say teammates who can have scenes or something
     private BasicChar Caster => Player;
-
+    public delegate void stuff();
+    public delegate void refresh(BasicChar Caster, BasicChar Target);
+    public static event stuff HideButtons;
+    public static event refresh RefreshScenes;
     private void Start()
     {
-        sortAll.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, AllSexScenes));
-        sortMouth.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, mouthScenes));
-        sortAnal.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, analScenes));
-        sortDick.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, dickScenes));
-        sortVagina.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, vaginaScenes));
-        sortBreasts.onClick.AddListener(() => SexHander.SortScenes(buttons, addedSexButtons, boobScenes));
+        sortAll.Setup("All" ,() => SexHander.SortScenes(buttons, addedSexButtons, AllSexScenes));
+        sortMouth.Setup("Mouth",() => SexHander.SortScenes(buttons, addedSexButtons, mouthScenes));
+        sortAnal.Setup("Anal",() => SexHander.SortScenes(buttons, addedSexButtons, analScenes));
+        sortDick.Setup("Dick",() => SexHander.SortScenes(buttons, addedSexButtons, dickScenes));
+        sortVagina.Setup("Vagina",() => SexHander.SortScenes(buttons, addedSexButtons, vaginaScenes));
+        sortBreasts.Setup("Breass",() => SexHander.SortScenes(buttons, addedSexButtons, boobScenes));
         //  sortVore.onClick.AddListener(() => SceneChecker(voreScenes));
         TakeToDorm.TakenToDorm += EnemyRemoved;
         SexButton.PlayScene += HandleSexScene;
@@ -110,7 +113,7 @@ public class AfterBattleMain : MonoBehaviour
             newTarget = null;
         }
 
-        Target.SexStats.OrgasmedEvent -= RefreshScenes;
+        Target.SexStats.OrgasmedEvent -= CallRefreshScenes;
         Target.SexStats.OrgasmedEvent -= GetImpreg;
         Target.SexStats.OrgasmedEvent -= OtherOrgasmed;
         enemies.Remove(Target);
@@ -122,14 +125,14 @@ public class AfterBattleMain : MonoBehaviour
         }
         else
         {
-            RefreshScenes();
+            CallRefreshScenes();
         }
     }
 
     private void OnDisable()
     {
-        Player.SexStats.OrgasmedEvent -= RefreshScenes;
-        enemies.ForEach(e => e.SexStats.OrgasmedEvent -= RefreshScenes);
+        Player.SexStats.OrgasmedEvent -= CallRefreshScenes;
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent -= CallRefreshScenes);
 
         Player.SexStats.OrgasmedEvent -= Impreg;
         enemies.ForEach(e => e.SexStats.OrgasmedEvent -= GetImpreg);
@@ -155,7 +158,7 @@ public class AfterBattleMain : MonoBehaviour
         BindSexstats(Player);
 
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += OtherOrgasmed);
-        enemies.ForEach(e => e.SexStats.OrgasmedEvent += RefreshScenes);
+        enemies.ForEach(e => e.SexStats.OrgasmedEvent += CallRefreshScenes);
         enemies.ForEach(e => e.SexStats.OrgasmedEvent += GetImpreg);
 
         Player.SexStats.Reset();
@@ -169,13 +172,13 @@ public class AfterBattleMain : MonoBehaviour
             }
         }
 
-        RefreshScenes();
+        CallRefreshScenes();
     }
 
     private void BindSexstats(BasicChar basicChar)
     {
         basicChar.SexStats.OrgasmedEvent += PlayerOrgasmed;
-        basicChar.SexStats.OrgasmedEvent += RefreshScenes;
+        basicChar.SexStats.OrgasmedEvent += CallRefreshScenes;
         basicChar.SexStats.OrgasmedEvent += Impreg;
     }
 
@@ -221,51 +224,9 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
-    private void RefreshScenes()
-    {
-        foreach (SexButton btn in addedSexButtons)
-        {
-            btn.gameObject.SetActive(Player.CanOrgasmMore() && btn.Scene.CanDo(Player, Target));
-        }
+    private void CallRefreshScenes() => RefreshScenes?.Invoke(Caster, Target);
 
-        foreach (EssSexButton btn in addedEssSexButtons)
-        {
-            btn.gameObject.SetActive(Target.SexStats.CanDrain && btn.Scene.CanDo(Player, Target));
-        }
-
-        foreach (VoreButton btn in addedVoreButtons)
-        {
-            btn.gameObject.SetActive(Settings.Vore && btn.voreScene.CanDo(Player, Target));
-        }
-
-        foreach (SexButton btn in addedMiscButtons)
-        {
-            btn.gameObject.SetActive(btn.Scene.CanDo(Player, Target));
-        }
-    }
-
-    private void SetSexScenesInactive()
-    {
-        foreach (SexButton btn in addedSexButtons)
-        {
-            btn.gameObject.SetActive(false);
-        }
-
-        foreach (EssSexButton btn in addedEssSexButtons)
-        {
-            btn.gameObject.SetActive(false);
-        }
-
-        foreach (VoreButton btn in addedVoreButtons)
-        {
-            btn.gameObject.SetActive(false);
-        }
-
-        foreach (SexButton btn in addedMiscButtons)
-        {
-            btn.gameObject.SetActive(false);
-        }
-    }
+    private void SetSexScenesInactive() => HideButtons?.Invoke();
 
     private void Impreg()
     {
@@ -303,7 +264,7 @@ public class AfterBattleMain : MonoBehaviour
 
         DrainChangeHandler drainChange = new DrainChangeHandler(Player, Target);
         EssenceExtension.HandleAutoDrainEssence(Caster, Target);
-        HandleTransmuteEssence();
+      EssenceExtension.HandleTransmuteEssence(Caster,Target);
 
         string bothChanges = drainChange.BothChanges;
         if (bothChanges != string.Empty)
@@ -312,31 +273,6 @@ public class AfterBattleMain : MonoBehaviour
         }
     }
 
-    private void HandleTransmuteEssence()
-    {
-        if (HasPerk(PerksTypes.EssenceShaper) || HasPerk(PerksTypes.EssenceTransformer))
-        {
-            switch (EssenceExtension.ToggleTransmuteOption)
-            {
-                case EssenceExtension.TransmuteFromTo.Off:
-                    break;
-
-                case EssenceExtension.TransmuteFromTo.MascToFemi:
-                    EssenceExtension.TransmuteEssenceMascToFemi(Player, Target);
-                    break;
-
-                case EssenceExtension.TransmuteFromTo.FemiToMasc:
-                    EssenceExtension.TransmuteEssenceFemiToMasc(Player, Target);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            // TODO transmute essence
-        }
-
-        bool HasPerk(PerksTypes type) => Player.Perks.HasPerk(type);
-    }
 
     private void AddToTextBox(string text) => textBox.text = text;
 
@@ -359,7 +295,7 @@ public class AfterBattleMain : MonoBehaviour
     {
         SceneBasics(scene);
         Target.SexStats.Drained();
-        RefreshScenes();
+        CallRefreshScenes();
     }
 
     private void HandleVoreScene(VoreScene voreScene)

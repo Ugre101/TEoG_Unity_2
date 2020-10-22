@@ -49,22 +49,20 @@ public struct DormSave
 [System.Serializable]
 public class DormMate
 {
-    [SerializeField] private BasicChar basicChar = new BasicChar() ;
-    [SerializeField] private DormAI dormAI = new DormAI();
-    [SerializeField] private int morale = 100;
-
-    public DormMate()
-    {
-    }
+    [SerializeField] private BasicChar basicChar;
+    [SerializeField] private DormAI dormAI;
+    [SerializeField] private int morale;
 
     public DormMate(BasicChar basicChar)
     {
-        this.BasicChar = basicChar;
+        this.basicChar = basicChar;
+        dormAI = new DormAI();
+        morale = 100;
     }
 
     public int Morale => morale;
 
-    public BasicChar BasicChar { get => basicChar; private set => basicChar = value; }
+    public BasicChar BasicChar => basicChar;
 
     public void IncreaseMorale(int value) => morale += Mathf.Abs(value);
 
@@ -122,7 +120,7 @@ public class DormAI
         }
 
         if (!awake || beenAwake < GetBiologicalAwakeTime(dormMate)) return;
-        
+
         if (beenAwake >= ruledAwakeTime)
         {
             awake = false;

@@ -95,7 +95,31 @@ public static class EssenceExtension
         tot += PerkEffects.EssenecePerks.EssTransformer.TransmuteAmount(basicChar.Perks);
         return tot;
     }
+    public static void HandleTransmuteEssence(BasicChar Caster,BasicChar Target)
+    {
+        if (HasPerk(PerksTypes.EssenceShaper) || HasPerk(PerksTypes.EssenceTransformer))
+        {
+            switch (ToggleTransmuteOption)
+            {
+                case TransmuteFromTo.Off:
+                    break;
 
+                case TransmuteFromTo.MascToFemi:
+                    TransmuteEssenceMascToFemi(Caster, Target);
+                    break;
+
+                case TransmuteFromTo.FemiToMasc:
+                    TransmuteEssenceFemiToMasc(Caster, Target);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
+            // TODO transmute essence
+        }
+
+        bool HasPerk(PerksTypes type) => Caster.Perks.HasPerk(type);
+    }
     public static float TotalStableEssence(this BasicChar basicChar)
     {
         float baseStable = basicChar.Essence.StableEssence.Value;

@@ -12,7 +12,10 @@ public class SexButton : AfterBattleButtonBase
         Scene = parScene;
         title.text = Scene.name;
         btn.onClick.AddListener(Func);
+        AfterBattleMain.HideButtons += HideBtn;
+        AfterBattleMain.RefreshScenes += CanDo;
     }
 
     public static Action<SexScenes> PlayScene;
+    public void CanDo(BasicChar caster, BasicChar target) => gameObject.SetActive(caster.CanOrgasmMore() && Scene.CanDo(caster, target));
 }

@@ -12,7 +12,10 @@ public class VoreButton : AfterBattleButtonBase
         voreScene = parScene;
         title.text = voreScene.name;
         btn.onClick.AddListener(Func);
+        AfterBattleMain.HideButtons += HideBtn;
+        AfterBattleMain.RefreshScenes += CanDo;
     }
 
     public static Action<VoreScene> PlayerScene;
+    public void CanDo(BasicChar caster, BasicChar target) => gameObject.SetActive(caster.Vore.Active && voreScene.CanDo(caster, target));
 }

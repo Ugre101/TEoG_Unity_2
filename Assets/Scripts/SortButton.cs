@@ -8,35 +8,16 @@ public class SortButton : MonoBehaviour
     [SerializeField] private Button btn = null;
     [SerializeField] private TextMeshProUGUI text = null;
 
-    public Button Btn
-    {
-        get
-        {
-            if (btn == null)
-            {
-                btn = GetComponent<Button>();
-            }
-            return btn;
-        }
-    }
+    public Button Btn => btn;
 
-    public TextMeshProUGUI Text
-    {
-        get
-        {
-            if (text == null)
-            {
-                text = GetComponentInChildren<TextMeshProUGUI>();
-            }
-            return text;
-        }
-    }
+    public TextMeshProUGUI Text => text;
 
     public string StringText { get => Text.text; set => Text.text = value; }
 
+    public void Setup(UnityAction onClickFunc) => Btn.onClick.AddListener(onClickFunc);
     public void Setup(string btnText, UnityAction onClickFunc)
     {
         StringText = btnText;
-        Btn.onClick.AddListener(onClickFunc);
+        Setup(onClickFunc);
     }
 }
